@@ -1,2 +1,3 @@
 instrumentation:
-    excludes: [src/lib/**/* src/script/core/lib/**/*]
+    excludes: [lib/**/* indexAMD.js parse/msgennyparser.js parse/mscgenparser.js parse/xuparser.js]
+    include-all-sources: true
