@@ -1,11 +1,11 @@
 # mscgen_js
 *Turns text into sequence charts.*
 
-[![Build Status](https://travis-ci.org/sverweij/mscgen_js.svg?branch=master)][travis.mscgenjs]
-[![Code Climate](https://codeclimate.com/github/sverweij/mscgen_js/badges/gpa.svg)][codeclimate.mscgenjs]
-[![test coverage (codecov.io)](http://codecov.io/github/sverweij/mscgen_js/coverage.svg?branch=master)](http://codecov.io/github/sverweij/mscgen_js?branch=master)
-[![Dependency Status](https://david-dm.org/sverweij/mscgen_js.svg)](https://david-dm.org/sverweij/mscgen_js)
-[![devDependency Status](https://david-dm.org/sverweij/mscgen_js/dev-status.svg)](https://david-dm.org/sverweij/mscgen_js#info=devDependencies)
+[![Build Status](https://travis-ci.org/sverweij/mscgenjs-core.svg?branch=master)][travis.mscgenjs]
+[![Code Climate](https://codeclimate.com/github/sverweij/mscgenjs-core/badges/gpa.svg)][codeclimate.mscgenjs]
+[![test coverage (codecov.io)](http://codecov.io/github/sverweij/mscgenjs-core/coverage.svg?branch=master)](http://codecov.io/github/sverweij/mscgenjs-core?branch=master)
+[![Dependency Status](https://david-dm.org/sverweij/mscgenjs-core.svg)](https://david-dm.org/sverweij/mscgenjs-core)
+[![devDependency Status](https://david-dm.org/sverweij/mscgenjs-core/dev-status.svg)](https://david-dm.org/sverweij/mscgenjs-core#info=devDependencies)
 - Implementation of the super easy [MscGen][mscgen] in javascript.
 - [Embeddable][mscgenjs.embed] in your html.
 - Try it in the [on line interactive interpreter][mscgenjs.interpreter].
@@ -146,7 +146,7 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [atom]: https://atom.io
 [canvg]: https://github.com/gabelerner/canvg
 [canvg.license]: wikum/licenses/license.canvg.md
-[codeclimate.mscgenjs]: https://codeclimate.com/github/sverweij/mscgen_js
+[codeclimate.mscgenjs]: https://codeclimate.com/github/sverweij/mscgenjs-core
 [codemirror]: http://codemirror.net
 [codemirror.author]: http://marijnhaverbeke.nl
 [codemirror.license]: wikum/licenses/license.codemirror.md
@@ -177,7 +177,7 @@ of the shape of the code at [Code Climate ][codeclimate.mscgenjs].
 [pegjs.license]: wikum/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: wikum/licenses/license.requirejs.md
-[travis.mscgenjs]: https://travis-ci.org/sverweij/mscgen_js
+[travis.mscgenjs]: https://travis-ci.org/sverweij/mscgenjs-core
 [15]: wikum/licenses/license.icons.md
 [21]: wikum/licenses/license.mocha.md
 [22]: wikum/licenses/license.jshint.md
