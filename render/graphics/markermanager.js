@@ -17,7 +17,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
                 { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})"}
             ],
             marker : {
-                name : "signal",
+                name : "signal"
             }
         },
         "<->"   : {
@@ -27,7 +27,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
                 { name: "marker-start", value: "url(#{{id}}{{signal-marker-start}}-{{color}})"}
             ],
             marker : {
-                name : "signal",
+                name : "signal"
             }
         },
         "=>>"   : {
@@ -97,11 +97,11 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         "=>"    : {
             attributes : [
                 { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}
             ],
             marker: {
                 name : "method",
-                end : "",
+                end : ""
             }
         },
         "<=>"   : {
@@ -119,11 +119,11 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         ":>"    : {
             attributes : [
                 { name: "style", value: "stroke:{{color}};"},
-                { name: "marker-end", value: "url(#{{id}}method-{{color}})"},
+                { name: "marker-end", value: "url(#{{id}}method-{{color}})"}
             ],
             marker: {
                 name : "method",
-                end : "",
+                end : ""
             }
         },
         "<:>"   : {
@@ -141,11 +141,11 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         "-x"    : {
             attributes : [
                 { name: "style", value: "stroke:{{color}}"},
-                { name: "marker-end", value: "url(#{{id}}lost-{{color}})"},
+                { name: "marker-end", value: "url(#{{id}}lost-{{color}})"}
             ],
             marker: {
                 name : "lost",
-                end : "",
+                end : ""
             }
         }
     };

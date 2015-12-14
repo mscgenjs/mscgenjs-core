@@ -75,7 +75,7 @@ module.exports = (function(){
                 inputType: "mscgen",
                 elementId: "__svg",
                 window: pOptions.window||window,
-                includeSource: true,
+                includeSource: true
             });
 
             try {
@@ -98,7 +98,7 @@ module.exports = (function(){
             var lOptions = pOptions||{};
             _.defaults(lOptions, {
                 inputType: "mscgen",
-                outputType: "json",
+                outputType: "json"
             });
             try {
                 runCallBack(

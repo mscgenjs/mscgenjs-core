@@ -389,7 +389,7 @@ var customScheme = {
             "textcolor": "white"
         }, {
             "linecolor" : "#AAAAAA",
-            "textbgcolor" : "white",
+            "textbgcolor" : "white"
         }, {
             "linecolor" : "#0000FF",
             "textbgcolor" : "blue",

@@ -166,7 +166,7 @@ module.exports = (function() {
                 "label" : "start"
             }], [{
                 "kind" : "...",
-                "label" : "no entities ...",
+                "label" : "no entities ..."
             }], [{
                 "kind" : "---",
                 "label" : "end"
@@ -179,7 +179,7 @@ module.exports = (function() {
                 "extendedFeatures": false
             },
             "options" : {
-                "wordwraparcs" : "true",
+                "wordwraparcs" : "true"
             },
             "entities" : []
         },
@@ -453,7 +453,7 @@ module.exports = (function() {
             }], [{
                 "kind" : "|||",
                 "from" : "b",
-                "to" : "c",
+                "to" : "c"
             }]],
             depth : 1
         },
@@ -549,7 +549,7 @@ module.exports = (function() {
             }], [{
                 "kind" : "|||",
                 "from" : "b",
-                "to" : "c",
+                "to" : "c"
             }], [{
                 "kind" : ">>",
                 "from" : "b",
@@ -558,7 +558,7 @@ module.exports = (function() {
             }], [{
                 "kind" : "|||",
                 "from" : "a",
-                "to" : "c",
+                "to" : "c"
             }], [{
                 "kind" : "=>>",
                 "from" : "a",

@@ -86,7 +86,7 @@ define([ "./lib/lodash/lodash.custom",
                 inputType: "mscgen",
                 elementId: "__svg",
                 window: pOptions.window||window,
-                includeSource: true,
+                includeSource: true
             });
 
             try {
@@ -109,7 +109,7 @@ define([ "./lib/lodash/lodash.custom",
             var lOptions = pOptions||{};
             _.defaults(lOptions, {
                 inputType: "mscgen",
-                outputType: "json",
+                outputType: "json"
             });
             try {
                 runCallBack(
