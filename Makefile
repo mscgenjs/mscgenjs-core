@@ -1,7 +1,7 @@
-
 .SUFFIXES: .js .pegjs .css .html .msc .mscin .msgenny .svg .png .jpg
 PEGJS=node_modules/pegjs/bin/pegjs
 CJS2AMD=utl/commonjs2amd.sh
+GIT=git
 NPM=npm
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclude "node_modules"
 LODASH=node_modules/.bin/lodash
