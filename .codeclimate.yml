@@ -1,5 +1,14 @@
 languages:
   JavaScript: true
+engines:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: false # no css in here
+  fixme:
+    enabled: false # a.o. finds 'bug report' in CONTRIBUTING.md and reports it as a bug risk. Hmm.
+  duplication:
+    enabled: false # finds 'duplication' in in-source configs. Which are in there to avoid duplication. Useful to run occasionally ...
 exclude_paths:
   - lib/*
   - test/*
