@@ -1,6 +1,4 @@
-/* jshint node:true */
-/* jshint undef:true */
-/* jshint unused:strict */
+/* jshint node:true, undef:true, unused:strict */
 
 /* istanbul ignore else */
 if ( typeof define !== 'function') {
@@ -153,10 +151,6 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
     var MARKERPATHS = {
         "signal" : {
             "variants" : [
-                // {name : "",   path : "M 0 0 l -8 2"},
-                // {name : "-u",  path : "M 0 0 l -8 -2"},
-                // {name : "-l",  path : "M 0 0 l 8 2"},
-                // {name : "-lu", path : "M 0 0 l 8 -2"}
                 {name : "",    path : "M9,3 l-8, 2"},
                 {name : "-u",  path : "M9,3 l-8,-2"},
                 {name : "-l",  path : "M9,3 l 8, 2"},
@@ -165,23 +159,18 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
         },
         "method" : {
             "variants" : [
-                // {name : "",  path : "-8,-2 0,0 -8,2"},
-                // {name : "-l", path : "8,-2 0,0 8,2"}
                 {name : "",   path : "1,1  9,3  1,5"},
                 {name : "-l", path : "17,1 9,3 17,5"}
             ]
         },
         "callback" : {
             "variants" : [
-                // {name : "",   path : "M-8,-2 l 8,2 l-8,2"},
-                // {name : "-l", path : "M 8,-2 l-8,2 l 8,2"}
                 {name : "",  path :  "M 1,1 l 8,2 l-8,2"},
                 {name : "-l", path : "M17,1 l-8,2 l 8,2"}
             ]
         },
         "lost" : {
             "variants" : [
-                // {name : "",  path : "M-2,-3 l5,6 M-2,3 l5,-6"}
                 {name : "",  path : "M7,0 l5,6 M7,6 l5,-6"}
             ]
         }
