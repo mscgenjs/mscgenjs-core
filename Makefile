@@ -6,13 +6,16 @@ NPM=npm
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclude "node_modules"
 LODASH=node_modules/.bin/lodash
 
-GENERATED_SOURCES_WEB=parse/mscgenparser.js \
+PARSERS_AMD=parse/mscgenparser.js \
 	parse/msgennyparser.js \
 	parse/xuparser.js
-GENERATED_SOURCES_NODE=parse/mscgenparser_node.js \
+PARSERS_CJS=parse/mscgenparser_node.js \
 	parse/msgennyparser_node.js \
 	parse/xuparser_node.js
-GENERATED_SOURCES=$(GENERATED_SOURCES_WEB) $(GENERATED_SOURCES_NODE)
+CUSTOM_LODASH=lib/lodash/lodash.custom.js
+GENERATED_SOURCES=$(PARSERS_AMD) \
+				  $(PARSERS_CJS) \
+				  $(CUSTOM_LODASH)
 LIBDIRS=lib/lodash
 
 .PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
@@ -20,32 +23,26 @@ LIBDIRS=lib/lodash
 help:
 	@echo " --------------------------------------------------------"
 	@echo "| Just downloaded the mscgen_js sources?                 |"
-	@echo "|  First run 'make prerequisites'                        |"
+	@echo "|  First run 'make prerequisites' or 'npm install'       |"
 	@echo " --------------------------------------------------------"
 	@echo
 	@echo "Most important build targets:"
 	@echo
-	@echo "install"
-	@echo " -> this is probably the target you want when"
-	@echo "    hosting mscgen_js"
-	@echo
-	@echo " creates the production version (minified js, images,"
-	@echo " html)"
-	@echo
 	@echo "dev-build"
-	@echo " (re)enerates stuff needed to develop (e.g. pegjs -> js_"
-	@echo " smashing etc)"
+	@echo " - (re-) generates the parsers from their pegjs source"
+	@echo " - (re-) builds the lodash custom build"
 	@echo
 	@echo "check"
-	@echo " runs the linter and executes all unit tests"
+	@echo " - lints and stylechecks the code"
+	@echo " - runs all unit tests"
+	@echo
+	@echo "fullcheck"
+	@echo " runs 'check' and"
+	@echo " - checks for any outdated dependencies"
+	@echo " - runs a node security project scan"
 	@echo
 	@echo "clean"
 	@echo " removes everything created by either install or dev-build"
-	@echo
-	@echo "deploy-gh-pages"
-	@echo " deploys the build to gh-pages"
-	@echo "  - 'master' branch: the root of gh-pages"
-	@echo "  - other branches : in branches/branche-name"
 	@echo
 	@echo "update-dependencies"
 	@echo " updates all (node) module dependencies in package.json"
@@ -58,7 +55,6 @@ help:
 	@echo
 
 
-
 # production rules
 parse/%parser.js: parse/%parser_node.js
 	$(CJS2AMD) < $< > $@
@@ -69,7 +65,7 @@ parse/%parser_node.js: parse/peg/%parser.pegjs
 $(LIBDIRS):
 	mkdir -p $@
 
-lib/lodash/lodash.custom.js: node_modules/lodash-cli/node_modules/lodash-compat/index.js
+$(CUSTOM_LODASH): node_modules/lodash-cli/node_modules/lodash-compat/index.js
 	$(LODASH) compat exports=umd include=memoize,cloneDeep,flatten,defaults --development --output $@
 
 # dependencies
@@ -119,7 +115,7 @@ check: noconsolestatements lint stylecheck test
 
 fullcheck: check outdated nsp
 
-update-dependencies: run-update-dependencies clean-generated-sources dev-build test nsp
+update-dependencies: run-update-dependencies clean dev-build test nsp
 	$(GIT) diff package.json
 
 run-update-dependencies:
