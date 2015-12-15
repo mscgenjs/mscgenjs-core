@@ -55,8 +55,7 @@ license (incidentally all MIT style):
 - [requirejs][requirejs.license] is used for modularization.
 - Parsers are generated with [pegjs][pegjs.license].
 - To run automated tests in node mscgen_js uses [mocha][21], [chai][39],
-  [chai-xml][40], [jsdom][jsdom.license], [amdefine][amdefine.license],
-  and [btoa][37]..
+  [chai-xml][40], [jsdom][jsdom.license] and [amdefine][amdefine.license].
 
 It uses [istanbul][28], [jshint][22], [plato][23] and [nsp][35] to maintain some
 modicum of verifiable code quality. You can see the build history in
@@ -129,6 +128,5 @@ Climate ][codeclimate.mscgenjs].
 [23]: wikum/licenses/license.plato.md
 [28]: wikum/licenses/license.istanbul.md
 [35]: https://nodesecurity.io/
-[37]: wikum/licenses/license.btoa.md
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/krampstudio/chai-xml
