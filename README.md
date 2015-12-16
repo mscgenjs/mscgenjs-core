@@ -27,7 +27,7 @@ Implementation of [MscGen][mscgen] and two derived languages in JavaScript.
 You already know how to `npm install mscgenjs`, right?
 
 Good. For examples on how to use the mscgen_js core package, have a look at
-the source code of any of the above mentioned tools:
+the source code of any of the above mentioned tools.
 - the atom package [mscgen-preview][mscgen-preview.source] (CoffeeScript alert)
   - specifically the [renderer][mscgen-preview.source.render]
   - ... which is just 6 lines of code
@@ -35,14 +35,21 @@ the source code of any of the above mentioned tools:
 - the [unit tests][mscgenjs.unit] from mscgenjs-core itself:
   - [parse][mscgenjs.unit.parse] (Node.js)
   - [render][mscgenjs.unit.render] (Node.js with jsdom)
-- the [on line interpreter][mscgenjs.interpreter.source] (Any modern browser.  Using require.js)
+- the [on line interpreter][mscgenjs.interpreter.source] (Any modern browser.
+  Using require.js)
   - ~ [where parsing happens][mscgenjs.interpreter.source.parse]
   - ~ [where rendering happens][mscgenjs.interpreter.source.render]
-- the [command line interface][mscgenjs.cli.source] (Node.js, PhantomJS and some spit)
+- the [command line interface][mscgenjs.cli.source] (Node.js, PhantomJS and
+  some spit)
 
+Hint: for rendering graphics the library needs a DOMElement (with a
+unique id) to perform its rendering in.
 
-## Building mscgen_js
+### Building mscgen_js
 See [build.md][mscgenjs.docbuild].
+
+### How does mscgen_js work?
+You can start reading about that [over here](wikum/README.md)
 
 ## License
 This software is free software [licensed under GPLv3][mscgenjs.license].
@@ -50,33 +57,37 @@ This means (a.o.) you _can_ use it as part of other free software, but
 _not_ as part of non free software.
 
 ### Dependencies and their licenses
-mscgen_js is built on various libraries, each of which have their own
+We built mscgen_js on various libraries, each of which have their own
 license (incidentally all MIT style):
-- [requirejs][requirejs.license] is used for modularization.
-- Parsers are generated with [pegjs][pegjs.license].
-- To run automated tests in node mscgen_js uses [mocha][21], [chai][39],
-  [chai-xml][40], [jsdom][jsdom.license] and [amdefine][amdefine.license].
+- mscgen_js uses [requirejs][requirejs.license] and [amdefine][amdefine.license]
+  for modularization.
+- We generated its parsers with [pegjs][pegjs.license].
+- mscgen_js automated tests use [mocha][21], [chai][39],
+  [chai-xml][40] and [jsdom][jsdom.license].
 
 It uses [istanbul][28], [jshint][22], [plato][23] and [nsp][35] to maintain some
 modicum of verifiable code quality. You can see the build history in
 [Travis][travis.mscgenjs] and an indication of the shape of the code at [Code
-Climate ][codeclimate.mscgenjs].
+Climate][codeclimate.mscgenjs].
 
 ## Thanks
 - [Mike McTernan][mscgen.author] for creating the wonderful
-  MscGen language, the accompanying c implementation and for releasing both to the public domain (the last one under a [GPLv2][mscgen.license] license to be precise).
+  MscGen language, the accompanying c implementation and for releasing both
+  to the public domain (the last one under a [GPLv2][mscgen.license] license
+  to be precise).
 - [David Majda][pegjs.author] for cooking and maintaining the fantastic
   and lightning fast [PEG.js][pegjs] parser generator.
 - [Elijah Insua][jsdom.author] for [jsdom][jsdom], which allows us to
-  test rendering vector graphics in nodejs without having to resort
+  test rendering vector graphics in Node.js without having to resort
   to outlandish hacks.
 
-# Build status
+## Build status
 [![Build Status][travis.mscgenjs.badge]][travis.mscgenjs]
 [![Code Climate][codeclimate.mscgenjs.badge]][codeclimate.mscgenjs]
 [![test coverage (codecov.io)][codecov.mscgenjs.badge]][codecov.mscgenjs]
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
 [![devDependency Status][daviddev.mscgenjs.badge]][daviddev.mscgenjs]
+[![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
 [amdefine.license]: wikum/licenses/license.amdefine.md
 [atom]: https://atom.io
