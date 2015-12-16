@@ -49,7 +49,7 @@ unique id) to perform its rendering in.
 See [build.md][mscgenjs.docbuild].
 
 ### How does mscgen_js work?
-You can start reading about that [over here](wikum/README.md)
+You can start reading about that [over here](wikum/readme.md)
 
 ## License
 This software is free software [licensed under GPLv3][mscgenjs.license].
