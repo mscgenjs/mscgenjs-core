@@ -109,10 +109,10 @@ Climate][codeclimate.mscgenjs].
 [mscgen-preview]: https://atom.io/packages/mscgen-preview
 [mscgen-preview.source]: https://github.com/sverweij/atom-mscgen-preview
 [mscgen-preview.source.render]: https://github.com/sverweij/atom-mscgen-preview/blob/master/lib/renderer.coffee
-[mscgenjs.cli]: https://sverweij.github.io/mscgenjs-cli
-[mscgenjs.cli.source]: http://github.com/sverweij/mscgenjs-cli
+[mscgenjs.cli]: https://www.npmjs.com/package/mscgenjs-cli
+[mscgenjs.cli.source]: https://github.com/sverweij/mscgenjs-cli
 [mscgenjs.docbuild]: wikum/build.md
-[mscgenjs.docsource]: src/script
+[mscgenjs.docsource]: wikum/README.md
 [mscgenjs.embed]: https://sverweij.github.io/mscgen_js/embed.html?utm_source=mscgenjs-core
 [mscgenjs.embed.source]: https://github.com/sverweij/mscgen_js/blob/master/src/script/mscgen-inpage.js
 [mscgenjs.embedpackage]: https://sverweij.github.io/mscgen_js/embed.html#package
