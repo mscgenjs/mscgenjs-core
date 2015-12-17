@@ -7,7 +7,8 @@ explain how the rendering functions fill it.
 ## Scalable vector graphics
 As the default output format for the pictures we have chosen scalable
 vector graphics (SVG):
-- Vector graphics are an obvious choice for drawing sequence charts - it's mostly lines
+- Vector graphics are an obvious choice for drawing sequence charts - it's
+  mostly lines
 - SVG works out of the box in most modern browsers
 - Converting (/ downgrading) vector graphics to raster graphic
   formats (like png, jpeg etc) is doable (see below). The other way 'round is
@@ -45,9 +46,34 @@ We use the following structure for the svg
       watermark in an svg is to put it on top. The watermark is put
       in this layer directly and not by reference)
 
+## Chunks of the rendering process
 
-TODO. Subjects to be covered:
-- renderast/ and the svg element factory (:page_with_curl: code in [renderast.js](renderast.js) and [svgelementfactory.js](svgelementfactory.js) )
-- flattening (:page_with_curl: code in [../text/flatten.js](../text/flatten.js))
-- text wrapping (html vs text/tspans) (:page_with_curl: code in [../text/textutensils.js](../text/textutensils.js))
-  & BBox (in [svgutensils.js](svgutensils.js) iircc)
+- The render loop (:page_with_curl: code in [renderast.js](renderast.js))    
+  Takes an abstract syntax tree, flattens it, sets up a skeleton and renders
+  it, using several
+- Simplifying the abstract syntax tree (:page_with_curl: code in
+  [../text/flatten.js](../text/flatten.js))    
+  A step that takes place after parsing and before rendering.
+  It simplifies the syntax tree by a.o.
+  - Making sure everything labelable has a label.
+  - 'Exploding' broadcast arcs (e.g. `a => *`) into a bunch of regular ones
+     (e.g. `a => b, a => c, a => c`)
+  - Unrolling recursive structures.
+- setting up the [SVG skeleton](#the-scalable-vector-graphics-skeleton)
+  (:page_with_curl: code in [renderskeleton.js](renderskeleton.js))    
+- SVG rendering primitives (:page_with_curl: code in
+  [svgelementfactory.js](svgelementfactory.js))    
+  Things like 'draw a box', 'create a path'. We did consider external modules
+  for this, but none of the ones available in 2013 suited our needs.
+- text wrapping (:page_with_curl: code in [renderlabels.js](renderlabels.js) and
+  [../text/textutensils.js](../text/textutensils.js))    
+  HTML implementations are supposed to take care of text wrapping. SVG
+  implementations aren't and hence don't. So if you want to have text wrapping
+  in SVG's you'll have to 'roll your own'. There's two parts:
+  - Guess how many characters fit a given width in pixels. renderlabels.js uses
+    heuristics for that, taking into account the font size.
+  - The wrapping itself. A candidate for replacement by an external module.
+- Determining height and width of diagram elements (in [svgutensils.js](svgutensils.js))    
+  This is needed to make sure text fits within boxes, rows are of the
+  correct height and texts get the right background color. We rely on the
+  SVG function getBBox for this.
