@@ -26,10 +26,10 @@ analysis and parsing together. In the [parser folder](../parse/README.md) we des
 
 ## Rendering
 ### Rendering graphics
-:page_with_curl: code in [render/graphics/](../render/graphics)
+:page_with_curl: code in [../render/graphics/](../render/graphics)
 
 *mscgen_js* by default renders its graphics to _scalable vector graphics_ (SVG).
-In the [render folder](render/graphics/README.md) we
+In the [render folder](../render/graphics/README.md) we
 - motivate this choice,
 - describe how our SVG is structured and
 - how the rendering programs fill it.
@@ -45,10 +45,13 @@ To **translate** between the three sequence chart languages it supports and to
 [sverweij/mscgen_js/.../interpreter/raster-exporter.js][mscgenjs.rasterexport.source]
 
 You might have noticed the [interpreter](https://sverweij.github.io/mscgen_js)
-also renders to jpeg and png. It uses the canvg library and it is _really_ trivial.
+also renders to jpeg and png. It uses the canvg library and it is _really_
+trivial.
 
 
 ## The controllers
+These are not in the 'core' package and serve as a reference of how mscgenjs
+can be used.
 
 ### Embedding
 :page_with_curl: code in [sverweij/mscgen_js/.../mscgen-inpage.js][mscgenjs.embed.source]
@@ -61,12 +64,20 @@ and what design choices we made you can find [here][mscgenjs.embed.source.ration
 
 The controller for the interpreter UI is less trivial.
 
+### Command line interface
+:page_with_curl: code in [sverweij/mscgenjs-cli][mscgenjs.cli.source]
+
+### Atom preview package
+:page_with_curl: code in [sverweij/atom-mscgen-preview][mscgen-preview.source]
+
 ## Testing
 :page_with_curl: code in [../test/](../test)
 
 About 250 automated tests (and counting) make sure we can refactor the mscgen_js
 core modules safely.
 
+[mscgen-preview.source]: https://github.com/sverweij/atom-mscgen-preview
+[mscgenjs.cli.source]: https://github.com/sverweij/mscgenjs-cli
 [mscgenjs.embed.source]: https://github.com/sverweij/mscgen_js/blob/master/src/script/mscgen-inpage.js
 [mscgenjs.embed.source.rationale]: https://github.com/sverweij/mscgen_js/blob/master/src/script/embedding-controller.md
 [mscgenjs.interpreter.source]: https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter
