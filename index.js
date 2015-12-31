@@ -105,7 +105,11 @@ module.exports = (function(){
                     pCallBack,
                     null,
                     (lOptions.outputType === "json") ?
-                        getParser(lOptions.inputType).parse(pScript) :
+                        JSON.stringify (
+                            getParser(lOptions.inputType).parse(pScript),
+                            null,
+                            "  "
+                        ) :
                         getTextRenderer(lOptions.outputType).render(
                             getAST(pScript, lOptions.inputType)
                         )

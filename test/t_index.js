@@ -67,7 +67,7 @@ describe('index', function() {
             mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
                 expect(pError).to.be.null;
                 expect(
-                    pResult
+                    JSON.parse(pResult)
                 ).to.deep.equal(
                     fix.astSimple
                 );
@@ -81,7 +81,7 @@ describe('index', function() {
                 function(pError, pResult){
                     expect(pError).to.be.null;
                     expect(
-                        pResult
+                        JSON.parse(pResult)
                     ).to.deep.equal(
                         fix.astSimple
                     );
