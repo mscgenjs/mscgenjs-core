@@ -115,7 +115,7 @@ Climate][codeclimate.mscgenjs].
 [mscgenjs.docbuild]: wikum/build.md
 [mscgenjs.docsource]: wikum/README.md
 [mscgenjs.embed]: https://sverweij.github.io/mscgen_js/embed.html?utm_source=mscgenjs-core
-[mscgenjs.embed.source]: https://github.com/sverweij/mscgen_js/blob/master/src/script/mscgen-inpage.js
+[mscgenjs.embed.source]: https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js
 [mscgenjs.embedpackage]: https://sverweij.github.io/mscgen_js/embed.html#package
 [mscgenjs.interpreter]: https://sverweij.github.io/mscgen_js/index.html?utm_source=mscgenjs-core
 [mscgenjs.interpreter.source]: https://github.com/sverweij/mscgen_js
