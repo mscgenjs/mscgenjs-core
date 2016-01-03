@@ -1,8 +1,8 @@
-var assert = require("assert");
+var assert   = require("assert");
 var renderer = require("../../../render/text/ast2msgenny");
-var fix = require("../../astfixtures");
-var utl = require("../../testutensils");
-var path = require('path');
+var fix      = require("../../astfixtures");
+var utl      = require("../../testutensils");
+var path     = require('path');
 
 describe('render/text/ast2msgenny', function() {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', function() {
