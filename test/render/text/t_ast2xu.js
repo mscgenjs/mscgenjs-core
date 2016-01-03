@@ -38,6 +38,18 @@ describe('render/text/ast2xu', function() {
             assert.equal(lProgram, lExpectedProgram);
         });
 
+        it("correctly renders multiple options", function() {
+            var lProgram = renderer.render(fix.astOptionsMscgen);
+            var lExpectedProgram = 'msc {\n  hscale="1.2",\n  width="800",\n  arcgradient="17",\n  wordwraparcs="true";\n\n  a;\n\n}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+
+        it("correctly renders parallel calls", function() {
+            var lProgram = renderer.render(fix.astSimpleParallel);
+            var lExpectedProgram = 'msc {\n  a,\n  b,\n  c;\n\n  b -> a [label="{paral"],\n  b =>> c [label="lel}"];\n}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+
     });
 
     describe('#renderAST() - minification', function() {
