@@ -37,6 +37,16 @@ describe('render/text/ast2mscgen', function() {
             var lExpectedProgram = "msc {\n  Alice [linecolor=\"#008800\", textcolor=\"black\", textbgcolor=\"#CCFFCC\", arclinecolor=\"#008800\", arctextcolor=\"#008800\"],\n  Bob [linecolor=\"#FF0000\", textcolor=\"black\", textbgcolor=\"#FFCCCC\", arclinecolor=\"#FF0000\", arctextcolor=\"#FF0000\"],\n  pocket [linecolor=\"#0000FF\", textcolor=\"black\", textbgcolor=\"#CCCCFF\", arclinecolor=\"#0000FF\", arctextcolor=\"#0000FF\"];\n\n  Alice => Bob [label=\"do something funny\"];\n  Bob => pocket [label=\"fetch (nose flute)\", textcolor=\"yellow\", textbgcolor=\"green\", arcskip=\"0.5\"];\n  Bob >> Alice [label=\"PHEEE!\", textcolor=\"green\", textbgcolor=\"yellow\", arcskip=\"0.3\"];\n  Alice => Alice [label=\"hihihi\", linecolor=\"#654321\"];\n}";
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("correctly renders multiple options", function() {
+            var lProgram = renderer.render(fix.astOptionsMscgen);
+            var lExpectedProgram = 'msc {\n  hscale="1.2",\n  width="800",\n  arcgradient="17",\n  wordwraparcs="true";\n\n  a;\n\n}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+        it("correctly renders parallel calls", function() {
+            var lProgram = renderer.render(fix.astSimpleParallel);
+            var lExpectedProgram = 'msc {\n  a,\n  b,\n  c;\n\n  b -> a [label="{paral"],\n  b =>> c [label="lel}"];\n}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 
     describe('#renderAST() - minification', function() {
