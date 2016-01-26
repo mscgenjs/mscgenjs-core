@@ -65,8 +65,8 @@ parse/%parser_node.js: parse/peg/%parser.pegjs
 $(LIBDIRS):
 	mkdir -p $@
 
-$(CUSTOM_LODASH): node_modules/lodash-cli/node_modules/lodash-compat/index.js
-	$(LODASH) compat exports=umd include=memoize,cloneDeep,flatten,defaults --development --output $@
+$(CUSTOM_LODASH): node_modules/lodash-cli/package.json
+	$(LODASH) exports=umd include=memoize,cloneDeep,flatten,defaults --development --output $@
 
 # dependencies
 include jsdependencies.mk
