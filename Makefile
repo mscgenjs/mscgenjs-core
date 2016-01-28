@@ -99,6 +99,10 @@ tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
+push-mirrors:
+	$(GIT) push bitbucket-mirror
+	$(GIT) push gitlab-mirror
+
 static-analysis:
 	$(NPM) run plato
 
