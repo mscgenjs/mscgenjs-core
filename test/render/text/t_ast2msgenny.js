@@ -1,6 +1,6 @@
 var assert   = require("assert");
 var renderer = require("../../../render/text/ast2msgenny");
-var fix      = require("../../astfixtures");
+var fix      = require("../../astfixtures.json");
 var utl      = require("../../testutensils");
 var path     = require('path');
 

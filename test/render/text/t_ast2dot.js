@@ -1,6 +1,6 @@
 var assert   = require("assert");
 var renderer = require("../../../render/text/ast2dot");
-var fix      = require("../../astfixtures");
+var fix      = require("../../astfixtures.json");
 var fs       = require("fs");
 var path     = require("path");
 

@@ -1,6 +1,6 @@
 var parser = require("../../parse/mscgenparser_node");
 var tst    = require("../testutensils");
-var fix    = require("../astfixtures");
+var fix    = require("../astfixtures.json");
 var fs     = require("fs");
 var path   = require("path");
 var expect = require("chai").expect;
