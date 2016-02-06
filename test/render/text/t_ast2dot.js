@@ -95,7 +95,7 @@ graph {\n\
   "a" -- "b" [label="(1)", arrowhead="normal"]\n\
   \n\
   subgraph cluster_2{\n\
-   label="alt: (2)" labeljust="l" \n\
+   label="alt: (2)" labeljust="l"\n\
     "b" -- "c" [label="(3)", arrowhead="normal"]\n\
     "c" -- "b" [label="(4)", style="dashed"]\n\
   }\n\
@@ -127,10 +127,10 @@ graph {\n\
   "a" -- "b" [label="(1)", arrowhead="normal"]\n\
   \n\
   subgraph cluster_2{\n\
-   label="loop: (2) label for loop" labeljust="l" \n\
+   label="loop: (2) label for loop" labeljust="l"\n\
     \n\
     subgraph cluster_3{\n\
-     label="alt: (3) label for alt" labeljust="l" \n\
+     label="alt: (3) label for alt" labeljust="l"\n\
       "b" -- "c" [label="(4) -> within alt", arrowhead="rvee"]\n\
       "c" -- "b" [label="(5) >> within alt", style="dashed"]\n\
     }\n\
