@@ -252,6 +252,10 @@ describe('parse/msgennyparser', function() {
             var lAST = parser.parse ('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
             expect(lAST).to.deep.equal(gCorrectOrderFixture);
         });
+        it('should insert an autoscale option in the AST when this is specified as an option', function(){
+            var lAST = parser.parse('arcgradient=20, autoscale=on; a,b,c,d,e,f; c =>> *: Hello everyone;');
+            expect(lAST.options.autoscale).to.equal(true);
+        });
         it("should throw a SyntaxError on an inline expression without {}", function() {
             tst.assertSyntaxError('a loop b', parser);
         });

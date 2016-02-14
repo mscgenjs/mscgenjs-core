@@ -215,6 +215,10 @@ describe('parse/xuparser', function() {
             var lAST = parser.parse('msc { a,b,c; a => b; a loop c [label="label for loop"] { b alt c [label="label for alt"]{ b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; }; b >> a [label=">> within loop"];}; a =>> a [label="happy-the-peppy - outside"];...;}');
             expect(lAST).to.deep.equal(fix.astAltWithinLoop);
         });
+        it('should insert an autoscale option in the AST when this is specified as an option', function(){
+            var lAST = parser.parse('xu{ arcgradient=20, autoscale=on; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
+            expect(lAST.options.autoscale).to.equal(true);
+        });
         it("should throw a SyntaxError on a missing closing bracket", function() {
             tst.assertSyntaxError('msc {a,b; a loop b {', parser);
         });

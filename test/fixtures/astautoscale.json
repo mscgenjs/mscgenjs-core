@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "extendedOptions": true,
+    "extendedArcTypes": false,
+    "extendedFeatures": true
+  },
+  "options": {
+    "arcgradient": "20",
+    "autoscale": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    },
+    {
+      "name": "d"
+    },
+    {
+      "name": "e"
+    },
+    {
+      "name": "f"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "=>>",
+        "from": "c",
+        "to": "*",
+        "label": "Hello everyone"
+      }
+    ]
+  ]
+}
