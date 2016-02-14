@@ -45,7 +45,7 @@ define ([], function() {
             var lRetval = merge (d[0], merge (d[1], d[2]));
 
             lRetval = merge ({meta: getMetaInfo()}, lRetval);
-            
+
             if (pre.length > 0) {
                 lRetval = merge({precomment: pre}, lRetval);
             }
@@ -2812,7 +2812,7 @@ define ([], function() {
                 });
             }
         }
-            
+
         function merge(pBase, pObjectToMerge){
             pBase = pBase ? pBase : {};
             mergeObject(pBase, pObjectToMerge);
@@ -2828,9 +2828,9 @@ define ([], function() {
         }
 
         function flattenBoolean(pBoolean) {
-            return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
+            return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
         }
-        
+
         function entityExists (pEntities, pName) {
             return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
                 return pEntity.name === pName;
@@ -2845,11 +2845,11 @@ define ([], function() {
                "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
                "arcskip"].indexOf(pString) > -1;
         }
-        
+
         function buildEntityNotDefinedMessage(pEntityName, pArc){
             return "Entity '" + pEntityName + "' in arc " +
                    "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-                   "is not defined.";    
+                   "is not defined.";
         }
 
         function EntityNotDefinedError (pEntityName, pArc) {
@@ -2859,7 +2859,7 @@ define ([], function() {
             if(!!pArc.location){
                 this.location = pArc.location;
                 this.location.start.line++;
-                this.location.end.line++;        
+                this.location.end.line++;
             }
         }
 

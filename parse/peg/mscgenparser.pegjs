@@ -2,9 +2,9 @@
  * parser for MSC (messsage sequence chart)
  * see http://www.mcternan.me.uk/mscgen/ for more
  * information
- * 
+ *
  * In some pathetic border cases this grammar behaves differently
- * from the original mscgen lexer/ parser: 
+ * from the original mscgen lexer/ parser:
  * - In the original mscgen booleans and ints are
  *   allowed in some of the options, without presenting them
  *   as quotes, but floats are not. This PEG
@@ -29,7 +29,7 @@
             });
         }
     }
-        
+
     function merge(pBase, pObjectToMerge){
         pBase = pBase ? pBase : {};
         mergeObject(pBase, pObjectToMerge);
@@ -45,9 +45,9 @@
     }
 
     function flattenBoolean(pBoolean) {
-        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
+        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
-    
+
     function entityExists (pEntities, pName) {
         return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
             return pEntity.name === pName;
@@ -62,11 +62,11 @@
            "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
            "arcskip"].indexOf(pString) > -1;
     }
-    
+
     function buildEntityNotDefinedMessage(pEntityName, pArc){
         return "Entity '" + pEntityName + "' in arc " +
                "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-               "is not defined.";    
+               "is not defined.";
     }
 
     function EntityNotDefinedError (pEntityName, pArc) {
@@ -76,7 +76,7 @@
         if(!!pArc.location){
             this.location = pArc.location;
             this.location.start.line++;
-            this.location.end.line++;        
+            this.location.end.line++;
         }
     }
 
@@ -119,7 +119,7 @@ program         = pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
     var lRetval = merge (d[0], merge (d[1], d[2]));
 
     lRetval = merge ({meta: getMetaInfo()}, lRetval);
-    
+
     if (pre.length > 0) {
         lRetval = merge({precomment: pre}, lRetval);
     }

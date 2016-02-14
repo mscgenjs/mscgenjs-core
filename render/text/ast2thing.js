@@ -106,7 +106,7 @@ define(["./textutensils"], function(utl) {
 
     function extractSupportedOptions(pOptions, pSupportedOptions) {
         return pSupportedOptions.filter(function(pSupportedOption){
-            return !!pOptions[pSupportedOption];
+            return undefined !== pOptions[pSupportedOption];
         }).map(function(pSupportedOption){
             return {name: pSupportedOption, value: pOptions[pSupportedOption]};
         });
@@ -132,7 +132,10 @@ define(["./textutensils"], function(utl) {
     }
 
     function renderOption(pOption) {
-        return pOption.name + "=\"" + utl.escapeString(pOption.value) + "\"";
+        return pOption.name + "=" +
+               (typeof pOption.value === "string"?
+                    "\"" + utl.escapeString(pOption.value) + "\"":
+                    pOption.value.toString());
     }
 
     function renderOptions(pOptions) {

@@ -130,7 +130,7 @@
       "hscale": "1.2",
       "width": "800",
       "arcgradient": "17",
-      "wordwraparcs": "true"
+      "wordwraparcs": true
     },
     "entities": [
       {
@@ -148,7 +148,7 @@
       "hscale": "1.2",
       "width": "800",
       "arcgradient": "17",
-      "wordwraparcs": "true",
+      "wordwraparcs": true,
       "watermark": "not in mscgen, available in xù and msgenny"
     },
     "entities": [
@@ -207,7 +207,7 @@
       "extendedFeatures": false
     },
     "options": {
-      "wordwraparcs": "true"
+      "wordwraparcs": true
     },
     "entities": []
   },
