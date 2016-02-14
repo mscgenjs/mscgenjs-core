@@ -30,7 +30,7 @@
             });
         }
     }
-        
+
     function merge(pBase, pObjectToMerge){
         pBase = pBase ? pBase : {};
         mergeObject(pBase, pObjectToMerge);
@@ -46,7 +46,7 @@
     }
 
     function flattenBoolean(pBoolean) {
-        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
+        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
 
     function entityExists (pEntities, pName, pEntityNamesToIgnore) {
@@ -102,7 +102,10 @@
 
     function hasExtendedOptions (pOptions){
         if (pOptions && pOptions.options){
-            return pOptions.options["watermark"] ? true : false;
+            return (
+                !!pOptions.options["watermark"] ||
+                (undefined !== pOptions.options["autoscale"])
+            );
         } else {
             return false;
         }
@@ -139,7 +142,7 @@ program         =  pre:_ d:declarationlist _
     var lRetval = merge (d[0], merge (d[1], d[2]));
 
     lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
-    
+
     if (pre.length > 0) {
         lRetval = merge({precomment: pre}, lRetval);
     }
@@ -167,15 +170,15 @@ option          = _ name:optionname _ "=" _
 {
   var lOption = {};
   name = name.toLowerCase();
-  if (name === "wordwraparcs"){
+  if (["wordwraparcs", "autoscale"].indexOf(name) > -1){
     lOption[name] = flattenBoolean(value);
   } else {
-    lOption[name]=value;
+    lOption[name] = value;
   }
   return lOption;
 }
 optionname      = "hscale"i / "width"i / "arcgradient"i
-                  /"wordwraparcs"i / "watermark"i
+                  /"wordwraparcs"i / "watermark"i / "autoscale"i
 entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 {
   el[0].push(el[1]);

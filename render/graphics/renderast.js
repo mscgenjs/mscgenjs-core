@@ -127,11 +127,12 @@ define(["./svgelementfactory",
         if (pOptions) {
             if (pOptions.arcgradient) {
                 pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-                pChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
+                pChart.arcGradient  = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
             }
-            if (pOptions.wordwraparcs && pOptions.wordwraparcs === "true") {
-                pChart.wordWrapArcs = true;
+            if (pOptions.wordwraparcs){
+                pChart.wordWrapArcs = pOptions.wordwraparcs;
             }
+
         }
     }
 
@@ -167,6 +168,7 @@ define(["./svgelementfactory",
             "width" : (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
             "height" : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
             "horizontaltransform" : (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
+            "autoscale" : !!pAST.options && !!pAST.options.autoscale && pAST.options.autoscale === true,
             "verticaltransform" : PAD_VERTICAL,
             "scale" : 1
         };
@@ -199,8 +201,13 @@ define(["./svgelementfactory",
         var lSvgElement = gChart.document.getElementById(id.get());
         var body = gChart.document.getElementById(id.get("__body"));
         body.setAttribute("transform", "translate(" + pCanvas.horizontaltransform + "," + pCanvas.verticaltransform + ")" + " scale(" + pCanvas.scale + "," + pCanvas.scale + ")");
-        lSvgElement.setAttribute("width", pCanvas.width.toString());
-        lSvgElement.setAttribute("height", pCanvas.height.toString());
+        if (!!pCanvas.autoscale && pCanvas.autoscale===true){
+            lSvgElement.setAttribute("viewBox", "0 0 " + pCanvas.width.toString() + " " + pCanvas.height.toString());
+        } else {
+            lSvgElement.setAttribute("width", pCanvas.width.toString());
+            lSvgElement.setAttribute("height", pCanvas.height.toString());
+        }
+
     }
 
     /* ----------------------START entity shizzle-------------------------------- */

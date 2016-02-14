@@ -1,9 +1,9 @@
 /*
  * parser for xù (messsage sequence chart language)
- * 
- * xù is an extension of mscgen, which means each valid mscgen 
+ *
+ * xù is an extension of mscgen, which means each valid mscgen
  * script is also a valid xù script
- * 
+ *
  * see https://github.com/sverweij/mscgen_js/wikum/xu.md for more information
  * - mscgen cannot handle entity names that are also keywords
  *   (box, abox, rbox, note, msc, hscale, width, arcgradient,
@@ -11,7 +11,7 @@
  *   linecolor, linecolour, textcolor, textcolour,
  *   textbgcolor, textbgcolour, arclinecolor, arclinecolour,
  *   arctextcolor, arctextcolour,arctextbgcolor, arctextbgcolour,
- *   arcskip). This grammar does allow them. 
+ *   arcskip). This grammar does allow them.
  */
 
 {
@@ -22,7 +22,7 @@
             });
         }
     }
-        
+
     function merge(pBase, pObjectToMerge){
         pBase = pBase ? pBase : {};
         mergeObject(pBase, pObjectToMerge);
@@ -38,7 +38,7 @@
     }
 
     function flattenBoolean(pBoolean) {
-        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
+        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
 
     function entityExists (pEntities, pName) {
@@ -50,7 +50,7 @@
     function buildEntityNotDefinedMessage(pEntityName, pArc){
         return "Entity '" + pEntityName + "' in arc " +
                "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-               "is not defined.";    
+               "is not defined.";
     }
 
     function EntityNotDefinedError (pEntityName, pArc) {
@@ -60,7 +60,7 @@
         if(!!pArc.location){
             this.location = pArc.location;
             this.location.start.line++;
-            this.location.end.line++;        
+            this.location.end.line++;
         }
     }
 
@@ -92,7 +92,10 @@
 
     function hasExtendedOptions (pOptions){
         if (pOptions && pOptions.options){
-            return pOptions.options["watermark"] ? true : false;
+            return (
+                !!pOptions.options["watermark"] ||
+                (undefined !== pOptions.options["autoscale"])
+            );
         } else {
             return false;
         }
@@ -127,7 +130,7 @@ program         =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
 {
     d[1] = checkForUndeclaredEntities(d[1], d[2]);
     var lRetval = merge (d[0], merge (d[1], d[2]));
-    
+
     lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
 
     if (pre.length > 0) {
@@ -161,7 +164,7 @@ option          = _ name:optionname _ "=" _
 {
    var lOption = {};
    name = name.toLowerCase();
-   if (name === "wordwraparcs"){
+   if (["wordwraparcs", "autoscale"].indexOf(name) > -1){
       lOption[name] = flattenBoolean(value);
    } else {
       lOption[name]=value;
@@ -169,7 +172,7 @@ option          = _ name:optionname _ "=" _
    return lOption;
 }
 optionname      = "hscale"i / "width"i / "arcgradient"i
-                  /"wordwraparcs"i / "watermark"i
+                  /"wordwraparcs"i / "watermark"i / "autoscale"i
 entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 {
   el[0].push(el[1]);

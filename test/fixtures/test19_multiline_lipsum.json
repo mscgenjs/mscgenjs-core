@@ -11,7 +11,7 @@
     "extendedFeatures": false
   },
   "options": {
-    "wordwraparcs": "true"
+    "wordwraparcs": true
   },
   "entities": [
     {

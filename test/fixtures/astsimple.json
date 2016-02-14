@@ -6,7 +6,7 @@
     },
     "options": {
         "width": "300",
-        "wordwraparcs": "true"
+        "wordwraparcs": true
     },
     "entities": [
         {

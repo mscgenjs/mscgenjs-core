@@ -40,7 +40,7 @@ describe('render/text/ast2xu', function() {
 
         it("correctly renders multiple options", function() {
             var lProgram = renderer.render(fix.astOptionsMscgen);
-            var lExpectedProgram = 'msc {\n  hscale="1.2",\n  width="800",\n  arcgradient="17",\n  wordwraparcs="true";\n\n  a;\n\n}';
+            var lExpectedProgram = 'msc {\n  hscale="1.2",\n  width="800",\n  arcgradient="17",\n  wordwraparcs=true;\n\n  a;\n\n}';
             assert.equal(lProgram, lExpectedProgram);
         });
 
@@ -55,7 +55,7 @@ describe('render/text/ast2xu', function() {
     describe('#renderAST() - minification', function() {
         it('should render a "minified" mscgen script', function() {
             var lProgram = renderer.render(fix.astOptions, true);
-            var lExpectedProgram = 'msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs="true",watermark="not in mscgen, available in xù and msgenny";a;}';
+            var lExpectedProgram = 'msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true,watermark="not in mscgen, available in xù and msgenny";a;}';
             assert.equal(lProgram, lExpectedProgram);
         });
 
