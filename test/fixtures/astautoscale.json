@@ -6,7 +6,7 @@
   },
   "options": {
     "arcgradient": "20",
-    "autoscale": true
+    "width": "auto"
   },
   "entities": [
     {

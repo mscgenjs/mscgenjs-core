@@ -104,7 +104,7 @@
         if (pOptions && pOptions.options){
             return (
                 !!pOptions.options["watermark"] ||
-                (undefined !== pOptions.options["autoscale"])
+                (!!pOptions.options["width"] && pOptions.options["width"] === "auto")
             );
         } else {
             return false;
@@ -165,12 +165,12 @@ optionlist      = options:((o:option "," {return o})*
 
 option          = _ name:optionname _ "=" _
                   value:(s:quotedstring {return s}
-                     / i:number {return i.toString()}
+                     / i:size {return i.toString().toLowerCase()}
                      / b:boolean {return b.toString()}) _
 {
   var lOption = {};
   name = name.toLowerCase();
-  if (["wordwraparcs", "autoscale"].indexOf(name) > -1){
+  if ("wordwraparcs" === name){
     lOption[name] = flattenBoolean(value);
   } else {
     lOption[name] = value;
@@ -178,7 +178,7 @@ option          = _ name:optionname _ "=" _
   return lOption;
 }
 optionname      = "hscale"i / "width"i / "arcgradient"i
-                  /"wordwraparcs"i / "watermark"i / "autoscale"i
+                  /"wordwraparcs"i / "watermark"i
 entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
 {
   el[0].push(el[1]);
@@ -298,7 +298,10 @@ real "real"
   = digits:([0-9]+ "." [0-9]+) { return parseFloat(digits.join("")); }
 
 boolean "boolean"
-  = "true"i / "false"i/ "on"i/ "off"i
+  = "true"i / "false"i/ "on"i/ "off"i/ "1" / "0"
+
+size "size"
+  = number / "auto"i
 
 /*
  This file is part of mscgen_js.
