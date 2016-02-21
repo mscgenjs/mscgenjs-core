@@ -283,7 +283,7 @@ attributename  "attribute name"
     / "arctextbgcolor"i / "arctextbgcolour"i
     / "arcskip"i
 
-string
+string "string"
     = '"' s:stringcontent '"' {return s.join("")}
 
 stringcontent
