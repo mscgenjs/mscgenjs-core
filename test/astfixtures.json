@@ -256,6 +256,62 @@
       ]
     ]
   },
+  "astWorwraparcsfalse": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
+    },
+    "options": {
+      "wordwraparcs": false
+    },
+    "entities": []
+  },
+  "astBoxArcs": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
+    },
+    "entities": [
+      {
+        "name": "a"
+      },
+      {
+        "name": "b"
+      },
+      {
+        "name": "c"
+      },
+      {
+        "name": "d"
+      }
+    ],
+    "arcs": [
+      [
+        {
+          "kind": "note",
+          "from": "a",
+          "to": "a"
+        },
+        {
+          "kind": "box",
+          "from": "b",
+          "to": "b"
+        },
+        {
+          "kind": "abox",
+          "from": "c",
+          "to": "c"
+        },
+        {
+          "kind": "rbox",
+          "from": "d",
+          "to": "d"
+        }
+      ]
+    ]
+  },
   "astMixedAttributes": {
     "meta": {
       "extendedOptions": false,

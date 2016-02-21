@@ -36,6 +36,10 @@ describe('parse/mscgenparser', function() {
             var lAST = parser.parse('msc{HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN";a;}');
             expect(lAST).to.deep.equal(fix.astOptionsMscgen);
         });
+        it("should correctly parse naked reals", function() {
+            var lAST = parser.parse('msc{HSCAle=481.1337;a;}');
+            expect(lAST.options.hscale).to.equal("481.1337");
+        });
         it("should produce lowercase for upper/ mixed case attributes", function() {
             var lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');
             expect(lAST).to.deep.equal(fix.astMixedAttributes);
@@ -67,6 +71,12 @@ describe('parse/mscgenparser', function() {
             expect(parser.parse('msc { wordwraparcs="on";}')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('msc { wordwraparcs=1;}')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('msc { wordwraparcs="1";}')).to.deep.equal(fix.astWorwraparcstrue);
+            expect(parser.parse('msc { wordwraparcs=false;}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs="false";}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs=off;}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs="off";}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs=0;}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs="0";}')).to.deep.equal(fix.astWorwraparcsfalse);
         });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
@@ -156,6 +166,25 @@ describe('parse/mscgenparser', function() {
         it("should throw a SyntaxError when a keyword is used for an entityt name", function(){
             tst.assertSyntaxError("msc{a,note,b,c; a => note;}", parser);
         });
+        it("should throw a SyntaxError when passing a boolean to something expecting numbers", function(){
+            tst.assertSyntaxError("msc{width=true; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a boolean-like string to something expecting numbers", function(){
+            tst.assertSyntaxError("msc{width=\"true\"; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a number to something expecting booleans", function(){
+            tst.assertSyntaxError("msc{wordwraparcs=481; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a number-like string to something expecting booleans", function(){
+            tst.assertSyntaxError("msc{wordwraparcs=\"481\"; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a non boolean-like string to something expecting booleans", function(){
+            tst.assertSyntaxError("msc{wordwraparcs=\"general string\"; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a non-number like string to something expecting numbers", function(){
+            tst.assertSyntaxError("msc{hscale=\"general string\"; a;}", parser);
+        });
+
     });
 
     describe('#parse() - file based tests', function() {

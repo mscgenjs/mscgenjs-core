@@ -124,11 +124,11 @@ program
         if (pre.length > 0) {
             lRetval = merge({precomment: pre}, lRetval);
         }
-    /*
-        if (post.length > 0) {
-            lRetval = merge(lRetval, {postcomment:post});
-        }
-    */
+        /*
+            if (post.length > 0) {
+                lRetval = merge(lRetval, {postcomment:post});
+            }
+        */
         return lRetval;
     }
 
@@ -143,31 +143,23 @@ declarationlist
 optionlist
     = options:((o:option "," {return o})*
                (o:option ";" {return o}))
-    { return optionArray2Object(options); }
-
-option
-    = _ name:optionname _ "=" _
-        value:(
-              s:string {return s}
-            / i:number {return i.toString()}
-            / b:boolean {return b.toString()}
-        ) _
     {
-       var lOption = {};
-       name = name.toLowerCase();
-       if (name === "wordwraparcs"){
-          lOption[name] = flattenBoolean(value);
-       } else {
-          lOption[name]=value;
-       }
-       return lOption;
+        return optionArray2Object(options);
     }
 
-optionname
-    = "hscale"i
-    / "width"i
-    / "arcgradient"i
-    / "wordwraparcs"i
+option
+    = _ name:("hscale"i/ "width"i/ "arcgradient"i) _ "=" _ value:numberlike _
+        {
+            var lOption = {};
+            lOption[name.toLowerCase()] = value;
+            return lOption;
+        }
+    / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
+        {
+            var lOption = {};
+            lOption[name.toLowerCase()] = flattenBoolean(value);
+            return lOption;
+        }
 
 entitylist
     = el:((e:entity "," {return e})* (e:entity ";" {return e}))
@@ -210,6 +202,7 @@ singlearc
 
 commentarc
     = _ kind:commenttoken _ {return {kind:kind}}
+
 dualarc
     = (_ from:identifier _ kind:dualarctoken _ to:identifier _
       {return {kind: kind, from:from, to:to, location:location()}})
@@ -273,22 +266,20 @@ attribute
     = _ name:attributename _ "=" _ value:identifier _
     {
       var lAttribute = {};
-      name = name.toLowerCase();
-      name = name.replace("colour", "color");
-      lAttribute[name] = value;
+      lAttribute[name.toLowerCase().replace("colour", "color")] = value;
       return lAttribute
     }
 
 attributename  "attribute name"
-    =  "label"i
+    = "label"i
     / "idurl"i
     / "id"i
     / "url"i
-    / "linecolor"i / "linecolour"i
-    / "textcolor"i / "textcolour"i
-    / "textbgcolor"i / "textbgcolour"i
-    / "arclinecolor"i / "arclinecolour"i
-    / "arctextcolor"i / "arctextcolour"i
+    / "linecolor"i      / "linecolour"i
+    / "textcolor"i      / "textcolour"i
+    / "textbgcolor"i    / "textbgcolour"i
+    / "arclinecolor"i   / "arclinecolour"i
+    / "arctextcolor"i   / "arctextcolour"i
     / "arctextbgcolor"i / "arctextbgcolour"i
     / "arcskip"i
 
@@ -308,6 +299,8 @@ whitespace "whitespace"
 lineend "lineend"
     = c:[\r\n] {return c}
 
+
+/* comments - multi line */
 mlcomstart = "/*"
 mlcomend   = "*/"
 mlcomtok   = !"*/" c:. {return c}
@@ -316,6 +309,8 @@ mlcomment
     {
       return start + com.join("") + end
     }
+
+/* comments - single line */
 slcomstart = "//" / "#"
 slcomtok   = [^\r\n]
 slcomment
@@ -323,29 +318,45 @@ slcomment
     {
       return start + com.join("")
     }
+
+/* comments in general */
 comment "comment"
-    =   slcomment
+    = slcomment
     / mlcomment
 _
    = (whitespace / lineend/ comment)*
 
-number
-    = real / integer
+numberlike "number"
+    = s:numberlikestring { return s; }
+    / i:number { return i.toString(); }
 
-integer "integer"
+numberlikestring
+    = '"' s:number '"' { return s.toString(); }
+
+number
+    = real
+    / cardinal
+
+cardinal "cardinal"
     = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
 
 real "real"
-    = digits:([0-9]+ "." [0-9]+) { return parseFloat(digits.join("")); }
+    = digits:(cardinal "." cardinal) { return parseFloat(digits.join("")); }
 
-boolean "boolean"
+booleanlike "boolean"
+    = bs:booleanlikestring {return bs;}
+    / b:boolean {return b.toString();}
+
+booleanlikestring
+    = '"' s:boolean '"' { return s; }
+
+boolean
     = "true"i
     / "false"i
     / "on"i
     / "off"i
-    /"0"
-    /"1"
-
+    / "0"
+    / "1"
 /*
  This file is part of mscgen_js.
 
