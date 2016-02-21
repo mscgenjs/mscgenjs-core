@@ -44,6 +44,14 @@ describe('parse/xuparser', function() {
             var lAST = parser.parse('xu{HSCAle=481.1337;a;}');
             expect(lAST.options.hscale).to.equal("481.1337");
         });
+        it("should correctly parse quoted cardinals", function() {
+            var lAST = parser.parse('xu{width="481";a;}');
+            expect(lAST.options.width).to.equal("481");
+        });
+        it("should correctly parse quoted reals", function() {
+            var lAST = parser.parse('xu{width="481.1337";a;}');
+            expect(lAST.options.width).to.equal("481.1337");
+        });
         it("should produce lowercase for upper/ mixed case attributes", function() {
             var lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');
             expect(lAST).to.deep.equal(fix.astMixedAttributes);
@@ -195,6 +203,24 @@ describe('parse/xuparser', function() {
         it ("should complain about an undeclared entity in a to", function(){
             tst.assertSyntaxError("msc{a,b,c;b=>f;}", parser, "EntityNotDefinedError");
         });
+        it("should throw a SyntaxError when passing a boolean to something expecting numbers", function(){
+            tst.assertSyntaxError("msc{width=true; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a boolean-like string to something expecting numbers", function(){
+            tst.assertSyntaxError("msc{width=\"true\"; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a non-number like string to something expecting numbers", function(){
+            tst.assertSyntaxError("msc{hscale=\"general string\"; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a number to something expecting booleans", function(){
+            tst.assertSyntaxError("msc{wordwraparcs=481; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a number-like string to something expecting booleans", function(){
+            tst.assertSyntaxError("msc{wordwraparcs=\"481\"; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a non boolean-like string to something expecting booleans", function(){
+            tst.assertSyntaxError("msc{wordwraparcs=\"general string\"; a;}", parser);
+        });
     });
 
     describe('#parse() - file based tests', function(){
@@ -225,8 +251,12 @@ describe('parse/xuparser', function() {
             var lAST = parser.parse('msc { a,b,c; a => b; a loop c [label="label for loop"] { b alt c [label="label for alt"]{ b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; }; b >> a [label=">> within loop"];}; a =>> a [label="happy-the-peppy - outside"];...;}');
             expect(lAST).to.deep.equal(fix.astAltWithinLoop);
         });
-        it('should accept "auto" as a valid width', function(){
+        it('should accept AUTO as a valid width', function(){
             var lAST = parser.parse('xu{ arcgradient=20, width=AUTO; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
+            expect(lAST.options.width).to.equal("auto");
+        });
+        it('should accept "AUTO" as a valid width', function(){
+            var lAST = parser.parse('xu{ arcgradient=20, width="AUTO"; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
             expect(lAST.options.width).to.equal("auto");
         });
         it("should throw a SyntaxError on a missing closing bracket", function() {
@@ -249,6 +279,27 @@ describe('parse/xuparser', function() {
         });
         it("should throw an EntityNotDefinedError on a missing entity somewhere deeply nested", function() {
             tst.assertSyntaxError('msc {a,b; a loop b {c => b;};}', parser, "EntityNotDefinedError");
+        });
+        it("should throw a SyntaxError when passing a boolean to something expecting size", function(){
+            tst.assertSyntaxError("msc{width=true; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a boolean-like string to something expecting size", function(){
+            tst.assertSyntaxError('msc{width="true"; a;}', parser);
+        });
+        it("should throw a SyntaxError when passing a non-number like string to something expecting size", function(){
+            tst.assertSyntaxError('msc{width="general string"; a;}', parser);
+        });
+        it("should throw a SyntaxError when passing a boolean to something expecting a string", function(){
+            tst.assertSyntaxError("msc{watermark=true; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a cardinal to something expecting a string", function(){
+            tst.assertSyntaxError("msc{watermark=481; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a real to something expecting a string", function(){
+            tst.assertSyntaxError("msc{watermark=481.1337; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a size to something expecting a string", function(){
+            tst.assertSyntaxError("msc{watermark=auto; a;}", parser);
         });
     });
 });
