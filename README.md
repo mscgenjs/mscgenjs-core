@@ -128,8 +128,8 @@ Climate][codeclimate.mscgenjs].
 [mscgenjs.license]: LICENSE.md
 [mscgenjs.wikum.msgenny]: wikum/msgenny.md
 [mscgenjs.wikum.xu]: wikum/xu.md
-[pegjs]: http://majda.cz/en/
-[pegjs.author]: http://pegjs.majda.cz/
+[pegjs]: http://pegjs.org
+[pegjs.author]: http://majda.cz/about
 [pegjs.license]: wikum/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: wikum/licenses/license.requirejs.md
