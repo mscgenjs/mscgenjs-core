@@ -49,6 +49,12 @@
         return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
 
+    function nameValue2Option(pName, pValue){
+        var lOption = {};
+        lOption[pName.toLowerCase()] = pValue;
+        return lOption;
+    }
+
     function entityExists (pEntities, pName, pEntityNamesToIgnore) {
         if (pName === undefined || pName === "*") {
             return true;
@@ -136,159 +142,251 @@
     }
 }
 
-program         =  pre:_ d:declarationlist _
-{
-    d[1] = extractUndeclaredEntities(d[1], d[2]);
-    var lRetval = merge (d[0], merge (d[1], d[2]));
+program
+    =  pre:_ d:declarationlist _
+    {
+        d[1] = extractUndeclaredEntities(d[1], d[2]);
+        var lRetval = merge (d[0], merge (d[1], d[2]));
 
-    lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
+        lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
 
-    if (pre.length > 0) {
-        lRetval = merge({precomment: pre}, lRetval);
+        if (pre.length > 0) {
+            lRetval = merge({precomment: pre}, lRetval);
+        }
+        /*
+            if (post.length > 0) {
+                lRetval = merge(lRetval, {postcomment:post});
+            }
+        */
+        return lRetval;
     }
-/*
-    if (post.length > 0) {
-        lRetval = merge(lRetval, {postcomment:post});
+
+declarationlist
+    = (o:optionlist {return {options:o}})?
+      (e:entitylist {return {entities:e}})?
+      (a:arclist {return {arcs:a}})?
+
+optionlist
+    = options:((o:option "," {return o})*
+               (o:option ";" {return o}))
+    {
+      return optionArray2Object(options);
     }
-*/
-    return lRetval;
-}
 
-declarationlist = (o:optionlist {return {options:o}})?
-                  (e:entitylist {return {entities:e}})?
-                  (a:arclist {return {arcs:a}})?
-optionlist      = options:((o:option "," {return o})*
-                  (o:option ";" {return o}))
-{
-  return optionArray2Object(options);
-}
+option
+    = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
+        {
+            return nameValue2Option(name, value);
+        }
+    / _ name:"width"i _ "=" _ value:sizelike _
+        {
+            return nameValue2Option(name, value);
+        }
+    / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
+        {
+            var lOption = {};
+            lOption[name.toLowerCase()] = flattenBoolean(value);
+            return lOption;
+        }
+    / _ name:"watermark"i _ "=" _ value:quotedstring _
+        {
+            return nameValue2Option(name, value);
+        }
 
-option          = _ name:optionname _ "=" _
-                  value:(s:quotedstring {return s}
-                     / i:size {return i.toString().toLowerCase()}
-                     / b:boolean {return b.toString()}) _
-{
-  var lOption = {};
-  name = name.toLowerCase();
-  if ("wordwraparcs" === name){
-    lOption[name] = flattenBoolean(value);
-  } else {
-    lOption[name] = value;
-  }
-  return lOption;
-}
-optionname      = "hscale"i / "width"i / "arcgradient"i
-                  /"wordwraparcs"i / "watermark"i
-entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
-{
-  el[0].push(el[1]);
-  return el[0];
-}
-entity "entity" =  _ name:identifier _ label:(":" _ l:string _ {return l})?
-{
-  var lEntity = {};
-  lEntity.name = name;
-  if (!!label) {
-    lEntity.label = label;
-  }
-  return lEntity;
-}
-arclist         = (a:arcline _ ";" {return a})+
-arcline         = al:((a:arc "," {return a})* (a:arc {return [a]}))
-{
-   al[0].push(al[1][0]);
-
-   return al[0];
-}
-arc             = regulararc/ spanarc
-regulararc      = ra:((sa:singlearc {return sa})
-                / (da:dualarc {return da})
-                / (ca:commentarc {return ca}))
-                  label:(":" _ s:string _ {return s})?
-{
-  if (label) {
-    ra.label = label;
-  }
-  return ra;
-}
-
-singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
-commentarc      = _ kind:commenttoken _ {return {kind:kind}}
-dualarc         =
- (_ from:identifier _ kind:dualarctoken _ to:identifier _
-  {return {kind: kind, from:from, to:to}})
-/(_ "*" _ kind:bckarrowtoken _ to:identifier _
-  {return {kind:kind, from: "*", to:to}})
-/(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-  {return {kind:kind, from: from, to: "*"}})
-/(_ from:identifier _ kind:bidiarrowtoken _ "*" _
-  {return {kind:kind, from: from, to: "*"}})
-spanarc         =
- (_ from:identifier _ kind:spanarctoken _ to:identifier _ label:(":" _ s:string _ {return s})? "{" _ arcs:arclist? _ "}" _
-  {
-    var retval = {kind: kind, from:from, to:to, arcs:arcs};
-    if (label) {
-      retval.label = label;
+entitylist
+    = el:((e:entity "," {return e})* (e:entity ";" {return e}))
+    {
+      el[0].push(el[1]);
+      return el[0];
     }
-    return retval;
-  })
 
-singlearctoken  = "|||" / "..."
-commenttoken    = "---"
-dualarctoken    = kind:(
-                    bidiarrowtoken/ fwdarrowtoken / bckarrowtoken
-                  / boxtoken)
-                 {return kind.toLowerCase()}
-bidiarrowtoken   "bi-directional arrow"
-                =   "--"  / "<->"
-                  / "=="  / "<<=>>"
-                          / "<=>"
-                  / ".."  / "<<>>"
-                  / "::"  / "<:>"
-fwdarrowtoken   "left to right arrow"
-                = "->" / "=>>"/ "=>" / ">>"/ ":>" / "-x"i
-bckarrowtoken   "right to left arrow"
-                = "<-" / "<<=" / "<=" / "<<" / "<:" / "x-"i
-boxtoken        "box"
-                = "note"i / "abox"i / "rbox"i / "box"i
-spanarctoken    "arc spanning box"
-                = kind:("alt"i / "else"i/ "opt"i / "break"i /"par"i
-                  / "seq"i / "strict"i / "neg"i / "critical"i
-                  / "ignore"i / "consider"i / "assert"i
-                  / "loop"i / "ref"i / "exc"i
-                  )
-                 {return kind.toLowerCase()}
-string          = quotedstring / unquotedstring
-quotedstring    = '"' s:stringcontent '"' {return s.join("")}
-stringcontent   = (!'"' c:('\\"'/ .) {return c})*
-unquotedstring  = s:nonsep {return s.join("").trim()}
-nonsep          = (!(',' /';' /'{') c:(.) {return c})*
+entity "entity"
+    =  _ name:identifier _ label:(":" _ l:string _ {return l})?
+    {
+      var lEntity = {};
+      lEntity.name = name;
+      if (!!label) {
+        lEntity.label = label;
+      }
+      return lEntity;
+    }
+
+arclist
+    = (a:arcline _ ";" {return a})+
+
+arcline
+    = al:((a:arc "," {return a})* (a:arc {return [a]}))
+    {
+       al[0].push(al[1][0]);
+
+       return al[0];
+    }
+
+arc
+    = regulararc/ spanarc
+regulararc
+    = ra:((sa:singlearc {return sa})
+    / (da:dualarc {return da})
+    / (ca:commentarc {return ca}))
+      label:(":" _ s:string _ {return s})?
+    {
+      if (label) {
+        ra.label = label;
+      }
+      return ra;
+    }
+
+singlearc
+    = _ kind:singlearctoken _ {return {kind:kind}}
+
+commentarc
+    = _ kind:commenttoken _ {return {kind:kind}}
+
+dualarc
+    = (_ from:identifier _ kind:dualarctoken _ to:identifier _
+      {return {kind: kind, from:from, to:to}})
+    /(_ "*" _ kind:bckarrowtoken _ to:identifier _
+      {return {kind:kind, from: "*", to:to}})
+    /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
+      {return {kind:kind, from: from, to: "*"}})
+    /(_ from:identifier _ kind:bidiarrowtoken _ "*" _
+      {return {kind:kind, from: from, to: "*"}})
+
+spanarc
+    = (_ from:identifier _ kind:spanarctoken _ to:identifier _ label:(":" _ s:string _ {return s})? "{" _ arcs:arclist? _ "}" _
+      {
+        var retval = {kind: kind, from:from, to:to, arcs:arcs};
+        if (label) {
+          retval.label = label;
+        }
+        return retval;
+      })
+
+singlearctoken
+    = "|||"
+    / "..."
+
+commenttoken
+    = "---"
+
+dualarctoken
+    = kind:( bidiarrowtoken
+    / fwdarrowtoken
+    / bckarrowtoken
+    / boxtoken
+    )
+    {
+        return kind.toLowerCase();
+    }
+
+bidiarrowtoken "bi-directional arrow"
+    = "--" / "<->"
+    / "==" / "<<=>>"
+           / "<=>"
+    / ".." / "<<>>"
+    / "::" / "<:>"
+
+fwdarrowtoken "left to right arrow"
+    = "->"
+    / "=>>"
+    / "=>"
+    / ">>"
+    / ":>"
+    / "-x"i
+
+bckarrowtoken "right to left arrow"
+    = "<-"
+    / "<<="
+    / "<="
+    / "<<"
+    / "<:"
+    / "x-"i
+
+boxtoken "box"
+    = "note"i
+    / "abox"i
+    / "rbox"i
+    / "box"i
+
+spanarctoken "inline expression"
+    = kind:(
+          "alt"i
+        / "else"i
+        / "opt"i
+        / "break"i
+        / "par"i
+        / "seq"i
+        / "strict"i
+        / "neg"i
+        / "critical"i
+        / "ignore"i
+        / "consider"i
+        / "assert"i
+        / "loop"i
+        / "ref"i
+        / "exc"i
+     )
+    {
+        return kind.toLowerCase()
+    }
+
+string
+    = quotedstring
+    / unquotedstring
+
+quotedstring
+    = '"' s:stringcontent '"' {return s.join("")}
+
+stringcontent
+    = (!'"' c:('\\"'/ .) {return c})*
+
+unquotedstring
+    = s:nonsep {return s.join("").trim()}
+
+nonsep
+    = (!(',' /';' /'{') c:(.) {return c})*
 
 identifier "identifier"
-   = (letters:([^;, \"\t\n\r=\-><:\{\*])+ {return letters.join("")})
-  / quotedstring
+    = (letters:([^;, \"\t\n\r=\-><:\{\*])+ {return letters.join("")})
+    / quotedstring
 
 whitespace "whitespace"
-                = c:[ \t] {return c}
+    = c:[ \t] {return c}
 lineend "lineend"
-                = c:[\r\n] {return c}
-mlcomstart      = "/*"
-mlcomend        = "*/"
-mlcomtok        = !"*/" c:. {return c}
-mlcomment       = start:mlcomstart com:(mlcomtok)* end:mlcomend
-{
-  return start + com.join("") + end
-}
-slcomstart      = "//" / "#"
-slcomtok        = [^\r\n]
-slcomment       = start:(slcomstart) com:(slcomtok)*
-{
-  return start + com.join("")
-}
+    = c:[\r\n] {return c}
+
+/* comments - multi line */
+mlcomstart = "/*"
+mlcomend   = "*/"
+mlcomtok   = !"*/" c:. {return c}
+mlcomment
+    = start:mlcomstart com:(mlcomtok)* end:mlcomend
+    {
+      return start + com.join("") + end
+    }
+
+/* comments - single line */
+slcomstart = "//" / "#"
+slcomtok   = [^\r\n]
+slcomment
+    = start:(slcomstart) com:(slcomtok)*
+    {
+      return start + com.join("")
+    }
+
+/* comments in general */
 comment "comment"
-                =   slcomment
-                  / mlcomment
-_               = (whitespace / lineend/ comment)*
+    = slcomment
+    / mlcomment
+_
+   = (whitespace / lineend/ comment)*
+
+numberlike "number"
+    = s:numberlikestring { return s; }
+    / i:number { return i.toString(); }
+
+numberlikestring
+    = '"' s:number '"' { return s.toString(); }
 
 number
     = real
@@ -300,6 +398,13 @@ cardinal "cardinal"
 real "real"
     = digits:(cardinal "." cardinal) { return parseFloat(digits.join("")); }
 
+booleanlike "boolean"
+    = bs:booleanlikestring {return bs;}
+    / b:boolean {return b.toString();}
+
+booleanlikestring
+    = '"' s:boolean '"' { return s; }
+
 boolean
     = "true"i
     / "false"i
@@ -308,8 +413,16 @@ boolean
     / "0"
     / "1"
 
-size "size"
-  = number / "auto"i
+sizelike "size"
+    = sizelikestring
+    / size
+
+sizelikestring
+    = '"' s:size '"' { return s; }
+
+size
+    = n:number {return n.toString(); }
+    / s:"auto"i {return s.toLowerCase(); }
 
 /*
  This file is part of mscgen_js.
