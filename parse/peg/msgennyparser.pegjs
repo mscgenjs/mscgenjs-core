@@ -223,7 +223,9 @@ arcline
     }
 
 arc
-    = regulararc/ spanarc
+    = regulararc
+    / spanarc
+
 regulararc
     = ra:((sa:singlearc {return sa})
     / (da:dualarc {return da})
@@ -262,11 +264,11 @@ spanarc
         return retval;
       })
 
-singlearctoken
+singlearctoken "empty row"
     = "|||"
     / "..."
 
-commenttoken
+commenttoken "---"
     = "---"
 
 dualarctoken
@@ -334,7 +336,7 @@ string
     = quotedstring
     / unquotedstring
 
-quotedstring
+quotedstring "double quoted string" // used in watermark messages
     = '"' s:stringcontent '"' {return s.join("")}
 
 stringcontent
@@ -352,6 +354,7 @@ identifier "identifier"
 
 whitespace "whitespace"
     = c:[ \t] {return c}
+
 lineend "lineend"
     = c:[\r\n] {return c}
 
@@ -392,10 +395,10 @@ number
     = real
     / cardinal
 
-cardinal "cardinal"
+cardinal
     = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
 
-real "real"
+real
     = digits:(cardinal "." cardinal) { return parseFloat(digits.join("")); }
 
 booleanlike "boolean"

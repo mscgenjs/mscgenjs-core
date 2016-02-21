@@ -168,7 +168,7 @@ optionlist
       return optionArray2Object(options);
     }
 
-option
+option "option"
     = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
             return nameValue2Option(name, value);
@@ -248,11 +248,11 @@ spanarc
         }
     )
 
-singlearctoken
+singlearctoken "empty row"
     = "|||"
     / "..."
 
-commenttoken
+commenttoken "---"
     = "---"
 
 dualarctoken
@@ -340,7 +340,7 @@ attributename  "attribute name"
     / "arctextbgcolor"i / "arctextbgcolour"i
     / "arcskip"i
 
-string "string"
+string "double quoted string" // used in watermark messages. Not yet in thos for label attributes
     = '"' s:stringcontent '"' {return s.join("")}
 
 stringcontent
@@ -355,7 +355,6 @@ whitespace "whitespace"
 
 lineend "lineend"
     = c:[\r\n] {return c}
-
 
 /* comments - multi line */
 mlcomstart = "/*"
@@ -394,10 +393,10 @@ number
     = real
     / cardinal
 
-cardinal "cardinal"
+cardinal
     = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
 
-real "real"
+real
     = digits:(cardinal "." cardinal) { return parseFloat(digits.join("")); }
 
 booleanlike "boolean"

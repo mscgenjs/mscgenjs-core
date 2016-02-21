@@ -147,7 +147,7 @@ optionlist
         return optionArray2Object(options);
     }
 
-option
+option "option"
     = _ name:("hscale"i/ "width"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
             var lOption = {};
@@ -213,11 +213,11 @@ dualarc
      /(_ from:identifier _ kind:bidiarrowtoken _ "*" _
       {return {kind:kind, from: from, to:"*", location:location()}})
 
-singlearctoken
+singlearctoken "empty row"
     = "|||"
     / "..."
 
-commenttoken
+commenttoken "---"
     = "---"
 
 dualarctoken
@@ -283,7 +283,7 @@ attributename  "attribute name"
     / "arctextbgcolor"i / "arctextbgcolour"i
     / "arcskip"i
 
-string "string"
+string "double quoted string"
     = '"' s:stringcontent '"' {return s.join("")}
 
 stringcontent
@@ -323,6 +323,7 @@ slcomment
 comment "comment"
     = slcomment
     / mlcomment
+
 _
    = (whitespace / lineend/ comment)*
 
