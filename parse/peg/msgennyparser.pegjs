@@ -290,15 +290,23 @@ comment "comment"
                   / mlcomment
 _               = (whitespace / lineend/ comment)*
 
-number = real / integer
-integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+number
+    = real
+    / cardinal
+
+cardinal "cardinal"
+    = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
 
 real "real"
-  = digits:([0-9]+ "." [0-9]+) { return parseFloat(digits.join("")); }
+    = digits:(cardinal "." cardinal) { return parseFloat(digits.join("")); }
 
-boolean "boolean"
-  = "true"i / "false"i/ "on"i/ "off"i/ "1" / "0"
+boolean
+    = "true"i
+    / "false"i
+    / "on"i
+    / "off"i
+    / "0"
+    / "1"
 
 size "size"
   = number / "auto"i

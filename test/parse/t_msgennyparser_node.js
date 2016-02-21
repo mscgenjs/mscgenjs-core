@@ -122,6 +122,10 @@ describe('parse/msgennyparser', function() {
             var lAST = parser.parse('HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
             expect(lAST).to.deep.equal(fix.astOptions);
         });
+        it("should correctly parse naked reals", function() {
+            var lAST = parser.parse('HSCAle=481.1337;a;');
+            expect(lAST.options.hscale).to.equal("481.1337");
+        });
         it("should keep the labeled name of an entity", function(){
             var lAST = parser.parse('"實體": This is the label for 實體;');
             expect(lAST).to.deep.equal(fix.astLabeledEntity);
@@ -134,7 +138,6 @@ describe('parse/msgennyparser', function() {
                 parser.parse('arcgradient=18; ω; ɑ -> "*" : ɑ -> *; "*" <- β : * <- β; ɣ <-> "*" : ɣ <-> *;')
             ).to.deep.equal(fix.astAsteriskBoth);
         });
-
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {
             expect(parser.parse('wordwraparcs=true;')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('wordwraparcs="true";')).to.deep.equal(fix.astWorwraparcstrue);
@@ -142,6 +145,12 @@ describe('parse/msgennyparser', function() {
             expect(parser.parse('wordwraparcs="on";')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('wordwraparcs=1;')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('wordwraparcs="1";')).to.deep.equal(fix.astWorwraparcstrue);
+            expect(parser.parse('wordwraparcs=false;')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs="false";')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs=off;')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs="off";')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs=0;')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs="0";')).to.deep.equal(fix.astWorwraparcsfalse);
         });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
