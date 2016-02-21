@@ -251,13 +251,13 @@ describe('parse/msgennyparser', function() {
             expect(lAST).to.deep.equal(fix.astCheatSheet);
         });
         it("should throw a SyntaxError when passing a boolean to something expecting numbers", function(){
-            tst.assertSyntaxError("width=true; a;", parser);
+            tst.assertSyntaxError("wordwraparcs=true, width=true; a;", parser);
         });
         it("should throw a SyntaxError when passing a boolean-like string to something expecting numbers", function(){
-            tst.assertSyntaxError('width="true"; a;', parser);
+            tst.assertSyntaxError('wordwraparcs=true, width="true"; a;', parser);
         });
         it("should throw a SyntaxError when passing a non-number like string to something expecting numbers", function(){
-            tst.assertSyntaxError('hscale="general string"; a;', parser);
+            tst.assertSyntaxError('wordwraparcs=true, hscale="general string"; a;', parser);
         });
         it("should throw a SyntaxError when passing a number to something expecting booleans", function(){
             tst.assertSyntaxError("wordwraparcs=481; a;", parser);

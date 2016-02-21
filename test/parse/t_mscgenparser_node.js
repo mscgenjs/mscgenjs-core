@@ -167,10 +167,13 @@ describe('parse/mscgenparser', function() {
             tst.assertSyntaxError("msc{a,note,b,c; a => note;}", parser);
         });
         it("should throw a SyntaxError when passing a boolean to something expecting numbers", function(){
-            tst.assertSyntaxError("msc{width=true; a;}", parser);
+            tst.assertSyntaxError("msc{wordwraparcs=true, width=true; a;}", parser);
         });
         it("should throw a SyntaxError when passing a boolean-like string to something expecting numbers", function(){
-            tst.assertSyntaxError("msc{width=\"true\"; a;}", parser);
+            tst.assertSyntaxError("msc{wordwraparcs=true, width=\"true\"; a;}", parser);
+        });
+        it("should throw a SyntaxError when passing a non-number like string to something expecting numbers", function(){
+            tst.assertSyntaxError("msc{wordwraparcs=true, hscale=\"general string\"; a;}", parser);
         });
         it("should throw a SyntaxError when passing a number to something expecting booleans", function(){
             tst.assertSyntaxError("msc{wordwraparcs=481; a;}", parser);
@@ -181,10 +184,6 @@ describe('parse/mscgenparser', function() {
         it("should throw a SyntaxError when passing a non boolean-like string to something expecting booleans", function(){
             tst.assertSyntaxError("msc{wordwraparcs=\"general string\"; a;}", parser);
         });
-        it("should throw a SyntaxError when passing a non-number like string to something expecting numbers", function(){
-            tst.assertSyntaxError("msc{hscale=\"general string\"; a;}", parser);
-        });
-
     });
 
     describe('#parse() - file based tests', function() {
