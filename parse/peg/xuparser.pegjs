@@ -248,14 +248,14 @@ attributelist   = attributes:((a:attribute "," {return a})* (a:attribute {return
   return optionArray2Object(attributes);
 }
 
-attribute       = _ name:attributename _ "=" _ value:identifier _
-{
-  var lAttribute = {};
-  name = name.toLowerCase();
-  name = name.replace("colour", "color");
-  lAttribute[name] = value;
-  return lAttribute
-}
+attribute
+    = _ name:attributename _ "=" _ value:identifier _
+    {
+      var lAttribute = {};
+      lAttribute[name.toLowerCase().replace("colour", "color")] = value;
+      return lAttribute
+    }
+
 attributename  "attribute name"
                 =  "label"i / "idurl"i/ "id"i / "url"i
                   / "linecolor"i / "linecolour"i
@@ -295,18 +295,26 @@ comment "comment"
                   / mlcomment
 _               = (whitespace / lineend / comment)*
 
-number = real / integer
-integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+number
+    = real
+    / cardinal
+
+cardinal "cardinal"
+    = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
 
 real "real"
-  = digits:([0-9]+ "." [0-9]+) { return parseFloat(digits.join("")); }
+    = digits:(cardinal "." cardinal) { return parseFloat(digits.join("")); }
 
-boolean "boolean"
-  = "true"i / "false"i/ "on"i/ "off"i
+boolean
+    = "true"i
+    / "false"i
+    / "on"i
+    / "off"i
+    / "0"
+    / "1"
 
 size "size"
-  = number / "auto"i
+    = number / "auto"i
 /*
  This file is part of mscgen_js.
 

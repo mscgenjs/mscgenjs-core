@@ -40,6 +40,10 @@ describe('parse/xuparser', function() {
             var lAST = parser.parse('msc{HSCAle=1.2, widtH=800,  ARCGRADIENT="17",woRDwrAParcS="oN", WATERmark="not in mscgen, available in xù and msgenny" ;a;}');
             expect(lAST).to.deep.equal(fix.astOptions);
         });
+        it("should correctly parse naked reals", function() {
+            var lAST = parser.parse('xu{HSCAle=481.1337;a;}');
+            expect(lAST.options.hscale).to.equal("481.1337");
+        });
         it("should produce lowercase for upper/ mixed case attributes", function() {
             var lAST = parser.parse('msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}');
             expect(lAST).to.deep.equal(fix.astMixedAttributes);
@@ -71,6 +75,12 @@ describe('parse/xuparser', function() {
             expect(parser.parse('msc { wordwraparcs="on";}')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('msc { wordwraparcs=1;}')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('msc { wordwraparcs="1";}')).to.deep.equal(fix.astWorwraparcstrue);
+            expect(parser.parse('msc { wordwraparcs=false;}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs="false";}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs=off;}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs="off";}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs=0;}')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('msc { wordwraparcs="0";}')).to.deep.equal(fix.astWorwraparcsfalse);
         });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
