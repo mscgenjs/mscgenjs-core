@@ -24,6 +24,7 @@ define(["./textutensils"], function(utl) {
     var CONFIG = {
         "renderCommentfn" : renderComments,
         "renderOptionfn" : renderOption,
+        "optionIsValidfn": optionIsValid,
         "renderEntityNamefn" : renderEntityName,
         "renderKindfn" : renderKind,
         "supportedOptions" : ["hscale", "width", "arcgradient", "wordwraparcs", "watermark"],
@@ -105,11 +106,13 @@ define(["./textutensils"], function(utl) {
     }
 
     function extractSupportedOptions(pOptions, pSupportedOptions) {
-        return pSupportedOptions.filter(function(pSupportedOption){
-            return undefined !== pOptions[pSupportedOption];
-        }).map(function(pSupportedOption){
-            return {name: pSupportedOption, value: pOptions[pSupportedOption]};
-        });
+        return pSupportedOptions
+            .filter(function(pSupportedOption){
+                return undefined !== pOptions[pSupportedOption];
+            })
+            .map(function(pSupportedOption){
+                return {name: pSupportedOption, value: pOptions[pSupportedOption]};
+            });
     }
 
     function renderComments(pArray) {
@@ -138,8 +141,14 @@ define(["./textutensils"], function(utl) {
                     pOption.value.toString());
     }
 
+    function optionIsValid(/*pOption*/){
+        return true;
+    }
+
     function renderOptions(pOptions) {
-        var lOptions = extractSupportedOptions(pOptions, gConfig.supportedOptions);
+        var lOptions =
+             extractSupportedOptions(pOptions, gConfig.supportedOptions)
+            .filter(gConfig.optionIsValidfn);
         var lRetVal = "";
         if (lOptions.length > 0){
             var lLastOption = lOptions.pop();

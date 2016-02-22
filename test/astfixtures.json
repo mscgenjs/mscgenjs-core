@@ -1755,5 +1755,16 @@
         }
       ]
     ]
+  },
+  "auto": {
+    "meta": {
+      "extendedOptions": true,
+      "extendedArcTypes": false,
+      "extendedFeatures": true
+    },
+    "options": {
+      "width": "auto"
+    },
+    "entities": []
   }
 }

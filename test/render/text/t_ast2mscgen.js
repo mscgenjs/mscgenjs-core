@@ -110,6 +110,11 @@ describe('render/text/ast2mscgen', function() {
 }';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("Does not render width when that equals 'auto'", function(){
+            var lProgram = renderer.render(fix.auto, true);
+            var lExpectedProgram = "msc{}";
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
     describe('#renderAST() - file based tests', function(){
         it('should render all arcs', function(){
