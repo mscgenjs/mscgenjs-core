@@ -1710,5 +1710,16 @@
       "width": "auto"
     },
     "entities": []
+},
+  "fixedwidth": {
+    "meta": {
+      "extendedOptions": true,
+      "extendedArcTypes": false,
+      "extendedFeatures": true
+    },
+    "options": {
+      "width": 800
+    },
+    "entities": []
   }
 }
