@@ -4,7 +4,9 @@
  * in a fashion doxygen can pick it up.
  */
 
+/* jshint node:true */
 /* istanbul ignore else */
+
 if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
