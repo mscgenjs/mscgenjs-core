@@ -70,5 +70,21 @@ describe('render/text/ast2doxygen', function() {
  * \\endmsc';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("Does not render width when that equals 'auto'", function(){
+            var lProgram = renderer.render(fix.auto, true);
+            var lExpectedProgram =
+' * \\msc\n\
+ * \\endmsc';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+        it("Render width when that is a number", function(){
+            var lProgram = renderer.render(fix.fixedwidth, true);
+            var lExpectedProgram =
+' * \\msc\n\
+ *   width=800;\n\
+ * \n\
+ * \\endmsc';
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 });
