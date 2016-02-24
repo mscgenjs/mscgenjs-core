@@ -121,13 +121,22 @@ define(["./textutensils"], function(utl) {
         }, "");
     }
 
+    function isMscGenKeyword(pString){
+        return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+           "wordwraparcs", "label", "color", "idurl", "id", "url",
+           "linecolor", "textcolor",
+           "textbgcolor", "arclinecolor",
+           "arctextcolor", "arctextbgcolor",
+           "arcskip"].indexOf(pString) > -1;
+    }
+
     function renderEntityName(pString) {
         function isQuotable(pString) {
             var lMatchResult = pString.match(/[a-z0-9]+/gi);
             if (!!lMatchResult) {
-                return lMatchResult.length !== 1;
+                return (lMatchResult.length !== 1)||isMscGenKeyword(pString);
             } else {
-                return true && pString !== "*";
+                return pString !== "*";
             }
         }
 

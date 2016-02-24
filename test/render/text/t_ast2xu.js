@@ -141,6 +141,11 @@ describe('render/text/ast2xu', function() {
 }';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("Puts entities with mscgen keyword for a name in quotes", function(){
+            var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
+            var lExpectedProgram = 'msc{"note";}';
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 
     describe('#renderAST() - file based tests', function() {

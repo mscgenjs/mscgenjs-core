@@ -112,6 +112,11 @@ a =>> a : happy-the-peppy - outside;\n\
             var lExpectedProgram = 'a, b;\n\na opt b {\n};\n';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("Does not put entities with mscgen keyword for a name in quotes", function(){
+            var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
+            var lExpectedProgram = 'note;\n\n';
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 
     describe('#renderAST() - file based tests', function() {

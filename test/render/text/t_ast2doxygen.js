@@ -86,5 +86,14 @@ describe('render/text/ast2doxygen', function() {
  * \\endmsc';
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("Puts entities with mscgen keyword for a name in quotes", function(){
+            var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
+            var lExpectedProgram =
+' * \\msc\n\
+ *   "note";\n\
+ * \n\
+ * \\endmsc';
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 });
