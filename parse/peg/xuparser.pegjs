@@ -1,9 +1,9 @@
 /*
  * parser for xù (messsage sequence chart language)
- * 
- * xù is an extension of mscgen, which means each valid mscgen 
+ *
+ * xù is an extension of mscgen, which means each valid mscgen
  * script is also a valid xù script
- * 
+ *
  * see https://github.com/sverweij/mscgen_js/wikum/xu.md for more information
  * - mscgen cannot handle entity names that are also keywords
  *   (box, abox, rbox, note, msc, hscale, width, arcgradient,
@@ -11,7 +11,7 @@
  *   linecolor, linecolour, textcolor, textcolour,
  *   textbgcolor, textbgcolour, arclinecolor, arclinecolour,
  *   arctextcolor, arctextcolour,arctextbgcolor, arctextbgcolour,
- *   arcskip). This grammar does allow them. 
+ *   arcskip). This grammar does allow them.
  */
 
 {
@@ -22,7 +22,7 @@
             });
         }
     }
-        
+
     function merge(pBase, pObjectToMerge){
         pBase = pBase ? pBase : {};
         mergeObject(pBase, pObjectToMerge);
@@ -38,7 +38,13 @@
     }
 
     function flattenBoolean(pBoolean) {
-        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1).toString();
+        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
+    }
+
+    function nameValue2Option(pName, pValue){
+        var lOption = {};
+        lOption[pName.toLowerCase()] = pValue;
+        return lOption;
     }
 
     function entityExists (pEntities, pName) {
@@ -47,10 +53,19 @@
         });
     }
 
+    function isMscGenKeyword(pString){
+        return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+           "wordwraparcs", "label", "color", "idurl", "id", "url",
+           "linecolor", "linecolour", "textcolor", "textcolour",
+           "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
+           "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
+           "arcskip"].indexOf(pString) > -1;
+    }
+
     function buildEntityNotDefinedMessage(pEntityName, pArc){
         return "Entity '" + pEntityName + "' in arc " +
                "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-               "is not defined.";    
+               "is not defined.";
     }
 
     function EntityNotDefinedError (pEntityName, pArc) {
@@ -60,7 +75,7 @@
         if(!!pArc.location){
             this.location = pArc.location;
             this.location.start.line++;
-            this.location.end.line++;        
+            this.location.end.line++;
         }
     }
 
@@ -92,7 +107,10 @@
 
     function hasExtendedOptions (pOptions){
         if (pOptions && pOptions.options){
-            return pOptions.options["watermark"] ? true : false;
+            return (
+                !!pOptions.options["watermark"] ||
+                (!!pOptions.options["width"] && pOptions.options["width"] === "auto")
+            );
         } else {
             return false;
         }
@@ -123,185 +141,308 @@
     }
 }
 
-program         =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
-{
-    d[1] = checkForUndeclaredEntities(d[1], d[2]);
-    var lRetval = merge (d[0], merge (d[1], d[2]));
-    
-    lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
+program
+    =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
+    {
+        d[1] = checkForUndeclaredEntities(d[1], d[2]);
+        var lRetval = merge (d[0], merge (d[1], d[2]));
 
-    if (pre.length > 0) {
-        lRetval = merge({precomment: pre}, lRetval);
+        lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
+
+        if (pre.length > 0) {
+            lRetval = merge({precomment: pre}, lRetval);
+        }
+        /*
+            if (post.length > 0) {
+                lRetval = merge(lRetval, {postcomment:post});
+            }
+        */
+
+        return lRetval;
     }
 
+starttoken
+    = "msc"i
+    / "xu"i
 
-/*
-    if (post.length > 0) {
-        lRetval = merge(lRetval, {postcomment:post});
+declarationlist
+    = (o:optionlist {return {options:o}})?
+      (e:entitylist {return {entities:e}})?
+      (a:arclist {return {arcs:a}})?
+
+optionlist
+    = options:((o:option "," {return o})*
+              (o:option ";" {return o}))
+    {
+      return optionArray2Object(options);
     }
-*/
-    return lRetval;
-}
 
-starttoken      = "msc"i / "xu"i
+option "option"
+    = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
+        {
+            return nameValue2Option(name, value);
+        }
+    / _ name:"width"i _ "=" _ value:sizelike _
+        {
+            return nameValue2Option(name, value);
+        }
+    / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
+        {
+            var lOption = {};
+            lOption[name.toLowerCase()] = flattenBoolean(value);
+            return lOption;
+        }
+    / _ name:"watermark"i _ "=" _ value:string _
+        {
+            return nameValue2Option(name, value);
+        }
 
-declarationlist = (o:optionlist {return {options:o}})?
-                  (e:entitylist {return {entities:e}})?
-                  (a:arclist {return {arcs:a}})?
-optionlist      = options:((o:option "," {return o})*
-                  (o:option ";" {return o}))
-{
-  return optionArray2Object(options);
-}
+entitylist
+    = el:((e:entity "," {return e})* (e:entity ";" {return e}))
+    {
+      el[0].push(el[1]);
+      return el[0];
+    }
 
-option          = _ name:optionname _ "=" _
-                  value:(s:string {return s}
-                     / i:number {return i.toString()}
-                     / b:boolean {return b.toString()}) _
-{
-   var lOption = {};
-   name = name.toLowerCase();
-   if (name === "wordwraparcs"){
-      lOption[name] = flattenBoolean(value);
-   } else {
-      lOption[name]=value;
-   }
-   return lOption;
-}
-optionname      = "hscale"i / "width"i / "arcgradient"i
-                  /"wordwraparcs"i / "watermark"i
-entitylist      = el:((e:entity "," {return e})* (e:entity ";" {return e}))
-{
-  el[0].push(el[1]);
-  return el[0];
-}
-entity "entity" =  _ name:identifier _ attrList:("[" a:attributelist  "]" {return a})? _
-{
-  return merge ({name:name}, attrList);
-}
-arclist         = (a:arcline _ ";" {return a})+
-arcline         = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
-{
-   al[0].push(al[1][0]);
+entity "entity"
+    =  _ name:string _ attrList:("[" a:attributelist  "]" {return a})? _
+        {
+            return merge ({name:name}, attrList);
+        }
+    /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
+        {
+          if (isMscGenKeyword(name)){
+            error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
+          }
+          return merge ({name:name}, attrList);
+        }
 
-   return al[0];
-}
-arc             = regulararc / spanarc
-regulararc      = a:((a:singlearc {return a})
-                   / (a:dualarc {return a})
-                   / (a:commentarc {return a}))
-                      al:("[" al:attributelist "]" {return al})?
-{
-  return merge (a, al);
-}
+arclist
+    = (a:arcline _ ";" {return a})+
 
-singlearc       = _ kind:singlearctoken _ {return {kind:kind}}
-commentarc      = _ kind:commenttoken _ {return {kind:kind}}
-dualarc         =
- (_ from:identifier _ kind:dualarctoken _ to:identifier _
-  {return {kind: kind, from:from, to:to, location:location()}})
-/(_ "*" _ kind:bckarrowtoken _ to:identifier _
-  {return {kind:kind, from: "*", to:to, location:location()}})
-/(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-  {return {kind:kind, from: from, to:"*", location:location()}})
-/(_ from:identifier _ kind:bidiarrowtoken _ "*" _
-  {return {kind:kind, from: from, to:"*", location:location()}})
-spanarc         =
- (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
-  {
-    var lRetval = {kind: kind, from:from, to:to, location:location(), arcs:arclist};
-    return merge (lRetval, al);
-  }
- )
+arcline
+    = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
+    {
+       al[0].push(al[1][0]);
 
-singlearctoken  = "|||" / "..."
-commenttoken    = "---"
-dualarctoken    = kind:(
-                    bidiarrowtoken/ fwdarrowtoken / bckarrowtoken
-                  / boxtoken )
-                 {return kind.toLowerCase()}
-bidiarrowtoken   "bi-directional arrow"
-                =   "--"  / "<->"
-                  / "=="  / "<<=>>"
-                          / "<=>"
-                  / ".."  / "<<>>"
-                  / "::"  / "<:>"
-fwdarrowtoken   "left to right arrow"
-                = "->" / "=>>"/ "=>" / ">>"/ ":>" / "-x"i
-bckarrowtoken   "right to left arrow"
-                = "<-" / "<<=" / "<=" / "<<" / "<:" / "x-"i
-boxtoken        "box"
-                = "note"i / "abox"i / "rbox"i / "box"i
-spanarctoken    "arc spanning box"
-                = kind:("alt"i / "else"i/ "opt"i / "break"i /"par"i
-                  / "seq"i / "strict"i / "neg"i / "critical"i
-                  / "ignore"i / "consider"i / "assert"i
-                  / "loop"i / "ref"i / "exc"i
-                  )
-                 {return kind.toLowerCase()}
+       return al[0];
+    }
+arc
+    = regulararc
+    / spanarc
 
-attributelist   = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
-{
-  return optionArray2Object(attributes);
-}
+regulararc
+    = a:((a:singlearc {return a})
+    / (a:dualarc {return a})
+    / (a:commentarc {return a}))
+    al:("[" al:attributelist "]" {return al})?
+    {
+      return merge (a, al);
+    }
 
-attribute       = _ name:attributename _ "=" _ value:identifier _
-{
-  var lAttribute = {};
-  name = name.toLowerCase();
-  name = name.replace("colour", "color");
-  lAttribute[name] = value;
-  return lAttribute
-}
+singlearc
+    = _ kind:singlearctoken _ {return {kind:kind}}
+
+commentarc
+    = _ kind:commenttoken _ {return {kind:kind}}
+
+dualarc
+    = (_ from:identifier _ kind:dualarctoken _ to:identifier _
+        {return {kind: kind, from:from, to:to, location:location()}})
+    / (_ "*" _ kind:bckarrowtoken _ to:identifier _
+        {return {kind:kind, from: "*", to:to, location:location()}})
+    /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
+        {return {kind:kind, from: from, to:"*", location:location()}})
+    /(_ from:identifier _ kind:bidiarrowtoken _ "*" _
+        {return {kind:kind, from: from, to:"*", location:location()}})
+
+spanarc
+    = (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
+        {
+            var lRetval = {kind: kind, from:from, to:to, location:location(), arcs:arclist};
+            return merge (lRetval, al);
+        }
+    )
+
+singlearctoken "empty row"
+    = "|||"
+    / "..."
+
+commenttoken "---"
+    = "---"
+
+dualarctoken
+    = kind:(bidiarrowtoken
+    / fwdarrowtoken
+    / bckarrowtoken
+    / boxtoken)
+    {return kind.toLowerCase()}
+
+bidiarrowtoken "bi-directional arrow"
+    = "--"  / "<->"
+    / "=="  / "<<=>>"
+            / "<=>"
+    / ".."  / "<<>>"
+    / "::"  / "<:>"
+
+fwdarrowtoken "left to right arrow"
+    = "->"
+    / "=>>"
+    / "=>"
+    / ">>"
+    / ":>"
+    / "-x"i
+
+bckarrowtoken "right to left arrow"
+    = "<-"
+    / "<<="
+    / "<="
+    / "<<"
+    / "<:"
+    / "x-"i
+
+boxtoken "box"
+    = "note"i
+    / "abox"i
+    / "rbox"i
+    / "box"i
+
+spanarctoken "inline expression"
+    = kind:(
+          "alt"i
+        / "else"i
+        / "opt"i
+        / "break"i
+        / "par"i
+        / "seq"i
+        / "strict"i
+        / "neg"i
+        / "critical"i
+        / "ignore"i
+        / "consider"i
+        / "assert"i
+        / "loop"i
+        / "ref"i
+        / "exc"i
+     )
+    {
+        return kind.toLowerCase()
+    }
+
+attributelist
+    = options:((a:attribute "," {return a})* (a:attribute {return a}))
+    {
+      return optionArray2Object(options);
+    }
+
+attribute
+    = _ name:attributename _ "=" _ value:identifier _
+    {
+      var lAttribute = {};
+      lAttribute[name.toLowerCase().replace("colour", "color")] = value;
+      return lAttribute
+    }
+
 attributename  "attribute name"
-                =  "label"i / "idurl"i/ "id"i / "url"i
-                  / "linecolor"i / "linecolour"i
-                  / "textcolor"i / "textcolour"i
-                  / "textbgcolor"i / "textbgcolour"i
-                  / "arclinecolor"i / "arclinecolour"i
-                  / "arctextcolor"i / "arctextcolour"i
-                  / "arctextbgcolor"i / "arctextbgcolour"i
-                  / "arcskip"i
+    = "label"i
+    / "idurl"i
+    / "id"i
+    / "url"i
+    / "linecolor"i      / "linecolour"i
+    / "textcolor"i      / "textcolour"i
+    / "textbgcolor"i    / "textbgcolour"i
+    / "arclinecolor"i   / "arclinecolour"i
+    / "arctextcolor"i   / "arctextcolour"i
+    / "arctextbgcolor"i / "arctextbgcolour"i
+    / "arcskip"i
 
-string          = '"' s:stringcontent '"' {return s.join("")}
-stringcontent   = (!'"' c:('\\"'/ .) {return c})*
+string "double quoted string" // used in watermark messages. Not yet in thos for label attributes
+    = '"' s:stringcontent '"' {return s.join("")}
+
+stringcontent
+    = (!'"' c:('\\"'/ .) {return c})*
 
 identifier "identifier"
- = (letters:([A-Za-z_0-9])+ {return letters.join("")})
-  / string
+    = quotelessidentifier
+    / string
+
+quotelessidentifier
+    = (letters:([A-Za-z_0-9])+ {return letters.join("")})
 
 whitespace "whitespace"
-                = c:[ \t] {return c}
+    = c:[ \t] {return c}
+
 lineend "lineend"
-                = c:[\r\n] {return c}
-mlcomstart      = "/*"
-mlcomend        = "*/"
-mlcomtok        = !"*/" c:. {return c}
-mlcomment       = start:mlcomstart com:(mlcomtok)* end:mlcomend
-{
-  return start + com.join("") + end
-}
-slcomstart      = "//" / "#"
-slcomtok        = [^\r\n]
-slcomment       = start:(slcomstart) com:(slcomtok)*
-{
-  return start + com.join("")
-}
+    = c:[\r\n] {return c}
+
+/* comments - multi line */
+mlcomstart = "/*"
+mlcomend   = "*/"
+mlcomtok   = !"*/" c:. {return c}
+mlcomment
+    = start:mlcomstart com:(mlcomtok)* end:mlcomend
+    {
+      return start + com.join("") + end
+    }
+
+/* comments - single line */
+slcomstart = "//" / "#"
+slcomtok   = [^\r\n]
+slcomment
+    = start:(slcomstart) com:(slcomtok)*
+    {
+      return start + com.join("")
+    }
+
+/* comments in general */
 comment "comment"
-                =   slcomment
-                  / mlcomment
-_               = (whitespace / lineend / comment)*
+    = slcomment
+    / mlcomment
+_
+   = (whitespace / lineend/ comment)*
 
-number = real / integer
-integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+numberlike "number"
+    = s:numberlikestring { return s; }
+    / i:number { return i.toString(); }
 
-real "real"
-  = digits:([0-9]+ "." [0-9]+) { return parseFloat(digits.join("")); }
+numberlikestring
+    = '"' s:number '"' { return s.toString(); }
 
-boolean "boolean"
-  = "true"i / "false"i/ "on"i/ "off"i
+number
+    = real
+    / cardinal
 
+cardinal
+    = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+
+real
+    = digits:(cardinal "." cardinal) { return parseFloat(digits.join("")); }
+
+booleanlike "boolean"
+    = bs:booleanlikestring {return bs;}
+    / b:boolean {return b.toString();}
+
+booleanlikestring
+    = '"' s:boolean '"' { return s; }
+
+boolean
+    = "true"i
+    / "false"i
+    / "on"i
+    / "off"i
+    / "0"
+    / "1"
+
+sizelike "size"
+    = sizelikestring
+    / size
+
+sizelikestring
+    = '"' s:size '"' { return s; }
+
+size
+    = n:number {return n.toString(); }
+    / s:"auto"i {return s.toLowerCase(); }
 /*
  This file is part of mscgen_js.
 

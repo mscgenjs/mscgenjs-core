@@ -3,8 +3,8 @@
  * should create the smallest AST of the three
  */
 msc {
-  hscale="0.6", arcgradient="18", wordwraparcs="false";
-  
+  hscale="0.6", arcgradient="18", wordwraparcs=false;
+
 
   0 [linecolor="white", textcolor="white", arclinecolor="white", arctextcolor="grey"],
   a, b, c, d, e, f, g, h, i, j, k;
@@ -21,7 +21,7 @@ msc {
   i -- j [label="bi-directional\nself reference\n\n", linecolor="white", textcolor="grey"],
 
   j -- k [label="non-directional\nself reference\n\n", linecolor="white", textcolor="grey"];
-  
+
   0 -- a [label="signal"],
   a -> b [label="a -> b"],
   b <- c [label="b <- c"],
@@ -33,7 +33,7 @@ msc {
   h <- h [label="h <- h"],
   i <-> i [label="i <-> i"],
   j -- j [label="j -- j"];
-  
+
   0 -- a [label="method"],
   a => b [label="a => b"],
   b <= c [label="b <= c"],
@@ -57,7 +57,7 @@ msc {
   h << h [label="h << h"],
   i <<>> i [label="i <<>> i"],
   j .. j [label="j .. j"];
-  
+
   0 -- a [label="callback"],
   a =>> b [label="a =>> b"],
   b <<= c [label="b <<= c"],
@@ -66,13 +66,13 @@ msc {
   g =>> g [label="g =>> g"],
   h <<= h [label="g <<= g"],
   i <<=>> i [label="i <<=>>i "];
-  
+
   0 -- a [label="lost"],
   a -x b [label="a -x b"],
   b x- c [label="b x- c"],
   g -x g [label="g -x g"],
   h x- h [label="h x- h"];
-  
+
   0 -- a [label="emphasised"],
   a :> b [label="a :> b"],
   b <: c [label="b <: c"],
@@ -84,36 +84,36 @@ msc {
   h <: h [label="h <: h"],
   i <:> i [label="i <:> i"],
   j :: j [label="j :: j"];
-  
+
   0 -- a [label="note"],
   b note c [label="b note c"],
   e note d [label="e note d"],
   g note g [label="g note g"];
-  
+
   0 -- a [label="box"],
   b box c [label="b box c"],
   e box d [label="e box d"],
   g box g [label="g box g"];
-  
+
   0 -- a [label="rbox"],
   b rbox c [label="b rbox c"],
   e rbox d [label="e rbox d"],
   g rbox g [label="g rbox g"];
-  
+
   0 -- a [label="abox"],
   b abox c [label="b abox c"],
   e abox d [label="e abox d"],
   g abox g [label="g abox g"];
-  
-  
+
+
   0 -- a [label="empty row"],
   ||| [label="|||"];
-  
+
   ... [label="...\n(omitted row)"];
-  
+
   0 -- a [label="comment"],
   --- [label="---"];
-  
+
   0 -- a  [label="broadcasts"];
   a -> *      [label="a -> *"];
   * <- c      [label="* <- c"];
@@ -133,7 +133,7 @@ msc {
   * <: c      [label="* <: c"];
   b <:> *     [label="b <:> *"];
 
-# not supported by mscgen:  
+# not supported by mscgen:
 #  "*" <-> b, "*" <=> e, "*" <<>> g, "*" <<=>> i, "*" <:> b
 
   ||| [label="options used: hscale=\"0.6\", arcgradient=\"18\""];
@@ -153,6 +153,6 @@ msc {
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public
-    License along with mscgen_js. If not, see 
+    License along with mscgen_js. If not, see
     <http://www.gnu.org/licenses/>.
 */

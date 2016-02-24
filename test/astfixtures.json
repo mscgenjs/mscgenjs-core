@@ -130,7 +130,7 @@
       "hscale": "1.2",
       "width": "800",
       "arcgradient": "17",
-      "wordwraparcs": "true"
+      "wordwraparcs": true
     },
     "entities": [
       {
@@ -148,7 +148,7 @@
       "hscale": "1.2",
       "width": "800",
       "arcgradient": "17",
-      "wordwraparcs": "true",
+      "wordwraparcs": true,
       "watermark": "not in mscgen, available in xù and msgenny"
     },
     "entities": [
@@ -207,7 +207,63 @@
       "extendedFeatures": false
     },
     "options": {
-      "wordwraparcs": "true"
+      "wordwraparcs": true
+    },
+    "entities": []
+  },
+  "astBoxArcs": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
+    },
+    "entities": [
+      {
+        "name": "a"
+      },
+      {
+        "name": "b"
+      },
+      {
+        "name": "c"
+      },
+      {
+        "name": "d"
+      }
+    ],
+    "arcs": [
+      [
+        {
+          "kind": "note",
+          "from": "a",
+          "to": "a"
+        },
+        {
+          "kind": "box",
+          "from": "b",
+          "to": "b"
+        },
+        {
+          "kind": "abox",
+          "from": "c",
+          "to": "c"
+        },
+        {
+          "kind": "rbox",
+          "from": "d",
+          "to": "d"
+        }
+      ]
+    ]
+  },
+  "astWorwraparcsfalse": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
+    },
+    "options": {
+      "wordwraparcs": false
     },
     "entities": []
   },
@@ -1698,6 +1754,52 @@
           "linecolor": "#654321"
         }
       ]
+    ]
+  },
+  "auto": {
+    "meta": {
+      "extendedOptions": true,
+      "extendedArcTypes": false,
+      "extendedFeatures": true
+    },
+    "options": {
+      "width": "auto"
+    },
+    "entities": []
+  },
+  "fixedwidth": {
+    "meta": {
+      "extendedOptions": true,
+      "extendedArcTypes": false,
+      "extendedFeatures": true
+    },
+    "options": {
+      "width": 800
+    },
+    "entities": []
+  },
+  "unicodeentityname": {
+      "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+      },
+      "entities": [
+      {
+          "name": "序"
+      }
+    ]
+  },
+  "entityWithMscGenKeywordAsName": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
+    },
+    "entities": [
+      {
+        "name": "note"
+      }
     ]
   }
 }

@@ -13,7 +13,7 @@
   "options": {
     "hscale": "0.6",
     "arcgradient": "18",
-    "wordwraparcs": "false"
+    "wordwraparcs": false
   },
   "entities": [
     {

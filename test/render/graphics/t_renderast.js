@@ -69,6 +69,10 @@ describe('render/graphics/renderast', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/test01_all_possible_arcs.svg'), //
                 path.join(__dirname, '../../fixtures/test01_all_possible_arcs.json'), true);
             });
+            it('should render with a viewBox instead of a width & height', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/astautoscale.svg'), //
+                path.join(__dirname, '../../fixtures/astautoscale.json'), true);
+            });
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {

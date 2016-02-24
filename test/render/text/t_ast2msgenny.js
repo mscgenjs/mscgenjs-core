@@ -39,7 +39,7 @@ describe('render/text/ast2msgenny', function() {
 
         it("should render options when they're in the syntax tree", function() {
             var lProgram = renderer.render(fix.astOptions);
-            var lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs="true",\nwatermark="not in mscgen, available in xù and msgenny";\n\na;\n\n';
+            var lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs=true,\nwatermark="not in mscgen, available in xù and msgenny";\n\na;\n\n';
             assert.equal(lProgram, lExpectedProgram);
         });
         it("should ignore all attributes, except label and name", function() {
@@ -110,6 +110,11 @@ a =>> a : happy-the-peppy - outside;\n\
           };
             var lProgram = renderer.render(lFixture);
             var lExpectedProgram = 'a, b;\n\na opt b {\n};\n';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+        it("Does not put entities with mscgen keyword for a name in quotes", function(){
+            var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
+            var lExpectedProgram = 'note;\n\n';
             assert.equal(lProgram, lExpectedProgram);
         });
     });

@@ -122,6 +122,18 @@ describe('parse/msgennyparser', function() {
             var lAST = parser.parse('HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
             expect(lAST).to.deep.equal(fix.astOptions);
         });
+        it("should correctly parse naked reals", function() {
+            var lAST = parser.parse('HSCAle=481.1337;a;');
+            expect(lAST.options.hscale).to.equal("481.1337");
+        });
+        it("should correctly parse quoted cardinals", function() {
+            var lAST = parser.parse('width="481";a;');
+            expect(lAST.options.width).to.equal("481");
+        });
+        it("should correctly parse quoted reals", function() {
+            var lAST = parser.parse('width="481.1337";a;');
+            expect(lAST.options.width).to.equal("481.1337");
+        });
         it("should keep the labeled name of an entity", function(){
             var lAST = parser.parse('"實體": This is the label for 實體;');
             expect(lAST).to.deep.equal(fix.astLabeledEntity);
@@ -134,7 +146,6 @@ describe('parse/msgennyparser', function() {
                 parser.parse('arcgradient=18; ω; ɑ -> "*" : ɑ -> *; "*" <- β : * <- β; ɣ <-> "*" : ɣ <-> *;')
             ).to.deep.equal(fix.astAsteriskBoth);
         });
-
         it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', function() {
             expect(parser.parse('wordwraparcs=true;')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('wordwraparcs="true";')).to.deep.equal(fix.astWorwraparcstrue);
@@ -142,6 +153,12 @@ describe('parse/msgennyparser', function() {
             expect(parser.parse('wordwraparcs="on";')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('wordwraparcs=1;')).to.deep.equal(fix.astWorwraparcstrue);
             expect(parser.parse('wordwraparcs="1";')).to.deep.equal(fix.astWorwraparcstrue);
+            expect(parser.parse('wordwraparcs=false;')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs="false";')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs=off;')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs="off";')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs=0;')).to.deep.equal(fix.astWorwraparcsfalse);
+            expect(parser.parse('wordwraparcs="0";')).to.deep.equal(fix.astWorwraparcsfalse);
         });
         it("should throw a SyntaxError on an invalid program", function() {
             tst.assertSyntaxError('a', parser);
@@ -233,6 +250,24 @@ describe('parse/msgennyparser', function() {
             var lAST = parser.parse('a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);');
             expect(lAST).to.deep.equal(fix.astCheatSheet);
         });
+        it("should throw a SyntaxError when passing a boolean to something expecting numbers", function(){
+            tst.assertSyntaxError("wordwraparcs=true, width=true; a;", parser);
+        });
+        it("should throw a SyntaxError when passing a boolean-like string to something expecting numbers", function(){
+            tst.assertSyntaxError('wordwraparcs=true, width="true"; a;', parser);
+        });
+        it("should throw a SyntaxError when passing a non-number like string to something expecting numbers", function(){
+            tst.assertSyntaxError('wordwraparcs=true, hscale="general string"; a;', parser);
+        });
+        it("should throw a SyntaxError when passing a number to something expecting booleans", function(){
+            tst.assertSyntaxError("wordwraparcs=481; a;", parser);
+        });
+        it("should throw a SyntaxError when passing a number-like string to something expecting booleans", function(){
+            tst.assertSyntaxError('wordwraparcs="481"; a;', parser);
+        });
+        it("should throw a SyntaxError when passing a non boolean-like string to something expecting booleans", function(){
+            tst.assertSyntaxError('wordwraparcs="general string"; a;', parser);
+        });
     });
 
     describe('#parse() - expansions', function() {
@@ -252,6 +287,14 @@ describe('parse/msgennyparser', function() {
             var lAST = parser.parse ('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
             expect(lAST).to.deep.equal(gCorrectOrderFixture);
         });
+        it('should accept "auto" as a valid width', function(){
+            var lAST = parser.parse('arcgradient= 20, width= auTo ; a,b,c,d,e,f; c =>> *: Hello everyone;');
+            expect(lAST.options.width).to.equal("auto");
+        });
+        it('should accept "AUTO" as a valid width', function(){
+            var lAST = parser.parse('arcgradient= 20, width="AUTO"; a,b,c,d,e,f; c =>> *: Hello everyone;');
+            expect(lAST.options.width).to.equal("auto");
+        });
         it("should throw a SyntaxError on an inline expression without {}", function() {
             tst.assertSyntaxError('a loop b', parser);
         });
@@ -267,6 +310,28 @@ describe('parse/msgennyparser', function() {
         it("should throw a SyntaxError on a missing semi after a closing bracket", function() {
             tst.assertSyntaxError('a loop b {}', parser);
         });
+        it("should throw a SyntaxError when passing a boolean to something expecting size", function(){
+            tst.assertSyntaxError("width=true; a;", parser);
+        });
+        it("should throw a SyntaxError when passing a boolean-like string to something expecting size", function(){
+            tst.assertSyntaxError('width="true"; a;', parser);
+        });
+        it("should throw a SyntaxError when passing a non-number like string to something expecting size", function(){
+            tst.assertSyntaxError('width="general string"; a;', parser);
+        });
+        it("should throw a SyntaxError when passing a boolean to something expecting a string", function(){
+            tst.assertSyntaxError("watermark=true; a;", parser);
+        });
+        it("should throw a SyntaxError when passing a cardinal to something expecting a string", function(){
+            tst.assertSyntaxError("watermark= 481; a;", parser);
+        });
+        it("should throw a SyntaxError when passing a real to something expecting a string", function(){
+            tst.assertSyntaxError("watermark= 481.1337; a;", parser);
+        });
+        it("should throw a SyntaxError when passing a size to something expecting a string", function(){
+            tst.assertSyntaxError("watermark = auto; a;", parser);
+        });
+
 
     });
     describe('#parse() - file based tests', function(){
