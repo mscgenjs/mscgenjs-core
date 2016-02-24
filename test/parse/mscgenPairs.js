@@ -46,6 +46,14 @@ a <<=>> a [label="Label for a <<=>> a", idurl="http://localhost/idurl", id="Just
 }',
             ast: fix.astAllAttributes
         }, {
+            title: 'should parse all possible attributes after a quoted entity name',
+            program: 'msc {\n\
+"a" [label="Label for A", idurl="http://localhost/idurl", id="Just and id", url="http://localhost/url", linecolor="#ABCDEF", textcolor="green", textbgcolor="cyan", arclinecolor="violet", arctextcolor="pink", arctextbgcolor="brown"];\n\
+\n\
+a <<=>> a [label="Label for a <<=>> a", idurl="http://localhost/idurl", id="Just and id", url="http://localhost/url", linecolor="#ABCDEF", textcolor="green", textbgcolor="cyan"];\n\
+}',
+            ast: fix.astAllAttributes
+        }, {
             title: 'should generate arcs to all other arcs with bare *',
             program: 'msc {arcgradient="18"; "ω","ɑ","β","ɣ"; "ɑ" -> * [label="ɑ -> *"]; * <- "β" [label="* <- β"]; "ɣ" <-> * [label="ɣ <-> *"];}',
             ast: fix.astAsteriskBoth
