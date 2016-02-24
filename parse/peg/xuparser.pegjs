@@ -53,6 +53,15 @@
         });
     }
 
+    function isMscGenKeyword(pString){
+        return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+           "wordwraparcs", "label", "color", "idurl", "id", "url",
+           "linecolor", "linecolour", "textcolor", "textcolour",
+           "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
+           "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
+           "arcskip"].indexOf(pString) > -1;
+    }
+
     function buildEntityNotDefinedMessage(pEntityName, pArc){
         return "Entity '" + pEntityName + "' in arc " +
                "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
@@ -198,6 +207,9 @@ entitylist
 entity "entity"
     =  _ name:identifier _ attrList:("[" a:attributelist  "]" {return a})? _
     {
+      if (isMscGenKeyword(name)){
+        error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
+      }
       return merge ({name:name}, attrList);
     }
 

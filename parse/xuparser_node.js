@@ -105,6 +105,9 @@ module.exports = (function() {
         peg$c39 = { type: "literal", value: "]", description: "\"]\"" },
         peg$c40 = function(name, a) {return a},
         peg$c41 = function(name, attrList) {
+              if (isMscGenKeyword(name)){
+                error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
+              }
               return merge ({name:name}, attrList);
             },
         peg$c42 = function(a) {return a},
@@ -3555,6 +3558,15 @@ module.exports = (function() {
             return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
                 return pEntity.name === pName;
             });
+        }
+
+        function isMscGenKeyword(pString){
+            return ["box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
+               "wordwraparcs", "label", "color", "idurl", "id", "url",
+               "linecolor", "linecolour", "textcolor", "textcolour",
+               "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
+               "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
+               "arcskip"].indexOf(pString) > -1;
         }
 
         function buildEntityNotDefinedMessage(pEntityName, pArc){
