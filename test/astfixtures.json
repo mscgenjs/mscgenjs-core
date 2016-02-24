@@ -1789,5 +1789,17 @@
           "name": "序"
       }
     ]
+  },
+  "entityWithMscGenKeywordAsName": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
+    },
+    "entities": [
+      {
+        "name": "note"
+      }
+    ]
   }
 }

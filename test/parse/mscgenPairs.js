@@ -105,6 +105,10 @@ a <<=>> a [label="Label for a <<=>> a", idurl="http://localhost/idurl", id="Just
             title: '"0" is a boolean for wordwraparcs',
             program: 'msc { wordwraparcs="0";}',
             ast: fix.astWorwraparcsfalse
+        }, {
+            title: 'does allow keywords in "quoted" entity names',
+            program: 'msc{"note";}',
+            ast: fix.entityWithMscGenKeywordAsName
         }
     ],
     syntaxErrors : [

@@ -169,13 +169,18 @@ entitylist
     }
 
 entity "entity"
-    =  _ name:identifier _ attrList:("[" a:attributelist  "]" {return a})? _
-    {
-      if (isKeyword(name)){
-        error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
-      }
-      return merge ({name:name}, attrList);
-    }
+    =  _ name:string _ attrList:("[" a:attributelist  "]" {return a})? _
+        {
+            return merge ({name:name}, attrList);
+        }
+    /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
+        {
+          if (isKeyword(name)){
+            error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
+          }
+          return merge ({name:name}, attrList);
+        }
+
 
 arclist
     = (a:arcline _ ";" {return a})+
@@ -290,8 +295,11 @@ stringcontent
     = (!'"' c:('\\"'/ .) {return c})*
 
 identifier "identifier"
-    = (letters:([A-Za-z_0-9])+ {return letters.join("")})
+    = quotelessidentifier
     / string
+
+quotelessidentifier
+    = (letters:([A-Za-z_0-9])+ {return letters.join("")})
 
 whitespace "whitespace"
     = c:[ \t] {return c}
