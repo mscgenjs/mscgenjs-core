@@ -1,6 +1,5 @@
 var parser = require("../../parse/mscgenparser_node");
 var tst    = require("../testutensils");
-var fix    = require("../astfixtures.json");
 var pairs  = require("./mscgenPairs");
 var fs     = require("fs");
 var path   = require("path");

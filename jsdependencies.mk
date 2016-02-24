@@ -105,7 +105,6 @@ test/parse/mscgenPairs.js: \
 
 test/parse/t_mscgenparser_node.js: \
 	parse/mscgenparser_node.js \
-	test/astfixtures.json \
 	test/parse/mscgenPairs.js \
 	test/testutensils.js
 
@@ -117,6 +116,7 @@ test/parse/t_msgennyparser_node.js: \
 test/parse/t_xuparser_node.js: \
 	parse/xuparser_node.js \
 	test/astfixtures.json \
+	test/parse/mscgenPairs.js \
 	test/testutensils.js
 
 test/render/graphics/t_markermanager.js: \
