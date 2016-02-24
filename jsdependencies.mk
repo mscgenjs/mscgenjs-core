@@ -100,9 +100,13 @@ index.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/renderast.js
 
+test/parse/mscgenPairs.js: \
+	test/astfixtures.json
+
 test/parse/t_mscgenparser_node.js: \
 	parse/mscgenparser_node.js \
 	test/astfixtures.json \
+	test/parse/mscgenPairs.js \
 	test/testutensils.js
 
 test/parse/t_msgennyparser_node.js: \

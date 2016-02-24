@@ -172,7 +172,7 @@ entity "entity"
     =  _ name:identifier _ attrList:("[" a:attributelist  "]" {return a})? _
     {
       if (isKeyword(name)){
-        error("Keywords aren't allowed as entity names");
+        error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
       }
       return merge ({name:name}, attrList);
     }

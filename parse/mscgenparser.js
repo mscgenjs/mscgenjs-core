@@ -103,7 +103,7 @@ define ([], function() {
         peg$c36 = function(name, a) {return a},
         peg$c37 = function(name, attrList) {
               if (isKeyword(name)){
-                error("Keywords aren't allowed as entity names");
+                error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
               }
               return merge ({name:name}, attrList);
             },

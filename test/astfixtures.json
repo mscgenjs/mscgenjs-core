@@ -1766,7 +1766,7 @@
       "width": "auto"
     },
     "entities": []
-},
+  },
   "fixedwidth": {
     "meta": {
       "extendedOptions": true,
@@ -1777,5 +1777,17 @@
       "width": 800
     },
     "entities": []
+  },
+  "unicodeentityname": {
+      "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+      },
+      "entities": [
+      {
+          "name": "序"
+      }
+    ]
   }
 }
