@@ -109,7 +109,7 @@ define ([], function() {
                 },
         peg$c42 = function(name, attrList) {
                   if (isMscGenKeyword(name)){
-                    error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
+                    error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
                   }
                   return merge ({name:name}, attrList);
                 },
