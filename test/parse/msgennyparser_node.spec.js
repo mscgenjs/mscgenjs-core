@@ -198,32 +198,7 @@ describe('parse/msgennyparser', function() {
             tst.assertSyntaxError('a, b; a xx b;', parser);
         });
         it("should allow empty inline expressions", function() {
-            var lFixture = {
-                "meta": {
-                    "extendedOptions": false,
-                    "extendedArcTypes": true,
-                    "extendedFeatures": true
-                },
-                "entities": [
-                {
-                    "name": "a"
-                },
-                {
-                    "name": "b"
-                }
-              ],
-                "arcs": [
-                  [
-                  {
-                      "kind": "opt",
-                      "from": "a",
-                      "to": "b",
-                      "arcs": null
-                  }
-                ]
-              ]
-            };
-            expect(parser.parse('a, b; a opt b{};')).to.deep.equal(lFixture);
+            expect(parser.parse('a, b; a opt b{};')).to.deep.equal(fix.emptyinlineexpression);
         });
         it("should throw a SyntaxError on _that's not an inline expression_ arc type", function() {
             tst.assertSyntaxError('a, b; a => b{|||;};', parser);
