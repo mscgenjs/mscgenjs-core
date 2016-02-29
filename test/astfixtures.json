@@ -1801,5 +1801,30 @@
         "name": "note"
       }
     ]
-  }
+  },
+  "emptyinlineexpression": {
+    "meta": {
+            "extendedOptions": false,
+            "extendedArcTypes": true,
+            "extendedFeatures": true
+    },
+    "entities": [
+      {
+            "name": "a"
+      },
+      {
+            "name": "b"
+      }
+    ],
+    "arcs": [
+        [
+            {
+                "kind": "opt",
+                "from": "a",
+                "to": "b",
+                "arcs": null
+            }
+        ]
+      ]
+    }
 }

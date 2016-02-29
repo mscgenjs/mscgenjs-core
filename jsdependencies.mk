@@ -103,20 +103,23 @@ index.js: \
 test/parse/mscgenPairs.js: \
 	test/astfixtures.json
 
-test/parse/t_mscgenparser_node.js: \
+test/parse/mscgenparser_node.spec.js: \
 	parse/mscgenparser_node.js \
 	test/parse/mscgenPairs.js \
 	test/testutensils.js
 
-test/parse/t_msgennyparser_node.js: \
+test/parse/msgennyparser_node.spec.js: \
 	parse/msgennyparser_node.js \
 	test/astfixtures.json \
 	test/testutensils.js
 
-test/parse/t_xuparser_node.js: \
+test/parse/xuPairs.js: \
+	test/astfixtures.json
+
+test/parse/xuparser_node.spec.js: \
 	parse/xuparser_node.js \
-	test/astfixtures.json \
 	test/parse/mscgenPairs.js \
+	test/parse/xuPairs.js \
 	test/testutensils.js
 
 test/render/graphics/t_markermanager.js: \
