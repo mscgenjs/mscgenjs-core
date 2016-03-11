@@ -183,10 +183,6 @@ path{\
   /* fill: #ffc;  no-inherit */\
   fill:white;\
 }\
-.boxtext, .arctext{\
-  font-size:0.8em;\
-  text-anchor:middle;\
-}\
 .comment{\
   stroke-dasharray:5,2;\
 }\
