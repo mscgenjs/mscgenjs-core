@@ -232,7 +232,7 @@ define(["./constants"], function(C) {
 
     function determineStartCorrection(pLine, pClass){
         var lRetval = 0;
-        if (pClass.indexOf("nodi") > -1){
+        if (pClass.indexOf("nodi") < 0){
             lRetval = (pClass.indexOf("bidi") > -1) ? (pLine.xTo > pLine.xFrom ? 7.5*C.LINE_WIDTH : -7.5*C.LINE_WIDTH) : 0;
         }
         return lRetval;
