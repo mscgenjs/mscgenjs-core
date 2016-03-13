@@ -224,7 +224,7 @@ define(["./constants"], function(C) {
 
     function determineEndCorrection(pLine, pClass){
         var lRetval = 0;
-        if (pClass !== "nodi"){
+        if (pClass.indexOf("nodi") < 0){
             lRetval = pLine.xTo > pLine.xFrom ? -7.5*C.LINE_WIDTH : 7.5*C.LINE_WIDTH;
         }
         return lRetval;
@@ -232,8 +232,8 @@ define(["./constants"], function(C) {
 
     function determineStartCorrection(pLine, pClass){
         var lRetval = 0;
-        if (pClass !== "nodi"){
-            lRetval = (pClass === "bidi") ? (pLine.xTo > pLine.xFrom ? 7.5*C.LINE_WIDTH : -7.5*C.LINE_WIDTH) : 0;
+        if (pClass.indexOf("nodi") > -1){
+            lRetval = (pClass.indexOf("bidi") > -1) ? (pLine.xTo > pLine.xFrom ? 7.5*C.LINE_WIDTH : -7.5*C.LINE_WIDTH) : 0;
         }
         return lRetval;
     }
@@ -275,7 +275,7 @@ define(["./constants"], function(C) {
         }
     }
 
-    function _createUTurn(pPoint, pEndY, pWidth, pDontHitHome) {
+    function _createUTurn(pPoint, pEndY, pWidth, pClass, pDontHitHome) {
         var lEndX = pDontHitHome ? pPoint.x + 7.5*C.LINE_WIDTH : pPoint.x;
 
         return _createPath(
@@ -286,7 +286,8 @@ define(["./constants"], function(C) {
             // curve back from.:
             " " + (pPoint.x + pWidth).toString() + "," + (pEndY+0).toString() +
             // curve end-pont:
-            " " + lEndX.toString() + "," + pEndY.toString()
+            " " + lEndX.toString() + "," + pEndY.toString(),
+            pClass
         );
     }
 

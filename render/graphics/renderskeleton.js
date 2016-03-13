@@ -111,11 +111,24 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
 
         return gDocument;
     }
-
+    /*
+        rect
+        rect.entity
+        rect.box
+        path.box
+        text.entity
+        text.emptyarc-text
+        text.directional-text
+        text.box-text
+        text.bidirectional-text
+        text.nondirectional-text
+        text.inline_expression-test
+     */
     function setupStyleElement() {
 /*jshint multistr:true */
 /* jshint -W030 */ /* jshint -W033 */
-        return "svg{\
+        return "\
+svg{\
   font-family:Helvetica,sans-serif;\
   font-size:" + C.FONT_SIZE + "px;\
   font-weight:normal;\
@@ -130,12 +143,15 @@ rect{\
   stroke:black;\
   stroke-width:"+ C.LINE_WIDTH + ";\
 }\
-.bglayer{\
+rect.entity{\
+  fill:white;\
+}\
+rect.label-text-background{\
   fill:white;\
   stroke:white;\
   stroke-width:0;\
 }\
-rect.textbg{\
+rect.bglayer{\
   fill:white;\
   stroke:white;\
   stroke-width:0;\
@@ -144,19 +160,18 @@ line{\
   stroke:black;\
   stroke-width:"+ C.LINE_WIDTH + ";\
 }\
-.arcrowomit{\
-  stroke-dasharray:2,2;\
-}\
 text{\
   color:inherit;\
   stroke:none;\
   text-anchor:middle;\
 }\
-text.entity{\
+text.entity-text{\
   text-decoration:underline;\
 }\
 text.anchor-start{\
   text-anchor:start;\
+}\
+text.box-text{\
 }\
 path{\
   stroke:black;\
@@ -179,8 +194,7 @@ path{\
 .arcrowomit{\
   stroke-dasharray:2,2;\
 }\
-.box{\
-  /* fill: #ffc;  no-inherit */\
+rect.box, path.box{\
   fill:white;\
 }\
 .comment{\
@@ -199,7 +213,8 @@ path{\
   fill:black;\
   font-size: 48pt;\
   font-weight:bold;\
-  opacity:0.14;}";
+  opacity:0.14;\
+}";
 /* jshint +W030 */ /* jshint +W033 */
     }
     return {
