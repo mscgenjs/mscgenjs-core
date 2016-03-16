@@ -160,6 +160,9 @@ line{\
   stroke:black;\
   stroke-width:"+ C.LINE_WIDTH + ";\
 }\
+line.return{\
+  stroke-dasharray:5,2;\
+}\
 text{\
   color:inherit;\
   stroke:none;\
