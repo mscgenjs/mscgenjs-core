@@ -124,101 +124,99 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         text.nondirectional-text
         text.inline_expression-test
      */
-    function setupStyleElement() {
-/*jshint multistr:true */
-/* jshint -W030 */ /* jshint -W033 */
-        return "\
-svg{\
-  font-family:Helvetica,sans-serif;\
-  font-size:" + C.FONT_SIZE + "px;\
-  font-weight:normal;\
-  font-style:normal;\
-  text-decoration:none;\
-  background-color:white;\
-  stroke:black;\
-  color:black;\
-}\
-rect{\
-  fill:none;\
-  stroke:black;\
-  stroke-width:"+ C.LINE_WIDTH + ";\
-}\
-rect.entity{\
-  fill:white;\
-}\
-rect.label-text-background{\
-  fill:white;\
-  stroke:white;\
-  stroke-width:0;\
-}\
-rect.bglayer{\
-  fill:white;\
-  stroke:white;\
-  stroke-width:0;\
-}\
-line{\
-  stroke:black;\
-  stroke-width:"+ C.LINE_WIDTH + ";\
-}\
-line.return{\
-  stroke-dasharray:5,2;\
-}\
-text{\
-  color:inherit;\
-  stroke:none;\
-  text-anchor:middle;\
-}\
-text.entity-text{\
-  text-decoration:underline;\
-}\
-text.anchor-start{\
-  text-anchor:start;\
-}\
-text.box-text{\
-}\
-path{\
-  stroke:black;\
-  color:black;\
-  stroke-width:"+ C.LINE_WIDTH + ";\
-  fill:none;\
-}\
-.dotted{\
-  stroke-dasharray:5,2;\
-}\
-.striped{\
-  stroke-dasharray:10,5;\
-}\
-.arrow-marker{\
-  overflow:visible;\
-}\
-.arrow-style{\
-  stroke-width:1;\
-}\
-.arcrowomit{\
-  stroke-dasharray:2,2;\
-}\
-rect.box, path.box{\
-  fill:white;\
-}\
-.comment{\
-  stroke-dasharray:5,2;\
-}\
- .inherit{\
-  stroke:inherit;\
-  color:inherit;\
-}\
- .inherit-fill{\
-  fill:inherit;\
-}\
-.watermark{\
-  stroke:black;\
-  color:black;\
-  fill:black;\
-  font-size: 48pt;\
-  font-weight:bold;\
-  opacity:0.14;\
-}";
-/* jshint +W030 */ /* jshint +W033 */
+    function setupStyleElement(pVerbose) {
+        /*jshint multistr:true */
+        /* jshint -W030 */ /* jshint -W033 */
+        var lRetval = "\
+            svg{\
+              font-family:Helvetica,sans-serif;\
+              font-size:" + C.FONT_SIZE + "px;\
+              font-weight:normal;\
+              font-style:normal;\
+              text-decoration:none;\
+              background-color:white;\
+              stroke:black;\
+              color:black;\
+            }\
+            rect{\
+              fill:none;\
+              stroke:black;\
+              stroke-width:"+ C.LINE_WIDTH + ";\
+            }\
+            rect.entity{\
+              fill:white;\
+            }\
+            rect.label-text-background{\
+              fill:white;\
+              stroke:white;\
+              stroke-width:0;\
+            }\
+            rect.bglayer{\
+              fill:white;\
+              stroke:white;\
+              stroke-width:0;\
+            }\
+            line{\
+              stroke:black;\
+              stroke-width:"+ C.LINE_WIDTH + ";\
+            }\
+            line.return{\
+              stroke-dasharray:5,2;\
+            }\
+            line.comment{\
+              stroke-dasharray:5,2;\
+            }\
+            line.inline_expression_divider{\
+              stroke-dasharray:10,5;\
+            }\
+            text{\
+              color:inherit;\
+              stroke:none;\
+              text-anchor:middle;\
+            }\
+            text.entity-text{\
+              text-decoration:underline;\
+            }\
+            text.anchor-start{\
+              text-anchor:start;\
+            }\
+            text.box-text{\
+            }\
+            path{\
+              stroke:black;\
+              color:black;\
+              stroke-width:"+ C.LINE_WIDTH + ";\
+              fill:none;\
+            }\
+            .arrow-marker{\
+              overflow:visible;\
+            }\
+            .arrow-style{\
+              stroke-width:1;\
+            }\
+            .arcrowomit{\
+              stroke-dasharray:2,2;\
+            }\
+            rect.box, path.box{\
+              fill:white;\
+            }\
+            .inherit{\
+              stroke:inherit;\
+              color:inherit;\
+            }\
+            .inherit-fill{\
+              fill:inherit;\
+            }\
+            .watermark{\
+              stroke:black;\
+              color:black;\
+              fill:black;\
+              font-size: 48pt;\
+              font-weight:bold;\
+              opacity:0.14;\
+            }";
+        /* jshint +W030 */ /* jshint +W033 */
+        return !!pVerbose ? lRetval.replace(/[\ ]{12}/g, "\n      ") : lRetval.replace(/[\ ]+/g, "");
     }
     return {
         /**

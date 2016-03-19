@@ -644,7 +644,7 @@ define(["./svgelementfactory",
     function createComment(pId, pArc) {
         var lStartX = 0;
         var lEndX = gChart.arcEndX;
-        var lClass = "dotted";
+        var lClass = "comment";
         var lGroup = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
@@ -652,7 +652,7 @@ define(["./svgelementfactory",
 
             lStartX = (entities.getX(pArc.from) - (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) - lArcDepthCorrection;
             lEndX   = (entities.getX(pArc.to)   + (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) + lArcDepthCorrection;
-            lClass  = "striped";
+            lClass  = "inline_expression_divider";
         }
         var lLine = fact.createLine({xFrom: lStartX, yFrom: 0, xTo: lEndX, yTo: 0}, lClass);
 
