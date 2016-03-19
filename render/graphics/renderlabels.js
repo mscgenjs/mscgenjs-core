@@ -37,7 +37,7 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
      }
 
     function renderArcLabelLineBackground(lLabelElement, pTextbgcolor){
-        var lRect = fact.createRect(svgutl.getBBox(lLabelElement), "textbg");
+        var lRect = fact.createRect(svgutl.getBBox(lLabelElement), "label-text-background");
         if (pTextbgcolor) {
             lRect.setAttribute("style", "fill: " + pTextbgcolor + "; stroke:" + pTextbgcolor + ";");
         }
@@ -54,15 +54,23 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
         return lText;
     }
 
+    function determineClasses(pArcKind, pOptionsKind, pPostFix){
+        var lKind = pOptionsKind||pArcKind;
+        var lClass = map.getClass(lKind);
+        var lAggregateClass = map.getAggregateClass(lKind);
+
+        return lClass === lAggregateClass ?
+                            lClass + pPostFix :
+                            lAggregateClass + pPostFix + lClass + pPostFix;
+    }
+
     function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
         var lY = pStartY + ((pPosition + 1/4) * svgutl.calculateTextHeight());
-        var lClass;
+        var lClass = "";
+        lClass = determineClasses(pArc.kind, pOptions && pOptions.kind, "-text ");
         if (!!pOptions){
-            if (pOptions.underline){
-                lClass = "entity";
-            }
             if (pOptions.alignLeft){
-                lClass = "anchor-start";
+                lClass += "anchor-start ";
             }
             if (pOptions.alignAround){
                 lY = pStartY + ((pPosition + 1/4) * (svgutl.calculateTextHeight() + C.LINE_WIDTH));
