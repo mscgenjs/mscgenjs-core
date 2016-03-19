@@ -1,6 +1,6 @@
 {
   "name": "mscgenjs",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "dependencies": {
     "abab": {
       "version": "1.0.3",
@@ -4598,9 +4598,9 @@
       "resolved": "https://registry.npmjs.org/require-dir/-/require-dir-0.3.0.tgz"
     },
     "requirejs": {
-      "version": "2.1.22",
-      "from": "requirejs@2.1.22",
-      "resolved": "https://registry.npmjs.org/requirejs/-/requirejs-2.1.22.tgz"
+      "version": "2.2.0",
+      "from": "requirejs@2.2.0",
+      "resolved": "https://registry.npmjs.org/requirejs/-/requirejs-2.2.0.tgz"
     },
     "reserved-words": {
       "version": "0.1.1",
