@@ -9,7 +9,8 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./idmanager", "./svgelementfactory", "../../lib/lodash/lodash.custom"], function(C, id, fact, _) {
+define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfactory", "../../lib/lodash/lodash.custom"],
+        function(C, id, fact, llfact, _) {
     /**
      * Some SVG specific calculations & workarounds
      */
@@ -20,17 +21,7 @@ define(["./constants", "./idmanager", "./svgelementfactory", "../../lib/lodash/l
 
     /* istanbul ignore next */
     function _createBBoxerSVG(pId){
-        var lSvg = fact.createElement(
-            "svg",
-            {
-                version: "1.1",
-                xmlns: C.SVGNS,
-                "xmlns:xlink": C.XLINKNS,
-                id: pId,
-                width: 0,
-                height: 0
-            }
-        );
+        var lSvg = fact.createSVG(pId);
         gDocument.body.appendChild(lSvg);
 
         return lSvg;
@@ -95,7 +86,7 @@ define(["./constants", "./idmanager", "./svgelementfactory", "../../lib/lodash/l
     }
 
     function createText(pLabel) {
-        var lText = fact.createElement( "text", { x: "0", y: "0" } );
+        var lText = llfact.createElement( "text", { x: "0", y: "0" } );
         lText.appendChild(createTSpan(pLabel));
         return lText;
     }

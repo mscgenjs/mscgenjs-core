@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants"], function(C) {
+define(["./constants", "./svglowlevelfactory", "./geometry.js"], function(C, factll, math) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
@@ -27,30 +27,33 @@ define(["./constants"], function(C) {
 
     var gDocument;
 
-    /* superscript style could also be super or a number (1em) or a % (100%) */
-    var lSuperscriptStyle = "vertical-align : text-top;";
-    lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
-
-    function _setAttribute(pObject, pAttribute, pValue) {
-        if (!!pValue){
-            pObject.setAttribute(pAttribute, pValue);
-        }
-        return pObject;
-    }
-
-    function _setAttributes(pObject, pAttributes) {
-        Object.keys(pAttributes).forEach(function(pKey){
-            _setAttribute(pObject, pKey, pAttributes[pKey]);
-        });
-        return pObject;
-    }
-
-    function _createElement(pElementType, pAttributes){
-        return _setAttributes(
-            gDocument.createElementNS(C.SVGNS, pElementType),
-            pAttributes
+    function _createSVG(pId) {
+        return factll.createElement(
+            "svg",
+            {
+                version: "1.1",
+                id: pId,
+                xmlns: C.SVGNS,
+                "xmlns:xlink": C.XLINKNS,
+                width: 0,
+                height: 0
+            }
         );
     }
+
+    function _createDesc(pId) {
+        return factll.createElement(
+            "desc",
+            {
+                "id": pId
+            }
+        );
+    }
+
+    function _createDefs(){
+        return factll.createElement("defs");
+    }
+
     /**
      * Creates an svg path element given the path pD, with pClass applied
      * (if provided)
@@ -60,7 +63,7 @@ define(["./constants"], function(C) {
      */
     function _createPath(pD, pClass, pColor, pBgColor) {
         return colorBox(
-            _createElement(
+            factll.createElement(
                 "path",
                 {
                     d: pD,
@@ -73,7 +76,7 @@ define(["./constants"], function(C) {
     }
 
     function _createPolygon(pPoints, pClass) {
-        return _createElement(
+        return factll.createElement(
             "polygon",
             {
                 points: pPoints,
@@ -84,7 +87,7 @@ define(["./constants"], function(C) {
 
     function _createRect(pBBox, pClass, pColor, pBgColor, pRX, pRY) {
         return colorBox(
-            _createElement(
+            factll.createElement(
                 "rect",
                 {
                     width: pBBox.width,
@@ -101,6 +104,27 @@ define(["./constants"], function(C) {
         );
     }
 
+    function _createGroup(pId) {
+        return factll.createElement(
+            "g",
+            {
+                id: pId
+            }
+        );
+    }
+
+    function _createUse(pCoords, pLink) {
+        var lUse = factll.createElement(
+            "use",
+            {
+                x: pCoords.x.toString(),
+                y: pCoords.y.toString()
+            }
+        );
+        lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
+        return lUse;
+    }
+
     function colorBox(pElement, pColor, pBgColor){
         var lStyleString = "";
         if (pBgColor) {
@@ -109,8 +133,34 @@ define(["./constants"], function(C) {
         if (pColor) {
             lStyleString += "stroke:" + pColor + ";";
         }
-        return _setAttribute(pElement, "style", lStyleString);
+        return factll.setAttribute(pElement, "style", lStyleString);
     }
+
+    function createSingleLine(pLine, pClass) {
+        return factll.createElement(
+            "line",
+            {
+                x1: pLine.xFrom.toString(),
+                y1: pLine.yFrom.toString(),
+                x2: pLine.xTo.toString(),
+                y2: pLine.yTo.toString(),
+                class: pClass
+            }
+        );
+    }
+
+    function createLink (pURL, pElementToWrap){
+        var lA = gDocument.createElementNS(C.SVGNS, "a");
+        lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
+        lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
+        lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
+        lA.appendChild(pElementToWrap);
+        return lA;
+    }
+
+    /* superscript style could also be super or a number (1em) or a % (100%) */
+    var lSuperscriptStyle = "vertical-align : text-top;";
+    lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
     function _createABox(pBBox, pClass, pColor, pBgColor) {
         var lSlopeOffset = 3;
@@ -165,15 +215,6 @@ define(["./constants"], function(C) {
         );
     }
 
-    function createLink (pURL, pElementToWrap){
-        var lA = gDocument.createElementNS(C.SVGNS, "a");
-        lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
-        lA.setAttributeNS(C.XLINKNS, "xlink:title", pURL);
-        lA.setAttributeNS(C.XLINKNS, "xlink:show", "new");
-        lA.appendChild(pElementToWrap);
-        return lA;
-    }
-
     function createTSpan(pLabel, pURL){
         var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
         var lContent = gDocument.createTextNode(pLabel);
@@ -186,7 +227,7 @@ define(["./constants"], function(C) {
     }
 
     function _createText(pLabel, pCoords, pClass, pURL, pID, pIDURL) {
-        var lText = _createElement(
+        var lText = factll.createElement(
             "text",
             {
                 x: pCoords.x.toString(),
@@ -205,50 +246,18 @@ define(["./constants"], function(C) {
         return lText;
     }
 
-    function deg2rad(pDegrees){
-        return (pDegrees*360)/ (2* Math.PI);
-    }
-
-    function getDiagonalAngle(pBBox) {
-        return 0 - deg2rad(Math.atan(pBBox.height / pBBox.width));
-    }
-
     function _createDiagonalText (pText, pCanvas){
-        return _setAttributes(
+        return factll.setAttributes(
             _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, "watermark"),
             {
                 "transform":
                     "rotate(" +
-                         getDiagonalAngle(pCanvas).toString() + " " +
+                         math.getDiagonalAngle(pCanvas).toString() + " " +
                         ((pCanvas.width) / 2).toString() + " " +
                         ((pCanvas.height) / 2).toString() +
                     ")"
             }
         );
-    }
-
-    function createSingleLine(pLine, pClass) {
-        return _createElement(
-            "line",
-            {
-                x1: pLine.xFrom.toString(),
-                y1: pLine.yFrom.toString(),
-                x2: pLine.xTo.toString(),
-                y2: pLine.yTo.toString(),
-                class: pClass
-            }
-        );
-    }
-
-    function determineDirection(pLine){
-        var ldx = -1;
-        if (pLine.xTo > pLine.xFrom){
-            ldx = 1;
-        }
-        return {
-            dx: ldx,
-            dy: ldx * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
-        };
     }
 
     function determineEndCorrection(pLine, pClass){
@@ -270,7 +279,7 @@ define(["./constants"], function(C) {
     function createDoubleLine(pLine, pClass) {
         var lSpace = C.LINE_WIDTH;
 
-        var lDir = determineDirection(pLine);
+        var lDir = math.getDirection(pLine);
         var lEndCorr = determineEndCorrection(pLine, pClass);
         var lStartCorr = determineStartCorrection(pLine, pClass);
 
@@ -320,27 +329,6 @@ define(["./constants"], function(C) {
         );
     }
 
-    function _createGroup(pId) {
-        return _createElement(
-            "g",
-            {
-                id: pId
-            }
-        );
-    }
-
-    function _createUse(pCoords, pLink) {
-        var lUse = _createElement(
-            "use",
-            {
-                x: pCoords.x.toString(),
-                y: pCoords.y.toString()
-            }
-        );
-        lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
-        return lUse;
-    }
-
     function _createMarker(pId, pClass, pOrient, pViewBox) {
         /* so, why not start at refX=0, refY=0? It would simplify reasoning
          * about marker paths significantly...
@@ -351,7 +339,7 @@ define(["./constants"], function(C) {
          *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
          *   signal)
          */
-        return _createElement(
+        return factll.createElement(
             "marker",
             {
                 orient: pOrient,
@@ -383,7 +371,7 @@ define(["./constants"], function(C) {
          * value for the stroke-dasharray
          */
         lMarker.appendChild(
-            _setAttributes(
+            factll.setAttributes(
                 _createPath(pD, "arrow-style"),
                 {
                     style: "stroke-dasharray:100,1; stroke : " + pColor||"black"
@@ -396,7 +384,7 @@ define(["./constants"], function(C) {
     function _createMarkerPolygon(pId, pPoints, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
         lMarker.appendChild(
-            _setAttributes(
+            factll.setAttributes(
                 _createPolygon(pPoints, "arrow-style"),
                 {
                     "stroke": pColor||"black",
@@ -414,30 +402,32 @@ define(["./constants"], function(C) {
          *
          * @param {document} pDocument
          */
-        init : function(pDocument) {
+        init: function(pDocument) {
             gDocument = pDocument;
+            factll.init(pDocument);
         },
 
         /**
-         * Takes an element, adds the passed attributes to it if they have
-         * a value and returns it.
-         *
-         * @param {element} pElement
-         * @param {object} pAttributes - names/ values object
-         * @return {element}
+         * Creates a basic SVG with id pId, and size 0x0
+         * @param {string} pId
+         * @return {Element} an SVG element
          */
-        setAttributes: _setAttributes,
+        createSVG: _createSVG,
 
         /**
-         * creates the element of type pElementType in the SVG namespace,
-         * adds the passed pAttributes to it (see setAttributes)
-         * and returns the newly created element
+         * Creates a desc element with id pId
          *
-         * @param {string} pElementType
-         * @param {object} pAttributes - names/ values object
-         * @return {element}
+         * @param {string} pID
+         * @returns {Element}
          */
-        createElement: _createElement,
+        createDesc: _createDesc,
+
+        /**
+         * Creates an empty 'defs' element
+         *
+         * @returns {Element}
+         */
+        createDefs: _createDefs,
 
         /**
          * Creates an svg rectangle of width x height, with the top left

@@ -52,36 +52,15 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         return lStyle;
     }
 
-    function setupSkeletonSvg(pSvgElementId) {
-        return fact.createElement(
-            "svg",
-            {
-                version: "1.1",
-                id: pSvgElementId,
-                xmlns: C.SVGNS,
-                "xmlns:xlink": C.XLINKNS
-            }
-        );
-    }
-
     function setupDefs(pElementId, pMarkerDefs) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
-        var lDefs = gDocument.createElementNS(C.SVGNS, "defs");
+        var lDefs = fact.createDefs();
         lDefs.appendChild(setupStyle());
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
-    }
-
-    function setupDesc(pElementId) {
-        return fact.createElement(
-            "desc",
-            {
-                "id": pElementId + "__msc_source"
-            }
-        );
     }
 
     function setupBody(pElementId) {
@@ -109,8 +88,8 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         if (lParent === null) {
             lParent = gDocument.body;
         }
-        var lSkeletonSvg = setupSkeletonSvg(pSvgElementId);
-        lSkeletonSvg.appendChild(setupDesc(pSvgElementId));
+        var lSkeletonSvg = fact.createSVG(pSvgElementId);
+        lSkeletonSvg.appendChild(fact.createDesc(pSvgElementId + "__msc_source"));
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);

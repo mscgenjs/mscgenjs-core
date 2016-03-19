@@ -9,6 +9,7 @@ if ( typeof define !== 'function') {
 }
 
 define(["./svgelementfactory",
+        "./svglowlevelfactory",
         "./svgutensils",
         "./renderutensils",
         "./renderskeleton",
@@ -21,7 +22,7 @@ define(["./svgelementfactory",
         "./entities",
         "./renderlabels",
         "./constants"],
-    function(fact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mark, entities, labels, C) {
+    function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mark, entities, labels, C) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -204,13 +205,13 @@ define(["./svgelementfactory",
         var body = gChart.document.getElementById(id.get("__body"));
         body.setAttribute("transform", "translate(" + pCanvas.horizontaltransform + "," + pCanvas.verticaltransform + ")" + " scale(" + pCanvas.scale + "," + pCanvas.scale + ")");
         if (!!pCanvas.autoscale && pCanvas.autoscale===true){
-            fact.setAttributes(lSvgElement, {
+            llfact.setAttributes(lSvgElement, {
                 width: "100%",
                 height: "100%",
                 viewBox: "0 0 " + pCanvas.width.toString() + " " + pCanvas.height.toString()
             });
         } else {
-            fact.setAttributes(lSvgElement, {
+            llfact.setAttributes(lSvgElement, {
                 width: pCanvas.width.toString(),
                 height: pCanvas.height.toString()
             });
