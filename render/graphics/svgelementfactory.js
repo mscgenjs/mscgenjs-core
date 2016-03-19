@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./svglowlevelfactory", "./geometry.js"], function(C, factll, math) {
+define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll, math) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
