@@ -53,12 +53,15 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
     }
 
     function setupSkeletonSvg(pSvgElementId) {
-        var lRetVal = gDocument.createElementNS(C.SVGNS, "svg");
-        lRetVal.setAttribute("version", "1.1");
-        lRetVal.setAttribute("id", pSvgElementId);
-        lRetVal.setAttribute("xmlns", C.SVGNS);
-        lRetVal.setAttribute("xmlns:xlink", C.XLINKNS);
-        return lRetVal;
+        return fact.createElement(
+            "svg",
+            {
+                version: "1.1",
+                id: pSvgElementId,
+                xmlns: C.SVGNS,
+                "xmlns:xlink": C.XLINKNS
+            }
+        );
     }
 
     function setupDefs(pElementId, pMarkerDefs) {
@@ -73,9 +76,12 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
     }
 
     function setupDesc(pElementId) {
-        var lDesc = gDocument.createElementNS(C.SVGNS, "desc");
-        lDesc.setAttribute("id", pElementId + "__msc_source");
-        return lDesc;
+        return fact.createElement(
+            "desc",
+            {
+                "id": pElementId + "__msc_source"
+            }
+        );
     }
 
     function setupBody(pElementId) {
@@ -111,19 +117,7 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
 
         return gDocument;
     }
-    /*
-        rect
-        rect.entity
-        rect.box
-        path.box
-        text.entity
-        text.emptyarc-text
-        text.directional-text
-        text.box-text
-        text.bidirectional-text
-        text.nondirectional-text
-        text.inline_expression-test
-     */
+
     function setupStyleElement(pVerbose) {
         /*jshint multistr:true */
         /* jshint -W030 */ /* jshint -W033 */

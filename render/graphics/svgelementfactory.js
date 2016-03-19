@@ -12,11 +12,10 @@ if ( typeof define !== 'function') {
 define(["./constants"], function(C) {
     /**
      * Renders individual elements in sequence charts
-     * @exports renderutensils
+     * @exports svgelementfactory
      * @author {@link https://github.com/sverweij | Sander Verweij}
      * knows of:
      *  gDocument
-     *  linewidth (implicit
      *
      * defines:
      *  defaults for
@@ -32,10 +31,26 @@ define(["./constants"], function(C) {
     var lSuperscriptStyle = "vertical-align : text-top;";
     lSuperscriptStyle += "font-size: 0.7em; text-anchor: start;";
 
-    function _createTextNode(pText){
-        return gDocument.createTextNode(pText);
+    function _setAttribute(pObject, pAttribute, pValue) {
+        if (!!pValue){
+            pObject.setAttribute(pAttribute, pValue);
+        }
+        return pObject;
     }
 
+    function _setAttributes(pObject, pAttributes) {
+        Object.keys(pAttributes).forEach(function(pKey){
+            _setAttribute(pObject, pKey, pAttributes[pKey]);
+        });
+        return pObject;
+    }
+
+    function _createElement(pElementType, pAttributes){
+        return _setAttributes(
+            gDocument.createElementNS(C.SVGNS, pElementType),
+            pAttributes
+        );
+    }
     /**
      * Creates an svg path element given the path pD, with pClass applied
      * (if provided)
@@ -44,58 +59,57 @@ define(["./constants"], function(C) {
      * @return {SVGElement}
      */
     function _createPath(pD, pClass, pColor, pBgColor) {
-        var lPath = gDocument.createElementNS(C.SVGNS, "path");
-        lPath.setAttribute("d", pD);
-        if (pClass) {
-            lPath.setAttribute("class", pClass);
-        }
-        colorBox(lPath, pColor, pBgColor);
-        return lPath;
+        return colorBox(
+            _createElement(
+                "path",
+                {
+                    d: pD,
+                    "class": pClass
+                }
+            ),
+            pColor,
+            pBgColor
+        );
     }
 
     function _createPolygon(pPoints, pClass) {
-        var lPath = gDocument.createElementNS(C.SVGNS, "polygon");
-        lPath.setAttribute("points", pPoints);
-        if (pClass) {
-            lPath.setAttribute("class", pClass);
-        }
-        return lPath;
+        return _createElement(
+            "polygon",
+            {
+                points: pPoints,
+                "class": pClass
+            }
+        );
     }
 
     function _createRect(pBBox, pClass, pColor, pBgColor, pRX, pRY) {
-        var lRect = gDocument.createElementNS(C.SVGNS, "rect");
-        lRect.setAttribute("width", pBBox.width);
-        lRect.setAttribute("height", pBBox.height);
-        if (pBBox.x) {
-            lRect.setAttribute("x", pBBox.x);
-        }
-        if (pBBox.y) {
-            lRect.setAttribute("y", pBBox.y);
-        }
-        if (pRX) {
-            lRect.setAttribute("rx", pRX);
-        }
-        if (pRY) {
-            lRect.setAttribute("ry", pRY);
-        }
-        if (pClass) {
-            lRect.setAttribute("class", pClass);
-        }
-        colorBox(lRect, pColor, pBgColor);
-        return lRect;
+        return colorBox(
+            _createElement(
+                "rect",
+                {
+                    width: pBBox.width,
+                    height: pBBox.height,
+                    x: pBBox.x,
+                    y: pBBox.y,
+                    rx: pRX,
+                    ry: pRY,
+                    "class": pClass
+                }
+            ),
+            pColor,
+            pBgColor
+        );
     }
 
     function colorBox(pElement, pColor, pBgColor){
-        if (!!pColor || !!pBgColor) {
-            var lStyleString = "";
-            if (pBgColor) {
-                lStyleString += "fill:" + pBgColor + ";";
-            }
-            if (pColor) {
-                lStyleString += "stroke:" + pColor + ";";
-            }
-            pElement.setAttribute("style", lStyleString);
+        var lStyleString = "";
+        if (pBgColor) {
+            lStyleString += "fill:" + pBgColor + ";";
         }
+        if (pColor) {
+            lStyleString += "stroke:" + pColor + ";";
+        }
+        return _setAttribute(pElement, "style", lStyleString);
     }
 
     function _createABox(pBBox, pClass, pColor, pBgColor) {
@@ -175,12 +189,14 @@ define(["./constants"], function(C) {
     function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
         var lText = gDocument.createElementNS(C.SVGNS, "text");
         if (!!pLabel && pLabel !== ""){
-            lText.setAttribute("x", pX.toString());
-            lText.setAttribute("y", pY.toString());
+            _setAttributes(lText,
+                {
+                    x: pX.toString(),
+                    y: pY.toString(),
+                    "class": pClass
+                }
+            );
 
-            if (pClass) {
-                lText.setAttribute("class", pClass);
-            }
             lText.appendChild(createTSpan(pLabel, pURL));
 
             if (pID) {
@@ -200,15 +216,16 @@ define(["./constants"], function(C) {
     }
 
     function createSingleLine(pLine, pClass) {
-        var lLine = gDocument.createElementNS(C.SVGNS, "line");
-        lLine.setAttribute("x1", pLine.xFrom.toString());
-        lLine.setAttribute("y1", pLine.yFrom.toString());
-        lLine.setAttribute("x2", pLine.xTo.toString());
-        lLine.setAttribute("y2", pLine.yTo.toString());
-        if (pClass) {
-            lLine.setAttribute("class", pClass);
-        }
-        return lLine;
+        return _createElement(
+            "line",
+            {
+                x1: pLine.xFrom.toString(),
+                y1: pLine.yFrom.toString(),
+                x2: pLine.xTo.toString(),
+                y2: pLine.yTo.toString(),
+                "class": pClass
+            }
+        );
     }
 
     function determineDirection(pLine){
@@ -292,30 +309,27 @@ define(["./constants"], function(C) {
     }
 
     function _createGroup(pId) {
-        var lGroup = gDocument.createElementNS(C.SVGNS, "g");
-        if (!!pId) {
-            lGroup.setAttribute("id", pId);
-        }
-
-        return lGroup;
+        return _createElement(
+            "g",
+            {
+                id: pId
+            }
+        );
     }
 
     function _createUse(pX, pY, pLink) {
-        var lUse = gDocument.createElementNS(C.SVGNS, "use");
-        lUse.setAttribute("x", pX.toString());
-        lUse.setAttribute("y", pY.toString());
+        var lUse = _createElement(
+            "use",
+            {
+                x: pX.toString(),
+                y: pY.toString()
+            }
+        );
         lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
         return lUse;
     }
 
     function _createMarker(pId, pClass, pOrient, pViewBox) {
-        var lViewBox = !!pViewBox ? pViewBox : "0 0 10 10";
-        var lMarker = gDocument.createElementNS(C.SVGNS, "marker");
-        lMarker.setAttribute("orient", pOrient);
-        lMarker.setAttribute("id", pId);
-        lMarker.setAttribute("class", pClass);
-        lMarker.setAttribute("viewBox", lViewBox);
-
         /* so, why not start at refX=0, refY=0? It would simplify reasoning
          * about marker paths significantly...
          *
@@ -325,42 +339,59 @@ define(["./constants"], function(C) {
          *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
          *   signal)
          */
-        lMarker.setAttribute("refX", "9");
-        lMarker.setAttribute("refY", "3");
-
+        return _createElement(
+            "marker",
+            {
+                orient: pOrient,
+                id: pId,
+                "class": pClass,
+                viewBox: !!pViewBox ? pViewBox : "0 0 10 10",
+                refX: "9",
+                refY: "3",
+                markerUnits: "strokeWidth",
+                markerWidth: "10",
+                markerHeight: "10",
+            }
+        );
         /* for scaling to the lineWidth of the line the marker is attached to,
          * userSpaceOnUse looks like a good plan, but it is not only the
          * paths that don't scale, it's also the linewidth (which makes sense).
          * We'll have to roll our own path transformation algorithm if we want
          * to change only the linewidth and not the rest
          */
-        lMarker.setAttribute("markerUnits", "strokeWidth");
-        lMarker.setAttribute("markerWidth", "10");
-        lMarker.setAttribute("markerHeight", "10");
 
-        return lMarker;
     }
 
     function _createMarkerPath(pId, pD, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
-        var lPath = _createPath(pD, "arrow-style");
         /* stroke-dasharray: 'none' should work to override any dashes (like in
          * return messages (a >> b;)) and making sure the marker end gets
          * lines
          * This, however, does not work in webkit, hence the curious
          * value for the stroke-dasharray
          */
-        lPath.setAttribute("style", "stroke-dasharray:100,1; stroke : " + pColor||"black");
-        lMarker.appendChild(lPath);
+        lMarker.appendChild(
+            _setAttributes(
+                _createPath(pD, "arrow-style"),
+                {
+                    style: "stroke-dasharray:100,1; stroke : " + pColor||"black"
+                }
+            )
+        );
         return lMarker;
     }
 
     function _createMarkerPolygon(pId, pPoints, pColor) {
         var lMarker = _createMarker(pId, "arrow-marker", "auto");
-        var lPolygon = _createPolygon(pPoints, "arrow-style");
-        lPolygon.setAttribute("stroke", pColor||"black");
-        lPolygon.setAttribute("fill", pColor||"black");
-        lMarker.appendChild(lPolygon);
+        lMarker.appendChild(
+            _setAttributes(
+                _createPolygon(pPoints, "arrow-style"),
+                {
+                    "stroke": pColor||"black",
+                    "fill": pColor||"black"
+                }
+            )
+        );
         return lMarker;
     }
 
@@ -375,12 +406,8 @@ define(["./constants"], function(C) {
             gDocument = pDocument;
         },
 
-        /**
-         * creates an svg textNode in the document with the given pText
-         *
-         * @param {string} pText
-         */
-        createTextNode: _createTextNode,
+        setAttributes: _setAttributes,
+        createElement: _createElement,
 
         /**
          * Creates an svg rectangle of width x height, with the top left
