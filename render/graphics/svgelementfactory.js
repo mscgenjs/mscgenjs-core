@@ -64,7 +64,7 @@ define(["./constants"], function(C) {
                 "path",
                 {
                     d: pD,
-                    "class": pClass
+                    class: pClass
                 }
             ),
             pColor,
@@ -77,7 +77,7 @@ define(["./constants"], function(C) {
             "polygon",
             {
                 points: pPoints,
-                "class": pClass
+                class: pClass
             }
         );
     }
@@ -93,7 +93,7 @@ define(["./constants"], function(C) {
                     y: pBBox.y,
                     rx: pRX,
                     ry: pRY,
-                    "class": pClass
+                    class: pClass
                 }
             ),
             pColor,
@@ -191,7 +191,7 @@ define(["./constants"], function(C) {
             {
                 x: pCoords.x.toString(),
                 y: pCoords.y.toString(),
-                "class": pClass
+                class: pClass
             }
         );
 
@@ -205,8 +205,13 @@ define(["./constants"], function(C) {
         return lText;
     }
 
-    function deg2rad(pDegrees){ return (pDegrees*360)/ (2* Math.PI); }
-    function getDiagonalAngle(pBBox) { return 0 - deg2rad(Math.atan(pBBox.height / pBBox.width));}
+    function deg2rad(pDegrees){
+        return (pDegrees*360)/ (2* Math.PI);
+    }
+
+    function getDiagonalAngle(pBBox) {
+        return 0 - deg2rad(Math.atan(pBBox.height / pBBox.width));
+    }
 
     function _createDiagonalText (pText, pCanvas){
         return _setAttributes(
@@ -230,7 +235,7 @@ define(["./constants"], function(C) {
                 y1: pLine.yFrom.toString(),
                 x2: pLine.xTo.toString(),
                 y2: pLine.yTo.toString(),
-                "class": pClass
+                class: pClass
             }
         );
     }
@@ -351,7 +356,7 @@ define(["./constants"], function(C) {
             {
                 orient: pOrient,
                 id: pId,
-                "class": pClass,
+                class: pClass,
                 viewBox: !!pViewBox ? pViewBox : "0 0 10 10",
                 refX: "9",
                 refY: "3",
@@ -413,7 +418,25 @@ define(["./constants"], function(C) {
             gDocument = pDocument;
         },
 
+        /**
+         * Takes an element, adds the passed attributes to it if they have
+         * a value and returns it.
+         *
+         * @param {element} pElement
+         * @param {object} pAttributes - names/ values object
+         * @return {element}
+         */
         setAttributes: _setAttributes,
+
+        /**
+         * creates the element of type pElementType in the SVG namespace,
+         * adds the passed pAttributes to it (see setAttributes)
+         * and returns the newly created element
+         *
+         * @param {string} pElementType
+         * @param {object} pAttributes - names/ values object
+         * @return {element}
+         */
         createElement: _createElement,
 
         /**
