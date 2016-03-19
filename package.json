@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "amdefine": "1.0.0",
-    "requirejs": "2.1.22"
+    "requirejs": "2.2.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
