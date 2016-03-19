@@ -266,7 +266,7 @@ define(["./svgelementfactory",
 
     function _renderEntity(pEntity, pEntityXPos) {
         gChart.layer.defs.appendChild(renderEntity(pEntity));
-        gChart.layer.sequence.appendChild(fact.createUse(pEntityXPos, 0, id.get(pEntity.name)));
+        gChart.layer.sequence.appendChild(fact.createUse({x: pEntityXPos, y:0}, id.get(pEntity.name)));
     }
 
     /**
@@ -387,10 +387,10 @@ define(["./svgelementfactory",
             lArcRowClass = "arcrowomit";
         }
         gChart.layer.defs.appendChild(renderLifeLines(pEntities, lArcRowClass, rowmemory.get(pRowNumber).height, id.get(lArcRowId)));
-        gChart.layer.lifeline.appendChild(fact.createUse(0, rowmemory.get(pRowNumber).y, id.get(lArcRowId)));
+        gChart.layer.lifeline.appendChild(fact.createUse({x:0, y:rowmemory.get(pRowNumber).y}, id.get(lArcRowId)));
 
         lRowMemory.forEach(function(pRowMemoryLine){
-            pRowMemoryLine.layer.appendChild(fact.createUse(0, rowmemory.get(pRowNumber).y, pRowMemoryLine.id));
+            pRowMemoryLine.layer.appendChild(fact.createUse({x:0, y:rowmemory.get(pRowNumber).y}, pRowMemoryLine.id));
         });
     }
 
@@ -404,7 +404,7 @@ define(["./svgelementfactory",
         gChart.layer.defs.appendChild(renderLifeLines(pEntities, id.get("arcrow")));
 
         /* put some space between the entities and the arcs */
-        gChart.layer.lifeline.appendChild(fact.createUse(0, rowmemory.get(-1).y, id.get("arcrow")));
+        gChart.layer.lifeline.appendChild(fact.createUse({x:0, y:rowmemory.get(-1).y}, id.get("arcrow")));
 
         if (pArcRows) {
             for (var i =0; i< pArcRows.length; i++){
@@ -459,7 +459,7 @@ define(["./svgelementfactory",
     function renderInlineExpressions(pInlineExpressions) {
         pInlineExpressions.forEach(function(pInlineExpression){
             gChart.layer.defs.appendChild(renderInlineExpression(pInlineExpression));
-            gChart.layer.inline.appendChild(fact.createUse(0, rowmemory.get(pInlineExpression.rownum).y, pInlineExpression.id));
+            gChart.layer.inline.appendChild(fact.createUse({x:0, y:rowmemory.get(pInlineExpression.rownum).y}, pInlineExpression.id));
         });
     }
 

@@ -54,7 +54,8 @@ render/graphics/svgelementfactory.js: \
 render/graphics/svgutensils.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/constants.js \
-	render/graphics/idmanager.js
+	render/graphics/idmanager.js \
+	render/graphics/svgelementfactory.js
 
 render/text/ast2animate.js: \
 	lib/lodash/lodash.custom.js

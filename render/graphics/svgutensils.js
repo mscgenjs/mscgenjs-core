@@ -9,7 +9,7 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./idmanager", "../../lib/lodash/lodash.custom"], function(C, id, _) {
+define(["./constants", "./idmanager", "./svgelementfactory", "../../lib/lodash/lodash.custom"], function(C, id, fact, _) {
     /**
      * Some SVG specific calculations & workarounds
      */
@@ -20,13 +20,17 @@ define(["./constants", "./idmanager", "../../lib/lodash/lodash.custom"], functio
 
     /* istanbul ignore next */
     function _createBBoxerSVG(pId){
-        var lSvg = gDocument.createElementNS(C.SVGNS, "svg");
-        lSvg.setAttribute("version", "1.1");
-        lSvg.setAttribute("xmlns", C.SVGNS);
-        lSvg.setAttribute("xmlns:xlink", C.XLINKNS);
-        lSvg.setAttribute("id", pId);
-        lSvg.setAttribute("width", 0);
-        lSvg.setAttribute("height", 0);
+        var lSvg = fact.createElement(
+            "svg",
+            {
+                version: "1.1",
+                xmlns: C.SVGNS,
+                "xmlns:xlink": C.XLINKNS,
+                id: pId,
+                width: 0,
+                height: 0
+            }
+        );
         gDocument.body.appendChild(lSvg);
 
         return lSvg;
@@ -115,11 +119,8 @@ define(["./constants", "./idmanager", "../../lib/lodash/lodash.custom"], functio
     }
 
     function createText(pLabel) {
-        var lText = gDocument.createElementNS(C.SVGNS, "text");
-        lText.setAttribute("x", "0");
-        lText.setAttribute("y", "0");
+        var lText = fact.createElement( "text", { x: "0", y: "0" } );
         lText.appendChild(createTSpan(pLabel));
-
         return lText;
     }
 

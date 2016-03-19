@@ -47,9 +47,9 @@ define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textuten
     function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc){
         var lText = {};
         if (pPosition === 0) {
-            lText = fact.createText(pLine, pMiddle, pY, pClass, pArc.url, pArc.id, pArc.idurl);
+            lText = fact.createText(pLine, {x:pMiddle, y:pY}, pClass, pArc.url, pArc.id, pArc.idurl);
         } else {
-            lText = fact.createText(pLine, pMiddle, pY, pClass, pArc.url);
+            lText = fact.createText(pLine, {x:pMiddle, y:pY}, pClass, pArc.url);
         }
         return lText;
     }

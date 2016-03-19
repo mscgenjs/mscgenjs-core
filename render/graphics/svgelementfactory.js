@@ -185,34 +185,41 @@ define(["./constants"], function(C) {
         }
     }
 
-    // TODO: accept coords object i.o x, y
-    function _createText(pLabel, pX, pY, pClass, pURL, pID, pIDURL) {
-        var lText = gDocument.createElementNS(C.SVGNS, "text");
-        if (!!pLabel && pLabel !== ""){
-            _setAttributes(lText,
-                {
-                    x: pX.toString(),
-                    y: pY.toString(),
-                    "class": pClass
-                }
-            );
-
-            lText.appendChild(createTSpan(pLabel, pURL));
-
-            if (pID) {
-                var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
-                lTSpanID.setAttribute("style", lSuperscriptStyle);
-                lText.appendChild(lTSpanID);
+    function _createText(pLabel, pCoords, pClass, pURL, pID, pIDURL) {
+        var lText = _createElement(
+            "text",
+            {
+                x: pCoords.x.toString(),
+                y: pCoords.y.toString(),
+                "class": pClass
             }
+        );
+
+        lText.appendChild(createTSpan(pLabel, pURL));
+
+        if (pID) {
+            var lTSpanID = createTSpan(" [" + pID + "]", pIDURL);
+            lTSpanID.setAttribute("style", lSuperscriptStyle);
+            lText.appendChild(lTSpanID);
         }
         return lText;
     }
 
+    function deg2rad(pDegrees){ return (pDegrees*360)/ (2* Math.PI); }
+    function getDiagonalAngle(pBBox) { return 0 - deg2rad(Math.atan(pBBox.height / pBBox.width));}
+
     function _createDiagonalText (pText, pCanvas){
-        var lRetval = _createText(pText, pCanvas.width / 2, pCanvas.height / 2, "watermark");
-        var lAngle = 0 - (Math.atan(pCanvas.height / pCanvas.width) * 360 / (2 * Math.PI));
-        lRetval.setAttribute("transform", "rotate(" + lAngle.toString() + " " + ((pCanvas.width) / 2).toString() + " " + ((pCanvas.height) / 2).toString() + ")");
-        return lRetval;
+        return _setAttributes(
+            _createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, "watermark"),
+            {
+                "transform":
+                    "rotate(" +
+                         getDiagonalAngle(pCanvas).toString() + " " +
+                        ((pCanvas.width) / 2).toString() + " " +
+                        ((pCanvas.height) / 2).toString() +
+                    ")"
+            }
+        );
     }
 
     function createSingleLine(pLine, pClass) {
@@ -317,12 +324,12 @@ define(["./constants"], function(C) {
         );
     }
 
-    function _createUse(pX, pY, pLink) {
+    function _createUse(pCoords, pLink) {
         var lUse = _createElement(
             "use",
             {
-                x: pX.toString(),
-                y: pY.toString()
+                x: pCoords.x.toString(),
+                y: pCoords.y.toString()
             }
         );
         lUse.setAttributeNS(C.XLINKNS, "xlink:href", "#" + pLink);
@@ -464,8 +471,7 @@ define(["./constants"], function(C) {
          * (pX, pY).
          *
          * @param {string} pLabel
-         * @param {number} pX
-         * @param {number} pY
+         * @param {object} pCoords
          * @param {string} pClass - reference to the css class to be applied
          * @param {string=} pURL - link to render
          * @param {string=} pID - (small) id text to render
@@ -496,8 +502,7 @@ define(["./constants"], function(C) {
          * Creates a u-turn, departing on pStartX, pStarty and
          * ending on pStartX, pEndY with a width of pWidth
          *
-         * @param {number} pStartX
-         * @param {number} pStartY
+         * @param {object} pPoint
          * @param {number} pEndY
          * @param {number} pWidth
          * @param {string} pClass - reference to the css class to be applied
@@ -514,8 +519,7 @@ define(["./constants"], function(C) {
 
         /**
          * Creates an svg use for the SVGElement identified by pLink at coordinates pX, pY
-         * @param {number} pX
-         * @param {number} pY
+         * @param {object} pCoords
          * @param {number} pLink
          * @return {SVGElement}
          */
