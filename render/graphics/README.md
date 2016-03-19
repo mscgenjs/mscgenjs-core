@@ -77,3 +77,20 @@ We use the following structure for the svg
   This is needed to make sure text fits within boxes, rows are of the
   correct height and texts get the right background color. We rely on the
   SVG function getBBox for this.
+
+## getBBox to calculate element's sizes
+To be able to calculate the actual bounding box of an element it has
+to be in an SVG in the DOM tree first. Hence we temporarily create an element,
+attach it to the DOM tree, calculate its bounding box and remove it again.
+
+DOM operations are expensive, so we add and remove as little as possible. In
+earlier implementations we took these approaches:
+- Have an SVG sitting in the DOM tree. This works, but is obviously bad design.
+- Create an SVG each time we need to calculate an element's size, and remove
+  it when we were done with it. When we tried to identify slow running pieces
+  of code, we targeted this one, and
+- Create the SVG the first time we need to calculate an element's size,
+  and re-use it. From a (small) sample of runs we found the last approach to be
+  ~1.3x faster then the previous one (270ms vs 200ms on average) so we kept
+  that. Drawback is that it leaves a small, 0x0 svg in the document the SVG
+  is rendered in.

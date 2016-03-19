@@ -48,30 +48,6 @@ define(["./constants", "./idmanager", "./svgelementfactory", "../../lib/lodash/l
 
         return lRetval;
     }
-    // ttl: 824ms,
-    // renderAST:     -, 747  , 643, 614, 560
-    // bbox time: 194ms, 244ms, 184, 190, 197
-    /*
-    function getNativeBBoxWithoutCache(pElement){
-        var lSvg = _createBBoxerSVG (gSvgBBoxerId);
-
-        lSvg.appendChild(pElement);
-        var lRetval = pElement.getBBox();
-        lSvg.removeChild(pElement);
-        gDocument.body.removeChild(lSvg);
-        return lRetval;
-    }
-    */
-    // ttl:       1.13s,  912ms, 939ms
-    // renderAST:     -,      -, 736, 874
-    // bbox time: 332ms,  227ms, 252ms, 262
-
-
-
-    // function getNativeBBox(pElement){
-    //     // return getNativeBBoxWithoutCache(pElement);
-    //     return getNativeBBoxWithCache(pElement);
-    // }
 
     /*
      * workaround for Opera browser quirk: if the dimensions
