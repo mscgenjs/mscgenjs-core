@@ -170,7 +170,7 @@ define(["./svgelementfactory",
             "width" : (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
             "height" : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
             "horizontaltransform" : (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
-            "autoscale" : !!pAST.options && !!pAST.options.width && pAST.options.width === "auto", 
+            "autoscale" : !!pAST.options && !!pAST.options.width && pAST.options.width === "auto",
             "verticaltransform" : PAD_VERTICAL,
             "scale" : 1
         };

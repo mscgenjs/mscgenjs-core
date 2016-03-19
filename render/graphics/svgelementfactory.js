@@ -350,7 +350,7 @@ define(["./constants"], function(C) {
                 refY: "3",
                 markerUnits: "strokeWidth",
                 markerWidth: "10",
-                markerHeight: "10",
+                markerHeight: "10"
             }
         );
         /* for scaling to the lineWidth of the line the marker is attached to,
