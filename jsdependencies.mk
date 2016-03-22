@@ -32,6 +32,7 @@ render/graphics/renderast.js: \
 	render/graphics/renderutensils.js \
 	render/graphics/rowmemory.js \
 	render/graphics/svgelementfactory.js \
+	render/graphics/svglowlevelfactory.js \
 	render/graphics/svgutensils.js \
 	render/graphics/swap.js \
 	render/text/arcmappings.js \
@@ -49,12 +50,19 @@ render/graphics/renderskeleton.js: \
 	render/graphics/svgelementfactory.js
 
 render/graphics/svgelementfactory.js: \
+	render/graphics/constants.js \
+	render/graphics/geometry.js \
+	render/graphics/svglowlevelfactory.js
+
+render/graphics/svglowlevelfactory.js: \
 	render/graphics/constants.js
 
 render/graphics/svgutensils.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/constants.js \
-	render/graphics/idmanager.js
+	render/graphics/idmanager.js \
+	render/graphics/svgelementfactory.js \
+	render/graphics/svglowlevelfactory.js
 
 render/text/ast2animate.js: \
 	lib/lodash/lodash.custom.js

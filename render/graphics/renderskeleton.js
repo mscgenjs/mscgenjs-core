@@ -52,30 +52,15 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         return lStyle;
     }
 
-    function setupSkeletonSvg(pSvgElementId) {
-        var lRetVal = gDocument.createElementNS(C.SVGNS, "svg");
-        lRetVal.setAttribute("version", "1.1");
-        lRetVal.setAttribute("id", pSvgElementId);
-        lRetVal.setAttribute("xmlns", C.SVGNS);
-        lRetVal.setAttribute("xmlns:xlink", C.XLINKNS);
-        return lRetVal;
-    }
-
     function setupDefs(pElementId, pMarkerDefs) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
-        var lDefs = gDocument.createElementNS(C.SVGNS, "defs");
+        var lDefs = fact.createDefs();
         lDefs.appendChild(setupStyle());
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
-    }
-
-    function setupDesc(pElementId) {
-        var lDesc = gDocument.createElementNS(C.SVGNS, "desc");
-        lDesc.setAttribute("id", pElementId + "__msc_source");
-        return lDesc;
     }
 
     function setupBody(pElementId) {
@@ -103,27 +88,15 @@ define(["./svgelementfactory", "./constants"], function(fact, C) {
         if (lParent === null) {
             lParent = gDocument.body;
         }
-        var lSkeletonSvg = setupSkeletonSvg(pSvgElementId);
-        lSkeletonSvg.appendChild(setupDesc(pSvgElementId));
+        var lSkeletonSvg = fact.createSVG(pSvgElementId);
+        lSkeletonSvg.appendChild(fact.createDesc(pSvgElementId + "__msc_source"));
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
 
         return gDocument;
     }
-    /*
-        rect
-        rect.entity
-        rect.box
-        path.box
-        text.entity
-        text.emptyarc-text
-        text.directional-text
-        text.box-text
-        text.bidirectional-text
-        text.nondirectional-text
-        text.inline_expression-test
-     */
+
     function setupStyleElement(pVerbose) {
         /*jshint multistr:true */
         /* jshint -W030 */ /* jshint -W033 */
