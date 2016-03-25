@@ -718,7 +718,17 @@ define(["./svgelementfactory",
                 break;
             default :
                 var lArcDepthCorrection = (gChart.maxDepth - pArc.depth ) * 2 * C.LINE_WIDTH;
-                lBox = fact.createRect({width: lWidth + lArcDepthCorrection * 2, height: lHeight, x: lStart - lArcDepthCorrection, y: 0}, "box inline_expression " + pArc.kind, pArc.linecolor, pArc.textbgcolor);
+                lBox = fact.createRect(
+                    {
+                        width: lWidth + lArcDepthCorrection * 2,
+                        height: lHeight,
+                        x: lStart - lArcDepthCorrection,
+                        y: 0
+                    },
+                    "box inline_expression " + pArc.kind,
+                    pArc.linecolor,
+                    pArc.textbgcolor
+                );
         }
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
