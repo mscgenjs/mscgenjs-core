@@ -14,6 +14,9 @@ indexAMD.js: \
 	render/text/ast2msgenny.js \
 	render/text/ast2xu.js
 
+render/graphics/csstemplates.js: \
+	lib/lodash/lodash.custom.js
+
 render/graphics/entities.js: \
 	render/graphics/constants.js \
 	render/graphics/renderlabels.js
@@ -47,6 +50,7 @@ render/graphics/renderlabels.js: \
 
 render/graphics/renderskeleton.js: \
 	render/graphics/constants.js \
+	render/graphics/csstemplates.js \
 	render/graphics/svgelementfactory.js
 
 render/graphics/svgelementfactory.js: \
