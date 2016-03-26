@@ -491,7 +491,7 @@ define(["./svgelementfactory",
                                 },
                                 pClass);
             if (pEntity.linecolor) {
-                lLine.setAttribute("style", "stroke : " + pEntity.linecolor + ";");
+                lLine.setAttribute("style", "stroke:" + pEntity.linecolor + ";");
             }
             lGroup.appendChild(lLine);
         });
@@ -666,7 +666,7 @@ define(["./svgelementfactory",
         lGroup.appendChild(createLifeLinesText(pId + "_txt", pArc));
 
         if (pArc.linecolor) {
-            lLine.setAttribute("style", "stroke: " + pArc.linecolor + ";");
+            lLine.setAttribute("style", "stroke:" + pArc.linecolor + ";");
         }
 
         return lGroup;
