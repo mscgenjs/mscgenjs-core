@@ -15,7 +15,7 @@
     "istanbul": "0.4.2",
     "js-makedepend": "0.2.1",
     "jscs": "2.11.0",
-    "jsdom": "8.1.0",
+    "jsdom": "8.2.0",
     "jshint": "2.9.1",
     "lodash-cli": "4.6.1",
     "mocha": "2.4.5",
