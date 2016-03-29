@@ -1,6 +1,6 @@
 {
   "name": "mscgenjs",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Implementation of MscGen in JavaScript",
   "main": "index.js",
   "dependencies": {
