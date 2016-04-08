@@ -45,19 +45,19 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return pDefs;
     }
 
-    function setupStyle() {
+    function setupStyle(pStyleAdditions) {
         var lStyle = gDocument.createElement("style");
         lStyle.setAttribute("type", "text/css");
-        lStyle.appendChild(gDocument.createTextNode(setupStyleElement()));
+        lStyle.appendChild(gDocument.createTextNode(setupStyleElement(pStyleAdditions)));
         return lStyle;
     }
 
-    function setupDefs(pElementId, pMarkerDefs) {
+    function setupDefs(pElementId, pMarkerDefs, pStyleAdditions) {
         /* definitions - which will include style, markers and an element
          * to put "dynamic" definitions in
          */
         var lDefs = fact.createDefs();
-        lDefs.appendChild(setupStyle());
+        lDefs.appendChild(setupStyle(pStyleAdditions));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
@@ -80,7 +80,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return pWindow.document;
     }
 
-    function _bootstrap(pParentElementId, pSvgElementId, pMarkerDefs, pWindow) {
+    function _bootstrap(pParentElementId, pSvgElementId, pMarkerDefs, pStyleAdditions, pWindow) {
 
         gDocument = _init(pWindow);
 
@@ -90,18 +90,18 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         }
         var lSkeletonSvg = fact.createSVG(pSvgElementId);
         lSkeletonSvg.appendChild(fact.createDesc(pSvgElementId + "__msc_source"));
-        lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs));
+        lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pStyleAdditions));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
         lParent.appendChild(lSkeletonSvg);
 
         return gDocument;
     }
 
-    function setupStyleElement() {
+    function setupStyleElement(pStyleAdditions) {
         return csstemplates.baseTemplate({
             fontSize : C.FONT_SIZE,
             lineWidth: C.LINE_WIDTH
-        });
+        }) + (!!pStyleAdditions ? pStyleAdditions : "");
     }
     return {
         /**
@@ -111,6 +111,8 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
          *
          * @param {string} pParentElementId
          * @param {string} pSvgElementId
+         * @param {object} pMarkerDefs
+         * @param {string} pStyleAdditions
          * @param {window} pWindow
          */
         bootstrap : _bootstrap,

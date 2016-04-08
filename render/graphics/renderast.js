@@ -78,7 +78,13 @@ define(["./svgelementfactory",
     function renderASTPre(pAST, pSource, pParentElementId, pWindow){
         id.setPrefix(pParentElementId);
 
-        gChart.document = skel.bootstrap(pParentElementId, id.get(), mark.getMarkerDefs(id.get(), pAST), pWindow);
+        gChart.document = skel.bootstrap(
+            pParentElementId,
+            id.get(),
+            mark.getMarkerDefs(id.get(), pAST),
+            null, // "rect.bglayer{} text.entity-text{ text-decoration:none } rect.entity{ stroke:none; } line,rect,path{ stroke-width:1px } .arrow-style{ stroke-width:1.4; } rect.label-text-background { opacity: 0.9;}rect.bglayer{fill:none}",
+            pWindow
+        );
         svgutl.init(gChart.document);
         initializeChart(gChart, pAST.depth);
 
