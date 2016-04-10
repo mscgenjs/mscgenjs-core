@@ -61,10 +61,10 @@ define(["./svgelementfactory",
     };
     var gInlineExpressionMemory = [];
 
-    function _renderAST(pAST, pSource, pParentElementId, pWindow) {
+    function _renderAST(pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
         var lAST = flatten.flatten(pAST);
 
-        renderASTPre(lAST, pSource, pParentElementId, pWindow);
+        renderASTPre(lAST, pSource, pParentElementId, pWindow, pStyleAdditions);
         renderASTMain(lAST);
         renderASTPost(lAST);
         var lElement = pWindow.document.getElementById(pParentElementId);
@@ -75,14 +75,14 @@ define(["./svgelementfactory",
         }
     }
 
-    function renderASTPre(pAST, pSource, pParentElementId, pWindow){
+    function renderASTPre(pAST, pSource, pParentElementId, pWindow, pStyleAdditions){
         id.setPrefix(pParentElementId);
 
         gChart.document = skel.bootstrap(
             pParentElementId,
             id.get(),
             mark.getMarkerDefs(id.get(), pAST),
-            null, // "rect.bglayer{} text.entity-text{ text-decoration:none } rect.entity{ stroke:none; } line,rect,path{ stroke-width:1px } .arrow-style{ stroke-width:1.4; } rect.label-text-background { opacity: 0.9;}rect.bglayer{fill:none}",
+            pStyleAdditions,
             pWindow
         );
         svgutl.init(gChart.document);
@@ -769,6 +769,7 @@ define(["./svgelementfactory",
          * @param {string} pParentElementId - the id of the parent element in which
          * to put the __svg_output element
          * @param {window} pWindow - the browser window to put the svg in
+         * @param {string} pStyleAdditions - valid css that augments the default style
          */
         renderAST : _renderAST
     };
