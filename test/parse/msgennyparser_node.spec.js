@@ -78,18 +78,18 @@ var gUnicodeEntityInArcFixture = {
     "arcs": [
       [
       {
-          "kind": "->",
-          "from": "序",
-          "to": "序"
-      }
+        "kind": "->",
+        "from": "序",
+        "to": "序"
+    }
     ],
     [
       {
-          "kind": "=>>",
-          "from": "🏭",
-          "to": "👳",
-          "label": "👷+🔧"
-      }
+        "kind": "=>>",
+        "from": "🏭",
+        "to": "👳",
+        "label": "👷+🔧"
+    }
     ]
   ]
 };

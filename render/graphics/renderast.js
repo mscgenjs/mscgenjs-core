@@ -237,24 +237,24 @@ define(["./svgelementfactory",
      * @return <int> - height - the height of the heighest entity
      */
     function getMaxEntityHeight(pEntities){
-         var lHighestEntity = pEntities[0];
-         var lHWM = 2;
-         pEntities.forEach(function(pEntity){
-             var lNoEntityLines = entities.getNoEntityLines(pEntity.label);
-             if (lNoEntityLines > lHWM){
-                 lHWM = lNoEntityLines;
-                 lHighestEntity = pEntity;
-             }
-         });
-         if (lHWM > 2){
-             return Math.max(entities.getDims().height,
-                             svgutl.getBBox(
-                                 renderEntity(lHighestEntity)
-                             ).height
-             );
-         }
-         return entities.getDims().height;
-     }
+        var lHighestEntity = pEntities[0];
+        var lHWM = 2;
+        pEntities.forEach(function(pEntity){
+            var lNoEntityLines = entities.getNoEntityLines(pEntity.label);
+            if (lNoEntityLines > lHWM){
+                lHWM = lNoEntityLines;
+                lHighestEntity = pEntity;
+            }
+        });
+        if (lHWM > 2){
+            return Math.max(entities.getDims().height,
+                            svgutl.getBBox(
+                                renderEntity(lHighestEntity)
+                            ).height
+            );
+        }
+        return entities.getDims().height;
+    }
 
     function renderEntity(pEntity) {
         var lGroup = fact.createGroup(id.get(pEntity.name));

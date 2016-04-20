@@ -84,30 +84,30 @@ a =>> a : happy-the-peppy - outside;\n\
         });
         it("should correctly render empty inline expressions", function() {
             var lFixture = {
-              "meta": {
-                  "extendedOptions": false,
-                  "extendedArcTypes": true,
-                  "extendedFeatures": true
-              },
-              "entities": [
-                {
+                "meta": {
+                    "extendedOptions": false,
+                    "extendedArcTypes": true,
+                    "extendedFeatures": true
+                },
+                "entities": [
+                  {
                     "name": "a"
                 },
-                {
+                  {
                     "name": "b"
                 }
-              ],
-              "arcs": [
-                [
-                  {
-                      "kind": "opt",
-                      "from": "a",
-                      "to": "b",
-                      "arcs": null
-                  }
+                ],
+                "arcs": [
+                  [
+                    {
+                        "kind": "opt",
+                        "from": "a",
+                        "to": "b",
+                        "arcs": null
+                    }
+                  ]
                 ]
-              ]
-          };
+            };
             var lProgram = renderer.render(lFixture);
             var lExpectedProgram = 'a, b;\n\na opt b {\n};\n';
             assert.equal(lProgram, lExpectedProgram);
