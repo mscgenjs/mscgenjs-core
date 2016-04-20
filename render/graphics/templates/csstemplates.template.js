@@ -7,10 +7,10 @@ if ( typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../../lib/lodash/lodash.custom"], function(_) {
+define([], function() {
     "use strict";
     return {
-        baseTemplate : _.template("<%= baseTemplateString %>")
+        baseTemplate : "<%= baseTemplateString %>"
     };
 });
 /*
