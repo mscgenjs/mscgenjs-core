@@ -75,7 +75,8 @@ module.exports = (function(){
                 inputType: "mscgen",
                 elementId: "__svg",
                 window: pOptions.window||window,
-                includeSource: true
+                includeSource: true,
+                styleAdditions: null
             });
 
             try {
@@ -86,7 +87,8 @@ module.exports = (function(){
                         getAST(pScript, lOptions.inputType),
                         lOptions.includeSource ? pScript : null,
                         lOptions.elementId,
-                        lOptions.window
+                        lOptions.window,
+                        lOptions.styleAdditions
                     )
                 );
             } catch (pException){
