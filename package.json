@@ -14,7 +14,7 @@
     "codecov.io": "0.1.6",
     "istanbul": "0.4.3",
     "js-makedepend": "0.2.3",
-    "jscs": "3.0.3",
+    "jscs": "2.11.0",
     "jsdom": "8.4.0",
     "jshint": "2.9.2",
     "lodash-cli": "4.11.1",
