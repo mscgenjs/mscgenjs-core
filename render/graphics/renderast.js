@@ -192,7 +192,7 @@ define(["./svgelementfactory",
     }
 
     function renderWatermark(pWatermark, pCanvas) {
-        gChart.layer.watermark.appendChild(fact.createDiagonalText(pWatermark, pCanvas));
+        gChart.layer.watermark.appendChild(fact.createDiagonalText(pWatermark, pCanvas, "watermark"));
     }
 
     function postProcessOptions(pOptions, pCanvas) {
@@ -456,7 +456,7 @@ define(["./svgelementfactory",
         var lHeight = Math.max(lBBox.height + 2 * C.LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * C.LINE_WIDTH);
         var lWidth = Math.min(lBBox.width + 2 * C.LINE_WIDTH, lMaxWidth);
 
-        var lBox = fact.createEdgeRemark({width: lWidth - C.LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box", pArc.linecolor, pArc.textbgcolor, FOLD_SIZE);
+        var lBox = fact.createEdgeRemark({width: lWidth - C.LINE_WIDTH + FOLD_SIZE, height: lHeight, x: lStart, y: 0}, "box inline_expression_label", pArc.linecolor, pArc.textbgcolor, FOLD_SIZE);
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
 
