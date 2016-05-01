@@ -87,7 +87,8 @@ Climate][codeclimate.mscgenjs].
 [![test coverage (codecov.io)][codecov.mscgenjs.badge]][codecov.mscgenjs]
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
 [![devDependency Status][daviddev.mscgenjs.badge]][daviddev.mscgenjs]
-[![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg?label=stable)](https://npmjs.org/package/mscgenjs)
+[![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
+[![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
 [amdefine.license]: wikum/licenses/license.amdefine.md
