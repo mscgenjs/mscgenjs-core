@@ -1,5 +1,6 @@
 {
     "mocha": true,
     "node": true,
-    "multistr": true
+    "multistr": false,
+    "esversion": 6
 }

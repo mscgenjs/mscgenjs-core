@@ -1,14 +1,14 @@
-/* jshint esnext: true, unused:true */
+/* jshint unused:true */
 /* jshint -W030 */
-var mscgenjs = require("../");
-var tst      = require("./testutensils");
-var fix      = require("./astfixtures.json");
-var jsdom    = require("jsdom");
-var chai     = require("chai");
-var expect   = chai.expect;
+const mscgenjs = require("../");
+const tst      = require("./testutensils");
+const fix      = require("./astfixtures.json");
+const jsdom    = require("jsdom");
+const chai     = require("chai");
+const expect   = chai.expect;
 chai.use(require("chai-xml"));
 
-const gExpectedMscGenOutput = 'msc {\n\
+const gExpectedMscGenOutput = `msc {\n\
   a,\n\
   b,\n\
   c;\n\
@@ -18,7 +18,7 @@ const gExpectedMscGenOutput = 'msc {\n\
     b => c;\n\
     c >> b;\n\
 #;\n\
-}';
+}`;
 
 /*
  * NOTE: the cli/t_actions.js already excercises index.js for most scenarios.
@@ -28,7 +28,7 @@ const gExpectedMscGenOutput = 'msc {\n\
 const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script"];}';
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
-describe('index', function() {
+describe('index', () => {
 
     function isMscGenParser(pParser){
         tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);
@@ -43,27 +43,27 @@ describe('index', function() {
         expect(pRenderer.render(fix.astOneAlt)).to.equal(gExpectedMscGenOutput);
     }
 
-    describe('#getParser()', function() {
-        it("Returns the mscgen parser when not provided with arguments", function() {
+    describe('#getParser()', () => {
+        it("Returns the mscgen parser when not provided with arguments", () => {
             isMscGenParser(mscgenjs.getParser());
         });
-        it('Returns the MscGen parser when not provided with a valid argument', function() {
+        it('Returns the MscGen parser when not provided with a valid argument', () => {
             isMscGenParser(mscgenjs.getParser("c++"));
         });
     });
 
-    describe('#getTextRenderer()', function(){
-        it('Returns the ast2mscgen renderer when not provided with arguments', function(){
+    describe('#getTextRenderer()', () => {
+        it('Returns the ast2mscgen renderer when not provided with arguments', () => {
             isMscGenTextRenderer(mscgenjs.getTextRenderer());
         });
 
-        it('Returns the ast2mscgen renderer when not with a valid argument', function(){
+        it('Returns the ast2mscgen renderer when not with a valid argument', () => {
             isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
         });
     });
 
-    describe('#translateMsc()', function(){
-        it('no params translates mscgen to json', function(){
+    describe('#translateMsc()', () => {
+        it('no params translates mscgen to json', () => {
             mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
                 expect(pError).to.be.null;
                 expect(
@@ -74,7 +74,7 @@ describe('index', function() {
             });
         });
 
-        it('explicit mscgen & json params translates mscgen to json too', function(){
+        it('explicit mscgen & json params translates mscgen to json too', () => {
             mscgenjs.translateMsc(
                 SIMPLE_MSCGEN,
                 {inputType: "mscgen", outputType: "json"},
@@ -87,7 +87,7 @@ describe('index', function() {
                     );
                 });
         });
-        it('invalid mscgen throws an error', function(){
+        it('invalid mscgen throws an error', () => {
             mscgenjs.translateMsc(
                 SIMPLE_XU,
                 {inputType: "mscgen", outputType: "msgenny"},
@@ -97,7 +97,7 @@ describe('index', function() {
                     expect(pResult).to.be.null;
                 });
         });
-        it('downgrading xu -> mscgen works', function(){
+        it('downgrading xu -> mscgen works', () => {
             mscgenjs.translateMsc(
                 JSON.stringify(fix.astOneAlt, null, ""),
                 {inputType: "json", outputType: "mscgen"},
@@ -106,7 +106,7 @@ describe('index', function() {
                     expect(pResult).to.equal(gExpectedMscGenOutput);
                 });
         });
-        it('translating a raw javascript object works', function(){
+        it('translating a raw javascript object works', () => {
             mscgenjs.translateMsc(
                 fix.astOneAlt,
                 {inputType: "json", outputType: "mscgen"},
@@ -117,8 +117,8 @@ describe('index', function() {
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
-        describe('#renderMsc()', function() {
-            it ('should given given a simple MscGen program, render an svg', function() {
+        describe('#renderMsc()', () => {
+            it ('should given given a simple MscGen program, render an svg', () => {
                 mscgenjs.renderMsc(
                     SIMPLE_MSCGEN,
                     {window: pWindow},
@@ -128,7 +128,7 @@ describe('index', function() {
                     }
                 );
             });
-            it ('should given given an invalid MscGen program, throw an error', function() {
+            it ('should given given an invalid MscGen program, throw an error', () => {
                 mscgenjs.renderMsc(
                     SIMPLE_XU,
                     {window: pWindow},
@@ -139,7 +139,7 @@ describe('index', function() {
                     }
                 );
             });
-            it ('should given given a simple AST, render an svg', function() {
+            it ('should given given a simple AST, render an svg', () => {
                 mscgenjs.renderMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),
                     {
@@ -154,7 +154,7 @@ describe('index', function() {
             });
         });
     });
-    it('dummy so mocha executes the tests wrapped in jsdom', function(){
+    it('dummy so mocha executes the tests wrapped in jsdom', () => {
         return true;
     });
 });

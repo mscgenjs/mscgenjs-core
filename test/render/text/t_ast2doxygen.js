@@ -27,72 +27,67 @@ describe('render/text/ast2doxygen', function() {
         it('alt only - render correct script', function() {
             var lProgram = renderer.render(fix.astOneAlt);
             var lExpectedProgram =
-' * \\msc\n\
- *   a,\n\
- *   b,\n\
- *   c;\n\
- * \n\
- *   a => b;\n\
- *   b -- c;\n\
- *     b => c;\n\
- *     c >> b;\n\
- * #;\n\
- * \\endmsc';
+` * \\msc
+ *   a,
+ *   b,
+ *   c;
+ * \n *   a => b;
+ *   b -- c;
+ *     b => c;
+ *     c >> b;
+ * #;
+ * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
         it('alt within loop - render correct script', function() {
             var lProgram = renderer.render(fix.astAltWithinLoop);
             var lExpectedProgram =
-' * \\msc\n\
- *   a,\n\
- *   b,\n\
- *   c;\n\
- * \n\
- *   a => b;\n\
- *   a -- c [label="label for loop"];\n\
- *     b -- c [label="label for alt"];\n\
- *       b -> c [label="-> within alt"];\n\
- *       c >> b [label=">> within alt"];\n\
-   * #;\n\
- *     b >> a [label=">> within loop"];\n\
- * #;\n\
- *   a =>> a [label="happy-the-peppy - outside"];\n\
- *   ...;\n\
- * \\endmsc';
+` * \\msc
+ *   a,
+ *   b,
+ *   c;
+ * \n *   a => b;
+ *   a -- c [label="label for loop"];
+ *     b -- c [label="label for alt"];
+ *       b -> c [label="-> within alt"];
+ *       c >> b [label=">> within alt"];
+   * #;
+ *     b >> a [label=">> within loop"];
+ * #;
+ *   a =>> a [label="happy-the-peppy - outside"];
+ *   ...;
+ * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
         it('When presented with an unsupported option, renders the script by simply omitting it', function(){
             var lProgram = renderer.render(fix.astWithAWatermark);
             var lExpectedProgram =
-' * \\msc\n\
- *   a;\n\
- * \n\
- * \\endmsc';
+` * \\msc
+ *   a;
+ * \n * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
         it("Does not render width when that equals 'auto'", function(){
             var lProgram = renderer.render(fix.auto, true);
             var lExpectedProgram =
-' * \\msc\n\
- * \\endmsc';
+` * \\msc
+ * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
         it("Render width when that is a number", function(){
             var lProgram = renderer.render(fix.fixedwidth, true);
             var lExpectedProgram =
-' * \\msc\n\
- *   width=800;\n\
- * \n\
- * \\endmsc';
+` * \\msc
+ *   width=800;
+ * \n * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
         it("Puts entities with mscgen keyword for a name in quotes", function(){
             var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
             var lExpectedProgram =
-' * \\msc\n\
+` * \\msc\n\
  *   "note";\n\
- * \n\
- * \\endmsc';
+ * \n * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
     });
