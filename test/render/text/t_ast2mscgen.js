@@ -6,6 +6,8 @@ const fs       = require("fs");
 const path     = require("path");
 const expect   = require("chai").expect;
 
+// jscs:disable disallowTrailingWhitespace
+// jscs:disable validateIndentation
 describe('render/text/ast2mscgen', () => {
     describe('#renderAST() - simple syntax tree', () => {
         it('should, given a simple syntax tree, render a mscgen script', () => {
@@ -132,3 +134,5 @@ describe('render/text/ast2mscgen', () => {
         });
     });
 });
+// jscs:enable disallowTrailingWhitespace
+// jscs:enable validateIndentation
