@@ -14,17 +14,6 @@ indexAMD.js: \
 	render/text/ast2msgenny.js \
 	render/text/ast2xu.js
 
-render/graphics/csstemplates.js: \
-	lib/lodash/lodash.custom.js
-
-render/graphics/entities.js: \
-	render/graphics/constants.js \
-	render/graphics/renderlabels.js
-
-render/graphics/markermanager.js: \
-	lib/lodash/lodash.custom.js \
-	render/text/arcmappings.js
-
 render/graphics/renderast.js: \
 	render/graphics/constants.js \
 	render/graphics/entities.js \
@@ -41,17 +30,22 @@ render/graphics/renderast.js: \
 	render/text/arcmappings.js \
 	render/text/flatten.js
 
+render/text/flatten.js: \
+	lib/lodash/lodash.custom.js \
+	render/text/arcmappings.js \
+	render/text/asttransform.js \
+	render/text/textutensils.js
+
+render/graphics/entities.js: \
+	render/graphics/constants.js \
+	render/graphics/renderlabels.js
+
 render/graphics/renderlabels.js: \
 	render/graphics/constants.js \
 	render/graphics/svgelementfactory.js \
 	render/graphics/svgutensils.js \
 	render/text/arcmappings.js \
 	render/text/textutensils.js
-
-render/graphics/renderskeleton.js: \
-	render/graphics/constants.js \
-	render/graphics/csstemplates.js \
-	render/graphics/svgelementfactory.js
 
 render/graphics/svgelementfactory.js: \
 	render/graphics/constants.js \
@@ -68,8 +62,14 @@ render/graphics/svgutensils.js: \
 	render/graphics/svgelementfactory.js \
 	render/graphics/svglowlevelfactory.js
 
-render/text/ast2animate.js: \
-	lib/lodash/lodash.custom.js
+render/graphics/markermanager.js: \
+	lib/lodash/lodash.custom.js \
+	render/text/arcmappings.js
+
+render/graphics/renderskeleton.js: \
+	render/graphics/constants.js \
+	render/graphics/csstemplates.js \
+	render/graphics/svgelementfactory.js
 
 render/text/ast2dot.js: \
 	lib/lodash/lodash.custom.js \
@@ -82,6 +82,9 @@ render/text/ast2doxygen.js: \
 	render/text/ast2thing.js \
 	render/text/textutensils.js
 
+render/text/ast2thing.js: \
+	render/text/textutensils.js
+
 render/text/ast2mscgen.js: \
 	render/text/arcmappings.js \
 	render/text/ast2thing.js \
@@ -90,22 +93,16 @@ render/text/ast2mscgen.js: \
 render/text/ast2msgenny.js: \
 	render/text/ast2thing.js
 
-render/text/ast2thing.js: \
-	render/text/textutensils.js
-
 render/text/ast2xu.js: \
 	render/text/ast2thing.js \
 	render/text/textutensils.js
 
+render/text/ast2animate.js: \
+	lib/lodash/lodash.custom.js
+
 render/text/colorize.js: \
 	render/text/arcmappings.js \
 	render/text/asttransform.js
-
-render/text/flatten.js: \
-	lib/lodash/lodash.custom.js \
-	render/text/arcmappings.js \
-	render/text/asttransform.js \
-	render/text/textutensils.js
 
 # cjs dependencies
 index.js: \

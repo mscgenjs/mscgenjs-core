@@ -7,7 +7,7 @@ chai.use(require("chai-xml"));
 
 module.exports = (function() {
 
-    var gHashToUse = [ 'ripemd160', 'md5', 'sha1'].filter(function(h){
+    var gHashToUse = ['ripemd160', 'md5', 'sha1'].filter(function(h){
         return crypto.getHashes().indexOf(h) > -1;
     })[0];
 
@@ -53,7 +53,7 @@ module.exports = (function() {
         },
 
         assertequalProcessingXML : function(pExpectedFileName, pInputFileName, pProcessingFn){
-            var lProcessedInput   = pProcessingFn (
+            var lProcessedInput   = pProcessingFn(
                 fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
             );
 
@@ -88,7 +88,7 @@ module.exports = (function() {
                     lStillRan = true;
                 }
                 expect(lStillRan).to.equal(false);
-            } catch(e) {
+            } catch (e) {
                 expect(e.name).to.equal(pErrorType);
             }
         }

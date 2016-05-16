@@ -18,7 +18,7 @@ GENERATED_SOURCES=$(PARSERS_AMD) \
 				  $(CUSTOM_LODASH)
 LIBDIRS=lib/lodash
 
-.PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
 help:
 	@echo " --------------------------------------------------------"
@@ -78,19 +78,8 @@ prerequisites:
 
 dev-build: $(GENERATED_SOURCES)
 
-noconsolestatements:
-	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
-	grep -r console parse render test | grep -c console | grep ^0$$
-	@echo ... ok
-
-consolecheck:
-	grep -r console parse render test
-
 lint:
 	$(NPM) run lint
-
-stylecheck:
-	$(NPM) run jscs
 
 cover: dev-build
 	$(NPM) run cover
@@ -115,7 +104,7 @@ nsp:
 outdated:
 	$(NPM) outdated
 
-check: noconsolestatements lint stylecheck test
+check: noconsolestatements lint test
 
 fullcheck: check outdated nsp
 

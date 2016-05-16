@@ -53,7 +53,7 @@ js-makedepend cannot detect like conditional module loading).
 - nodejs
     - pegjs (mandatory)
     - r.js (Mandatory for creating an minified version of the javascript (which in itself is optional))
-    - jshint (optional: linting)
+    - eslint (optional: linting and style checking)
     - mocha (optional: unit testing)
     - istanbul (optional: test coverage)
     - plato (optional: static code analysis)

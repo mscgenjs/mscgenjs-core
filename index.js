@@ -1,4 +1,3 @@
-/* jshint node:true, browser:true */
 module.exports = (function(){
     "use strict";
     var DEFAULT_PARSER = "./parse/mscgenparser_node";

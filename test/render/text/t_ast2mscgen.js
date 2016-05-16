@@ -127,7 +127,7 @@ describe('render/text/ast2mscgen', () => {
         it('should render all arcs', () => {
             const lASTString = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.json"), {"encoding":"utf8"});
             const lAST = JSON.parse(lASTString);
-            //const lExpectedProgram = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.mscin", {"encoding":"utf8"});
+            // const lExpectedProgram = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.mscin", {"encoding":"utf8"});
             const lProgram = renderer.render(lAST);
             // assert.equal(lProgram,lExpectedProgram);
             expect(parser.parse(lProgram)).to.deep.equal(lAST);

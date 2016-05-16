@@ -1,6 +1,5 @@
-/* jshint unused: true */
 var renderer = require("../../../render/graphics/renderast");
-var tst = require ("../../testutensils");
+var tst = require("../../testutensils");
 var jsdom = require("jsdom");
 var path = require('path');
 
@@ -33,11 +32,11 @@ describe('render/graphics/renderast', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'), //
                 path.join(__dirname, '../../fixtures/astempty.json'), true);
             });
-            it ('should given given a simple syntax tree, render an svg', function() {
+            it('should given given a simple syntax tree, render an svg', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'), //
                 path.join(__dirname, '../../fixtures/astsimple.json'), true);
             });
-            it ('should given given a simple syntax tree, render an svg - with source omitted from svg', function() {
+            it('should given given a simple syntax tree, render an svg - with source omitted from svg', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astsimplenosource.svg'), //
                 path.join(__dirname, '../../fixtures/astsimple.json'), false);
             });
@@ -54,15 +53,15 @@ describe('render/graphics/renderast', function() {
                 path.join(__dirname, '../../fixtures/idsnurls.json'), true);
             });
             it('should wrap text in boxes well', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/test19_multiline_lipsum.svg'),//
+                processAndCompare(path.join(__dirname, '../../fixtures/test19_multiline_lipsum.svg'), //
                 path.join(__dirname, '../../fixtures/test19_multiline_lipsum.json'), true);
             });
             it('should render empty inline expressions correctly', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/test20_empty_inline_expression.svg'),//
+                processAndCompare(path.join(__dirname, '../../fixtures/test20_empty_inline_expression.svg'), //
                 path.join(__dirname, '../../fixtures/test20_empty_inline_expression.json'), true);
             });
             it('should render "alt" lines in inline expressions correctly', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.svg'),//
+                processAndCompare(path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.svg'), //
                 path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.json'), true);
             });
             it('should render all possible arcs', function() {
@@ -86,7 +85,7 @@ describe('render/graphics/renderast', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'), //
                 path.join(__dirname, '../../fixtures/astempty.json'), true, true);
             });
-            it ('should given given a simple syntax tree, render an svg', function() {
+            it('should given given a simple syntax tree, render an svg', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'), //
                 path.join(__dirname, '../../fixtures/astsimple.json'), true, true);
             });

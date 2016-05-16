@@ -30,11 +30,11 @@ var textColoredEntity = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "textcolor": "green"
-    }
-  ]
+        {
+            "name": "a",
+            "textcolor": "green"
+        }
+    ]
 };
 
 var arcTextColoredEntity = {
@@ -44,11 +44,11 @@ var arcTextColoredEntity = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "arctextcolor": "green"
-    }
-  ]
+        {
+            "name": "a",
+            "arctextcolor": "green"
+        }
+    ]
 };
 
 var textColoredEntityWithArc = {
@@ -58,20 +58,20 @@ var textColoredEntityWithArc = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "textcolor": "green"
-    }
-  ],
+        {
+            "name": "a",
+            "textcolor": "green"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "=>",
-        "from": "a",
-        "to": "a"
-    }
+        [
+            {
+                "kind": "=>",
+                "from": "a",
+                "to": "a"
+            }
+        ]
     ]
-  ]
 };
 
 var boxes = {
@@ -81,41 +81,41 @@ var boxes = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "textcolor": "green"
-    }
-  ],
+        {
+            "name": "a",
+            "textcolor": "green"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "box",
-        "from": "a",
-        "to": "a"
-    }
-    ],
-    [
-      {
-        "kind": "abox",
-        "from": "a",
-        "to": "a"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "a",
-        "to": "a"
-    }
-    ],
-    [
-      {
-        "kind": "note",
-        "from": "a",
-        "to": "a"
-    }
+        [
+            {
+                "kind": "box",
+                "from": "a",
+                "to": "a"
+            }
+        ],
+        [
+            {
+                "kind": "abox",
+                "from": "a",
+                "to": "a"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "a",
+                "to": "a"
+            }
+        ],
+        [
+            {
+                "kind": "note",
+                "from": "a",
+                "to": "a"
+            }
+        ]
     ]
-  ]
 };
 
 var coloredBoxes = {
@@ -125,49 +125,49 @@ var coloredBoxes = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "textcolor": "green"
-    }
-  ],
+        {
+            "name": "a",
+            "textcolor": "green"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "box",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "abox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "note",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "#FFFFCC"
-    }
+        [
+            {
+                "kind": "box",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "abox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "note",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "#FFFFCC"
+            }
+        ]
     ]
-  ]
 };
 
 var coloredBoxesForced = {
@@ -177,51 +177,51 @@ var coloredBoxesForced = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "linecolor": "#008800",
-        "textbgcolor": "#CCFFCC",
-        "arclinecolor": "#008800"
-    }
-  ],
+        {
+            "name": "a",
+            "linecolor": "#008800",
+            "textbgcolor": "#CCFFCC",
+            "arclinecolor": "#008800"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "box",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "abox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "note",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "#FFFFCC"
-    }
+        [
+            {
+                "kind": "box",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "abox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "note",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "#FFFFCC"
+            }
+        ]
     ]
-  ]
 };
 
 var boxesWithNonColoredEntity = {
@@ -231,95 +231,95 @@ var boxesWithNonColoredEntity = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a"
-    }
-  ],
+        {
+            "name": "a"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "box",
-        "from": "a",
-        "to": "a"
-    }
-    ],
-    [
-      {
-        "kind": "abox",
-        "from": "a",
-        "to": "a"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "a",
-        "to": "a"
-    }
-    ],
-    [
-      {
-        "kind": "note",
-        "from": "a",
-        "to": "a"
-    }
+        [
+            {
+                "kind": "box",
+                "from": "a",
+                "to": "a"
+            }
+        ],
+        [
+            {
+                "kind": "abox",
+                "from": "a",
+                "to": "a"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "a",
+                "to": "a"
+            }
+        ],
+        [
+            {
+                "kind": "note",
+                "from": "a",
+                "to": "a"
+            }
+        ]
     ]
-  ]
 };
 
 
-var coloredBoxesWithNonColoredEntity= {
+var coloredBoxesWithNonColoredEntity = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "linecolor": "#008800",
-        "textbgcolor": "#CCFFCC",
-        "arclinecolor": "#008800"
-    }
-  ],
+        {
+            "name": "a",
+            "linecolor": "#008800",
+            "textbgcolor": "#CCFFCC",
+            "arclinecolor": "#008800"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "box",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "abox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white"
-    }
-    ],
-    [
-      {
-        "kind": "note",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "#FFFFCC"
-    }
+        [
+            {
+                "kind": "box",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "abox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white"
+            }
+        ],
+        [
+            {
+                "kind": "note",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "#FFFFCC"
+            }
+        ]
     ]
-  ]
 };
 
 var alreadyColoredBoxes = {
@@ -329,56 +329,56 @@ var alreadyColoredBoxes = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "a",
-        "arclinecolor": "cyan"
-    }
-  ],
+        {
+            "name": "a",
+            "arclinecolor": "cyan"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "box",
-        "from": "a",
-        "to": "a",
-        "linecolor": "red",
-        "textbgcolor": "orange",
-        "label": "remains orange"
-    }
-    ],
-    [
-      {
-        "kind": "abox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "orange",
-        "textbgcolor": "red",
-        "textcolor": "white",
-        "label": "remains red"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "a",
-        "to": "a",
-        "linecolor": "black",
-        "textbgcolor": "white",
-        "textcolor": "fuchsia",
-        "label": "remains black and white"
-    }
-    ],
-    [
-      {
-        "kind": "note",
-        "from": "a",
-        "to": "a",
-        "linecolor": "blue",
-        "textbgcolor": "cyan",
-        "textcolor": "black",
-        "label": "remains blue"
-    }
+        [
+            {
+                "kind": "box",
+                "from": "a",
+                "to": "a",
+                "linecolor": "red",
+                "textbgcolor": "orange",
+                "label": "remains orange"
+            }
+        ],
+        [
+            {
+                "kind": "abox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "orange",
+                "textbgcolor": "red",
+                "textcolor": "white",
+                "label": "remains red"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "a",
+                "to": "a",
+                "linecolor": "black",
+                "textbgcolor": "white",
+                "textcolor": "fuchsia",
+                "label": "remains black and white"
+            }
+        ],
+        [
+            {
+                "kind": "note",
+                "from": "a",
+                "to": "a",
+                "linecolor": "blue",
+                "textbgcolor": "cyan",
+                "textcolor": "black",
+                "label": "remains blue"
+            }
+        ]
     ]
-  ]
 };
 
 var customScheme = {
@@ -431,88 +431,88 @@ var customMscTestInput = {
         "wordwraparcs": "true"
     },
     "entities": [
-    {
-        "name": "a"
-    },
-    {
-        "name": "b"
-    },
-    {
-        "name": "c"
-    },
-    {
-        "name": "d"
-    },
-    {
-        "name": "e"
-    }
-  ],
+        {
+            "name": "a"
+        },
+        {
+            "name": "b"
+        },
+        {
+            "name": "c"
+        },
+        {
+            "name": "d"
+        },
+        {
+            "name": "e"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "note",
-        "from": "b",
-        "to": "d",
-        "label": "colors should star cycling at d"
-    }
-    ],
-    [
-      {
-        "kind": "=>>",
-        "from": "a",
-        "to": "b",
-        "label": "here's some text that should get colored"
-    }
-    ],
-    [
-      {
-        "kind": "=>>",
-        "from": "b",
-        "to": "c",
-        "label": "here's some more text, expected to have an other color"
-    }
-    ],
-    [
-      {
-        "kind": "=>>",
-        "from": "c",
-        "to": "*",
-        "label": "colors y'all!"
-    }
-    ],
-    [
-      {
-        "kind": "<<",
-        "from": "b",
-        "to": "d",
-        "label": "colored in d's color"
-    }
-    ],
-    [
-      {
-        "kind": ">>",
-        "from": "e",
-        "to": "b",
-        "label": "colored in e's color"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "b",
-        "to": "b",
-        "label": "some reflection"
-    }
-    ],
-    [
-      {
-        "kind": ">>",
-        "from": "b",
-        "to": "a",
-        "label": "reflected colore things"
-    }
+        [
+            {
+                "kind": "note",
+                "from": "b",
+                "to": "d",
+                "label": "colors should star cycling at d"
+            }
+        ],
+        [
+            {
+                "kind": "=>>",
+                "from": "a",
+                "to": "b",
+                "label": "here's some text that should get colored"
+            }
+        ],
+        [
+            {
+                "kind": "=>>",
+                "from": "b",
+                "to": "c",
+                "label": "here's some more text, expected to have an other color"
+            }
+        ],
+        [
+            {
+                "kind": "=>>",
+                "from": "c",
+                "to": "*",
+                "label": "colors y'all!"
+            }
+        ],
+        [
+            {
+                "kind": "<<",
+                "from": "b",
+                "to": "d",
+                "label": "colored in d's color"
+            }
+        ],
+        [
+            {
+                "kind": ">>",
+                "from": "e",
+                "to": "b",
+                "label": "colored in e's color"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "b",
+                "to": "b",
+                "label": "some reflection"
+            }
+        ],
+        [
+            {
+                "kind": ">>",
+                "from": "b",
+                "to": "a",
+                "label": "reflected colore things"
+            }
+        ]
     ]
-  ]
 };
 var customMscTestOutput = {
     "meta": {
@@ -525,115 +525,115 @@ var customMscTestOutput = {
         "wordwraparcs": "true"
     },
     "entities": [
-    {
-        "name": "a",
-        "linecolor": "#FF0000",
-        "textbgcolor": "red",
-        "textcolor": "white",
-        "arctextcolor": "white",
-        "arclinecolor": "#FF0000"
-    },
-    {
-        "name": "b",
-        "linecolor": "#AAAAAA",
-        "textbgcolor": "white",
-        "arclinecolor": "#AAAAAA"
-    },
-    {
-        "name": "c",
-        "linecolor": "#0000FF",
-        "textbgcolor": "blue",
-        "textcolor": "#111111",
-        "arctextcolor": "#111111",
-        "arclinecolor": "#0000FF"
-    },
-    {
-        "name": "d",
-        "linecolor": "#FF0000",
-        "textbgcolor": "red",
-        "textcolor": "white",
-        "arctextcolor": "white",
-        "arclinecolor": "#FF0000"
-    },
-    {
-        "name": "e",
-        "linecolor": "#AAAAAA",
-        "textbgcolor": "white",
-        "arclinecolor": "#AAAAAA"
-    }
-  ],
+        {
+            "name": "a",
+            "linecolor": "#FF0000",
+            "textbgcolor": "red",
+            "textcolor": "white",
+            "arctextcolor": "white",
+            "arclinecolor": "#FF0000"
+        },
+        {
+            "name": "b",
+            "linecolor": "#AAAAAA",
+            "textbgcolor": "white",
+            "arclinecolor": "#AAAAAA"
+        },
+        {
+            "name": "c",
+            "linecolor": "#0000FF",
+            "textbgcolor": "blue",
+            "textcolor": "#111111",
+            "arctextcolor": "#111111",
+            "arclinecolor": "#0000FF"
+        },
+        {
+            "name": "d",
+            "linecolor": "#FF0000",
+            "textbgcolor": "red",
+            "textcolor": "white",
+            "arctextcolor": "white",
+            "arclinecolor": "#FF0000"
+        },
+        {
+            "name": "e",
+            "linecolor": "#AAAAAA",
+            "textbgcolor": "white",
+            "arclinecolor": "#AAAAAA"
+        }
+    ],
     "arcs": [
-      [
-      {
-        "kind": "note",
-        "from": "b",
-        "to": "d",
-        "label": "colors should star cycling at d",
-        "linecolor": "#AA0000",
-        "textcolor": "#AA0000",
-        "textbgcolor": "#FFFFCC"
-    }
-    ],
-    [
-      {
-        "kind": "=>>",
-        "from": "a",
-        "to": "b",
-        "label": "here's some text that should get colored"
-    }
-    ],
-    [
-      {
-        "kind": "=>>",
-        "from": "b",
-        "to": "c",
-        "label": "here's some more text, expected to have an other color"
-    }
-    ],
-    [
-      {
-        "kind": "=>>",
-        "from": "c",
-        "to": "*",
-        "label": "colors y'all!"
-    }
-    ],
-    [
-      {
-        "kind": "<<",
-        "from": "b",
-        "to": "d",
-        "label": "colored in d's color"
-    }
-    ],
-    [
-      {
-        "kind": ">>",
-        "from": "e",
-        "to": "b",
-        "label": "colored in e's color"
-    }
-    ],
-    [
-      {
-        "kind": "rbox",
-        "from": "b",
-        "to": "b",
-        "label": "some reflection",
-        "linecolor": "#000000",
-        "textcolor": "#FFFFFF",
-        "textbgcolor": "#333333"
-    }
-    ],
-    [
-      {
-        "kind": ">>",
-        "from": "b",
-        "to": "a",
-        "label": "reflected colore things"
-    }
+        [
+            {
+                "kind": "note",
+                "from": "b",
+                "to": "d",
+                "label": "colors should star cycling at d",
+                "linecolor": "#AA0000",
+                "textcolor": "#AA0000",
+                "textbgcolor": "#FFFFCC"
+            }
+        ],
+        [
+            {
+                "kind": "=>>",
+                "from": "a",
+                "to": "b",
+                "label": "here's some text that should get colored"
+            }
+        ],
+        [
+            {
+                "kind": "=>>",
+                "from": "b",
+                "to": "c",
+                "label": "here's some more text, expected to have an other color"
+            }
+        ],
+        [
+            {
+                "kind": "=>>",
+                "from": "c",
+                "to": "*",
+                "label": "colors y'all!"
+            }
+        ],
+        [
+            {
+                "kind": "<<",
+                "from": "b",
+                "to": "d",
+                "label": "colored in d's color"
+            }
+        ],
+        [
+            {
+                "kind": ">>",
+                "from": "e",
+                "to": "b",
+                "label": "colored in e's color"
+            }
+        ],
+        [
+            {
+                "kind": "rbox",
+                "from": "b",
+                "to": "b",
+                "label": "some reflection",
+                "linecolor": "#000000",
+                "textcolor": "#FFFFFF",
+                "textbgcolor": "#333333"
+            }
+        ],
+        [
+            {
+                "kind": ">>",
+                "from": "b",
+                "to": "a",
+                "label": "reflected colore things"
+            }
+        ]
     ]
-  ]
 };
 
 describe('render/text/colorize', function() {

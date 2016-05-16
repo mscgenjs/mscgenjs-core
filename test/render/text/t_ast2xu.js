@@ -112,22 +112,22 @@ describe(`render/text/ast2xu`, () => {
                     "extendedFeatures": true
                 },
                 "entities": [
-                  {
-                    "name": "a"
-                },
-                  {
-                    "name": "b"
-                }
+                    {
+                        "name": "a"
+                    },
+                    {
+                        "name": "b"
+                    }
                 ],
                 "arcs": [
-                  [
-                    {
-                        "kind": "opt",
-                        "from": "a",
-                        "to": "b",
-                        "arcs": null
-                    }
-                  ]
+                    [
+                        {
+                            "kind": "opt",
+                            "from": "a",
+                            "to": "b",
+                            "arcs": null
+                        }
+                    ]
                 ]
             };
             const lProgram = renderer.render(lFixture);

@@ -243,14 +243,14 @@ describe('render/text/ast2ani', function() {
             ani.end();
             ani.dec(14);
             assert.equal(1, ani.getPosition());
-            assert.equal(100/15, ani.getPercentage());
+            assert.equal(100 / 15, ani.getPercentage());
             expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet1);
         });
         it('getCurrentFrame should return astCheatSheet2 after call to home() and two calls to inc()', function() {
             ani.home();
             ani.inc(2);
             assert.equal(2, ani.getPosition());
-            assert.equal(200/15, ani.getPercentage());
+            assert.equal(200 / 15, ani.getPercentage());
             expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet2);
         });
         it('getCurrentFrame should return entities only after call to home()', function() {

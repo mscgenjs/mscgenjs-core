@@ -1,5 +1,3 @@
-/* jshint unused:true */
-/* jshint -W030 */
 const mscgenjs = require("../");
 const tst      = require("./testutensils");
 const fix      = require("./astfixtures.json");
@@ -118,7 +116,7 @@ describe('index', () => {
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
         describe('#renderMsc()', () => {
-            it ('should given given a simple MscGen program, render an svg', () => {
+            it('should given given a simple MscGen program, render an svg', () => {
                 mscgenjs.renderMsc(
                     SIMPLE_MSCGEN,
                     {window: pWindow},
@@ -128,7 +126,7 @@ describe('index', () => {
                     }
                 );
             });
-            it ('should given given an invalid MscGen program, throw an error', () => {
+            it('should given given an invalid MscGen program, throw an error', () => {
                 mscgenjs.renderMsc(
                     SIMPLE_XU,
                     {window: pWindow},
@@ -139,7 +137,7 @@ describe('index', () => {
                     }
                 );
             });
-            it ('should given given a simple AST, render an svg', () => {
+            it('should given given a simple AST, render an svg', () => {
                 mscgenjs.renderMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),
                     {
