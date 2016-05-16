@@ -18,36 +18,36 @@ module.exports = (function(){
         doxygen: "./render/text/ast2doxygen"
     };
 
-    var getParser = _.memoize (
+    var getParser = _.memoize(
         function getParser (pLanguage) {
             if (["ast", "json"].indexOf(pLanguage) > -1) {
                 return JSON;
             }
 
             return require(
-                gLang2Parser[pLanguage]||DEFAULT_PARSER
+                gLang2Parser[pLanguage] || DEFAULT_PARSER
             );
         }
     );
 
-    var getGraphicsRenderer = _.memoize (
+    var getGraphicsRenderer = _.memoize(
         function getGraphicsRenderer(){
             return require('./render/graphics/renderast');
         }
     );
 
-    var getTextRenderer = _.memoize (
+    var getTextRenderer = _.memoize(
         function getTextRenderer(pLanguage){
             return require(
-                gLang2TextRenderer[pLanguage]||DEFAULT_TEXT_RENDERER
+                gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER
             );
         }
     );
 
     function runCallBack(pCallBack, pError, pResult){
         /* istanbul ignore else */
-        if (!!pCallBack){
-            if(!!pError) {
+        if (Boolean(pCallBack)){
+            if (Boolean(pError)) {
                 pCallBack(pError, null);
             } else {
                 pCallBack(null, pResult);
@@ -69,11 +69,11 @@ module.exports = (function(){
 
     return {
         renderMsc : function renderMsc(pScript, pOptions, pCallBack){
-            var lOptions = pOptions||{};
+            var lOptions = pOptions || {};
             _.defaults(lOptions, {
                 inputType: "mscgen",
                 elementId: "__svg",
-                window: pOptions.window||window,
+                window: pOptions.window || window,
                 includeSource: true,
                 styleAdditions: null
             });
@@ -96,7 +96,7 @@ module.exports = (function(){
         },
 
         translateMsc : function translateMsc(pScript, pOptions, pCallBack){
-            var lOptions = pOptions||{};
+            var lOptions = pOptions || {};
             _.defaults(lOptions, {
                 inputType: "mscgen",
                 outputType: "json"
@@ -105,13 +105,13 @@ module.exports = (function(){
                 runCallBack(
                     pCallBack,
                     null,
-                    (lOptions.outputType === "json") ?
-                        JSON.stringify (
+                    (lOptions.outputType === "json")
+                        ? JSON.stringify(
                             getParser(lOptions.inputType).parse(pScript),
                             null,
                             "  "
-                        ) :
-                        getTextRenderer(lOptions.outputType).render(
+                        )
+                        : getTextRenderer(lOptions.outputType).render(
                             getAST(pScript, lOptions.inputType)
                         )
                 );

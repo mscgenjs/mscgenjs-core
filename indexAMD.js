@@ -1,9 +1,9 @@
 /* istanbul ignore else */
-if ( typeof define !== 'function') {
+if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
-
-define([ "./lib/lodash/lodash.custom",
+/* eslint max-params: 0 */
+define(["./lib/lodash/lodash.custom",
         "./parse/mscgenparser",
         "./parse/xuparser",
         "./parse/msgennyparser",
@@ -41,32 +41,32 @@ define([ "./lib/lodash/lodash.custom",
         doxygen: ast2doxygen
     };
 
-    var getParser = _.memoize (
+    var getParser = _.memoize(
         function getParser (pLanguage) {
             if (["ast", "json"].indexOf(pLanguage) > -1) {
                 return JSON;
             }
 
-            return gLang2Parser[pLanguage]||DEFAULT_PARSER;
+            return gLang2Parser[pLanguage] || DEFAULT_PARSER;
         }
     );
 
-    var getGraphicsRenderer = _.memoize (
+    var getGraphicsRenderer = _.memoize(
         function getGraphicsRenderer(){
             return renderast;
         }
     );
 
-    var getTextRenderer = _.memoize (
+    var getTextRenderer = _.memoize(
         function getTextRenderer(pLanguage){
-            return gLang2TextRenderer[pLanguage]||DEFAULT_TEXT_RENDERER;
+            return gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
         }
     );
 
     function runCallBack(pCallBack, pError, pResult){
         /* istanbul ignore else */
-        if (!!pCallBack){
-            if(!!pError) {
+        if (Boolean(pCallBack)){
+            if (Boolean(pError)) {
                 pCallBack(pError, null);
             } else {
                 pCallBack(null, pResult);
@@ -79,11 +79,11 @@ define([ "./lib/lodash/lodash.custom",
             return thing;
         },
         renderMsc : function renderMsc(pScript, pOptions, pCallBack){
-            var lOptions = pOptions||{};
+            var lOptions = pOptions || {};
             _.defaults(lOptions, {
                 inputType: "mscgen",
                 elementId: "__svg",
-                window: pOptions.window||window,
+                window: pOptions.window || window,
                 includeSource: true
             });
 
@@ -104,7 +104,7 @@ define([ "./lib/lodash/lodash.custom",
         },
 
         translateMsc : function translateMsc(pScript, pOptions, pCallBack){
-            var lOptions = pOptions||{};
+            var lOptions = pOptions || {};
             _.defaults(lOptions, {
                 inputType: "mscgen",
                 outputType: "json"
@@ -113,12 +113,12 @@ define([ "./lib/lodash/lodash.custom",
                 runCallBack(
                     pCallBack,
                     null,
-                    (lOptions.outputType === "json") ?
-                        getParser(lOptions.inputType).parse(pScript) :
-                        getTextRenderer(lOptions.outputType).render(
-                            (lOptions.inputType === "json" && typeof pScript === "string")?
-                                getParser(lOptions.inputType).parse(pScript) :
-                                pScript
+                    (lOptions.outputType === "json")
+                        ? getParser(lOptions.inputType).parse(pScript)
+                        : getTextRenderer(lOptions.outputType).render(
+                            (lOptions.inputType === "json" && typeof pScript === "string")
+                                ? getParser(lOptions.inputType).parse(pScript)
+                                : pScript
                         )
                 );
             } catch (pException) {
