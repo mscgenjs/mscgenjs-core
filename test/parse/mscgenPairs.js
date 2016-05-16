@@ -2,123 +2,122 @@ var fix = require("../astfixtures.json");
 
 module.exports = {
     programASTPairs : [{
-            title: 'should render a simple AST',
-            program: 'msc { a,"b space"; a => "b space" [label="a simple script"];}',
-            ast: fix.astSimple
-        }, {
-            title: 'should render a simple AST - regardless of start marker case',
-            program: 'MsC { a,"b space"; a => "b space" [label="a simple script"];}',
-            ast: fix.astSimple
-        }, {
-            title: 'should ignore c++ style one line comments',
-            program: 'msc { a,"b space"; a => "b space" [label="a simple script"];}//ignored',
-            ast: fix.astSimple
-        }, {
-            title: 'should produce an (almost empty) AST for empty input',
-            program: 'msc{}',
-            ast: fix.astEmpty
-        }, {
-            title: 'should produce an AST even when non entity arcs are its only content',
-            program: 'msc{--- [label="start"]; ... [label="no entities ..."]; ---[label="end"];}',
-            ast: fix.astNoEntities
-        }, {
-            title: 'should produce lowercase for upper/ mixed case arc kinds',
-            program: 'msc { a, b, c, d; a NoTE a, b BOX b, c aBox c, d rbOX d;}',
-            ast: fix.astBoxArcs
-        }, {
-            title: 'should produce lowercase for upper/ mixed case options',
-            program: 'msc{HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN";a;}',
-            ast: fix.astOptionsMscgen
-        }, {
-            title: 'should produce lowercase for upper/ mixed case attributes',
-            program: 'msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}',
-            ast: fix.astMixedAttributes
-        }, {
-            title: 'should translate *colour to *color',
-            program: 'msc { a [textcolOUr="green", textBGColour="cyan", linecolour="#ABCDEF"];}',
-            ast: fix.astColourColor
-        }, {
-            title: 'should parse all possible attributes',
-            program: `msc {
+        title: 'should render a simple AST',
+        program: 'msc { a,"b space"; a => "b space" [label="a simple script"];}',
+        ast: fix.astSimple
+    }, {
+        title: 'should render a simple AST - regardless of start marker case',
+        program: 'MsC { a,"b space"; a => "b space" [label="a simple script"];}',
+        ast: fix.astSimple
+    }, {
+        title: 'should ignore c++ style one line comments',
+        program: 'msc { a,"b space"; a => "b space" [label="a simple script"];}//ignored',
+        ast: fix.astSimple
+    }, {
+        title: 'should produce an (almost empty) AST for empty input',
+        program: 'msc{}',
+        ast: fix.astEmpty
+    }, {
+        title: 'should produce an AST even when non entity arcs are its only content',
+        program: 'msc{--- [label="start"]; ... [label="no entities ..."]; ---[label="end"];}',
+        ast: fix.astNoEntities
+    }, {
+        title: 'should produce lowercase for upper/ mixed case arc kinds',
+        program: 'msc { a, b, c, d; a NoTE a, b BOX b, c aBox c, d rbOX d;}',
+        ast: fix.astBoxArcs
+    }, {
+        title: 'should produce lowercase for upper/ mixed case options',
+        program: 'msc{HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN";a;}',
+        ast: fix.astOptionsMscgen
+    }, {
+        title: 'should produce lowercase for upper/ mixed case attributes',
+        program: 'msc{a [LaBEL="miXed", teXTBGcolOR="orange"]; a NOte a [LINEcolor="red", TEXTColoR="blue", ArcSkip="4"];}',
+        ast: fix.astMixedAttributes
+    }, {
+        title: 'should translate *colour to *color',
+        program: 'msc { a [textcolOUr="green", textBGColour="cyan", linecolour="#ABCDEF"];}',
+        ast: fix.astColourColor
+    }, {
+        title: 'should parse all possible attributes',
+        program: `msc {
 a [label="Label for A", idurl="http://localhost/idurl", id="Just and id", url="http://localhost/url", linecolor="#ABCDEF", textcolor="green", textbgcolor="cyan", arclinecolor="violet", arctextcolor="pink", arctextbgcolor="brown"];
 
 a <<=>> a [label="Label for a <<=>> a", idurl="http://localhost/idurl", id="Just and id", url="http://localhost/url", linecolor="#ABCDEF", textcolor="green", textbgcolor="cyan"];
 }`,
-            ast: fix.astAllAttributes
-        }, {
-            title: 'should parse all possible attributes after a quoted entity name',
-            program: `msc {
+        ast: fix.astAllAttributes
+    }, {
+        title: 'should parse all possible attributes after a quoted entity name',
+        program: `msc {
 "a" [label="Label for A", idurl="http://localhost/idurl", id="Just and id", url="http://localhost/url", linecolor="#ABCDEF", textcolor="green", textbgcolor="cyan", arclinecolor="violet", arctextcolor="pink", arctextbgcolor="brown"];
 
 a <<=>> a [label="Label for a <<=>> a", idurl="http://localhost/idurl", id="Just and id", url="http://localhost/url", linecolor="#ABCDEF", textcolor="green", textbgcolor="cyan"];
 }`,
-            ast: fix.astAllAttributes
-        }, {
-            title: 'should generate arcs to all other arcs with bare *',
-            program: 'msc {arcgradient="18"; "ω","ɑ","β","ɣ"; "ɑ" -> * [label="ɑ -> *"]; * <- "β" [label="* <- β"]; "ɣ" <-> * [label="ɣ <-> *"];}',
-            ast: fix.astAsteriskBoth
-        }, {
-            title: 'should generate arcs to all other arcs with quoted "*"',
-            program: 'msc {arcgradient="18"; "ω","ɑ","β","ɣ"; "ɑ" -> "*" [label="ɑ -> *"]; "*" <- "β" [label="* <- β"]; "ɣ" <-> "*" [label="ɣ <-> *"];}',
-            ast: fix.astAsteriskBoth
-        }, {
-            title: 'unicode is cool for quoted entity names',
-            program: 'msc{"序";}',
-            ast: fix.unicodeentityname
-        }, {
-            title: 'true is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs=true;}',
-            ast: fix.astWorwraparcstrue
-        }, {
-            title: '"true" is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs="true";}',
-            ast: fix.astWorwraparcstrue
-        }, {
-            title: 'on is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs=on;}',
-            ast: fix.astWorwraparcstrue
-        }, {
-            title: '"on" is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs="on";}',
-            ast: fix.astWorwraparcstrue
-        }, {
-            title: '1 is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs=1;}',
-            ast: fix.astWorwraparcstrue
-        }, {
-            title: '"1" is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs="1";}',
-            ast: fix.astWorwraparcstrue
-        }, {
-            title: 'false is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs=false;}',
-            ast: fix.astWorwraparcsfalse
-        }, {
-            title: '"false" is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs="false";}',
-            ast: fix.astWorwraparcsfalse
-        }, {
-            title: 'off is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs=off;}',
-            ast: fix.astWorwraparcsfalse
-        }, {
-            title: '"off" is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs="off";}',
-            ast: fix.astWorwraparcsfalse
-        }, {
-            title: '0 is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs=0;}',
-            ast: fix.astWorwraparcsfalse
-        }, {
-            title: '"0" is a boolean for wordwraparcs',
-            program: 'msc { wordwraparcs="0";}',
-            ast: fix.astWorwraparcsfalse
-        }, {
-            title: 'does allow keywords in "quoted" entity names',
-            program: 'msc{"note";}',
-            ast: fix.entityWithMscGenKeywordAsName
-        }
-    ],
+        ast: fix.astAllAttributes
+    }, {
+        title: 'should generate arcs to all other arcs with bare *',
+        program: 'msc {arcgradient="18"; "ω","ɑ","β","ɣ"; "ɑ" -> * [label="ɑ -> *"]; * <- "β" [label="* <- β"]; "ɣ" <-> * [label="ɣ <-> *"];}',
+        ast: fix.astAsteriskBoth
+    }, {
+        title: 'should generate arcs to all other arcs with quoted "*"',
+        program: 'msc {arcgradient="18"; "ω","ɑ","β","ɣ"; "ɑ" -> "*" [label="ɑ -> *"]; "*" <- "β" [label="* <- β"]; "ɣ" <-> "*" [label="ɣ <-> *"];}',
+        ast: fix.astAsteriskBoth
+    }, {
+        title: 'unicode is cool for quoted entity names',
+        program: 'msc{"序";}',
+        ast: fix.unicodeentityname
+    }, {
+        title: 'true is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs=true;}',
+        ast: fix.astWorwraparcstrue
+    }, {
+        title: '"true" is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs="true";}',
+        ast: fix.astWorwraparcstrue
+    }, {
+        title: 'on is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs=on;}',
+        ast: fix.astWorwraparcstrue
+    }, {
+        title: '"on" is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs="on";}',
+        ast: fix.astWorwraparcstrue
+    }, {
+        title: '1 is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs=1;}',
+        ast: fix.astWorwraparcstrue
+    }, {
+        title: '"1" is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs="1";}',
+        ast: fix.astWorwraparcstrue
+    }, {
+        title: 'false is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs=false;}',
+        ast: fix.astWorwraparcsfalse
+    }, {
+        title: '"false" is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs="false";}',
+        ast: fix.astWorwraparcsfalse
+    }, {
+        title: 'off is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs=off;}',
+        ast: fix.astWorwraparcsfalse
+    }, {
+        title: '"off" is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs="off";}',
+        ast: fix.astWorwraparcsfalse
+    }, {
+        title: '0 is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs=0;}',
+        ast: fix.astWorwraparcsfalse
+    }, {
+        title: '"0" is a boolean for wordwraparcs',
+        program: 'msc { wordwraparcs="0";}',
+        ast: fix.astWorwraparcsfalse
+    }, {
+        title: 'does allow keywords in "quoted" entity names',
+        program: 'msc{"note";}',
+        ast: fix.entityWithMscGenKeywordAsName
+    }],
     syntaxErrors : [
         {
             title: 'should throw a SyntaxError on an invalid program',

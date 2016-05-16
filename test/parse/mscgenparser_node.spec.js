@@ -40,9 +40,10 @@ describe('parse/mscgenparser', function() {
 
     describe('#parse() - file based tests - ', function() {
         it("should parse all possible arcs", function() {
-            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test01_all_possible_arcs_mscgen.mscin'), {
-                "encoding" : "utf8"
-            });
+            var lTextFromFile = fs.readFileSync(
+                path.join(__dirname, '../fixtures/test01_all_possible_arcs_mscgen.mscin'),
+                {"encoding" : "utf8"}
+            );
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs_mscgen.json'), lAST);
         });
@@ -54,7 +55,10 @@ describe('parse/mscgenparser', function() {
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/rainbow.json'), lAST);
         });
         it("strings, ids and urls", function() {
-            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test10_stringsandurls.mscin'), {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(
+                path.join(__dirname, '../fixtures/test10_stringsandurls.mscin'),
+                {"encoding":"utf8"}
+            );
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test10_stringsandurls.json'), lAST);
         });

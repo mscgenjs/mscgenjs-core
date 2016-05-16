@@ -46,17 +46,26 @@ describe('parse/xuparser', function() {
 
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {
-            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test01_all_possible_arcs.xu'), {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(
+                path.join(__dirname, '../fixtures/test01_all_possible_arcs.xu'),
+                {"encoding":"utf8"}
+            );
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs.json'), lAST);
         });
         it("should parse stuff with colors", function() {
-            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/rainbow.mscin'), {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(
+                path.join(__dirname, '../fixtures/rainbow.mscin'),
+                {"encoding":"utf8"}
+            );
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/rainbow.json'), lAST);
         });
         it("strings, ids and urls", function() {
-            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test10_stringsandurls.mscin'), {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(
+                path.join(__dirname, '../fixtures/test10_stringsandurls.mscin'),
+                {"encoding":"utf8"}
+            );
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test10_stringsandurls.json'), lAST);
         });
@@ -84,7 +93,9 @@ describe('parse/xuparser', function() {
             expect(lAST.options.width).to.equal("auto");
         });
         it('should accept "AUTO" as a valid width', function(){
-            var lAST = parser.parse('xu{ arcgradient=20, width="AUTO"; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
+            var lAST = parser.parse(
+                'xu{ arcgradient=20, width="AUTO"; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}'
+            );
             expect(lAST.options.width).to.equal("auto");
         });
     });

@@ -53,10 +53,10 @@ var gUnicodeEntityFixture = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "序"
-    }
-  ]
+        {
+            "name": "序"
+        }
+    ]
 };
 var gUnicodeEntityInArcFixture = {
     "meta": {
@@ -65,33 +65,33 @@ var gUnicodeEntityInArcFixture = {
         "extendedFeatures": false
     },
     "entities": [
-    {
-        "name": "序"
-    },
-    {
-        "name": "🏭"
-    },
-    {
-        "name": "👳"
-    }
-  ],
-    "arcs": [
-      [
-      {
-        "kind": "->",
-        "from": "序",
-        "to": "序"
-    }
+        {
+            "name": "序"
+        },
+        {
+            "name": "🏭"
+        },
+        {
+            "name": "👳"
+        }
     ],
-    [
-      {
-        "kind": "=>>",
-        "from": "🏭",
-        "to": "👳",
-        "label": "👷+🔧"
-    }
+    "arcs": [
+        [
+            {
+                "kind": "->",
+                "from": "序",
+                "to": "序"
+            }
+        ],
+        [
+            {
+                "kind": "=>>",
+                "from": "🏭",
+                "to": "👳",
+                "label": "👷+🔧"
+            }
+        ]
     ]
-  ]
 };
 
 describe('parse/msgennyparser', function() {
@@ -119,7 +119,9 @@ describe('parse/msgennyparser', function() {
             expect(lAST).to.deep.equal(fix.astBoxArcs);
         });
         it("should produce lowercase for upper/ mixed case options", function() {
-            var lAST = parser.parse('HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;');
+            var lAST = parser.parse(
+                'HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;'
+            );
             expect(lAST).to.deep.equal(fix.astOptions);
         });
         it("should correctly parse naked reals", function() {
@@ -222,7 +224,9 @@ describe('parse/msgennyparser', function() {
             tst.assertSyntaxError('a,b,c; * -x b;', parser);
         });
         it("should parse all types of arcs supported by mscgen", function() {
-            var lAST = parser.parse('a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);');
+            var lAST = parser.parse(
+                'a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);'
+            );
             expect(lAST).to.deep.equal(fix.astCheatSheet);
         });
         it("should throw a SyntaxError when passing a boolean to something expecting numbers", function(){
@@ -231,7 +235,7 @@ describe('parse/msgennyparser', function() {
         it("should throw a SyntaxError when passing a boolean-like string to something expecting numbers", function(){
             tst.assertSyntaxError('wordwraparcs=true, width="true"; a;', parser);
         });
-        it("should throw a SyntaxError when passing a non-number like string to something expecting numbers", function(){
+        it("should throw a SyntaxError when passing a non-number like string to hscale", function(){
             tst.assertSyntaxError('wordwraparcs=true, hscale="general string"; a;', parser);
         });
         it("should throw a SyntaxError when passing a number to something expecting booleans", function(){
@@ -240,7 +244,7 @@ describe('parse/msgennyparser', function() {
         it("should throw a SyntaxError when passing a number-like string to something expecting booleans", function(){
             tst.assertSyntaxError('wordwraparcs="481"; a;', parser);
         });
-        it("should throw a SyntaxError when passing a non boolean-like string to something expecting booleans", function(){
+        it("should throw a SyntaxError when passing a non boolean-like string to wordwraparcs", function(){
             tst.assertSyntaxError('wordwraparcs="general string"; a;', parser);
         });
     });
@@ -251,7 +255,9 @@ describe('parse/msgennyparser', function() {
             expect(lAST).to.deep.equal(fix.astOneAlt);
         });
         it('should render an AST, with alts, loops and labels (labels in front)', function() {
-            var lAST = parser.parse('a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;');
+            var lAST = parser.parse(
+                'a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;'
+            );
             expect(lAST).to.deep.equal(fix.astAltWithinLoop);
         });
         it('should render an AST, with an alt in it', function() {
@@ -259,7 +265,7 @@ describe('parse/msgennyparser', function() {
             expect(lAST).to.deep.equal(fix.astDeclarationWithinArcspan);
         });
         it('automatically declares entities in the right order', function() {
-            var lAST = parser.parse ('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
+            var lAST = parser.parse('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
             expect(lAST).to.deep.equal(gCorrectOrderFixture);
         });
         it('should accept "auto" as a valid width', function(){
@@ -311,7 +317,10 @@ describe('parse/msgennyparser', function() {
     });
     describe('#parse() - file based tests', function(){
         it("should parse all possible arcs", function() {
-            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.msgenny'), {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(
+                path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.msgenny'),
+                {"encoding":"utf8"}
+            );
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.json'), lAST);
         });
