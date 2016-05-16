@@ -695,10 +695,8 @@ define(["./svgelementfactory",
             if (pOAndD.from > pOAndD.to) {
                 swap.swapfromto(pOAndD);
             }
-            var lWidth = ((pOAndD.to - pOAndD.from) + entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH);
-        // px
-            var RBOX_CORNER_RADIUS = 6;
-        // px
+            var lWidth = ((pOAndD.to - pOAndD.from) + entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH); // px
+            var RBOX_CORNER_RADIUS = 6; // px
 
             var lStart = pOAndD.from - ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) / 2);
             var lGroup = fact.createGroup(pId);
