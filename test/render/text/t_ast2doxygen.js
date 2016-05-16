@@ -1,3 +1,4 @@
+/* eslint max-len:0 */
 var assert   = require("assert");
 var renderer = require("../../../render/text/ast2doxygen");
 var fix      = require("../../astfixtures.json");
@@ -6,7 +7,8 @@ describe('render/text/ast2doxygen', function() {
     describe('#renderAST() - simple syntax tree', function() {
         it('should, given a simple syntax tree, render a mscgen script', function() {
             var lProgram = renderer.render(fix.astSimple);
-            var lExpectedProgram = ' * \\msc\n *   a,\n *   "b space";\n * \n *   a => "b space" [label="a simple script"];\n * \\endmsc';
+            var lExpectedProgram =
+                ' * \\msc\n *   a,\n *   "b space";\n * \n *   a => "b space" [label="a simple script"];\n * \\endmsc';
             assert.equal(lProgram, lExpectedProgram);
         });
 
@@ -18,7 +20,16 @@ describe('render/text/ast2doxygen', function() {
 
         it("should preserve attributes", function() {
             var lProgram = renderer.render(fix.astAttributes);
-            var lExpectedProgram = " * \\msc\n *   Alice [linecolor=\"#008800\", textcolor=\"black\", textbgcolor=\"#CCFFCC\", arclinecolor=\"#008800\", arctextcolor=\"#008800\"],\n *   Bob [linecolor=\"#FF0000\", textcolor=\"black\", textbgcolor=\"#FFCCCC\", arclinecolor=\"#FF0000\", arctextcolor=\"#FF0000\"],\n *   pocket [linecolor=\"#0000FF\", textcolor=\"black\", textbgcolor=\"#CCCCFF\", arclinecolor=\"#0000FF\", arctextcolor=\"#0000FF\"];\n * \n *   Alice => Bob [label=\"do something funny\"];\n *   Bob => pocket [label=\"fetch (nose flute)\", textcolor=\"yellow\", textbgcolor=\"green\", arcskip=\"0.5\"];\n *   Bob >> Alice [label=\"PHEEE!\", textcolor=\"green\", textbgcolor=\"yellow\", arcskip=\"0.3\"];\n *   Alice => Alice [label=\"hihihi\", linecolor=\"#654321\"];\n * \\endmsc";
+            var lExpectedProgram =
+` * \\msc
+ *   Alice [linecolor="#008800", textcolor="black", textbgcolor="#CCFFCC", arclinecolor="#008800", arctextcolor="#008800"],
+ *   Bob [linecolor="#FF0000", textcolor="black", textbgcolor="#FFCCCC", arclinecolor="#FF0000", arctextcolor="#FF0000"],
+ *   pocket [linecolor="#0000FF", textcolor="black", textbgcolor="#CCCCFF", arclinecolor="#0000FF", arctextcolor="#0000FF"];
+ * \n *   Alice => Bob [label="do something funny"];
+ *   Bob => pocket [label="fetch (nose flute)", textcolor="yellow", textbgcolor="green", arcskip="0.5"];
+ *   Bob >> Alice [label="PHEEE!", textcolor="green", textbgcolor="yellow", arcskip="0.3"];
+ *   Alice => Alice [label="hihihi", linecolor="#654321"];
+ * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
     });

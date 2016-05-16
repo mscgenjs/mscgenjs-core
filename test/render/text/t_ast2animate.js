@@ -264,7 +264,10 @@ describe('render/text/ast2ani', function() {
     });
 
     describe('inline expressions', function(){
-        var lTextFromFile = fs.readFileSync(path.join(__dirname, '../../fixtures/simpleXuSample.xu'), {"encoding":"utf8"});
+        var lTextFromFile = fs.readFileSync(
+            path.join(__dirname, '../../fixtures/simpleXuSample.xu'),
+            {"encoding":"utf8"}
+        );
         var lAST = parser.parse(lTextFromFile.toString());
 
         var ani = new ast2animate.FrameFactory(lAST, false);

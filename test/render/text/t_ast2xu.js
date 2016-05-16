@@ -28,25 +28,29 @@ describe(`render/text/ast2xu`, () => {
 
         it("should preserve the comments at the start of the ast", () => {
             const lProgram = renderer.render(fix.astWithPreComment);
-            const lExpectedProgram = "# pre comment\n/* pre\n * multiline\n * comment\n */\nmsc {\n  a,\n  b;\n\n  a -> b;\n}";
+            const lExpectedProgram =
+                "# pre comment\n/* pre\n * multiline\n * comment\n */\nmsc {\n  a,\n  b;\n\n  a -> b;\n}";
             assert.equal(lProgram, lExpectedProgram);
         });
 
         it("should preserve attributes", () => {
             const lProgram = renderer.render(fix.astAttributes);
-            const lExpectedProgram = "msc {\n  Alice [linecolor=\"#008800\", textcolor=\"black\", textbgcolor=\"#CCFFCC\", arclinecolor=\"#008800\", arctextcolor=\"#008800\"],\n  Bob [linecolor=\"#FF0000\", textcolor=\"black\", textbgcolor=\"#FFCCCC\", arclinecolor=\"#FF0000\", arctextcolor=\"#FF0000\"],\n  pocket [linecolor=\"#0000FF\", textcolor=\"black\", textbgcolor=\"#CCCCFF\", arclinecolor=\"#0000FF\", arctextcolor=\"#0000FF\"];\n\n  Alice => Bob [label=\"do something funny\"];\n  Bob => pocket [label=\"fetch (nose flute)\", textcolor=\"yellow\", textbgcolor=\"green\", arcskip=\"0.5\"];\n  Bob >> Alice [label=\"PHEEE!\", textcolor=\"green\", textbgcolor=\"yellow\", arcskip=\"0.3\"];\n  Alice => Alice [label=\"hihihi\", linecolor=\"#654321\"];\n}";
+            const lExpectedProgram =
+                "msc {\n  Alice [linecolor=\"#008800\", textcolor=\"black\", textbgcolor=\"#CCFFCC\", arclinecolor=\"#008800\", arctextcolor=\"#008800\"],\n  Bob [linecolor=\"#FF0000\", textcolor=\"black\", textbgcolor=\"#FFCCCC\", arclinecolor=\"#FF0000\", arctextcolor=\"#FF0000\"],\n  pocket [linecolor=\"#0000FF\", textcolor=\"black\", textbgcolor=\"#CCCCFF\", arclinecolor=\"#0000FF\", arctextcolor=\"#0000FF\"];\n\n  Alice => Bob [label=\"do something funny\"];\n  Bob => pocket [label=\"fetch (nose flute)\", textcolor=\"yellow\", textbgcolor=\"green\", arcskip=\"0.5\"];\n  Bob >> Alice [label=\"PHEEE!\", textcolor=\"green\", textbgcolor=\"yellow\", arcskip=\"0.3\"];\n  Alice => Alice [label=\"hihihi\", linecolor=\"#654321\"];\n}";
             assert.equal(lProgram, lExpectedProgram);
         });
 
         it("correctly renders multiple options", () => {
             const lProgram = renderer.render(fix.astOptionsMscgen);
-            const lExpectedProgram = `msc {\n  hscale="1.2",\n  width="800",\n  arcgradient="17",\n  wordwraparcs=true;\n\n  a;\n\n}`;
+            const lExpectedProgram =
+                `msc {\n  hscale="1.2",\n  width="800",\n  arcgradient="17",\n  wordwraparcs=true;\n\n  a;\n\n}`;
             assert.equal(lProgram, lExpectedProgram);
         });
 
         it("correctly renders parallel calls", () => {
             const lProgram = renderer.render(fix.astSimpleParallel);
-            const lExpectedProgram = `msc {\n  a,\n  b,\n  c;\n\n  b -> a [label="{paral"],\n  b =>> c [label="lel}"];\n}`;
+            const lExpectedProgram =
+                `msc {\n  a,\n  b,\n  c;\n\n  b -> a [label="{paral"],\n  b =>> c [label="lel}"];\n}`;
             assert.equal(lProgram, lExpectedProgram);
         });
 
@@ -55,7 +59,8 @@ describe(`render/text/ast2xu`, () => {
     describe(`#renderAST() - minification`, () => {
         it(`should render a "minified" mscgen script`, () => {
             const lProgram = renderer.render(fix.astOptions, true);
-            const lExpectedProgram = `msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true,watermark="not in mscgen, available in xù and msgenny";a;}`;
+            const lExpectedProgram =
+                `msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true,watermark="not in mscgen, available in xù and msgenny";a;}`;
             assert.equal(lProgram, lExpectedProgram);
         });
 

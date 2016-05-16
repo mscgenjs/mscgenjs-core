@@ -39,7 +39,16 @@ describe('render/text/ast2msgenny', () => {
 
         it("should render options when they're in the syntax tree", () => {
             const lProgram = renderer.render(fix.astOptions);
-            const lExpectedProgram = 'hscale="1.2",\nwidth="800",\narcgradient="17",\nwordwraparcs=true,\nwatermark="not in mscgen, available in xù and msgenny";\n\na;\n\n';
+            const lExpectedProgram =
+`hscale="1.2",
+width="800",
+arcgradient="17",
+wordwraparcs=true,
+watermark="not in mscgen, available in xù and msgenny";
+
+a;
+
+`;
             assert.equal(lProgram, lExpectedProgram);
         });
         it("should ignore all attributes, except label and name", () => {

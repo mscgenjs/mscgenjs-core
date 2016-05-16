@@ -27,7 +27,7 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive test",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD\" ./",
-    "lint": "eslint index.js indexAMD.js parse render",
+    "lint": "eslint index.js indexAMD.js parse render test",
     "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "npm-check-updates": "ncu --upgrade"
   },

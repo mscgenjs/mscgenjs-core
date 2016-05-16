@@ -83,7 +83,10 @@ describe('render/graphics/markermanager', function() {
     describe('#getMarkerDefs - paths not hit in end2end, but that are still important', function() {
 
         it('should return the colors in arcs in inline expressions', function() {
-            var lTextFromFile = fs.readFileSync(path.join(__dirname, '../../fixtures/simpleXuSample.json'), {"encoding":"utf8"});
+            var lTextFromFile = fs.readFileSync(
+                path.join(__dirname, '../../fixtures/simpleXuSample.json'),
+                {"encoding":"utf8"}
+            );
             var lAST = JSON.parse(lTextFromFile.toString());
             expect(mark.getMarkerDefs("481", lAST)).to.deep.equal(gMarkerDefs);
         });

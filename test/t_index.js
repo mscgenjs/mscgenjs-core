@@ -63,6 +63,7 @@ describe('index', () => {
     describe('#translateMsc()', () => {
         it('no params translates mscgen to json', () => {
             mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
+                /* eslint no-unused-expression:0 */
                 expect(pError).to.be.null;
                 expect(
                     JSON.parse(pResult)

@@ -138,9 +138,15 @@ graph {
 
     describe('#renderAST() - file based tests', () => {
         it('should render all arcs', () => {
-            const lASTString = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.json"), {"encoding":"utf8"});
+            const lASTString = fs.readFileSync(
+                path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.json"),
+                {"encoding":"utf8"}
+            );
             const lAST = JSON.parse(lASTString);
-            const lExpectedProgram = fs.readFileSync(path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.dot"), {"encoding":"utf8"});
+            const lExpectedProgram = fs.readFileSync(
+                path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.dot"),
+                {"encoding":"utf8"}
+            );
             const lProgram = renderer.render(lAST);
             assert.equal(lProgram, lExpectedProgram);
         });

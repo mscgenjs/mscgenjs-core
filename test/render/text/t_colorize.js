@@ -639,38 +639,60 @@ var customMscTestOutput = {
 describe('render/text/colorize', function() {
     describe('#colorize', function() {
         it('should return the input on uncolor(colorize)', function(){
-            expect(colorize.uncolor(colorize.applyScheme(_.cloneDeep(fix.astAltWithinLoop)))).to.deep.equal(fix.astAltWithinLoop);
+            expect(
+                colorize.uncolor(colorize.applyScheme(_.cloneDeep(fix.astAltWithinLoop)))
+            ).to.deep.equal(fix.astAltWithinLoop);
         });
         it('should, leave already textcolored entities alone', function(){
-            expect(colorize.applyScheme(_.cloneDeep(textColoredEntity))).to.deep.equal(textColoredEntity);
+            expect(
+                colorize.applyScheme(_.cloneDeep(textColoredEntity))
+            ).to.deep.equal(textColoredEntity);
         });
         it('should, leave already textcolored entities alone', function(){
-            expect(colorize.applyScheme(_.cloneDeep(textColoredEntity), 'auto')).to.deep.equal(textColoredEntity);
+            expect(
+                colorize.applyScheme(_.cloneDeep(textColoredEntity), 'auto')
+            ).to.deep.equal(textColoredEntity);
         });
         it('should, leave already arctextcolored entities alone', function(){
-            expect(colorize.applyScheme(arcTextColoredEntity)).to.deep.equal(arcTextColoredEntity);
+            expect(
+                colorize.applyScheme(arcTextColoredEntity)
+            ).to.deep.equal(arcTextColoredEntity);
         });
         it('should, leave regular arcs departing from already textcolored entities alone', function(){
-            expect(colorize.applyScheme(textColoredEntityWithArc)).to.deep.equal(textColoredEntityWithArc);
+            expect(
+                colorize.applyScheme(textColoredEntityWithArc)
+            ).to.deep.equal(textColoredEntityWithArc);
         });
         it('should color box arcs departing from colored entities', function(){
-            expect(colorize.applyScheme(_.cloneDeep(boxes))).to.deep.equal(coloredBoxes);
+            expect(
+                colorize.applyScheme(_.cloneDeep(boxes))
+            ).to.deep.equal(coloredBoxes);
         });
         it('should not respect any colors when force is applied', function(){
-            expect(colorize.applyScheme(_.cloneDeep(boxes), 'auto', true)).to.deep.equal(coloredBoxesForced);
+            expect(
+                colorize.applyScheme(_.cloneDeep(boxes), 'auto', true)
+            ).to.deep.equal(coloredBoxesForced);
         });
         it('should not respect any colors when force is applied', function(){
             var lRosedBoxes = colorize.applyScheme(_.cloneDeep(boxes), 'rosy');
-            expect(colorize.applyScheme(lRosedBoxes, 'auto', true)).to.deep.equal(coloredBoxesForced);
+            expect(
+                colorize.applyScheme(lRosedBoxes, 'auto', true)
+            ).to.deep.equal(coloredBoxesForced);
         });
         it('should color box arcs departing from non-colored entities', function(){
-            expect(colorize.applyScheme(boxesWithNonColoredEntity)).to.deep.equal(coloredBoxesWithNonColoredEntity);
+            expect(
+                colorize.applyScheme(boxesWithNonColoredEntity)
+            ).to.deep.equal(coloredBoxesWithNonColoredEntity);
         });
         it('should not color box arcs already having some color', function(){
-            expect(colorize.applyScheme(alreadyColoredBoxes)).to.deep.equal(alreadyColoredBoxes);
+            expect(
+                colorize.applyScheme(alreadyColoredBoxes)
+            ).to.deep.equal(alreadyColoredBoxes);
         });
         it('should use custom entity color scheme and arc specifics when passed these', function(){
-            expect(colorize.colorize(customMscTestInput, customScheme)).to.deep.equal(customMscTestOutput);
+            expect(
+                colorize.colorize(customMscTestInput, customScheme)
+            ).to.deep.equal(customMscTestOutput);
         });
     });
 });
