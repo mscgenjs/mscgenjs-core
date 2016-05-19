@@ -83,7 +83,7 @@ Climate][codeclimate.mscgenjs].
 
 ## Build status
 [![Build Status][travis.mscgenjs.badge]][travis.mscgenjs]
-[![Code Climate][codeclimate.mscgenjs.badge]][codeclimate.mscgenjs]
+[![bitHound Overall Score][bithound.mscgenjs.badge]][bithound.mscgenjs]
 [![test coverage (codecov.io)][codecov.mscgenjs.badge]][codecov.mscgenjs]
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
 [![devDependency Status][daviddev.mscgenjs.badge]][daviddev.mscgenjs]
@@ -95,6 +95,8 @@ Climate][codeclimate.mscgenjs].
 [atom]: https://atom.io
 [codeclimate.mscgenjs]: https://codeclimate.com/github/sverweij/mscgenjs-core
 [codeclimate.mscgenjs.badge]: https://codeclimate.com/github/sverweij/mscgenjs-core/badges/gpa.svg
+[bithound.mscgenjs]: https://www.bithound.io/github/sverweij/mscgenjs-core
+[bithound.mscgenjs.badge]: https://www.bithound.io/github/sverweij/mscgenjs-core/badges/score.svg
 [codecov.mscgenjs]: http://codecov.io/github/sverweij/mscgenjs-core?branch=master
 [codecov.mscgenjs.badge]: http://codecov.io/github/sverweij/mscgenjs-core/coverage.svg?branch=master
 [daviddev.mscgenjs]: https://david-dm.org/sverweij/mscgenjs-core#info=devDependencies
