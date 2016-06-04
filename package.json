@@ -23,7 +23,7 @@
     "plato": "1.5.0"
   },
   "scripts": {
-    "test": "mocha -R dot --timeout 4000 --recursive test",
+    "test": "mocha -R dot --timeout 6000 --recursive test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive test",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD\" ./",
