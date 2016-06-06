@@ -502,6 +502,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             swap.swapfromto(lOnD);
         }
 
+        var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
+
         var lMaxWidth =
             (lOnD.to - lOnD.from) +
             (entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) -
@@ -509,7 +511,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             C.LINE_WIDTH;
 
         var lStart =
-            (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * C.LINE_WIDTH) / 2) -
+            (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * C.LINE_WIDTH - lMaxDepthCorrection) / 2) -
             (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH);
 
         var lGroup = fact.createGroup(pId);
@@ -825,16 +827,17 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         var lGroup = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
+            var lMaxDepthCorrection = gChart.maxDepth * 1 * C.LINE_WIDTH;
             var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
 
             lStartX =
                 (entities.getX(pArc.from) -
                 (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) -
-                lArcDepthCorrection;
+                (lArcDepthCorrection - lMaxDepthCorrection);
             lEndX   =
                 (entities.getX(pArc.to) +
                 (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) +
-                lArcDepthCorrection;
+                (lArcDepthCorrection - lMaxDepthCorrection);
             lClass  = "inline_expression_divider";
         }
         var lLine =
@@ -874,14 +877,16 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         if (pOAndD.from > pOAndD.to) {
             swap.swapfromto(pOAndD);
         }
+        var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
+
         var lWidth =
             (pOAndD.to - pOAndD.from) +
-            entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH; // px
+            entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH - lMaxDepthCorrection; // px
         var RBOX_CORNER_RADIUS = 6; // px
 
         var lStart =
             pOAndD.from -
-            ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH) / 2);
+            ((entities.getDims().interEntitySpacing - 2 * C.LINE_WIDTH - lMaxDepthCorrection) / 2);
         var lGroup = fact.createGroup(pId);
         var lBox = {};
         var lTextGroup = labels.createLabel(pArc, {x:lStart, y:0, width:lWidth});
