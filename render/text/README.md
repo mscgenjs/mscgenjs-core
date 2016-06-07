@@ -8,9 +8,10 @@ modules to manipulate syntax trees.
 ## Language rendering: ast2thing
 The modules that (re-)render language code from abstract syntax trees
 have a _lot_ in common. So much, that most individual language can be
-expressed as a configuration on one processing module. That module is [ast2thing.js](ast2thing.js). 
+expressed as a configuration on one processing module. That module is
+[ast2thing.js](ast2thing.js).
 
-There are probably more elegant solutions (templating?) - however, 
+There are probably more elegant solutions (templating?) - however,
 this one is good enough&trade; and works.
 
 Individual modules using ast2thing:
@@ -25,7 +26,7 @@ Individual modules using ast2thing:
 To ease rendering the [flatten.js](flatten.js) module massages the
 syntax tree in several ways:
 - makes sure each entity has a 'label' attribute
-- distributes teh arc*colors from entities to the appropriate lines and arcs
+- distributes the arc*colors from entities to the appropriate lines and arcs
 - make sure arcs point from left to right
 - takes care of 'unwinding' nested inline expressions
 - makes individual arcs of broadcast arcs
