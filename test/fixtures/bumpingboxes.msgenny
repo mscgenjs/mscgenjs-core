@@ -1,0 +1,14 @@
+# input to test that boxes running in parallel with inline expressions
+# do not bump into to them (and do not overlap)
+a, b;
+
+a box a : Do cool stuff,
+b box b : Do mundane stuff;
+a alt a : altbox {
+  a box a : Do cool stuff,
+  b box b : Do mundane stuff;
+};
+b alt b : altbox {
+  a box a : Do cool stuff,
+  b box b : Do mundane stuff;
+};

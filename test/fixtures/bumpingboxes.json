@@ -1,0 +1,85 @@
+{
+  "precomment": [
+    "# input to test that boxes running in parallel with inline expressions",
+    "\n",
+    "# do not bump into to them (and do not overlap)",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": true,
+    "extendedFeatures": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "box",
+        "from": "a",
+        "to": "a",
+        "label": "Do cool stuff"
+      },
+      {
+        "kind": "box",
+        "from": "b",
+        "to": "b",
+        "label": "Do mundane stuff"
+      }
+    ],
+    [
+      {
+        "kind": "alt",
+        "from": "a",
+        "to": "a",
+        "arcs": [
+          [
+            {
+              "kind": "box",
+              "from": "a",
+              "to": "a",
+              "label": "Do cool stuff"
+            },
+            {
+              "kind": "box",
+              "from": "b",
+              "to": "b",
+              "label": "Do mundane stuff"
+            }
+          ]
+        ],
+        "label": "altbox"
+      }
+    ],
+    [
+      {
+        "kind": "alt",
+        "from": "b",
+        "to": "b",
+        "arcs": [
+          [
+            {
+              "kind": "box",
+              "from": "a",
+              "to": "a",
+              "label": "Do cool stuff"
+            },
+            {
+              "kind": "box",
+              "from": "b",
+              "to": "b",
+              "label": "Do mundane stuff"
+            }
+          ]
+        ],
+        "label": "altbox"
+      }
+    ]
+  ]
+}

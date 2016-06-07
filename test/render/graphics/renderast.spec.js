@@ -85,9 +85,13 @@ describe('render/graphics/renderast', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'), //
                 path.join(__dirname, '../../fixtures/astempty.json'), true, true);
             });
-            it('should given given a simple syntax tree, render an svg', function() {
+            it('should given a simple syntax tree, render an svg', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'), //
                 path.join(__dirname, '../../fixtures/astsimple.json'), true, true);
+            });
+            it('should not bump boxes into inline expressions they\'re running in parallel with', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/bumpingboxes.svg'), //
+                path.join(__dirname, '../../fixtures/bumpingboxes.json'), true, true);
             });
         });
     });
