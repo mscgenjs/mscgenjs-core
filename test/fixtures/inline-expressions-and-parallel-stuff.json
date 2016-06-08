@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": true,
+    "extendedFeatures": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "opt",
+        "from": "a",
+        "to": "b",
+        "arcs": null
+      },
+      {
+        "kind": "box",
+        "from": "c",
+        "to": "c",
+        "label": "c box c"
+      }
+    ],
+    [
+      {
+        "kind": "---",
+        "label": "box & inline expression"
+      }
+    ],
+    [
+      {
+        "kind": "box",
+        "from": "a",
+        "to": "a",
+        "label": "a box a"
+      },
+      {
+        "kind": "opt",
+        "from": "b",
+        "to": "b",
+        "arcs": [
+          [
+            {
+              "kind": "box",
+              "from": "b",
+              "to": "b",
+              "label": "b box b"
+            }
+          ],
+          [
+            {
+              "kind": "rbox",
+              "from": "b",
+              "to": "b",
+              "label": "b rbox b"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "kind": "---",
+        "label": "inline expression & box"
+      }
+    ],
+    [
+      {
+        "kind": "opt",
+        "from": "a",
+        "to": "a",
+        "arcs": [
+          [
+            {
+              "kind": "box",
+              "from": "a",
+              "to": "a",
+              "label": "a box a"
+            }
+          ]
+        ]
+      },
+      {
+        "kind": "box",
+        "from": "b",
+        "to": "b",
+        "label": "b box b"
+      }
+    ],
+    [
+      {
+        "kind": "box",
+        "from": "b",
+        "to": "b",
+        "label": "b box b"
+      },
+      {
+        "kind": "box",
+        "from": "c",
+        "to": "c",
+        "label": "c box c"
+      },
+      {
+        "kind": "opt",
+        "from": "a",
+        "to": "a",
+        "arcs": [
+          [
+            {
+              "kind": "box",
+              "from": "a",
+              "to": "a",
+              "label": "a box a"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "kind": "---",
+        "label": "workaround"
+      }
+    ],
+    [
+      {
+        "kind": "opt",
+        "from": "a",
+        "to": "a",
+        "arcs": [
+          [
+            {
+              "kind": "box",
+              "from": "a",
+              "to": "a",
+              "label": "a box a"
+            },
+            {
+              "kind": "box",
+              "from": "b",
+              "to": "b",
+              "label": "b box b"
+            }
+          ]
+        ]
+      }
+    ]
+  ]
+}

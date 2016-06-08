@@ -93,6 +93,10 @@ describe('render/graphics/renderast', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/bumpingboxes.svg'), //
                 path.join(__dirname, '../../fixtures/bumpingboxes.json'), true, true);
             });
+            it('should render stuff running in parallel with inline expressions', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/inline-expressions-and-parallel-stuff.svg'), //
+                path.join(__dirname, '../../fixtures/inline-expressions-and-parallel-stuff.json'), true, true);
+            });
         });
     });
     it('dummy so mocha executes the tests wrapped in jsdom', function(){
