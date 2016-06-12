@@ -54,8 +54,6 @@ svg.mscgenjs-fence{
 .mscgenjs-fence text.anchor-start{
     text-anchor:start;
 }
-/*text.box-text{
-}*/
 .mscgenjs-fence path{
     stroke:black;
     color:black;
