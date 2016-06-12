@@ -1,3 +1,4 @@
+/* eslint max-statements:0 */
 var parser = require("../../parse/msgennyparser_node");
 var tst    = require("../testutensils");
 var fix    = require("../astfixtures.json");
