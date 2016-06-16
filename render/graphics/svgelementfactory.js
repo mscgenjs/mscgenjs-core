@@ -99,11 +99,12 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         );
     }
 
-    function _createGroup(pId) {
+    function _createGroup(pId, pClass) {
         return factll.createElement(
             "g",
             {
-                id: pId
+                id: pId,
+                class: pClass
             }
         );
     }

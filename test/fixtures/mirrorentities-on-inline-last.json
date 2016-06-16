@@ -1,0 +1,65 @@
+{
+  "precomment": [
+    "# bottom entity rendition: inline expression as last",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": true,
+    "extendedArcTypes": true,
+    "extendedFeatures": true
+  },
+  "options": {
+    "mirrorentitiesonbottom": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "alt",
+        "from": "a",
+        "to": "b",
+        "arcs": [
+          [
+            {
+              "kind": ">>",
+              "from": "b",
+              "to": "a",
+              "label": "answer"
+            }
+          ],
+          [
+            {
+              "kind": "---",
+              "label": "otherwise"
+            }
+          ],
+          [
+            {
+              "kind": "-x",
+              "from": "b",
+              "to": "a",
+              "label": "no answer"
+            }
+          ]
+        ],
+        "label": "alternative"
+      },
+      {
+        "kind": "note",
+        "from": "c",
+        "to": "c",
+        "label": "bottom entity rendition: inline expression as last"
+      }
+    ]
+  ]
+}

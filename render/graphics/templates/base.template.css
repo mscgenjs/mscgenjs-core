@@ -10,12 +10,12 @@ svg.mscgenjs-fence{
     text-decoration:none;
     background-color:white;
     stroke:black;
+    stroke-width:<%=lineWidth%>;
     color:black;
 }
 .mscgenjs-fence rect{
     fill:none;
     stroke:black;
-    stroke-width:<%=lineWidth%>;
 }
 .mscgenjs-fence rect.entity{
     fill:white;
@@ -32,7 +32,6 @@ svg.mscgenjs-fence{
 }
 .mscgenjs-fence line{
     stroke:black;
-    stroke-width:<%=lineWidth%>;
 }
 .mscgenjs-fence line.return{
     stroke-dasharray:5,2;
@@ -57,7 +56,6 @@ svg.mscgenjs-fence{
 .mscgenjs-fence path{
     stroke:black;
     color:black;
-    stroke-width:<%=lineWidth%>;
     fill:none;
 }
 .mscgenjs-fence .arrow-marker{
@@ -87,3 +85,13 @@ svg.mscgenjs-fence{
     font-weight:bold;
     opacity:0.14;
 }
+/*.mscgenjs-fence .onionskin > use{
+    opacity:0;
+}
+.mscgenjs-fence .onionskin > use:active, .mscgenjs-fence .onionskin > use:hover{
+    opacity:0.5;
+}
+.mscgenjs-fence .onionskin-hover-layer{
+    fill:rgba(255,255,255,0.0);
+    stroke:rgba(255,255,255,0.0);
+}*/

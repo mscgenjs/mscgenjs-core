@@ -313,7 +313,10 @@ describe('parse/msgennyparser', function() {
         it("should throw a SyntaxError when passing a size to something expecting a string", function(){
             tst.assertSyntaxError("watermark = auto; a;", parser);
         });
-
+        it('should accept mirrorentitiesonbottom as an option', function(){
+            var lAST = parser.parse('arcgradient= 20, mirrorentitiesonbottom=on ; a,b,c,d,e,f; c =>> *: Hello everyone;');
+            expect(lAST.options.mirrorentitiesonbottom).to.equal(true);
+        });
 
     });
     describe('#parse() - file based tests', function(){

@@ -72,6 +72,22 @@ describe('render/graphics/renderast', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/astautoscale.svg'), //
                 path.join(__dirname, '../../fixtures/astautoscale.json'), true);
             });
+            it('should not render "mirrored entities" when not specified (inline expression last)', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.svg'), //
+                path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.json'), true);
+            });
+            it('should render "mirrored entities" when specified (inline expression last)', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.svg'), //
+                path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.json'), true);
+            });
+            it('should not render "mirrored entities" when not specified (regular arc last)', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.svg'), //
+                path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.json'), true);
+            });
+            it('should render "mirrored entities" when  specified (regular arc last)', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.svg'), //
+                path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'), true);
+            });
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {

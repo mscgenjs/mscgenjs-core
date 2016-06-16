@@ -87,7 +87,10 @@ describe('parse/xuparser', function() {
                 });
             });
         });
-
+        it('should accept watermark as an option', function(){
+            var lAST = parser.parse('xu{arcgradient= 20, watermark="Goûter le filigraine" ; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
+            expect(lAST.options.watermark).to.equal("Goûter le filigraine");
+        });
         it('should accept AUTO as a valid width', function(){
             var lAST = parser.parse('xu{ arcgradient=20, width=AUTO; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
             expect(lAST.options.width).to.equal("auto");
@@ -97,6 +100,10 @@ describe('parse/xuparser', function() {
                 'xu{ arcgradient=20, width="AUTO"; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}'
             );
             expect(lAST.options.width).to.equal("auto");
+        });
+        it('should accept mirrorentitiesonbottom as an option', function(){
+            var lAST = parser.parse('xu{arcgradient= 20, mirrorentitiesonbottom=on ; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
+            expect(lAST.options.mirrorentitiesonbottom).to.equal(true);
         });
     });
 });

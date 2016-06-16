@@ -1,0 +1,40 @@
+{
+  "precomment": [
+    "# entities on bottom; regular arc last",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": true,
+    "extendedArcTypes": false,
+    "extendedFeatures": true
+  },
+  "options": {
+    "mirrorentitiesonbottom": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "->",
+        "from": "a",
+        "to": "b"
+      },
+      {
+        "kind": "note",
+        "from": "c",
+        "to": "c",
+        "label": "entities on bottom; regular arc last"
+      }
+    ]
+  ]
+}
