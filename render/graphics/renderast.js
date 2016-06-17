@@ -315,11 +315,13 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     // }
 
     function renderEntitiesOnBottom() {
+        var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
+
         gChart.layer.lifeline.appendChild(
             fact.createUse(
                 {
                     x:0,
-                    y:rowmemory.getLast().y + (rowmemory.getLast().height / 2)
+                    y:lLifeLineSpacerY
                 },
                 id.get("arcrow")
             )
@@ -328,7 +330,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             fact.createUse(
                 {
                     x:0,
-                    y:rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2
+                    y:lLifeLineSpacerY + gChart.arcRowHeight / 2
                 },
                 id.get("entities")
             )
