@@ -319,7 +319,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             fact.createUse(
                 {
                     x:0,
-                    y:rowmemory.getLast().y + gChart.arcRowHeight
+                    y:rowmemory.getLast().y + (rowmemory.getLast().height / 2)
                 },
                 id.get("arcrow")
             )
@@ -328,7 +328,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             fact.createUse(
                 {
                     x:0,
-                    y:rowmemory.getLast().y + entities.getDims().height
+                    y:rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2
                 },
                 id.get("entities")
             )
