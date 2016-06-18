@@ -31,7 +31,7 @@ jsdom.env("<html><body></body></html>", function(err, window) {
 
     process.stdin.on("end", function() {
         var lAST = JSON.parse(gInput);
-        renderast.renderASTNew(lAST, window, "__svg");
+        renderast.renderASTNew(lAST, window, "__svg", {mirrorEntitiesOnBottom: true});
         process.stdout.write(window.document.body.innerHTML);
         process.stdin.pause();
     });

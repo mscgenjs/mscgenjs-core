@@ -10,7 +10,6 @@ function ast2svg(pASTString, pWindow, pOptions, pRenderOptions) {
     renderer.clean("__svg", pWindow);
     if (Boolean(pOptions.useNew)){
         var lRenderOptions = pRenderOptions || {};
-        lRenderOptions.source = pASTString;
         renderer.renderASTNew(lAST, pWindow, "__svg", lRenderOptions);
     } else if (Boolean(pOptions.includeSource)){
         renderer.renderAST(lAST, pASTString, "__svg", pWindow);
@@ -80,24 +79,24 @@ describe('render/graphics/renderast', function() {
             it('should not render "mirrored entities" when not specified (inline expression last)', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.svg'),
                 path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.json'),
-                {includeSource: true, useNew: true});
+                {includeSource: false, useNew: true});
             });
             it('should render "mirrored entities" when specified (inline expression last)', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.svg'),
                 path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.json'),
-                {includeSource: true, useNew: true},
+                {includeSource: false, useNew: true},
                 {mirrorEntitiesOnBottom: true});
             });
             it('should not render "mirrored entities" when not specified (regular arc last)', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.svg'),
                 path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.json'),
-                {includeSource: true, useNew: true},
+                {includeSource: false, useNew: true},
                 {mirrorEntitiesOnBottom: false});
             });
             it('should render "mirrored entities" when  specified (regular arc last)', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.svg'),
                 path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'),
-                {includeSource: true, useNew: true},
+                {includeSource: false, useNew: true},
                 {mirrorEntitiesOnBottom: true});
             });
         });
