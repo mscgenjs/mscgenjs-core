@@ -3,17 +3,22 @@ var tst = require("../../testutensils");
 var jsdom = require("jsdom");
 var path = require('path');
 
-function ast2svg(pASTString, pWindow, pIncludeSource, pUseOwnElement) {
+function ast2svg(pASTString, pWindow, pOptions, pRenderOptions) {
     // make a deep copy first, as renderAST actively modifies its input
-    // var lFixtureString = JSON.stringify(pAST, null, " ");
     var lAST = JSON.parse(pASTString);
+
     renderer.clean("__svg", pWindow);
-    if (pIncludeSource){
+    if (Boolean(pOptions.useNew)){
+        var lRenderOptions = pRenderOptions || {};
+        lRenderOptions.source = pASTString;
+        renderer.renderASTNew(lAST, pWindow, "__svg", lRenderOptions);
+    } else if (Boolean(pOptions.includeSource)){
         renderer.renderAST(lAST, pASTString, "__svg", pWindow);
     } else {
         renderer.renderAST(lAST, null, "__svg", pWindow);
     }
-    if (pUseOwnElement){
+
+    if (Boolean(pOptions.useOwnElement)){
         return pWindow.__svg.innerHTML;
     } else {
         return pWindow.document.body.innerHTML;
@@ -23,70 +28,77 @@ function ast2svg(pASTString, pWindow, pIncludeSource, pUseOwnElement) {
 describe('render/graphics/renderast', function() {
     jsdom.env("<html><body></body></html>", function(err, pWindow) {
         describe('#renderAST in body', function() {
-            function processAndCompare(pExpectedFile, pInputFile, pIncludeSource) {
+            function processAndCompare(pExpectedFile, pInputFile, pOptions, pRenderOptions) {
                 tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
-                    return ast2svg(pInput, pWindow, pIncludeSource);
+                    return ast2svg(pInput, pWindow, pOptions, pRenderOptions);
                 });
             }
             it('should be ok with an empty AST', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'), //
-                path.join(__dirname, '../../fixtures/astempty.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'),
+                path.join(__dirname, '../../fixtures/astempty.json'), {includeSource: true});
             });
             it('should given given a simple syntax tree, render an svg', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'), //
-                path.join(__dirname, '../../fixtures/astsimple.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'),
+                path.join(__dirname, '../../fixtures/astsimple.json'), {includeSource: true});
             });
             it('should given given a simple syntax tree, render an svg - with source omitted from svg', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/astsimplenosource.svg'), //
+                processAndCompare(path.join(__dirname, '../../fixtures/astsimplenosource.svg'),
                 path.join(__dirname, '../../fixtures/astsimple.json'), false);
             });
             it('should not omit empty lines', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/astemptylinesinboxes.svg'), //
-                path.join(__dirname, '../../fixtures/astemptylinesinboxes.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astemptylinesinboxes.svg'),
+                path.join(__dirname, '../../fixtures/astemptylinesinboxes.json'), {includeSource: true});
             });
             it('should render colors', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/rainbow.svg'), //
-                path.join(__dirname, '../../fixtures/rainbow.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/rainbow.svg'),
+                path.join(__dirname, '../../fixtures/rainbow.json'), {includeSource: true});
             });
             it('should render ids & urls', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/idsnurls.svg'), //
-                path.join(__dirname, '../../fixtures/idsnurls.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/idsnurls.svg'),
+                path.join(__dirname, '../../fixtures/idsnurls.json'), {includeSource: true});
             });
             it('should wrap text in boxes well', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/test19_multiline_lipsum.svg'), //
-                path.join(__dirname, '../../fixtures/test19_multiline_lipsum.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test19_multiline_lipsum.svg'),
+                path.join(__dirname, '../../fixtures/test19_multiline_lipsum.json'), {includeSource: true});
             });
             it('should render empty inline expressions correctly', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/test20_empty_inline_expression.svg'), //
-                path.join(__dirname, '../../fixtures/test20_empty_inline_expression.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test20_empty_inline_expression.svg'),
+                path.join(__dirname, '../../fixtures/test20_empty_inline_expression.json'), {includeSource: true});
             });
             it('should render "alt" lines in inline expressions correctly', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.svg'), //
-                path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.svg'),
+                path.join(__dirname, '../../fixtures/test21_inline_expression_alt_lines.json'), {includeSource: true});
             });
             it('should render all possible arcs', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/test01_all_possible_arcs.svg'), //
-                path.join(__dirname, '../../fixtures/test01_all_possible_arcs.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/test01_all_possible_arcs.svg'),
+                path.join(__dirname, '../../fixtures/test01_all_possible_arcs.json'), {includeSource: true});
             });
             it('should render with a viewBox instead of a width & height', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/astautoscale.svg'), //
-                path.join(__dirname, '../../fixtures/astautoscale.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/astautoscale.svg'),
+                path.join(__dirname, '../../fixtures/astautoscale.json'), {includeSource: true});
             });
             it('should not render "mirrored entities" when not specified (inline expression last)', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.svg'), //
-                path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.svg'),
+                path.join(__dirname, '../../fixtures/mirrorentities-off-inline-last.json'),
+                {includeSource: true, useNew: true});
             });
             it('should render "mirrored entities" when specified (inline expression last)', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.svg'), //
-                path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.svg'),
+                path.join(__dirname, '../../fixtures/mirrorentities-on-inline-last.json'),
+                {includeSource: true, useNew: true},
+                {mirrorEntitiesOnBottom: true});
             });
             it('should not render "mirrored entities" when not specified (regular arc last)', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.svg'), //
-                path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.svg'),
+                path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.json'),
+                {includeSource: true, useNew: true},
+                {mirrorEntitiesOnBottom: false});
             });
             it('should render "mirrored entities" when  specified (regular arc last)', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.svg'), //
-                path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'), true);
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.svg'),
+                path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'),
+                {includeSource: true, useNew: true},
+                {mirrorEntitiesOnBottom: true});
             });
         });
     });
@@ -94,23 +106,30 @@ describe('render/graphics/renderast', function() {
         describe('#renderAST in own element', function() {
             function processAndCompare(pExpectedFile, pInputFile, pIncludeSource, pUseOwnElement) {
                 tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
-                    return ast2svg(pInput, pWindow, pIncludeSource, pUseOwnElement);
+                    return ast2svg(
+                        pInput,
+                        pWindow,
+                        {
+                            includeSource: pIncludeSource,
+                            useOwnElement: pUseOwnElement
+                        }
+                    );
                 });
             }
             it('should be ok with an empty AST', function(){
-                processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'), //
+                processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'),
                 path.join(__dirname, '../../fixtures/astempty.json'), true, true);
             });
             it('should given a simple syntax tree, render an svg', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'), //
+                processAndCompare(path.join(__dirname, '../../fixtures/astsimple.svg'),
                 path.join(__dirname, '../../fixtures/astsimple.json'), true, true);
             });
             it('should not bump boxes into inline expressions they\'re running in parallel with', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/bumpingboxes.svg'), //
+                processAndCompare(path.join(__dirname, '../../fixtures/bumpingboxes.svg'),
                 path.join(__dirname, '../../fixtures/bumpingboxes.json'), true, true);
             });
             it('should render stuff running in parallel with inline expressions', function() {
-                processAndCompare(path.join(__dirname, '../../fixtures/inline-expressions-and-parallel-stuff.svg'), //
+                processAndCompare(path.join(__dirname, '../../fixtures/inline-expressions-and-parallel-stuff.svg'),
                 path.join(__dirname, '../../fixtures/inline-expressions-and-parallel-stuff.json'), true, true);
             });
         });

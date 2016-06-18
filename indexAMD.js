@@ -81,21 +81,27 @@ define(["./lib/lodash/lodash.custom",
         renderMsc : function renderMsc(pScript, pOptions, pCallBack){
             var lOptions = pOptions || {};
             _.defaults(lOptions, {
-                inputType: "mscgen",
-                elementId: "__svg",
-                window: pOptions.window || window,
-                includeSource: true
+                inputType              : "mscgen",
+                elementId              : "__svg",
+                window                 : pOptions.window || window,
+                includeSource          : true,
+                styleAdditions         : null,
+                mirrorEntitiesOnBottom : false
             });
 
             try {
                 runCallBack(
                     pCallBack,
                     null,
-                    getGraphicsRenderer().renderAST(
+                    getGraphicsRenderer().renderASTNew(
                         getParser(lOptions.inputType).parse(pScript),
-                        lOptions.includeSource ? pScript : null,
+                        lOptions.window,
                         lOptions.elementId,
-                        lOptions.window
+                        {
+                            source: lOptions.includeSource ? pScript : null,
+                            styleAdditions: lOptions.styleAdditions,
+                            mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom
+                        }
                     )
                 );
             } catch (pException){

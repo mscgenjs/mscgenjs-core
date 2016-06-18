@@ -110,7 +110,6 @@
         if (pOptions && pOptions.options){
             return (
                 !!pOptions.options["watermark"] ||
-                !!pOptions.options["mirrorentitiesonbottom"] ||
                 (!!pOptions.options["width"] && pOptions.options["width"] === "auto")
             );
         } else {
@@ -192,12 +191,6 @@ option
     / _ name:"watermark"i _ "=" _ value:quotedstring _
         {
             return nameValue2Option(name, value);
-        }
-    / _ name:"mirrorentitiesonbottom"i _ "=" _ value:booleanlike _
-        {
-            var lOption = {};
-            lOption[name.toLowerCase()] = flattenBoolean(value);
-            return lOption;
         }
 
 entitylist

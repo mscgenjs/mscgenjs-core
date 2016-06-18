@@ -71,23 +71,27 @@ module.exports = (function(){
         renderMsc : function renderMsc(pScript, pOptions, pCallBack){
             var lOptions = pOptions || {};
             _.defaults(lOptions, {
-                inputType: "mscgen",
-                elementId: "__svg",
-                window: pOptions.window || window,
-                includeSource: true,
-                styleAdditions: null
+                inputType              : "mscgen",
+                elementId              : "__svg",
+                window                 : pOptions.window || window,
+                includeSource          : true,
+                styleAdditions         : null,
+                mirrorEntitiesOnBottom : false
             });
 
             try {
                 runCallBack(
                     pCallBack,
                     null,
-                    getGraphicsRenderer().renderAST(
+                    getGraphicsRenderer().renderASTNew(
                         getAST(pScript, lOptions.inputType),
-                        lOptions.includeSource ? pScript : null,
-                        lOptions.elementId,
                         lOptions.window,
-                        lOptions.styleAdditions
+                        lOptions.elementId,
+                        {
+                            source: lOptions.includeSource ? pScript : null,
+                            styleAdditions: lOptions.styleAdditions,
+                            mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom
+                        }
                     )
                 );
             } catch (pException){
