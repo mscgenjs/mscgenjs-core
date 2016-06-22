@@ -51,7 +51,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
          * to put "dynamic" definitions in
          */
         var lDefs = fact.createDefs();
-        lDefs.appendChild(setupStyle(pElementId, pStyleAdditions));
+        lDefs.appendChild(setupStyle(pStyleAdditions));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
@@ -102,7 +102,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return lDesc;
     }
 
-    function setupStyleElement(pSvgElementId, pStyleAdditions) {
+    function setupStyleElement(pStyleAdditions) {
         return csstemplates.baseTemplate
             .replace(/<%=fontSize%>/g, C.FONT_SIZE)
             .replace(/<%=lineWidth%>/g, C.LINE_WIDTH) +

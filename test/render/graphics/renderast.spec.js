@@ -99,6 +99,12 @@ describe('render/graphics/renderast', function() {
                 {includeSource: false, useNew: true},
                 {mirrorEntitiesOnBottom: true});
             });
+            it('when style additions specified, they are included in the resulting svg', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last-with-style-additions.svg'),
+                path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'),
+                {includeSource: false, useNew: true},
+                {styleAdditions: ".an-added-class {}"});
+            });
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
