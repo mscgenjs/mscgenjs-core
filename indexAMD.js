@@ -86,6 +86,7 @@ define(["./lib/lodash/lodash.custom",
                 window                 : pOptions.window || window,
                 includeSource          : true,
                 styleAdditions         : null,
+                additionalTemplate     : null,
                 mirrorEntitiesOnBottom : false
             });
 
@@ -100,6 +101,7 @@ define(["./lib/lodash/lodash.custom",
                         {
                             source: lOptions.includeSource ? pScript : null,
                             styleAdditions: lOptions.styleAdditions,
+                            additionalTemplate: lOptions.additionalTemplate,
                             mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom
                         }
                     )

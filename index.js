@@ -76,6 +76,7 @@ module.exports = (function(){
                 window                 : pOptions.window || window,
                 includeSource          : true,
                 styleAdditions         : null,
+                additionalTemplate     : null,
                 mirrorEntitiesOnBottom : false
             });
 
@@ -90,6 +91,7 @@ module.exports = (function(){
                         {
                             source: lOptions.includeSource ? pScript : null,
                             styleAdditions: lOptions.styleAdditions,
+                            additionalTemplate: lOptions.additionalTemplate,
                             mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom
                         }
                     )
