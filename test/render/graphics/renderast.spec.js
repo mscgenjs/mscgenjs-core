@@ -9,8 +9,8 @@ function ast2svg(pASTString, pWindow, pOptions, pRenderOptions) {
 
     renderer.clean("__svg", pWindow);
     if (Boolean(pOptions.useNew)){
-        var lRenderOptions = pRenderOptions || {};
-        renderer.renderASTNew(lAST, pWindow, "__svg", lRenderOptions);
+        // var lRenderOptions = pRenderOptions || {};
+        renderer.renderASTNew(lAST, pWindow, "__svg", pRenderOptions);
     } else if (Boolean(pOptions.includeSource)){
         renderer.renderAST(lAST, pASTString, "__svg", pWindow);
     } else {
@@ -104,6 +104,18 @@ describe('render/graphics/renderast', function() {
                 path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'),
                 {includeSource: false, useNew: true},
                 {styleAdditions: ".an-added-class {}"});
+            });
+            it('when an existing style additions template is specified, that is included in the svg', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last-with-named-style-addition.svg'),
+                path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'),
+                {includeSource: false, useNew: true},
+                {additionalTemplate: "inverted"});
+            });
+            it('when an non-existing style additions template is specified, the svg styles are untouched', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/mirrorentities-off-regular-arc-last.svg'),
+                path.join(__dirname, '../../fixtures/mirrorentities-on-regular-arc-last.json'),
+                {includeSource: false, useNew: true},
+                {additionalTemplate: "not an existing template"});
             });
         });
     });

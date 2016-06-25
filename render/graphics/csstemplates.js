@@ -6,7 +6,14 @@ if (typeof define !== 'function') {
 define([], function() {
     "use strict";
     return {
-        baseTemplate : "svg.<%=fenceClass%>{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>;color:black;}.<%=fenceClass%> rect{fill:none;stroke:black;}.<%=fenceClass%> rect.entity{fill:white;}.<%=fenceClass%> rect.label-text-background{fill:white;stroke:white;stroke-width:0;}.<%=fenceClass%> rect.bglayer{fill:white;stroke:white;stroke-width:0;}.<%=fenceClass%> line{stroke:black;}.<%=fenceClass%> line.return{stroke-dasharray:5,2;}.<%=fenceClass%> line.comment{stroke-dasharray:5,2;}.<%=fenceClass%> line.inline_expression_divider{stroke-dasharray:10,5;}.<%=fenceClass%> text{color:inherit;stroke:none;text-anchor:middle;}.<%=fenceClass%> text.entity-text{text-decoration:underline;}.<%=fenceClass%> text.anchor-start{text-anchor:start;}.<%=fenceClass%> path{stroke:black;color:black;fill:none;}.<%=fenceClass%> .arrow-marker{overflow:visible;}.<%=fenceClass%> .arrow-style{stroke-width:1;}.<%=fenceClass%> .arcrowomit{stroke-dasharray:2,2;}.<%=fenceClass%> rect.box, .<%=fenceClass%> path.box{fill:white;}.<%=fenceClass%> .inherit{stroke:inherit;color:inherit;}.<%=fenceClass%> .inherit-fill{fill:inherit;}.<%=fenceClass%> .watermark{stroke:black;color:black;fill:black;font-size:48pt;font-weight:bold;opacity:0.14;}"
+        baseTemplate : "svg.<%=fenceClass%>{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>;color:black;}.<%=fenceClass%> rect{fill:none;stroke:black;}.<%=fenceClass%> rect.entity{fill:white;}.<%=fenceClass%> rect.label-text-background{fill:white;stroke:white;stroke-width:0;}.<%=fenceClass%> rect.bglayer{fill:white;stroke:white;stroke-width:0;}.<%=fenceClass%> line{stroke:black;}.<%=fenceClass%> line.return{stroke-dasharray:5,2;}.<%=fenceClass%> line.comment{stroke-dasharray:5,2;}.<%=fenceClass%> line.inline_expression_divider{stroke-dasharray:10,5;}.<%=fenceClass%> text{color:inherit;stroke:none;text-anchor:middle;}.<%=fenceClass%> text.entity-text{text-decoration:underline;}.<%=fenceClass%> text.anchor-start{text-anchor:start;}.<%=fenceClass%> path{stroke:black;color:black;fill:none;}.<%=fenceClass%> .arrow-marker{overflow:visible;}.<%=fenceClass%> .arrow-style{stroke-width:1;}.<%=fenceClass%> .arcrowomit{stroke-dasharray:2,2;}.<%=fenceClass%> rect.box, .<%=fenceClass%> path.box{fill:white;}.<%=fenceClass%> .inherit{stroke:inherit;color:inherit;}.<%=fenceClass%> .inherit-fill{fill:inherit;}.<%=fenceClass%> .watermark{stroke:black;color:black;fill:black;font-size:48pt;font-weight:bold;opacity:0.14;}",
+        additionalTemplates : [{
+            "name":"inverted",
+            "css":"svg.<%=fenceClass%>{filter:invert(1);-webkit-filter:invert(1);}"
+        }, {
+            "name": "grayscaled",
+            "css":"/*named template 'grayscaled'*/svg.<%=fenceClass%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
+        }]
     };
 });
 /*

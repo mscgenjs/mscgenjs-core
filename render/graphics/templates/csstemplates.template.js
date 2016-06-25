@@ -6,7 +6,14 @@ if (typeof define !== 'function') {
 define([], function() {
     "use strict";
     return {
-        baseTemplate : "<%= baseTemplateString %>"
+        baseTemplate : "<%= baseTemplateString %>",
+        additionalTemplates : [{
+            "name":"inverted",
+            "css":"svg.<%=fenceClass%>{filter:invert(1);-webkit-filter:invert(1);}"
+        }, {
+            "name": "grayscaled",
+            "css":"/*named template 'grayscaled'*/svg.<%=fenceClass%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
+        }]
     };
 });
 /*
