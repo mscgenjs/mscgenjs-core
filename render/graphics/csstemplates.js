@@ -12,7 +12,10 @@ define([], function() {
             "css":"svg.<%=fenceClass%>{filter:invert(1);-webkit-filter:invert(1);}"
         }, {
             "name": "grayscaled",
-            "css":"/*named template 'grayscaled'*/svg.<%=fenceClass%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
+            "css": "/* grayscaled */svg.<%=fenceClass%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
+        }, {
+            "name": "lazy",
+            "css": "/* lazy */<%=fenceClass%> text.entity-text{font-weight:bold;text-decoration:none;}<%=fenceClass%> text.return-text{font-style:italic}<%=fenceClass%> path.note{fill:#FFFFCC}<%=fenceClass%> rect.label-text-background{opacity:0.9}<%=fenceClass%> line.comment,<%=fenceClass%> rect.inline_expression,<%=fenceClass%> .inline_expression_divider,<%=fenceClass%> .inline_expression_label{stroke:grey}"
         }]
     };
 });
