@@ -15,6 +15,7 @@ indexAMD.js: \
 	render/text/ast2xu.js
 
 render/graphics/renderast.js: \
+	lib/lodash/lodash.custom.js \
 	render/graphics/constants.js \
 	render/graphics/entities.js \
 	render/graphics/idmanager.js \
@@ -109,6 +110,11 @@ index.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/renderast.js
 
+test/index.spec.js: \
+	index.js \
+	test/astfixtures.json \
+	test/testutensils.js
+
 test/parse/mscgenPairs.js: \
 	test/astfixtures.json
 
@@ -131,56 +137,51 @@ test/parse/xuparser_node.spec.js: \
 	test/parse/xuPairs.js \
 	test/testutensils.js
 
-test/render/graphics/t_markermanager.js: \
+test/render/graphics/markermanager.spec.js: \
 	render/graphics/markermanager.js
 
-test/render/graphics/t_renderast.js: \
+test/render/graphics/renderast.spec.js: \
 	render/graphics/renderast.js \
 	test/testutensils.js
 
-test/render/text/t_ast2animate.js: \
+test/render/text/ast2animate.spec.js: \
 	parse/xuparser_node.js \
 	render/text/ast2animate.js \
 	test/astfixtures.json \
 	test/testutensils.js
 
-test/render/text/t_ast2dot.js: \
+test/render/text/ast2dot.spec.js: \
 	render/text/ast2dot.js \
 	test/astfixtures.json
 
-test/render/text/t_ast2doxygen.js: \
+test/render/text/ast2doxygen.spec.js: \
 	render/text/ast2doxygen.js \
 	test/astfixtures.json
 
-test/render/text/t_ast2mscgen.js: \
+test/render/text/ast2mscgen.spec.js: \
 	parse/mscgenparser_node.js \
 	render/text/ast2mscgen.js \
 	test/astfixtures.json
 
-test/render/text/t_ast2msgenny.js: \
+test/render/text/ast2msgenny.spec.js: \
 	render/text/ast2msgenny.js \
 	test/astfixtures.json \
 	test/testutensils.js
 
-test/render/text/t_ast2xu.js: \
+test/render/text/ast2xu.spec.js: \
 	parse/xuparser_node.js \
 	render/text/ast2xu.js \
 	test/astfixtures.json
 
-test/render/text/t_colorize.js: \
+test/render/text/colorize.spec.js: \
 	lib/lodash/lodash.custom.js \
 	render/text/colorize.js \
 	test/astfixtures.json
 
-test/render/text/t_flatten.js: \
+test/render/text/flatten.spec.js: \
 	render/text/flatten.js \
 	test/astfixtures.json
 
-test/render/text/t_textutensils.js: \
+test/render/text/textutensils.spec.js: \
 	render/text/textutensils.js
-
-test/t_index.js: \
-	index.js \
-	test/astfixtures.json \
-	test/testutensils.js
 
