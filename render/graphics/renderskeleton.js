@@ -114,7 +114,9 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         if (Boolean(pOptions.additionalTemplate)) {
             lAdditionalTemplates =
                 csstemplates.additionalTemplates.filter(
-                    tpl => tpl.name === pOptions.additionalTemplate
+                    function(tpl) {
+                        return tpl.name === pOptions.additionalTemplate;
+                    }
                 );
             if (lAdditionalTemplates.length > 0) {
                 lStyleString = lAdditionalTemplates[0].css;
