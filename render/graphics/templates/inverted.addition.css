@@ -1,0 +1,9 @@
+svg.<%=fenceClass%>{
+    filter:invert(1);
+    -webkit-filter:invert(1);
+}
+/*
+ * safari and IE don't play well with filters (despite the 'webkit')
+ * perhaps http://stackoverflow.com/questions/17873715/how-to-invert-a-white-image-to-black-using-svg-filters
+ * will work
+ */

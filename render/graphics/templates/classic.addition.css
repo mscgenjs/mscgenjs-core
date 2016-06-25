@@ -1,0 +1,17 @@
+.<%=fenceClass%> text.entity-text{
+    text-decoration:none
+}
+.<%=fenceClass%> rect.entity{
+    stroke:none;
+}
+.<%=fenceClass%> line,.<%=fenceClass%> rect,.<%=fenceClass%> path{
+    stroke-width:1px
+}
+.<%=fenceClass%> .arrow-style{
+    stroke-width:2;
+}
+.<%=fenceClass%> .inline_expression,
+    .<%=fenceClass%> .inline_expression_divider
+    .<%=fenceClass%> .inline_expression_label{
+        stroke-width: 1px
+}

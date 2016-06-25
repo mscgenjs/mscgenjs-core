@@ -5,7 +5,6 @@ GIT=git
 NPM=npm
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclude "node_modules"
 LODASH=node_modules/.bin/lodash
-# LATE=../late/bin/late
 
 PARSERS_AMD=parse/mscgenparser.js \
 	parse/msgennyparser.js \
@@ -16,8 +15,8 @@ PARSERS_CJS=parse/mscgenparser_node.js \
 CUSTOM_LODASH=lib/lodash/lodash.custom.js
 GENERATED_SOURCES=$(PARSERS_AMD) \
 				  $(PARSERS_CJS) \
-				  $(CUSTOM_LODASH) #\
-				#   render/graphics/csstemplates.js
+				  $(CUSTOM_LODASH) \
+				  render/graphics/csstemplates.js
 LIBDIRS=lib/lodash
 
 .PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
@@ -74,9 +73,8 @@ $(CUSTOM_LODASH): node_modules/lodash-cli/package.json
 include jsdependencies.mk
 include dependencies.mk
 
-# render/graphics/csstemplates.js: render/graphics/templates/base.template.css \
-# 	render/graphics/templates/csstemplates.template.js
-# 	$(LATE) --css-from render/graphics/templates/base.template.css --js-template-in render/graphics/templates/csstemplates.template.js > $@
+render/graphics/csstemplates.js: render/graphics/templates
+	node render/graphics/templates/to-csstemplates-js.js > $@
 
 # "phony" targets
 prerequisites:

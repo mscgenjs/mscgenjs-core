@@ -1,0 +1,4 @@
+svg.<%=fenceClass%>{
+    filter:grayscale(1);
+    -webkit-filter:grayscale(1);
+}

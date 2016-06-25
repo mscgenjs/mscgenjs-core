@@ -1,0 +1,31 @@
+.<%=fenceClass%> line{
+    stroke:#00A1DE
+}
+.<%=fenceClass%> text{
+    fill:#005B82
+}
+.<%=fenceClass%> rect.entity,.<%=fenceClass%> rect.box,.<%=fenceClass%> path.box{
+    fill:#00A1DE;
+    stroke:#00A1DE
+}
+.<%=fenceClass%> text.box-text{
+    fill:white
+}
+.<%=fenceClass%> text.entity-text{
+    font-weight:bold;
+    fill:white;
+    text-decoration:none
+}
+.<%=fenceClass%> text.return-text{
+    font-style:italic
+}
+.<%=fenceClass%> path.note{
+    fill:#E77B2F;
+    stroke:white
+}
+.<%=fenceClass%> line.comment,
+    .<%=fenceClass%> rect.inline_expression,
+    .<%=fenceClass%> .inline_expression_divider,
+    .<%=fenceClass%> path.inline_expression_label{
+    fill:white
+}
