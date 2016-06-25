@@ -105,7 +105,8 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
     function setupStyleElement(pStyleAdditions) {
         return csstemplates.baseTemplate
             .replace(/<%=fontSize%>/g, C.FONT_SIZE)
-            .replace(/<%=lineWidth%>/g, C.LINE_WIDTH) +
+            .replace(/<%=lineWidth%>/g, C.LINE_WIDTH)
+            .replace(/<%=fenceClass%>/g, C.CSS_FENCE_CLASS) +
              (Boolean(pStyleAdditions) ? pStyleAdditions : "");
     }
     return {
