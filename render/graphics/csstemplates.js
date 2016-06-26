@@ -17,7 +17,7 @@ define([], function() {
         "css": ".<%=fenceClass%> line{stroke:#00A1DE}.<%=fenceClass%> text{fill:#005B82}.<%=fenceClass%> rect.entity,.<%=fenceClass%> rect.box,.<%=fenceClass%> path.box{fill:#00A1DE;stroke:#00A1DE}.<%=fenceClass%> text.box-text{fill:white}.<%=fenceClass%> text.entity-text{font-weight:bold;fill:white;text-decoration:none}.<%=fenceClass%> text.return-text{font-style:italic}.<%=fenceClass%> path.note{fill:#E77B2F;stroke:white}.<%=fenceClass%> line.comment,.<%=fenceClass%> rect.inline_expression,.<%=fenceClass%> .inline_expression_divider,.<%=fenceClass%> path.inline_expression_label{fill:white}"
     },
     {
-        "name": "grayscale",
+        "name": "grayscaled",
         "css": "svg.<%=fenceClass%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
     },
     {
@@ -29,7 +29,7 @@ define([], function() {
         "css": ".<%=fenceClass%> text.entity-text{font-weight:bold;text-decoration:none;}.<%=fenceClass%> text.return-text{font-style:italic}.<%=fenceClass%> path.note{fill:#FFFFCC}.<%=fenceClass%> rect.label-text-background{opacity:0.9}.<%=fenceClass%> line.comment,.<%=fenceClass%> rect.inline_expression,.<%=fenceClass%> .inline_expression_divider,.<%=fenceClass%> .inline_expression_label{stroke:grey}"
     },
     {
-        "name": "pégasse",
+        "name": "pegasse",
         "css": ".<%=fenceClass%> line{stroke:rgba(0, 43, 84, 1)}.<%=fenceClass%> text{fill:rgba(0, 43, 84, 1)}.<%=fenceClass%> rect.entity,.<%=fenceClass%> rect.box,.<%=fenceClass%> path.box{fill:rgba(0, 43, 84, 1);stroke:rgba(0, 43, 84, 1)}.<%=fenceClass%> text.box-text{fill:white}.<%=fenceClass%> text.entity-text{font-weight:bold;fill:white;text-decoration:none}.<%=fenceClass%> text.return-text{font-style:italic}.<%=fenceClass%> path.note{fill:rgba(255, 50, 0, 1);stroke:white}.<%=fenceClass%> line.comment,.<%=fenceClass%> rect.inline_expression,.<%=fenceClass%> .inline_expression_divider,.<%=fenceClass%> path.inline_expression_label{fill:white}"
     }
 ]
