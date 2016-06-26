@@ -39,10 +39,14 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return pDefs;
     }
 
-    function setupStyle(pOptions) {
+    function setupStyle(pOptions, pSvgElementId) {
         var lStyle = gDocument.createElement("style");
         lStyle.setAttribute("type", "text/css");
-        lStyle.appendChild(gDocument.createTextNode(setupStyleElement(pOptions)));
+        lStyle.appendChild(
+            gDocument.createTextNode(
+                setupStyleElement(pOptions, pSvgElementId)
+            )
+        );
         return lStyle;
     }
 
@@ -51,7 +55,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
          * to put "dynamic" definitions in
          */
         var lDefs = fact.createDefs();
-        lDefs.appendChild(setupStyle(pOptions));
+        lDefs.appendChild(setupStyle(pOptions, pElementId));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
         lDefs.appendChild(fact.createGroup(pElementId + "__defs"));
         return lDefs;
@@ -83,7 +87,7 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         if (lParent === null) {
             lParent = gDocument.body;
         }
-        var lSkeletonSvg = fact.createSVG(pSvgElementId, C.CSS_FENCE_CLASS);
+        var lSkeletonSvg = fact.createSVG(pSvgElementId, pSvgElementId);
         lSkeletonSvg.appendChild(setupDesc(pWindow, pSvgElementId, pOptions.source));
         lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
         lSkeletonSvg.appendChild(setupBody(pSvgElementId));
@@ -130,11 +134,11 @@ define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, 
         return lStyleString;
     }
 
-    function setupStyleElement(pOptions) {
+    function setupStyleElement(pOptions, pSvgElementId) {
         return (csstemplates.baseTemplate + distillAdditionalStyles(pOptions))
             .replace(/<%=fontSize%>/g, C.FONT_SIZE)
             .replace(/<%=lineWidth%>/g, C.LINE_WIDTH)
-            .replace(/<%=fenceClass%>/g, C.CSS_FENCE_CLASS);
+            .replace(/<%=id%>/g, pSvgElementId);
 
     }
     return {

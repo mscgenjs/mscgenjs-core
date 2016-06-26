@@ -1,17 +1,17 @@
-.<%=fenceClass%> text.entity-text{
+.<%=id%> text.entity-text{
     text-decoration:none
 }
-.<%=fenceClass%> rect.entity{
+.<%=id%> rect.entity{
     stroke:none;
 }
-.<%=fenceClass%> line,.<%=fenceClass%> rect,.<%=fenceClass%> path{
+.<%=id%> line,.<%=id%> rect,.<%=id%> path{
     stroke-width:1px
 }
-.<%=fenceClass%> .arrow-style{
+.<%=id%> .arrow-style{
     stroke-width:2;
 }
-.<%=fenceClass%> .inline_expression,
-    .<%=fenceClass%> .inline_expression_divider
-    .<%=fenceClass%> .inline_expression_label{
+.<%=id%> .inline_expression,
+    .<%=id%> .inline_expression_divider,
+    .<%=id%> .inline_expression_label{
         stroke-width: 1px
 }

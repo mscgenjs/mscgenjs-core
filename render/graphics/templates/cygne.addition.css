@@ -1,31 +1,31 @@
-.<%=fenceClass%> line{
+.<%=id%> line{
     stroke:#00A1DE
 }
-.<%=fenceClass%> text{
+.<%=id%> text{
     fill:#005B82
 }
-.<%=fenceClass%> rect.entity,.<%=fenceClass%> rect.box,.<%=fenceClass%> path.box{
+.<%=id%> rect.entity,.<%=id%> rect.box,.<%=id%> path.box{
     fill:#00A1DE;
     stroke:#00A1DE
 }
-.<%=fenceClass%> text.box-text{
+.<%=id%> text.box-text{
     fill:white
 }
-.<%=fenceClass%> text.entity-text{
+.<%=id%> text.entity-text{
     font-weight:bold;
     fill:white;
     text-decoration:none
 }
-.<%=fenceClass%> text.return-text{
+.<%=id%> text.return-text{
     font-style:italic
 }
-.<%=fenceClass%> path.note{
+.<%=id%> path.note{
     fill:#E77B2F;
     stroke:white
 }
-.<%=fenceClass%> line.comment,
-    .<%=fenceClass%> rect.inline_expression,
-    .<%=fenceClass%> .inline_expression_divider,
-    .<%=fenceClass%> path.inline_expression_label{
+.<%=id%> line.comment,
+    .<%=id%> rect.inline_expression,
+    .<%=id%> .inline_expression_divider,
+    .<%=id%> path.inline_expression_label{
     fill:white
 }

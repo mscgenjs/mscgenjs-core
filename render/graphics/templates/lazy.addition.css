@@ -1,19 +1,19 @@
-.<%=fenceClass%> text.entity-text{
+.<%=id%> text.entity-text{
     font-weight:bold;
     text-decoration:none;
 }
-.<%=fenceClass%> text.return-text{
+.<%=id%> text.return-text{
     font-style:italic
 }
-.<%=fenceClass%> path.note{
+.<%=id%> path.note{
     fill:#FFFFCC
 }
-.<%=fenceClass%> rect.label-text-background{
+.<%=id%> rect.label-text-background{
     opacity:0.9
 }
-.<%=fenceClass%> line.comment,
-    .<%=fenceClass%> rect.inline_expression,
-    .<%=fenceClass%> .inline_expression_divider,
-    .<%=fenceClass%> .inline_expression_label{
+.<%=id%> line.comment,
+    .<%=id%> rect.inline_expression,
+    .<%=id%> .inline_expression_divider,
+    .<%=id%> .inline_expression_label{
     stroke:grey
 }
