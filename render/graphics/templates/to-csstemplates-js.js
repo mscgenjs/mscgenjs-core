@@ -19,7 +19,6 @@ let extractFileContents = (pDirName, pFileName) =>
 
 let fileNameToAdditionNode = pDirName =>
     pFileName => {
-
         return {
             name : extractName(pFileName),
             css  : extractFileContents(pDirName, pFileName)
@@ -31,18 +30,18 @@ let dirToAdditionsArray = pDirName =>
     .filter(fileNameIsAddition)
     .map(fileNameToAdditionNode(pDirName));
 
-let csstemplatesJsFileContent = fs.readFileSync('render/graphics/templates/csstemplates.template.js', 'utf-8')
-.replace(
-    /<%=additionalTemplates%>/g,
-    JSON.stringify(
-        dirToAdditionsArray("render/graphics/templates/"),
-        null,
-        "    "
+process.stdout.write(
+    fs.readFileSync('render/graphics/templates/csstemplates.template.js', 'utf-8')
+    .replace(
+        /<%=additionalTemplates%>/g,
+        JSON.stringify(
+            dirToAdditionsArray("render/graphics/templates/"),
+            null,
+            "    "
+        )
     )
-)
-.replace(
-    /<%=baseTemplateString%>/g,
-    extractFileContents("render/graphics/templates/", "base.css")
+    .replace(
+        /<%=baseTemplateString%>/g,
+        extractFileContents("render/graphics/templates/", "base.css")
+    )
 );
-
-process.stdout.write(csstemplatesJsFileContent);
