@@ -781,25 +781,17 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     }
 
     function renderEmptyArc(pArc, pId) {
-        var lElement = {};
-
         if (pArc.from && pArc.to) {
             if (entities.getX(pArc.from) > entities.getX(pArc.to)) {
                 swap.swapfromto(pArc);
             }
         }
 
-        switch (pArc.kind) {
-        case ("..."):
-        case ("|||"):
-            lElement = createLifeLinesText(pId, pArc);
-            break;
-        case ("---"):
-            lElement = createComment(pId, pArc);
-            break;
-        default: break;
+        if (pArc.kind === "---"){
+            return createComment(pId, pArc);
+        } else { /* "..." / "|||" */
+            return createLifeLinesText(pId, pArc);
         }
-        return lElement;
     }
 
     function determineArcYTo(pArc){
