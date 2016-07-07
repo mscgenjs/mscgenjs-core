@@ -1028,7 +1028,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             );
             break;
         case ("abox"):
-            lBBox.y = 0; // TODO move down to createABox
             lBox = fact.createABox(lBBox, "box abox", pArc.linecolor, pArc.textbgcolor);
             break;
         case ("note"):
@@ -1037,8 +1036,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         default:  // "box"
             lBox = fact.createRect(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
             break;
-
         }
+
         lGroup.appendChild(lBox);
         lGroup.appendChild(lTextGroup);
 

@@ -161,7 +161,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
     function _createABox(pBBox, pClass, pColor, pBgColor) {
         var lSlopeOffset = 3;
         return _createPath(
-            "M" + pBBox.x + "," + pBBox.y +
+            "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
             // start
             "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
             "l" + (pBBox.width - 2 * lSlopeOffset) + ",0" +
