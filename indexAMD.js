@@ -28,17 +28,17 @@ define(["./lib/lodash/lodash.custom",
     var DEFAULT_TEXT_RENDERER = ast2mscgen;
 
     var gLang2Parser = {
-        mscgen: mscgenparser,
-        xu: xuparser,
-        msgenny: msgennyparser
+        mscgen  : mscgenparser,
+        xu      : xuparser,
+        msgenny : msgennyparser
     };
 
     var gLang2TextRenderer = {
-        mscgen: ast2mscgen,
-        msgenny: ast2msgenny,
-        xu: ast2xu,
-        dot: ast2dot,
-        doxygen: ast2doxygen
+        mscgen  : ast2mscgen,
+        msgenny : ast2msgenny,
+        xu      : ast2xu,
+        dot     : ast2dot,
+        doxygen : ast2doxygen
     };
 
     var getParser = _.memoize(
@@ -75,9 +75,6 @@ define(["./lib/lodash/lodash.custom",
     }
 
     return {
-        getParams : function (thing) {
-            return thing;
-        },
         renderMsc : function renderMsc(pScript, pOptions, pCallBack){
             var lOptions = pOptions || {};
             _.defaults(lOptions, {
@@ -133,9 +130,9 @@ define(["./lib/lodash/lodash.custom",
                 runCallBack(pCallBack, pException);
             }
         },
-        getParser : getParser,
+        getParser           : getParser,
         getGraphicsRenderer : getGraphicsRenderer,
-        getTextRenderer : getTextRenderer
+        getTextRenderer     : getTextRenderer
     };
 });
 /*
