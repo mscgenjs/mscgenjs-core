@@ -994,8 +994,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * to get smaller than the default arc row height
      */
     function createBox(pId, pOAndD, pArc) {
-        var RBOX_CORNER_RADIUS = 6; // px
-
         /* begin: same as createInlineExpressionBox */
         if (pOAndD.from > pOAndD.to) {
             swap.swapfromto(pOAndD);
@@ -1018,14 +1016,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
 
         switch (pArc.kind) {
         case ("rbox"):
-            lBox = fact.createRect(
-                lBBox,
-                "box rbox",
-                pArc.linecolor,
-                pArc.textbgcolor,
-                RBOX_CORNER_RADIUS,
-                RBOX_CORNER_RADIUS
-            );
+            lBox = fact.createRBox(lBBox, "box rbox", pArc.linecolor, pArc.textbgcolor);
             break;
         case ("abox"):
             lBox = fact.createABox(lBBox, "box abox", pArc.linecolor, pArc.textbgcolor);

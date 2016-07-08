@@ -80,7 +80,7 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
         );
     }
 
-    function _createRect(pBBox, pClass, pColor, pBgColor, pRX, pRY) {
+    function _createRect(pBBox, pClass, pColor, pBgColor) {
         return colorBox(
             factll.createElement(
                 "rect",
@@ -89,8 +89,27 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
                     height: pBBox.height,
                     x: pBBox.x,
                     y: pBBox.y,
-                    rx: pRX,
-                    ry: pRY,
+                    class: pClass
+                }
+            ),
+            pColor,
+            pBgColor
+        );
+    }
+
+    function _createRBox(pBBox, pClass, pColor, pBgColor) {
+        var RBOX_CORNER_RADIUS = 6; // px
+
+        return colorBox(
+            factll.createElement(
+                "rect",
+                {
+                    width: pBBox.width,
+                    height: pBBox.height,
+                    x: pBBox.x,
+                    y: pBBox.y,
+                    rx: RBOX_CORNER_RADIUS,
+                    ry: RBOX_CORNER_RADIUS,
                     class: pClass
                 }
             ),
@@ -447,6 +466,16 @@ define(["./constants", "./svglowlevelfactory", "./geometry"], function(C, factll
          * @return {SVGElement}
          */
         createRect : _createRect,
+
+        /**
+         * Creates rect with 6px rounded corners of width x height, with the top
+         * left corner at coordinates (x, y)
+         *
+         * @param {object} pBBox
+         * @param {string} pClass - reference to the css class to be applied
+         * @return {SVGElement}
+         */
+        createRBox : _createRBox,
 
         /**
          * Creates an angled box of width x height, with the top left corner
