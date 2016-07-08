@@ -1022,12 +1022,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         return lGroup;
     }
 
-    function _clean(pParentElementId, pWindow) {
-        gChart.document = skel.init(pWindow);
-        svgutl.init(gChart.document);
-        svgutl.removeRenderedSVGFromElement(pParentElementId);
-    }
-
     return {
 
         /**
@@ -1038,7 +1032,11 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          * @param - {window} pWindow - the browser window object
          *
          */
-        clean : _clean,
+        clean : function (pParentElementId, pWindow) {
+            gChart.document = skel.init(pWindow);
+            svgutl.init(gChart.document);
+            svgutl.removeRenderedSVGFromElement(pParentElementId);
+        },
 
         /**
          * renders the given abstract syntax tree pAST as svg
