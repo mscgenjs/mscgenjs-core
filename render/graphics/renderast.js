@@ -58,18 +58,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     });
     var gInlineExpressionMemory = [];
 
-    function _renderAST(pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
-        return _renderASTNew(
-            pAST,
-            pWindow,
-            pParentElementId,
-            {
-                source: pSource,
-                styleAdditions: pStyleAdditions
-            }
-        );
-    }
-
     function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
         var lAST = flatten.flatten(pAST);
         var lOptions = pOptions || {};
@@ -808,7 +796,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     }
     function createArc(pId, pArc, pFrom, pTo) {
         var lGroup = fact.createGroup(pId);
-        // var lClass = id.get(map.determineArcClass(pArc.kind, pFrom, pTo));
         var lClass = "arc ";
         lClass += determineDirectionClass(pArc.kind);
         lClass += map.getAggregateClass(pArc.kind) + " " + map.getClass(pArc.kind);
@@ -1064,7 +1051,17 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
          * @param {window} pWindow - the browser window to put the svg in
          * @param {string} pStyleAdditions - valid css that augments the default style
          */
-        renderAST : _renderAST,
+        renderAST : function (pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
+            return _renderASTNew(
+                pAST,
+                pWindow,
+                pParentElementId,
+                {
+                    source: pSource,
+                    styleAdditions: pStyleAdditions
+                }
+            );
+        },
 
         /**
         * renders the given abstract syntax tree pAST as svg
