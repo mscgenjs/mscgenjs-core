@@ -10,7 +10,6 @@ define(["./svgelementfactory",
         "./renderskeleton",
         "../text/flatten",
         "../text/arcmappings",
-        "./swap",
         "./rowmemory",
         "./idmanager",
         "./markermanager",
@@ -19,7 +18,7 @@ define(["./svgelementfactory",
         "./constants",
         "../../lib/lodash/lodash.custom"],
     /* eslint max-params: 0 */
-function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mark, entities, labels, C, _) {
+function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, entities, labels, C, _) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -275,7 +274,15 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         var lGroup = fact.createGroup(id.get(pEntity.name));
         var lBBox = entities.getDims();
         lBBox.x = pX ? pX : 0;
-        var lTextLabel =
+        lGroup.appendChild(
+            fact.createRect(
+                lBBox,
+                "entity",
+                pEntity.linecolor,
+                pEntity.textbgcolor
+            )
+        );
+        lGroup.appendChild(
             labels.createLabel(
                 pEntity,
                 {
@@ -286,16 +293,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
                 {
                     kind: "entity"
                 }
-            );
-
-        var lRect = fact.createRect(
-            lBBox,
-            "entity",
-            pEntity.linecolor,
-            pEntity.textbgcolor
+            )
         );
-        lGroup.appendChild(lRect);
-        lGroup.appendChild(lTextLabel);
         return lGroup;
     }
 
@@ -573,15 +572,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * @param <object> pArc - the arc spanning arc
      */
     function renderInlineExpressionLabel(pId, pArc) {
-        var lOnD = {
-            from: entities.getX(pArc.from),
-            to: entities.getX(pArc.to)
-        };
-
+        var lOnD = entities.getOAndD(pArc.from, pArc.to);
         var FOLD_SIZE = 7;
-        if (lOnD.from > lOnD.to) {
-            swap.swapfromto(lOnD);
-        }
 
         var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
 
@@ -769,16 +761,10 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
     }
 
     function renderEmptyArc(pArc, pId) {
-        if (pArc.from && pArc.to) {
-            if (entities.getX(pArc.from) > entities.getX(pArc.to)) {
-                swap.swapfromto(pArc);
-            }
-        }
-
         if (pArc.kind === "---"){
-            return createComment(pId, pArc);
+            return createComment(pId, pArc, entities.getOAndD(pArc.from, pArc.to));
         } else { /* "..." / "|||" */
-            return createLifeLinesText(pId, pArc);
+            return createLifeLinesText(pId, pArc, entities.getOAndD(pArc.from, pArc.to));
         }
     }
 
@@ -794,6 +780,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
         }
         return "";
     }
+
     function createArc(pId, pArc, pFrom, pTo) {
         var lGroup = fact.createGroup(pId);
         var lClass = "arc ";
@@ -866,14 +853,14 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * @param <string> - pId - unique identification of the text in the svg
      * @param <object> - pArc - the arc to render
      */
-    function createLifeLinesText(pId, pArc) {
+    function createLifeLinesText(pId, pArc, pOAndD) {
         var lArcStart = 0;
         var lArcEnd = gChart.arcEndX;
         var lGroup = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
-            lArcStart = entities.getX(pArc.from);
-            lArcEnd = Math.abs(entities.getX(pArc.to) - entities.getX(pArc.from));
+            lArcStart = pOAndD.from;
+            lArcEnd   = pOAndD.to - pOAndD.from;
         }
         lGroup.appendChild(
             labels.createLabel(
@@ -892,7 +879,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      * @param <string> - pId - the unique identification of the comment within the svg
      * @param <object> - pArc - the (comment) arc to render
      */
-    function createComment(pId, pArc) {
+    function createComment(pId, pArc, pOAndD) {
         var lStartX = 0;
         var lEndX = gChart.arcEndX;
         var lClass = "comment";
@@ -903,12 +890,12 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * C.LINE_WIDTH;
 
             lStartX =
-                (entities.getX(pArc.from) -
-                (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) -
+                (pOAndD.from -
+                  (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) -
                 (lArcDepthCorrection - lMaxDepthCorrection);
             lEndX   =
-                (entities.getX(pArc.to) +
-                (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) +
+                (pOAndD.to +
+                  (entities.getDims().interEntitySpacing + 2 * C.LINE_WIDTH) / 2) +
                 (lArcDepthCorrection - lMaxDepthCorrection);
             lClass  = "inline_expression_divider";
         }
@@ -924,7 +911,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
             );
 
         lGroup.appendChild(lLine);
-        lGroup.appendChild(createLifeLinesText(pId + "_txt", pArc));
+        lGroup.appendChild(createLifeLinesText(pId + "_txt", pArc, pOAndD));
 
         if (pArc.linecolor) {
             lLine.setAttribute("style", "stroke:" + pArc.linecolor + ";");
@@ -935,9 +922,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
 
     function createInlineExpressionBox(pId, pOAndD, pArc, pHeight) {
         /* begin: same as createBox */
-        if (pOAndD.from > pOAndD.to) {
-            swap.swapfromto(pOAndD);
-        }
         var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
         var lWidth =
             (pOAndD.to - pOAndD.from) +
@@ -982,9 +966,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, swap, rowmemory, id, mar
      */
     function createBox(pId, pOAndD, pArc) {
         /* begin: same as createInlineExpressionBox */
-        if (pOAndD.from > pOAndD.to) {
-            swap.swapfromto(pOAndD);
-        }
         var lMaxDepthCorrection = gChart.maxDepth * 2 * C.LINE_WIDTH;
         var lWidth =
             (pOAndD.to - pOAndD.from) +

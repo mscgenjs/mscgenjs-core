@@ -27,7 +27,6 @@ render/graphics/renderast.js: \
 	render/graphics/svgelementfactory.js \
 	render/graphics/svglowlevelfactory.js \
 	render/graphics/svgutensils.js \
-	render/graphics/swap.js \
 	render/text/arcmappings.js \
 	render/text/flatten.js
 
