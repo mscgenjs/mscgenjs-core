@@ -84,7 +84,7 @@ Climate][codeclimate.mscgenjs].
 ## Build status
 [![Build Status][travis.mscgenjs.badge]][travis.mscgenjs]
 [![bitHound Overall Score][bithound.mscgenjs.badge]][bithound.mscgenjs]
-[![test coverage (codecov.io)][codecov.mscgenjs.badge]][codecov.mscgenjs]
+[![Test Coverage](https://codeclimate.com/github/sverweij/mscgenjs-core/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgenjs-core/coverage)
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
 [![devDependency Status][daviddev.mscgenjs.badge]][daviddev.mscgenjs]
 [![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
