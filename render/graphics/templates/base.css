@@ -85,13 +85,3 @@ svg.<%=id%>{
     font-weight:bold;
     opacity:0.14;
 }
-/*.<%=id%> .onionskin > use{
-    opacity:0;
-}
-.<%=id%> .onionskin > use:active, .<%=id%> .onionskin > use:hover{
-    opacity:0.5;
-}
-.<%=id%> .onionskin-hover-layer{
-    fill:rgba(255,255,255,0.0);
-    stroke:rgba(255,255,255,0.0);
-}*/

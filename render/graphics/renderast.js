@@ -132,7 +132,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         pLayer.notes     = pDocument.getElementById(id.get("__notelayer"));
         pLayer.inline    = pDocument.getElementById(id.get("__arcspanlayer"));
         pLayer.watermark = pDocument.getElementById(id.get("__watermark"));
-        // pLayer.onionskin = pDocument.getElementById(id.get("__onionskin"));
     }
 
     function preProcessOptionsArcs(pChart, pOptions){
@@ -298,24 +297,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         return lGroup;
     }
 
-    // function renderOnionEntity(pEntity, pX) {
-    //     var lBBox = entities.getDims();
-    //     // lBBox.x = pX ? pX : 0;
-    //     // var lTextLabel =
-    //     return  labels.createLabel(
-    //         pEntity,
-    //         {
-    //             x:pX,
-    //             y:lBBox.height / 2,
-    //             width:lBBox.width
-    //         },
-    //         {
-    //             ownBackground: true,
-    //             kind: "entity"
-    //         }
-    //     );
-    // }
-
     function renderEntitiesOnBottom() {
         var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
 
@@ -348,14 +329,12 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
     function renderEntities(pEntities) {
         var lEntityXPos = 0;
         var lEntityGroup = fact.createGroup(id.get("entities"));
-        // var lOnionEntityGroup = fact.createGroup(id.get("onion-entities"));
 
         if (pEntities) {
             entities.setHeight(getMaxEntityHeight(pEntities) + C.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
                 lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos));
-                // lOnionEntityGroup.appendChild(renderOnionEntity(pEntity, lEntityXPos));
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
@@ -368,19 +347,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
             lEntityXPos -
             entities.getDims().interEntitySpacing + entities.getDims().width;
 
-        // lOnionEntityGroup.appendChild(
-        //     fact.createRect(
-        //         {
-        //             x: -(entities.getDims().interEntitySpacing - entities.getDims().width) / 2,
-        //             y: 0,
-        //             width: lEntityXPos, // + 2 * entities.getDims().interEntitySpacing,
-        //             height: entities.getDims().height
-        //         },
-        //         "onionskin-hover-layer"
-        //     )
-        // );
-
-        // gChart.layer.defs.appendChild(lOnionEntityGroup);
     }
 
     /* ------------------------END entity shizzle-------------------------------- */
@@ -531,15 +497,6 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
                 )
             );
         });
-        // gChart.layer.onionskin.appendChild(
-        //     fact.createUse(
-        //         {
-        //             x:0,
-        //             y:rowmemory.get(pRowNumber).y - entities.getDims().height
-        //         },
-        //         id.get("entities")
-        //     )
-        // );
     }
 
     /** renderArcRows() - renders the arcrows from an AST
