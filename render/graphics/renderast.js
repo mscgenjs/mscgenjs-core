@@ -96,7 +96,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         gChart.mirrorEntitiesOnBottom = Boolean(pOptions.mirrorEntitiesOnBottom);
         svgutl.init(gChart.document);
 
-        createLayerShortcuts(gChart.layer, gChart.document);
+        gChart.layer = createLayerShortcuts(gChart.document);
         gChart.maxDepth = pAST.depth;
 
         preProcessOptions(gChart, pAST.options);
@@ -120,23 +120,25 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
          *
          * We do this _before_ scaling is applied to the svg
          */
-        renderBackground(gChart, lCanvas);
+        renderBackground(lCanvas);
         postProcessOptions(pAST.options, lCanvas);
         renderSvgElement(lCanvas);
     }
 
-    function createLayerShortcuts (pLayer, pDocument){
-        pLayer.defs      = pDocument.getElementById(id.get("__defs"));
-        pLayer.lifeline  = pDocument.getElementById(id.get("__lifelinelayer"));
-        pLayer.sequence  = pDocument.getElementById(id.get("__sequencelayer"));
-        pLayer.notes     = pDocument.getElementById(id.get("__notelayer"));
-        pLayer.inline    = pDocument.getElementById(id.get("__arcspanlayer"));
-        pLayer.watermark = pDocument.getElementById(id.get("__watermark"));
+    function createLayerShortcuts (pDocument){
+        return {
+            defs      : pDocument.getElementById(id.get("__defs")),
+            lifeline  : pDocument.getElementById(id.get("__lifelinelayer")),
+            sequence  : pDocument.getElementById(id.get("__sequencelayer")),
+            notes     : pDocument.getElementById(id.get("__notelayer")),
+            inline    : pDocument.getElementById(id.get("__arcspanlayer")),
+            watermark : pDocument.getElementById(id.get("__watermark"))
+        };
     }
 
     function preProcessOptionsArcs(pChart, pOptions){
         pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
-        pChart.arcGradient = DEFAULT_ARC_GRADIENT;
+        pChart.arcGradient  = DEFAULT_ARC_GRADIENT;
         pChart.wordWrapArcs = false;
 
         if (pOptions) {
@@ -190,8 +192,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
         return lCanvas;
     }
 
-    function renderBackground(pChart, pCanvas) {
-        pChart.document.getElementById(id.get("__background")).appendChild(
+    function renderBackground(pCanvas) {
+        gChart.document.getElementById(id.get("__background")).appendChild(
             fact.createRect(pCanvas, "bglayer")
         );
     }
