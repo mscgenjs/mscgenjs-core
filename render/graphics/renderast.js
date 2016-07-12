@@ -58,7 +58,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
     var gInlineExpressionMemory = [];
 
     function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
-        var lAST = flatten.flatten(pAST);
+        var lAST = Object.seal(flatten.flatten(pAST));
         var lOptions = pOptions || {};
 
         lOptions = _.defaults(lOptions, {
@@ -818,8 +818,8 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
      */
     function createLifeLinesText(pId, pArc, pOAndD) {
         var lArcStart = 0;
-        var lArcEnd = gChart.arcEndX;
-        var lGroup = fact.createGroup(pId);
+        var lArcEnd   = gChart.arcEndX;
+        var lGroup    = fact.createGroup(pId);
 
         if (pArc.from && pArc.to) {
             lArcStart = pOAndD.from;
