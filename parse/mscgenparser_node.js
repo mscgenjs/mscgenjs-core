@@ -3053,17 +3053,13 @@ module.exports = (function() {
     }
 
 
-        function mergeObject (pBase, pObjectToMerge){
+        function merge(pBase, pObjectToMerge){
+            pBase = pBase || {};
             if (pObjectToMerge){
                 Object.getOwnPropertyNames(pObjectToMerge).forEach(function(pAttribute){
                     pBase[pAttribute] = pObjectToMerge[pAttribute];
                 });
             }
-        }
-
-        function merge(pBase, pObjectToMerge){
-            pBase = pBase ? pBase : {};
-            mergeObject(pBase, pObjectToMerge);
             return pBase;
         }
 
