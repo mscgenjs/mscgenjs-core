@@ -3,26 +3,6 @@ var fix      = require("../../astfixtures.json");
 var _        = require("../../../lib/lodash/lodash.custom");
 var expect   = require("chai").expect;
 
-/*
-var template = {
-  "meta": {
-    "extendedOptions": false,
-    "extendedArcTypes": false,
-    "extendedFeatures": false
-  },
-  "entities": [
-    {
-      "name": "a",
-      "textbgcolor": "red",
-      "textcolor": "green",
-      "linecolor": "blue",
-      "arctextcolor": "fuchsia",
-      "arclinecolor": "cyan"
-    }
-  ]
-};
-*/
-
 var textColoredEntity = {
     "meta": {
         "extendedOptions": false,
