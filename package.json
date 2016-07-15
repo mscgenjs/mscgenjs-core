@@ -20,7 +20,7 @@
     "npm-check-updates": "2.7.0",
     "nsp": "2.6.1",
     "pegjs": "0.9.0",
-    "plato": "1.5.0"
+    "plato": "1.6.0"
   },
   "scripts": {
     "test": "mocha -R dot --timeout 6000 --recursive test",
