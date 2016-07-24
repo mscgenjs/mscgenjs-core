@@ -17,6 +17,10 @@ define([], function() {
         "css": ".<%=id%> line{stroke:#00A1DE}.<%=id%> text{fill:#005B82}.<%=id%> rect.entity,.<%=id%> rect.box,.<%=id%> path.box{fill:#00A1DE;stroke:#00A1DE}.<%=id%> text.box-text{fill:white}.<%=id%> text.entity-text{font-weight:bold;fill:white;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#E77B2F;stroke:white}.<%=id%> line.comment,.<%=id%> rect.inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> path.inline_expression_label{fill:white}"
     },
     {
+        "name": "fountainpen",
+        "css": "svg.<%=id%>{font-family:HanziPen TC,Hannotate TC,Comic Sans MS,sans-serif;stroke-opacity:0.4;stroke-linecap:round}.<%=id%> text{fill:rgba(0,0,128,0.8)}.<%=id%> marker polygon{fill:rgba(0,0,255,0.4);stroke-linejoin:round}.<%=id%> line, .<%=id%> path, .<%=id%> rect, .<%=id%> polygon{stroke:blue !important}.<%=id%> text.entity-text{font-weight:bold;text-decoration:none}.<%=id%> text.return-text{font-style:italic}.<%=id%> path.note{fill:#FFFFCC;}.<%=id%> rect.label-text-background{opacity:0}.<%=id%> line.comment,.<%=id%> rect.inline_expression,.<%=id%> .inline_expression_divider,.<%=id%> .inline_expression_label{stroke:black}"
+    },
+    {
         "name": "grayscaled",
         "css": "svg.<%=id%>{filter:grayscale(1);-webkit-filter:grayscale(1);}"
     },
