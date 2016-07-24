@@ -11,71 +11,69 @@ svg.<%=id%>{
     background-color:white;
     stroke:black;
     stroke-width:<%=lineWidth%>;
-    color:black;
+    color:black
 }
 .<%=id%> rect{
     fill:none;
-    stroke:black;
-}
-.<%=id%> rect.entity{
-    fill:white;
+    stroke:black
 }
 .<%=id%> rect.label-text-background{
     fill:white;
     stroke:white;
-    stroke-width:0;
+    stroke-width:0
 }
 .<%=id%> rect.bglayer{
     fill:white;
     stroke:white;
-    stroke-width:0;
+    stroke-width:0
 }
 .<%=id%> line{
-    stroke:black;
+    stroke:black
 }
-.<%=id%> line.return, .<%=id%> path.return{
-    stroke-dasharray:5,2;
-}
-.<%=id%> line.comment{
-    stroke-dasharray:5,2;
+.<%=id%> line.return, .<%=id%> path.return, .<%=id%> line.comment{
+    stroke-dasharray:5,3
 }
 .<%=id%> line.inline_expression_divider{
-    stroke-dasharray:10,5;
+    stroke-dasharray:10,5
 }
 .<%=id%> text{
     color:inherit;
     stroke:none;
-    text-anchor:middle;
+    text-anchor:middle
 }
 .<%=id%> text.entity-text{
-    text-decoration:underline;
+    text-decoration:underline
 }
 .<%=id%> text.anchor-start{
-    text-anchor:start;
+    text-anchor:start
 }
 .<%=id%> path{
     stroke:black;
     color:black;
-    fill:none;
+    fill:none
 }
 .<%=id%> .arrow-marker{
-    overflow:visible;
+    overflow:visible
 }
 .<%=id%> .arrow-style{
-    stroke-width:1;
+    stroke-width:1
 }
-.<%=id%> .arcrowomit{
+.<%=id%> line.arcrow, .<%=id%> line.arcrowomit, .<%=id%> .emphasised{
+    stroke-linecap:butt
+}
+.<%=id%> line.arcrowomit{
     stroke-dasharray:2,2;
 }
-.<%=id%> rect.box, .<%=id%> path.box{
+.<%=id%> rect.box, .<%=id%> path.box, .<%=id%> rect.entity{
     fill:white;
+    stroke-linejoin:round
 }
 .<%=id%> .inherit{
     stroke:inherit;
-    color:inherit;
+    color:inherit
 }
 .<%=id%> .inherit-fill{
-    fill:inherit;
+    fill:inherit
 }
 .<%=id%> .watermark{
     stroke:black;
@@ -83,5 +81,5 @@ svg.<%=id%>{
     fill:black;
     font-size:48pt;
     font-weight:bold;
-    opacity:0.14;
+    opacity:0.14
 }
