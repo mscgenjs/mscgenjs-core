@@ -27,21 +27,21 @@ let fileNameToAdditionNode = pDirName =>
 
 let dirToAdditionsArray = pDirName =>
     fs.readdirSync(pDirName)
-    .filter(fileNameIsAddition)
-    .map(fileNameToAdditionNode(pDirName));
+        .filter(fileNameIsAddition)
+        .map(fileNameToAdditionNode(pDirName));
 
 process.stdout.write(
     fs.readFileSync('render/graphics/templates/csstemplates.template.js', 'utf-8')
-    .replace(
-        /<%=additionalTemplates%>/g,
-        JSON.stringify(
-            dirToAdditionsArray("render/graphics/templates/"),
-            null,
-            "    "
+        .replace(
+            /<%=additionalTemplates%>/g,
+            JSON.stringify(
+                dirToAdditionsArray("render/graphics/templates/"),
+                null,
+                "    "
+            )
         )
-    )
-    .replace(
-        /<%=baseTemplateString%>/g,
-        extractFileContents("render/graphics/templates/", "base.css")
-    )
+        .replace(
+            /<%=baseTemplateString%>/g,
+            extractFileContents("render/graphics/templates/", "base.css")
+        )
 );

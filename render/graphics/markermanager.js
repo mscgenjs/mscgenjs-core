@@ -198,10 +198,10 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
                 return {
                     name: pAttribute.name,
                     value: pAttribute.value
-                            .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
-                            .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
-                            .replace(/\{\{id\}\}/g, pId)
-                            .replace(/\{\{color\}\}/g, pLineColor || "black")
+                        .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
+                        .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
+                        .replace(/\{\{id\}\}/g, pId)
+                        .replace(/\{\{color\}\}/g, pLineColor || "black")
                 };
             });
         }
