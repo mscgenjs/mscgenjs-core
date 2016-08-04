@@ -24,10 +24,94 @@ Implementation of [MscGen][mscgen] and two derived languages in JavaScript.
 - runs in all modern browsers (and in _Node.js_).
 
 ## I'm still here. How can I use this?
-You already know how to `npm install mscgenjs`, right?
+### Prerequisites
+mscgen_js works in anything with an implementation of the document object model
+(DOM). This includes web-browsers, client-side application shells like electron
+and even headless browsers like phantomjs. It does _not_ include nodejs
+(although it is possible to get it sorta to work even there with
+[jsdom](https://github.com/tmpvar/jsdom)).
 
-Good. For examples on how to use the mscgen_js core package, have a look at
-the source code of any of the above mentioned tools.
+### Get it
+`npm install mscgenjs`
+
+### Import it
+You'll have to import the mscgenjs module somehow. There's a commonjs and a
+requirejs variant, both of which are in the `mscgenjs`
+[npm module](https://www.npmjs.com/package/mscgenjs)
+(repo: [sverweij/mscgenjs-core](https://github.com/sverweij/mscgenjs-core)).
+
+```javascript
+// commonjs 
+var mscgenjs = require('mscgenjs');
+```
+
+```javascript
+// commonjs, but with lazy loading. Useful when you're using it in
+// e.g. an electron shell, or on the web without a minifier
+var mscgenjs = require('mscgenjs/index-lazy);
+```
+
+```javascript
+// requirejs
+require(['your/path/to/mscgenjs/indexAMD'], function(mscgenjs){
+    // your code here
+});
+```
+
+### Use it
+
+- use the root module directly => recommended    
+  mscgenjs-cli and atom-mscgen-preview take that approach. See the samples below
+- individually do calls to the parse and render steps => do this when you have
+  very special needs. This is the approach the mscgen_js and mscgenjs-inpage script take. [link to where this happens in mscgen_js](https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L242) and one [where this happens in mscgenjs-inpage](https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116) - I plan to migrate that last one to using the root module somewhere in the future because it's simpler and there's no specific reason to want
+
+Here's some some samples for using the root module directly:
+```Javascript
+// renders the given script in the (already existing) element with id=yourCoolId
+mscgenjs.renderMsc (
+  'msc { a,b; a=>>b[label="render this"; }',
+  {
+    elementId: "yourCoolId"
+  }
+);
+```
+
+If you want to do error handling, or act on the created svg: provide a callback:
+```javascript
+mscgenjs.renderMsc (
+  'msc { a,b; a=>>b[label="render this"; }',
+  {
+    elementId: "yourOtherCoolId"
+  },
+  handleRenderMscResult
+);
+
+function handleRenderMscResult(pError, pSuccess) {
+  if (Boolean(pError)){
+    console.log (pError);
+  } else if (Boolean(pSuccess)){
+    console.log ('That worked - cool!');
+   // the svg is in the pSuccess argument
+  }
+  console.log('Wat! Error nor success?');
+}
+```
+
+The second parameter in the `renderMsc` call takes some options that influence rendering e.g.
+```javascript
+mscgenjs.renderMsc (
+  'a=>>b:render this;',
+  {
+    elementId: "yourThirdCoolId",
+    inputType: "msgenny", // language to parse - default "mscgen"; other accepted languages: "xu", "msgenny" and "json"
+    mirrorEntitiesOnBottom: true, // draws entities on both top and bottom of the chart - default false
+    additionalTemplate: "lazy", // use a predefined template. E.g. "lazy" or "classic". Default empty
+    includeSource: false, // whether the generated svg should include the source in a desc element
+  },
+```
+
+### Some battle tested implementations
+
 - the atom package [mscgen-preview][mscgen-preview.source] (CoffeeScript alert)
   - specifically the [renderer][mscgen-preview.source.render]
   - ... which is just 6 lines of code
@@ -42,8 +126,6 @@ the source code of any of the above mentioned tools.
 - the [command line interface][mscgenjs.cli.source] (Node.js, PhantomJS and
   some spit)
 
-Hint: for rendering graphics the library needs a DOMElement (with a
-unique id) to perform its rendering in.
 
 ### Building mscgen_js
 See [build.md][mscgenjs.docbuild].
