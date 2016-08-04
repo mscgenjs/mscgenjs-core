@@ -3,6 +3,10 @@
 
 # amd dependencies
 indexAMD.js: \
+	main/AMD-static-resolver.js \
+	main/index.js
+
+main/AMD-static-resolver.js: \
 	lib/lodash/lodash.custom.js \
 	parse/mscgenparser.js \
 	parse/msgennyparser.js \
@@ -97,6 +101,9 @@ render/text/ast2xu.js: \
 	render/text/ast2thing.js \
 	render/text/textutensils.js
 
+main/index.js: \
+	lib/lodash/lodash.custom.js
+
 render/text/ast2animate.js: \
 	lib/lodash/lodash.custom.js
 
@@ -105,12 +112,34 @@ render/text/colorize.js: \
 	render/text/asttransform.js
 
 # cjs dependencies
-index.js: \
+index-lazy.js: \
+	main/CJS-lazy-resolver.js \
+	main/index.js
+
+main/CJS-lazy-resolver.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/renderast.js
 
+index.js: \
+	main/CJS-static-resolver.js \
+	main/index.js
+
+main/CJS-static-resolver.js: \
+	parse/mscgenparser_node.js \
+	parse/msgennyparser_node.js \
+	parse/xuparser_node.js \
+	render/graphics/renderast.js \
+	render/text/ast2dot.js \
+	render/text/ast2doxygen.js \
+	render/text/ast2mscgen.js \
+	render/text/ast2msgenny.js \
+	render/text/ast2xu.js
+
 test/index.spec.js: \
+	index-lazy.js \
 	index.js \
+	main/CJS-lazy-resolver.js \
+	main/CJS-static-resolver.js \
 	test/astfixtures.json \
 	test/testutensils.js
 

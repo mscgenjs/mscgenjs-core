@@ -1,6 +1,6 @@
 # javascript that can't get makedepended because it loads its
 # dependencies conditionally
-index.js: \
+main/CJS-lazy-resolver.js: \
 	parse/mscgenparser_node.js \
 	parse/xuparser_node.js \
 	parse/msgennyparser_node.js \

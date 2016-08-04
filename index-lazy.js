@@ -1,24 +1,18 @@
-/* istanbul ignore else */
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
-/* eslint max-params: 0 */
-define(["./main/AMD-static-resolver",
-        "./main/index"], function(
-    resolver,
-    parseNRender) {
+module.exports = (function(){
     "use strict";
 
+    var parseNRender = require("./main");
+    var resolver     = require("./main/CJS-lazy-resolver");
+
     return {
-        renderMsc : function renderMsc(pScript, pOptions, pCallBack){
+        renderMsc    : function(pScript, pOptions, pCallBack){
             parseNRender.renderMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
         },
-
-        translateMsc : function translateMsc(pScript, pOptions, pCallBack){
+        translateMsc : function(pScript, pOptions, pCallBack){
             parseNRender.translateMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getTextRenderer);
         }
     };
-});
+})();
 /*
  This file is part of mscgen_js.
 

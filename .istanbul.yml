@@ -1,3 +1,3 @@
 instrumentation:
-    excludes: [lib/**/* indexAMD.js parse/msgennyparser.js parse/mscgenparser.js parse/xuparser.js platoreports/**/* coverage/**/* render/graphics/templates/**]
+    excludes: [lib/**/* indexAMD.js main/AMD-static-resolver.js parse/msgennyparser.js parse/mscgenparser.js parse/xuparser.js platoreports/**/* coverage/**/* render/graphics/templates/**]
     include-all-sources: true

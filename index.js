@@ -1,132 +1,31 @@
 module.exports = (function(){
     "use strict";
-    var DEFAULT_PARSER = "./parse/mscgenparser_node";
-    var DEFAULT_TEXT_RENDERER = "./render/text/ast2mscgen";
-    var _ = require("./lib/lodash/lodash.custom");
 
-    var gLang2Parser = {
-        mscgen: "./parse/mscgenparser_node",
-        xu: "./parse/xuparser_node",
-        msgenny: "./parse/msgennyparser_node"
-    };
-
-    var gLang2TextRenderer = {
-        mscgen: "./render/text/ast2mscgen",
-        msgenny: "./render/text/ast2msgenny",
-        xu: "./render/text/ast2xu",
-        dot: "./render/text/ast2dot",
-        doxygen: "./render/text/ast2doxygen"
-    };
-
-    var getParser = _.memoize(
-        function getParser (pLanguage) {
-            if (["ast", "json"].indexOf(pLanguage) > -1) {
-                return JSON;
-            }
-
-            return require(
-                gLang2Parser[pLanguage] || DEFAULT_PARSER
-            );
-        }
-    );
-
-    var getGraphicsRenderer = _.memoize(
-        function getGraphicsRenderer(){
-            return require('./render/graphics/renderast');
-        }
-    );
-
-    var getTextRenderer = _.memoize(
-        function getTextRenderer(pLanguage){
-            return require(
-                gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER
-            );
-        }
-    );
-
-    function runCallBack(pCallBack, pError, pResult){
-        /* istanbul ignore else */
-        if (Boolean(pCallBack)){
-            if (Boolean(pError)) {
-                pCallBack(pError, null);
-            } else {
-                pCallBack(null, pResult);
-            }
-        }
-    }
-
-    function isProbablyAnASTAlready(pScript, pInputType){
-        return pInputType === "json" && typeof pScript === "object";
-    }
-
-    function getAST(pScript, pInputType){
-        if (isProbablyAnASTAlready(pScript, pInputType)) {
-            return pScript;
-        } else {
-            return getParser(pInputType).parse(pScript);
-        }
-    }
+    var parseNRender = require("./main");
+    var resolver     = require("./main/CJS-static-resolver");
 
     return {
-        renderMsc : function renderMsc(pScript, pOptions, pCallBack){
-            var lOptions = pOptions || {};
-            _.defaults(lOptions, {
-                inputType              : "mscgen",
-                elementId              : "__svg",
-                window                 : pOptions.window || window,
-                includeSource          : true,
-                styleAdditions         : null,
-                additionalTemplate     : null,
-                mirrorEntitiesOnBottom : false
-            });
-
-            try {
-                runCallBack(
-                    pCallBack,
-                    null,
-                    getGraphicsRenderer().renderASTNew(
-                        getAST(pScript, lOptions.inputType),
-                        lOptions.window,
-                        lOptions.elementId,
-                        {
-                            source: lOptions.includeSource ? pScript : null,
-                            styleAdditions: lOptions.styleAdditions,
-                            additionalTemplate: lOptions.additionalTemplate,
-                            mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom
-                        }
-                    )
-                );
-            } catch (pException){
-                runCallBack(pCallBack, pException);
-            }
+        renderMsc    : function(pScript, pOptions, pCallBack){
+            parseNRender.renderMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
         },
-
-        translateMsc : function translateMsc(pScript, pOptions, pCallBack){
-            var lOptions = pOptions || {};
-            _.defaults(lOptions, {
-                inputType: "mscgen",
-                outputType: "json"
-            });
-            try {
-                runCallBack(
-                    pCallBack,
-                    null,
-                    (lOptions.outputType === "json")
-                        ? JSON.stringify(
-                            getParser(lOptions.inputType).parse(pScript),
-                            null,
-                            "  "
-                        )
-                        : getTextRenderer(lOptions.outputType).render(
-                            getAST(pScript, lOptions.inputType)
-                        )
-                );
-            } catch (pException) {
-                runCallBack(pCallBack, pException);
-            }
-        },
-        getParser : getParser,
-        getGraphicsRenderer : getGraphicsRenderer,
-        getTextRenderer : getTextRenderer
+        translateMsc : function(pScript, pOptions, pCallBack){
+            parseNRender.translateMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getTextRenderer);
+        }
     };
 })();
+/*
+ This file is part of mscgen_js.
+
+ mscgen_js is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ mscgen_js is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with mscgen_js.  If not, see <http://www.gnu.org/licenses/>.
+ */

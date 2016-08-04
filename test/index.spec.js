@@ -1,4 +1,5 @@
-const mscgenjs = require("../");
+/* eslint max-nested-callbacks: 0 */
+// const mscgenjs = require("../index-lazy");
 const tst      = require("./testutensils");
 const fix      = require("./astfixtures.json");
 const jsdom    = require("jsdom");
@@ -26,58 +27,48 @@ const gExpectedMscGenOutput = `msc {\n\
 const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script"];}';
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
-describe('index', () => {
+[require("../main/CJS-static-resolver"), require("../main/CJS-lazy-resolver")].forEach(mscgenjs => {
+    describe('resolver', () =>{
+        function isMscGenParser(pParser){
+            tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);
+            expect(
+                pParser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}')
+            ).to.deep.equal(
+                fix.astSimple
+            );
+        }
 
-    function isMscGenParser(pParser){
-        tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);
-        expect(
-            pParser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}')
-        ).to.deep.equal(
-            fix.astSimple
-        );
-    }
+        function isMscGenTextRenderer(pRenderer){
+            expect(pRenderer.render(fix.astOneAlt)).to.equal(gExpectedMscGenOutput);
+        }
 
-    function isMscGenTextRenderer(pRenderer){
-        expect(pRenderer.render(fix.astOneAlt)).to.equal(gExpectedMscGenOutput);
-    }
-
-    describe('#getParser()', () => {
-        it("Returns the mscgen parser when not provided with arguments", () => {
-            isMscGenParser(mscgenjs.getParser());
-        });
-        it('Returns the MscGen parser when not provided with a valid argument', () => {
-            isMscGenParser(mscgenjs.getParser("c++"));
-        });
-    });
-
-    describe('#getTextRenderer()', () => {
-        it('Returns the ast2mscgen renderer when not provided with arguments', () => {
-            isMscGenTextRenderer(mscgenjs.getTextRenderer());
-        });
-
-        it('Returns the ast2mscgen renderer when not with a valid argument', () => {
-            isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
-        });
-    });
-
-    describe('#translateMsc()', () => {
-        it('no params translates mscgen to json', () => {
-            mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
-                /* eslint no-unused-expression:0 */
-                expect(pError).to.be.null;
-                expect(
-                    JSON.parse(pResult)
-                ).to.deep.equal(
-                    fix.astSimple
-                );
+        describe('#getParser()', () => {
+            it("Returns the mscgen parser when not provided with arguments", () => {
+                isMscGenParser(mscgenjs.getParser());
+            });
+            it('Returns the MscGen parser when not provided with a valid argument', () => {
+                isMscGenParser(mscgenjs.getParser("c++"));
             });
         });
 
-        it('explicit mscgen & json params translates mscgen to json too', () => {
-            mscgenjs.translateMsc(
-                SIMPLE_MSCGEN,
-                {inputType: "mscgen", outputType: "json"},
-                function(pError, pResult){
+        describe('#getTextRenderer()', () => {
+            it('Returns the ast2mscgen renderer when not provided with arguments', () => {
+                isMscGenTextRenderer(mscgenjs.getTextRenderer());
+            });
+
+            it('Returns the ast2mscgen renderer when not with a valid argument', () => {
+                isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
+            });
+        });
+    });
+});
+
+[require("../"), require("../index-lazy")].forEach(mscgenjs => {
+    describe('index', () => {
+        describe('#translateMsc()', () => {
+            it('no params translates mscgen to json', () => {
+                mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
+                    /* eslint no-unused-expression:0 */
                     expect(pError).to.be.null;
                     expect(
                         JSON.parse(pResult)
@@ -85,75 +76,91 @@ describe('index', () => {
                         fix.astSimple
                     );
                 });
-        });
-        it('invalid mscgen throws an error', () => {
-            mscgenjs.translateMsc(
-                SIMPLE_XU,
-                {inputType: "mscgen", outputType: "msgenny"},
-                function(pError, pResult){
-                    expect(pError).to.be.not.null;
-                    expect(pError).to.be.instanceof(Error);
-                    expect(pResult).to.be.null;
-                });
-        });
-        it('downgrading xu -> mscgen works', () => {
-            mscgenjs.translateMsc(
-                JSON.stringify(fix.astOneAlt, null, ""),
-                {inputType: "json", outputType: "mscgen"},
-                function(pError, pResult){
-                    expect(pError).to.be.null;
-                    expect(pResult).to.equal(gExpectedMscGenOutput);
-                });
-        });
-        it('translating a raw javascript object works', () => {
-            mscgenjs.translateMsc(
-                fix.astOneAlt,
-                {inputType: "json", outputType: "mscgen"},
-                function(pError, pResult){
-                    expect(pError).to.be.null;
-                    expect(pResult).to.equal(gExpectedMscGenOutput);
-                });
-        });
-    });
-    jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
-        describe('#renderMsc()', () => {
-            it('should given given a simple MscGen program, render an svg', () => {
-                mscgenjs.renderMsc(
+            });
+
+            it('explicit mscgen & json params translates mscgen to json too', () => {
+                mscgenjs.translateMsc(
                     SIMPLE_MSCGEN,
-                    {window: pWindow},
+                    {inputType: "mscgen", outputType: "json"},
                     function(pError, pResult){
                         expect(pError).to.be.null;
-                        expect(pResult).xml.to.be.valid();
-                    }
-                );
+                        expect(
+                            JSON.parse(pResult)
+                        ).to.deep.equal(
+                            fix.astSimple
+                        );
+                    });
             });
-            it('should given given an invalid MscGen program, throw an error', () => {
-                mscgenjs.renderMsc(
+            it('invalid mscgen throws an error', () => {
+                mscgenjs.translateMsc(
                     SIMPLE_XU,
-                    {window: pWindow},
+                    {inputType: "mscgen", outputType: "msgenny"},
                     function(pError, pResult){
                         expect(pError).to.be.not.null;
                         expect(pError).to.be.instanceof(Error);
                         expect(pResult).to.be.null;
-                    }
-                );
+                    });
             });
-            it('should given given a simple AST, render an svg', () => {
-                mscgenjs.renderMsc(
+            it('downgrading xu -> mscgen works', () => {
+                mscgenjs.translateMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),
-                    {
-                        inputType: "json",
-                        window: pWindow
-                    },
+                    {inputType: "json", outputType: "mscgen"},
                     function(pError, pResult){
                         expect(pError).to.be.null;
-                        expect(pResult).xml.to.be.valid();
-                    }
-                );
+                        expect(pResult).to.equal(gExpectedMscGenOutput);
+                    });
+            });
+            it('translating a raw javascript object works', () => {
+                mscgenjs.translateMsc(
+                    fix.astOneAlt,
+                    {inputType: "json", outputType: "mscgen"},
+                    function(pError, pResult){
+                        expect(pError).to.be.null;
+                        expect(pResult).to.equal(gExpectedMscGenOutput);
+                    });
             });
         });
-    });
-    it('dummy so mocha executes the tests wrapped in jsdom', () => {
-        return true;
+        jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
+            describe('#renderMsc()', () => {
+                it('should given given a simple MscGen program, render an svg', () => {
+                    mscgenjs.renderMsc(
+                        SIMPLE_MSCGEN,
+                        {window: pWindow},
+                        function(pError, pResult){
+                            expect(pError).to.be.null;
+                            expect(pResult).xml.to.be.valid();
+                        }
+                    );
+                });
+                it('should given given an invalid MscGen program, throw an error', () => {
+                    mscgenjs.renderMsc(
+                        SIMPLE_XU,
+                        {window: pWindow},
+                        function(pError, pResult){
+                            expect(pError).to.be.not.null;
+                            expect(pError).to.be.instanceof(Error);
+                            expect(pResult).to.be.null;
+                        }
+                    );
+                });
+                it('should given given a simple AST, render an svg', () => {
+                    mscgenjs.renderMsc(
+                        JSON.stringify(fix.astOneAlt, null, ""),
+                        {
+                            inputType: "json",
+                            window: pWindow,
+                            includeSource: false
+                        },
+                        function(pError, pResult){
+                            expect(pError).to.be.null;
+                            expect(pResult).xml.to.be.valid();
+                        }
+                    );
+                });
+            });
+        });
+        it('dummy so mocha executes the tests wrapped in jsdom', () => {
+            return true;
+        });
     });
 });

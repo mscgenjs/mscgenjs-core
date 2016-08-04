@@ -176,7 +176,7 @@ define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, ma
 
 
     function getSignalend(pKind, pFrom, pTo){
-        if (pFrom && pTo && (["<->", "->"].indexOf(pKind > -1))) {
+        if (pFrom && pTo && (["<->", "->"].indexOf(pKind) > -1)) {
             return (pFrom < pTo) ? "signal" : "signal-u";
         }
         return "";
