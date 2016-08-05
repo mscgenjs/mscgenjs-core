@@ -48,12 +48,12 @@ var mscgenjs = require('mscgenjs');
 ```javascript
 // commonjs, but with lazy loading. Useful when you're using it in
 // e.g. an electron shell, or on the web without a minifier
-var mscgenjs = require('mscgenjs/index-lazy);
+var mscgenjs = require('mscgenjs/index-lazy');
 ```
 
 ```javascript
 // requirejs
-require(['your/path/to/mscgenjs/indexAMD'], function(mscgenjs){
+require(['your/path/to/mscgenjs/index'], function(mscgenjs){
     // your code here
 });
 ```
