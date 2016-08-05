@@ -14,7 +14,6 @@ PARSERS_CJS=parse/mscgenparser_node.js \
 	parse/xuparser_node.js
 CUSTOM_LODASH=lib/lodash/lodash.custom.js
 GENERATED_SOURCES=$(PARSERS_AMD) \
-				  $(PARSERS_CJS) \
 				  $(CUSTOM_LODASH) \
 				  render/graphics/csstemplates.js
 LIBDIRS=lib/lodash
