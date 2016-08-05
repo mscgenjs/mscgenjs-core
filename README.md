@@ -14,10 +14,10 @@ Implementation of [MscGen][mscgen] and two derived languages in JavaScript.
   - All valid MscGen programs accepted by mscgen_js are also accepted and
     rendered correctly by the original `mscgen` command.
   - If you find proof to the contrary: [tell us][mscgenjs.issues.compliance].
-- Parses and renders [Xù][mscgenjs.wikum.xu]    
+- Parses and renders [Xù][mscgenjs.doc.xu]    
   Xù is a strict superset of MscGen. It adds things like `alt` and
   `loop`.
-- Parses and renders [MsGenny][mscgenjs.wikum.msgenny]    
+- Parses and renders [MsGenny][mscgenjs.doc.msgenny]    
   Same as Xù, but with a simpler syntax.
 - Translates between these three languages
 - Spits out svg, GraphViz dot, doxygen and JSON.
@@ -41,7 +41,7 @@ requirejs variant, both of which are in the `mscgenjs`
 (repo: [sverweij/mscgenjs-core](https://github.com/sverweij/mscgenjs-core)).
 
 ```javascript
-// commonjs 
+// commonjs
 var mscgenjs = require('mscgenjs');
 ```
 
@@ -131,7 +131,7 @@ mscgenjs.renderMsc (
 See [build.md][mscgenjs.docbuild].
 
 ### How does mscgen_js work?
-You can start reading about that [over here](wikum/readme.md)
+You can start reading about that [over here](doc/readme.md)
 
 ## License
 This software is free software [licensed under GPLv3][mscgenjs.license].
@@ -173,7 +173,7 @@ Climate][codeclimate.mscgenjs].
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
-[amdefine.license]: wikum/licenses/license.amdefine.md
+[amdefine.license]: doc/licenses/license.amdefine.md
 [atom]: https://atom.io
 [codeclimate.mscgenjs]: https://codeclimate.com/github/sverweij/mscgenjs-core
 [codeclimate.mscgenjs.badge]: https://codeclimate.com/github/sverweij/mscgenjs-core/badges/gpa.svg
@@ -187,7 +187,7 @@ Climate][codeclimate.mscgenjs].
 [david.mscgenjs.badge]: https://david-dm.org/sverweij/mscgenjs-core.svg
 [jsdom]: https://github.com/tmpvar/jsdom
 [jsdom.author]: http://tmpvar.com/
-[jsdom.license]: wikum/licenses/license.jsdom.md
+[jsdom.license]: doc/licenses/license.jsdom.md
 [license.gpl-3.0]: http://www.gnu.org/licenses/gpl.html
 [mscgen]: http://www.mcternan.me.uk/mscgen
 [mscgen.author]: http://www.mcternan.me.uk/mscgen
@@ -197,8 +197,8 @@ Climate][codeclimate.mscgenjs].
 [mscgen-preview.source.render]: https://github.com/sverweij/atom-mscgen-preview/blob/master/lib/renderer.coffee
 [mscgenjs.cli]: https://www.npmjs.com/package/mscgenjs-cli
 [mscgenjs.cli.source]: https://github.com/sverweij/mscgenjs-cli
-[mscgenjs.docbuild]: wikum/build.md
-[mscgenjs.docsource]: wikum/README.md
+[mscgenjs.docbuild]: doc/build.md
+[mscgenjs.docsource]: doc/README.md
 [mscgenjs.embed]: https://sverweij.github.io/mscgen_js/embed.html?utm_source=mscgenjs-core
 [mscgenjs.embed.source]: https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js
 [mscgenjs.embedpackage]: https://sverweij.github.io/mscgen_js/embed.html#package
@@ -211,19 +211,19 @@ Climate][codeclimate.mscgenjs].
 [mscgenjs.unit.parse]: https://github.com/sverweij/mscgenjs-core/blob/master/test/parse/t_mscgenparser_node.js
 [mscgenjs.unit.render]: https://github.com/sverweij/mscgenjs-core/blob/master/test/render/graphics/t_renderast.js
 [mscgenjs.license]: LICENSE.md
-[mscgenjs.wikum.msgenny]: wikum/msgenny.md
-[mscgenjs.wikum.xu]: wikum/xu.md
+[mscgenjs.doc.msgenny]: doc/msgenny.md
+[mscgenjs.doc.xu]: doc/xu.md
 [pegjs]: http://pegjs.org
 [pegjs.author]: http://majda.cz/about
-[pegjs.license]: wikum/licenses/license.pegjs.md
+[pegjs.license]: doc/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
-[requirejs.license]: wikum/licenses/license.requirejs.md
+[requirejs.license]: doc/licenses/license.requirejs.md
 [travis.mscgenjs]: https://travis-ci.org/sverweij/mscgenjs-core
 [travis.mscgenjs.badge]: https://travis-ci.org/sverweij/mscgenjs-core.svg?branch=master
-[21]: wikum/licenses/license.mocha.md
-[22]: wikum/licenses/license.eslint.md
-[23]: wikum/licenses/license.plato.md
-[28]: wikum/licenses/license.istanbul.md
+[21]: doc/licenses/license.mocha.md
+[22]: doc/licenses/license.eslint.md
+[23]: doc/licenses/license.plato.md
+[28]: doc/licenses/license.istanbul.md
 [35]: https://nodesecurity.io/
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/krampstudio/chai-xml
