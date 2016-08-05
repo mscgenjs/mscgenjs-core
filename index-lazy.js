@@ -1,16 +1,23 @@
 module.exports = (function(){
     "use strict";
 
-    var parseNRender = require("./main");
-    var resolver     = require("./main/CJS-lazy-resolver");
+    var main     = require("./main");
+    var resolver = require("./main/lazy-resolver");
 
     return {
         renderMsc    : function(pScript, pOptions, pCallBack){
-            parseNRender.renderMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
+            main.renderMsc(
+                pScript, pOptions, pCallBack,
+                resolver.getParser, resolver.getGraphicsRenderer
+            );
         },
         translateMsc : function(pScript, pOptions, pCallBack){
-            parseNRender.translateMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getTextRenderer);
-        }
+            main.translateMsc(
+                pScript, pOptions, pCallBack,
+                resolver.getParser, resolver.getTextRenderer
+            );
+        },
+        version: main.version
     };
 })();
 /*

@@ -2,6 +2,7 @@
 if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
+
 /* eslint max-params: 0 */
 define(["../lib/lodash/lodash.custom",
         "../parse/mscgenparser",

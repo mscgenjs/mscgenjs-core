@@ -2,13 +2,13 @@ module.exports = (function(){
     "use strict";
     var _ = require("../lib/lodash/lodash.custom");
 
-    var DEFAULT_PARSER        = "../parse/mscgenparser_node";
+    var DEFAULT_PARSER        = "../parse/mscgenparser";
     var DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 
     var gLang2Parser = {
-        mscgen  : "../parse/mscgenparser_node",
-        xu      : "../parse/xuparser_node",
-        msgenny : "../parse/msgennyparser_node"
+        mscgen  : "../parse/mscgenparser",
+        xu      : "../parse/xuparser",
+        msgenny : "../parse/msgennyparser"
     };
 
     var gLang2TextRenderer = {

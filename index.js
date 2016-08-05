@@ -1,18 +1,29 @@
-module.exports = (function(){
+/* istanbul ignore else */
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+define(["./main/static-resolver", "./main/index"], function(resolver, main) {
     "use strict";
 
-    var parseNRender = require("./main");
-    var resolver     = require("./main/CJS-static-resolver");
-
     return {
-        renderMsc    : function(pScript, pOptions, pCallBack){
-            parseNRender.renderMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
+        renderMsc : function renderMsc(pScript, pOptions, pCallBack){
+            main.renderMsc(
+                pScript, pOptions, pCallBack,
+                resolver.getParser, resolver.getGraphicsRenderer
+            );
         },
-        translateMsc : function(pScript, pOptions, pCallBack){
-            parseNRender.translateMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getTextRenderer);
-        }
+
+        translateMsc : function translateMsc(pScript, pOptions, pCallBack){
+            main.translateMsc(
+                pScript, pOptions, pCallBack,
+                resolver.getParser, resolver.getTextRenderer
+            );
+        },
+
+        version: main.version
     };
-})();
+});
 /*
  This file is part of mscgen_js.
 

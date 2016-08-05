@@ -3,7 +3,9 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 /* eslint max-params: 0 */
-define(["../lib/lodash/lodash.custom"], function(_){
+define(function(require){
+
+    var _   = require("../lib/lodash/lodash.custom");
 
     function isProbablyAnASTAlready(pScript, pInputType){
         return pInputType === "json" && typeof pScript === "object";
@@ -85,7 +87,9 @@ define(["../lib/lodash/lodash.custom"], function(_){
             } catch (pException) {
                 runCallBack(pCallBack, pException);
             }
-        }
+        },
+
+        version: "1.5.0"
     };
 });
 /*

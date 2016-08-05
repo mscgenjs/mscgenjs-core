@@ -1,22 +1,16 @@
-/* istanbul ignore else */
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
-/* eslint max-params: 0 */
-define(["./main/AMD-static-resolver",
-        "./main/index"], function(
-    resolver,
-    parseNRender) {
+/**
+ * @deprecated - here only for backward compatibility reasons.
+ *               Will be removed in version 2.0.0 and higher.
+ *               Instead use index.js. It provides the same
+ *               functionality with the same interface
+ */
+define(["./index"], function(index) {
     "use strict";
 
     return {
-        renderMsc : function renderMsc(pScript, pOptions, pCallBack){
-            parseNRender.renderMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
-        },
-
-        translateMsc : function translateMsc(pScript, pOptions, pCallBack){
-            parseNRender.translateMsc(pScript, pOptions, pCallBack, resolver.getParser, resolver.getTextRenderer);
-        }
+        renderMsc    : index.renderMsc,
+        translateMsc : index.translateMsc,
+        version      : index.version
     };
 });
 /*

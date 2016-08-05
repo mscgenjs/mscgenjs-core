@@ -1,10 +1,10 @@
 /* eslint max-nested-callbacks: 0 */
 // const mscgenjs = require("../index-lazy");
-const tst      = require("./testutensils");
 const fix      = require("./astfixtures.json");
 const jsdom    = require("jsdom");
 const chai     = require("chai");
 const expect   = chai.expect;
+const version  = require("../package.json").version;
 chai.use(require("chai-xml"));
 
 const gExpectedMscGenOutput = `msc {\n\
@@ -27,41 +27,6 @@ const gExpectedMscGenOutput = `msc {\n\
 const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script"];}';
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
-[require("../main/CJS-static-resolver"), require("../main/CJS-lazy-resolver")].forEach(mscgenjs => {
-    describe('resolver', () =>{
-        function isMscGenParser(pParser){
-            tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);
-            expect(
-                pParser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}')
-            ).to.deep.equal(
-                fix.astSimple
-            );
-        }
-
-        function isMscGenTextRenderer(pRenderer){
-            expect(pRenderer.render(fix.astOneAlt)).to.equal(gExpectedMscGenOutput);
-        }
-
-        describe('#getParser()', () => {
-            it("Returns the mscgen parser when not provided with arguments", () => {
-                isMscGenParser(mscgenjs.getParser());
-            });
-            it('Returns the MscGen parser when not provided with a valid argument', () => {
-                isMscGenParser(mscgenjs.getParser("c++"));
-            });
-        });
-
-        describe('#getTextRenderer()', () => {
-            it('Returns the ast2mscgen renderer when not provided with arguments', () => {
-                isMscGenTextRenderer(mscgenjs.getTextRenderer());
-            });
-
-            it('Returns the ast2mscgen renderer when not with a valid argument', () => {
-                isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
-            });
-        });
-    });
-});
 
 [require("../"), require("../index-lazy")].forEach(mscgenjs => {
     describe('index', () => {
@@ -119,7 +84,11 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         expect(pResult).to.equal(gExpectedMscGenOutput);
                     });
             });
+            it('returns a version number equal to the one in package.json', () => {
+                expect(mscgenjs.version).to.equal(version);
+            });
         });
+
         jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
             describe('#renderMsc()', () => {
                 it('should given given a simple MscGen program, render an svg', () => {
