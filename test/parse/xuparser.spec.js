@@ -1,4 +1,4 @@
-var parser  = require("../../parse/xuparser_node");
+var parser  = require("../../parse/xuparser");
 var tst     = require("../testutensils");
 var pairs   = require("./mscgenPairs");
 var xuPairs = require("./xuPairs");

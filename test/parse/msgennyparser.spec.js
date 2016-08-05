@@ -1,5 +1,5 @@
 /* eslint max-statements:0 */
-var parser = require("../../parse/msgennyparser_node");
+var parser = require("../../parse/msgennyparser");
 var tst    = require("../testutensils");
 var fix    = require("../astfixtures.json");
 var fs     = require("fs");

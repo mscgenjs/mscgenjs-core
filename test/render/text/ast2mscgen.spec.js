@@ -1,6 +1,6 @@
 const assert   = require("assert");
 const renderer = require("../../../render/text/ast2mscgen");
-const parser   = require("../../../parse/mscgenparser_node");
+const parser   = require("../../../parse/mscgenparser");
 const fix      = require("../../astfixtures.json");
 const fs       = require("fs");
 const path     = require("path");

@@ -1,9 +1,9 @@
 # javascript that can't get makedepended because it loads its
 # dependencies conditionally
 main/CJS-lazy-resolver.js: \
-	parse/mscgenparser_node.js \
-	parse/xuparser_node.js \
-	parse/msgennyparser_node.js \
+	parse/mscgenparser.js \
+	parse/xuparser.js \
+	parse/msgennyparser.js \
 	render/text/ast2mscgen.js \
 	render/text/ast2msgenny.js \
 	render/text/ast2xu.js \

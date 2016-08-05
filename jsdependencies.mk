@@ -2,6 +2,9 @@
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
+doc/tmp_amd_test.js: \
+	indexAMD.js
+
 indexAMD.js: \
 	main/AMD-static-resolver.js \
 	main/index.js
@@ -111,10 +114,19 @@ render/text/colorize.js: \
 	render/text/arcmappings.js \
 	render/text/asttransform.js
 
+wikum/tmp_amd_test.js: \
+	indexAMD.js
+
 # cjs dependencies
+doc/tmp_amd_test.js: \
+	indexAMD.js
+
 index-lazy.js: \
 	main/CJS-lazy-resolver.js \
 	main/index.js
+
+main/index.js: \
+	lib/lodash/lodash.custom.js
 
 main/CJS-lazy-resolver.js: \
 	lib/lodash/lodash.custom.js \
@@ -125,9 +137,9 @@ index.js: \
 	main/index.js
 
 main/CJS-static-resolver.js: \
-	parse/mscgenparser_node.js \
-	parse/msgennyparser_node.js \
-	parse/xuparser_node.js \
+	parse/mscgenparser.js \
+	parse/msgennyparser.js \
+	parse/xuparser.js \
 	render/graphics/renderast.js \
 	render/text/ast2dot.js \
 	render/text/ast2doxygen.js \
@@ -138,6 +150,10 @@ main/CJS-static-resolver.js: \
 test/index.spec.js: \
 	index-lazy.js \
 	index.js \
+	package.json \
+	test/astfixtures.json
+
+test/main/resolvers.spec.js: \
 	main/CJS-lazy-resolver.js \
 	main/CJS-static-resolver.js \
 	test/astfixtures.json \
@@ -146,21 +162,21 @@ test/index.spec.js: \
 test/parse/mscgenPairs.js: \
 	test/astfixtures.json
 
-test/parse/mscgenparser_node.spec.js: \
-	parse/mscgenparser_node.js \
+test/parse/mscgenparser.spec.js: \
+	parse/mscgenparser.js \
 	test/parse/mscgenPairs.js \
 	test/testutensils.js
 
-test/parse/msgennyparser_node.spec.js: \
-	parse/msgennyparser_node.js \
+test/parse/msgennyparser.spec.js: \
+	parse/msgennyparser.js \
 	test/astfixtures.json \
 	test/testutensils.js
 
 test/parse/xuPairs.js: \
 	test/astfixtures.json
 
-test/parse/xuparser_node.spec.js: \
-	parse/xuparser_node.js \
+test/parse/xuparser.spec.js: \
+	parse/xuparser.js \
 	test/parse/mscgenPairs.js \
 	test/parse/xuPairs.js \
 	test/testutensils.js
@@ -173,7 +189,7 @@ test/render/graphics/renderast.spec.js: \
 	test/testutensils.js
 
 test/render/text/ast2animate.spec.js: \
-	parse/xuparser_node.js \
+	parse/xuparser.js \
 	render/text/ast2animate.js \
 	test/astfixtures.json \
 	test/testutensils.js
@@ -187,7 +203,7 @@ test/render/text/ast2doxygen.spec.js: \
 	test/astfixtures.json
 
 test/render/text/ast2mscgen.spec.js: \
-	parse/mscgenparser_node.js \
+	parse/mscgenparser.js \
 	render/text/ast2mscgen.js \
 	test/astfixtures.json
 
@@ -197,7 +213,7 @@ test/render/text/ast2msgenny.spec.js: \
 	test/testutensils.js
 
 test/render/text/ast2xu.spec.js: \
-	parse/xuparser_node.js \
+	parse/xuparser.js \
 	render/text/ast2xu.js \
 	test/astfixtures.json
 
@@ -212,4 +228,7 @@ test/render/text/flatten.spec.js: \
 
 test/render/text/textutensils.spec.js: \
 	render/text/textutensils.js
+
+wikum/tmp_amd_test.js: \
+	indexAMD.js
 

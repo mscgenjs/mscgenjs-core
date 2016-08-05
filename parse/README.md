@@ -16,7 +16,9 @@ pegjs mscgenparser.pegjs > mscgenparser_node.js
 To create a parser that is usable in require.js, the line
 `module.exports = (function(){` in the generated parser
 needs to be replaced with  `define ([], function(){`.  The
-`commonjs2amd.sh` script in the utl directory does just that.
+`commonjs2amd.sh` script in the utl directory does just that and
+adds an amd loader boiler plate, so the resulting parser is \
+usable both as amd and as commonjs module.
 Usage:
 ```bash
 commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
@@ -24,14 +26,14 @@ commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
 
 ## The abstract syntax tree
 All parsers generate a JSON syntax tree that consist of three
-parts that make up mscgen programs: 
+parts that make up mscgen programs:
 - options
 - entities
 - arcs.
 
 We will discuss each in detail below.
 
-> :information_source: When you add `debug=true` to the url of the 
+> :information_source: When you add `debug=true` to the url of the
 > online interpreter (https://sverweij.github.io/mscgen_js?debug=true)
 > it gets an extra language option called "AST". When you click it,
 > the editor will show the abstract syntax tree the parser
@@ -84,16 +86,16 @@ msc {
 `options` is an object with the options that are possible in
 mscgen as attributes.
 
-- If the input program does not have an option, the associated 
+- If the input program does not have an option, the associated
   attribute won't be in the syntax tree either.
 - If the input program does not have any options at all, the
   syntax tree won't have an options object.
 - Note that in mscgen, msgenny and xù the boolean attribute
 `wordwraparcs` can have
-  - the values _true_, _1_, _on_, _"true"_ and _"on"_ for *true* and 
+  - the values _true_, _1_, _on_, _"true"_ and _"on"_ for *true* and
   - _false_, _0_, _off_, _"false"_ and _"off"_ for *false*.    
   The parser flattens this to "true" and "false" respectively so
-  consumers working with the syntax tree don't have to worry 
+  consumers working with the syntax tree don't have to worry
   about it.
 
 ```json

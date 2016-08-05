@@ -1,6 +1,6 @@
 var assert      = require("assert");
 var ast2animate = require("../../../render/text/ast2animate");
-var parser      = require("../../../parse/xuparser_node");
+var parser      = require("../../../parse/xuparser");
 var fix         = require("../../astfixtures.json");
 var fs          = require("fs");
 var path        = require("path");

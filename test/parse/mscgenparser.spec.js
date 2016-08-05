@@ -1,4 +1,4 @@
-var parser = require("../../parse/mscgenparser_node");
+var parser = require("../../parse/mscgenparser");
 var tst    = require("../testutensils");
 var pairs  = require("./mscgenPairs");
 var fs     = require("fs");
