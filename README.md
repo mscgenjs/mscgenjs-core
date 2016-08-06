@@ -47,7 +47,7 @@ var mscgenjs = require('mscgenjs');
 
 ```javascript
 // commonjs, but with lazy loading. Useful when you're using it in
-// e.g. an electron shell, or on the web without a minifier
+// e.g. an electron shell without a minifier.
 var mscgenjs = require('mscgenjs/index-lazy');
 ```
 
@@ -60,21 +60,23 @@ define(['./node_modules/mscgenjs/index'], function(mscgenjs){
 
 // ... or using the alternative notation
 define(function(require){
-    var mscgenjs = require("./node_modules/mscgenjs/index")l
+    var mscgenjs = require("./node_modules/mscgenjs/index");
     // your code here
 });
 ```
 
 ### Use it
 
-- use the root module directly => recommended    
+- **use the root module directly** => recommended    
   e.g.  atom-mscgen-preview takes that approach. See the samples below
-- individually do calls to the parse and render steps => do this when you have
-  very special needs. This is the approach the mscgen_js and mscgenjs-inpage
-  script take.
-  [link to where this happens in mscgen_js](https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L242)
+- **individually do calls to the parse and render steps** => do this when you have
+  special needs.    
+  This is the approach the mscgen_js and mscgenjs-inpage script take. The main
+  reason these aren't using the root module directly is that it did not exist
+  at the time they were written (JUN 2013 and APR 2014 respectively).
+  [Link to where this happens in mscgen_js](https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L242)
   and one
-  [where this happens in mscgenjs-inpage](https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116).
+  [where it happens in mscgenjs-inpage](https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116).
 
 Here's some some samples for using the root module directly:
 ```Javascript
@@ -100,8 +102,10 @@ mscgenjs.renderMsc (
 function handleRenderMscResult(pError, pSuccess) {
   if (Boolean(pError)){
     console.log (pError);
+    return;
   } else if (Boolean(pSuccess)){
     console.log ('That worked - cool!');
+    return;
    // the svg is in the pSuccess argument
   }
   console.log('Wat! Error nor success?');
@@ -121,7 +125,37 @@ mscgenjs.renderMsc (
   },
 ```
 
-### Some battle tested implementations
+### Transpiling
+You can use the second function of the root module for transpiling to and from
+msgenny, mscgen, xù and json and for exporting to dot and doxygen. This function
+does _not_ depend on the DOM so you can use it not only in browsers &
+browser-likes, but also hack-free in node.
+
+```javascript
+    mscgenjs.translateMsc(
+        'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
+        {
+            inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
+            outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen
+        },
+        function(pError, pSuccess){
+            if(Boolean(pError)){
+                console.log("error:", pError);
+                return;
+            }
+            if(Boolean(pSuccess)){
+                // the transpiled result is in pSuccess
+                console.log(pSuccess);
+                return;
+            }
+            console.log("Neither success nor failure. I do not even.");
+        }
+    );
+```
+
+## Battle tested implementations
+
+Software that uses `mscgenjs`:
 
 - the atom package [mscgen-preview][mscgen-preview.source] (CoffeeScript alert)
   - specifically the [renderer][mscgen-preview.source.render]
@@ -137,11 +171,11 @@ mscgenjs.renderMsc (
 - the [command line interface][mscgenjs.cli.source] (Node.js, PhantomJS and
   some spit)
 
-
+## Hacking on mscgenjs itself
 ### Building mscgen_js
 See [build.md][mscgenjs.docbuild].
 
-### How does mscgen_js work?
+### How does mscgenjs work?
 You can start reading about that [over here](doc/readme.md)
 
 ## License
