@@ -151,6 +151,18 @@ browser-likes, but also hack-free in node.
             console.log("Neither success nor failure. I do not even.");
         }
     );
+
+    // result:
+    //
+    // msc {
+    //   wordwraparcs=true;
+    //
+    //   you,
+    //   me;
+    //
+    //   you =>> me [label="can we translate this to Mscgen please?"];
+    //   me >> you [label="yes, you can - use translateMsc"];
+    // }
 ```
 
 ## Battle tested implementations
@@ -172,7 +184,7 @@ Software that uses `mscgenjs`:
   some spit)
 
 ## Hacking on mscgenjs itself
-### Building mscgen_js
+### Building mscgenjs
 See [build.md][mscgenjs.docbuild].
 
 ### How does mscgenjs work?
