@@ -52,8 +52,15 @@ var mscgenjs = require('mscgenjs/index-lazy');
 ```
 
 ```javascript
-// requirejs
-require(['your/path/to/mscgenjs/index'], function(mscgenjs){
+// requirejs - assuming the module is in your root and you're loading from
+//             node_modules.
+define(['./node_modules/mscgenjs/index'], function(mscgenjs){
+    // your code here
+});
+
+// ... or using the alternative notation
+define(function(require){
+    var mscgenjs = require("./node_modules/mscgenjs/index")l
     // your code here
 });
 ```
@@ -61,9 +68,13 @@ require(['your/path/to/mscgenjs/index'], function(mscgenjs){
 ### Use it
 
 - use the root module directly => recommended    
-  mscgenjs-cli and atom-mscgen-preview take that approach. See the samples below
+  e.g.  atom-mscgen-preview takes that approach. See the samples below
 - individually do calls to the parse and render steps => do this when you have
-  very special needs. This is the approach the mscgen_js and mscgenjs-inpage script take. [link to where this happens in mscgen_js](https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L242) and one [where this happens in mscgenjs-inpage](https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116) - I plan to migrate that last one to using the root module somewhere in the future because it's simpler and there's no specific reason to want
+  very special needs. This is the approach the mscgen_js and mscgenjs-inpage
+  script take.
+  [link to where this happens in mscgen_js](https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L242)
+  and one
+  [where this happens in mscgenjs-inpage](https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116).
 
 Here's some some samples for using the root module directly:
 ```Javascript
