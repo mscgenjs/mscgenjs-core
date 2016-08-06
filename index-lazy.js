@@ -5,18 +5,33 @@ module.exports = (function(){
     var resolver = require("./main/lazy-resolver");
 
     return {
-        renderMsc    : function(pScript, pOptions, pCallBack){
+        /**
+         * See the function of the same name in @index.js. The only difference
+         * is that this function only loads dependencies at the moment it
+         * first needs them.
+         */
+        renderMsc: function(pScript, pOptions, pCallBack){
             main.renderMsc(
                 pScript, pOptions, pCallBack,
                 resolver.getParser, resolver.getGraphicsRenderer
             );
         },
-        translateMsc : function(pScript, pOptions, pCallBack){
+
+        /**
+         * See the function of the same name in @index.js. The only difference
+         * is that this function only loads dependencies at the moment it
+         * first needs them.
+         */
+        translateMsc: function(pScript, pOptions, pCallBack){
             main.translateMsc(
                 pScript, pOptions, pCallBack,
                 resolver.getParser, resolver.getTextRenderer
             );
         },
+
+        /**
+         * See the variable of the same name in @index.js.
+         */
         version: main.version
     };
 })();
