@@ -1,7 +1,8 @@
 svg.<%=id%>{
     font-family:cursive;
     stroke-opacity:0.4;
-    stroke-linecap:round
+    stroke-linecap:round;
+    background-color:transparent
 }
 .<%=id%> text{
     fill:rgba(0,0,128,0.8)
@@ -23,12 +24,15 @@ svg.<%=id%>{
 .<%=id%> path.note{
     fill:#FFFFCC;
 }
-.<%=id%> rect.label-text-background{
+.<%=id%> .label-text-background{
     opacity:0
 }
-.<%=id%> line.comment,
-    .<%=id%> rect.inline_expression,
+.<%=id%> .comment,
+    .<%=id%> .inline_expression,
     .<%=id%> .inline_expression_divider,
     .<%=id%> .inline_expression_label{
     stroke:black
+}
+.<%=id%> .bglayer, .<%=id%> .entity{
+    fill:transparent;
 }

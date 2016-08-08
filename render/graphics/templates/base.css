@@ -13,16 +13,17 @@ svg.<%=id%>{
     stroke-width:<%=lineWidth%>;
     color:black
 }
-.<%=id%> rect{
+.<%=id%> path, .<%=id%> rect{
     fill:none;
+    color:black;
     stroke:black
 }
-.<%=id%> rect.label-text-background{
+.<%=id%> .label-text-background{
     fill:white;
     stroke:white;
     stroke-width:0
 }
-.<%=id%> rect.bglayer{
+.<%=id%> .bglayer{
     fill:white;
     stroke:white;
     stroke-width:0
@@ -47,24 +48,19 @@ svg.<%=id%>{
 .<%=id%> text.anchor-start{
     text-anchor:start
 }
-.<%=id%> path{
-    stroke:black;
-    color:black;
-    fill:none
-}
 .<%=id%> .arrow-marker{
     overflow:visible
 }
 .<%=id%> .arrow-style{
     stroke-width:1
 }
-.<%=id%> line.arcrow, .<%=id%> line.arcrowomit, .<%=id%> .emphasised{
+.<%=id%> .arcrow, .<%=id%> .arcrowomit, .<%=id%> .emphasised{
     stroke-linecap:butt
 }
 .<%=id%> line.arcrowomit{
     stroke-dasharray:2,2;
 }
-.<%=id%> rect.box, .<%=id%> path.box, .<%=id%> rect.entity{
+.<%=id%> .box, .<%=id%> .entity{
     fill:white;
     stroke-linejoin:round
 }
