@@ -18,7 +18,7 @@ with mscgenjs.
   included in the repo but it's easy to generate it from app.js:
 
 ```sh
-# when you don't have webpack install hed do that first:
+# when you don't have webpack installed yet do that first:
 npm install --global webpack
 
 # generate the bundle
