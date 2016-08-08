@@ -76,8 +76,6 @@ define([
     }
 
     function createSingleLine(pLine, pOptions) {
-        // return wobble.createSingleLine(pLine, pOptions);
-
         return factll.createElement(
             "line",
             {
