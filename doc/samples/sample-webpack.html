@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Super Simple MsGenny interpreter</title>
+        <style media="screen">
+            body{
+                margin: 0;
+                font-family:sans-serif;
+                font-size:12px;
+                display:flex;
+                flex-direction:row;
+            }
+            #inputscript {
+                background-color:black;
+                color:white;
+                border:0;
+            }
+            .buttonia {
+                background-color: lightgrey;
+                width: 100px;
+                text-align: center;
+            }
+            .column {
+                flex-direction: row;
+                color: white;
+            }
+            button {
+                font: inherit;
+                width: 90px;
+                height: 40px;
+            }
+            textarea {
+                font-family: monospace;
+            }
+        </style>
+        <script src="sample-webpack.bundle.js" defer></script>
+    </head>
+    <body>
+        <textarea
+            id="inputscript"
+            cols="60" rows="0"
+            spellcheck="false"
+            placeholder="Put your nice msgenny script in here">hscale="1.4", wordwraparcs=on;
+
+Alice => Bob   : get Bobs' public key;
+Bob   >> Alice : Bobs' public key;
+Alice => Alice : encrypt with Bob's public key;
+Alice => Bob   : encrypted message;
+Bob   => Bob   : decrypt message with own private key;
+</textarea>
+        <div class="buttonia">
+            <button type="button" id="render">render</button>
+            <span id="version"></span>
+            <button type="button" id="loop">add a loop</button>
+            <button type="button" id="alt">add an alt</button>
+        </div>
+        <div id="output"></div>
+    </body>
+</html>

@@ -125,6 +125,9 @@ mscgenjs.renderMsc (
   },
 ```
 
+In [doc/samples](doc/samples) you'll find a simple dynamic integration using
+webpack and one using requirejs.
+
 ### Transpiling
 You can use the second function of the root module for transpiling to and from
 msgenny, mscgen, xù and json and for exporting to dot and doxygen. This function
