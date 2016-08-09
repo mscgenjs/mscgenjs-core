@@ -1,3 +1,7 @@
+/**
+ * Exactly the same interface as @index.js - the only difference is that the
+ * functions only load dependencies at the moment they need them.
+ */
 module.exports = (function(){
     "use strict";
 
@@ -6,9 +10,7 @@ module.exports = (function(){
 
     return {
         /**
-         * See the function of the same name in @index.js. The only difference
-         * is that this function only loads dependencies at the moment it
-         * first needs them.
+         * See the function of the same name in @index.js.
          */
         renderMsc: function(pScript, pOptions, pCallBack){
             main.renderMsc(
@@ -18,9 +20,7 @@ module.exports = (function(){
         },
 
         /**
-         * See the function of the same name in @index.js. The only difference
-         * is that this function only loads dependencies at the moment it
-         * first needs them.
+         * See the function of the same name in @index.js.
          */
         translateMsc: function(pScript, pOptions, pCallBack){
             main.translateMsc(
@@ -32,7 +32,22 @@ module.exports = (function(){
         /**
          * See the variable of the same name in @index.js.
          */
-        version: main.version
+        version: main.version,
+
+        /**
+         * See the function of the same name in @index.js
+         */
+        getParser: resolver.getParser,
+
+        /**
+         * See the function of the same name in @index.js
+         */
+        getGraphicsRenderer: resolver.getGraphicsRenderer,
+
+        /**
+         * See the function of the same name in @index.js
+         */
+        getTextRenderer: resolver.getTextRenderer
     };
 })();
 /*

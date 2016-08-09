@@ -79,7 +79,42 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          *
          * @type {string}
          */
-        version: main.version
+        version: main.version,
+
+        /**
+         * returns a parser module for the given language. The module exposes
+         * a parse(pString) function which returns an abstract syntax tree in
+         * json format as described in the link below.
+         *
+         * https://github.com/sverweij/mscgenjs-core/blob/master/parse/README.md#the-abstract-syntax-tree
+         *
+         * @param {string} pLanguage the language to get a parser for
+         *                           Possible values: "mscgen", "msgenny", "xu"
+         *                           "json". Defaults to "mscgen"
+         * @return {object}
+         */
+        getParser: resolver.getParser,
+
+        /**
+        * returns a renderer that renders the abstract syntax tree as a scalable
+        * vector graphics (in practice: @render/graphics/renderast)
+        *
+        * @deprecated use renderMsc instead to render graphics
+        *
+        * @return {object}
+         */
+        getGraphicsRenderer: resolver.getGraphicsRenderer,
+
+        /**
+         * returns a renderer to the given language. The module exposes a
+         * render(pAST) function which returns a rendition of the abstract
+         * syntax tree it got passed into the given language
+         *
+         * @deprecated use translateMsc instead to render text
+         *
+         * @return {object}
+         */
+        getTextRenderer: resolver.getTextRenderer
     };
 });
 /*

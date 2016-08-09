@@ -8,9 +8,12 @@ define(["./index"], function(index) {
     "use strict";
 
     return {
-        renderMsc    : index.renderMsc,
-        translateMsc : index.translateMsc,
-        version      : index.version
+        renderMsc           : index.renderMsc,
+        translateMsc        : index.translateMsc,
+        version             : index.version,
+        getParser           : index.getParser,
+        getGraphicsRenderer : index.getGraphicsRenderer,
+        getTextRenderer     : index.getTextRenderer
     };
 });
 /*
