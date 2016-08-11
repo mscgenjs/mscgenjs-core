@@ -35,6 +35,11 @@ module.exports = (function(){
         version: main.version,
 
         /**
+         * See the variable of the same name in @index.js.
+         */
+        allowedValues: main.allowedValues,
+
+        /**
          * See the function of the same name in @index.js
          */
         getParser: resolver.getParser,

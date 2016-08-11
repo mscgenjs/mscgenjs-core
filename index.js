@@ -27,15 +27,12 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          * Options:
          *   elementId: the id of the DOM element to render in. Defaults to
          *              "__svg". renderMsc assumes this element to exist.
-         *   inputType: language to parse - default "mscgen"; other accepted
-         *              languages: "xu", "msgenny" and "json"
+         *   inputType: language to parse - default "mscgen"; Possible values:
+         *              allowedValues.inputType
          *  mirrorEntitiesOnBottom: draws entities on both top and bottom of
          *              the chart when true. Defaults to false.
          *  additionalTemplate: use one of the predefined templates. Default
-         *              null/ empty. Possible values: "lazy", "classic",
-         *              "cygne", "pegasse", "fountainpen" (experimental),
-         *              "inverted" (doesn't work in safari), "grayscaled"
-         *              (doesn't work in safari either)
+         *              null/ empty. Possible values: allowedValues.namedStyle
          *  includeSource: whether the generated svg should include the script
          *              in a desc element or not. Defaults to false
            },
@@ -62,9 +59,9 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          *
          * Options:
          *   inputType  : the language of pScript defaults to "mscgen". Possible
-         *                values: "mscgen", "msgenny", "xu", "json"
-         *   outputType : defaults to "json". Possible values: "mscgen",
-         *                "msgenny", "xu", "json", "dot", "doxygen"
+         *                values: allowedValues.inputType
+         *   outputType : defaults to "json". Possible values:
+         *                allowedValues.outputType
          */
         translateMsc: function (pScript, pOptions, pCallBack){
             main.translateMsc(
@@ -80,6 +77,21 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          * @type {string}
          */
         version: main.version,
+
+        /**
+         *
+         * An object with arrays of allowed values for parameters in the
+         * renderMsc and translateMsc functions. Each entry in these
+         * arrays have a name (=the allowed value) and a boolean "experimental"
+         * attribute. If that attribute is true, you'll hit a feature that is
+         * under development when use that value.
+         *
+         * pOptions.inputType
+         * pOptions.outputType
+         * pOptions.namedStyle
+         *
+         */
+        allowedValues: main.allowedValues,
 
         /**
          * returns a parser module for the given language. The module exposes
@@ -115,6 +127,8 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          * @return {object}
          */
         getTextRenderer: resolver.getTextRenderer
+
+
     };
 });
 /*
