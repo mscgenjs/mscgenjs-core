@@ -46,7 +46,8 @@
     "gulpfile.js",
     "parse/**",
     "lib/**",
-    "test/**"
+    "test/**",
+    "doc/**"
   ],
   "test": [
     "**/test/**",
