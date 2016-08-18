@@ -7,7 +7,8 @@ define([
     "./constants",
     "./svglowlevelfactory",
     "./geometry",
-    "../../lib/lodash/lodash.custom"], function(C, factll, math, _) {
+    "./wobble",
+    "../../lib/lodash/lodash.custom"], function(C, factll, math, wobble, _) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
@@ -290,20 +291,21 @@ define([
          * @return {SVGElement}
          */
         createRect : function (pBBox, pClass, pColor, pBgColor) {
-            return colorBox(
-                factll.createElement(
-                    "rect",
-                    {
-                        width: pBBox.width,
-                        height: pBBox.height,
-                        x: pBBox.x,
-                        y: pBBox.y,
-                        class: pClass
-                    }
-                ),
-                pColor,
-                pBgColor
-            );
+            return wobble.createRect(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
+            // return colorBox(
+            //     factll.createElement(
+            //         "rect",
+            //         {
+            //             width: pBBox.width,
+            //             height: pBBox.height,
+            //             x: pBBox.x,
+            //             y: pBBox.y,
+            //             class: pClass
+            //         }
+            //     ),
+            //     pColor,
+            //     pBgColor
+            // );
         },
 
         /**
@@ -315,24 +317,25 @@ define([
          * @return {SVGElement}
          */
         createRBox: function (pBBox, pClass, pColor, pBgColor) {
-            var RBOX_CORNER_RADIUS = 6; // px
-
-            return colorBox(
-                factll.createElement(
-                    "rect",
-                    {
-                        width: pBBox.width,
-                        height: pBBox.height,
-                        x: pBBox.x,
-                        y: pBBox.y,
-                        rx: RBOX_CORNER_RADIUS,
-                        ry: RBOX_CORNER_RADIUS,
-                        class: pClass
-                    }
-                ),
-                pColor,
-                pBgColor
-            );
+            return wobble.createRBox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
+            // var RBOX_CORNER_RADIUS = 6; // px
+            //
+            // return colorBox(
+            //     factll.createElement(
+            //         "rect",
+            //         {
+            //             width: pBBox.width,
+            //             height: pBBox.height,
+            //             x: pBBox.x,
+            //             y: pBBox.y,
+            //             rx: RBOX_CORNER_RADIUS,
+            //             ry: RBOX_CORNER_RADIUS,
+            //             class: pClass
+            //         }
+            //     ),
+            //     pColor,
+            //     pBgColor
+            // );
         },
 
         /**
@@ -344,21 +347,22 @@ define([
          * @return {SVGElement}
          */
         createABox: function (pBBox, pClass, pColor, pBgColor) {
-            var lSlopeOffset = 3;
-            return _createPath(
-                // start
-                "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
-                "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
-                // top line
-                "l" + (pBBox.width - 2 * lSlopeOffset) + ",0" +
-                // right wedge
-                "l" + lSlopeOffset + "," + pBBox.height / 2 +
-                "l-" + lSlopeOffset + "," + pBBox.height / 2 +
-                // bottom line:
-                "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 " +
-                "z",
-                pClass, pColor, pBgColor
-            );
+            return wobble.createABox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
+            // var lSlopeOffset = 3;
+            // return _createPath(
+            //     // start
+            //     "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
+            //     "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
+            //     // top line
+            //     "l" + (pBBox.width - 2 * lSlopeOffset) + ",0" +
+            //     // right wedge
+            //     "l" + lSlopeOffset + "," + pBBox.height / 2 +
+            //     "l-" + lSlopeOffset + "," + pBBox.height / 2 +
+            //     // bottom line:
+            //     "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 " +
+            //     "z",
+            //     pClass, pColor, pBgColor
+            // );
         },
 
         /**
@@ -372,32 +376,33 @@ define([
          * @return {SVGElement}
          */
         createNote: function (pBBox, pClass, pColor, pBgColor) {
-            var lFoldSizeN = Math.max(9, Math.min(4.5 * C.LINE_WIDTH, pBBox.height / 2));
-            var lFoldSize = lFoldSizeN.toString(10);
-
-            return _createPath(
-                "M" + pBBox.x + "," + pBBox.y +
-                // top line:
-                "l" + (pBBox.width - lFoldSizeN) + ",0 " +
-                // fold:
-                // we lift the pen of the paper here to make sure the fold
-                // gets the fill color as well when such is specified
-                "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" +
-                        lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
-                // down:
-                "l0," + (pBBox.height - lFoldSizeN) + " " +
-                // bottom line:
-                "l-" + pBBox.width + ",0 " +
-                "l0,-" + pBBox.height + " " +
-                // because we lifted the pen from the paper in the fold (see
-                // the m over there) - svg interpreters consider that to be
-                // the start of the path. So, although we're already 'home'
-                // visually we need to do one step extra.
-                // If we don't we end up with a little gap on the top left
-                // corner when our stroke-linecap===butt
-                "z",
-                pClass, pColor, pBgColor
-            );
+            return wobble.createNote(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
+            // var lFoldSizeN = Math.max(9, Math.min(4.5 * C.LINE_WIDTH, pBBox.height / 2));
+            // var lFoldSize = lFoldSizeN.toString(10);
+            //
+            // return _createPath(
+            //     "M" + pBBox.x + "," + pBBox.y +
+            //     // top line:
+            //     "l" + (pBBox.width - lFoldSizeN) + ",0 " +
+            //     // fold:
+            //     // we lift the pen of the paper here to make sure the fold
+            //     // gets the fill color as well when such is specified
+            //     "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" +
+            //             lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
+            //     // down:
+            //     "l0," + (pBBox.height - lFoldSizeN) + " " +
+            //     // bottom line:
+            //     "l-" + pBBox.width + ",0 " +
+            //     "l0,-" + pBBox.height + " " +
+            //     // because we lifted the pen from the paper in the fold (see
+            //     // the m over there) - svg interpreters consider that to be
+            //     // the start of the path. So, although we're already 'home'
+            //     // visually we need to do one step extra.
+            //     // If we don't we end up with a little gap on the top left
+            //     // corner when our stroke-linecap===butt
+            //     "z",
+            //     pClass, pColor, pBgColor
+            // );
         },
 
         /**
@@ -411,20 +416,30 @@ define([
          * @return {SVGElement}
          */
         createEdgeRemark: function (pBBox, pClass, pColor, pBgColor, pFoldSize) {
-            var lFoldSize = pFoldSize ? pFoldSize : 7;
-            return _createPath(
-                // start:
-                "M" + pBBox.x + "," + pBBox.y +
-                // top line:
-                " l" + pBBox.width + ",0 " +
-                // down:
-                " l0," + (pBBox.height - lFoldSize) +
-                // fold:
-                " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10) +
-                // bottom line:
-                " l-" + (pBBox.width - lFoldSize) + ",0 ",
-                pClass, pColor, pBgColor
+            return wobble.createEdgeRemark(
+                pBBox,
+                {
+                    class: pClass,
+                    color: pColor,
+                    bgColor: pBgColor,
+                    foldSize: pFoldSize
+                }
             );
+
+            // var lFoldSize = pFoldSize ? pFoldSize : 7;
+            // return _createPath(
+            //     // start:
+            //     "M" + pBBox.x + "," + pBBox.y +
+            //     // top line:
+            //     " l" + pBBox.width + ",0 " +
+            //     // down:
+            //     " l0," + (pBBox.height - lFoldSize) +
+            //     // fold:
+            //     " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10) +
+            //     // bottom line:
+            //     " l-" + (pBBox.width - lFoldSize) + ",0 ",
+            //     pClass, pColor, pBgColor
+            // );
         },
 
         /**
@@ -472,9 +487,9 @@ define([
          */
         createLine: function (pLine, pOptions) {
             if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
-                return createDoubleLine(pLine, pOptions);
+                return wobble.createDoubleLine(pLine, pOptions);
             } else {
-                return createSingleLine(pLine, pOptions);
+                return wobble.createSingleLine(pLine, pOptions);
             }
         },
 
