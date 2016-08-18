@@ -45,13 +45,17 @@ To **translate** between the three sequence chart languages it supports and to
 [sverweij/mscgen_js/.../interpreter/raster-exporter.js][mscgenjs.rasterexport.source]
 
 You might have noticed the [interpreter](https://sverweij.github.io/mscgen_js)
-also renders to jpeg and png. It uses the canvg library and it is _really_
-trivial.
-
+also renders to jpeg and png. It uses the HTML5 canvas for it (and it's
+really trivial code).
 
 ## The controllers
-These are not in the 'core' package and serve as a reference of how mscgenjs
-can be used.
+These are not in the 'core' package and serve as a reference of how you can
+use mscgenjs.
+
+### Simple samples
+:page_with_curl: code in [samples](samples)
+
+Implements an (on line) interpreter and renderer in a few lines of code.
 
 ### Embedding
 :page_with_curl: code in [sverweij/mscgen_js/.../mscgen-inpage.js][mscgenjs.embed.source]
@@ -73,7 +77,7 @@ The controller for the interpreter UI is less trivial.
 ## Testing
 :page_with_curl: code in [../test/](../test)
 
-About 340 automated tests (and counting) make sure we can refactor the mscgen_js
+About 390 automated tests (and counting) make sure we can refactor the mscgen_js
 core modules safely.
 
 [mscgen-preview.source]: https://github.com/sverweij/atom-mscgen-preview
