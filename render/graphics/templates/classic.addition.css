@@ -1,7 +1,7 @@
 .<%=id%> text.entity-text{
     text-decoration:none
 }
-.<%=id%> rect.entity{
+.<%=id%> .entity{
     stroke:none;
 }
 .<%=id%> line,.<%=id%> rect,.<%=id%> path{

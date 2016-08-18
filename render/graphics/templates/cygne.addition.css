@@ -1,10 +1,10 @@
-.<%=id%> line{
+.<%=id%> line, .<%=id%> path{
     stroke:#00A1DE
 }
 .<%=id%> text{
     fill:#005B82
 }
-.<%=id%> rect.entity,.<%=id%> rect.box,.<%=id%> path.box{
+.<%=id%> .entity,.<%=id%> .box{
     fill:#00A1DE;
     stroke:#00A1DE
 }
@@ -23,9 +23,9 @@
     fill:#E77B2F;
     stroke:white
 }
-.<%=id%> line.comment,
-    .<%=id%> rect.inline_expression,
+.<%=id%> .comment,
+    .<%=id%> .inline_expression,
     .<%=id%> .inline_expression_divider,
-    .<%=id%> path.inline_expression_label{
+    .<%=id%> .inline_expression_label{
     fill:white
 }

@@ -1,10 +1,10 @@
-.<%=id%> line{
+.<%=id%> line, .<%=id%> path{
     stroke:rgba(0, 43, 84, 1)
 }
 .<%=id%> text{
     fill:rgba(0, 43, 84, 1)
 }
-.<%=id%> rect.entity,.<%=id%> rect.box,.<%=id%> path.box{
+.<%=id%> .entity,.<%=id%> .box{
     fill:rgba(0, 43, 84, 1);
     stroke:rgba(0, 43, 84, 1)
 }
@@ -22,9 +22,9 @@
 .<%=id%> path.note{
     fill:rgba(255, 50, 0, 1);stroke:white
 }
-.<%=id%> line.comment,
-    .<%=id%> rect.inline_expression,
+.<%=id%> .comment,
+    .<%=id%> .inline_expression,
     .<%=id%> .inline_expression_divider,
-    .<%=id%> path.inline_expression_label{
+    .<%=id%> .inline_expression_label{
     fill:white
 }

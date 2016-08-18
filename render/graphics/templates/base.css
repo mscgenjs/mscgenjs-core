@@ -31,10 +31,10 @@ svg.<%=id%>{
 .<%=id%> line{
     stroke:black
 }
-.<%=id%> line.return, .<%=id%> path.return, .<%=id%> line.comment{
+.<%=id%> .return, .<%=id%> .comment{
     stroke-dasharray:5,3
 }
-.<%=id%> line.inline_expression_divider{
+.<%=id%> .inline_expression_divider{
     stroke-dasharray:10,5
 }
 .<%=id%> text{
@@ -57,7 +57,7 @@ svg.<%=id%>{
 .<%=id%> .arcrow, .<%=id%> .arcrowomit, .<%=id%> .emphasised{
     stroke-linecap:butt
 }
-.<%=id%> line.arcrowomit{
+.<%=id%> .arcrowomit{
     stroke-dasharray:2,2;
 }
 .<%=id%> .box, .<%=id%> .entity{
