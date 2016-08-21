@@ -7,7 +7,7 @@ define([], function() {
     "use strict";
     return {
         baseTemplate : "<%=baseTemplateString%>",
-        additionalTemplates : <%=additionalTemplates%>
+        namedStyles : <%=additionalTemplates%>
     };
 });
 /*

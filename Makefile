@@ -2,17 +2,14 @@
 PEGJS=node_modules/pegjs/bin/pegjs
 GIT=git
 NPM=npm
-MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclude "node_modules"
+MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclude "node_modules|doc"
 LODASH=node_modules/.bin/lodash
 
-PARSERS_AMD=parse/mscgenparser.js \
+PARSERS=parse/mscgenparser.js \
 	parse/msgennyparser.js \
 	parse/xuparser.js
-PARSERS_CJS=parse/mscgenparser_node.js \
-	parse/msgennyparser_node.js \
-	parse/xuparser_node.js
 CUSTOM_LODASH=lib/lodash/lodash.custom.js
-GENERATED_SOURCES=$(PARSERS_AMD) \
+GENERATED_SOURCES=$(PARSERS) \
 				  $(CUSTOM_LODASH) \
 				  render/graphics/csstemplates.js
 LIBDIRS=lib/lodash
@@ -68,8 +65,13 @@ $(CUSTOM_LODASH): node_modules/lodash-cli/package.json
 include jsdependencies.mk
 include dependencies.mk
 
-render/graphics/csstemplates.js: render/graphics/templates
-	node render/graphics/templates/to-csstemplates-js.js > $@
+render/graphics/csstemplates.js: render/graphics/styling \
+	render/graphics/styling/to-csstemplates-js.utility.js \
+	render/graphics/styling/base.css \
+	render/graphics/styling/csstemplates.template.js \
+	render/graphics/styling/*.style/*.css \
+	render/graphics/styling/*.style/*.json
+	node render/graphics/styling/to-csstemplates-js.utility.js > $@
 
 # "phony" targets
 prerequisites:
