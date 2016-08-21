@@ -2,14 +2,15 @@
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
-doc/tmp_amd_test.js: \
-	indexAMD.js
+index.js: \
+	main/index.js \
+	main/static-resolver.js
 
-indexAMD.js: \
-	main/AMD-static-resolver.js \
-	main/index.js
+main/index.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/csstemplates.js
 
-main/AMD-static-resolver.js: \
+main/static-resolver.js: \
 	lib/lodash/lodash.custom.js \
 	parse/mscgenparser.js \
 	parse/msgennyparser.js \
@@ -55,6 +56,7 @@ render/graphics/renderlabels.js: \
 	render/text/textutensils.js
 
 render/graphics/svgelementfactory.js: \
+	lib/lodash/lodash.custom.js \
 	render/graphics/constants.js \
 	render/graphics/geometry.js \
 	render/graphics/svglowlevelfactory.js
@@ -104,8 +106,14 @@ render/text/ast2xu.js: \
 	render/text/ast2thing.js \
 	render/text/textutensils.js
 
-main/index.js: \
-	lib/lodash/lodash.custom.js
+indexAMD.js: \
+	index.js
+
+render/graphics/wobble.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/constants.js \
+	render/graphics/geometry.js \
+	render/graphics/svglowlevelfactory.js
 
 render/text/ast2animate.js: \
 	lib/lodash/lodash.custom.js
@@ -114,38 +122,18 @@ render/text/colorize.js: \
 	render/text/arcmappings.js \
 	render/text/asttransform.js
 
-wikum/tmp_amd_test.js: \
-	indexAMD.js
-
 # cjs dependencies
-doc/tmp_amd_test.js: \
-	indexAMD.js
-
 index-lazy.js: \
-	main/CJS-lazy-resolver.js \
-	main/index.js
+	main/index.js \
+	main/lazy-resolver.js
 
 main/index.js: \
-	lib/lodash/lodash.custom.js
+	lib/lodash/lodash.custom.js \
+	render/graphics/csstemplates.js
 
-main/CJS-lazy-resolver.js: \
+main/lazy-resolver.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/renderast.js
-
-index.js: \
-	main/CJS-static-resolver.js \
-	main/index.js
-
-main/CJS-static-resolver.js: \
-	parse/mscgenparser.js \
-	parse/msgennyparser.js \
-	parse/xuparser.js \
-	render/graphics/renderast.js \
-	render/text/ast2dot.js \
-	render/text/ast2doxygen.js \
-	render/text/ast2mscgen.js \
-	render/text/ast2msgenny.js \
-	render/text/ast2xu.js
 
 test/index.spec.js: \
 	index-lazy.js \
@@ -154,8 +142,8 @@ test/index.spec.js: \
 	test/astfixtures.json
 
 test/main/resolvers.spec.js: \
-	main/CJS-lazy-resolver.js \
-	main/CJS-static-resolver.js \
+	main/lazy-resolver.js \
+	main/static-resolver.js \
 	test/astfixtures.json \
 	test/testutensils.js
 
@@ -180,6 +168,9 @@ test/parse/xuparser.spec.js: \
 	test/parse/mscgenPairs.js \
 	test/parse/xuPairs.js \
 	test/testutensils.js
+
+test/render/graphics/geometry.spec.js: \
+	render/graphics/geometry.js
 
 test/render/graphics/markermanager.spec.js: \
 	render/graphics/markermanager.js
@@ -228,7 +219,4 @@ test/render/text/flatten.spec.js: \
 
 test/render/text/textutensils.spec.js: \
 	render/text/textutensils.js
-
-wikum/tmp_amd_test.js: \
-	indexAMD.js
 
