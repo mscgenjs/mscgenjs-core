@@ -25,17 +25,16 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          * @return none
          *
          * Options:
-         *   elementId: the id of the DOM element to render in. Defaults to
-         *              "__svg". renderMsc assumes this element to exist.
-         *   inputType: language to parse - default "mscgen"; Possible values:
-         *              allowedValues.inputType
+         *  elementId: the id of the DOM element to render in. Defaults to
+         *             "__svg". renderMsc assumes this element to exist.
+         *  inputType: language to parse - default "mscgen"; Possible values:
+         *             allowedValues.inputType
          *  mirrorEntitiesOnBottom: draws entities on both top and bottom of
-         *              the chart when true. Defaults to false.
+         *             the chart when true. Defaults to false.
          *  additionalTemplate: use one of the predefined templates. Default
-         *              null/ empty. Possible values: allowedValues.namedStyle
+         *             null/ empty. Possible values: allowedValues.namedStyle
          *  includeSource: whether the generated svg should include the script
-         *              in a desc element or not. Defaults to false
-           },
+         *             in a desc element or not. Defaults to false
          */
         renderMsc: function (pScript, pOptions, pCallBack){
             main.renderMsc(
