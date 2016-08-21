@@ -37,7 +37,7 @@ module.exports = (function(){
         /**
          * See the variable of the same name in @index.js.
          */
-        allowedValues: main.allowedValues,
+        getAllowedValues: main.getAllowedValues,
 
         /**
          * See the function of the same name in @index.js

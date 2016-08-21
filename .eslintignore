@@ -4,4 +4,4 @@ node_modules
 coverage
 platoreports
 render/graphics/csstemplates.js
-render/graphics/templates/csstemplates.template.js
+render/graphics/styling/csstemplates.template.js

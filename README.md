@@ -135,37 +135,37 @@ does _not_ depend on the DOM so you can use it not only in browsers &
 browser-likes, but also hack-free in node.
 
 ```javascript
-    mscgenjs.translateMsc(
-        'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
-        {
-            inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
-            outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen
-        },
-        function(pError, pSuccess){
-            if(Boolean(pError)){
-                console.log("error:", pError);
-                return;
-            }
-            if(Boolean(pSuccess)){
-                // the transpiled result is in pSuccess
-                console.log(pSuccess);
-                return;
-            }
-            console.log("Neither success nor failure. I do not even.");
+mscgenjs.translateMsc(
+    'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
+    {
+        inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
+        outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen
+    },
+    function(pError, pSuccess){
+        if(Boolean(pError)){
+            console.log("error:", pError);
+            return;
         }
-    );
+        if(Boolean(pSuccess)){
+            // the transpiled result is in pSuccess
+            console.log(pSuccess);
+            return;
+        }
+        console.log("Neither success nor failure. I do not even.");
+    }
+);
 
-    // result:
-    //
-    // msc {
-    //   wordwraparcs=true;
-    //
-    //   you,
-    //   me;
-    //
-    //   you =>> me [label="can we translate this to Mscgen please?"];
-    //   me >> you [label="yes, you can - use translateMsc"];
-    // }
+// result:
+//
+// msc {
+//   wordwraparcs=true;
+//
+//   you,
+//   me;
+//
+//   you =>> me [label="can we translate this to Mscgen please?"];
+//   me >> you [label="yes, you can - use translateMsc"];
+// }
 ```
 
 ## Battle tested implementations

@@ -1,5 +1,5 @@
 svg.<%=id%>{
-    font-family:cursive;
+    font-family:'Caveat', cursive;
     stroke-opacity:0.4;
     stroke-linecap:round;
     background-color:transparent
