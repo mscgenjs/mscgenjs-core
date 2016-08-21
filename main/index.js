@@ -113,8 +113,9 @@ define(function(require){
                 namedStyle: cssTemplates.namedStyles.map(
                     function(pStyle){
                         return {
-                            name        : pStyle.name,
-                            experimental: pStyle.experimental
+                            name         : pStyle.name,
+                            description  : pStyle.description,
+                            experimental : pStyle.experimental
                         };
                     }
                 )

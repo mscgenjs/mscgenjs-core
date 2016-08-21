@@ -12,7 +12,7 @@ let dirNameIsAddition = pDirName =>
     Boolean(pDirName.match(ADDITION_RE));
 
 let extractName = pFileName =>
-    pFileName.substr(0, pFileName.match(ADDITION_RE).index);
+    pFileName.substr(3, pFileName.match(ADDITION_RE).index - 3);
 
 let extractFileContents = pFilePath =>
     fileExists(pFilePath) ? compress(fs.readFileSync(pFilePath, 'utf-8')) : "";
@@ -32,6 +32,7 @@ let dirNameToAdditionNode = pRootDirName =>
 
         return {
             name         : extractName(pDirName),
+            description  : $config.description,
             experimental : $config.experimental,
             cssBefore    : extractFileContents(path.join(pRootDirName, pDirName, "before.css")),
             cssAfter     : extractFileContents(path.join(pRootDirName, pDirName, "after.css"))
