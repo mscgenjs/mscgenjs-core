@@ -5,7 +5,7 @@ svg.<%=id%>{
     background-color:transparent
 }
 .<%=id%> text{
-    fill:rgba(0,0,128,0.8)
+    fill:rgba(0,0,128,0.6)
 }
 .<%=id%> marker polygon{
     fill:rgba(0,0,255,0.4);
