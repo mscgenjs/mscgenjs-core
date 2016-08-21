@@ -1,11 +1,11 @@
 svg.<%=id%>{
-    font-family:'Caveat', cursive;
+    font-family:'Gochi Hand', cursive;
     stroke-opacity:0.4;
     stroke-linecap:round;
     background-color:transparent
 }
 .<%=id%> text{
-    fill:rgba(0,0,128,0.6)
+    fill:rgba(0,0,128,0.7)
 }
 .<%=id%> marker polygon{
     fill:rgba(0,0,255,0.4);
