@@ -68,8 +68,13 @@ $(CUSTOM_LODASH): node_modules/lodash-cli/package.json
 include jsdependencies.mk
 include dependencies.mk
 
-render/graphics/csstemplates.js: render/graphics/templates
-	node render/graphics/templates/to-csstemplates-js.js > $@
+render/graphics/csstemplates.js: render/graphics/styling \
+	render/graphics/styling/to-csstemplates-js.utility.js \
+	render/graphics/styling/base.css \
+	render/graphics/styling/csstemplates.template.js \
+	render/graphics/styling/*.style/*.css \
+	render/graphics/styling/*.style/*.json
+	node render/graphics/styling/to-csstemplates-js.utility.js > $@
 
 # "phony" targets
 prerequisites:
