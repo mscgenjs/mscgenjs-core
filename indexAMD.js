@@ -11,7 +11,7 @@ define(["./index"], function(index) {
         renderMsc           : index.renderMsc,
         translateMsc        : index.translateMsc,
         version             : index.version,
-        allowedValues       : index.allowedValues,
+        getAllowedValues    : index.getAllowedValues,
         getParser           : index.getParser,
         getGraphicsRenderer : index.getGraphicsRenderer,
         getTextRenderer     : index.getTextRenderer

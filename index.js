@@ -90,7 +90,7 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          * pOptions.namedStyle
          *
          */
-        allowedValues: main.allowedValues,
+        getAllowedValues: main.getAllowedValues,
 
         /**
          * returns a parser module for the given language. The module exposes
