@@ -118,7 +118,7 @@ define(function(require){
                     {name: "grayscaled",  experimental: true},
                     {name: "fountainpen", experimental: true}
                 ]
-            })
+            });
         }
     };
 });
