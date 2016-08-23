@@ -14,7 +14,7 @@ define(
 
     // Begin Wobble utensils - can be moved to a separate module if necessary
     function point2String(pX, pY) {
-        return pX.toString() + "," + pY.toString() + " ";
+        return pX.toString() + "," + pY.toString();
     }
 
     function pathPoint2String(pType, pX, pY) {
@@ -22,11 +22,11 @@ define(
     }
 
     function points2CurveString(pPoints) {
-        return pPoints.reduce(function(pAllPoints, pThisPoint){
-            return pAllPoints +
-                pathPoint2String("S", pThisPoint.controlX, pThisPoint.controlY) +
-                point2String(pThisPoint.x, pThisPoint.y);
-        }, "");
+        return pPoints.map(function(pThisPoint){
+            return pathPoint2String("S", pThisPoint.controlX, pThisPoint.controlY) +
+                    " " + point2String(pThisPoint.x, pThisPoint.y);
+        }).join(" ");
+
     }
 
     /**
@@ -75,10 +75,27 @@ define(
     // End Wobble utensils
 
     function createSingleLine(pLine, pOptions) {
+        var lDir = geo.getDirection(pLine);
         return factll.createElement(
             "path",
             {
                 d:  pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
+                    // Workaround; gecko and webkit treat markers slapped on the
+                    // start of a path with 'auto' different from each other when
+                    // there's not a line at the start and the path is not going
+                    // from exactly left to right (gecko renders the marker
+                    // correctly, whereas webkit will ignore auto and show the
+                    // marker in its default position)
+                    //
+                    // Adding a little stubble at the start of the line solves
+                    // all that.
+                    pathPoint2String(
+                        "L",
+                        pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))),
+                        pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
+                                            ? 1
+                                            : Math.sqrt((Math.pow(lDir.dy, 2)) / (1 + Math.pow(lDir.dy, 2))))
+                    ) +
                     points2CurveString(
                         geo.getBetweenPoints(
                             pLine,
