@@ -10,7 +10,7 @@ define(
     "../../lib/lodash/lodash.custom"], function(C, factll, geo, _) {
 
     var SEGMENT_LENGTH = 70; // 70
-    var WOBBLE_FACTOR  = 1.4; // 1.4?
+    var WOBBLE_FACTOR  = 3; // 1.4?
 
     // Begin Wobble utensils - can be moved to a separate module if necessary
     function point2String(pX, pY) {
