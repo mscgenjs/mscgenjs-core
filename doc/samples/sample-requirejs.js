@@ -8,7 +8,7 @@ define(function (require) {
             {
                 inputType: "msgenny",
                 elementId: "output",
-                additionalTemplate: "lazy"
+                additionalTemplate: "fountainpen"
             },
             function (pError, pSuccess) {
                 if (Boolean(pError)){
