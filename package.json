@@ -10,7 +10,6 @@
   "devDependencies": {
     "chai": "3.5.0",
     "chai-xml": "0.3.1",
-    "codeclimate-test-reporter": "0.3.3",
     "eslint": "3.4.0",
     "istanbul": "0.4.5",
     "js-makedepend": "1.0.2",
@@ -28,7 +27,6 @@
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD|csstemplates\" ./",
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
-    "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "npm-check-updates": "ncu --upgrade"
   },
   "repository": {
