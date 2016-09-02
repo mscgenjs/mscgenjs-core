@@ -41,18 +41,14 @@
             id="inputscript"
             cols="60" rows="0"
             spellcheck="false"
-            placeholder="Put your nice msgenny script in here">width=800;
-Alice, Bob;
-Alice <-> Bob: Alice to Bob;
-Bob <-> Alice: Bob to Alice;
-Alice <=> Bob: Alice to Bob;
-Bob <=> Alice: Bob to Alice;
-Alice <<=>> Bob: Alice to Bob;
-Bob <<=>> Alice: Bob to Alice;
-Alice <:> Bob: Alice to Bob;
-Bob <:> Alice: Bob to Alice;
-Alice :: Bob: Alice to Bob;
-Bob :: Alice: Bob to Alice;</textarea>
+            placeholder="Put your nice msgenny script in here">hscale="1.4", wordwraparcs=on;
+
+Alice => Bob   : get Bobs' public key;
+Bob   >> Alice : Bobs' public key;
+Alice => Alice : encrypt with Bob's public key;
+Alice => Bob   : encrypted message;
+Bob   => Bob   : decrypt message with own private key;
+</textarea>
         <div class="buttonia">
             <button type="button" id="render">render</button>
             <span id="version"></span>
