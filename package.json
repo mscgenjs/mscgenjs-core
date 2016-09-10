@@ -5,15 +5,15 @@
   "main": "index.js",
   "dependencies": {
     "amdefine": "1.0.0",
-    "requirejs": "2.2.0"
+    "requirejs": "2.3.1"
   },
   "devDependencies": {
     "chai": "3.5.0",
     "chai-xml": "0.3.1",
-    "eslint": "3.4.0",
+    "eslint": "3.5.0",
     "istanbul": "0.4.5",
-    "js-makedepend": "1.0.2",
-    "jsdom": "9.4.5",
+    "js-makedepend": "1.0.3",
+    "jsdom": "9.5.0",
     "lodash-cli": "4.15.0",
     "mocha": "3.0.2",
     "npm-check-updates": "2.8.0",
