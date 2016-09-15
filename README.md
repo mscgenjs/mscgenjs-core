@@ -209,8 +209,8 @@ license (incidentally all MIT style):
 
 It uses [istanbul][28], [eslint][22], [plato][23] and [nsp][35] to maintain some
 modicum of verifiable code quality. You can see the build history in
-[Travis][travis.mscgenjs] and an indication of the shape of the code at [Code
-Climate][codeclimate.mscgenjs].
+[Travis][travis.mscgenjs] and an indication of the shape of the code at
+[Bit Hound][bithound.mscgenjs].
 
 ## Thanks
 - [Mike McTernan][mscgen.author] for creating the wonderful
@@ -226,7 +226,7 @@ Climate][codeclimate.mscgenjs].
 ## Build status
 [![Build Status][travis.mscgenjs.badge]][travis.mscgenjs]
 [![bitHound Overall Score][bithound.mscgenjs.badge]][bithound.mscgenjs]
-[![Test Coverage](https://codeclimate.com/github/sverweij/mscgenjs-core/badges/coverage.svg)](https://codeclimate.com/github/sverweij/mscgenjs-core/coverage)
+[![coverage report](https://gitlab.com/sverweij/mscgenjs-core/badges/master/coverage.svg)](https://gitlab.com/sverweij/mscgenjs-core/commits/master)
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
 [![devDependency Status][daviddev.mscgenjs.badge]][daviddev.mscgenjs]
 [![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
@@ -235,13 +235,8 @@ Climate][codeclimate.mscgenjs].
 
 [amdefine.license]: doc/licenses/license.amdefine.md
 [atom]: https://atom.io
-[codeclimate.mscgenjs]: https://codeclimate.com/github/sverweij/mscgenjs-core
-[codeclimate.mscgenjs.badge]: https://codeclimate.com/github/sverweij/mscgenjs-core/badges/gpa.svg
 [bithound.mscgenjs]: https://www.bithound.io/github/sverweij/mscgenjs-core
 [bithound.mscgenjs.badge]: https://www.bithound.io/github/sverweij/mscgenjs-core/badges/score.svg
-[codecov.mscgenjs]: http://codecov.io/github/sverweij/mscgenjs-core?branch=master
-[codecov.mscgenjs.badge]: http://codecov.io/github/sverweij/mscgenjs-core/coverage.svg?branch=master
-[daviddev.mscgenjs]: https://david-dm.org/sverweij/mscgenjs-core#info=devDependencies
 [daviddev.mscgenjs.badge]: https://david-dm.org/sverweij/mscgenjs-core/dev-status.svg
 [david.mscgenjs]: https://david-dm.org/sverweij/mscgenjs-core
 [david.mscgenjs.badge]: https://david-dm.org/sverweij/mscgenjs-core.svg

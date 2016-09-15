@@ -5,16 +5,15 @@
   "main": "index.js",
   "dependencies": {
     "amdefine": "1.0.0",
-    "requirejs": "2.2.0"
+    "requirejs": "2.3.1"
   },
   "devDependencies": {
     "chai": "3.5.0",
     "chai-xml": "0.3.1",
-    "codeclimate-test-reporter": "0.3.3",
-    "eslint": "3.3.1",
-    "istanbul": "0.4.4",
-    "js-makedepend": "1.0.2",
-    "jsdom": "9.4.2",
+    "eslint": "3.5.0",
+    "istanbul": "0.4.5",
+    "js-makedepend": "1.0.3",
+    "jsdom": "9.5.0",
     "lodash-cli": "4.15.0",
     "mocha": "3.0.2",
     "npm-check-updates": "2.8.0",
@@ -28,7 +27,6 @@
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD|csstemplates\" ./",
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
-    "codeclimate-cover-submit": "node node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info",
     "npm-check-updates": "ncu --upgrade"
   },
   "repository": {
