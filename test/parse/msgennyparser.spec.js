@@ -137,6 +137,10 @@ describe('parse/msgennyparser', function() {
             var lAST = parser.parse('width="481.1337";a;');
             expect(lAST.options.width).to.equal("481.1337");
         });
+        it("should correctly parse naked cardinals", function() {
+            var lAST = parser.parse('width=481;a;');
+            expect(lAST.options.width).to.equal("481");
+        });
         it("should keep the labeled name of an entity", function(){
             var lAST = parser.parse('"實體": This is the label for 實體;');
             expect(lAST).to.deep.equal(fix.astLabeledEntity);
