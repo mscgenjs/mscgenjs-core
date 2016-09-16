@@ -35,10 +35,10 @@
 
     function optionArray2Object (pOptionList) {
         var lOptionList = {};
-        pOptionList[0].forEach(function(lOption){
+        pOptionList.forEach(function(lOption){
             lOptionList = merge(lOptionList, lOption);
         });
-        return merge(lOptionList, pOptionList[1]);
+        return lOptionList;
     }
 
     function flattenBoolean(pBoolean) {
@@ -55,7 +55,7 @@
         if (pName === undefined || pName === "*") {
             return true;
         }
-        if (pEntities.entities.some(function(pEntity){
+        if (pEntities.some(function(pEntity){
             return pEntity.name === pName;
         })){
             return true;
@@ -63,38 +63,35 @@
         return pEntityNamesToIgnore[pName] === true;
     }
 
-    function initEntity(lName ) {
+    function initEntity(lName) {
         var lEntity = {};
         lEntity.name = lName;
         return lEntity;
     }
 
-    function extractUndeclaredEntities (pEntities, pArcLineList, pEntityNamesToIgnore) {
+    function extractUndeclaredEntities (pEntities, pArcLines, pEntityNamesToIgnore) {
         if (!pEntities) {
-            pEntities = {};
-            pEntities.entities = [];
+            pEntities = [];
         }
 
         if (!pEntityNamesToIgnore){
             pEntityNamesToIgnore = {};
         }
 
-        if (pArcLineList && pArcLineList.arcs) {
-            pArcLineList.arcs.forEach(function(pArcLine){
+        if (pArcLines) {
+            pArcLines.forEach(function(pArcLine){
                 pArcLine.forEach(function(pArc){
                     if (!entityExists (pEntities, pArc.from, pEntityNamesToIgnore)) {
-                        pEntities.entities[pEntities.entities.length] =
-                            initEntity(pArc.from);
+                        pEntities.push(initEntity(pArc.from));
                     }
                     // if the arc kind is arcspanning recurse into its arcs
                     if (pArc.arcs){
                         pEntityNamesToIgnore[pArc.to] = true;
-                        merge (pEntities, extractUndeclaredEntities (pEntities, pArc, pEntityNamesToIgnore));
+                        merge (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
                         delete pEntityNamesToIgnore[pArc.to];
                     }
                     if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
-                        pEntities.entities[pEntities.entities.length] =
-                            initEntity(pArc.to);
+                        pEntities.push(initEntity(pArc.to));
                     }
                 });
             });
@@ -103,19 +100,19 @@
     }
 
     function hasExtendedOptions (pOptions){
-        if (pOptions && pOptions.options){
+        if (pOptions){
             return (
-                !!pOptions.options["watermark"] ||
-                (!!pOptions.options["width"] && pOptions.options["width"] === "auto")
+                 !!pOptions["watermark"] ||
+                (!!pOptions["width"] && !!pOptions["width"] === "auto")
             );
         } else {
             return false;
         }
     }
 
-    function hasExtendedArcTypes(pArcLineList){
-        if (pArcLineList && pArcLineList.arcs){
-            return pArcLineList.arcs.some(function(pArcLine){
+    function hasExtendedArcTypes(pArcLines){
+        if (pArcLines){
+            return pArcLines.some(function(pArcLine){
                 return pArcLine.some(function(pArc){
                     return (["alt", "else", "opt", "break", "par",
                       "seq", "strict", "neg", "critical",
@@ -127,9 +124,9 @@
         return false;
     }
 
-    function getMetaInfo(pOptions, pArcLineList){
+    function getMetaInfo(pOptions, pArcLines){
         var lHasExtendedOptions  = hasExtendedOptions(pOptions);
-        var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLineList);
+        var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLines);
         return {
             "extendedOptions" : lHasExtendedOptions,
             "extendedArcTypes": lHasExtendedArcTypes,
@@ -141,32 +138,40 @@
 program
     =  pre:_ d:declarationlist _
     {
-        d[1] = extractUndeclaredEntities(d[1], d[2]);
-        var lRetval = merge (d[0], merge (d[1], d[2]));
+        d.entities = extractUndeclaredEntities(d.entities, d.arcs);
+        var lRetval = d
 
-        lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
+        lRetval = merge ({meta: getMetaInfo(d.options, d.arcs)}, lRetval);
 
         if (pre.length > 0) {
             lRetval = merge({precomment: pre}, lRetval);
         }
-        /*
-            if (post.length > 0) {
-                lRetval = merge(lRetval, {postcomment:post});
-            }
-        */
         return lRetval;
     }
 
 declarationlist
-    = (o:optionlist {return {options:o}})?
-      (e:entitylist {return {entities:e}})?
-      (a:arclist {return {arcs:a}})?
+    = options:optionlist?
+      entities:entitylist?
+      arcs:arclist?
+      {
+          var lDeclarationList = {};
+          if (options) {
+              lDeclarationList.options = options;
+          }
+          if (entities) {
+              lDeclarationList.entities = entities;
+          }
+          if (arcs) {
+              lDeclarationList.arcs = arcs;
+          }
+          return lDeclarationList;
+      }
 
 optionlist
     = options:((o:option "," {return o})*
                (o:option ";" {return o}))
     {
-      return optionArray2Object(options);
+      return optionArray2Object(options[0].concat(options[1]));
     }
 
 option
@@ -180,9 +185,7 @@ option
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            var lOption = {};
-            lOption[name.toLowerCase()] = flattenBoolean(value);
-            return lOption;
+            return nameValue2Option(name, flattenBoolean(value));
         }
     / _ name:"watermark"i _ "=" _ value:quotedstring _
         {
@@ -192,8 +195,7 @@ option
 entitylist
     = el:((e:entity "," {return e})* (e:entity ";" {return e}))
     {
-      el[0].push(el[1]);
-      return el[0];
+      return el[0].concat(el[1]);
     }
 
 entity "entity"
@@ -211,11 +213,9 @@ arclist
     = (a:arcline _ ";" {return a})+
 
 arcline
-    = al:((a:arc "," {return a})* (a:arc {return [a]}))
+    = al:((a:arc "," {return a})* (a:arc {return a}))
     {
-       al[0].push(al[1][0]);
-
-       return al[0];
+       return al[0].concat(al[1]);
     }
 
 arc
@@ -253,7 +253,12 @@ dualarc
 spanarc
     = (_ from:identifier _ kind:spanarctoken _ to:identifier _ label:(":" _ s:string _ {return s})? "{" _ arcs:arclist? _ "}" _
       {
-        var retval = {kind: kind, from:from, to:to, arcs:arcs};
+        var retval = {
+            kind : kind,
+            from : from,
+            to   : to,
+            arcs : arcs
+        };
         if (label) {
           retval.label = label;
         }
