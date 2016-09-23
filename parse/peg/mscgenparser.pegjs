@@ -34,18 +34,24 @@
 
     function optionArray2Object (pOptionList) {
         var lOptionList = {};
-        pOptionList[0].forEach(function(lOption){
+        pOptionList.forEach(function(lOption){
             lOptionList = merge(lOptionList, lOption);
         });
-        return merge(lOptionList, pOptionList[1]);
+        return lOptionList;
     }
 
     function flattenBoolean(pBoolean) {
         return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
 
+    function nameValue2Option(pName, pValue){
+        var lOption = {};
+        lOption[pName.toLowerCase()] = pValue;
+        return lOption;
+    }
+
     function entityExists (pEntities, pName) {
-        return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
+        return pName === undefined || pName === "*" || pEntities.some(function(pEntity){
             return pEntity.name === pName;
         });
     }
@@ -76,14 +82,13 @@
         }
     }
 
-    function checkForUndeclaredEntities (pEntities, pArcLineList) {
+    function checkForUndeclaredEntities (pEntities, pArcLines) {
         if (!pEntities) {
-            pEntities = {};
-            pEntities.entities = [];
+            pEntities = [];
         }
 
-        if (pArcLineList && pArcLineList.arcs) {
-            pArcLineList.arcs.forEach(function(pArcLine) {
+        if (pArcLines) {
+            pArcLines.forEach(function(pArcLine) {
                 pArcLine.forEach(function(pArc) {
                     if (pArc.from && !entityExists (pEntities, pArc.from)) {
                         throw new EntityNotDefinedError(pArc.from, pArc);
@@ -112,19 +117,14 @@
 program
     = pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
     {
-        d[1] = checkForUndeclaredEntities(d[1], d[2]);
-        var lRetval = merge (d[0], merge (d[1], d[2]));
+        d.entities = checkForUndeclaredEntities(d.entities, d.arcs);
+        var lRetval = d;
 
         lRetval = merge ({meta: getMetaInfo()}, lRetval);
 
         if (pre.length > 0) {
             lRetval = merge({precomment: pre}, lRetval);
         }
-        /*
-            if (post.length > 0) {
-                lRetval = merge(lRetval, {postcomment:post});
-            }
-        */
         return lRetval;
     }
 
@@ -132,36 +132,44 @@ starttoken
     = "msc"i
 
 declarationlist
-    = (o:optionlist {return {options:o}})?
-      (e:entitylist {return {entities:e}})?
-      (a:arclist {return {arcs:a}})?
+    = options:optionlist?
+      entities:entitylist?
+      arcs:arclist?
+      {
+          var lDeclarationList = {};
+          if (options) {
+              lDeclarationList.options = options;
+          }
+          if (entities) {
+              lDeclarationList.entities = entities;
+          }
+          if (arcs) {
+              lDeclarationList.arcs = arcs;
+          }
+          return lDeclarationList;
+      }
 
 optionlist
     = options:((o:option "," {return o})*
                (o:option ";" {return o}))
     {
-        return optionArray2Object(options);
+        return optionArray2Object(options[0].concat(options[1]));
     }
 
 option "option"
     = _ name:("hscale"i/ "width"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            var lOption = {};
-            lOption[name.toLowerCase()] = value;
-            return lOption;
+            return nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            var lOption = {};
-            lOption[name.toLowerCase()] = flattenBoolean(value);
-            return lOption;
+            return nameValue2Option(name, flattenBoolean(value));
         }
 
 entitylist
     = el:((e:entity "," {return e})* (e:entity ";" {return e}))
     {
-      el[0].push(el[1]);
-      return el[0];
+      return el[0].concat(el[1]);
     }
 
 entity "entity"
@@ -182,11 +190,9 @@ arclist
     = (a:arcline _ ";" {return a})+
 
 arcline
-    = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
+    = al:((a:arc _ "," {return a})* (a:arc {return a}))
     {
-       al[0].push(al[1][0]);
-
-       return al[0];
+       return al[0].concat(al[1]);
     }
 
 arc
@@ -258,9 +264,9 @@ boxtoken "box"
     / "box"i
 
 attributelist
-    = options:((a:attribute "," {return a})* (a:attribute {return a}))
+    = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
     {
-      return optionArray2Object(options);
+      return optionArray2Object(attributes[0].concat(attributes[1]));
     }
 
 attribute

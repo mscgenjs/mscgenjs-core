@@ -20,6 +20,10 @@ describe('parse/mscgenparser', function() {
             var lAST = parser.parse('msc{width="481.1337";a;}');
             expect(lAST.options.width).to.equal("481.1337");
         });
+        it("should correctly parse naked cardinals", function() {
+            var lAST = parser.parse('msc{width=481;a;}');
+            expect(lAST.options.width).to.equal("481");
+        });
     });
 
     describe('#parse() - happy day ASTs - ', function(){

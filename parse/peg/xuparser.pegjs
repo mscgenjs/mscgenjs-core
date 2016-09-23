@@ -27,10 +27,10 @@
 
     function optionArray2Object (pOptionList) {
         var lOptionList = {};
-        pOptionList[0].forEach(function(lOption){
+        pOptionList.forEach(function(lOption){
             lOptionList = merge(lOptionList, lOption);
         });
-        return merge(lOptionList, pOptionList[1]);
+        return lOptionList;
     }
 
     function flattenBoolean(pBoolean) {
@@ -44,7 +44,7 @@
     }
 
     function entityExists (pEntities, pName) {
-        return pName === undefined || pName === "*" || pEntities.entities.some(function(pEntity){
+        return pName === undefined || pName === "*" || pEntities.some(function(pEntity){
             return pEntity.name === pName;
         });
     }
@@ -75,13 +75,12 @@
         }
     }
 
-    function checkForUndeclaredEntities (pEntities, pArcLineList) {
+    function checkForUndeclaredEntities (pEntities, pArcLines) {
         if (!pEntities) {
-            pEntities = {};
-            pEntities.entities = [];
+            pEntities = [];
         }
-        if (pArcLineList && pArcLineList.arcs) {
-            pArcLineList.arcs.forEach(function(pArcLine) {
+        if (pArcLines) {
+            pArcLines.forEach(function(pArcLine) {
                 pArcLine.forEach(function(pArc) {
                     if (pArc.from && !entityExists (pEntities, pArc.from)) {
                         throw new EntityNotDefinedError(pArc.from, pArc);
@@ -93,7 +92,7 @@
                         delete pArc.location;
                     }
                     if (!!pArc.arcs){
-                        checkForUndeclaredEntities(pEntities, pArc);
+                        checkForUndeclaredEntities(pEntities, pArc.arcs);
                     }
                 });
             });
@@ -102,19 +101,19 @@
     }
 
     function hasExtendedOptions (pOptions){
-        if (pOptions && pOptions.options){
+        if (pOptions){
             return (
-                !!pOptions.options["watermark"] ||
-                (!!pOptions.options["width"] && pOptions.options["width"] === "auto")
+                  !!pOptions["watermark"] ||
+                ( !!pOptions["width"] && !!pOptions["width"] === "auto")
             );
         } else {
             return false;
         }
     }
 
-    function hasExtendedArcTypes(pArcLineList){
-        if (pArcLineList && pArcLineList.arcs){
-            return pArcLineList.arcs.some(function(pArcLine){
+    function hasExtendedArcTypes(pArcLines){
+        if (pArcLines){
+            return pArcLines.some(function(pArcLine){
                 return pArcLine.some(function(pArc){
                     return (["alt", "else", "opt", "break", "par",
                       "seq", "strict", "neg", "critical",
@@ -140,19 +139,14 @@
 program
     =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
     {
-        d[1] = checkForUndeclaredEntities(d[1], d[2]);
-        var lRetval = merge (d[0], merge (d[1], d[2]));
+        d.entities = checkForUndeclaredEntities(d.entities, d.arcs);
+        var lRetval = d;
 
-        lRetval = merge ({meta: getMetaInfo(d[0], d[2])}, lRetval);
+        lRetval = merge ({meta: getMetaInfo(d.options, d.arcs)}, lRetval);
 
         if (pre.length > 0) {
             lRetval = merge({precomment: pre}, lRetval);
         }
-        /*
-            if (post.length > 0) {
-                lRetval = merge(lRetval, {postcomment:post});
-            }
-        */
 
         return lRetval;
     }
@@ -162,15 +156,28 @@ starttoken
     / "xu"i
 
 declarationlist
-    = (o:optionlist {return {options:o}})?
-      (e:entitylist {return {entities:e}})?
-      (a:arclist {return {arcs:a}})?
+    = options:optionlist?
+      entities:entitylist?
+      arcs:arclist?
+      {
+          var lDeclarationList = {};
+          if (options) {
+              lDeclarationList.options = options;
+          }
+          if (entities) {
+              lDeclarationList.entities = entities;
+          }
+          if (arcs) {
+              lDeclarationList.arcs = arcs;
+          }
+          return lDeclarationList;
+      }
 
 optionlist
     = options:((o:option "," {return o})*
               (o:option ";" {return o}))
     {
-      return optionArray2Object(options);
+      return optionArray2Object(options[0].concat(options[1]));
     }
 
 option "option"
@@ -184,9 +191,7 @@ option "option"
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            var lOption = {};
-            lOption[name.toLowerCase()] = flattenBoolean(value);
-            return lOption;
+            return nameValue2Option(name, flattenBoolean(value));
         }
     / _ name:"watermark"i _ "=" _ value:string _
         {
@@ -196,8 +201,7 @@ option "option"
 entitylist
     = el:((e:entity "," {return e})* (e:entity ";" {return e}))
     {
-      el[0].push(el[1]);
-      return el[0];
+      return el[0].concat(el[1]);
     }
 
 entity "entity"
@@ -217,11 +221,9 @@ arclist
     = (a:arcline _ ";" {return a})+
 
 arcline
-    = al:((a:arc _ "," {return a})* (a:arc {return [a]}))
+    = al:((a:arc _ "," {return a})* (a:arc {return a}))
     {
-       al[0].push(al[1][0]);
-
-       return al[0];
+       return al[0].concat(al[1]);
     }
 arc
     = regulararc
@@ -255,8 +257,16 @@ dualarc
 spanarc
     = (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
         {
-            var lRetval = {kind: kind, from:from, to:to, location:location(), arcs:arclist};
-            return merge (lRetval, al);
+            return merge (
+                {
+                    kind     : kind,
+                    from     : from,
+                    to       : to,
+                    location : location(),
+                    arcs     : arclist
+                },
+                al
+            );
         }
     )
 
@@ -326,9 +336,9 @@ spanarctoken "inline expression"
     }
 
 attributelist
-    = options:((a:attribute "," {return a})* (a:attribute {return a}))
+    = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
     {
-      return optionArray2Object(options);
+      return optionArray2Object(attributes[0].concat(attributes[1]));
     }
 
 attribute
