@@ -76,7 +76,7 @@ define(function(require){
   at the time they were written (JUN 2013 and APR 2014 respectively).
   [Link to where this happens in mscgen_js](https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L242)
   and one
-  [where it happens in mscgenjs-inpage](https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116).
+  [where it happens in mscgenjs-inpage](https://github.com/mscgenjs/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116).
 
 Here's some some samples for using the root module directly:
 ```Javascript
@@ -255,7 +255,7 @@ modicum of verifiable code quality. You can see the build history in
 [mscgenjs.docbuild]: doc/build.md
 [mscgenjs.docsource]: doc/README.md
 [mscgenjs.embed]: https://sverweij.github.io/mscgen_js/embed.html?utm_source=mscgenjs-core
-[mscgenjs.embed.source]: https://github.com/sverweij/mscgenjs-inpage/blob/master/src/mscgen-inpage.js
+[mscgenjs.embed.source]: https://github.com/mscgenjs/mscgenjs-inpage/blob/master/src/mscgen-inpage.js
 [mscgenjs.embedpackage]: https://sverweij.github.io/mscgen_js/embed.html#package
 [mscgenjs.interpreter]: https://sverweij.github.io/mscgen_js/index.html?utm_source=mscgenjs-core
 [mscgenjs.interpreter.source]: https://github.com/sverweij/mscgen_js
