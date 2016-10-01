@@ -228,7 +228,7 @@ modicum of verifiable code quality. You can see the build history in
 [![bitHound Overall Score][bithound.mscgenjs.badge]][bithound.mscgenjs]
 [![coverage report](https://gitlab.com/sverweij/mscgenjs-core/badges/master/coverage.svg)](https://gitlab.com/sverweij/mscgenjs-core/commits/master)
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
-[![devDependency Status][daviddev.mscgenjs.badge]][daviddev.mscgenjs]
+[![devDependencies Status](https://david-dm.org/sverweij/mscgenjs-core/dev-status.svg)](https://david-dm.org/sverweij/mscgenjs-core?type=dev)
 [![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
@@ -237,7 +237,6 @@ modicum of verifiable code quality. You can see the build history in
 [atom]: https://atom.io
 [bithound.mscgenjs]: https://www.bithound.io/github/sverweij/mscgenjs-core
 [bithound.mscgenjs.badge]: https://www.bithound.io/github/sverweij/mscgenjs-core/badges/score.svg
-[daviddev.mscgenjs.badge]: https://david-dm.org/sverweij/mscgenjs-core/dev-status.svg
 [david.mscgenjs]: https://david-dm.org/sverweij/mscgenjs-core
 [david.mscgenjs.badge]: https://david-dm.org/sverweij/mscgenjs-core.svg
 [jsdom]: https://github.com/tmpvar/jsdom
