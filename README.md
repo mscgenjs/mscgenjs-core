@@ -38,7 +38,7 @@ and even headless browsers like phantomjs. It does _not_ include nodejs
 You'll have to import the mscgenjs module somehow. There's a commonjs and a
 requirejs variant, both of which are in the `mscgenjs`
 [npm module](https://www.npmjs.com/package/mscgenjs)
-(repo: [sverweij/mscgenjs-core](https://github.com/sverweij/mscgenjs-core)).
+(repo: [mscgenjs/mscgenjs-core](https://github.com/mscgenjs/mscgenjs-core)).
 
 ```javascript
 // commonjs
@@ -228,17 +228,17 @@ modicum of verifiable code quality. You can see the build history in
 [![bitHound Overall Score][bithound.mscgenjs.badge]][bithound.mscgenjs]
 [![coverage report](https://gitlab.com/sverweij/mscgenjs-core/badges/master/coverage.svg)](https://gitlab.com/sverweij/mscgenjs-core/commits/master)
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
-[![devDependencies Status](https://david-dm.org/sverweij/mscgenjs-core/dev-status.svg)](https://david-dm.org/sverweij/mscgenjs-core?type=dev)
+[![devDependencies Status](https://david-dm.org/mscgenjs/mscgenjs-core/dev-status.svg)](https://david-dm.org/mscgenjs/mscgenjs-core?type=dev)
 [![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
 [amdefine.license]: doc/licenses/license.amdefine.md
 [atom]: https://atom.io
-[bithound.mscgenjs]: https://www.bithound.io/github/sverweij/mscgenjs-core
-[bithound.mscgenjs.badge]: https://www.bithound.io/github/sverweij/mscgenjs-core/badges/score.svg
-[david.mscgenjs]: https://david-dm.org/sverweij/mscgenjs-core
-[david.mscgenjs.badge]: https://david-dm.org/sverweij/mscgenjs-core.svg
+[bithound.mscgenjs]: https://www.bithound.io/github/mscgenjs/mscgenjs-core
+[bithound.mscgenjs.badge]: https://www.bithound.io/github/mscgenjs/mscgenjs-core/badges/score.svg
+[david.mscgenjs]: https://david-dm.org/mscgenjs/mscgenjs-core
+[david.mscgenjs.badge]: https://david-dm.org/mscgenjs/mscgenjs-core.svg
 [jsdom]: https://github.com/tmpvar/jsdom
 [jsdom.author]: http://tmpvar.com/
 [jsdom.license]: doc/licenses/license.jsdom.md
@@ -250,7 +250,7 @@ modicum of verifiable code quality. You can see the build history in
 [mscgen-preview.source]: https://github.com/sverweij/atom-mscgen-preview
 [mscgen-preview.source.render]: https://github.com/sverweij/atom-mscgen-preview/blob/master/lib/renderer.coffee
 [mscgenjs.cli]: https://www.npmjs.com/package/mscgenjs-cli
-[mscgenjs.cli.source]: https://github.com/sverweij/mscgenjs-cli
+[mscgenjs.cli.source]: https://github.com/mscgenjs/mscgenjs-cli
 [mscgenjs.docbuild]: doc/build.md
 [mscgenjs.docsource]: doc/README.md
 [mscgenjs.embed]: https://sverweij.github.io/mscgen_js/embed.html?utm_source=mscgenjs-core
@@ -260,10 +260,10 @@ modicum of verifiable code quality. You can see the build history in
 [mscgenjs.interpreter.source]: https://github.com/sverweij/mscgen_js
 [mscgenjs.interpreter.source.parse]: https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L117
 [mscgenjs.interpreter.source.render]: https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L260
-[mscgenjs.issues.compliance]: https://github.com/sverweij/mscgenjs-core/labels/compliance
-[mscgenjs.unit]: https://github.com/sverweij/mscgenjs-core/tree/master/test
-[mscgenjs.unit.parse]: https://github.com/sverweij/mscgenjs-core/blob/master/test/parse/t_mscgenparser_node.js
-[mscgenjs.unit.render]: https://github.com/sverweij/mscgenjs-core/blob/master/test/render/graphics/t_renderast.js
+[mscgenjs.issues.compliance]: https://github.com/mscgenjs/mscgenjs-core/labels/compliance
+[mscgenjs.unit]: https://github.com/mscgenjs/mscgenjs-core/tree/master/test
+[mscgenjs.unit.parse]: https://github.com/mscgenjs/mscgenjs-core/blob/master/test/parse/t_mscgenparser_node.js
+[mscgenjs.unit.render]: https://github.com/mscgenjs/mscgenjs-core/blob/master/test/render/graphics/t_renderast.js
 [mscgenjs.license]: LICENSE.md
 [mscgenjs.doc.msgenny]: doc/msgenny.md
 [mscgenjs.doc.xu]: doc/xu.md
@@ -272,8 +272,8 @@ modicum of verifiable code quality. You can see the build history in
 [pegjs.license]: doc/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: doc/licenses/license.requirejs.md
-[travis.mscgenjs]: https://travis-ci.org/sverweij/mscgenjs-core
-[travis.mscgenjs.badge]: https://travis-ci.org/sverweij/mscgenjs-core.svg?branch=master
+[travis.mscgenjs]: https://travis-ci.org/mscgenjs/mscgenjs-core
+[travis.mscgenjs.badge]: https://travis-ci.org/mscgenjs/mscgenjs-core.svg?branch=master
 [21]: doc/licenses/license.mocha.md
 [22]: doc/licenses/license.eslint.md
 [23]: doc/licenses/license.plato.md
