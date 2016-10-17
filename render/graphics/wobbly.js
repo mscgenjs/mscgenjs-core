@@ -524,12 +524,12 @@ define(
 
     return {
         createSingleLine: createSingleLine,
+        createDoubleLine: createDoubleLine,
         createNote: createNote,
         createRect: createRect,
         createABox: createABox,
         createRBox: createRBox,
-        createEdgeRemark: createEdgeRemark,
-        createDoubleLine: createDoubleLine
+        createEdgeRemark: createEdgeRemark
     };
 });
 /*

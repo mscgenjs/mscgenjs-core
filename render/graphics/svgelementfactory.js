@@ -7,8 +7,9 @@ define([
     "./constants",
     "./svglowlevelfactory",
     "./geometry",
-    "./wobble",
-    "../../lib/lodash/lodash.custom"], function(C, factll, math, wobble, _) {
+    "./straight",
+    "./wobbly",
+    "../../lib/lodash/lodash.custom"], function(C, factll, math, straight, wobbly, _) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
@@ -25,6 +26,7 @@ define([
     "use strict";
 
     var gDocument = {};
+    var gRenderMagic = wobbly;
 
     function point2String(pX, pY) {
         return pX.toString() + "," + pY.toString() + " ";
@@ -74,19 +76,6 @@ define([
             lStyleString += "stroke:" + pColor + ";";
         }
         return factll.setAttribute(pElement, "style", lStyleString);
-    }
-
-    function createSingleLine(pLine, pOptions) {
-        return factll.createElement(
-            "line",
-            {
-                x1: pLine.xFrom.toString(),
-                y1: pLine.yFrom.toString(),
-                x2: pLine.xTo.toString(),
-                y2: pLine.yTo.toString(),
-                class: pOptions ? pOptions.class : null
-            }
-        );
     }
 
     function createLink (pURL, pElementToWrap){
@@ -140,58 +129,6 @@ define([
         return lText;
     }
 
-    function determineEndCorrection(pLine, pClass){
-        var lRetval = 0;
-        if (pClass.indexOf("nodi") < 0){
-            lRetval = pLine.xTo > pLine.xFrom ? -7.5 * C.LINE_WIDTH : 7.5 * C.LINE_WIDTH;
-        }
-        return lRetval;
-    }
-
-    function determineStartCorrection(pLine, pClass){
-        var lRetval = 0;
-        if (pClass.indexOf("nodi") < 0){
-            if (pClass.indexOf("bidi") > -1) {
-                if (pLine.xTo > pLine.xFrom){
-                    lRetval = 7.5 * C.LINE_WIDTH;
-                } else {
-                    lRetval = -7.5 * C.LINE_WIDTH;
-                }
-            }
-        }
-        return lRetval;
-    }
-
-    function createDoubleLine(pLine, pOptions) {
-        var lSpace = C.LINE_WIDTH;
-        var lClass = pOptions ? pOptions.class : null;
-
-        var lDir = math.getDirection(pLine);
-        var lEndCorr = determineEndCorrection(pLine, lClass);
-        var lStartCorr = determineStartCorrection(pLine, lClass);
-
-        var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
-        var lLenY = (pLine.yTo - pLine.yFrom).toString();
-        var lStubble = pathPoint2String("l", lDir.signX, lDir.dy);
-        var lLine = pathPoint2String("l", lLenX, lLenY);
-
-        return _createPath(
-            pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
-            // left stubble:
-            lStubble +
-            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
-            // upper line:
-            lLine +
-            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
-            // lower line
-            lLine +
-            pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy) +
-            // right stubble
-            lStubble,
-            lClass
-        );
-    }
-
     function _createMarker(pId, pClass, pOrient, pViewBox) {
         /* so, why not start at refX=0, refY=0? It would simplify reasoning
          * about marker paths significantly...
@@ -225,6 +162,13 @@ define([
 
     }
 
+    function determineRenderMagic(pRenderMagic) {
+        if ("wobbly" === pRenderMagic){
+            return wobbly;
+        }
+        return straight;
+    }
+
     return {
         /**
          * Function to set the document to use. Introduced to enable use of the
@@ -242,7 +186,8 @@ define([
          * @param {string} pId
          * @return {Element} an SVG element
          */
-        createSVG: function (pId, pClass) {
+        createSVG: function (pId, pClass, pRenderMagic) {
+            gRenderMagic = determineRenderMagic(pRenderMagic);
             return factll.createElement(
                 "svg",
                 {
@@ -291,21 +236,7 @@ define([
          * @return {SVGElement}
          */
         createRect : function (pBBox, pClass, pColor, pBgColor) {
-            return wobble.createRect(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
-            // return colorBox(
-            //     factll.createElement(
-            //         "rect",
-            //         {
-            //             width: pBBox.width,
-            //             height: pBBox.height,
-            //             x: pBBox.x,
-            //             y: pBBox.y,
-            //             class: pClass
-            //         }
-            //     ),
-            //     pColor,
-            //     pBgColor
-            // );
+            return gRenderMagic.createRect(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
         },
 
         /**
@@ -317,25 +248,7 @@ define([
          * @return {SVGElement}
          */
         createRBox: function (pBBox, pClass, pColor, pBgColor) {
-            return wobble.createRBox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
-            // var RBOX_CORNER_RADIUS = 6; // px
-            //
-            // return colorBox(
-            //     factll.createElement(
-            //         "rect",
-            //         {
-            //             width: pBBox.width,
-            //             height: pBBox.height,
-            //             x: pBBox.x,
-            //             y: pBBox.y,
-            //             rx: RBOX_CORNER_RADIUS,
-            //             ry: RBOX_CORNER_RADIUS,
-            //             class: pClass
-            //         }
-            //     ),
-            //     pColor,
-            //     pBgColor
-            // );
+            return gRenderMagic.createRBox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
         },
 
         /**
@@ -347,22 +260,7 @@ define([
          * @return {SVGElement}
          */
         createABox: function (pBBox, pClass, pColor, pBgColor) {
-            return wobble.createABox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
-            // var lSlopeOffset = 3;
-            // return _createPath(
-            //     // start
-            //     "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
-            //     "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
-            //     // top line
-            //     "l" + (pBBox.width - 2 * lSlopeOffset) + ",0" +
-            //     // right wedge
-            //     "l" + lSlopeOffset + "," + pBBox.height / 2 +
-            //     "l-" + lSlopeOffset + "," + pBBox.height / 2 +
-            //     // bottom line:
-            //     "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 " +
-            //     "z",
-            //     pClass, pColor, pBgColor
-            // );
+            return gRenderMagic.createABox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
         },
 
         /**
@@ -376,33 +274,7 @@ define([
          * @return {SVGElement}
          */
         createNote: function (pBBox, pClass, pColor, pBgColor) {
-            return wobble.createNote(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
-            // var lFoldSizeN = Math.max(9, Math.min(4.5 * C.LINE_WIDTH, pBBox.height / 2));
-            // var lFoldSize = lFoldSizeN.toString(10);
-            //
-            // return _createPath(
-            //     "M" + pBBox.x + "," + pBBox.y +
-            //     // top line:
-            //     "l" + (pBBox.width - lFoldSizeN) + ",0 " +
-            //     // fold:
-            //     // we lift the pen of the paper here to make sure the fold
-            //     // gets the fill color as well when such is specified
-            //     "l0," + lFoldSize + " l" + lFoldSize + ",0 m-" + lFoldSize + ",-" +
-            //             lFoldSize + " l" + lFoldSize + "," + lFoldSize + " " +
-            //     // down:
-            //     "l0," + (pBBox.height - lFoldSizeN) + " " +
-            //     // bottom line:
-            //     "l-" + pBBox.width + ",0 " +
-            //     "l0,-" + pBBox.height + " " +
-            //     // because we lifted the pen from the paper in the fold (see
-            //     // the m over there) - svg interpreters consider that to be
-            //     // the start of the path. So, although we're already 'home'
-            //     // visually we need to do one step extra.
-            //     // If we don't we end up with a little gap on the top left
-            //     // corner when our stroke-linecap===butt
-            //     "z",
-            //     pClass, pColor, pBgColor
-            // );
+            return gRenderMagic.createNote(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
         },
 
         /**
@@ -416,7 +288,7 @@ define([
          * @return {SVGElement}
          */
         createEdgeRemark: function (pBBox, pClass, pColor, pBgColor, pFoldSize) {
-            return wobble.createEdgeRemark(
+            return gRenderMagic.createEdgeRemark(
                 pBBox,
                 {
                     class: pClass,
@@ -425,21 +297,6 @@ define([
                     foldSize: pFoldSize
                 }
             );
-
-            // var lFoldSize = pFoldSize ? pFoldSize : 7;
-            // return _createPath(
-            //     // start:
-            //     "M" + pBBox.x + "," + pBBox.y +
-            //     // top line:
-            //     " l" + pBBox.width + ",0 " +
-            //     // down:
-            //     " l0," + (pBBox.height - lFoldSize) +
-            //     // fold:
-            //     " l-" + lFoldSize.toString(10) + "," + lFoldSize.toString(10) +
-            //     // bottom line:
-            //     " l-" + (pBBox.width - lFoldSize) + ",0 ",
-            //     pClass, pColor, pBgColor
-            // );
         },
 
         /**
@@ -487,9 +344,9 @@ define([
          */
         createLine: function (pLine, pOptions) {
             if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
-                return wobble.createDoubleLine(pLine, pOptions);
+                return gRenderMagic.createDoubleLine(pLine, pOptions);
             } else {
-                return wobble.createSingleLine(pLine, pOptions);
+                return gRenderMagic.createSingleLine(pLine, pOptions);
             }
         },
 

@@ -1,4 +1,5 @@
 {
     "experimental": true,
-    "description": "Inverted (not in IE or Safari)"
+    "description": "Inverted (not in IE or Safari)",
+    "renderMagic": "straight"
 }

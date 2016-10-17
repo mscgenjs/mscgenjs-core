@@ -1,4 +1,5 @@
 {
     "experimental": false,
-    "description": "Pégasse (best with msgenny)"
+    "description": "Pégasse (best with msgenny)",
+    "renderMagic": "straight"
 }

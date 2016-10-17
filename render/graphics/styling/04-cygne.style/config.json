@@ -1,4 +1,5 @@
 {
     "experimental": false,
-    "description": "Cygne (best with msgenny)"
+    "description": "Cygne (best with msgenny)",
+    "renderMagic": "straight"
 }

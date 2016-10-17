@@ -1,4 +1,5 @@
 {
     "experimental": true,
-    "description": "Grayscaled (not in IE or Safari)"
+    "description": "Grayscaled (not in IE or Safari)",
+    "renderMagic": "straight"
 }
