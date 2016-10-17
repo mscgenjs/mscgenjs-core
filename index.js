@@ -97,7 +97,7 @@ define(["./main/static-resolver", "./main/index"], function(resolver, main) {
          * a parse(pString) function which returns an abstract syntax tree in
          * json format as described in the link below.
          *
-         * https://github.com/sverweij/mscgenjs-core/blob/master/parse/README.md#the-abstract-syntax-tree
+         * https://github.com/mscgenjs/mscgenjs-core/blob/master/parse/README.md#the-abstract-syntax-tree
          *
          * @param {string} pLanguage the language to get a parser for
          *                           Possible values: "mscgen", "msgenny", "xu"

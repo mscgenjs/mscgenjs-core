@@ -90,7 +90,7 @@ define(function(require){
             }
         },
 
-        version: "1.5.1",
+        version: "1.5.3",
 
         getAllowedValues: function() {
             return Object.seal({

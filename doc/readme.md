@@ -77,7 +77,7 @@ The controller for the interpreter UI is less trivial.
 ## Testing
 :page_with_curl: code in [../test/](../test)
 
-About 390 automated tests (and counting) make sure we can refactor the mscgen_js
+About 400 automated tests (and counting) make sure we can refactor the mscgen_js
 core modules safely.
 
 [mscgen-preview.source]: https://github.com/sverweij/atom-mscgen-preview
