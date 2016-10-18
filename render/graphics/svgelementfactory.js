@@ -26,7 +26,7 @@ define([
     "use strict";
 
     var gDocument = {};
-    var gRenderMagic = wobbly;
+    var gRenderMagic = straight;
 
     function point2String(pX, pY) {
         return pX.toString() + "," + pY.toString() + " ";
@@ -163,6 +163,9 @@ define([
     }
 
     function determineRenderMagic(pRenderMagic) {
+        if (!Boolean(pRenderMagic)) {
+            return gRenderMagic;
+        }
         if ("wobbly" === pRenderMagic){
             return wobbly;
         }
