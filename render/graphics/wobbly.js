@@ -12,31 +12,20 @@ define(
     var SEGMENT_LENGTH = 70; // 70
     var WOBBLE_FACTOR  = 3; // 1.4?
 
-    // Begin Wobble utensils - can be moved to a separate module if necessary
-    function point2String(pX, pY) {
-        return pX.toString() + "," + pY.toString();
-    }
-
-    function pathPoint2String(pType, pX, pY) {
-        return pType + point2String(pX, pY);
-    }
-
     function points2CurveString(pPoints) {
         return pPoints.map(function(pThisPoint){
-            return pathPoint2String("S", pThisPoint.controlX, pThisPoint.controlY) +
-                    " " + point2String(pThisPoint.x, pThisPoint.y);
+            return prim.pathPoint2String("S", pThisPoint.controlX, pThisPoint.controlY) +
+                    " " + prim.point2String(pThisPoint.x, pThisPoint.y);
         }).join(" ");
 
     }
-
-    // End Wobble utensils
 
     function createSingleLine(pLine, pOptions) {
         var lDir = geo.getDirection(pLine);
         return factll.createElement(
             "path",
             {
-                d:  pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
+                d:  prim.pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
                     // Workaround; gecko and webkit treat markers slapped on the
                     // start of a path with 'auto' different from each other when
                     // there's not a line at the start and the path is not going
@@ -46,7 +35,7 @@ define(
                     //
                     // Adding a little stubble at the start of the line solves
                     // all that.
-                    pathPoint2String(
+                    prim.pathPoint2String(
                         "L",
                         geo.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))),
                         pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
@@ -66,7 +55,7 @@ define(
     }
 
     function renderNotePathString(pBBox, pFoldSize) {
-        return pathPoint2String("M", pBBox.x, pBBox.y) +
+        return prim.pathPoint2String("M", pBBox.x, pBBox.y) +
             // top line:
             points2CurveString(
                 geo.getBetweenPoints({
@@ -76,7 +65,7 @@ define(
                     yTo: pBBox.y
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
 
             // fold:
             points2CurveString(
@@ -87,7 +76,7 @@ define(
                     yTo: pBBox.y + pFoldSize
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize) +
 
             // down:
             points2CurveString(
@@ -98,7 +87,7 @@ define(
                     yTo: pBBox.y + pBBox.height
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height) +
 
             // bottom line:
             points2CurveString(
@@ -109,7 +98,7 @@ define(
                     yTo: pBBox.y + pBBox.height
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
 
             // home:
             points2CurveString(
@@ -120,12 +109,12 @@ define(
                     yTo: pBBox.y
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x, pBBox.y) +
+            prim.pathPoint2String("L", pBBox.x, pBBox.y) +
             "z";
     }
 
     function renderNoteCornerString(pBBox, pFoldSize) {
-        return pathPoint2String("M", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
+        return prim.pathPoint2String("M", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
             // down
             points2CurveString(
                 geo.getBetweenPoints({
@@ -135,7 +124,7 @@ define(
                     yTo: pBBox.y + pFoldSize
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width - pFoldSize, pBBox.y + pFoldSize) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width - pFoldSize, pBBox.y + pFoldSize) +
             // right
             points2CurveString(
                 geo.getBetweenPoints({
@@ -145,7 +134,7 @@ define(
                     yTo: pBBox.y + pFoldSize
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize);
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize);
     }
 
     function createNote(pBBox, pOptions) {
@@ -162,7 +151,7 @@ define(
         if (!Boolean(pBBox.y)){
             pBBox.y = 0;
         }
-        return pathPoint2String("M", pBBox.x, pBBox.y) +
+        return prim.pathPoint2String("M", pBBox.x, pBBox.y) +
         points2CurveString(
             geo.getBetweenPoints({
                 xFrom: pBBox.x,
@@ -171,7 +160,7 @@ define(
                 yTo: pBBox.y
             }, SEGMENT_LENGTH, WOBBLE_FACTOR)
         ) +
-        pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y) +
+        prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y) +
         points2CurveString(
             geo.getBetweenPoints({
                 xFrom: pBBox.x + pBBox.width,
@@ -180,7 +169,7 @@ define(
                 yTo: pBBox.y + pBBox.height
             }, SEGMENT_LENGTH, WOBBLE_FACTOR)
         ) +
-        pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height) +
+        prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height) +
         points2CurveString(
             geo.getBetweenPoints({
                 xFrom: pBBox.x + pBBox.width,
@@ -189,7 +178,7 @@ define(
                 yTo: pBBox.y + pBBox.height
             }, SEGMENT_LENGTH, WOBBLE_FACTOR)
         ) +
-        pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
+        prim.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
         points2CurveString(
             geo.getBetweenPoints({
                 xFrom: pBBox.x,
@@ -212,7 +201,7 @@ define(
         var lSlopeOffset = 3;
         return prim.createPath(
             // start
-            pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
+            prim.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
             points2CurveString(
                 geo.getBetweenPoints({
                     xFrom: pBBox.x,
@@ -221,7 +210,7 @@ define(
                     yTo: pBBox.y
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y) +
+            prim.pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y) +
             // top line
             points2CurveString(
                 geo.getBetweenPoints({
@@ -231,7 +220,7 @@ define(
                     yTo: pBBox.y
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y) +
             // right wedge
             points2CurveString(
                 geo.getBetweenPoints({
@@ -241,7 +230,7 @@ define(
                     yTo: pBBox.y + pBBox.height / 2
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height / 2) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height / 2) +
             points2CurveString(
                 geo.getBetweenPoints({
                     xFrom: pBBox.x + pBBox.width,
@@ -250,7 +239,7 @@ define(
                     yTo: pBBox.y + pBBox.height
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y + pBBox.height) +
             // bottom line:
             points2CurveString(
                 geo.getBetweenPoints({
@@ -260,7 +249,7 @@ define(
                     yTo: pBBox.y + pBBox.height
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y + pBBox.height) +
             // home:
             points2CurveString(
                 geo.getBetweenPoints({
@@ -279,7 +268,7 @@ define(
         var RBOX_CORNER_RADIUS = 6; // px
 
         return prim.createPath(
-            pathPoint2String("M", pBBox.x, pBBox.y + RBOX_CORNER_RADIUS) +
+            prim.pathPoint2String("M", pBBox.x, pBBox.y + RBOX_CORNER_RADIUS) +
             points2CurveString([{
                 controlX: pBBox.x,
                 controlY: pBBox.y,
@@ -296,7 +285,7 @@ define(
                     yTo: pBBox.y
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width - RBOX_CORNER_RADIUS, pBBox.y) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width - RBOX_CORNER_RADIUS, pBBox.y) +
 
             points2CurveString([{
                 controlX: pBBox.x + pBBox.width,
@@ -314,7 +303,7 @@ define(
                     yTo: pBBox.y + pBBox.height - RBOX_CORNER_RADIUS
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - RBOX_CORNER_RADIUS) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - RBOX_CORNER_RADIUS) +
             points2CurveString([{
                 controlX: pBBox.x + pBBox.width,
                 controlY: pBBox.y + pBBox.height,
@@ -332,7 +321,7 @@ define(
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
 
-            pathPoint2String("L", pBBox.x + RBOX_CORNER_RADIUS, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x + RBOX_CORNER_RADIUS, pBBox.y + pBBox.height) +
             points2CurveString([{
                 controlX: pBBox.x,
                 controlY: pBBox.y + pBBox.height,
@@ -363,15 +352,15 @@ define(
         pOptions.color = "transparent!important"; /* :blush: */
         var lBackground = prim.createPath(
             // start:
-            pathPoint2String("M", pBBox.x, pBBox.y + (C.LINE_WIDTH / 2)) +
+            prim.pathPoint2String("M", pBBox.x, pBBox.y + (C.LINE_WIDTH / 2)) +
             // top line:
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (C.LINE_WIDTH / 2)) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (C.LINE_WIDTH / 2)) +
             // down:
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
             // fold:
-            pathPoint2String("L", pBBox.x + pBBox.width  - lFoldSize, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width  - lFoldSize, pBBox.y + pBBox.height) +
             // bottom line:
-            pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
             "z",
             pOptions
         );
@@ -380,7 +369,7 @@ define(
         pOptions.color = lLineColor;
         var lLine = prim.createPath(
             // start:
-            pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
+            prim.pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
             // down:
             points2CurveString(
                 geo.getBetweenPoints({
@@ -390,7 +379,7 @@ define(
                     yTo: pBBox.y + pBBox.height - lFoldSize
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
             // fold:
             points2CurveString(
                 geo.getBetweenPoints({
@@ -400,7 +389,7 @@ define(
                     yTo: pBBox.y + pBBox.height
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x + pBBox.width  - lFoldSize, pBBox.y + pBBox.height) +
+            prim.pathPoint2String("L", pBBox.x + pBBox.width  - lFoldSize, pBBox.y + pBBox.height) +
             // bottom line:
             points2CurveString(
                 geo.getBetweenPoints({
@@ -410,7 +399,7 @@ define(
                     yTo: pBBox.y + pBBox.height
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("L", pBBox.x - 1, pBBox.y + pBBox.height),
+            prim.pathPoint2String("L", pBBox.x - 1, pBBox.y + pBBox.height),
             pOptions
         );
         lGroup.appendChild(lBackground);
@@ -449,10 +438,10 @@ define(
         var lStartCorr = determineStartCorrection(pLine, lClass);
 
         return prim.createPath(
-            pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
+            prim.pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
             // left stubble:
-            pathPoint2String("l", lDir.signX, lDir.dy) +
-            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
+            prim.pathPoint2String("l", lDir.signX, lDir.dy) +
+            prim.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
             // upper line:
             points2CurveString(
                 geo.getBetweenPoints({
@@ -462,7 +451,7 @@ define(
                     yTo: pLine.yTo - lSpace
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
+            prim.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
             // lower line
             points2CurveString(
                 geo.getBetweenPoints({
@@ -472,9 +461,9 @@ define(
                     yTo: pLine.yTo + lSpace
                 }, SEGMENT_LENGTH, WOBBLE_FACTOR)
             ) +
-            pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy) +
+            prim.pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy) +
             // right stubble
-            pathPoint2String("l", lDir.signX, lDir.dy),
+            prim.pathPoint2String("l", lDir.signX, lDir.dy),
             lClass
         );
     }

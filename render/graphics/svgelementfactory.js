@@ -29,14 +29,6 @@ define([
     var gDocument = {};
     var gRenderMagic = straight;
 
-    function point2String(pX, pY) {
-        return pX.toString() + "," + pY.toString() + " ";
-    }
-
-    function pathPoint2String(pType, pX, pY) {
-        return pType + point2String(pX, pY);
-    }
-
     function createLink (pURL, pElementToWrap){
         var lA = gDocument.createElementNS(C.SVGNS, "a");
         lA.setAttributeNS(C.XLINKNS, "xlink:href", pURL);
@@ -327,13 +319,13 @@ define([
 
             return prim.createPath(
                 // point to start from:
-                pathPoint2String("M", pPoint.x, -pPoint.y) +
+                prim.pathPoint2String("M", pPoint.x, -pPoint.y) +
                 // curve first to:
-                pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * C.LINE_WIDTH) +
+                prim.pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * C.LINE_WIDTH) +
                 // curve back from.:
-                point2String(pPoint.x + pWidth, pEndY + 0) +
+                prim.point2String(pPoint.x + pWidth, pEndY + 0) +
                 // curve end-pont:
-                point2String(lEndX, pEndY),
+                prim.point2String(lEndX, pEndY),
                 {class: pClass}
             );
         },

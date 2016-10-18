@@ -10,14 +10,6 @@ define(
     "./geometry",
     "../../lib/lodash/lodash.custom"], function(C, factll, prim, geo, _) {
 
-    function point2String(pX, pY) {
-        return pX.toString() + "," + pY.toString() + " ";
-    }
-
-    function pathPoint2String(pType, pX, pY) {
-        return pType + point2String(pX, pY);
-    }
-
     function determineEndCorrection(pLine, pClass){
         var lRetval = 0;
         if (pClass.indexOf("nodi") < 0){
@@ -50,20 +42,20 @@ define(
 
         var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
-        var lStubble = pathPoint2String("l", lDir.signX, lDir.dy);
-        var lLine = pathPoint2String("l", lLenX, lLenY);
+        var lStubble = prim.pathPoint2String("l", lDir.signX, lDir.dy);
+        var lLine = prim.pathPoint2String("l", lLenX, lLenY);
 
         return prim.createPath(
-            pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
+            prim.pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
             // left stubble:
             lStubble +
-            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
+            prim.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
             // upper line:
             lLine +
-            pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
+            prim.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
             // lower line
             lLine +
-            pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy) +
+            prim.pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy) +
             // right stubble
             lStubble,
             pOptions

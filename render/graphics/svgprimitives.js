@@ -7,6 +7,14 @@ define(
     ["./svglowlevelfactory",
     "../../lib/lodash/lodash.custom"], function(factll, _) {
 
+    function point2String(pX, pY) {
+        return pX.toString() + "," + pY.toString() + " ";
+    }
+
+    function pathPoint2String(pType, pX, pY) {
+        return pType + point2String(pX, pY);
+    }
+
     /**
      * Creates an svg path element given the path pD, with pClass applied
      * (if provided)
@@ -147,11 +155,13 @@ define(
     }
 
     return {
-        createPath: createPath,
-        createPolygon: createPolygon,
-        createSingleLine: createSingleLine,
-        createRect: createRect,
-        createRBox: createRBox
+        createPath       : createPath,
+        createPolygon    : createPolygon,
+        createSingleLine : createSingleLine,
+        createRect       : createRect,
+        createRBox       : createRBox,
+        point2String     : point2String,
+        pathPoint2String : pathPoint2String
     };
 });
 /*
