@@ -6,10 +6,11 @@ if (typeof define !== 'function') {
 define([
     "./constants",
     "./svglowlevelfactory",
+    "./svgprimitives",
     "./geometry",
     "./straight",
     "./wobbly",
-    "../../lib/lodash/lodash.custom"], function(C, factll, math, straight, wobbly, _) {
+    "../../lib/lodash/lodash.custom"], function(C, factll, prim, geo, straight, wobbly, _) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
@@ -34,48 +35,6 @@ define([
 
     function pathPoint2String(pType, pX, pY) {
         return pType + point2String(pX, pY);
-    }
-
-    /**
-     * Creates an svg path element given the path pD, with pClass applied
-     * (if provided)
-     * @param {string} pD - the path
-     * @param {string} pClass - reference to a css class
-     * @return {SVGElement}
-     */
-    function _createPath(pD, pClass, pColor, pBgColor) {
-        return colorBox(
-            factll.createElement(
-                "path",
-                {
-                    d: pD,
-                    class: pClass
-                }
-            ),
-            pColor,
-            pBgColor
-        );
-    }
-
-    function _createPolygon(pPoints, pClass) {
-        return factll.createElement(
-            "polygon",
-            {
-                points: pPoints,
-                class: pClass
-            }
-        );
-    }
-
-    function colorBox(pElement, pColor, pBgColor){
-        var lStyleString = "";
-        if (pBgColor) {
-            lStyleString += "fill:" + pBgColor + ";";
-        }
-        if (pColor) {
-            lStyleString += "stroke:" + pColor + ";";
-        }
-        return factll.setAttribute(pElement, "style", lStyleString);
     }
 
     function createLink (pURL, pElementToWrap){
@@ -330,7 +289,7 @@ define([
                 {
                     "transform":
                         "rotate(" +
-                             math.getDiagonalAngle(pCanvas).toString() + " " +
+                             geo.getDiagonalAngle(pCanvas).toString() + " " +
                             ((pCanvas.width) / 2).toString() + " " +
                             ((pCanvas.height) / 2).toString() +
                         ")"
@@ -366,7 +325,7 @@ define([
         createUTurn: function (pPoint, pEndY, pWidth, pClass, pDontHitHome) {
             var lEndX = pDontHitHome ? pPoint.x + 7.5 * C.LINE_WIDTH : pPoint.x;
 
-            return _createPath(
+            return prim.createPath(
                 // point to start from:
                 pathPoint2String("M", pPoint.x, -pPoint.y) +
                 // curve first to:
@@ -375,7 +334,7 @@ define([
                 point2String(pPoint.x + pWidth, pEndY + 0) +
                 // curve end-pont:
                 point2String(lEndX, pEndY),
-                pClass
+                {class: pClass}
             );
         },
 
@@ -428,7 +387,7 @@ define([
              */
             lMarker.appendChild(
                 factll.setAttributes(
-                    _createPath(pD, "arrow-style"),
+                    prim.createPath(pD, {class: "arrow-style"}),
                     {
                         style: "stroke-dasharray:100,1;stroke:" + pColor || "black"
                     }
@@ -448,7 +407,7 @@ define([
             var lMarker = _createMarker(pId, "arrow-marker", "auto");
             lMarker.appendChild(
                 factll.setAttributes(
-                    _createPolygon(pPoints, "arrow-style"),
+                    prim.createPolygon(pPoints, "arrow-style"),
                     {
                         "stroke": pColor || "black",
                         "fill": pColor || "black"

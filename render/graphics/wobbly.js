@@ -6,8 +6,8 @@ if (typeof define !== 'function') {
 define(
     ["./constants",
     "./svglowlevelfactory",
-    "./geometry",
-    "../../lib/lodash/lodash.custom"], function(C, factll, geo, _) {
+    "./svgprimitives",
+    "./geometry"], function(C, factll, prim, geo) {
 
     var SEGMENT_LENGTH = 70; // 70
     var WOBBLE_FACTOR  = 3; // 1.4?
@@ -27,49 +27,6 @@ define(
                     " " + point2String(pThisPoint.x, pThisPoint.y);
         }).join(" ");
 
-    }
-
-    /**
-     * Creates an svg path element given the path pD, with pClass applied
-     * (if provided)
-     * @param {string} pD - the path
-     * @param {options} pOptions - options:
-     *                           class: the class name to use when rendering
-     *                           color: color
-     *                           bgColor: background color
-     * @return {SVGElement}
-     */
-    function _createPath(pD, pOptions) {
-        var lOptions = _.defaults(
-            pOptions,
-            {
-                class: null,
-                color: null,
-                bgColor: null
-            }
-        );
-        return colorBox(
-            factll.createElement(
-                "path",
-                {
-                    d: pD,
-                    class: lOptions.class
-                }
-            ),
-            lOptions.color,
-            lOptions.bgColor
-        );
-    }
-
-    function colorBox(pElement, pColor, pBgColor){
-        var lStyleString = "";
-        if (pBgColor) {
-            lStyleString += "fill:" + pBgColor + ";";
-        }
-        if (pColor) {
-            lStyleString += "stroke:" + pColor + ";";
-        }
-        return factll.setAttribute(pElement, "style", lStyleString);
     }
 
     // End Wobble utensils
@@ -195,9 +152,9 @@ define(
         var lFoldSize = Math.max(9, Math.min(4.5 * C.LINE_WIDTH, pBBox.height / 2));
         var lGroup = factll.createElement("g");
 
-        lGroup.appendChild(_createPath(renderNotePathString(pBBox, lFoldSize), pOptions));
+        lGroup.appendChild(prim.createPath(renderNotePathString(pBBox, lFoldSize), pOptions));
         pOptions.bgColor = "transparent";
-        lGroup.appendChild(_createPath(renderNoteCornerString(pBBox, lFoldSize), pOptions));
+        lGroup.appendChild(prim.createPath(renderNoteCornerString(pBBox, lFoldSize), pOptions));
         return lGroup;
     }
 
@@ -245,7 +202,7 @@ define(
     }
 
     function createRect(pBBox, pOptions) {
-        return _createPath(
+        return prim.createPath(
             renderRectString(pBBox, pOptions),
             pOptions
         );
@@ -253,7 +210,7 @@ define(
 
     function createABox(pBBox, pOptions) {
         var lSlopeOffset = 3;
-        return _createPath(
+        return prim.createPath(
             // start
             pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
             points2CurveString(
@@ -321,7 +278,7 @@ define(
     function createRBox(pBBox, pOptions) {
         var RBOX_CORNER_RADIUS = 6; // px
 
-        return _createPath(
+        return prim.createPath(
             pathPoint2String("M", pBBox.x, pBBox.y + RBOX_CORNER_RADIUS) +
             points2CurveString([{
                 controlX: pBBox.x,
@@ -404,7 +361,7 @@ define(
         var lLineColor = pOptions && pOptions.color ? pOptions.color : "black";
 
         pOptions.color = "transparent!important"; /* :blush: */
-        var lBackground = _createPath(
+        var lBackground = prim.createPath(
             // start:
             pathPoint2String("M", pBBox.x, pBBox.y + (C.LINE_WIDTH / 2)) +
             // top line:
@@ -421,7 +378,7 @@ define(
 
         pOptions.bgColor = "transparent";
         pOptions.color = lLineColor;
-        var lLine = _createPath(
+        var lLine = prim.createPath(
             // start:
             pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
             // down:
@@ -491,7 +448,7 @@ define(
         var lEndCorr = determineEndCorrection(pLine, lClass);
         var lStartCorr = determineStartCorrection(pLine, lClass);
 
-        return _createPath(
+        return prim.createPath(
             pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
             // left stubble:
             pathPoint2String("l", lDir.signX, lDir.dy) +

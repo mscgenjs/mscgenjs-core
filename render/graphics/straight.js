@@ -6,8 +6,9 @@ if (typeof define !== 'function') {
 define(
     ["./constants",
     "./svglowlevelfactory",
+    "./svgprimitives",
     "./geometry",
-    "../../lib/lodash/lodash.custom"], function(C, factll, geo, _) {
+    "../../lib/lodash/lodash.custom"], function(C, factll, prim, geo, _) {
 
     function point2String(pX, pY) {
         return pX.toString() + "," + pY.toString() + " ";
@@ -15,59 +16,6 @@ define(
 
     function pathPoint2String(pType, pX, pY) {
         return pType + point2String(pX, pY);
-    }
-
-    /**
-     * Creates an svg path element given the path pD, with pClass applied
-     * (if provided)
-     * @param {string} pD - the path
-     * @param {string} pClass - reference to a css class
-     * @return {SVGElement}
-     */
-    function _createPath(pD, pOptions) {
-        var lOptions = _.defaults(
-            pOptions,
-            {
-                class: null,
-                color: null,
-                bgColor: null
-            }
-        );
-        return colorBox(
-            factll.createElement(
-                "path",
-                {
-                    d: pD,
-                    class: lOptions.class
-                }
-            ),
-            lOptions.color,
-            lOptions.bgColor
-        );
-    }
-
-    function colorBox(pElement, pColor, pBgColor){
-        var lStyleString = "";
-        if (pBgColor) {
-            lStyleString += "fill:" + pBgColor + ";";
-        }
-        if (pColor) {
-            lStyleString += "stroke:" + pColor + ";";
-        }
-        return factll.setAttribute(pElement, "style", lStyleString);
-    }
-
-    function createSingleLine(pLine, pOptions) {
-        return factll.createElement(
-            "line",
-            {
-                x1: pLine.xFrom.toString(),
-                y1: pLine.yFrom.toString(),
-                x2: pLine.xTo.toString(),
-                y2: pLine.yTo.toString(),
-                class: pOptions ? pOptions.class : null
-            }
-        );
     }
 
     function determineEndCorrection(pLine, pClass){
@@ -105,7 +53,7 @@ define(
         var lStubble = pathPoint2String("l", lDir.signX, lDir.dy);
         var lLine = pathPoint2String("l", lLenX, lLenY);
 
-        return _createPath(
+        return prim.createPath(
             pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
             // left stubble:
             lStubble +
@@ -136,7 +84,7 @@ define(
         var lFoldSizeN = Math.max(9, Math.min(4.5 * C.LINE_WIDTH, pBBox.height / 2));
         var lFoldSize = lFoldSizeN.toString(10);
 
-        return _createPath(
+        return prim.createPath(
             "M" + pBBox.x + "," + pBBox.y +
             // top line:
             "l" + (pBBox.width - lFoldSizeN) + ",0 " +
@@ -162,45 +110,6 @@ define(
     }
 
     /**
-     * Creates an svg rectangle of width x height, with the top left
-     * corner at coordinates (x, y). pRX and pRY define the amount of
-     * rounding the corners of the rectangle get; when they're left out
-     * the function will render the corners as straight.
-     *
-     * Unit: pixels
-     *
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} pRX
-     * @param {number=} pRY
-     * @return {SVGElement}
-     */
-    function createRect (pBBox, pOptions) {
-        var lOptions = _.defaults(
-            pOptions,
-            {
-                class: null,
-                color: null,
-                bgColor: null
-            }
-        );
-        return colorBox(
-            factll.createElement(
-                "rect",
-                {
-                    width: pBBox.width,
-                    height: pBBox.height,
-                    x: pBBox.x,
-                    y: pBBox.y,
-                    class: lOptions.class
-                }
-            ),
-            lOptions.color,
-            lOptions.bgColor
-        );
-    }
-
-    /**
      * Creates an angled box of width x height, with the top left corner
      * at coordinates (x, y)
      *
@@ -210,7 +119,7 @@ define(
      */
     function createABox(pBBox, pOptions) {
         var lSlopeOffset = 3;
-        return _createPath(
+        return prim.createPath(
             // start
             "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
             "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
@@ -223,43 +132,6 @@ define(
             "l-" + (pBBox.width - 2 * lSlopeOffset) + ",0 " +
             "z",
             pOptions
-        );
-    }
-
-    /**
-     * Creates rect with 6px rounded corners of width x height, with the top
-     * left corner at coordinates (x, y)
-     *
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @return {SVGElement}
-     */
-    function createRBox (pBBox, pOptions) {
-        var RBOX_CORNER_RADIUS = 6; // px
-        var lOptions = _.defaults(
-            pOptions,
-            {
-                class: null,
-                color: null,
-                bgColor: null
-            }
-        );
-
-        return colorBox(
-            factll.createElement(
-                "rect",
-                {
-                    width: pBBox.width,
-                    height: pBBox.height,
-                    x: pBBox.x,
-                    y: pBBox.y,
-                    rx: RBOX_CORNER_RADIUS,
-                    ry: RBOX_CORNER_RADIUS,
-                    class: lOptions.class
-                }
-            ),
-            lOptions.color,
-            lOptions.bgColor
         );
     }
 
@@ -284,7 +156,7 @@ define(
             }
         );
 
-        return _createPath(
+        return prim.createPath(
             // start:
             "M" + pBBox.x + "," + pBBox.y +
             // top line:
@@ -299,12 +171,12 @@ define(
         );
     }
     return {
-        createSingleLine: createSingleLine,
+        createSingleLine: prim.createSingleLine,
         createDoubleLine: createDoubleLine,
         createNote: createNote,
-        createRect: createRect,
+        createRect: prim.createRect,
         createABox: createABox,
-        createRBox: createRBox,
+        createRBox: prim.createRBox,
         createEdgeRemark: createEdgeRemark
     };
 });
