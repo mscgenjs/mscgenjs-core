@@ -84,6 +84,8 @@ define([], function() {
     }
 
     return {
+        round: round,
+
         /**
          * returns the angle (in degrees) of the line from the
          * bottom left to the top right of the bounding box.

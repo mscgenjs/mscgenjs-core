@@ -91,10 +91,10 @@ define(
                     // all that.
                     pathPoint2String(
                         "L",
-                        pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))),
+                        geo.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))),
                         pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
-                                            ? 1
-                                            : Math.sqrt((Math.pow(lDir.dy, 2)) / (1 + Math.pow(lDir.dy, 2))))
+                                    ? 1
+                                    : geo.round(Math.sqrt((Math.pow(lDir.dy, 2)) / (1 + Math.pow(lDir.dy, 2)))))
                     ) +
                     points2CurveString(
                         geo.getBetweenPoints(
