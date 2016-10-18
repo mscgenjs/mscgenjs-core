@@ -3,14 +3,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([
-    "./constants",
-    "./svglowlevelfactory",
-    "./svgprimitives",
-    "./geometry",
-    "./straight",
-    "./wobbly",
-    "../../lib/lodash/lodash.custom"], function(C, factll, prim, geo, straight, wobbly, _) {
+define(function(require) {
     /**
      * Renders individual elements in sequence charts
      * @exports svgelementfactory
@@ -25,6 +18,14 @@ define([
      *      space to use between double lines
      */
     "use strict";
+
+    var C        = require("./constants");
+    var factll   = require("./svglowlevelfactory");
+    var prim     = require("./svgprimitives");
+    var geo      = require("./geometry");
+    var straight = require("./straight");
+    var wobbly   = require("./wobbly");
+    var _        = require("../../lib/lodash/lodash.custom");
 
     var gDocument = {};
     var gRenderMagic = straight;

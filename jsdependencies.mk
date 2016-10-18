@@ -149,6 +149,15 @@ main/lazy-resolver.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/renderast.js
 
+render/graphics/svgelementfactory.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/constants.js \
+	render/graphics/geometry.js \
+	render/graphics/straight.js \
+	render/graphics/svglowlevelfactory.js \
+	render/graphics/svgprimitives.js \
+	render/graphics/wobbly.js
+
 test/index.spec.js: \
 	index-lazy.js \
 	index.js \
