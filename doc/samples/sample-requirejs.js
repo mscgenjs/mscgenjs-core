@@ -8,7 +8,7 @@ define(function (require) {
             {
                 inputType: "msgenny",
                 elementId: "output",
-                additionalTemplate: "lazy"
+                additionalTemplate: "fountainpen"
             },
             function (pError, pSuccess) {
                 if (Boolean(pError)){
@@ -26,7 +26,7 @@ define(function (require) {
     window.loop.addEventListener(
         "click",
         function(){
-            window.inputscript.value += "\nAlice loop Bob: condition {\n  Alice =>> Bob: do stuff;\n};\n";
+            window.inputscript.value += "\na loop d: condition {\n  a =>> d: do stuff;\n};\n";
             render();
         },
         false
@@ -34,7 +34,7 @@ define(function (require) {
     window.alt.addEventListener(
         "click",
         function(){
-            window.inputscript.value += "\nAlice alt Bob: happyflow {\n  # happy flow here\n\n  ---: alternateflow;  \n  # alternate flow here\n};\n";
+            window.inputscript.value += "\na alt d: happyflow {\n  # happy flow here\n\n  ---: alternateflow;  \n  # alternate flow here\n};\n";
             render();
         },
         false

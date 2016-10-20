@@ -41,13 +41,37 @@
             id="inputscript"
             cols="60" rows="0"
             spellcheck="false"
-            placeholder="Put your nice msgenny script in here">hscale="1.4", wordwraparcs=on;
+            placeholder="Put your nice msgenny script in here"># MsGenny: a cheat sheet
 
-Alice => Bob   : get Bobs' public key;
-Bob   >> Alice : Bobs' public key;
-Alice => Alice : encrypt with Bob's public key;
-Alice => Bob   : encrypted message;
-Bob   => Bob   : decrypt message with own private key;
+a : Entity A, b : Entity B, c : Entity C, d : Entity D;
+
+a -> b : a -> b\n(signal)\nthree,
+b <-> c : b <-> c,
+c -- d : c -- d,
+d -> d : d -> d;
+a => b : a => b  (method),
+b <=> c : b <=> c,
+d => d : d => d;
+b >> a : b >> a (return value),
+b <<>> c : b <<>> c,
+c .. d : c .. d (dotted),
+d >> d : d >> d;
+a =>> b : a =>> b (callback),
+b <<=>> c : b <<=>> c,
+d =>> d : d =>> d;
+a -x b : a -x b  (lost),
+d -x d : d -x d;
+a :> b : a :> b (emphasis),
+b <:> c : b <:> c,
+c :: d : c :: d,
+d :> d : d :> d;
+a note a : a note a \n(note),
+b box b : b box b\n(action),
+c rbox c : c rbox c\n(reference),
+d abox d : d abox d\n(state/ condition);
+||| : ||| (empty row);
+... : ... (omitted row);
+--- : --- (comment);
 </textarea>
         <div class="buttonia">
             <button type="button" id="render">render</button>
