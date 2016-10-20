@@ -59,10 +59,30 @@ render/graphics/svgelementfactory.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/constants.js \
 	render/graphics/geometry.js \
-	render/graphics/svglowlevelfactory.js
+	render/graphics/straight.js \
+	render/graphics/svglowlevelfactory.js \
+	render/graphics/svgprimitives.js \
+	render/graphics/wobbly.js
+
+render/graphics/straight.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/constants.js \
+	render/graphics/geometry.js \
+	render/graphics/svglowlevelfactory.js \
+	render/graphics/svgprimitives.js
 
 render/graphics/svglowlevelfactory.js: \
 	render/graphics/constants.js
+
+render/graphics/svgprimitives.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/svglowlevelfactory.js
+
+render/graphics/wobbly.js: \
+	render/graphics/constants.js \
+	render/graphics/geometry.js \
+	render/graphics/svglowlevelfactory.js \
+	render/graphics/svgprimitives.js
 
 render/graphics/svgutensils.js: \
 	lib/lodash/lodash.custom.js \
@@ -109,12 +129,6 @@ render/text/ast2xu.js: \
 indexAMD.js: \
 	index.js
 
-render/graphics/wobble.js: \
-	lib/lodash/lodash.custom.js \
-	render/graphics/constants.js \
-	render/graphics/geometry.js \
-	render/graphics/svglowlevelfactory.js
-
 render/text/ast2animate.js: \
 	lib/lodash/lodash.custom.js
 
@@ -134,6 +148,15 @@ main/index.js: \
 main/lazy-resolver.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/renderast.js
+
+render/graphics/svgelementfactory.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/constants.js \
+	render/graphics/geometry.js \
+	render/graphics/straight.js \
+	render/graphics/svglowlevelfactory.js \
+	render/graphics/svgprimitives.js \
+	render/graphics/wobbly.js
 
 test/index.spec.js: \
 	index-lazy.js \

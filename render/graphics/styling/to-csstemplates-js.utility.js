@@ -34,6 +34,7 @@ let dirNameToAdditionNode = pRootDirName =>
             name         : extractName(pDirName),
             description  : $config.description,
             experimental : $config.experimental,
+            renderMagic  : $config.renderMagic,
             cssBefore    : extractFileContents(path.join(pRootDirName, pDirName, "before.css")),
             cssAfter     : extractFileContents(path.join(pRootDirName, pDirName, "after.css"))
         };

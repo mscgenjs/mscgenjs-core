@@ -174,26 +174,26 @@ describe('#geometry', function() {
             it("returns points along the line", function(){
                 expect(lBetweenPoints).to.deep.equal([
                     {
-                        "controlX": 8.939339828220179,
-                        "controlY": 1.0606601717798212,
-                        "x": 7.878679656440358,
-                        "y": 2.1213203435596424
+                        "controlX": 8.939,
+                        "controlY": 1.061,
+                        "x": 7.879,
+                        "y": 2.121
                     },
                     {
-                        "controlX": 6.818019484660536,
-                        "controlY": 3.181980515339464,
-                        "x": 5.757359312880715,
-                        "y": 4.242640687119285
+                        "controlX": 6.818,
+                        "controlY": 3.182,
+                        "x": 5.757,
+                        "y": 4.243
                     },
                     {
-                        "controlX": 4.696699141100894,
-                        "controlY": 5.303300858899106,
-                        "x": 3.6360389693210724,
-                        "y": 6.363961030678928
+                        "controlX": 4.697,
+                        "controlY": 5.303,
+                        "x": 3.636,
+                        "y": 6.364
                     },
                     {
-                        "controlX": 2.5753787975412514,
-                        "controlY": 7.424621202458749,
+                        "controlX": 2.575,
+                        "controlY": 7.425,
                         "x": 0,
                         "y": 10
                     }

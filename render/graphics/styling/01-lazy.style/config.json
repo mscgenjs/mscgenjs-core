@@ -1,4 +1,5 @@
 {
     "experimental": false,
-    "description": "Lazy"
+    "description": "Lazy",
+    "renderMagic": "straight"
 }
