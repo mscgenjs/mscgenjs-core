@@ -4,16 +4,17 @@ if (typeof define !== 'function') {
 }
 
 /* eslint max-params: 0 */
-define(["../lib/lodash/lodash.custom",
-        "../parse/mscgenparser",
-        "../parse/xuparser",
-        "../parse/msgennyparser",
-        "../render/text/ast2mscgen",
-        "../render/text/ast2msgenny",
-        "../render/text/ast2xu",
-        "../render/text/ast2dot",
-        "../render/text/ast2doxygen",
-        "../render/graphics/renderast"], function(
+define([
+    "../lib/lodash/lodash.custom",
+    "../parse/mscgenparser",
+    "../parse/xuparser",
+    "../parse/msgennyparser",
+    "../render/text/ast2mscgen",
+    "../render/text/ast2msgenny",
+    "../render/text/ast2xu",
+    "../render/text/ast2dot",
+    "../render/text/ast2doxygen",
+    "../render/graphics/renderast"], function(
     _,
     mscgenparser,
     xuparser,
