@@ -1,5 +1,5 @@
 {
-    "experimental": false,
+    "experimental": true,
     "description": "Fountain pen",
     "renderMagic": "wobbly"
 }
