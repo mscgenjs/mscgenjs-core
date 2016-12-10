@@ -73,11 +73,26 @@ render/graphics/csstemplates.js: render/graphics/styling \
 	render/graphics/styling/*.style/*.json
 	node render/graphics/styling/to-csstemplates-js.utility.js > $@
 
+.npmignore: .gitignore
+	cp $< $@
+	echo ".bithoundrc" >> $@
+	echo ".codeclimate.yml" >> $@
+	echo ".eslintignore" >> $@
+	echo ".eslintrc.json" >> $@
+	echo ".gitlab-ci.yml" >> $@
+	echo ".istanbul.yml" >> $@
+	echo ".travis.yml" >> $@
+	echo "Makefile" >> $@
+	echo "dependencies.mk" >> $@
+	echo "jsdependencies.mk" >> $@
+	echo "test/**" >> $@
+	echo "utl/**" >> $@
+
 # "phony" targets
 prerequisites:
 	$(NPM) install
 
-dev-build: $(GENERATED_SOURCES)
+dev-build: $(GENERATED_SOURCES) .npmignore
 
 lint:
 	$(NPM) run lint
