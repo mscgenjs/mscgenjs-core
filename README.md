@@ -2,7 +2,8 @@
 Implementation of [MscGen][mscgen] and two derived languages in JavaScript.
 
 > This is the JavaScript _library_ that takes care of parsing and
-> rendering MscGen. You might be looking for one of these in stead:
+> rendering MscGen into sequence diagrams. You might be looking for one
+> of these in stead:
 > - [**online interpreter** - mscgen_js][mscgenjs.interpreter]
 > - [**atom package** - mscgen-preview][mscgen-preview]
 > - [**command line interface** - mscgenjs-cli][mscgenjs.cli]
@@ -10,7 +11,8 @@ Implementation of [MscGen][mscgen] and two derived languages in JavaScript.
 
 ## Features
 - Parses and renders [MscGen][mscgen]
-  - Accepts all valid [MscGen][mscgen] programs and render them correctly.
+  - Accepts all valid [MscGen][mscgen] programs and render them correctly to
+    sequence diagrams.
   - All valid MscGen programs accepted by mscgen_js are also accepted and
     rendered correctly by the original `mscgen` command.
   - If you find proof to the contrary: [tell us][mscgenjs.issues.compliance].
