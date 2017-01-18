@@ -1,6 +1,6 @@
 {
   "name": "mscgenjs",
-  "version": "1.6.3",
+  "version": "1.7.0",
   "description": "Implementation of MscGen in JavaScript",
   "main": "index.js",
   "dependencies": {
@@ -12,11 +12,11 @@
     "chai-xml": "0.3.1",
     "eslint": "3.12.2",
     "istanbul": "0.4.5",
-    "js-makedepend": "2.0.1",
-    "jsdom": "9.8.3",
-    "lodash-cli": "4.17.1",
+    "js-makedepend": "2.2.0",
+    "jsdom": "9.9.1",
+    "lodash-cli": "4.17.4",
     "mocha": "3.2.0",
-    "npm-check-updates": "2.8.8",
+    "npm-check-updates": "2.8.9",
     "nsp": "2.6.2",
     "pegjs": "0.10.0",
     "plato": "1.7.0"
