@@ -10,13 +10,13 @@
   "devDependencies": {
     "chai": "3.5.0",
     "chai-xml": "0.3.1",
-    "eslint": "3.13.1",
+    "eslint": "3.15.0",
     "istanbul": "0.4.5",
-    "js-makedepend": "2.2.0",
-    "jsdom": "9.9.1",
+    "js-makedepend": "2.2.1",
+    "jsdom": "9.10.0",
     "lodash-cli": "4.17.4",
     "mocha": "3.2.0",
-    "npm-check-updates": "2.8.9",
+    "npm-check-updates": "2.10.2",
     "nsp": "2.6.2",
     "pegjs": "0.10.0",
     "plato": "1.7.0"
