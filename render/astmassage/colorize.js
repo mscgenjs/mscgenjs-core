@@ -15,7 +15,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./arcmappings"], function(transform, map) {
+define(["./asttransform", "./aggregatekind"], function(transform, map) {
     "use strict";
 
     var gSchemes = {

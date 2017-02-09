@@ -3,7 +3,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["../../lib/lodash/lodash.custom", "../text/arcmappings"], function(_, map) {
+define(["../../lib/lodash/lodash.custom", "../astmassage/normalizekind"], function(_, map) {
     "use strict";
 
     var KINDS = {

@@ -1,7 +1,7 @@
 var assert = require("assert");
-var txt = require("../../../render/text/textutensils");
+var txt = require("../../../render/textutensils/wrap");
 
-describe('render/text/textutensils', function() {
+describe('render/textutensils/wrap', function() {
     describe('#wrap(x, 10) - string with spaces', function() {
         var lWrapThis = "Aap noot mies wim zus jet teun vuur gijs lam kees bok weide does hok duif schapen.";
         var lWrapAry = txt.wrap(lWrapThis, 10);

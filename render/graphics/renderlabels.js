@@ -3,8 +3,8 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./svgutensils", "./constants", "../text/textutensils", "../text/arcmappings"],
-function(fact, svgutl, C, txt, map) {
+define(["./svgelementfactory", "./svgutensils", "./constants", "../textutensils/wrap", "./kind2class", "../astmassage/aggregatekind"],
+function(fact, svgutl, C, txt, map, aggregatekind) {
     "use strict";
 
     /**
@@ -175,7 +175,7 @@ function(fact, svgutl, C, txt, map) {
     }
 
     function _splitLabel(pLabel, pKind, pWidth, pFontSize, pWordWrapArcs) {
-        if ("box" === map.getAggregate(pKind) || typeof pKind === 'undefined' || pWordWrapArcs){
+        if ("box" === aggregatekind.getAggregate(pKind) || typeof pKind === 'undefined' || pWordWrapArcs){
             return txt.wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
         } else {
             return pLabel.split('\\n');

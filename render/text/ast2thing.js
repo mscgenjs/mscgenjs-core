@@ -8,7 +8,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./textutensils"], function(utl) {
+define(["../textutensils/escape"], function(utl) {
     "use strict";
 
     var INDENT = "  ";

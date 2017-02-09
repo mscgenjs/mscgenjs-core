@@ -1,8 +1,8 @@
-var flatten = require("../../../render/text/flatten");
+var flatten = require("../../../render/astmassage/flatten");
 var fix     = require("../../astfixtures.json");
 var expect  = require("chai").expect;
 
-describe('render/text/flatten', function() {
+describe('render/astmassage/flatten', function() {
     describe('unwind', function() {
         it('should return an "unwound" version of the simple one alt ', function() {
             expect(

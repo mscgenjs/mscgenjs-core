@@ -1,4 +1,4 @@
-var colorize = require("../../../render/text/colorize");
+var colorize = require("../../../render/astmassage/colorize");
 var fix      = require("../../astfixtures.json");
 var _        = require("../../../lib/lodash/lodash.custom");
 var expect   = require("chai").expect;

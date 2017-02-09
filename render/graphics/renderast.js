@@ -9,8 +9,9 @@ define([
     "./svgutensils",
     "./renderutensils",
     "./renderskeleton",
-    "../text/flatten",
-    "../text/arcmappings",
+    "../astmassage/flatten",
+    "./kind2class",
+    "../astmassage/aggregatekind",
     "./rowmemory",
     "./idmanager",
     "./markermanager",
@@ -19,7 +20,7 @@ define([
     "./constants",
     "../../lib/lodash/lodash.custom"],
     /* eslint max-params: 0 */
-function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, entities, labels, C, _) {
+function(fact, llfact, svgutl, utl, skel, flatten, map, aggregatekind, rowmemory, id, mark, entities, labels, C, _) {
     /**
      *
      * renders an abstract syntax tree of a sequence chart
@@ -449,7 +450,7 @@ function(fact, llfact, svgutl, utl, skel, flatten, map, rowmemory, id, mark, ent
             var lCurrentId = id.get(pRowNumber.toString() + "_" + pArcNumber.toString());
             var lElement = {};
 
-            switch (map.getAggregate(pArc.kind)) {
+            switch (aggregatekind.getAggregate(pArc.kind)) {
             case ("emptyarc"):
                 lElement = renderEmptyArc(pArc, lCurrentId);
                 if ("..." === pArc.kind) {

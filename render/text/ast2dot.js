@@ -8,8 +8,13 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./flatten", "./textutensils", "./arcmappings", "../../lib/lodash/lodash.custom"],
-function(flatten, txt, map, utl) {
+define([
+    "../astmassage/flatten",
+    "../textutensils/wrap",
+    "../astmassage/aggregatekind",
+    "./dotMappings",
+    "../../lib/lodash/lodash.custom"],
+function(flatten, txt, map, dotmap, _) {
     "use strict";
 
     var INDENT = "  ";
@@ -115,8 +120,8 @@ function(flatten, txt, map, utl) {
         var lBoxName = "box" + pCounter.toString();
         lRetVal += lBoxName;
         var lAttrs = translateAttributes(pArc);
-        pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
-        pushAttribute(lAttrs, map.getShape(pArc.kind), "shape");
+        pushAttribute(lAttrs, dotmap.getStyle(pArc.kind), "style");
+        pushAttribute(lAttrs, dotmap.getShape(pArc.kind), "shape");
 
         lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT + pIndent;
 
@@ -135,17 +140,17 @@ function(flatten, txt, map, utl) {
         pArc.label = counterizeLabel(pArc.label, pCounter);
         var lAttrs = translateAttributes(pArc);
 
-        pushAttribute(lAttrs, map.getStyle(pArc.kind), "style");
+        pushAttribute(lAttrs, dotmap.getStyle(pArc.kind), "style");
         switch (pAggregatedKind) {
         case ("directional") :
             {
-                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
+                pushAttribute(lAttrs, dotmap.getArrow(pArc.kind), "arrowhead");
             }
             break;
         case ("bidirectional"):
             {
-                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowhead");
-                pushAttribute(lAttrs, map.getArrow(pArc.kind), "arrowtail");
+                pushAttribute(lAttrs, dotmap.getArrow(pArc.kind), "arrowhead");
+                pushAttribute(lAttrs, dotmap.getArrow(pArc.kind), "arrowtail");
                 pushAttribute(lAttrs, "both", "dir");
             }
             break;
@@ -207,7 +212,7 @@ function(flatten, txt, map, utl) {
 
     return {
         render : function(pAST) {
-            return _renderAST(flatten.dotFlatten(utl.cloneDeep(pAST)));
+            return _renderAST(flatten.dotFlatten(_.cloneDeep(pAST)));
         }
     };
 });

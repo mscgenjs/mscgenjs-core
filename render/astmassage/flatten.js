@@ -3,14 +3,14 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./arcmappings", "../../lib/lodash/lodash.custom", "./textutensils"],
+define(["./asttransform", "./aggregatekind", "./normalizekind", "../../lib/lodash/lodash.custom", "../textutensils/escape"],
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(transform, map, _, txt) {
+function(transform, aggregatekind, normalizekind, _, txt) {
     "use strict";
 
     var gMaxDepth = 0;
@@ -35,8 +35,8 @@ function(transform, map, _, txt) {
     }
 
     function _swapRTLArc(pArc) {
-        if (pArc.kind && (map.getNormalizedKind(pArc.kind) !== pArc.kind)) {
-            pArc.kind = map.getNormalizedKind(pArc.kind);
+        if (pArc.kind && (normalizekind.getNormalizedKind(pArc.kind) !== pArc.kind)) {
+            pArc.kind = normalizekind.getNormalizedKind(pArc.kind);
 
             var lTmp = pArc.from;
             pArc.from = pArc.to;
@@ -84,7 +84,7 @@ function(transform, map, _, txt) {
 
         pArcRow.forEach(
             function(pArc){
-                if ("inline_expression" === map.getAggregate(pArc.kind)) {
+                if ("inline_expression" === aggregatekind.getAggregate(pArc.kind)) {
                     pArc.depth = pDepth;
                     if (Boolean(pArc.arcs)) {
                         var lInlineExpression = _.cloneDeep(pArc);
@@ -119,7 +119,7 @@ function(transform, map, _, txt) {
                         to : pArc.to
                     }]);
                 } else {
-                    if ((pFrom && pTo) && ("emptyarc" === map.getAggregate(pArc.kind))) {
+                    if ((pFrom && pTo) && ("emptyarc" === aggregatekind.getAggregate(pArc.kind))) {
                         pArc.from = pFrom;
                         pArc.to = pTo;
                         pArc.depth = pDepth;

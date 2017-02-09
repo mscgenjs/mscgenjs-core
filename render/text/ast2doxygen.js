@@ -10,7 +10,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./arcmappings", "./textutensils", "./ast2thing"], function(map, utl, thing) {
+define(["../astmassage/aggregatekind", "../textutensils/escape", "./ast2thing"], function(map, utl, thing) {
     "use strict";
 
     var INDENT = "  ";
