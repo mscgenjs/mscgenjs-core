@@ -57,7 +57,7 @@
       "severity": "error",
       "comment": "Don't allow dependencies from src/app/lib to a development only package",
       "from": {
-        "path": "^(src|app|lib)"
+        "path": "^(index\\.js|indexAMD\\.js|index-lazy\\.js|main|parse|render|lib)"
       },
       "to": {
         "dependencyTypes": [

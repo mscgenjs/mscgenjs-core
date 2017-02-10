@@ -10,6 +10,7 @@
   "devDependencies": {
     "chai": "3.5.0",
     "chai-xml": "0.3.1",
+    "dependency-cruiser": "1.15.5",
     "eslint": "3.15.0",
     "istanbul": "0.4.5",
     "js-makedepend": "2.2.1",
@@ -24,6 +25,8 @@
   "scripts": {
     "test": "mocha -R dot --timeout 6000 --recursive test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive test",
+    "depcruise": "depcruise -v -T err -M amd main parse render index.js",
+    "depcruise:graph": "depcruise -v -T dot -M amd -x \"amdefine|lodash\" main parse render index.js | dot -T svg > tmp_deps.svg",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD|csstemplates\" ./",
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",

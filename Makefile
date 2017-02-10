@@ -97,6 +97,9 @@ dev-build: $(GENERATED_SOURCES) .npmignore
 lint:
 	$(NPM) run lint
 
+depcruise:
+	$(NPM) run depcruise
+
 cover: dev-build
 	$(NPM) run cover
 
@@ -120,7 +123,7 @@ nsp:
 outdated:
 	$(NPM) outdated
 
-check: lint test
+check: lint depcruise test
 
 fullcheck: check outdated nsp
 

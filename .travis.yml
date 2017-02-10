@@ -12,6 +12,7 @@ install:
 
 script:
   - npm run lint
+  - npm run depcruise
   - npm run nsp
   - npm run cover
   - make install
