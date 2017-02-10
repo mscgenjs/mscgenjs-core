@@ -20,12 +20,13 @@ define(function(require) {
     "use strict";
 
     var C        = require("./constants");
+    var XC       = require("../constants");
     var factll   = require("./svglowlevelfactory");
     var prim     = require("./svgprimitives");
     var geo      = require("./geometry");
     var straight = require("./straight");
     var wobbly   = require("./wobbly");
-    var _        = require("../../lib/lodash/lodash.custom");
+    var _        = require("../../../lib/lodash/lodash.custom");
 
     var gDocument = {};
     var gRenderMagic = straight;
@@ -177,6 +178,16 @@ define(function(require) {
         },
 
         /**
+         * creates a tspan with label pLabel, optionally wrapped in a link
+         * if the url pURL is passed
+         *
+         * @param  {string} pLabel
+         * @param  {string} pURL
+         * @return {element}
+         */
+        createTSpan: createTSpan,
+
+        /**
          * Creates an svg rectangle of width x height, with the top left
          * corner at coordinates (x, y). pRX and pRY define the amount of
          * rounding the corners of the rectangle get; when they're left out
@@ -316,13 +327,13 @@ define(function(require) {
          * @return {SVGElement}
          */
         createUTurn: function (pPoint, pEndY, pWidth, pClass, pDontHitHome) {
-            var lEndX = pDontHitHome ? pPoint.x + 7.5 * C.LINE_WIDTH : pPoint.x;
+            var lEndX = pDontHitHome ? pPoint.x + 7.5 * XC.LINE_WIDTH : pPoint.x;
 
             return prim.createPath(
                 // point to start from:
                 prim.pathPoint2String("M", pPoint.x, -pPoint.y) +
                 // curve first to:
-                prim.pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * C.LINE_WIDTH) +
+                prim.pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * XC.LINE_WIDTH) +
                 // curve back from.:
                 prim.point2String(pPoint.x + pWidth, pEndY + 0) +
                 // curve end-pont:

@@ -3,11 +3,12 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([
-    "./constants",
-    "./svglowlevelfactory",
-    "./svgprimitives",
-    "./geometry"], function(C, factll, prim, geo) {
+define(function(require) {
+
+    var C      = require("../constants");
+    var factll = require("./svglowlevelfactory");
+    var prim   = require("./svgprimitives");
+    var geo    = require("./geometry");
 
     var SEGMENT_LENGTH = 70; // 70
     var WOBBLE_FACTOR  = 3; // 1.4?

@@ -3,7 +3,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./constants", "./csstemplates"], function(fact, C, csstemplates) {
+define(["./svgelementfactory/svgelementfactory", "./constants", "./csstemplates"], function(fact, C, csstemplates) {
     /**
      * sets up a skeleton svg, with the skeleton for rendering an msc ready
      *

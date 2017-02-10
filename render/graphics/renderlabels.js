@@ -3,7 +3,13 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./svgelementfactory", "./svgutensils", "./constants", "../textutensils/wrap", "./kind2class", "../astmassage/aggregatekind"],
+define([
+    "./svgelementfactory/svgelementfactory",
+    "./svgelementfactory/svgutensils",
+    "./constants",
+    "../textutensils/wrap",
+    "./kind2class",
+    "../astmassage/aggregatekind"],
 function(fact, svgutl, C, txt, map, aggregatekind) {
     "use strict";
 

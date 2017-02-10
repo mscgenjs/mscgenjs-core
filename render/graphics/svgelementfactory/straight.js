@@ -3,12 +3,11 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([
-    "./constants",
-    "./svglowlevelfactory",
-    "./svgprimitives",
-    "./geometry",
-    "../../lib/lodash/lodash.custom"], function(C, factll, prim, geo, _) {
+define(function(require) {
+    var C = require("../constants");
+    var prim = require("./svgprimitives");
+    var geo = require("./geometry");
+    var _ = require("../../../lib/lodash/lodash.custom");
 
     function determineEndCorrection(pLine, pClass){
         var lRetval = 0;

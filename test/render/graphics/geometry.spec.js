@@ -1,4 +1,4 @@
-var geo    = require("../../../render/graphics/geometry");
+var geo    = require("../../../render/graphics/svgelementfactory/geometry");
 var expect = require("chai").expect;
 
 describe('#geometry', function() {

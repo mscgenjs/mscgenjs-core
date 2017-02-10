@@ -3,9 +3,10 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([
-    "./svglowlevelfactory",
-    "../../lib/lodash/lodash.custom"], function(factll, _) {
+define(function(require) {
+
+    var factll = require("./svglowlevelfactory");
+    var _      = require("../../../lib/lodash/lodash.custom");
 
     function point2String(pX, pY) {
         return pX.toString() + "," + pY.toString() + " ";

@@ -6,8 +6,8 @@ if (typeof define !== 'function') {
 define([], function() {
     "use strict";
     return {
-        LINE_WIDTH: 2, // px
-        FONT_SIZE: 12 // px
+        SVGNS: "http://www.w3.org/2000/svg",
+        XLINKNS: "http://www.w3.org/1999/xlink"
     };
 });
 /*

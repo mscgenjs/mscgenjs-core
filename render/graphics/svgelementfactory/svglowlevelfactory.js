@@ -3,8 +3,10 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants"], function(C) {
+define(function(require) {
     "use strict";
+
+    var C = require("./constants");
 
     var gDocument = {};
 

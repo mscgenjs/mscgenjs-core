@@ -3,12 +3,17 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./constants", "./idmanager", "./svgelementfactory", "./svglowlevelfactory", "../../lib/lodash/lodash.custom"],
-function(C, id, fact, llfact, _) {
+define(function(require) {
+    "use strict";
+
+    var id     = require("../idmanager");
+    var fact   = require("./svgelementfactory");
+    var llfact = require("./svglowlevelfactory");
+    var _      = require("../../../lib/lodash/lodash.custom");
+
     /**
      * Some SVG specific calculations & workarounds
      */
-    "use strict";
 
     var gDocument = {};
     var gSvgBBoxerId = id.get("bboxer");
@@ -72,16 +77,9 @@ function(C, id, fact, llfact, _) {
         }
     }
 
-    function createTSpan(pLabel){
-        var lTSpanLabel = gDocument.createElementNS(C.SVGNS, "tspan");
-        lTSpanLabel.appendChild(gDocument.createTextNode(pLabel));
-
-        return lTSpanLabel;
-    }
-
     function createText(pLabel) {
         var lText = llfact.createElement("text", {x: "0", y: "0"});
-        lText.appendChild(createTSpan(pLabel));
+        lText.appendChild(fact.createTSpan(pLabel));
         return lText;
     }
 

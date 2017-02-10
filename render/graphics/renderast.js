@@ -4,9 +4,9 @@ if (typeof define !== 'function') {
 }
 
 define([
-    "./svgelementfactory",
-    "./svglowlevelfactory",
-    "./svgutensils",
+    "./svgelementfactory/svgelementfactory",
+    "./svgelementfactory/svglowlevelfactory",
+    "./svgelementfactory/svgutensils",
     "./renderutensils",
     "./renderskeleton",
     "../astmassage/flatten",
