@@ -1,6 +1,6 @@
 # Rendering - graphics
 In this section we motivate our choice for
-[scalable vector graphics](#scalable-vector-graphics), desribe how
+[scalable vector graphics](#scalable-vector-graphics), describe how
 our template or [skeleton](#the-scalable-vector-graphics-skeleton) looks and
 explain how the rendering functions fill it.
 
