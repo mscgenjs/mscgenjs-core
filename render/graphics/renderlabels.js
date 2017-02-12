@@ -6,7 +6,7 @@ if (typeof define !== 'function') {
 define(function(require) {
     "use strict";
     var svgelementfactory = require("./svgelementfactory/index");
-    var svgutensils       = require("./svgelementfactory/svgutensils");
+    var svgutensils       = require("./svgutensils");
     var constants         = require("./constants");
     var wrap              = require("../textutensils/wrap");
     var kind2class        = require("./kind2class");

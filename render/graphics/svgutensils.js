@@ -7,9 +7,8 @@ define(function(require) {
     "use strict";
 
     var idmanager         = require("./idmanager");
-    var svgelementfactory = require("./index");
-    var domprimitives     = require("./domprimitives");
-    var _                 = require("../../../lib/lodash/lodash.custom");
+    var svgelementfactory = require("./svgelementfactory/index");
+    var _                 = require("../../lib/lodash/lodash.custom");
 
     /**
      * Some SVG specific calculations & workarounds
@@ -77,12 +76,6 @@ define(function(require) {
         }
     }
 
-    function createText(pLabel) {
-        var lText = domprimitives.createElement("text", {x: "0", y: "0"});
-        lText.appendChild(svgelementfactory.createTSpan(pLabel));
-        return lText;
-    }
-
     function _calculateTextHeight(){
         /* Uses a string with some characters that tend to stick out
          * above/ below the current line and an 'astral codepoint' to
@@ -91,7 +84,15 @@ define(function(require) {
          * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
          * browsers. The string in readable form: ÁjyÎ9ƒ@💩
          */
-        return _getBBox(createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9")).height;
+        return _getBBox(
+            svgelementfactory.createText(
+                "\u00C1jy\u00CE9\u0192@\uD83D\uDCA9",
+                {
+                    x: 0,
+                    y: 0
+                }
+            )
+        ).height;
     }
 
 

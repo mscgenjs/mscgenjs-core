@@ -19,14 +19,14 @@ define(function(require) {
     "use strict";
 
     var svgelementfactory  = require("./svgelementfactory/index");
-    var svgutensils        = require("./svgelementfactory/svgutensils");
+    var svgutensils        = require("./svgutensils");
     var renderutensils     = require("./renderutensils");
     var renderskeleton     = require("./renderskeleton");
     var flatten            = require("../astmassage/flatten");
     var kind2class         = require("./kind2class");
     var aggregatekind      = require("../astmassage/aggregatekind");
     var rowmemory          = require("./rowmemory");
-    var idmanager          = require("./svgelementfactory/idmanager");
+    var idmanager          = require("./idmanager");
     var markermanager      = require("./markermanager");
     var entities           = require("./entities");
     var renderlabels       = require("./renderlabels");
