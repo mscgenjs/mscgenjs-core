@@ -3,15 +3,21 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./asttransform", "./aggregatekind", "./normalizekind", "../../lib/lodash/lodash.custom", "../textutensils/escape"],
+define(
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-function(transform, aggregatekind, normalizekind, _, txt) {
+function(require) {
     "use strict";
+
+    var asttransform  = require("./asttransform");
+    var aggregatekind = require("./aggregatekind");
+    var normalizekind = require("./normalizekind");
+    var _             = require("../../lib/lodash/lodash.custom");
+    var escape        = require("../textutensils/escape");
 
     var gMaxDepth = 0;
 
@@ -23,10 +29,10 @@ function(transform, aggregatekind, normalizekind, _, txt) {
 
     function unescapeLabels(pArcOrEntity){
         if (Boolean(pArcOrEntity.label)) {
-            pArcOrEntity.label = txt.unescapeString(pArcOrEntity.label);
+            pArcOrEntity.label = escape.unescapeString(pArcOrEntity.label);
         }
         if (Boolean(pArcOrEntity.id)){
-            pArcOrEntity.id = txt.unescapeString(pArcOrEntity.id);
+            pArcOrEntity.id = escape.unescapeString(pArcOrEntity.id);
         }
     }
 
@@ -239,7 +245,7 @@ function(transform, aggregatekind, normalizekind, _, txt) {
          * @return {ast}
          */
         flatten : function(pAST) {
-            return transform.transform(
+            return asttransform.transform(
                 _unwind(pAST),
                 [nameAsLabel, unescapeLabels],
                 [_swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]
@@ -253,7 +259,7 @@ function(transform, aggregatekind, normalizekind, _, txt) {
          */
         dotFlatten : function(pAST) {
             return _explodeBroadcasts(
-                transform.transform(
+                asttransform.transform(
                     pAST,
                     [nameAsLabel],
                     [_swapRTLArc, overrideColors]

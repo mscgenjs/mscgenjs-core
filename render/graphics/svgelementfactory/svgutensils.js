@@ -6,21 +6,21 @@ if (typeof define !== 'function') {
 define(function(require) {
     "use strict";
 
-    var id     = require("../idmanager");
-    var fact   = require("./svgelementfactory");
-    var llfact = require("./svglowlevelfactory");
-    var _      = require("../../../lib/lodash/lodash.custom");
+    var idmanager         = require("./idmanager");
+    var svgelementfactory = require("./index");
+    var domprimitives     = require("./domprimitives");
+    var _                 = require("../../../lib/lodash/lodash.custom");
 
     /**
      * Some SVG specific calculations & workarounds
      */
 
     var gDocument = {};
-    var gSvgBBoxerId = id.get("bboxer");
+    var gSvgBBoxerId = idmanager.get("bboxer");
 
     /* istanbul ignore next */
     function _createBBoxerSVG(pId){
-        var lSvg = fact.createSVG(pId, id.get());
+        var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
         gDocument.body.appendChild(lSvg);
 
         return lSvg;
@@ -78,8 +78,8 @@ define(function(require) {
     }
 
     function createText(pLabel) {
-        var lText = llfact.createElement("text", {x: "0", y: "0"});
-        lText.appendChild(fact.createTSpan(pLabel));
+        var lText = domprimitives.createElement("text", {x: "0", y: "0"});
+        lText.appendChild(svgelementfactory.createTSpan(pLabel));
         return lText;
     }
 
@@ -96,9 +96,9 @@ define(function(require) {
 
 
     function _removeRenderedSVGFromElement(pElementId){
-        id.setPrefix(pElementId);
-        var lChildElement = gDocument.getElementById(id.get());
-        if (!!lChildElement) {
+        idmanager.setPrefix(pElementId);
+        var lChildElement = gDocument.getElementById(idmanager.get());
+        if (Boolean(lChildElement)) {
             var lParentElement = gDocument.getElementById(pElementId);
             if (lParentElement) {
                 lParentElement.removeChild(lChildElement);

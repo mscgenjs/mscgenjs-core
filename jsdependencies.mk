@@ -24,117 +24,111 @@ main/static-resolver.js: \
 
 render/graphics/renderast.js: \
 	lib/lodash/lodash.custom.js \
+	render/astmassage/aggregatekind.js \
+	render/astmassage/flatten.js \
 	render/graphics/constants.js \
 	render/graphics/entities.js \
-	render/graphics/idmanager.js \
+	render/graphics/kind2class.js \
 	render/graphics/markermanager.js \
 	render/graphics/renderlabels.js \
 	render/graphics/renderskeleton.js \
 	render/graphics/renderutensils.js \
 	render/graphics/rowmemory.js \
-	render/graphics/svgelementfactory.js \
-	render/graphics/svglowlevelfactory.js \
-	render/graphics/svgutensils.js \
-	render/text/arcmappings.js \
-	render/text/flatten.js
+	render/graphics/svgelementfactory/idmanager.js \
+	render/graphics/svgelementfactory/index.js \
+	render/graphics/svgelementfactory/svgutensils.js
 
-render/text/flatten.js: \
+render/astmassage/flatten.js: \
 	lib/lodash/lodash.custom.js \
-	render/text/arcmappings.js \
-	render/text/asttransform.js \
-	render/text/textutensils.js
+	render/astmassage/aggregatekind.js \
+	render/astmassage/asttransform.js \
+	render/astmassage/normalizekind.js \
+	render/textutensils/escape.js
 
 render/graphics/entities.js: \
 	render/graphics/constants.js \
 	render/graphics/renderlabels.js
 
 render/graphics/renderlabels.js: \
+	render/astmassage/aggregatekind.js \
 	render/graphics/constants.js \
-	render/graphics/svgelementfactory.js \
-	render/graphics/svgutensils.js \
-	render/text/arcmappings.js \
-	render/text/textutensils.js
+	render/graphics/kind2class.js \
+	render/graphics/svgelementfactory/index.js \
+	render/graphics/svgelementfactory/svgutensils.js \
+	render/textutensils/wrap.js
 
-render/graphics/svgelementfactory.js: \
+render/graphics/svgelementfactory/index.js: \
 	lib/lodash/lodash.custom.js \
-	render/graphics/constants.js \
-	render/graphics/geometry.js \
-	render/graphics/straight.js \
-	render/graphics/svglowlevelfactory.js \
-	render/graphics/svgprimitives.js \
-	render/graphics/wobbly.js
+	render/graphics/svgelementfactory/straight.js \
+	render/graphics/svgelementfactory/wobbly.js
 
-render/graphics/straight.js: \
+render/graphics/svgelementfactory/straight.js: \
 	lib/lodash/lodash.custom.js \
-	render/graphics/constants.js \
-	render/graphics/geometry.js \
-	render/graphics/svglowlevelfactory.js \
-	render/graphics/svgprimitives.js
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/svgprimitives.js \
+	render/graphics/svgelementfactory/variationhelpers.js
 
-render/graphics/svglowlevelfactory.js: \
-	render/graphics/constants.js
-
-render/graphics/svgprimitives.js: \
+render/graphics/svgelementfactory/svgprimitives.js: \
 	lib/lodash/lodash.custom.js \
-	render/graphics/svglowlevelfactory.js
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/geometry.js
 
-render/graphics/wobbly.js: \
-	render/graphics/constants.js \
-	render/graphics/geometry.js \
-	render/graphics/svglowlevelfactory.js \
-	render/graphics/svgprimitives.js
+render/graphics/svgelementfactory/wobbly.js: \
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/svgprimitives.js \
+	render/graphics/svgelementfactory/variationhelpers.js
 
-render/graphics/svgutensils.js: \
+render/graphics/svgelementfactory/svgutensils.js: \
 	lib/lodash/lodash.custom.js \
-	render/graphics/constants.js \
-	render/graphics/idmanager.js \
-	render/graphics/svgelementfactory.js \
-	render/graphics/svglowlevelfactory.js
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/idmanager.js \
+	render/graphics/svgelementfactory/index.js
 
 render/graphics/markermanager.js: \
 	lib/lodash/lodash.custom.js \
-	render/text/arcmappings.js
+	render/astmassage/normalizekind.js
 
 render/graphics/renderskeleton.js: \
 	render/graphics/constants.js \
 	render/graphics/csstemplates.js \
-	render/graphics/svgelementfactory.js
+	render/graphics/svgelementfactory/index.js
 
 render/text/ast2dot.js: \
 	lib/lodash/lodash.custom.js \
-	render/text/arcmappings.js \
-	render/text/flatten.js \
-	render/text/textutensils.js
+	render/astmassage/aggregatekind.js \
+	render/astmassage/flatten.js \
+	render/text/dotMappings.js \
+	render/textutensils/wrap.js
 
 render/text/ast2doxygen.js: \
-	render/text/arcmappings.js \
+	render/astmassage/aggregatekind.js \
 	render/text/ast2thing.js \
-	render/text/textutensils.js
+	render/textutensils/escape.js
 
 render/text/ast2thing.js: \
-	render/text/textutensils.js
+	render/textutensils/escape.js
 
 render/text/ast2mscgen.js: \
-	render/text/arcmappings.js \
+	render/astmassage/aggregatekind.js \
 	render/text/ast2thing.js \
-	render/text/textutensils.js
+	render/textutensils/escape.js
 
 render/text/ast2msgenny.js: \
 	render/text/ast2thing.js
 
 render/text/ast2xu.js: \
 	render/text/ast2thing.js \
-	render/text/textutensils.js
+	render/textutensils/escape.js
 
 indexAMD.js: \
 	index.js
 
+render/astmassage/colorize.js: \
+	render/astmassage/aggregatekind.js \
+	render/astmassage/asttransform.js
+
 render/text/ast2animate.js: \
 	lib/lodash/lodash.custom.js
-
-render/text/colorize.js: \
-	render/text/arcmappings.js \
-	render/text/asttransform.js
 
 # cjs dependencies
 index-lazy.js: \
@@ -149,14 +143,80 @@ main/lazy-resolver.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/renderast.js
 
-render/graphics/svgelementfactory.js: \
+render/graphics/renderast.js: \
 	lib/lodash/lodash.custom.js \
+	render/astmassage/aggregatekind.js \
+	render/astmassage/flatten.js \
 	render/graphics/constants.js \
-	render/graphics/geometry.js \
-	render/graphics/straight.js \
-	render/graphics/svglowlevelfactory.js \
-	render/graphics/svgprimitives.js \
-	render/graphics/wobbly.js
+	render/graphics/entities.js \
+	render/graphics/kind2class.js \
+	render/graphics/markermanager.js \
+	render/graphics/renderlabels.js \
+	render/graphics/renderskeleton.js \
+	render/graphics/renderutensils.js \
+	render/graphics/rowmemory.js \
+	render/graphics/svgelementfactory/idmanager.js \
+	render/graphics/svgelementfactory/index.js \
+	render/graphics/svgelementfactory/svgutensils.js
+
+render/astmassage/flatten.js: \
+	lib/lodash/lodash.custom.js \
+	render/astmassage/aggregatekind.js \
+	render/astmassage/asttransform.js \
+	render/astmassage/normalizekind.js \
+	render/textutensils/escape.js
+
+render/graphics/entities.js: \
+	render/graphics/constants.js \
+	render/graphics/renderlabels.js
+
+render/graphics/renderlabels.js: \
+	render/astmassage/aggregatekind.js \
+	render/graphics/constants.js \
+	render/graphics/kind2class.js \
+	render/graphics/svgelementfactory/index.js \
+	render/graphics/svgelementfactory/svgutensils.js \
+	render/textutensils/wrap.js
+
+render/graphics/svgelementfactory/index.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/svgelementfactory/straight.js \
+	render/graphics/svgelementfactory/wobbly.js
+
+render/graphics/svgelementfactory/straight.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/svgprimitives.js \
+	render/graphics/svgelementfactory/variationhelpers.js
+
+render/graphics/svgelementfactory/svgprimitives.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/geometry.js
+
+render/graphics/svgelementfactory/wobbly.js: \
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/svgprimitives.js \
+	render/graphics/svgelementfactory/variationhelpers.js
+
+render/graphics/svgelementfactory/svgutensils.js: \
+	lib/lodash/lodash.custom.js \
+	render/graphics/svgelementfactory/domprimitives.js \
+	render/graphics/svgelementfactory/idmanager.js \
+	render/graphics/svgelementfactory/index.js
+
+render/graphics/markermanager.js: \
+	lib/lodash/lodash.custom.js \
+	render/astmassage/normalizekind.js
+
+render/graphics/renderskeleton.js: \
+	render/graphics/constants.js \
+	render/graphics/csstemplates.js \
+	render/graphics/svgelementfactory/index.js
+
+render/astmassage/colorize.js: \
+	render/astmassage/aggregatekind.js \
+	render/astmassage/asttransform.js
 
 test/index.spec.js: \
 	index-lazy.js \
@@ -192,8 +252,17 @@ test/parse/xuparser.spec.js: \
 	test/parse/xuPairs.js \
 	test/testutensils.js
 
+test/render/astmassage/colorize.spec.js: \
+	lib/lodash/lodash.custom.js \
+	render/astmassage/colorize.js \
+	test/astfixtures.json
+
+test/render/astmassage/flatten.spec.js: \
+	render/astmassage/flatten.js \
+	test/astfixtures.json
+
 test/render/graphics/geometry.spec.js: \
-	render/graphics/geometry.js
+	render/graphics/svgelementfactory/geometry.js
 
 test/render/graphics/markermanager.spec.js: \
 	render/graphics/markermanager.js
@@ -201,6 +270,9 @@ test/render/graphics/markermanager.spec.js: \
 test/render/graphics/renderast.spec.js: \
 	render/graphics/renderast.js \
 	test/testutensils.js
+
+test/render/graphics/variationhelpers.js: \
+	render/graphics/svgelementfactory/variationhelpers.js
 
 test/render/text/ast2animate.spec.js: \
 	parse/xuparser.js \
@@ -231,15 +303,6 @@ test/render/text/ast2xu.spec.js: \
 	render/text/ast2xu.js \
 	test/astfixtures.json
 
-test/render/text/colorize.spec.js: \
-	lib/lodash/lodash.custom.js \
-	render/text/colorize.js \
-	test/astfixtures.json
-
-test/render/text/flatten.spec.js: \
-	render/text/flatten.js \
-	test/astfixtures.json
-
-test/render/text/textutensils.spec.js: \
-	render/text/textutensils.js
+test/render/textutensils/wrap.spec.js: \
+	render/textutensils/wrap.js
 

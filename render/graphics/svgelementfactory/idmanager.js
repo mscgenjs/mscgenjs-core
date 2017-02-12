@@ -3,11 +3,19 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define([], function() {
+define(function() {
     "use strict";
+    var INNERELEMENTPREFIX = "mscgen_js-svg-";
+
+    var gInnerElementId = INNERELEMENTPREFIX;
+
     return {
-        SVGNS: "http://www.w3.org/2000/svg",
-        XLINKNS: "http://www.w3.org/1999/xlink"
+        setPrefix: function (pPrefix){
+            gInnerElementId = INNERELEMENTPREFIX + pPrefix;
+        },
+        get: function(pElementIdentifierString) {
+            return gInnerElementId + (pElementIdentifierString || "");
+        }
     };
 });
 /*

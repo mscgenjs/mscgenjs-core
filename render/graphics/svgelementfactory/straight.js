@@ -4,57 +4,49 @@ if (typeof define !== 'function') {
 }
 
 define(function(require) {
-    var C = require("../constants");
-    var prim = require("./svgprimitives");
-    var geo = require("./geometry");
-    var _ = require("../../../lib/lodash/lodash.custom");
+    var svgprimitives    = require("./svgprimitives");
+    var domprimitives    = require("./domprimitives");
+    var variationhelpers = require("./variationhelpers");
+    var _                = require("../../../lib/lodash/lodash.custom");
 
-    function determineEndCorrection(pLine, pClass){
-        var lRetval = 0;
-        if (pClass.indexOf("nodi") < 0){
-            lRetval = pLine.xTo > pLine.xFrom ? -7.5 * C.LINE_WIDTH : 7.5 * C.LINE_WIDTH;
-        }
-        return lRetval;
-    }
-
-    function determineStartCorrection(pLine, pClass){
-        var lRetval = 0;
-        if (pClass.indexOf("nodi") < 0){
-            if (pClass.indexOf("bidi") > -1) {
-                if (pLine.xTo > pLine.xFrom){
-                    lRetval = 7.5 * C.LINE_WIDTH;
-                } else {
-                    lRetval = -7.5 * C.LINE_WIDTH;
-                }
+    function createSingleLine(pLine, pOptions) {
+        return domprimitives.createElement(
+            "line",
+            {
+                x1: pLine.xFrom.toString(),
+                y1: pLine.yFrom.toString(),
+                x2: pLine.xTo.toString(),
+                y2: pLine.yTo.toString(),
+                class: pOptions ? pOptions.class : null
             }
-        }
-        return lRetval;
+        );
     }
 
     function createDoubleLine(pLine, pOptions) {
-        var lSpace = C.LINE_WIDTH;
+        var lLineWidth = pOptions.lineWidth || 1;
+        var lSpace = lLineWidth;
         var lClass = pOptions ? pOptions.class : null;
 
-        var lDir = geo.getDirection(pLine);
-        var lEndCorr = determineEndCorrection(pLine, lClass);
-        var lStartCorr = determineStartCorrection(pLine, lClass);
+        var lDir = variationhelpers.getDirection(pLine);
+        var lEndCorr = variationhelpers.determineEndCorrection(pLine, lClass, lLineWidth);
+        var lStartCorr = variationhelpers.determineStartCorrection(pLine, lClass, lLineWidth);
 
         var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
         var lLenY = (pLine.yTo - pLine.yFrom).toString();
-        var lStubble = prim.pathPoint2String("l", lDir.signX, lDir.dy);
-        var lLine = prim.pathPoint2String("l", lLenX, lLenY);
+        var lStubble = svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy);
+        var lLine = svgprimitives.pathPoint2String("l", lLenX, lLenY);
 
-        return prim.createPath(
-            prim.pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * C.LINE_WIDTH * lDir.dy)) +
+        return svgprimitives.createPath(
+            svgprimitives.pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * lLineWidth * lDir.dy)) +
             // left stubble:
             lStubble +
-            prim.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
+            svgprimitives.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
             // upper line:
             lLine +
-            prim.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
+            svgprimitives.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
             // lower line
             lLine +
-            prim.pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * C.LINE_WIDTH * lDir.dy) +
+            svgprimitives.pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * lLineWidth * lDir.dy) +
             // right stubble
             lStubble,
             pOptions
@@ -72,10 +64,12 @@ define(function(require) {
      * @return {SVGElement}
      */
     function createNote(pBBox, pOptions) {
-        var lFoldSizeN = Math.max(9, Math.min(4.5 * C.LINE_WIDTH, pBBox.height / 2));
+        var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
+
+        var lFoldSizeN = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
         var lFoldSize = lFoldSizeN.toString(10);
 
-        return prim.createPath(
+        return svgprimitives.createPath(
             "M" + pBBox.x + "," + pBBox.y +
             // top line:
             "l" + (pBBox.width - lFoldSizeN) + ",0 " +
@@ -101,6 +95,82 @@ define(function(require) {
     }
 
     /**
+     * Creates an svg rectangle of width x height, with the top left
+     * corner at coordinates (x, y). pRX and pRY define the amount of
+     * rounding the corners of the rectangle get; when they're left out
+     * the function will render the corners as straight.
+     *
+     * Unit: pixels
+     *
+     * @param {object} pBBox
+     * @param {string} pClass - reference to the css class to be applied
+     * @param {number=} pRX
+     * @param {number=} pRY
+     * @return {SVGElement}
+     */
+    function createRect (pBBox, pOptions) {
+        var lOptions = _.defaults(
+            pOptions,
+            {
+                class: null,
+                color: null,
+                bgColor: null
+            }
+        );
+        return svgprimitives.colorBox(
+            domprimitives.createElement(
+                "rect",
+                {
+                    width: pBBox.width,
+                    height: pBBox.height,
+                    x: pBBox.x,
+                    y: pBBox.y,
+                    class: lOptions.class
+                }
+            ),
+            lOptions.color,
+            lOptions.bgColor
+        );
+    }
+
+    /**
+     * Creates rect with 6px rounded corners of width x height, with the top
+     * left corner at coordinates (x, y)
+     *
+     * @param {object} pBBox
+     * @param {string} pClass - reference to the css class to be applied
+     * @return {SVGElement}
+     */
+    function createRBox (pBBox, pOptions) {
+        var RBOX_CORNER_RADIUS = 6; // px
+        var lOptions = _.defaults(
+            pOptions,
+            {
+                class: null,
+                color: null,
+                bgColor: null
+            }
+        );
+
+        return svgprimitives.colorBox(
+            domprimitives.createElement(
+                "rect",
+                {
+                    width: pBBox.width,
+                    height: pBBox.height,
+                    x: pBBox.x,
+                    y: pBBox.y,
+                    rx: RBOX_CORNER_RADIUS,
+                    ry: RBOX_CORNER_RADIUS,
+                    class: lOptions.class
+                }
+            ),
+            lOptions.color,
+            lOptions.bgColor
+        );
+    }
+
+    /**
      * Creates an angled box of width x height, with the top left corner
      * at coordinates (x, y)
      *
@@ -110,7 +180,7 @@ define(function(require) {
      */
     function createABox(pBBox, pOptions) {
         var lSlopeOffset = 3;
-        return prim.createPath(
+        return svgprimitives.createPath(
             // start
             "M" + pBBox.x + "," + (pBBox.y + (pBBox.height / 2)) +
             "l" + lSlopeOffset + ", -" + pBBox.height / 2 +
@@ -147,7 +217,7 @@ define(function(require) {
             }
         );
 
-        return prim.createPath(
+        return svgprimitives.createPath(
             // start:
             "M" + pBBox.x + "," + pBBox.y +
             // top line:
@@ -162,13 +232,28 @@ define(function(require) {
         );
     }
     return {
-        createSingleLine: prim.createSingleLine,
+        createSingleLine: createSingleLine,
         createDoubleLine: createDoubleLine,
         createNote: createNote,
-        createRect: prim.createRect,
+        createRect: createRect,
         createABox: createABox,
-        createRBox: prim.createRBox,
-        createEdgeRemark: createEdgeRemark
+        createRBox: createRBox,
+        createEdgeRemark: createEdgeRemark,
+
+        createDesc: svgprimitives.createDesc,
+        createDefs: svgprimitives.createDefs,
+        createDiagonalText: svgprimitives.createDiagonalText,
+        createTSpan: svgprimitives.createTSpan,
+        createText: svgprimitives.createText,
+        createUTurn: svgprimitives.createUTurn,
+        createGroup: svgprimitives.createGroup,
+        createUse: svgprimitives.createUse,
+        createMarkerPath: svgprimitives.createMarkerPath,
+        createMarkerPolygon: svgprimitives.createMarkerPolygon,
+        createTitle: svgprimitives.createTitle,
+        createSVG: svgprimitives.createSVG,
+        updateSVG: svgprimitives.updateSVG,
+        init: svgprimitives.init
     };
 });
 /*
