@@ -22,7 +22,7 @@ with mscgenjs.
 npm install --global webpack
 
 # generate the bundle
-webpack --optimize-minimize --optimize-dedupe sample-webpack.js sample-webpack.bundle.js
+webpack --optimize-minimize sample-webpack.js sample-webpack.bundle.js
 ```
 
 ## An AMD example (using requirejs)
