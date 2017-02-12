@@ -22,23 +22,6 @@ Individual modules using ast2thing:
 ## Animation
 :page_with_curl: code in [ast2animate.js](ast2animate.js)
 
-## Flattening
-To ease rendering the [flatten.js](flatten.js) module massages the
-syntax tree in several ways:
-- makes sure each entity has a 'label' attribute
-- distributes the arc*colors from entities to the appropriate lines and arcs
-- make sure arcs point from left to right
-- takes care of 'unwinding' nested inline expressions
-- makes individual arcs of broadcast arcs
-
-:page_with_curl: code in [flatten.js](flatten.js)
-
-## Coloring
-:page_with_curl: code in [colorize.js](colorize.js)
-
-## Utensils
-:page_with_curl: code in [textutensils.js](textutensils.js)
-
 ## dot
 Each sequence chart can be expressed as a communications diagram.
 GraphViz dot is a textual language that can be used to specify
