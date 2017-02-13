@@ -4,8 +4,10 @@
  *               Instead use index.js. It provides the same
  *               functionality with the same interface
  */
-define(["./index"], function(index) {
+define(function(require) {
     "use strict";
+
+    var index = require("./index");
 
     return {
         renderMsc           : index.renderMsc,

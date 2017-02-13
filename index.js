@@ -3,8 +3,11 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["./main/static-resolver", "./main/index"], function(resolver, main) {
+define(function(require) {
     "use strict";
+
+    var resolver = require("./main/static-resolver");
+    var main     = require("./main/index");
 
     return {
         /**

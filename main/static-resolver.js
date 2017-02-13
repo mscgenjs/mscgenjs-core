@@ -4,29 +4,19 @@ if (typeof define !== 'function') {
 }
 
 /* eslint max-params: 0 */
-define([
-    "../lib/lodash/lodash.custom",
-    "../parse/mscgenparser",
-    "../parse/xuparser",
-    "../parse/msgennyparser",
-    "../render/text/ast2mscgen",
-    "../render/text/ast2msgenny",
-    "../render/text/ast2xu",
-    "../render/text/ast2dot",
-    "../render/text/ast2doxygen",
-    "../render/graphics/renderast"], function(
-    _,
-    mscgenparser,
-    xuparser,
-    msgennyparser,
-
-    ast2mscgen,
-    ast2msgenny,
-    ast2xu,
-    ast2dot,
-    ast2doxygen,
-    renderast) {
+define(function(require) {
     "use strict";
+
+    var mscgenparser  = require("../parse/mscgenparser");
+    var xuparser      = require("../parse/xuparser");
+    var msgennyparser = require("../parse/msgennyparser");
+    var ast2mscgen    = require("../render/text/ast2mscgen");
+    var ast2xu        = require("../render/text/ast2xu");
+    var ast2msgenny   = require("../render/text/ast2msgenny");
+    var ast2dot       = require("../render/text/ast2dot");
+    var ast2doxygen   = require("../render/text/ast2doxygen");
+    var renderast     = require("../render/graphics/renderast");
+
     var DEFAULT_PARSER        = mscgenparser;
     var DEFAULT_TEXT_RENDERER = ast2mscgen;
 
