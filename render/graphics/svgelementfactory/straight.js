@@ -5,22 +5,8 @@ if (typeof define !== 'function') {
 
 define(function(require) {
     var svgprimitives    = require("./svgprimitives");
-    var domprimitives    = require("./domprimitives");
     var variationhelpers = require("./variationhelpers");
     var _                = require("../../../lib/lodash/lodash.custom");
-
-    function createSingleLine(pLine, pOptions) {
-        return domprimitives.createElement(
-            "line",
-            {
-                x1: pLine.xFrom.toString(),
-                y1: pLine.yFrom.toString(),
-                x2: pLine.xTo.toString(),
-                y2: pLine.yTo.toString(),
-                class: pOptions ? pOptions.class : null
-            }
-        );
-    }
 
     function createDoubleLine(pLine, pOptions) {
         var lLineWidth = pOptions.lineWidth || 1;
@@ -95,45 +81,6 @@ define(function(require) {
     }
 
     /**
-     * Creates an svg rectangle of width x height, with the top left
-     * corner at coordinates (x, y). pRX and pRY define the amount of
-     * rounding the corners of the rectangle get; when they're left out
-     * the function will render the corners as straight.
-     *
-     * Unit: pixels
-     *
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} pRX
-     * @param {number=} pRY
-     * @return {SVGElement}
-     */
-    function createRect (pBBox, pOptions) {
-        var lOptions = _.defaults(
-            pOptions,
-            {
-                class: null,
-                color: null,
-                bgColor: null
-            }
-        );
-        return svgprimitives.colorBox(
-            domprimitives.createElement(
-                "rect",
-                {
-                    width: pBBox.width,
-                    height: pBBox.height,
-                    x: pBBox.x,
-                    y: pBBox.y,
-                    class: lOptions.class
-                }
-            ),
-            lOptions.color,
-            lOptions.bgColor
-        );
-    }
-
-    /**
      * Creates rect with 6px rounded corners of width x height, with the top
      * left corner at coordinates (x, y)
      *
@@ -143,31 +90,10 @@ define(function(require) {
      */
     function createRBox (pBBox, pOptions) {
         var RBOX_CORNER_RADIUS = 6; // px
-        var lOptions = _.defaults(
-            pOptions,
-            {
-                class: null,
-                color: null,
-                bgColor: null
-            }
-        );
+        pOptions.rx = RBOX_CORNER_RADIUS;
+        pOptions.ry = RBOX_CORNER_RADIUS;
 
-        return svgprimitives.colorBox(
-            domprimitives.createElement(
-                "rect",
-                {
-                    width: pBBox.width,
-                    height: pBBox.height,
-                    x: pBBox.x,
-                    y: pBBox.y,
-                    rx: RBOX_CORNER_RADIUS,
-                    ry: RBOX_CORNER_RADIUS,
-                    class: lOptions.class
-                }
-            ),
-            lOptions.color,
-            lOptions.bgColor
-        );
+        return svgprimitives.createRect(pBBox, pOptions);
     }
 
     /**
@@ -232,10 +158,10 @@ define(function(require) {
         );
     }
     return {
-        createSingleLine: createSingleLine,
+        createSingleLine: svgprimitives.createSingleLine,
         createDoubleLine: createDoubleLine,
         createNote: createNote,
-        createRect: createRect,
+        createRect: svgprimitives.createRect,
         createABox: createABox,
         createRBox: createRBox,
         createEdgeRemark: createEdgeRemark,

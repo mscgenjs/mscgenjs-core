@@ -5,7 +5,6 @@ if (typeof define !== 'function') {
 
 define(function(require) {
 
-    var domprimitives    = require("./domprimitives");
     var svgprimitives    = require("./svgprimitives");
     var variationhelpers = require("./variationhelpers");
 
@@ -22,33 +21,33 @@ define(function(require) {
 
     function createSingleLine(pLine, pOptions) {
         var lDir = variationhelpers.getDirection(pLine);
-        return domprimitives.createElement(
-            "path",
+
+        return svgprimitives.createPath(
+            svgprimitives.pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
+            // Workaround; gecko and webkit treat markers slapped on the
+            // start of a path with 'auto' different from each other when
+            // there's not a line at the start and the path is not going
+            // from exactly left to right (gecko renders the marker
+            // correctly, whereas webkit will ignore auto and show the
+            // marker in its default position)
+            //
+            // Adding a little stubble at the start of the line solves
+            // all that.
+            svgprimitives.pathPoint2String(
+                "L",
+                variationhelpers.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))),
+                pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
+                    ? 1
+                    : variationhelpers.round(Math.sqrt((Math.pow(lDir.dy, 2)) / (1 + Math.pow(lDir.dy, 2)))))
+            ) +
+            points2CurveString(
+                variationhelpers.getBetweenPoints(
+                    pLine,
+                    SEGMENT_LENGTH,
+                    WOBBLE_FACTOR
+                )
+            ),
             {
-                d:  svgprimitives.pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
-                    // Workaround; gecko and webkit treat markers slapped on the
-                    // start of a path with 'auto' different from each other when
-                    // there's not a line at the start and the path is not going
-                    // from exactly left to right (gecko renders the marker
-                    // correctly, whereas webkit will ignore auto and show the
-                    // marker in its default position)
-                    //
-                    // Adding a little stubble at the start of the line solves
-                    // all that.
-                    svgprimitives.pathPoint2String(
-                        "L",
-                        variationhelpers.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))),
-                        pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
-                            ? 1
-                            : variationhelpers.round(Math.sqrt((Math.pow(lDir.dy, 2)) / (1 + Math.pow(lDir.dy, 2)))))
-                    ) +
-                    points2CurveString(
-                        variationhelpers.getBetweenPoints(
-                            pLine,
-                            SEGMENT_LENGTH,
-                            WOBBLE_FACTOR
-                        )
-                    ),
                 class: pOptions ? pOptions.class : null
             }
         );
@@ -140,7 +139,7 @@ define(function(require) {
     function createNote(pBBox, pOptions) {
         var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
         var lFoldSize = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
-        var lGroup = domprimitives.createElement("g");
+        var lGroup = svgprimitives.createGroup();
 
         lGroup.appendChild(svgprimitives.createPath(renderNotePathString(pBBox, lFoldSize), pOptions));
         pOptions.bgColor = "transparent";
@@ -346,7 +345,7 @@ define(function(require) {
 
     function createEdgeRemark (pBBox, pOptions) {
         var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
-        var lGroup = domprimitives.createElement("g");
+        var lGroup = svgprimitives.createGroup();
 
         var lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
         var lLineColor = pOptions && pOptions.color ? pOptions.color : "black";

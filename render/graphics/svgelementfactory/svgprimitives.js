@@ -253,6 +253,62 @@ define(function(require) {
             );
         },
 
+        createSingleLine: function(pLine, pOptions) {
+            return domprimitives.createElement(
+                "line",
+                {
+                    x1: pLine.xFrom.toString(),
+                    y1: pLine.yFrom.toString(),
+                    x2: pLine.xTo.toString(),
+                    y2: pLine.yTo.toString(),
+                    class: pOptions ? pOptions.class : null
+                }
+            );
+        },
+
+        /**
+         * Creates an svg rectangle of width x height, with the top left
+         * corner at coordinates (x, y). pRX and pRY define the amount of
+         * rounding the corners of the rectangle get; when they're left out
+         * the function will render the corners as straight.
+         *
+         * Unit: pixels
+         *
+         * @param {object} pBBox
+         * @param {string} pClass - reference to the css class to be applied
+         * @param {number=} pRX
+         * @param {number=} pRY
+         * @return {SVGElement}
+         */
+        createRect: function (pBBox, pOptions) {
+            var lOptions = _.defaults(
+                pOptions,
+                {
+                    class: null,
+                    color: null,
+                    bgColor: null,
+                    rx: null,
+                    ry: null
+                }
+            );
+            return colorBox(
+                domprimitives.createElement(
+                    "rect",
+                    {
+                        width: pBBox.width,
+                        height: pBBox.height,
+                        x: pBBox.x,
+                        y: pBBox.y,
+                        rx: lOptions.rx,
+                        ry: lOptions.ry,
+                        class: lOptions.class
+                    }
+                ),
+                lOptions.color,
+                lOptions.bgColor
+            );
+        },
+
         /**
          * Creates a u-turn, departing on pPoint.x, pPoint.y and
          * ending on pPoint.x, pEndY with a width of pWidth
