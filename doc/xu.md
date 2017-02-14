@@ -140,6 +140,32 @@ xu {
 ### watermark
 Just like msgenny, Xù supports a "watermark" _option_: ```watermark="xù rocks!"```; that puts a watermark diagonally on the rendered chart.
 
+### title - for tool tips
+
+From version 1.9.0 the xù language supports the `title` attribute. In SVG output
+the graphics renderer packaged with mscgenjs renders these as `<title>` tags.
+
+```xu
+xu {
+  a, b;
+
+  a => b [
+      label="the label",
+      title="The title meister strikes again"
+  ];
+  a rbox b [
+      label="this is an rbox",
+      title="This is a title for an rbox"
+  ];
+  b =>> b [
+      label="self reference", 
+      title="Title for a self referencing arc" 
+  ];
+}
+```
+
+![rendered](title-attributes.gif)
+
 
 ## MsGenny
 [MsGenny](./msgenny.md) also has support for inline expressions, the if-then-else construct above
