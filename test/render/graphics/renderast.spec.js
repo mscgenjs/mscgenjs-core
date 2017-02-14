@@ -117,6 +117,12 @@ describe('render/graphics/renderast', function() {
                 {includeSource: false, useNew: true},
                 {additionalTemplate: "not an existing template"});
             });
+            it('On arcs, self referencing arcs, broadcast arcs and boxes titles get rendered in a <title> element', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/titletags.svg'),
+                path.join(__dirname, '../../fixtures/titletags.json'),
+                {includeSource: false, useNew: true}
+            );
+            });
         });
     });
     jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {

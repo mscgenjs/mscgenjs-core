@@ -1,20 +1,23 @@
-var fix = require("../astfixtures.json");
+var astfixtures = require("../astfixtures.json");
 
 module.exports = {
     programASTPairs : [{
         title: 'should render an AST, with an alt in it',
         program: 'msc { a,b,c; a => b; b alt c { b => c; c >> b; };}',
-        ast: fix.astOneAlt
+        ast: astfixtures.astOneAlt
     }, {
         title: 'should accept empty inline expressions',
         program: 'Xu{a, b; a opt b{};}',
-        ast: fix.emptyinlineexpression
+        ast: astfixtures.emptyinlineexpression
     }, {
         title: 'should render an AST, with a loop and an alt in it',
         program: 'msc { a,b,c; a => b; a loop c [label="label for loop"] { b alt c [label="label for alt"]{ b -> c [label="-> within alt"]; c >> b [label=">> within alt"]; }; b >> a [label=">> within loop"];}; a =>> a [label="happy-the-peppy - outside"];...;}',
-        ast: fix.astAltWithinLoop
-    }
-    ],
+        ast: astfixtures.astAltWithinLoop
+    }, {
+        title: 'should render an AST, with a "title" attribute on an arc',
+        program: 'xu { a,b; a => b [label="the label", title="The title meister strikes again"];}',
+        ast: astfixtures.astTitleOnArc
+    }],
     syntaxErrors : [{
         title: 'should throw a SyntaxError on a missing closing bracket',
         program: 'msc {a,b; a loop b {'

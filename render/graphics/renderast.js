@@ -424,9 +424,9 @@ define(function(require) {
                         pCurrentId + "_lbl"
                     );
                 pRowMemory.push({
-                    id      : pCurrentId + "_lbl",
-                    tooltip : pArc.from + ' ' + pArc.kind + ' ' + pArc.to,
-                    layer   : gChart.layer.sequence
+                    id    : pCurrentId + "_lbl",
+                    title : pArc.title,
+                    layer : gChart.layer.sequence
                 });
             } else { // it's a regular arc
                 lElement =
@@ -437,9 +437,9 @@ define(function(require) {
                         entities.getX(pArc.to)
                     );
                 pRowMemory.push({
-                    id      : pCurrentId,
-                    tooltip : pArc.from + ' ' + pArc.kind + ' ' + pArc.to,
-                    layer   : gChart.layer.sequence
+                    id    : pCurrentId,
+                    title : pArc.title,
+                    layer : gChart.layer.sequence
                 });
             }  // / lTo or pArc.from === "*"
         }// if both a from and a to
@@ -469,6 +469,7 @@ define(function(require) {
                 lElement = createBox(lCurrentId, entities.getOAndD(pArc.from, pArc.to), pArc);
                 lRowMemory.push({
                     id    : lCurrentId,
+                    title : pArc.title,
                     layer : gChart.layer.notes
                 });
                 break;
@@ -523,8 +524,8 @@ define(function(require) {
                 },
                 pRowMemoryLine.id
             );
-            if (pRowMemoryLine.tooltip) {
-                lUse.appendChild(svgelementfactory.createTitle(pRowMemoryLine.tooltip));
+            if (pRowMemoryLine.title) {
+                lUse.appendChild(svgelementfactory.createTitle(pRowMemoryLine.title));
             }
             pRowMemoryLine.layer.appendChild(lUse);
         });

@@ -8,7 +8,8 @@ define(function (require) {
             {
                 inputType: "msgenny",
                 elementId: "output",
-                additionalTemplate: "fountainpen"
+                additionalTemplate: "basic",
+                includeSource: false
             },
             function (pError, pSuccess) {
                 if (Boolean(pError)){

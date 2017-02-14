@@ -1,0 +1,56 @@
+{
+       "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
+        "entities": [
+          {
+            "name": "a"
+          },
+          {
+            "name": "b"
+          },
+          {
+            "name": "c"
+          }
+        ],
+        "arcs": [
+          [
+            {
+              "kind": "=>",
+              "from": "a",
+              "to": "b",
+              "label": "the label",
+              "title": "The title meister strikes again"
+            }
+          ],
+          [
+            {
+              "kind": "rbox",
+              "from": "a",
+              "to": "b",
+              "label": "this is an rbox",
+              "title": "This is a title for an rbox"
+            }
+          ],
+          [
+            {
+              "kind": "=>>",
+              "from": "b",
+              "to": "b",
+              "label": "self reference",
+              "title": "Title for a self referencing arc"
+            }
+          ],
+          [
+            {
+              "kind": "=>>",
+              "from": "b",
+              "to": "*",
+              "label": "broadcasting !",
+              "title": "Title for a broadcast arc"
+            }
+          ]
+        ]
+    }

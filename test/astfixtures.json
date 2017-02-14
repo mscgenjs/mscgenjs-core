@@ -1826,5 +1826,31 @@
             }
         ]
       ]
+    },
+    "astTitleOnArc": {
+       "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
+        "entities": [
+          {
+            "name": "a"
+          },
+          {
+            "name": "b"
+          }
+        ],
+        "arcs": [
+          [
+            {
+              "kind": "=>",
+              "from": "a",
+              "to": "b",
+              "label": "the label",
+              "title": "The title meister strikes again"
+            }
+          ]
+        ]
     }
 }

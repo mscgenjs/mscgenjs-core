@@ -361,6 +361,7 @@ attributename  "attribute name"
     / "arctextcolor"i   / "arctextcolour"i
     / "arctextbgcolor"i / "arctextbgcolour"i
     / "arcskip"i
+    / "title"i
 
 string "double quoted string" // used in watermark messages. Not yet in thos for label attributes
     = '"' s:stringcontent '"' {return s.join("")}
