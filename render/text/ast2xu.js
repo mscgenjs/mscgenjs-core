@@ -51,7 +51,8 @@ define(function(require) {
                 "supportedArcAttributes" : [
                     "label", "idurl", "id", "url",
                     "linecolor", "textcolor", "textbgcolor",
-                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip"
+                    "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                    "title"
                 ],
                 "program" : {
                     "opener" : "msc" + SP + "{" + EOL,

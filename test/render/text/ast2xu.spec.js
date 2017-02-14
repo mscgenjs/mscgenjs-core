@@ -151,6 +151,11 @@ describe(`render/text/ast2xu`, () => {
             const lExpectedProgram = `msc{"note";}`;
             assert.equal(lProgram, lExpectedProgram);
         });
+        it("Re-renders title attributes", () => {
+            const lProgram = renderer.render(fix.astTitleOnArc, true);
+            const lExpectedProgram = `msc{a,b;a => b[label="the label",title="The title meister strikes again"];}`;
+            assert.equal(lProgram, lExpectedProgram);
+        });
     });
 
     describe(`#renderAST() - file based tests`, () => {
