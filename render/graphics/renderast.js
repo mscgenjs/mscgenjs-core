@@ -228,7 +228,7 @@ define(function(require) {
                 renderWatermark(pOptions.watermark, pCanvas);
             }
             if (pOptions.width && pOptions.width !== "auto") {
-                renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
+                pCanvas = renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
             }
         }
     }
