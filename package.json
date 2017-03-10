@@ -5,20 +5,20 @@
   "main": "index.js",
   "dependencies": {
     "amdefine": "1.0.1",
-    "requirejs": "2.3.2"
+    "requirejs": "2.3.3"
   },
   "devDependencies": {
     "chai": "3.5.0",
     "chai-xml": "0.3.1",
-    "dependency-cruiser": "1.15.5",
-    "eslint": "3.15.0",
+    "dependency-cruiser": "2.0.2",
+    "eslint": "3.17.1",
     "istanbul": "0.4.5",
-    "js-makedepend": "2.2.1",
+    "js-makedepend": "2.2.2",
     "jsdom": "9.11.0",
     "lodash-cli": "4.17.4",
     "mocha": "3.2.0",
-    "npm-check-updates": "2.10.2",
-    "nsp": "2.6.2",
+    "npm-check-updates": "2.10.3",
+    "nsp": "2.6.3",
     "pegjs": "0.10.0",
     "plato": "1.7.0"
   },
