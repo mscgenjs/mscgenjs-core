@@ -45,7 +45,6 @@ render/astmassage/flatten.js: \
 	render/textutensils/escape.js
 
 render/graphics/entities.js: \
-	render/graphics/constants.js \
 	render/graphics/renderlabels.js
 
 render/graphics/renderlabels.js: \
@@ -88,6 +87,9 @@ render/graphics/renderskeleton.js: \
 	render/graphics/constants.js \
 	render/graphics/csstemplates.js \
 	render/graphics/svgelementfactory/index.js
+
+render/graphics/renderutensils.js: \
+	lib/lodash/lodash.custom.js
 
 render/text/ast2dot.js: \
 	lib/lodash/lodash.custom.js \
@@ -163,7 +165,6 @@ render/astmassage/flatten.js: \
 	render/textutensils/escape.js
 
 render/graphics/entities.js: \
-	render/graphics/constants.js \
 	render/graphics/renderlabels.js
 
 render/graphics/renderlabels.js: \
@@ -206,6 +207,9 @@ render/graphics/renderskeleton.js: \
 	render/graphics/constants.js \
 	render/graphics/csstemplates.js \
 	render/graphics/svgelementfactory/index.js
+
+render/graphics/renderutensils.js: \
+	lib/lodash/lodash.custom.js
 
 index.js: \
 	main/index.js \
