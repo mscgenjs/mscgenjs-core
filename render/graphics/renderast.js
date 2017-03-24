@@ -502,18 +502,13 @@ define(function(require) {
         /*
          *  only here we can determine the height of the row and the y position
          */
-        var lArcRowId = "arcrow_" + pRowNumber.toString();
-
-        gChart.layer.defs.appendChild(
+        gChart.layer.lifeline.appendChild(
             renderLifeLines(
                 pEntities,
                 lArcRowClass,
                 rowmemory.get(pRowNumber).height,
-                idmanager.get(lArcRowId)
+                rowmemory.get(pRowNumber).y
             )
-        );
-        gChart.layer.lifeline.appendChild(
-            svgelementfactory.createUse({x:0, y:rowmemory.get(pRowNumber).y}, idmanager.get(lArcRowId))
         );
 
         lRowMemory.forEach(function(pRowMemoryLine){
@@ -538,16 +533,10 @@ define(function(require) {
      */
     function renderArcRows(pArcRows, pEntities) {
         gInlineExpressionMemory = [];
-        gChart.layer.defs.appendChild(renderLifeLines(pEntities, "arcrow", null, idmanager.get("arcrow")));
 
         /* put some space between the entities and the arcs */
         gChart.layer.lifeline.appendChild(
-            svgelementfactory.createUse(
-                {
-                    x:0,
-                    y:rowmemory.get(-1).y},
-                    idmanager.get("arcrow")
-                )
+            renderLifeLines(pEntities, "arcrow", null, rowmemory.get(-1).y)
         );
 
         if (pArcRows) {
@@ -662,22 +651,19 @@ define(function(require) {
         );
     }
 
-    function renderLifeLines(pEntities, pClass, pHeight, pId) {
-        if (!pId) {
-            pId = pClass;
-        }
+    function renderLifeLines(pEntities, pClass, pHeight, pY) {
         if (!pHeight || pHeight < gChart.arcRowHeight) {
             pHeight = gChart.arcRowHeight;
         }
-        var lGroup = svgelementfactory.createGroup(pId);
+        var lGroup = svgelementfactory.createGroup();
 
         pEntities.forEach(function(pEntity) {
             var lLine = svgelementfactory.createLine(
                 {
                     xFrom: entities.getX(pEntity.name),
-                    yFrom: 0 - (pHeight / 2),
+                    yFrom: 0 - (pHeight / 2) + (pY ? pY : 0),
                     xTo: entities.getX(pEntity.name),
-                    yTo: (pHeight / 2)
+                    yTo: (pHeight / 2) + (pY ? pY : 0)
                 },
                 {
                     class: pClass
