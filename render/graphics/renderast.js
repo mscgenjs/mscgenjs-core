@@ -619,33 +619,24 @@ define(function(require) {
     function renderInlineExpressions(pInlineExpressions) {
         pInlineExpressions.forEach(
             function(pInlineExpression){
-                gChart.layer.defs.appendChild(
-                    renderInlineExpression(pInlineExpression)
-                );
                 gChart.layer.inline.appendChild(
-                    svgelementfactory.createUse(
-                        {
-                            x:0,
-                            y:rowmemory.get(pInlineExpression.rownum).y
-                        },
-                        pInlineExpression.id
-                    )
+                    renderInlineExpression(pInlineExpression, rowmemory.get(pInlineExpression.rownum).y)
                 );
             }
         );
     }
 
-    function renderInlineExpression(pArcMem) {
+    function renderInlineExpression(pArcMem, pY) {
         var lFromY = rowmemory.get(pArcMem.rownum).y;
         var lToY = rowmemory.get(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
         var lHeight = lToY - lFromY;
         pArcMem.arc.label = "";
 
         return createInlineExpressionBox(
-            pArcMem.id,
             entities.getOAndD(pArcMem.arc.from, pArcMem.arc.to),
             pArcMem.arc,
-            lHeight
+            lHeight,
+            pY
         );
     }
 
@@ -906,7 +897,7 @@ define(function(require) {
         return lGroup;
     }
 
-    function createInlineExpressionBox(pId, pOAndD, pArc, pHeight) {
+    function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
         /* begin: same as createBox */
         var lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
         var lWidth =
@@ -916,26 +907,21 @@ define(function(require) {
             pOAndD.from -
             ((entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2);
 
-        var lGroup = svgelementfactory.createGroup(pId);
         /* end: same as createBox */
 
         var lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
 
-        lGroup.appendChild(
-            svgelementfactory.createRect(
-                {
-                    width: lWidth + lArcDepthCorrection * 2,
-                    height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
-                    x: lStart - lArcDepthCorrection,
-                    y: 0
-                },
-                "box inline_expression " + pArc.kind,
-                pArc.linecolor,
-                pArc.textbgcolor
-            )
+        return svgelementfactory.createRect(
+            {
+                width: lWidth + lArcDepthCorrection * 2,
+                height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
+                x: lStart - lArcDepthCorrection,
+                y: pY
+            },
+            "box inline_expression " + pArc.kind,
+            pArc.linecolor,
+            pArc.textbgcolor
         );
-
-        return lGroup;
     }
 
     /**
