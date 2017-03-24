@@ -139,7 +139,7 @@ define(function(require) {
          * We do this _before_ scaling is applied to the svg
          */
         renderBackground(lCanvas);
-        postProcessOptions(pAST.options, lCanvas);
+        lCanvas = postProcessOptions(pAST.options, lCanvas);
         renderSvgElement(lCanvas);
     }
 
@@ -231,6 +231,7 @@ define(function(require) {
                 pCanvas = renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
             }
         }
+        return pCanvas;
     }
 
     function renderSvgElement(pCanvas) {
