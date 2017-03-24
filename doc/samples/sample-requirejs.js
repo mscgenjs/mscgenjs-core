@@ -9,6 +9,7 @@ define(function (require) {
                 inputType: "xu",
                 elementId: "output",
                 additionalTemplate: "basic",
+                mirrorEntitiesOnBottom: true,
                 includeSource: false
             },
             function (pError, pSuccess) {

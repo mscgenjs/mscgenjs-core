@@ -125,7 +125,7 @@ define(function(require) {
         rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
         renderArcRows(pAST.arcs, pAST.entities);
         if (gChart.mirrorEntitiesOnBottom){
-            renderEntitiesOnBottom();
+            renderEntitiesOnBottom(pAST.entities);
         }
     }
 
@@ -297,7 +297,7 @@ define(function(require) {
     }
 
     function renderEntity(pEntity, pX) {
-        var lGroup = svgelementfactory.createGroup(idmanager.get(pEntity.name));
+        var lGroup = svgelementfactory.createGroup();
         var lBBox = entities.getDims();
         lBBox.x = pX ? pX : 0;
         lGroup.appendChild(
@@ -324,16 +324,15 @@ define(function(require) {
         return lGroup;
     }
 
-    function renderEntitiesOnBottom() {
+    function renderEntitiesOnBottom(pEntities) {
         var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
 
         gChart.layer.lifeline.appendChild(
-            svgelementfactory.createUse(
-                {
-                    x:0,
-                    y:lLifeLineSpacerY
-                },
-                idmanager.get("arcrow")
+            renderLifeLines(
+                pEntities,
+                "arcrow",
+                null,
+                lLifeLineSpacerY
             )
         );
         gChart.layer.sequence.appendChild(
@@ -365,9 +364,8 @@ define(function(require) {
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
-            gChart.layer.defs.appendChild(lEntityGroup);
             gChart.layer.sequence.appendChild(
-                svgelementfactory.createUse({x:0, y:0}, idmanager.get("entities"))
+                lEntityGroup
             );
         }
         gChart.arcEndX =
