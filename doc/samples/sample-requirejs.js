@@ -6,7 +6,7 @@ define(function (require) {
         mscgenjs.renderMsc(
             window.inputscript.value,
             {
-                inputType: "msgenny",
+                inputType: "xu",
                 elementId: "output",
                 additionalTemplate: "basic",
                 includeSource: false
