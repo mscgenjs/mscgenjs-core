@@ -381,12 +381,12 @@ define(function(require) {
         var xTo    = 0;
         var lLabel = pArc.label;
         var xFrom  = entities.getX(pArc.from);
+        var lPushIt = pY > 0;
 
         pArc.label = "";
 
         pEntities.forEach(function(pEntity){
             var lElement = {};
-            var lPushIt = pY > 0;
 
             if (pEntity.name !== pArc.from) {
                 xTo = entities.getX(pEntity.name);
@@ -580,6 +580,7 @@ define(function(require) {
     function renderInlineExpressionLabel(pArc, pY) {
         var lOnD = entities.getOAndD(pArc.from, pArc.to);
         var FOLD_SIZE = 7;
+        var lLabelContentAlreadyDetermined = pY > 0;
 
         var lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
 
@@ -594,7 +595,10 @@ define(function(require) {
             (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH);
 
         var lGroup = svgelementfactory.createGroup();
-        pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
+        if (!lLabelContentAlreadyDetermined){
+            pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
+        }
+
         var lTextGroup = renderlabels.createLabel(
             pArc,
             {
