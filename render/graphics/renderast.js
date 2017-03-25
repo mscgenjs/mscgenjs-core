@@ -48,7 +48,6 @@ define(function(require) {
         "maxDepth"               : 0,
         "document"               : {},
         "layer"                  : {
-            "defs"         : {},
             "lifeline"     : {},
             "sequence"     : {},
             "notes"        : {},
@@ -145,7 +144,6 @@ define(function(require) {
 
     function createLayerShortcuts (pDocument){
         return {
-            defs      : pDocument.getElementById(idmanager.get("__defs")),
             lifeline  : pDocument.getElementById(idmanager.get("__lifelinelayer")),
             sequence  : pDocument.getElementById(idmanager.get("__sequencelayer")),
             notes     : pDocument.getElementById(idmanager.get("__notelayer")),
@@ -523,7 +521,6 @@ define(function(require) {
                     svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH
                 )
             );
-            // gChart.layer.defs.appendChild(lElement);
         });// for all arcs in a row
 
         /*

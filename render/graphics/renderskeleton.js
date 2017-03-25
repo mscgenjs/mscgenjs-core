@@ -61,7 +61,6 @@ define(function(require) {
         var lDefs = svgelementfactory.createDefs();
         lDefs.appendChild(setupStyle(pOptions, pElementId));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
-        lDefs.appendChild(svgelementfactory.createGroup(pElementId + "__defs"));
         return lDefs;
     }
 
