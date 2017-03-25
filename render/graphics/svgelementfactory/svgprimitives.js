@@ -318,7 +318,7 @@ define(function(require) {
          * @param {string} pClass - reference to the css class to be applied
          * @return {SVGElement}
          */
-        createUTurn: function (pPoint, pEndY, pWidth, pClass, pOptions) {
+        createUTurn: function (pPoint, pEndY, pWidth, pClass, pOptions, pHeight) {
             var lOptions = _.defaults(
                 pOptions,
                 {
@@ -331,9 +331,9 @@ define(function(require) {
 
             return createPath(
                 // point to start from:
-                pathPoint2String("M", pPoint.x, -pPoint.y) +
+                pathPoint2String("M", pPoint.x, pPoint.y - (pHeight / 2)) +
                 // curve first to:
-                pathPoint2String("C", pPoint.x + pWidth, pPoint.y - 7.5 * pOptions.lineWidth) +
+                pathPoint2String("C", pPoint.x + pWidth, pPoint.y - ((7.5 * pOptions.lineWidth) / 2)) +
                 // curve back from.:
                 point2String(pPoint.x + pWidth, pEndY + 0) +
                 // curve end-pont:
