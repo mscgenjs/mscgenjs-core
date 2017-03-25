@@ -450,27 +450,48 @@ define(function(require) {
         return lElement;
     }
 
-    function calculateY (pElement, pRowNumber, pPrevious) {
-        var lHeight = Math.max(
-            rowmemory.get(pRowNumber).height,
-            svgutensils.getBBox(pElement).height + 2 * constants.LINE_WIDTH
-        );
+    function getArcRowHeight (pArcRow, pRowNumber, pEntities) {
+        var lRowMemory = [];
 
-        return pPrevious.y + (pPrevious.height + lHeight) / 2;
+        pArcRow.forEach(function(pArc){
+            var lElement = {};
+
+            switch (aggregatekind.getAggregate(pArc.kind)) {
+            case ("emptyarc"):
+                lElement = renderEmptyArc(pArc, 0);
+                break;
+            case ("box"):
+                lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, 0);
+                break;
+            case ("inline_expression"):
+                lElement = renderInlineExpressionLabel(pArc, 0);
+                break;
+            default:
+                lElement = renderRegularArc(pArc, pEntities, lRowMemory, 0);
+            }// switch
+
+            rowmemory.set(
+                pRowNumber,
+                Math.max(
+                    rowmemory.get(pRowNumber).height,
+                    svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH
+                )
+            );
+        });// for all arcs in a row
     }
 
     function renderArcRow (pArcRow, pRowNumber, pEntities){
         var lArcRowClass = "arcrow";
         var lRowMemory = [];
 
+        getArcRowHeight(pArcRow, pRowNumber, pEntities);
+
         pArcRow.forEach(function(pArc){
             var lElement = {};
-            var lPreviousRowInfo = rowmemory.get(pRowNumber - 1);
 
             switch (aggregatekind.getAggregate(pArc.kind)) {
             case ("emptyarc"):
-                lElement = renderEmptyArc(pArc, 0);
-                lElement = renderEmptyArc(pArc, calculateY(lElement, pRowNumber, lPreviousRowInfo));
+                lElement = renderEmptyArc(pArc, rowmemory.get(pRowNumber).y);
                 if ("..." === pArc.kind) {
                     lArcRowClass = "arcrowomit";
                 }
@@ -480,11 +501,10 @@ define(function(require) {
                 });
                 break;
             case ("box"):
-                lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, 0);
                 lElement = createBox(
                     entities.getOAndD(pArc.from, pArc.to),
                     pArc,
-                    calculateY(lElement, pRowNumber, lPreviousRowInfo)
+                    rowmemory.get(pRowNumber).y
                 );
                 lRowMemory.push({
                     title : pArc.title,
@@ -493,8 +513,7 @@ define(function(require) {
                 });
                 break;
             case ("inline_expression"):
-                lElement = renderInlineExpressionLabel(pArc, 0);
-                lElement = renderInlineExpressionLabel(pArc, calculateY(lElement, pRowNumber, lPreviousRowInfo));
+                lElement = renderInlineExpressionLabel(pArc, rowmemory.get(pRowNumber).y);
                 lRowMemory.push({
                     layer : gChart.layer.notes,
                     element: lElement
@@ -505,22 +524,14 @@ define(function(require) {
                 });
                 break;
             default:
-                lElement = renderRegularArc(pArc, pEntities, lRowMemory, 0);
                 lElement = renderRegularArc(
                     pArc,
                     pEntities,
                     lRowMemory,
-                    calculateY(lElement, pRowNumber, lPreviousRowInfo)
+                    rowmemory.get(pRowNumber).y
                 );
             }// switch
 
-            rowmemory.set(
-                pRowNumber,
-                Math.max(
-                    rowmemory.get(pRowNumber).height,
-                    svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH
-                )
-            );
         });// for all arcs in a row
 
         /*
