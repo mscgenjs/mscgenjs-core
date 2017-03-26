@@ -196,8 +196,8 @@ define(function(require) {
          * @param {string} pID
          * @returns {Element}
          */
-        createDesc: function (pId) {
-            return domprimitives.createElement("desc", {"id": pId});
+        createDesc: function () {
+            return domprimitives.createElement("desc");
         },
 
         /**
