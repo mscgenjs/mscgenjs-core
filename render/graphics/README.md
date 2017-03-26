@@ -27,12 +27,9 @@ We use the following structure for the svg
       line widths etc.
     - a list of `marker`s - one for each of the arrow heads possible
       in sequence charts.
-    - a `g`roup containing all elements to be rendered: entities,
-      arcs, inline expressions
 - The body `g`roup. This consists of 5 groups, each of which
-  represents a layer. The layers themselves contain nothing else than
-  a reference (`use` s) to the groups defined in `defs/g`,
-  unless noted differently. The body also contains the translation
+  represents a layer. The layers themselves contain slices of the
+  sequence chart. The body also contains the translation
   of the `hscale` and `width` options by way of a `transform`
   attribute. The layers from bottom to top:
     - background (a white rectangle the size of the diagram. Put in
