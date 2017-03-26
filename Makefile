@@ -115,7 +115,7 @@ static-analysis:
 	$(NPM) run plato
 
 test: dev-build
-	$(NPM) run test
+	$(NPM) test
 
 nsp:
 	$(NPM) run nsp

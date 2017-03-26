@@ -41,37 +41,38 @@
             id="inputscript"
             cols="60" rows="0"
             spellcheck="false"
-            placeholder="Put your nice msgenny script in here"># MsGenny: a cheat sheet
+            placeholder="Put your nice msgenny script in here">msc {
+  hscale="0.9";
 
-a : Entity A, b : Entity B, c : Entity C, d : Entity D;
+  a, b[label="Entity B with an url", url="#thisisanentity"], c, d;
 
-a -> b : a -> b\n(signal)\nthree,
-b <-> c : b <-> c,
-c -- d : c -- d,
-d -> d : d -> d;
-a => b : a => b  (method),
-b <=> c : b <=> c,
-d => d : d => d;
-b >> a : b >> a (return value),
-b <<>> c : b <<>> c,
-c .. d : c .. d (dotted),
-d >> d : d >> d;
-a =>> b : a =>> b (callback),
-b <<=>> c : b <<=>> c,
-d =>> d : d =>> d;
-a -x b : a -x b  (lost),
-d -x d : d -x d;
-a :> b : a :> b (emphasis),
-b <:> c : b <:> c,
-c :: d : c :: d,
-d :> d : d :> d;
-a note a : a note a \n(note),
-b box b : b box b\n(action),
-c rbox c : c rbox c\n(reference),
-d abox d : d abox d\n(state/ condition);
-||| : ||| (empty row);
-... : ... (omitted row);
---- : --- (comment);
+  a -> b [label="a -> b  (signal)", url="#signal"],
+  b &lt;-> c [label="b &lt;-> c"],
+  c -- d [label="c -- d"],
+  d -> d [label="d -> d"];
+  a => b [label="a => b  (method)", url="#method"],
+  b &lt;=> c [label="b &lt;=> c"],
+  d => d [label="d => d", url="#fromdtod"];
+  b >> a [label="b >> a (return value)", url="#returnvalue"],
+  b &lt;&lt;>> c [label="b &lt;&lt;>> c"],
+  c .. d [label="c .. d (dotted)"],
+  d >> d [label="d >> d"];
+  a =>> b [label="a =>> b (callback)"],
+  b &lt;&lt;=>> c [label="b &lt;&lt;=>> c"],
+  d =>> d [label="d =>> d"];
+  a -x b [label="a -x b  (lost)"],
+  d -x d [label="d -x d"];
+  a :> b [label="a :> b  (emphasis)"],
+  b &lt;:> c [label="b &lt;:> c"],
+  d :> d [label="d :> d"];
+  b note b [label="b note b \n(note)"],
+  c box c [label="c box c\n(action)"];
+  b rbox b [label="b rbox b\n(reference)"],
+  c abox c [label="c abox c\n(state/ condition)", url="#statecondition"];
+  ||| [label="||| (empty row)", url="#emptyrow"];
+  ... [label="... (omitted row)"];
+  --- [label="--- (comment)"];
+}
 </textarea>
         <div class="buttonia">
             <button type="button" id="render">render</button>

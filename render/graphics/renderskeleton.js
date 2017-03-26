@@ -11,7 +11,6 @@ define(function(require) {
      *  defs
      *      a list of markers used as arrow heads (each with an own id)
      *      a stylesheet (without an id)
-     *      __defs - placeholder to put the msc elements in
      *  __body - a stack of layers, from bottom to top:
      *      __background    -
      *      __arcspanlayer  - for inline expressions ("arc spanning arcs")
@@ -55,13 +54,12 @@ define(function(require) {
     }
 
     function setupDefs(pElementId, pMarkerDefs, pOptions) {
-        /* definitions - which will include style, markers and an element
-         * to put "dynamic" definitions in
+        /*
+         * definitions - which will include style and markers
          */
         var lDefs = svgelementfactory.createDefs();
         lDefs.appendChild(setupStyle(pOptions, pElementId));
         lDefs = setupMarkers(lDefs, pMarkerDefs);
-        lDefs.appendChild(svgelementfactory.createGroup(pElementId + "__defs"));
         return lDefs;
     }
 
