@@ -160,26 +160,26 @@ describe('#geometry', function() {
             it("returns points along the line", function(){
                 expect(lBetweenPoints).to.deep.equal([
                     {
-                        "controlX": 8.939,
-                        "controlY": 1.061,
-                        "x": 7.879,
-                        "y": 2.121
+                        "controlX": 8.94,
+                        "controlY": 1.06,
+                        "x": 7.88,
+                        "y": 2.12
                     },
                     {
-                        "controlX": 6.818,
-                        "controlY": 3.182,
-                        "x": 5.757,
-                        "y": 4.243
+                        "controlX": 6.82,
+                        "controlY": 3.18,
+                        "x": 5.76,
+                        "y": 4.24
                     },
                     {
-                        "controlX": 4.697,
-                        "controlY": 5.303,
-                        "x": 3.636,
-                        "y": 6.364
+                        "controlX": 4.7,
+                        "controlY": 5.3,
+                        "x": 3.64,
+                        "y": 6.36
                     },
                     {
-                        "controlX": 2.575,
-                        "controlY": 7.425,
+                        "controlX": 2.58,
+                        "controlY": 7.42,
                         "x": 0,
                         "y": 10
                     }

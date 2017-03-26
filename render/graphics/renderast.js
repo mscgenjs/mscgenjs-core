@@ -326,14 +326,20 @@ define(function(require) {
     function renderEntitiesOnBottom(pEntities) {
         var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
 
-        gChart.layer.lifeline.appendChild(
-            renderLifeLines(
-                pEntities,
-                "arcrow",
-                null,
-                lLifeLineSpacerY
-            )
-        );
+        /*
+            insert a life line between the last arc and the entities so there's
+            some visual breathing room
+         */
+
+        createLifeLines(
+            pEntities,
+            "arcrow",
+            null,
+            lLifeLineSpacerY
+        ).forEach(function(pLifeLine){
+            gChart.layer.lifeline.appendChild(pLifeLine);
+        });
+
         gChart.layer.sequence.appendChild(
             svgelementfactory.createUse(
                 {
@@ -379,7 +385,6 @@ define(function(require) {
         var xTo    = 0;
         var lLabel = pArc.label;
         var xFrom  = entities.getX(pArc.from);
-        var lPushIt = pY > 0;
 
         pArc.label = "";
 
@@ -389,12 +394,10 @@ define(function(require) {
             if (pEntity.name !== pArc.from) {
                 xTo = entities.getX(pEntity.name);
                 lElement = createArc(pArc, xFrom, xTo, pY);
-                if (lPushIt) {
-                    lRowMemory.push({
-                        layer : gChart.layer.sequence,
-                        element: lElement
-                    });
-                }
+                lRowMemory.push({
+                    layer : gChart.layer.sequence,
+                    element: lElement
+                });
             }
         });
 
@@ -403,7 +406,6 @@ define(function(require) {
 
     function renderRegularArc(pArc, pEntities, pRowMemory, pY){
         var lElement = {};
-        var lPushIt = pY > 0;
 
         if (pArc.from && pArc.to) {
             if (pArc.to === "*") { // it's a broadcast arc
@@ -423,13 +425,11 @@ define(function(require) {
                             wordWrapArcs  : gChart.wordWrapArcs
                         }
                     );
-                if (lPushIt) {
-                    pRowMemory.push({
-                        title : pArc.title,
-                        layer : gChart.layer.sequence,
-                        element: lElement
-                    });
-                }
+                pRowMemory.push({
+                    title : pArc.title,
+                    layer : gChart.layer.sequence,
+                    element: lElement
+                });
             } else { // it's a regular arc
                 lElement =
                     createArc(
@@ -438,20 +438,18 @@ define(function(require) {
                         entities.getX(pArc.to),
                         pY
                     );
-                if (lPushIt) {
-                    pRowMemory.push({
-                        title : pArc.title,
-                        layer : gChart.layer.sequence,
-                        element: lElement
-                    });
-                }
+                pRowMemory.push({
+                    title : pArc.title,
+                    layer : gChart.layer.sequence,
+                    element: lElement
+                });
             }  // / lTo or pArc.from === "*"
         }// if both a from and a to
         return lElement;
     }
 
     function getArcRowHeight (pArcRow, pRowNumber, pEntities) {
-        var lRowMemory = [];
+        var lRetval = 0;
 
         pArcRow.forEach(function(pArc){
             var lElement = {};
@@ -467,24 +465,29 @@ define(function(require) {
                 lElement = renderInlineExpressionLabel(pArc, 0);
                 break;
             default:
-                lElement = renderRegularArc(pArc, pEntities, lRowMemory, 0);
+                lElement = renderRegularArc(pArc, pEntities, [], 0);
             }// switch
 
-            rowmemory.set(
-                pRowNumber,
-                Math.max(
-                    rowmemory.get(pRowNumber).height,
-                    svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH
-                )
+            lRetval = Math.max(
+                lRetval,
+                svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH
             );
         });// for all arcs in a row
+
+        return lRetval;
     }
 
     function renderArcRow (pArcRow, pRowNumber, pEntities){
         var lArcRowClass = "arcrow";
         var lRowMemory = [];
 
-        getArcRowHeight(pArcRow, pRowNumber, pEntities);
+        rowmemory.set(
+            pRowNumber,
+            Math.max(
+                rowmemory.get(pRowNumber).height,
+                getArcRowHeight(pArcRow, pRowNumber, pEntities)
+            )
+        );
 
         pArcRow.forEach(function(pArc){
             var lElement = {};
@@ -537,14 +540,14 @@ define(function(require) {
         /*
          *  only here we can determine the height of the row and the y position
          */
-        gChart.layer.lifeline.appendChild(
-            renderLifeLines(
-                pEntities,
-                lArcRowClass,
-                rowmemory.get(pRowNumber).height,
-                rowmemory.get(pRowNumber).y
-            )
-        );
+        createLifeLines(
+            pEntities,
+            lArcRowClass,
+            rowmemory.get(pRowNumber).height,
+            rowmemory.get(pRowNumber).y
+        ).forEach(function(pLifeLine){
+            gChart.layer.lifeline.appendChild(pLifeLine);
+        });
 
         lRowMemory.forEach(function(pRowMemoryLine){
             if (pRowMemoryLine.element){
@@ -565,9 +568,14 @@ define(function(require) {
         gInlineExpressionMemory = [];
 
         /* put some space between the entities and the arcs */
-        gChart.layer.lifeline.appendChild(
-            renderLifeLines(pEntities, "arcrow", null, rowmemory.get(-1).y)
-        );
+        createLifeLines(
+            pEntities,
+            "arcrow",
+            null,
+            rowmemory.get(-1).y
+        ).forEach(function(pLifeLine){
+            gChart.layer.lifeline.appendChild(pLifeLine);
+        });
 
         if (pArcRows) {
             for (var i = 0; i < pArcRows.length; i++){
@@ -677,13 +685,12 @@ define(function(require) {
         );
     }
 
-    function renderLifeLines(pEntities, pClass, pHeight, pY) {
+    function createLifeLines(pEntities, pClass, pHeight, pY) {
         if (!pHeight || pHeight < gChart.arcRowHeight) {
             pHeight = gChart.arcRowHeight;
         }
-        var lGroup = svgelementfactory.createGroup();
 
-        pEntities.forEach(function(pEntity) {
+        return pEntities.map(function(pEntity) {
             var lLine = svgelementfactory.createLine(
                 {
                     xFrom: entities.getX(pEntity.name),
@@ -698,10 +705,8 @@ define(function(require) {
             if (pEntity.linecolor) {
                 lLine.setAttribute("style", "stroke:" + pEntity.linecolor + ";");
             }
-            lGroup.appendChild(lLine);
+            return lLine;
         });
-
-        return lGroup;
     }
 
     function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {

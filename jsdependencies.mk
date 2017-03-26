@@ -68,7 +68,8 @@ render/graphics/svgelementfactory/straight.js: \
 render/graphics/svgelementfactory/svgprimitives.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/svgelementfactory/domprimitives.js \
-	render/graphics/svgelementfactory/geometry.js
+	render/graphics/svgelementfactory/geometry.js \
+	render/graphics/svgelementfactory/round.js
 
 render/graphics/svgelementfactory/wobbly.js: \
 	render/graphics/svgelementfactory/svgprimitives.js \
@@ -188,7 +189,8 @@ render/graphics/svgelementfactory/straight.js: \
 render/graphics/svgelementfactory/svgprimitives.js: \
 	lib/lodash/lodash.custom.js \
 	render/graphics/svgelementfactory/domprimitives.js \
-	render/graphics/svgelementfactory/geometry.js
+	render/graphics/svgelementfactory/geometry.js \
+	render/graphics/svgelementfactory/round.js
 
 render/graphics/svgelementfactory/wobbly.js: \
 	render/graphics/svgelementfactory/svgprimitives.js \
