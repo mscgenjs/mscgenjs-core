@@ -28,9 +28,3 @@ svg.<%=id%>{
 .<%=id%> .label-text-background{
     opacity:0
 }
-.<%=id%> .comment,
-    .<%=id%> .inline_expression,
-    .<%=id%> .inline_expression_divider,
-    .<%=id%> .inline_expression_label{
-    stroke:black
-}
