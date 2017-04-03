@@ -102,8 +102,10 @@
     function hasExtendedOptions (pOptions){
         if (pOptions){
             return (
-                 !!pOptions["watermark"] ||
-                (!!pOptions["width"] && !!pOptions["width"] === "auto")
+                     pOptions.hasOwnProperty("watermark")
+                  || pOptions.hasOwnProperty("wordwrapentities")
+                  || pOptions.hasOwnProperty("wordwrapboxes")
+                  || ( pOptions.hasOwnProperty("width") && pOptions.width === "auto")
             );
         } else {
             return false;
@@ -184,6 +186,14 @@ option
             return nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
+        {
+            return nameValue2Option(name, flattenBoolean(value));
+        }
+    / _ name:"wordwrapentities"i _ "=" _ value:booleanlike _
+        {
+            return nameValue2Option(name, flattenBoolean(value));
+        }
+    / _ name:"wordwrapboxes"i _ "=" _ value:booleanlike _
         {
             return nameValue2Option(name, flattenBoolean(value));
         }

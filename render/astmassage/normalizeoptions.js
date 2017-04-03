@@ -3,27 +3,20 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(function() {
+define(function(require) {
     "use strict";
 
-    /**
-     * Rounds pNumber to pPrecision numbers after the decimal separator
-     *
-     * e.g.:
-     * - round(3.141592653589, 3) === 3.142
-     * - round(2.7, 0) === round(2.7) === 3
-     * - round(2.7, 10) === 2.7
-     * - round(14.00000001, 2) === 14
-     *
-     * @param  {number} pNumber     The number to round
-     * @param  {integer} pPrecision The number of decimals to keep. Optional.
-     *                              Defaults to 0
-     * @return number               The rounded number
-     */
-    return function (pNumber, pPrecision){
-        return pPrecision
-            ? Math.round(pNumber * Math.pow(10, pPrecision), pPrecision) / Math.pow(10, pPrecision)
-            : Math.round(pNumber);
+    var _ = require("../../lib/lodash/lodash.custom");
+
+    return function(pOptions) {
+        return _.defaults(
+            pOptions || {},
+            {
+                wordwraparcs     : false,
+                wordwrapentities : true,
+                wordwrapboxes    : true
+            }
+        );
     };
 });
 /*

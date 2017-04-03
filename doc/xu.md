@@ -140,6 +140,14 @@ xu {
 ### watermark
 Just like msgenny, Xù supports a "watermark" _option_: ```watermark="xù rocks!"```; that puts a watermark diagonally on the rendered chart.
 
+### autowrapping options
+MscGen has an option to automatically wrap text on regular arcs
+(`wordwraparcs`), which is off by default. Text in any box
+(`note`, `box`, `rbox` and `abox`) always automatically wraps to fit into
+the box.
+
+In addition Xù and MsGenny
+
 ### title - for tool tips
 
 From version 1.9.0 the xù language supports the `title` attribute. In SVG output
@@ -158,8 +166,8 @@ xu {
       title="This is a title for an rbox"
   ];
   b =>> b [
-      label="self reference", 
-      title="Title for a self referencing arc" 
+      label="self reference",
+      title="Title for a self referencing arc"
   ];
 }
 ```

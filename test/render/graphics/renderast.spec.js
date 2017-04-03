@@ -155,6 +155,22 @@ describe('render/graphics/renderast', function() {
                 processAndCompare(path.join(__dirname, '../../fixtures/inline-expressions-and-parallel-stuff.svg'),
                 path.join(__dirname, '../../fixtures/inline-expressions-and-parallel-stuff.json'), true, true);
             });
+            it('should wrap entity text when wordwrapentities is unspecified', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/wordwrapentitiesunspecified.svg'),
+                path.join(__dirname, '../../fixtures/wordwrapentitiesunspecified.json'), true, true);
+            });
+            it('when wordwrapentities === false should only wrap at explicit line ends', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/wordwrapentitiesfalse.svg'),
+                path.join(__dirname, '../../fixtures/wordwrapentitiesfalse.json'), true, true);
+            });
+            it('when wordwrapboxes === true should wrap things in boxes', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/wordwrapboxestrue.svg'),
+                path.join(__dirname, '../../fixtures/wordwrapboxestrue.json'), true, true);
+            });
+            it('when wordwrapboxes === false should only wrap at explicit line ends', function() {
+                processAndCompare(path.join(__dirname, '../../fixtures/wordwrapboxesfalse.svg'),
+                path.join(__dirname, '../../fixtures/wordwrapboxesfalse.json'), true, true);
+            });
         });
     });
     it('dummy so mocha executes the tests wrapped in jsdom', function(){

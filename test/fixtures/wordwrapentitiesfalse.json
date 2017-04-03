@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "extendedOptions": true,
+    "extendedArcTypes": false,
+    "extendedFeatures": true
+  },
+  "options": {
+    "width": "auto",
+    "wordwraparcs": false,
+    "wordwrapentities": false
+  },
+  "entities": [
+    {
+      "name": "111.222.333.444",
+      "label": "Echo 144\\n111.222.333.444"
+    },
+    {
+      "name": "SBC",
+      "label": "\\nSBC"
+    },
+    {
+      "name": "55.555.555.555",
+      "label": "TOOLS\\n55.555.555.555"
+    },
+    {
+      "name": "666.66.666.666",
+      "label": "please-dont-wrap\\n666.66.666.666"
+    }
+  ]
+}
