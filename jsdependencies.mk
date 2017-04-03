@@ -42,7 +42,11 @@ render/astmassage/flatten.js: \
 	render/astmassage/aggregatekind.js \
 	render/astmassage/asttransform.js \
 	render/astmassage/normalizekind.js \
+	render/astmassage/normalizeoptions.js \
 	render/textutensils/escape.js
+
+render/astmassage/normalizeoptions.js: \
+	lib/lodash/lodash.custom.js
 
 render/graphics/entities.js: \
 	render/graphics/renderlabels.js
@@ -163,7 +167,11 @@ render/astmassage/flatten.js: \
 	render/astmassage/aggregatekind.js \
 	render/astmassage/asttransform.js \
 	render/astmassage/normalizekind.js \
+	render/astmassage/normalizeoptions.js \
 	render/textutensils/escape.js
+
+render/astmassage/normalizeoptions.js: \
+	lib/lodash/lodash.custom.js
 
 render/graphics/entities.js: \
 	render/graphics/renderlabels.js
@@ -307,6 +315,9 @@ test/render/astmassage/colorize.spec.js: \
 test/render/astmassage/flatten.spec.js: \
 	render/astmassage/flatten.js \
 	test/astfixtures.json
+
+test/render/astmassage/normalizeoptions.spec.js: \
+	render/astmassage/normalizeoptions.js
 
 test/render/graphics/geometry.spec.js: \
 	render/graphics/svgelementfactory/geometry.js

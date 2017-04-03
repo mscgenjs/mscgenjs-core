@@ -86,9 +86,6 @@ mscgen_js -T mscgen -i yourchart.msgenny -o yourchart.mscgen
 mscgen_js -T msgenny -i yourchart.mscgen -o yourchart.msgenny
 ```
 
-
-
-
 <table>
     <tr><th>feature</th><th>MscGen</th><th>MsGenny</th></tr>
     <tr>
@@ -149,7 +146,7 @@ mscgen_js -T msgenny -i yourchart.mscgen -o yourchart.msgenny
     <tr>
         <td>options</td>
         <td>hscale, arcgradient, width, wordwraparcs </td>
-        <td>same as mscgen, plus "watermark" (which works as in xù)</td>
+        <td>same as mscgen, plus "wordwrapentities", "wordwrapboxes" and "watermark" (which work as in xù)</td>
     </tr>
     <tr>
         <td>comments</td>

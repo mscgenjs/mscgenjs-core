@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "extendedOptions": true,
+    "extendedArcTypes": false,
+    "extendedFeatures": true
+  },
+  "options": {
+    "hscale": "1.3",
+    "wordwrapboxes": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b",
+      "label": "this entity text will wrap very much on its own accord - not influenced by the wordwrapboxes thing"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "box",
+        "from": "a",
+        "to": "a",
+        "label": "Het was zomerdag.\\n\n         De doodstille straat lag\\n\n         te blakeren in de zon.\\n\n         Een man kwam de hoek om."
+      },
+      {
+        "kind": "note",
+        "from": "b",
+        "to": "b",
+        "label": "Er speelde in de verte op de stoep\\n\n         een groep kinderen, maar die groep\\n\n         betekende niet veel,\\n\n         maakte, integendeel,\\n\n         dat de straat nog verlatener scheen."
+      },
+      {
+        "kind": "abox",
+        "from": "c",
+        "to": "c",
+        "label": "De zon had het rijk alleen."
+      }
+    ],
+    [
+      {
+        "kind": "rbox",
+        "from": "a",
+        "to": "b",
+        "label": "Zelfs zij, wier tweede natuur\n         hen bestemde, hier, op dit uur,\\n\n         te wandelen: de student,\n         de dame die niemand kent,\\n\n         de leraar met pensioen,\n         waren van hun gewone doen\n         afgeweken vandaag;\n         men miste, miste hen vaag."
+      }
+    ]
+  ]
+}
