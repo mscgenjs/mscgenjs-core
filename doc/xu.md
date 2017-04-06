@@ -143,10 +143,12 @@ Just like msgenny, Xù supports a "watermark" _option_: ```watermark="xù rocks!
 ### autowrapping options
 MscGen has an option to automatically wrap text on regular arcs
 (`wordwraparcs`), which is off by default. Text in any box
-(`note`, `box`, `rbox` and `abox`) always automatically wraps to fit into
-the box.
+(`note`, `box`, `rbox` and `abox`) or entity always automatically wraps
+to fit into the box.
 
-In addition Xù and MsGenny
+Both Xù and MsGenny have options to also switch that off - `wordwrapboxes`
+on false makes sure no text in any box gets wrapped. Likewise `wordwrapentities`
+on false makes sure no text in entities gets wrapped.
 
 ### title - for tool tips
 
