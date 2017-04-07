@@ -1,3 +1,6 @@
+.<%=id%> .entity{
+    stroke:none;
+}
 .<%=id%> text.entity-text{
     text-decoration:underline;
 }

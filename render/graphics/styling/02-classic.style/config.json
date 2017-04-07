@@ -1,5 +1,6 @@
 {
     "experimental": false,
+    "deprecated": false,
     "description": "Classic",
     "renderMagic": "straight"
 }

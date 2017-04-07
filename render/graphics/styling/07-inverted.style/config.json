@@ -1,5 +1,6 @@
 {
     "experimental": true,
+    "deprecated": false,
     "description": "Inverted (not in IE or Safari)",
     "renderMagic": "straight"
 }

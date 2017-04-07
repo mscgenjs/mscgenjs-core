@@ -1,5 +1,6 @@
 {
     "experimental": true,
+    "deprecated": false,
     "description": "Grayscaled (not in IE or Safari)",
     "renderMagic": "straight"
 }

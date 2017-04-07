@@ -1,6 +1,5 @@
 .<%=id%> text.entity-text{
     font-weight:bold;
-    text-decoration:none;
 }
 .<%=id%> text.return-text{
     font-style:italic

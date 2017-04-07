@@ -1,5 +1,6 @@
 {
     "experimental": false,
+    "deprecated": true,
     "description": "Pégase (best with msgenny)",
     "renderMagic": "straight"
 }

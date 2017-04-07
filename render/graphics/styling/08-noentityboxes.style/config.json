@@ -1,6 +1,6 @@
 {
     "experimental": false,
     "deprecated": false,
-    "description": "Basic",
+    "description": "No entity boxes",
     "renderMagic": "straight"
 }

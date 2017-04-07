@@ -38,9 +38,6 @@ svg.<%=id%>{
     stroke:none;
     text-anchor:middle
 }
-.<%=id%> text.entity-text{
-    text-decoration:underline
-}
 .<%=id%> text.anchor-start{
     text-anchor:start
 }
@@ -57,7 +54,6 @@ svg.<%=id%>{
     stroke-dasharray:2,2
 }
 .<%=id%> .box, .<%=id%> .entity{
-    fill:white;
     stroke-linejoin:round
 }
 .<%=id%> .inherit{
