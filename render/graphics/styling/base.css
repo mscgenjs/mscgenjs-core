@@ -54,6 +54,7 @@ svg.<%=id%>{
     stroke-dasharray:2,2
 }
 .<%=id%> .box, .<%=id%> .entity{
+    fill:white;
     stroke-linejoin:round
 }
 .<%=id%> .inherit{

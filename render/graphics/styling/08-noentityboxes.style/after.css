@@ -1,4 +1,5 @@
 .<%=id%> .entity{
+    fill:none;
     stroke:none;
 }
 .<%=id%> text.entity-text{

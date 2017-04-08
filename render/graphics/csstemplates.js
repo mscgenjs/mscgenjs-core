@@ -6,7 +6,7 @@ if (typeof define !== 'function') {
 define(function() {
     "use strict";
     return {
-        baseTemplate : "svg.<%=id%>{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>}.<%=id%> path, .<%=id%> rect{fill:none}.<%=id%> .label-text-background{fill:white;stroke:white;stroke-width:0}.<%=id%> .bglayer{fill:white;stroke:white;stroke-width:0}.<%=id%> line{}.<%=id%> .return, .<%=id%> .comment{stroke-dasharray:5,3}.<%=id%> .inline_expression_divider{stroke-dasharray:10,5}.<%=id%> text{color:inherit;stroke:none;text-anchor:middle}.<%=id%> text.anchor-start{text-anchor:start}.<%=id%> .arrow-marker{overflow:visible}.<%=id%> .arrow-style{stroke-width:1}.<%=id%> .arcrow, .<%=id%> .arcrowomit, .<%=id%> .emphasised{stroke-linecap:butt}.<%=id%> .arcrowomit{stroke-dasharray:2,2}.<%=id%> .box, .<%=id%> .entity{stroke-linejoin:round}.<%=id%> .inherit{stroke:inherit;color:inherit}.<%=id%> .inherit-fill{fill:inherit}.<%=id%> .watermark{font-size:48pt;font-weight:bold;opacity:0.14}",
+        baseTemplate : "svg.<%=id%>{font-family:Helvetica,sans-serif;font-size:<%=fontSize%>px;font-weight:normal;font-style:normal;text-decoration:none;background-color:white;stroke:black;stroke-width:<%=lineWidth%>}.<%=id%> path, .<%=id%> rect{fill:none}.<%=id%> .label-text-background{fill:white;stroke:white;stroke-width:0}.<%=id%> .bglayer{fill:white;stroke:white;stroke-width:0}.<%=id%> line{}.<%=id%> .return, .<%=id%> .comment{stroke-dasharray:5,3}.<%=id%> .inline_expression_divider{stroke-dasharray:10,5}.<%=id%> text{color:inherit;stroke:none;text-anchor:middle}.<%=id%> text.anchor-start{text-anchor:start}.<%=id%> .arrow-marker{overflow:visible}.<%=id%> .arrow-style{stroke-width:1}.<%=id%> .arcrow, .<%=id%> .arcrowomit, .<%=id%> .emphasised{stroke-linecap:butt}.<%=id%> .arcrowomit{stroke-dasharray:2,2}.<%=id%> .box, .<%=id%> .entity{fill:white;stroke-linejoin:round}.<%=id%> .inherit{stroke:inherit;color:inherit}.<%=id%> .inherit-fill{fill:inherit}.<%=id%> .watermark{font-size:48pt;font-weight:bold;opacity:0.14}",
         namedStyles : [
     {
         "name": "basic",
@@ -87,7 +87,7 @@ define(function() {
         "deprecated": false,
         "renderMagic": "straight",
         "cssBefore": "",
-        "cssAfter": ".<%=id%> .entity{stroke:none;}.<%=id%> text.entity-text{text-decoration:underline;}"
+        "cssAfter": ".<%=id%> .entity{fill:none;stroke:none;}.<%=id%> text.entity-text{text-decoration:underline;}"
     }
 ]
     };
