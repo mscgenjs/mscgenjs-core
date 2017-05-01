@@ -14,7 +14,7 @@ pegjs --format umd -o mscgenparser.js mscgenparser.pegjs
 ```
 
 (To create a parser that is usable with require.js, we used to need
-a script that did some magic replacements - with pegjs' --format umd
+a script that did some magic replacements - with pegjs' `--format umd`
 option that's no longer necessary.)
 
 ## The abstract syntax tree
