@@ -10,19 +10,12 @@ object. In this section we describe
 To create javascript from the .pegjs source usable in node and
 commonjs:
 ```bash
-pegjs mscgenparser.pegjs > mscgenparser_node.js
+pegjs --format umd -o mscgenparser.js mscgenparser.pegjs
 ```
 
-To create a parser that is usable in require.js, the line
-`module.exports = (function(){` in the generated parser
-needs to be replaced with  `define ([], function(){`.  The
-`commonjs2amd.sh` script in the utl directory does just that and
-adds an amd loader boiler plate, so the resulting parser is \
-usable both as amd and as commonjs module.
-Usage:
-```bash
-commonjs2amd.sh mscgenparser_node.js > mscgenparser.js
-```
+(To create a parser that is usable with require.js, we used to need
+a script that did some magic replacements - with pegjs' `--format umd`
+option that's no longer necessary.)
 
 ## The abstract syntax tree
 All parsers generate a JSON syntax tree that consist of three
