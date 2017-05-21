@@ -17,26 +17,24 @@
  *  ```
  */
 
-var jsdom = require("jsdom");
-var renderast = require("../render/graphics/renderast");
+const JSDOM = require("jsdom").JSDOM;
+const window = new JSDOM("<html><body></body></html>").window;
+const renderast = require("../render/graphics/renderast");
 
-jsdom.env("<html><body></body></html>", function(err, window) {
-    var gInput = "";
+let gInput = "";
 
-    process.stdin.resume();
-    process.stdin.setEncoding("utf8");
+process.stdin.resume();
+process.stdin.setEncoding("utf8");
 
-    process.stdin.on("data", function(pChunk) {
-        gInput += pChunk;
-    });
+process.stdin.on("data", function(pChunk) {
+    gInput += pChunk;
+});
 
-    process.stdin.on("end", function() {
-        var lAST = JSON.parse(gInput);
-        renderast.renderAST(lAST, gInput, "__svg", window);
-        process.stdout.write(window.document.body.innerHTML);
-        process.stdin.pause();
-    });
-
+process.stdin.on("end", function() {
+    const lAST = JSON.parse(gInput);
+    renderast.renderAST(lAST, gInput, "__svg", window);
+    process.stdout.write(window.document.body.innerHTML);
+    process.stdin.pause();
 });
 /*
  This file is part of mscgen_js.

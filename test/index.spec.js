@@ -1,7 +1,7 @@
 /* eslint max-nested-callbacks: 0 */
 // const mscgenjs = require("../index-lazy");
 const fix      = require("./astfixtures.json");
-const jsdom    = require("jsdom");
+const JSDOM    = require("jsdom").JSDOM;
 const chai     = require("chai");
 const expect   = chai.expect;
 const version  = require("../package.json").version;
@@ -89,47 +89,45 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
             });
         });
 
-        jsdom.env("<html><body><span id='__svg'></span></body></html>", function(err, pWindow) {
-            describe('#renderMsc()', () => {
-                it('should given given a simple MscGen program, render an svg', () => {
-                    mscgenjs.renderMsc(
-                        SIMPLE_MSCGEN,
-                        {window: pWindow},
-                        function(pError, pResult){
-                            expect(pError).to.be.null;
-                            expect(pResult).xml.to.be.valid();
-                        }
-                    );
-                });
-                it('should given given an invalid MscGen program, throw an error', () => {
-                    mscgenjs.renderMsc(
-                        SIMPLE_XU,
-                        {window: pWindow},
-                        function(pError, pResult){
-                            expect(pError).to.be.not.null;
-                            expect(pError).to.be.instanceof(Error);
-                            expect(pResult).to.be.null;
-                        }
-                    );
-                });
-                it('should given given a simple AST, render an svg', () => {
-                    mscgenjs.renderMsc(
-                        JSON.stringify(fix.astOneAlt, null, ""),
-                        {
-                            inputType: "json",
-                            window: pWindow,
-                            includeSource: false
-                        },
-                        function(pError, pResult){
-                            expect(pError).to.be.null;
-                            expect(pResult).xml.to.be.valid();
-                        }
-                    );
-                });
+
+        describe('#renderMsc()', () => {
+            const lWindow = new JSDOM("<html><body><span id='__svg'></span></body></html>").window;
+
+            it('should given given a simple MscGen program, render an svg', () => {
+                mscgenjs.renderMsc(
+                    SIMPLE_MSCGEN,
+                    {window: lWindow},
+                    function(pError, pResult){
+                        expect(pError).to.be.null;
+                        expect(pResult).xml.to.be.valid();
+                    }
+                );
             });
-        });
-        it('dummy so mocha executes the tests wrapped in jsdom', () => {
-            return true;
+            it('should given given an invalid MscGen program, throw an error', () => {
+                mscgenjs.renderMsc(
+                    SIMPLE_XU,
+                    {window: lWindow},
+                    function(pError, pResult){
+                        expect(pError).to.be.not.null;
+                        expect(pError).to.be.instanceof(Error);
+                        expect(pResult).to.be.null;
+                    }
+                );
+            });
+            it('should given given a simple AST, render an svg', () => {
+                mscgenjs.renderMsc(
+                    JSON.stringify(fix.astOneAlt, null, ""),
+                    {
+                        inputType: "json",
+                        window: lWindow,
+                        includeSource: false
+                    },
+                    function(pError, pResult){
+                        expect(pError).to.be.null;
+                        expect(pResult).xml.to.be.valid();
+                    }
+                );
+            });
         });
     });
 });
