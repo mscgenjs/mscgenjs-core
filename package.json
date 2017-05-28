@@ -8,16 +8,16 @@
     "requirejs": "2.3.3"
   },
   "devDependencies": {
-    "chai": "3.5.0",
+    "chai": "4.0.0",
     "chai-xml": "0.3.1",
     "dependency-cruiser": "2.2.2",
     "eslint": "3.19.0",
     "istanbul": "0.4.5",
     "js-makedepend": "2.2.3",
-    "jsdom": "10.1.0",
+    "jsdom": "11.0.0",
     "lodash-cli": "4.17.4",
-    "mocha": "3.4.1",
-    "npm-check-updates": "2.11.1",
+    "mocha": "3.4.2",
+    "npm-check-updates": "2.11.2",
     "nsp": "2.6.3",
     "pegjs": "0.10.0",
     "plato": "1.7.0"
