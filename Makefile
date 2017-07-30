@@ -97,11 +97,14 @@ dev-build: $(GENERATED_SOURCES) .npmignore
 lint:
 	$(NPM) run lint
 
+lint-fix:
+	$(NPM) run lint:fix
+
 depcruise:
 	$(NPM) run depcruise
 
 cover: dev-build
-	$(NPM) run cover
+	$(NPM) run test:cover
 
 tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
@@ -127,7 +130,7 @@ check: lint depcruise test
 
 fullcheck: check outdated nsp
 
-update-dependencies: run-update-dependencies clean dev-build test nsp
+update-dependencies: run-update-dependencies clean dev-build test nsp lint-fix
 	$(GIT) diff package.json
 
 run-update-dependencies:

@@ -23,14 +23,15 @@
     "plato": "1.7.0"
   },
   "scripts": {
-    "test": "mocha -R dot --bail --timeout 6000 --recursive test",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive test",
     "depcruise": "depcruise -v -T err main parse render *.js",
     "depcruise:graph": "depcruise -v -T dot -M amd -x \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
+    "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
+    "lint:fix": "eslint --fix index.js index-lazy.js indexAMD.js main parse render test",
+    "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD|csstemplates\" ./",
-    "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
-    "npm-check-updates": "ncu --upgrade"
+    "test": "mocha -R dot --bail --timeout 6000 --recursive test",
+    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- --timeout 8000 --recursive test"
   },
   "repository": {
     "type": "git",
