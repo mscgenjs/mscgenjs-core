@@ -106,6 +106,15 @@ depcruise:
 cover: dev-build
 	$(NPM) run test:cover
 
+publish-patch:
+	$(NPM) version patch
+
+publish-minor:
+	$(NPM) version minor
+
+publish-major:
+	$(NPM) version major
+
 tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
