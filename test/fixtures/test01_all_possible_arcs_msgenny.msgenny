@@ -7,7 +7,18 @@ arcgradient="18",
 wordwraparcs=false,
 watermark="This humongous fictive chart contains all arcs possible in msgenny. It can be used for spot checks, but also for performance checks. 序列圖!";
 
-0, a, b, c, d, e, f, g, h, i, j, k;
+0,
+a,
+b,
+c,
+d,
+e,
+f,
+g,
+h,
+i,
+j,
+k;
 
 a -- b : left to right,
 b -- c : right to left,
