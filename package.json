@@ -28,8 +28,6 @@
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
     "lint:fix": "eslint --fix index.js index-lazy.js indexAMD.js main parse render test",
     "npm-check-updates": "ncu --upgrade",
-    "postversion": "git push && git push --tags && npm publish",
-    "preversion": "test `git branch | grep \"^* [a-zA-Z]\" | cut -c 3-` = 'master'",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD|csstemplates\" ./",
     "test": "mocha -R dot --bail --timeout 6000 --recursive test",
