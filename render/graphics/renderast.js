@@ -813,8 +813,15 @@ define(function(require) {
         }
     }
 
-    function determineArcYTo(pArc){
-        return pArc.arcskip ? pArc.arcskip * gChart.arcRowHeight : 0;
+    function determineArcYTo(pArcSkip, pArcRowHeight, pArcGradient){
+        var lRetval = pArcGradient;
+
+        if (pArcSkip) {
+            lRetval =
+                (pArcSkip * pArcRowHeight) +
+                (Math.sign(pArcSkip) * constants.LINE_WIDTH * 2);
+        }
+        return lRetval;
     }
 
     function determineDirectionClass(pArcKind) {
@@ -832,14 +839,13 @@ define(function(require) {
         lClass += determineDirectionClass(pArc.kind);
         lClass += kind2class.getAggregateClass(pArc.kind) + " " + kind2class.getClass(pArc.kind);
         var lDoubleLine = [":>", "::", "<:>"].indexOf(pArc.kind) > -1;
-        var lYTo = determineArcYTo(pArc, pY);
-        var lArcGradient = (lYTo === 0) ? gChart.arcGradient : lYTo;
+        var lYTo = determineArcYTo(pArc.arcskip, gChart.arcRowHeight, gChart.arcGradient);
 
         pTo = renderutensils.determineArcXTo(pArc.kind, pFrom, pTo);
 
         if (pFrom === pTo) {
             lGroup.appendChild(
-                createSelfRefArc(pArc.kind, pFrom, lYTo, lDoubleLine, pArc.linecolor, pY)
+                createSelfRefArc(pArc.kind, pFrom, lYTo - gChart.arcGradient, lDoubleLine, pArc.linecolor, pY)
             );
 
             /* creates a label left aligned, a little above the arc*/
@@ -864,7 +870,7 @@ define(function(require) {
             );
         } else {
             var lLine = svgelementfactory.createLine(
-                {xFrom: pFrom, yFrom: pY, xTo: pTo, yTo: pY + lArcGradient},
+                {xFrom: pFrom, yFrom: pY, xTo: pTo, yTo: pY + lYTo},
                 {
                     class: lClass,
                     doubleLine: lDoubleLine
@@ -881,7 +887,7 @@ define(function(require) {
             lGroup.appendChild(
                 renderlabels.createLabel(
                     pArc,
-                    {x: pFrom, y: pY, width: pTo - pFrom},
+                    {x: pFrom, y: pY + (lYTo / 2), width: pTo - pFrom},
                     _.defaults(
                         _.cloneDeep(pOptions),
                         {
