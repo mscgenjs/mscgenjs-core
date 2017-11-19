@@ -815,11 +815,29 @@ define(function(require) {
 
     function determineArcYTo(pArcSkip, pArcRowHeight, pArcGradient){
         var lRetval = pArcGradient;
+        /**
+         * polyfill for Math.sign which is not defined on some platforms
+         * mscgen.js still stupports
+         * @param  {Number} pNumber the Number to test
+         * @return {Number}         seet Math.sign
+         */
+        function math_sign(pNumber) {
+            if (pNumber > 0) {
+                return 1;
+            }
+            if (pNumber < 0) {
+                return -1;
+            }
+            if (pNumber === 0) {
+                return 0;
+            }
+            return -0;
+        }
 
         if (pArcSkip) {
             lRetval =
                 (pArcSkip * pArcRowHeight) +
-                (Math.sign(pArcSkip) * constants.LINE_WIDTH * 2);
+                (math_sign(pArcSkip) * constants.LINE_WIDTH * 2);
         }
         return lRetval;
     }
