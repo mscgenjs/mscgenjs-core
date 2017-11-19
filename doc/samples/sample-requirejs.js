@@ -8,8 +8,8 @@ define(function (require) {
             {
                 inputType: "xu",
                 elementId: "output",
-                additionalTemplate: "basic",
-                mirrorEntitiesOnBottom: true,
+                additionalTemplate: "lazy",
+                mirrorEntitiesOnBottom: false,
                 includeSource: false
             },
             function (pError, pSuccess) {

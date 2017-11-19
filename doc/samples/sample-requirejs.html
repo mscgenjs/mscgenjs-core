@@ -40,38 +40,42 @@
         <textarea
             id="inputscript"
             cols="60" rows="0"
-            spellcheck="false"
-            placeholder="Put your nice msgenny script in here">msc {
-  hscale="0.9";
+            spellcheck="false">msc {
+#  hscale=0.8,
+  width=700,
+  wordwraparcs=1;
+  a,b,c;
 
-  a, b[label="Entity B with an url", url="#thisisanentity"], c, d;
+  ---,
+  a =>> b [arcskip=1];
+  ---,
+  b =>> c [label="yihaa!!"];
 
-  a -> b [label="a -> b  (signal)", url="#signal"],
-  b &lt;-> c [label="b &lt;-> c"],
-  c -- d [label="c -- d"],
-  d -> d [label="d -> d"];
-  a => b [label="a => b  (method)", url="#method"],
-  b &lt;=> c [label="b &lt;=> c"],
-  d => d [label="d => d", url="#fromdtod"];
-  b >> a [label="b >> a (return value)", url="#returnvalue"],
-  b &lt;&lt;>> c [label="b &lt;&lt;>> c"],
-  c .. d [label="c .. d (dotted)"],
-  d >> d [label="d >> d"];
-  a =>> b [label="a =>> b (callback)"],
-  b &lt;&lt;=>> c [label="b &lt;&lt;=>> c"],
-  d =>> d [label="d =>> d"];
-  a -x b [label="a -x b  (lost)"],
-  d -x d [label="d -x d"];
-  a :> b [label="a :> b  (emphasis)"],
-  b &lt;:> c [label="b &lt;:> c"],
-  d :> d [label="d :> d"];
-  b note b [label="b note b \n(note)"],
-  c box c [label="c box c\n(action)"];
-  b rbox b [label="b rbox b\n(reference)"],
-  c abox c [label="c abox c\n(state/ condition)", url="#statecondition"];
-  ||| [label="||| (empty row)", url="#emptyrow"];
-  ... [label="... (omitted row)"];
-  --- [label="--- (comment)"];
+  ---,
+  a =>> b [label="1 line label", arcskip=1],
+  a =>> b [label="arcskip=-1", arcskip="-1"];
+  ---,
+  b =>> c [label="yihaa!!"];
+
+  ---,
+  a =>> b [label="2 line label:\nthis is line 2", arcskip=1];
+  ---,
+  b =>> c [label="yihaa!!"];
+
+
+  ---,
+  a =>> b [label="3 line label:\nline 2\nthis is 3", arcskip=1];
+  ---,
+  b =>> c [label="meh"];
+
+  ---,
+  a =>> b [label="arsckip=2", arcskip=2];
+  ---,
+  b =>> c [label="huh!?"];
+
+  ---,
+  b =>> c [label="huh!?"];
+
 }
 </textarea>
         <div class="buttonia">
