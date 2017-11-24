@@ -14,7 +14,7 @@
     "eslint": "4.11.0",
     "istanbul": "0.4.5",
     "js-makedepend": "2.4.0",
-    "jsdom": "11.3.0",
+    "jsdom": "11.4.0",
     "lodash-cli": "4.17.4",
     "mocha": "4.0.1",
     "npm-check-updates": "2.13.0",
