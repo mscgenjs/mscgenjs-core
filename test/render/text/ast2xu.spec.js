@@ -1,10 +1,10 @@
+const fs       = require("fs");
+const path     = require("path");
 const assert   = require("assert");
+const expect   = require("chai").expect;
 const renderer = require("../../../render/text/ast2xu");
 const fix      = require("../../astfixtures.json");
-const fs       = require("fs");
-const path     = require(`path`);
 const parser   = require("../../../parse/xuparser");
-const expect   = require("chai").expect;
 
 describe(`render/text/ast2xu`, () => {
     describe(`#renderAST() - simple syntax tree`, () => {

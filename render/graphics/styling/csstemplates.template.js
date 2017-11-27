@@ -5,10 +5,10 @@ if (typeof define !== 'function') {
 
 define(function() {
     "use strict";
-    return {
+    return Object.freeze({
         baseTemplate : "<%=baseTemplateString%>",
         namedStyles : <%=additionalTemplates%>
-    };
+    });
 });
 /*
  This file is part of mscgen_js.

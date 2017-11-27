@@ -5,19 +5,19 @@ module.exports = (function(){
     var DEFAULT_PARSER        = "../parse/mscgenparser";
     var DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 
-    var gLang2Parser = {
+    var gLang2Parser = Object.freeze({
         mscgen  : "../parse/mscgenparser",
         xu      : "../parse/xuparser",
         msgenny : "../parse/msgennyparser"
-    };
+    });
 
-    var gLang2TextRenderer = {
+    var gLang2TextRenderer = Object.freeze({
         mscgen  : "../render/text/ast2mscgen",
         msgenny : "../render/text/ast2msgenny",
         xu      : "../render/text/ast2xu",
         dot     : "../render/text/ast2dot",
         doxygen : "../render/text/ast2doxygen"
-    };
+    });
 
     return {
         getParser: _.memoize(
@@ -47,6 +47,20 @@ module.exports = (function(){
         )
     };
 })();
+
+/* eslint security/detect-object-injection: 0*/
+/* The 'generic object injection sink' is to a frozen object,
+   attempts to modify it will be moot => we can safely use the []
+   notation
+*/
+
+/* eslint security/detect-non-literal-require: 0*/
+/* The whole idea of this module is to do non-literarl requires.
+   Believed to be 'safe' because the values are not (cannot be)
+   supplied externaly, but only indirectly through a lookup
+   table
+ */
+
 /*
  This file is part of mscgen_js.
 

@@ -605,10 +605,9 @@ define(function(require) {
         });
 
         if (pArcRows) {
-            for (var i = 0; i < pArcRows.length; i++){
-                renderArcRow(pArcRows[i], i, pEntities, pOptions);
-            }
-            // pArcRows.forEach(renderArcRow);
+            pArcRows.forEach(function(pArcRow, pCounter) {
+                renderArcRow(pArcRow, pCounter, pEntities, pOptions);
+            });
             renderInlineExpressions(gInlineExpressionMemory);
         } // if pArcRows
     }// function

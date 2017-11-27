@@ -20,19 +20,19 @@ define(function(require) {
     var DEFAULT_PARSER        = mscgenparser;
     var DEFAULT_TEXT_RENDERER = ast2mscgen;
 
-    var gLang2Parser = {
+    var gLang2Parser = Object.freeze({
         mscgen  : mscgenparser,
         xu      : xuparser,
         msgenny : msgennyparser
-    };
+    });
 
-    var gLang2TextRenderer = {
+    var gLang2TextRenderer = Object.freeze({
         mscgen  : ast2mscgen,
         msgenny : ast2msgenny,
         xu      : ast2xu,
         dot     : ast2dot,
         doxygen : ast2doxygen
-    };
+    });
 
     return {
         getParser: function (pLanguage) {
@@ -52,6 +52,13 @@ define(function(require) {
         }
     };
 });
+
+/* eslint security/detect-object-injection: 0*/
+/* The 'generic object injection sink' is to a frozen object,
+   attempts to modify it will be moot => we can safely use the []
+   notation
+*/
+
 /*
  This file is part of mscgen_js.
 
