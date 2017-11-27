@@ -1,9 +1,9 @@
-var parser = require("../../parse/mscgenparser");
-var tst    = require("../testutensils");
-var pairs  = require("./mscgenPairs");
 var fs     = require("fs");
 var path   = require("path");
 var expect = require("chai").expect;
+var parser = require("../../parse/mscgenparser");
+var tst    = require("../testutensils");
+var pairs  = require("./mscgenPairs");
 
 describe('parse/mscgenparser', function() {
     describe('#parse() - happy day values', function() {

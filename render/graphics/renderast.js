@@ -633,8 +633,11 @@ define(function(require) {
             constants.LINE_WIDTH;
 
         var lStart =
-            (lOnD.from - ((entities.getDims().interEntitySpacing - 3 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2) -
-            (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH);
+            (
+                lOnD.from -
+                ((entities.getDims().interEntitySpacing - 3 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2) -
+                (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH
+            );
 
         var lGroup = svgelementfactory.createGroup();
         if (!lLabelContentAlreadyDetermined){
@@ -1028,7 +1031,10 @@ define(function(require) {
         var lBox = {};
         var lTextGroup = renderlabels.createLabel(pArc, {x:lStart, y:pY, width:lWidth}, pOptions);
         var lTextBBox = svgutensils.getBBox(lTextGroup);
-        var lHeight = Math.max(lTextBBox.height + 2 * constants.LINE_WIDTH, gChart.arcRowHeight - 2 * constants.LINE_WIDTH);
+        var lHeight = Math.max(
+            lTextBBox.height + 2 * constants.LINE_WIDTH,
+            gChart.arcRowHeight - 2 * constants.LINE_WIDTH
+        );
         var lBBox = {width: lWidth, height: lHeight, x: lStart, y: (pY - lHeight / 2)};
 
         switch (pArc.kind) {

@@ -1,6 +1,6 @@
+var expect  = require("chai").expect;
 var flatten = require("../../../render/astmassage/flatten");
 var fix     = require("../../astfixtures.json");
-var expect  = require("chai").expect;
 
 describe('render/astmassage/flatten', function() {
     describe('unwind', function() {

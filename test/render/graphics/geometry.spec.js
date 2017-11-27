@@ -1,5 +1,5 @@
-var geo    = require("../../../render/graphics/svgelementfactory/geometry");
 var expect = require("chai").expect;
+var geo    = require("../../../render/graphics/svgelementfactory/geometry");
 
 describe('#geometry', function() {
     describe('#getDiagonalAngle', function () {

@@ -54,7 +54,8 @@ module.exports = (function(){
    notation
 */
 
-/* eslint security/detect-non-literal-require: 0*/
+/* eslint security/detect-non-literal-require: 0 */
+/* eslint import/no-dynamic-require: 0 */
 /* The whole idea of this module is to do non-literarl requires.
    Believed to be 'safe' because the values are not (cannot be)
    supplied externaly, but only indirectly through a lookup

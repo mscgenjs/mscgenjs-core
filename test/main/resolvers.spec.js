@@ -1,8 +1,9 @@
 /* eslint max-nested-callbacks: 0 */
 // const mscgenjs = require("../index-lazy");
+const chai     = require("chai");
 const tst      = require("../testutensils");
 const fix      = require("../astfixtures.json");
-const chai     = require("chai");
+
 const expect   = chai.expect;
 chai.use(require("chai-xml"));
 

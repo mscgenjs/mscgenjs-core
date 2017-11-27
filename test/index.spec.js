@@ -1,10 +1,11 @@
 /* eslint max-nested-callbacks: 0 */
 // const mscgenjs = require("../index-lazy");
-const fix      = require("./astfixtures.json");
 const JSDOM    = require("jsdom").JSDOM;
 const chai     = require("chai");
-const expect   = chai.expect;
 const version  = require("../package.json").version;
+const fix      = require("./astfixtures.json");
+
+const expect   = chai.expect;
 chai.use(require("chai-xml"));
 
 const gExpectedMscGenOutput = `msc {\n\

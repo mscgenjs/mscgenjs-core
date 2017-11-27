@@ -1,6 +1,6 @@
+const assert   = require("assert");
 const fs       = require("fs");
 const path     = require("path");
-const assert   = require("assert");
 const expect   = require("chai").expect;
 const renderer = require("../../../render/text/ast2xu");
 const fix      = require("../../astfixtures.json");

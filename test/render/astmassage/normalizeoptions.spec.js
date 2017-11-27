@@ -1,5 +1,6 @@
-var normalizeoptions = require("../../../render/astmassage/normalizeoptions");
 var expect           = require("chai").expect;
+var normalizeoptions = require("../../../render/astmassage/normalizeoptions");
+
 
 describe('render/astmassage/normalizeoptions', function() {
     it('normalize no options to the default values for wordwrap* stuff', function() {

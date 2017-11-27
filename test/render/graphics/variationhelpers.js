@@ -1,5 +1,5 @@
-var geo    = require("../../../render/graphics/svgelementfactory/variationhelpers");
 var expect = require("chai").expect;
+var geo    = require("../../../render/graphics/svgelementfactory/variationhelpers");
 
 describe('#geometry', function() {
 

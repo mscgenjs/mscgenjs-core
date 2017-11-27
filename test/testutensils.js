@@ -1,7 +1,8 @@
-var assert = require("chai").assert;
 var fs     = require('fs');
 var crypto = require('crypto');
 var chai   = require("chai");
+
+var assert = chai.assert;
 var expect = chai.expect;
 chai.use(require("chai-xml"));
 

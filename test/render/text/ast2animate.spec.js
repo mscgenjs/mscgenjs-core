@@ -1,11 +1,11 @@
+var fs          = require("fs");
+var path        = require("path");
 var assert      = require("assert");
+var expect      = require("chai").expect;
 var ast2animate = require("../../../render/text/ast2animate");
 var parser      = require("../../../parse/xuparser");
 var fix         = require("../../astfixtures.json");
-var fs          = require("fs");
-var path        = require("path");
 var tst         = require("../../testutensils");
-var expect      = require("chai").expect;
 
 describe('render/text/ast2ani', function() {
     var astCheatSheet0 = {

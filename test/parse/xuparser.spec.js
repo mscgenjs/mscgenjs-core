@@ -1,10 +1,10 @@
+var fs      = require("fs");
+var path    = require("path");
+var expect  = require("chai").expect;
 var parser  = require("../../parse/xuparser");
 var tst     = require("../testutensils");
 var pairs   = require("./mscgenPairs");
 var xuPairs = require("./xuPairs");
-var fs      = require("fs");
-var path    = require("path");
-var expect  = require("chai").expect;
 
 describe('parse/xuparser', function() {
     describe('#parse()', function() {

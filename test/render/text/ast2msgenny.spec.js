@@ -1,8 +1,8 @@
 const assert   = require("assert");
+const path     = require('path');
 const renderer = require("../../../render/text/ast2msgenny");
 const fix      = require("../../astfixtures.json");
 const utl      = require("../../testutensils");
-const path     = require('path');
 
 describe('render/text/ast2msgenny', () => {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', () => {

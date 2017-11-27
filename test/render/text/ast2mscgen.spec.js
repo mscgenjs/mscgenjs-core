@@ -1,10 +1,10 @@
+const fs       = require("fs");
+const path     = require("path");
 const assert   = require("assert");
+const expect   = require("chai").expect;
 const renderer = require("../../../render/text/ast2mscgen");
 const parser   = require("../../../parse/mscgenparser");
 const fix      = require("../../astfixtures.json");
-const fs       = require("fs");
-const path     = require("path");
-const expect   = require("chai").expect;
 
 // jscs:disable disallowTrailingWhitespace
 // jscs:disable validateIndentation

@@ -1,7 +1,7 @@
+var path     = require('path');
+var JSDOM    = require("jsdom").JSDOM;
 var renderer = require("../../../render/graphics/renderast");
-var tst = require("../../testutensils");
-var JSDOM = require("jsdom").JSDOM;
-var path = require('path');
+var tst      = require("../../testutensils");
 
 function ast2svg(pASTString, lWindow, pOptions, pRenderOptions) {
     // make a deep copy first, as renderAST actively modifies its input

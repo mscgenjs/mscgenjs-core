@@ -1,10 +1,10 @@
 /* eslint max-statements:0 */
-var parser = require("../../parse/msgennyparser");
-var tst    = require("../testutensils");
-var fix    = require("../astfixtures.json");
 var fs     = require("fs");
 var path   = require("path");
 var expect = require("chai").expect;
+var parser = require("../../parse/msgennyparser");
+var tst    = require("../testutensils");
+var fix    = require("../astfixtures.json");
 
 var gCorrectOrderFixture = {
     "precomment":["# A,a, c, d, b, B;", "\n"],

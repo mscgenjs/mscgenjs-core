@@ -1,8 +1,8 @@
 const assert   = require("assert");
-const renderer = require("../../../render/text/ast2dot");
-const fix      = require("../../astfixtures.json");
 const fs       = require("fs");
 const path     = require("path");
+const renderer = require("../../../render/text/ast2dot");
+const fix      = require("../../astfixtures.json");
 
 describe('render/text/ast2dot', () => {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', () => {

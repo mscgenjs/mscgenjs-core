@@ -1,10 +1,10 @@
 var assert = require("assert");
-var txt = require("../../../render/textutensils/wrap");
+var wrap   = require("../../../render/textutensils/wrap");
 
 describe('render/textutensils/wrap', function() {
     describe('#wrap(x, 10) - string with spaces', function() {
         var lWrapThis = "Aap noot mies wim zus jet teun vuur gijs lam kees bok weide does hok duif schapen.";
-        var lWrapAry = txt.wrap(lWrapThis, 10);
+        var lWrapAry = wrap.wrap(lWrapThis, 10);
 
         it('should break up in 8 pieces', function() {
             assert.equal(lWrapAry.length, 8);
@@ -19,7 +19,7 @@ describe('render/textutensils/wrap', function() {
 
     describe('#wrap(x, 10) - string without spaces', function() {
         var lWrapSpaceless = "Aap_noot_mies_wim_zus_jet_teun_vuur_gijs_lam_kees_bok_weide_does_hok_duif_schapen.";
-        var lWrapSpacelessAry = txt.wrap(lWrapSpaceless, 10);
+        var lWrapSpacelessAry = wrap.wrap(lWrapSpaceless, 10);
 
         it('should break up in 9 pieces', function() {
             assert.equal(lWrapSpacelessAry.length, 9);
@@ -35,7 +35,7 @@ describe('render/textutensils/wrap', function() {
 
     describe('#wrap(x, 10) - empty string', function() {
         var lEmptyString = "";
-        var lEmptyStringAry = txt.wrap(lEmptyString, 10);
+        var lEmptyStringAry = wrap.wrap(lEmptyString, 10);
 
         it('should break up in 1 piece', function() {
             assert.equal(lEmptyStringAry.length, 1);
@@ -47,7 +47,7 @@ describe('render/textutensils/wrap', function() {
 
     describe('#wrap(x, 100) - string with spaces', function() {
         var lWrapThis = "Aap noot mies wim zus jet teun vuur gijs lam kees bok weide does hok duif schapen.";
-        var lWrapAry = txt.wrap(lWrapThis, 100);
+        var lWrapAry = wrap.wrap(lWrapThis, 100);
 
         it('should break up in 1 piece', function() {
             assert.equal(lWrapAry.length, 1);
