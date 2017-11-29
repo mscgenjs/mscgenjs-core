@@ -59,7 +59,7 @@ define(function(require) {
     var gInlineExpressionMemory = [];
 
     function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
-        var lAST = Object.seal(flatten.flatten(pAST));
+        var lAST = Object.freeze(flatten.flatten(pAST));
         var lOptions = pOptions || {};
 
         lOptions = _.defaults(lOptions, {
@@ -506,14 +506,6 @@ define(function(require) {
         var lArcRowClass = "arcrow";
         var lRowMemory = [];
 
-        rowmemory.set(
-            pRowNumber,
-            Math.max(
-                rowmemory.get(pRowNumber).height,
-                getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
-            )
-        );
-
         pArcRow.forEach(function(pArc){
             var lElement = {};
 
@@ -586,6 +578,18 @@ define(function(require) {
         });
     }
 
+    function precalculateArcRowHeights (pArcRows, pEntities, pOptions) {
+        pArcRows.forEach(function(pArcRow, pRowNumber) {
+            rowmemory.set(
+                pRowNumber,
+                Math.max(
+                    rowmemory.get(pRowNumber).height,
+                    getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
+                )
+            );
+        });
+    }
+
     /** renderArcRows() - renders the arcrows from an AST
      *
      * @param <object> - pArcRows - the arc rows to render
@@ -605,6 +609,7 @@ define(function(require) {
         });
 
         if (pArcRows) {
+            precalculateArcRowHeights(pArcRows, pEntities, pOptions);
             pArcRows.forEach(function(pArcRow, pCounter) {
                 renderArcRow(pArcRow, pCounter, pEntities, pOptions);
             });
