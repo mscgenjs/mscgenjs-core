@@ -18,6 +18,7 @@
  */
 
 const JSDOM = require("jsdom").JSDOM;
+
 const window = new JSDOM("<html><body></body></html>").window;
 const renderast = require("../render/graphics/renderast");
 
