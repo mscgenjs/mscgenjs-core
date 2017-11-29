@@ -11,4 +11,4 @@ test_async:
    - npm run lint
    - npm run depcruise
    - npm run nsp
-   - npm run cover
+   - npm run test:cover
