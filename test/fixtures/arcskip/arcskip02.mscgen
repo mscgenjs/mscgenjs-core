@@ -1,0 +1,11 @@
+/*
+- two row arcskips, with row heights <= normal row height
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---, a -> b [arcskip=2, label="arcskip = 2"];
+    ---, b -> c [label="a =>> b is slower than this"];
+    ---, b -> c [label="arcskip arc should connect to this"];
+}

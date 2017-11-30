@@ -1,0 +1,61 @@
+{
+  "precomment": [
+    "/*\n- two row arcskips, with row heights <= normal row height\n */",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "options": {
+    "wordwraparcs": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "a",
+        "to": "b",
+        "arcskip": "2",
+        "label": "arcskip = 2"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "a =>> b is slower than this"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "arcskip arc should connect to this"
+      }
+    ]
+  ]
+}

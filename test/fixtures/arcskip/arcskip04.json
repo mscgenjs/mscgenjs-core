@@ -1,0 +1,59 @@
+{
+  "precomment": [
+    "/*\n * one row arcskips, with row height > normal row height; caused by another\n * arc in the same row\n */",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "options": {
+    "wordwraparcs": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "a",
+        "to": "b",
+        "arcskip": "1",
+        "label": "arcskip = 1"
+      },
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "note",
+        "from": "c",
+        "to": "c",
+        "label": "This is a note that runs over more than two lines => the arcrowheight will be bigger than normal"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "arcskip arc should connect to this"
+      }
+    ]
+  ]
+}

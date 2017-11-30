@@ -1,0 +1,11 @@
+/*
+- two row arcskips, with the row it should point to having a height > normal
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---, a -> b [arcskip=2, label="arcskip = 2"];
+    ---, b -> c [label="arcskip is slower than this"];
+    ---, b -> c [label="arcskip arc should connect to this (but it is heigher than the default height)"];
+}

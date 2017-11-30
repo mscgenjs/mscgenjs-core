@@ -1,0 +1,11 @@
+/*
+- 1.5 row arcskip, with a row height <= normal row height
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---,a -> b [arcskip="1.5", label="arcskip = 1.5"];
+    ---,b -> c [label="should land somewhere halfway below"];
+    ---;
+}

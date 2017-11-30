@@ -1,0 +1,10 @@
+/*
+- one row arcskip, with a row height <= normal row height
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---, a -> b [arcskip=1, label="arcskip = 1"];
+    ---, b -> c [label="arcskip arc should connect to this"];
+}
