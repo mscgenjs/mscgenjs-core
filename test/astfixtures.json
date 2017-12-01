@@ -267,51 +267,6 @@
     },
     "entities": []
   },
-  "astBoxArcs": {
-    "meta": {
-      "extendedOptions": false,
-      "extendedArcTypes": false,
-      "extendedFeatures": false
-    },
-    "entities": [
-      {
-        "name": "a"
-      },
-      {
-        "name": "b"
-      },
-      {
-        "name": "c"
-      },
-      {
-        "name": "d"
-      }
-    ],
-    "arcs": [
-      [
-        {
-          "kind": "note",
-          "from": "a",
-          "to": "a"
-        },
-        {
-          "kind": "box",
-          "from": "b",
-          "to": "b"
-        },
-        {
-          "kind": "abox",
-          "from": "c",
-          "to": "c"
-        },
-        {
-          "kind": "rbox",
-          "from": "d",
-          "to": "d"
-        }
-      ]
-    ]
-  },
   "astMixedAttributes": {
     "meta": {
       "extendedOptions": false,
@@ -632,7 +587,8 @@
           "from": "b",
           "to": "c",
           "numberofrows": 2,
-          "depth": 0
+          "depth": 0,
+          "isVirtual": true
         }
       ],
       [
@@ -653,7 +609,8 @@
         {
           "kind": "|||",
           "from": "b",
-          "to": "c"
+          "to": "c",
+          "isVirtual": true
         }
       ]
     ],
@@ -770,7 +727,8 @@
           "to": "c",
           "label": "label for loop",
           "numberofrows": 5,
-          "depth": 0
+          "depth": 0,
+          "isVirtual": true
         }
       ],
       [
@@ -780,7 +738,8 @@
           "to": "c",
           "label": "label for alt",
           "numberofrows": 2,
-          "depth": 1
+          "depth": 1,
+          "isVirtual": true
         }
       ],
       [
@@ -803,7 +762,8 @@
         {
           "kind": "|||",
           "from": "b",
-          "to": "c"
+          "to": "c",
+          "isVirtual": true
         }
       ],
       [
@@ -818,7 +778,8 @@
         {
           "kind": "|||",
           "from": "a",
-          "to": "c"
+          "to": "c",
+          "isVirtual": true
         }
       ],
       [
@@ -899,7 +860,8 @@
           "to": "c",
           "label": "label for opt",
           "numberofrows": 1,
-          "depth": 0
+          "depth": 0,
+          "isVirtual": true
         }
       ],
       [
@@ -915,7 +877,8 @@
         {
           "kind": "|||",
           "from": "b",
-          "to": "c"
+          "to": "c",
+          "isVirtual": true
         }
       ],
       [
@@ -1024,7 +987,8 @@
           "arctextcolor": "green",
           "arctextbgcolor": "cyan",
           "numberofrows": 1,
-          "depth": 0
+          "depth": 0,
+          "isVirtual": true
         }
       ],
       [
@@ -1042,7 +1006,8 @@
         {
           "kind": "|||",
           "from": "a",
-          "to": "b"
+          "to": "b",
+          "isVirtual": true
         }
       ]
     ],
@@ -1143,7 +1108,8 @@
           "arctextcolor": "green",
           "arctextbgcolor": "blue",
           "numberofrows": 6,
-          "depth": 0
+          "depth": 0,
+          "isVirtual": true
         }
       ],
       [
@@ -1174,7 +1140,8 @@
           "from": "a",
           "to": "b",
           "numberofrows": 2,
-          "depth": 1
+          "depth": 1,
+          "isVirtual": true
         }
       ],
       [
@@ -1200,14 +1167,16 @@
         {
           "kind": "|||",
           "from": "a",
-          "to": "b"
+          "to": "b",
+          "isVirtual": true
         }
       ],
       [
         {
           "kind": "|||",
           "from": "a",
-          "to": "b"
+          "to": "b",
+          "isVirtual": true
         }
       ]
     ],

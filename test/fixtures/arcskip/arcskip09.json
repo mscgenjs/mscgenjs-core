@@ -1,0 +1,55 @@
+{
+  "precomment": [
+    "/*\n- 42 row arcskip - beyond the end of the chart\n */",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "options": {
+    "wordwraparcs": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "a",
+        "to": "b",
+        "arcskip": "42",
+        "label": "arcskip = 42"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "=>",
+        "from": "b",
+        "to": "c",
+        "label": "should connect to this because skipping beyond the boundaries of the chart"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+/*
+- one row arcskip accross an inline expression, with a row height <= normal row height
+ */
+xu {
+    wordwraparcs=on;
+    a,b,c;
+
+    a opt c [label="optional all of this"]{
+        ---, a -> b [arcskip=1, label="arcskip = 1"];
+    };
+    ---, b -> c [label="arcskip arc should connect to this"];
+}

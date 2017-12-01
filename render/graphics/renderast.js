@@ -579,14 +579,32 @@ define(function(require) {
     }
 
     function precalculateArcRowHeights (pArcRows, pEntities, pOptions) {
+        var lRealRowNumber = 0;
+
         pArcRows.forEach(function(pArcRow, pRowNumber) {
-            rowmemory.set(
-                pRowNumber,
-                Math.max(
-                    rowmemory.get(pRowNumber).height,
-                    getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
-                )
-            );
+            function isVirtualArc(pArc) {
+                return pArc.isVirtual;
+            }
+
+            if (pArcRow.some(isVirtualArc)){
+                rowmemory.set(
+                    pRowNumber,
+                    Math.max(
+                        rowmemory.get(pRowNumber).height,
+                        getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
+                    )
+                );
+            } else {
+                rowmemory.set(
+                    pRowNumber,
+                    Math.max(
+                        rowmemory.get(pRowNumber).height,
+                        getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)
+                    ),
+                    lRealRowNumber
+                );
+                lRealRowNumber++;
+            }
         });
     }
 
@@ -828,12 +846,13 @@ define(function(require) {
         if (Boolean(pArcSkip)){
             var lWholeArcSkip = Math.floor(pArcSkip);
             var lRestArcSkip = pArcSkip - lWholeArcSkip;
+            var lCurrentRealRowNumber = rowmemory.get(pRowNumber).realRowNumber;
 
             lRetval =
-                rowmemory.get(pRowNumber + lWholeArcSkip).y +
+                rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y +
                 lRestArcSkip * (
-                    rowmemory.get(pRowNumber + lWholeArcSkip + 1).y -
-                    rowmemory.get(pRowNumber + lWholeArcSkip).y
+                    rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip + 1).y -
+                    rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y
                 );
         }
         return lRetval;

@@ -1,0 +1,60 @@
+{
+  "precomment": [
+    "/*\n- one row arcskip accross an inline expression, with a row height <= normal row height\n */",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": true,
+    "extendedFeatures": true
+  },
+  "options": {
+    "wordwraparcs": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "opt",
+        "from": "a",
+        "to": "c",
+        "arcs": [
+          [
+            {
+              "kind": "---"
+            },
+            {
+              "kind": "->",
+              "from": "a",
+              "to": "b",
+              "arcskip": "1",
+              "label": "arcskip = 1"
+            }
+          ]
+        ],
+        "label": "optional all of this"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "arcskip arc should connect to this"
+      }
+    ]
+  ]
+}
