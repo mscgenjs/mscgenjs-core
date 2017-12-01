@@ -130,5 +130,24 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 );
             });
         });
+
+        describe('#getAllowedValues()', () => {
+
+            it('returns possible input types', () => {
+                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('inputType');
+            });
+
+            it('returns possible output types', () => {
+                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('outputType');
+            });
+
+            it('returns possible regularArcTextVerticalAlignment types', () => {
+                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('regularArcTextVerticalAlignment');
+            });
+
+            it('returns possible namedStyles', () => {
+                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('namedStyle');
+            });
+        });
     });
 });
