@@ -10,13 +10,13 @@ define(function() {
      * Functions to help determine the correct height and
      * y position of rows befor rendering them.
      */
-    var gRowInfo = [];
+    var gRowInfoArray = [];
     var gDefaultEntityHeight = 0;
     var gDefaultArcRowHeight = 0;
 
     function get(pRowNumber) {
-        if (gRowInfo[pRowNumber]) {
-            return gRowInfo[pRowNumber];
+        if (gRowInfoArray[pRowNumber]) {
+            return gRowInfoArray[pRowNumber];
         } else {
             return {
                 y : (gDefaultEntityHeight + (1.5 * gDefaultArcRowHeight)) + pRowNumber * gDefaultArcRowHeight,
@@ -31,7 +31,7 @@ define(function() {
          * clearRowInfo() - resets the helper array to an empty one
          */
         clear: function(pEntityHeight, pArcRowHeight) {
-            gRowInfo = [];
+            gRowInfoArray = [];
             gDefaultEntityHeight = pEntityHeight;
             gDefaultArcRowHeight = pArcRowHeight;
         },
@@ -45,8 +45,31 @@ define(function() {
          */
         get: get,
 
+        /**
+         *  the row info for a given pRealRowNumber.
+         *
+         * If the function couldn't find the real row number it'll
+         * return the virtual instead.
+         *
+         * @param <int> pRealRowNumber
+         */
+        getByRealRowNumber: function (pRealRowNumber) {
+            var lRetval = 0;
+
+            var lRowInfoArray = gRowInfoArray.filter(function(pRowInfo){
+                return pRowInfo.realRowNumber === pRealRowNumber;
+            });
+
+            if (lRowInfoArray.length > 0){
+                lRetval = lRowInfoArray[0];
+            } else {
+                lRetval = get(pRealRowNumber);
+            }
+            return lRetval;
+        },
+
         getLast: function(){
-            return get(gRowInfo.length - 1);
+            return get(gRowInfoArray.length - 1);
         },
 
         /**
@@ -56,12 +79,13 @@ define(function() {
          * @param <int> pRowNumber
          * @param <int> pHeight
          */
-        set: function (pRowNumber, pHeight) {
+        set: function (pRowNumber, pHeight, pRealRowNumber) {
             var lPreviousRowInfo = get(pRowNumber - 1);
 
-            gRowInfo[pRowNumber] = {
+            gRowInfoArray[pRowNumber] = {
                 y : lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
-                height : pHeight
+                height : pHeight,
+                realRowNumber : pRealRowNumber
             };
         }
     };
