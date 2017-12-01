@@ -1,0 +1,6 @@
+msc {
+a,b;
+
+a =>> b [arcskip=3];
+b => b;
+}

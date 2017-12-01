@@ -230,6 +230,11 @@ describe('render/graphics/renderast', function() {
                 path.join(__dirname, '../../fixtures/arcskip/arcskip08.json'), false, true);
         });
 
+        it('42 row arcskip - beyond the end of the chart', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip09.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip09.json'), false, true);
+        });
+
         it('one row arcskip, with a row height <= normal row height within an inline expression', function(){
             processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip11.svg'),
                 path.join(__dirname, '../../fixtures/arcskip/arcskip11.json'), false, true);

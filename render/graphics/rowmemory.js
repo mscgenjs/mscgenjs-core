@@ -25,6 +25,10 @@ define(function() {
         }
     }
 
+    function getLast(){
+        return get(gRowInfoArray.length - 1);
+    }
+
     return {
 
         /**
@@ -62,15 +66,13 @@ define(function() {
 
             if (lRowInfoArray.length > 0){
                 lRetval = lRowInfoArray[0];
-            } else {
-                lRetval = get(pRealRowNumber);
+            } else { // most likely asking for something below the bottom of the chart => return the bottom
+                lRetval = getLast();
             }
             return lRetval;
         },
 
-        getLast: function(){
-            return get(gRowInfoArray.length - 1);
-        },
+        getLast: getLast,
 
         /**
          * set() - stores the pHeight for the given pRowNumber, and sets

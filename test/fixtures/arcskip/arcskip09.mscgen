@@ -1,0 +1,11 @@
+/*
+- 42 row arcskip - beyond the end of the chart
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---,a -> b [arcskip="42", label="arcskip = 42"];
+    ---;
+    ---, b => c [label="should connect to this because skipping beyond the boundaries of the chart"];
+}
