@@ -1,0 +1,10 @@
+/*
+ * one row arcskips, with row height > normal row height; caused by current arc
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---, a -> b [arcskip="1.5", label="arcskip = 1, this arc makes that the arc row height is heigher than the default archeight"];
+    ---, b -> c [label="arcskip arc should connect to this"];
+}

@@ -1,0 +1,61 @@
+{
+  "precomment": [
+    "/*\n- two row arcskips, with the row it should point to having a height > normal\n */",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "options": {
+    "wordwraparcs": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "a",
+        "to": "b",
+        "arcskip": "2",
+        "label": "arcskip = 2"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "arcskip is slower than this"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "arcskip arc should connect to this (but it is heigher than the default height)"
+      }
+    ]
+  ]
+}

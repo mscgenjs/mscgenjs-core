@@ -1,0 +1,11 @@
+/*
+- two row arcskips, with the row after it having a height > normal
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---, a -> b [arcskip=2, label="arcskip = 2"];
+    ---, c rbox c [label="this line between the arcskip thing and the one it needs to connect to is higher than standard"];
+    ---, b -> c [label="arcskip arc should connect to this"];
+}

@@ -1,0 +1,12 @@
+/*
+ * one row arcskips, with row height > normal row height; caused by another
+ * arc in the same row
+ */
+msc {
+    wordwraparcs=on;
+    a,b,c;
+
+    ---, a -> b [arcskip=1, label="arcskip = 1"],
+    ---, c note c [label="This is a note that runs over more than two lines => the arcrowheight will be bigger than normal"];
+    ---, b -> c [label="arcskip arc should connect to this"];
+}

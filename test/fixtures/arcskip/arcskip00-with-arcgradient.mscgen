@@ -1,50 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Super Simple MsGenny interpreter (AMD)</title>
-        <style media="screen">
-            body{
-                margin: 0;
-                font-family:sans-serif;
-                font-size:12px;
-                display:flex;
-                flex-direction:row;
-            }
-            #inputscript {
-                background-color:black;
-                color:white;
-                border:0;
-            }
-            .buttonia {
-                background-color: lightgrey;
-                width: 100px;
-                text-align: center;
-            }
-            .column {
-                flex-direction: row;
-                color: white;
-            }
-            button {
-                font: inherit;
-                width: 90px;
-                height: 40px;
-            }
-            textarea {
-                font-family: monospace;
-            }
-        </style>
-        <script data-main="sample-requirejs.js" src="../../node_modules/requirejs/require.js" defer></script>
-    </head>
-    <body>
-        <textarea
-            id="inputscript"
-            cols="60" rows="0"
-            spellcheck="false">/*
-* All arcskip tests for MscGen balled together
-*/
+/*
+ * All arcskip tests for MscGen balled together
+ */
 msc {
-    # arcgradient=7,
+    arcgradient=7,
     wordwraparcs=on;
 
     0 [arclinecolor=lightgrey, linecolor="transparent", label=""],
@@ -101,13 +59,4 @@ msc {
     a -> b [arcskip=1, label="arcskip = 1"];
     0..c,
     b -> c [label="arcskip arc should connect to this"];
-}</textarea>
-        <div class="buttonia">
-            <button type="button" id="render">render</button>
-            <span id="version"></span>
-            <button type="button" id="loop">add a loop</button>
-            <button type="button" id="alt">add an alt</button>
-        </div>
-        <div id="output"></div>
-    </body>
-</html>
+}

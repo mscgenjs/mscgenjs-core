@@ -1,0 +1,69 @@
+/*
+ * All arcskip tests for MscGen balled together
+ */
+msc {
+    # arcgradient=7,
+    wordwraparcs=on;
+
+    0 [arclinecolor=lightgrey, linecolor="transparent", label=""],
+    a,
+    b,
+    c;
+
+    # 01
+    0 .. a [label=01], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="1.5", label="arcskip = 1.5"];
+    0..c,
+    b -> c [label="land half below this"];
+
+    0 .. a [label=01a], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="0.5", label="arcskip = 0.5"];
+    0..c,
+    b -> c [label="land half above this"];
+
+    # 02
+    0 .. a [label=02], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="2.5", label="arcskip = 2.5"];
+    0..c,
+    b -> c [label="a =>> b is slower than this"];
+    0..c,
+    b -> c [label="land half below this"];
+
+    # 03
+    0 .. a [label=03], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="1.5", label="arcskip = 1.5, this arc makes that the arc row height is heigher than the default archeight"];
+    0..c,
+    b -> c [label="land half below this"];
+
+    # 04
+    0 .. a [label=04], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="1.5", label="arcskip = 1.5"],
+    c note c [label="This is a note that runs over more than two lines => the arcrowheight will be bigger than normal"];
+    0..c,
+    b -> c [label="land half below this"];
+
+
+    # 05
+    0 .. a [label=05], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="2.5", label="arcskip = 2.5"];
+    0..c,
+    c rbox c [label="this line between the arcskip thing and the one it needs to connect to is higher than standard"];
+    0..c,
+    b -> c [label="land half below this"];
+
+    # 06
+    0 .. a [label=06], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="2.5", label="arcskip = 2.5"];
+    0..c,
+    b -> c [label="arcskip is slower than this"];
+    0..c,
+    b -> c [label="land half below this"];
+
+    # 01 again
+    0 .. a [label=01], a .. c [linecolor=lightgrey],
+    a -> b [arcskip="0.5", label="arcskip = 0.5"],
+    a -> b [arcskip="1.5", label="arcskip = 1.5"];
+    0..c,
+    b -> c [label="land half below and above this"];
+    0..c;
+}

@@ -174,4 +174,60 @@ describe('render/graphics/renderast', function() {
                 path.join(__dirname, '../../fixtures/wordwrapboxesfalse.json'), true, true);
         });
     });
+
+    describe('#renderAST arcskips', function() {
+        const lWindow = new JSDOM("<html><body><span id='__svg'></span></body></html>").window;
+
+        function processAndCompare(pExpectedFile, pInputFile, pIncludeSource, pUseOwnElement) {
+            tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
+                return ast2svg(
+                    pInput,
+                    lWindow,
+                    {
+                        includeSource: pIncludeSource,
+                        useOwnElement: pUseOwnElement
+                    }
+                );
+            });
+        }
+        it('one row arcskip, with a row height <= normal row height', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip01.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip01.json'), false, true);
+        });
+
+        it('two row arcskips, with row heights <= normal row height', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip02.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip02.json'), false, true);
+        });
+
+        it('one row arcskips, with row height > normal row height; caused by current arc', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip03.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip03.json'), false, true);
+        });
+
+        it('one row arcskips, with row height > normal row height; caused by another arc in the same row', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip04.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip04.json'), false, true);
+        });
+
+        it('two row arcskips, with the row after it having a height > normal', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip05.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip05.json'), false, true);
+        });
+
+        it('two row arcskips, with the row it should point to having a height > normal', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip06.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip06.json'), false, true);
+        });
+
+        it('1/2 row arcskip, with a row height <= normal row height', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip07.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip07.json'), false, true);
+        });
+
+        it('1.5 row arcskip, with a row height <= normal row height', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip08.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip08.json'), false, true);
+        });
+    });
 });

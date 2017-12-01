@@ -1,0 +1,61 @@
+{
+  "precomment": [
+    "/*\n- two row arcskips, with the row after it having a height > normal\n */",
+    "\n"
+  ],
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": false,
+    "extendedFeatures": false
+  },
+  "options": {
+    "wordwraparcs": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "a",
+        "to": "b",
+        "arcskip": "2",
+        "label": "arcskip = 2"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "rbox",
+        "from": "c",
+        "to": "c",
+        "label": "this line between the arcskip thing and the one it needs to connect to is higher than standard"
+      }
+    ],
+    [
+      {
+        "kind": "---"
+      },
+      {
+        "kind": "->",
+        "from": "b",
+        "to": "c",
+        "label": "arcskip arc should connect to this"
+      }
+    ]
+  ]
+}
