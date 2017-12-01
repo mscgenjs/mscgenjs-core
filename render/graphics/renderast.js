@@ -832,8 +832,8 @@ define(function(require) {
             lRetval =
                 rowmemory.get(pRowNumber + lWholeArcSkip).y +
                 lRestArcSkip * (
-                    rowmemory.get(pRowNumber + lWholeArcSkip).y -
-                    rowmemory.get(pRowNumber + lWholeArcSkip - 1).y
+                    rowmemory.get(pRowNumber + lWholeArcSkip + 1).y -
+                    rowmemory.get(pRowNumber + lWholeArcSkip).y
                 );
         }
         return lRetval;
