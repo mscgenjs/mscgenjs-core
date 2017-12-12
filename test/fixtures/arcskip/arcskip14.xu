@@ -1,0 +1,10 @@
+xu {
+  a,
+  b,
+  c;
+
+  a -> b [label="connect to b->c", arcskip="1"],
+  b loop c {
+    b -> c [label="do things"];
+  };
+}
