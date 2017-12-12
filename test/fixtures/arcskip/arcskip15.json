@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "extendedOptions": false,
+    "extendedArcTypes": true,
+    "extendedFeatures": true
+  },
+  "entities": [
+    {
+      "name": "a"
+    },
+    {
+      "name": "b"
+    },
+    {
+      "name": "c"
+    }
+  ],
+  "arcs": [
+    [
+      {
+        "kind": "->",
+        "from": "c",
+        "to": "b",
+        "label": "connect to b->a",
+        "arcskip": "1"
+      },
+      {
+        "kind": "loop",
+        "from": "b",
+        "to": "c",
+        "arcs": [
+          [
+            {
+              "kind": ">>",
+              "from": "b",
+              "to": "a",
+              "label": "do things"
+            }
+          ]
+        ]
+      }
+    ]
+  ]
+}

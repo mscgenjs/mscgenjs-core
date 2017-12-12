@@ -249,5 +249,15 @@ describe('render/graphics/renderast', function() {
             processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip13.svg'),
                 path.join(__dirname, '../../fixtures/arcskip/arcskip13.json'), false, true);
         });
+
+        it('if there\'s a regular arc and an inline expression on the same row - count it as a real and not a virtual row', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip14.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip14.json'), false, true);
+        });
+
+        it('if there\'s an inline expression and a regular arc on the same row - count it as a real and not a virtual row', function(){
+            processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip15.svg'),
+                path.join(__dirname, '../../fixtures/arcskip/arcskip15.json'), false, true);
+        });
     });
 });
