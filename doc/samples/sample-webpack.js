@@ -1,4 +1,5 @@
-var mscgenjs = require('../../');
+// var mscgenjs = require('../../dist/mscgen').mscgen;
+var mscgenjs = require('../../dist/mscgen');
 
 function render(){
     // clear the target area before rendering on it
