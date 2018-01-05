@@ -54,6 +54,13 @@ var mscgenjs = require('mscgenjs/index-lazy');
 ```
 
 ```javascript
+// commonjs, only for use with webpack > 2, as long as 
+// issue [webpack/webpack#5316](https://github.com/webpack/webpack/issues/5316)
+// remains unresolved
+var mscgenjs = require('mscgenjs/dist/webpack-issue-5316-workaround');
+```
+
+```javascript
 // requirejs - assuming the module is in your root and you're loading from
 //             node_modules.
 define(['./node_modules/mscgenjs/index'], function(mscgenjs){
