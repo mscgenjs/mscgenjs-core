@@ -1,11 +1,10 @@
 
-module.exports = (pEnv = 'prod') => {
-    const lRetval = {
-        entry: './sample-webpack.js'
+module.exports = () => {
+    return {
+        entry: './sample-webpack.js',
+        output: {
+            filename : './sample-webpack.bundle.js'
+        },
+        devtool: 'source-map'
     };
-
-    lRetval.output = {filename : './sample-webpack.bundle.js'}
-    lRetval.devtool = "source-map";
-
-    return lRetval;
 };
