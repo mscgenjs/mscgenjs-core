@@ -1,4 +1,4 @@
-var mscgenjs = require('../../');
+var mscgenjs = require('../../dist/webpack-issue-5316-workaround');
 
 function render(){
     // clear the target area before rendering on it
@@ -10,7 +10,8 @@ function render(){
         {
             inputType: "msgenny", // make this "mscgen" or "xu" to make it an interpreter in that language
             elementId: "output", // id of the element to render in
-            additionalTemplate: "lazy" // use the 'lazy' style addtions specially made for msgenny
+            additionalTemplate: "fountainpen" // the 'fountainpen' style addtions makes things look squigly
+                                              // alternatively use 'lazy', which was developed for msgenny
         },
         function (pError, pSuccess) {
             if (Boolean(pError)){

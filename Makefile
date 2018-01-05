@@ -4,6 +4,7 @@ GIT=git
 NPM=npm
 MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclude "node_modules|doc"
 LODASH=node_modules/.bin/lodash
+RJS=node_modules/requirejs/bin/r.js
 
 PARSERS=parse/mscgenparser.js \
 	parse/msgennyparser.js \
@@ -14,7 +15,7 @@ GENERATED_SOURCES=$(PARSERS) \
 				  render/graphics/csstemplates.js
 LIBDIRS=lib/lodash
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
+.PHONY: help dist dev-build install deploy-gh-pages check fullcheck mostlyclean clean lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
 help:
 	@echo " --------------------------------------------------------"
@@ -93,6 +94,16 @@ prerequisites:
 	$(NPM) install
 
 dev-build: $(GENERATED_SOURCES) .npmignore
+
+dist: dev-build node_modules/almond/almond.js
+	mkdir -p dist
+	$(RJS) -o baseUrl=. \
+			name=node_modules/almond/almond \
+			include=index \
+			out=dist/webpack-issue-5316-workaround.js \
+			wrap.startFile=almond.start.frag \
+			wrap.endFile=almond.end.frag \
+			preserveLicenseComments=true
 
 lint:
 	$(NPM) run lint

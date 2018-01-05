@@ -9,10 +9,14 @@ with mscgenjs.
 
 - [`sample-webpack.html`](sample-webpack.html)    
   a page with a textarea, a few buttons and a div for
-  putting the output in.
+  putting the output in. 
 - [`sample-webpack.js`](sample-webpack.js)    
   Sets up some listeners that (a.o.) call mscgenjs' render function with
-  the textarea as input
+  the textarea as input. 
+  > Note that this does not `require` the root module
+  but `dist/webpack-issue-5316-workaround.js` in stead. This is a workaround for 
+  [webpack issue #5316](https://github.com/webpack/webpack/issues/5316),
+  which makes that webpack 2+ can't work with amdefine.
 - `sample-webpack.bundle.js`    
   The webpack bundle actually included in _sample-webpack.html_. It's not
   included in the repo but it's easy to generate it from app.js:
@@ -21,8 +25,11 @@ with mscgenjs.
 # when you don't have webpack installed yet do that first:
 npm install --global webpack
 
-# generate the bundle
-webpack --optimize-minimize sample-webpack.js sample-webpack.bundle.js
+# change to this directory
+cd doc/samples
+
+# generate the bundle; it'll now use the webpack.config.js in doc/samples
+webpack
 ```
 
 ## An AMD example (using requirejs)
