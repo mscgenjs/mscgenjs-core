@@ -100,7 +100,7 @@ dist: dev-build node_modules/almond/almond.js
 	$(RJS) -o baseUrl=. \
 			name=node_modules/almond/almond \
 			include=index \
-			out=dist/mscgen.js \
+			out=dist/webpack-issue-5316-workaround.js \
 			wrap.startFile=almond.start.frag \
 			wrap.endFile=almond.end.frag \
 			preserveLicenseComments=true
