@@ -1,4 +1,6 @@
 (function (root, factory) {
+    // See https://github.com/requirejs/almond#exporting-a-public-api
+    // for background information
     if (typeof define === 'function' && define.amd) {
         //Allow using this built library as an AMD module
         //in another project. That other project will only
