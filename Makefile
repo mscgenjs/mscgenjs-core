@@ -76,16 +76,23 @@ render/graphics/csstemplates.js: render/graphics/styling \
 
 .npmignore: .gitignore
 	cp $< $@
+	echo "" >> $@
+	echo "# to ignore specifically for npm publishing: >> $@"
 	echo ".bithoundrc" >> $@
 	echo ".codeclimate.yml" >> $@
+	echo ".dependency-cruiser.json" >> $@
 	echo ".eslintignore" >> $@
 	echo ".eslintrc.json" >> $@
 	echo ".gitlab-ci.yml" >> $@
 	echo ".istanbul.yml" >> $@
 	echo ".travis.yml" >> $@
-	echo "Makefile" >> $@
+	echo "almond.*.frag" >> $@
+	echo "CODE_OF_CONDUCt.md" >> $@
+	echo "CONTRIBUTING.md" >> $@
 	echo "dependencies.mk" >> $@
+	echo "doc" >> $@
 	echo "jsdependencies.mk" >> $@
+	echo "Makefile" >> $@
 	echo "test/**" >> $@
 	echo "utl/**" >> $@
 
