@@ -87,7 +87,7 @@ render/graphics/csstemplates.js: render/graphics/styling \
 	echo ".istanbul.yml" >> $@
 	echo ".travis.yml" >> $@
 	echo "almond.*.frag" >> $@
-	echo "CODE_OF_CONDUCt.md" >> $@
+	echo "CODE_OF_CONDUCT.md" >> $@
 	echo "CONTRIBUTING.md" >> $@
 	echo "dependencies.mk" >> $@
 	echo "doc" >> $@

@@ -29,7 +29,7 @@ tracking.*
 .istanbul.yml
 .travis.yml
 almond.*.frag
-CODE_OF_CONDUCt.md
+CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 dependencies.mk
 doc
