@@ -30,6 +30,7 @@
     "depcruise:graph": "depcruise -v -T dot -M amd -x \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
     "lint:fix": "eslint --fix index.js index-lazy.js indexAMD.js main parse render test",
+    "lint:types": "tslint types/mscgen.d.ts",
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
     "plato": "plato -r -d platoreports -x \"parser|test|lib|platoreports|node_modules|coverage|indexAMD|csstemplates\" ./",
@@ -52,6 +53,7 @@
   "engines": {
     "node": ">=4.0"
   },
+  "types": "./types/mscgen.d.ts",
   "bugs": {
     "url": "https://github.com/mscgenjs/mscgenjs-core/issues"
   },
