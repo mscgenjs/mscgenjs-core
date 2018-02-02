@@ -93,6 +93,7 @@ render/graphics/csstemplates.js: render/graphics/styling \
 	echo "doc" >> $@
 	echo "jsdependencies.mk" >> $@
 	echo "Makefile" >> $@
+	echo "tslint.json" >> $@
 	echo "test/**" >> $@
 	echo "utl/**" >> $@
 

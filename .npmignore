@@ -35,5 +35,6 @@ dependencies.mk
 doc
 jsdependencies.mk
 Makefile
+tslint.json
 test/**
 utl/**
