@@ -152,7 +152,7 @@ export interface IAllowedValues {
  * attribute. If that attribute is true, you'll hit a feature that is
  * under development when use that value.
  */
-export const getAllowedValues: IAllowedValues;
+export function getAllowedValues(): IAllowedValues;
 
 interface IParser {
     /**
