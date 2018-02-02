@@ -68,7 +68,7 @@ interface IRenderOptions {
 export function renderMsc(
     pScript: string,
     pOptions?: IRenderOptions,
-    pCallBack?: (pError, pSuccess) => void,
+    pCallBack?: (pError: Error, pSuccess: string) => void,
 ): void;
 
 export type OutputType =
@@ -113,7 +113,7 @@ interface ITranslateOptions {
 export function translateMsc(
     pScript: string,
     pOptions?: ITranslateOptions,
-    pCallBack?: (pError, pSuccess) => void,
+    pCallBack?: (pError: Error, pSuccess: string) => void,
 ): void;
 
 /**
