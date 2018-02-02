@@ -5,6 +5,12 @@ export type InputType =
     "json"
 ;
 
+export type RegularArcTextVerticalAlignmentType =
+    "above"  |
+    "middle" |
+    "below"
+;
+
 interface IRenderOptions {
     /**
      * the id of the DOM element to render in. Defaults to
@@ -34,6 +40,12 @@ interface IRenderOptions {
      * in a desc element or not. Defaults to false
      */
     includeSource?: boolean;
+
+    /**
+     * the vertical alignment type to use
+     * defaults to "middle"
+     */
+    regularArcTextVerticalAlignment?: RegularArcTextVerticalAlignmentType;
 }
 /**
  * parses the given script and renders it in the DOM element with
@@ -144,6 +156,7 @@ export interface IAllowedValues {
     inputType: IValueDetails[];
     outputType: IValueDetails[];
     namedStyle: IValueDetails[];
+    regularArcTextVerticalAlignment: IValueDetails[];
 }
 /**
  * An object with arrays of allowed values for parameters in the
