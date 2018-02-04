@@ -92,7 +92,7 @@ define(function(require){
             }
         },
 
-        version: "1.13.0-beta-4",
+        version: "1.13.0"
 
         getAllowedValues: function() {
             return Object.freeze({
