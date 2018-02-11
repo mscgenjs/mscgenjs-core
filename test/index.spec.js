@@ -57,6 +57,17 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         );
                     });
             });
+            it('ast translates mscgen to an AST object', () => {
+                mscgenjs.translateMsc(SIMPLE_MSCGEN, {outputType: "ast"}, function(pError, pResult){
+                    /* eslint no-unused-expression:0 */
+                    expect(pError).to.be.null;
+                    expect(
+                        pResult
+                    ).to.deep.equal(
+                        fix.astSimple
+                    );
+                });
+            });
             it('invalid mscgen throws an error', () => {
                 mscgenjs.translateMsc(
                     SIMPLE_XU,

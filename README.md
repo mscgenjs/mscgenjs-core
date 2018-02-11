@@ -148,7 +148,7 @@ mscgenjs.translateMsc(
     'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
     {
         inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
-        outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen
+        outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen, ast
     },
     function(pError, pSuccess){
         if(Boolean(pError)){
