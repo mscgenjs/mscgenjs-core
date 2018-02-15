@@ -29,9 +29,9 @@ Implementation of [MscGen][mscgen] and two derived languages in JavaScript.
 ### Prerequisites
 mscgen_js works in anything with an implementation of the document object model
 (DOM). This includes web-browsers, client-side application shells like electron
-and even headless browsers like phantomjs. It does _not_ include nodejs
-(although it is possible to get it sorta to work even there with
-[jsdom](https://github.com/tmpvar/jsdom)).
+and even headless browsers like chrome headless and phantomjs. It does _not_
+include nodejs (although it is possible to get it sorta to work even there with
+[jsdom](https://github.com/tmpvar/jsdom) or with a headless browser).
 
 ### Get it
 `npm install mscgenjs`
@@ -192,8 +192,7 @@ Software that uses `mscgenjs`:
   Using require.js)
   - ~ [where parsing happens][mscgenjs.interpreter.source.parse]
   - ~ [where rendering happens][mscgenjs.interpreter.source.render]
-- the [command line interface][mscgenjs.cli.source] (Node.js, PhantomJS and
-  some spit)
+- the [command line interface][mscgenjs.cli.source] (Node.js, chrome headless)
 
 ## Hacking on mscgenjs itself
 ### Building mscgenjs
