@@ -25,14 +25,14 @@
     "pegjs": "0.10.0"
   },
   "scripts": {
-    "depcruise": "depcruise -v -T err main parse render *.js",
-    "depcruise:graph": "depcruise -v -T dot -M amd -x \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
+    "depcruise": "depcruise --validate -- main parse render *.js",
+    "depcruise:graph": "depcruise --validate --output-type dot --module-systems amd --exclude \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
     "lint:fix": "eslint --fix index.js index-lazy.js indexAMD.js main parse render test",
     "lint:types": "tslint types/mscgen.d.ts",
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
-    "test": "mocha -R dot --bail --timeout 6000 --recursive test",
+    "test": "mocha --reporter dot --bail --timeout 6000 --recursive test",
     "test:cover": "nyc --check-coverage npm test"
   },
   "repository": {
