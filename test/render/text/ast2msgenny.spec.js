@@ -1,15 +1,13 @@
 const assert   = require("assert");
-const path     = require('path');
 const renderer = require("../../../render/text/ast2msgenny");
 const fix      = require("../../astfixtures.json");
-const utl      = require("../../testutensils");
 
 describe('render/text/ast2msgenny', () => {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', () => {
 
         it('should, given a simple syntax tree, render a msgenny script', () => {
             const lProgram = renderer.render(fix.astSimple);
-            const lExpectedProgram = 'a,\n"b space";\n\na => "b space" : a simple script;\n';
+            const lExpectedProgram = 'a,\n"b space";\n\na => "b space" : "a simple script";\n';
             assert.equal(lProgram, lExpectedProgram);
         });
 
@@ -37,6 +35,46 @@ describe('render/text/ast2msgenny', () => {
             assert.equal(lProgram, lExpectedProgram);
         });
 
+        it("should wrap entity names with a space in quotes", () => {
+            const lAST = {
+                "entities" : [{
+                    "name" : "space space"
+                }]
+            };
+            const lProgram = renderer.render(lAST);
+            const lExpectedProgram = '"space space";\n\n';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+
+        it("should not wrap the '*' pseudo entity", () => {
+            const lAST = {
+                "entities": [
+                    {
+                        "name": "a"
+                    },
+                    {
+                        "name": "b"
+                    },
+                    {
+                        "name": "c"
+                    }
+                ],
+                "arcs": [
+                    [
+                        {
+                            "kind": "=>>",
+                            "from": "b",
+                            "to": "*",
+                            "label": ""
+                        }
+                    ]
+                ]
+            };
+            const lProgram = renderer.render(lAST);
+            const lExpectedProgram = 'a,\nb,\nc;\n\nb =>> *;\n';
+            assert.equal(lProgram, lExpectedProgram);
+        });
+
         it("should render options when they're in the syntax tree", () => {
             const lProgram = renderer.render(fix.astOptions);
             const lExpectedProgram =
@@ -53,7 +91,7 @@ a;
         });
         it("should ignore all attributes, except label and name", () => {
             const lProgram = renderer.render(fix.astAllAttributes);
-            const lExpectedProgram = "a : Label for A;\n\na <<=>> a : Label for a <<=>> a;\n";
+            const lExpectedProgram = 'a : "Label for A";\n\na <<=>> a : "Label for a <<=>> a";\n';
             assert.equal(lProgram, lExpectedProgram);
         });
         it("should preserve the comments at the start of the ast", () => {
@@ -63,7 +101,7 @@ a;
         });
         it("should correctly render parallel calls", () => {
             const lProgram = renderer.render(fix.astSimpleParallel);
-            const lExpectedProgram = 'a,\nb,\nc;\n\nb -> a : "{paral",\nb =>> c : lel};\n';
+            const lExpectedProgram = 'a,\nb,\nc;\n\nb -> a : "{paral",\nb =>> c : "lel}";\n';
             assert.equal(lProgram, lExpectedProgram);
         });
     });
@@ -82,14 +120,14 @@ b,
 c;
 
 a => b;
-a loop c : label for loop {
-  b alt c : label for alt {
-    b -> c : -> within alt;
-    c >> b : >> within alt;
+a loop c : "label for loop" {
+  b alt c : "label for alt" {
+    b -> c : "-> within alt";
+    c >> b : ">> within alt";
   };
-  b >> a : >> within loop;
+  b >> a : ">> within loop";
 };
-a =>> a : happy-the-peppy - outside;
+a =>> a : "happy-the-peppy - outside";
 ...;
 `;
             assert.equal(lProgram, lExpectedProgram);
@@ -131,15 +169,4 @@ a =>> a : happy-the-peppy - outside;
         });
     });
 
-    describe('#renderAST() - file based tests', () => {
-        it('should render all arcs', () => {
-            utl.assertequalProcessing(
-                path.join(__dirname, "../../fixtures/test01_all_possible_arcs_msgenny.msgenny"),
-                path.join(__dirname, "../../fixtures/test01_all_possible_arcs_msgenny.json"),
-                function(pFileContent) {
-                    return renderer.render(JSON.parse(pFileContent));
-                }
-            );
-        });
-    });
 });
