@@ -353,8 +353,7 @@ test/render/text/ast2mscgen.spec.js: \
 
 test/render/text/ast2msgenny.spec.js: \
 	render/text/ast2msgenny.js \
-	test/astfixtures.json \
-	test/testutensils.js
+	test/astfixtures.json
 
 test/render/text/ast2xu.spec.js: \
 	parse/xuparser.js \
