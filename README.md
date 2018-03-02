@@ -215,7 +215,7 @@ license (incidentally all MIT style):
 - mscgen_js automated tests use [mocha][21], [chai][39],
   [chai-xml][40] and [jsdom][jsdom.license].
 
-It uses [istanbul][28], [eslint][22] [dependency-cruiser][23] and [nsp][35] to maintain some
+It uses [istanbul][28], [eslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
 modicum of verifiable code quality. You can see the build history in
 [Travis][travis.mscgenjs] and an indication of the shape of the code at
 [Bit Hound][bithound.mscgenjs].
