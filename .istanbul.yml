@@ -1,3 +1,0 @@
-instrumentation:
-    excludes: ['dist/**/*', 'lib/**/*', 'indexAMD.js', 'doc/**/*', 'platoreports/**/*', 'coverage/**/*', 'render/graphics/styling/**', 'render/graphics/svgelementfactory/wobbly.js' ]
-    include-all-sources: true

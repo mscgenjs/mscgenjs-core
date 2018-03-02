@@ -23,10 +23,6 @@ js-makedepend cannot detect like conditional module loading).
     - generates a report that specifies the test coverage
     - note that it runs the `test` target to determine the coverage
 
-- `make static-analysis` or `npm run plato`
-    - runs the static code analyzer (plato)
-    - output will be in platoreports/index.html
-
 - `npm run nsp`
     - checks dependencies for known vulnerabilities (with _node security project_)
 
@@ -55,7 +51,6 @@ js-makedepend cannot detect like conditional module loading).
     - r.js (Mandatory for creating an minified version of the javascript (which in itself is optional))
     - eslint (optional: linting and style checking)
     - mocha (optional: unit testing)
-    - istanbul (optional: test coverage)
-    - plato (optional: static code analysis)
+    - nyc (optional: test coverage)
     - nsp (optional: node security project - checks node module dependencies for security flaws)
 - git

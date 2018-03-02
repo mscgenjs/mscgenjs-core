@@ -2,6 +2,6 @@
 lib
 node_modules
 coverage
-platoreports
+.nyc_output
 render/graphics/csstemplates.js
 render/graphics/styling/csstemplates.template.js

@@ -84,7 +84,6 @@ render/graphics/csstemplates.js: render/graphics/styling \
 	echo ".eslintignore" >> $@
 	echo ".eslintrc.json" >> $@
 	echo ".gitlab-ci.yml" >> $@
-	echo ".istanbul.yml" >> $@
 	echo ".travis.yml" >> $@
 	echo "almond.*.frag" >> $@
 	echo "CODE_OF_CONDUCT.md" >> $@
@@ -141,9 +140,6 @@ tag:
 push-mirrors:
 	$(GIT) push bitbucket-mirror
 	$(GIT) push gitlab-mirror
-
-static-analysis:
-	$(NPM) run plato
 
 test: dev-build
 	$(NPM) test

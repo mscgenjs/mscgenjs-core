@@ -1,4 +1,5 @@
 .DS_Store
+.nyc_output
 .project
 .settings/*
 *.swo
@@ -12,7 +13,6 @@ coverage
 jsdoc
 node_modules
 npm-debug.log
-platoreports
 siteverification.id
 src/*favicon-*.png
 src/*tmp*.*
