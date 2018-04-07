@@ -49,10 +49,10 @@
     "msgenny"
   ],
   "nyc": {
-    "statements": 86.64,
-    "branches": 77.52,
-    "functions": 95.98,
-    "lines": 89.6,
+    "statements": 86.5,
+    "branches": 77.4,
+    "functions": 95.8,
+    "lines": 89.5,
     "exclude": [
       "dist/**/*",
       "lib/**/*",
