@@ -118,5 +118,8 @@
       "from": {},
       "to": { "circular": true }
     }
-  ]
+  ],
+  "options": {
+    "moduleSystems": ["cjs", "amd", "es6"]
+  }
 }

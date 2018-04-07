@@ -26,7 +26,7 @@
   },
   "scripts": {
     "depcruise": "depcruise --validate -- main parse render *.js",
-    "depcruise:graph": "depcruise --validate --output-type dot --module-systems amd --exclude \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
+    "depcruise:graph": "depcruise --validate --output-type dot --module-systems cjs --exclude \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
     "lint:fix": "eslint --fix index.js index-lazy.js indexAMD.js main parse render test",
     "lint:types": "tslint types/mscgen.d.ts",
