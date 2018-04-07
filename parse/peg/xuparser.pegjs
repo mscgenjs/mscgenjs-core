@@ -15,141 +15,20 @@
  */
 
 {
-    function merge(pBase, pObjectToMerge){
-        pBase = pBase || {};
-        if (pObjectToMerge){
-            Object.getOwnPropertyNames(pObjectToMerge).forEach(function(pAttribute){
-                pBase[pAttribute] = pObjectToMerge[pAttribute];
-            });
-        }
-        return pBase;
-    }
-
-    function optionArray2Object (pOptionList) {
-        var lOptionList = {};
-        pOptionList.forEach(function(lOption){
-            lOptionList = merge(lOptionList, lOption);
-        });
-        return lOptionList;
-    }
-
-    function flattenBoolean(pBoolean) {
-        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
-    }
-
-    function nameValue2Option(pName, pValue){
-        var lOption = {};
-        lOption[pName.toLowerCase()] = pValue;
-        return lOption;
-    }
-
-    function entityExists (pEntities, pName) {
-        return pName === undefined || pName === "*" || pEntities.some(function(pEntity){
-            return pEntity.name === pName;
-        });
-    }
-
-    function isMscGenKeyword(pString){
-        return [
-            "box", "abox", "rbox", "note", "msc", "hscale", "width",
-            "arcgradient", "wordwraparcs", "label", "color", "idurl", "id",
-            "url", "linecolor", "linecolour", "textcolor", "textcolour",
-           "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
-           "arctextcolor", "arctextcolour","arctextbgcolor", "arctextbgcolour",
-           "arcskip"
-        ].indexOf(pString) > -1;
-    }
-
-    function buildEntityNotDefinedMessage(pEntityName, pArc){
-        return "Entity '" + pEntityName + "' in arc " +
-               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-               "is not defined.";
-    }
-
-    function EntityNotDefinedError (pEntityName, pArc) {
-        this.name = "EntityNotDefinedError";
-        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
-        /* istanbul ignore else  */
-        if(!!pArc.location){
-            this.location = pArc.location;
-            this.location.start.line++;
-            this.location.end.line++;
-        }
-    }
-
-    function checkForUndeclaredEntities (pEntities, pArcLines) {
-        if (!pEntities) {
-            pEntities = [];
-        }
-        if (pArcLines) {
-            pArcLines.forEach(function(pArcLine) {
-                pArcLine.forEach(function(pArc) {
-                    if (pArc.from && !entityExists (pEntities, pArc.from)) {
-                        throw new EntityNotDefinedError(pArc.from, pArc);
-                    }
-                    if (pArc.to && !entityExists (pEntities, pArc.to)) {
-                        throw new EntityNotDefinedError(pArc.to, pArc);
-                    }
-                    if (!!pArc.location) {
-                        delete pArc.location;
-                    }
-                    if (!!pArc.arcs){
-                        checkForUndeclaredEntities(pEntities, pArc.arcs);
-                    }
-                });
-            });
-        }
-        return pEntities;
-    }
-
-    function hasExtendedOptions (pOptions){
-        if (pOptions){
-            return (
-                     pOptions.hasOwnProperty("watermark")
-                  || pOptions.hasOwnProperty("wordwrapentities")
-                  || pOptions.hasOwnProperty("wordwrapboxes")
-                  || ( pOptions.hasOwnProperty("width") && pOptions.width === "auto")
-            );
-        } else {
-            return false;
-        }
-    }
-
-    function hasExtendedArcTypes(pArcLines){
-        if (pArcLines){
-            return pArcLines.some(function(pArcLine){
-                return pArcLine.some(function(pArc){
-                    return (["alt", "else", "opt", "break", "par",
-                      "seq", "strict", "neg", "critical",
-                      "ignore", "consider", "assert",
-                      "loop", "ref", "exc"].indexOf(pArc.kind) > -1);
-                });
-            });
-        }
-        return false;
-    }
-
-    function getMetaInfo(pOptions, pArcLineList){
-        var lHasExtendedOptions  = hasExtendedOptions(pOptions);
-        var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLineList);
-        return {
-            "extendedOptions" : lHasExtendedOptions,
-            "extendedArcTypes": lHasExtendedArcTypes,
-            "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
-        }
-    }
+    var parserHelpers = require('./parserHelpers');
+    var _assign = require('../lib/lodash/lodash.custom').assign;
 }
 
 program
     =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
     {
-        d.entities = checkForUndeclaredEntities(d.entities, d.arcs);
+        d.entities = parserHelpers.checkForUndeclaredEntities(d.entities, d.arcs);
         var lRetval = d;
 
-        lRetval = merge ({meta: getMetaInfo(d.options, d.arcs)}, lRetval);
+        lRetval = _assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
 
         if (pre.length > 0) {
-            lRetval = merge({precomment: pre}, lRetval);
+            lRetval = _assign({precomment: pre}, lRetval);
         }
 
         return lRetval;
@@ -181,33 +60,33 @@ optionlist
     = options:((o:option "," {return o})*
               (o:option ";" {return o}))
     {
-      return optionArray2Object(options[0].concat(options[1]));
+      return parserHelpers.optionArray2Object(options[0].concat(options[1]));
     }
 
 option "option"
     = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            return nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"width"i _ "=" _ value:sizelike _
         {
-            return nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            return nameValue2Option(name, flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapentities"i _ "=" _ value:booleanlike _
         {
-            return nameValue2Option(name, flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapboxes"i _ "=" _ value:booleanlike _
         {
-            return nameValue2Option(name, flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"watermark"i _ "=" _ value:string _
         {
-            return nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
 
 entitylist
@@ -219,14 +98,14 @@ entitylist
 entity "entity"
     =  _ name:string _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-            return merge ({name:name}, attrList);
+            return _assign ({name:name}, attrList);
         }
     /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-          if (isMscGenKeyword(name)){
+          if (parserHelpers.isMscGenKeyword(name)){
             error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
           }
-          return merge ({name:name}, attrList);
+          return _assign ({name:name}, attrList);
         }
 
 arclist
@@ -247,7 +126,7 @@ regulararc
     / (a:commentarc {return a}))
     al:("[" al:attributelist "]" {return al})?
     {
-      return merge (a, al);
+      return _assign (a, al);
     }
 
 singlearc
@@ -269,7 +148,7 @@ dualarc
 spanarc
     = (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
         {
-            return merge (
+            return _assign (
                 {
                     kind     : kind,
                     from     : from,
@@ -350,7 +229,7 @@ spanarctoken "inline expression"
 attributelist
     = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
     {
-      return optionArray2Object(attributes[0].concat(attributes[1]));
+      return parserHelpers.optionArray2Object(attributes[0].concat(attributes[1]));
     }
 
 attribute

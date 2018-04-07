@@ -23,33 +23,8 @@
  */
 
 {
-    function merge(pBase, pObjectToMerge){
-        pBase = pBase || {};
-        if (pObjectToMerge){
-            Object.getOwnPropertyNames(pObjectToMerge).forEach(function(pAttribute){
-                pBase[pAttribute] = pObjectToMerge[pAttribute];
-            });
-        }
-        return pBase;
-    }
-
-    function optionArray2Object (pOptionList) {
-        var lOptionList = {};
-        pOptionList.forEach(function(lOption){
-            lOptionList = merge(lOptionList, lOption);
-        });
-        return lOptionList;
-    }
-
-    function flattenBoolean(pBoolean) {
-        return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
-    }
-
-    function nameValue2Option(pName, pValue){
-        var lOption = {};
-        lOption[pName.toLowerCase()] = pValue;
-        return lOption;
-    }
+    var parserHelpers = require('./parserHelpers');
+    var _assign = require('../lib/lodash/lodash.custom').assign;
 
     function entityExists (pEntities, pName, pEntityNamesToIgnore) {
         if (pName === undefined || pName === "*") {
@@ -63,10 +38,10 @@
         return pEntityNamesToIgnore[pName] === true;
     }
 
-    function initEntity(lName) {
-        var lEntity = {};
-        lEntity.name = lName;
-        return lEntity;
+    function initEntity(pName) {
+        return {
+            name: pName
+        };
     }
 
     function extractUndeclaredEntities (pEntities, pArcLines, pEntityNamesToIgnore) {
@@ -78,62 +53,23 @@
             pEntityNamesToIgnore = {};
         }
 
-        if (pArcLines) {
-            pArcLines.forEach(function(pArcLine){
-                pArcLine.forEach(function(pArc){
-                    if (!entityExists (pEntities, pArc.from, pEntityNamesToIgnore)) {
-                        pEntities.push(initEntity(pArc.from));
-                    }
-                    // if the arc kind is arcspanning recurse into its arcs
-                    if (pArc.arcs){
-                        pEntityNamesToIgnore[pArc.to] = true;
-                        merge (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
-                        delete pEntityNamesToIgnore[pArc.to];
-                    }
-                    if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
-                        pEntities.push(initEntity(pArc.to));
-                    }
-                });
+        (pArcLines || []).forEach(function(pArcLine){
+            pArcLine.forEach(function(pArc){
+                if (!entityExists (pEntities, pArc.from, pEntityNamesToIgnore)) {
+                    pEntities.push(initEntity(pArc.from));
+                }
+                // if the arc kind is arcspanning recurse into its arcs
+                if (pArc.arcs){
+                    pEntityNamesToIgnore[pArc.to] = true;
+                    _assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
+                    delete pEntityNamesToIgnore[pArc.to];
+                }
+                if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
+                    pEntities.push(initEntity(pArc.to));
+                }
             });
-        }
+        });
         return pEntities;
-    }
-
-    function hasExtendedOptions (pOptions){
-        if (pOptions){
-            return (
-                     pOptions.hasOwnProperty("watermark")
-                  || pOptions.hasOwnProperty("wordwrapentities")
-                  || pOptions.hasOwnProperty("wordwrapboxes")
-                  || ( pOptions.hasOwnProperty("width") && pOptions.width === "auto")
-            );
-        } else {
-            return false;
-        }
-    }
-
-    function hasExtendedArcTypes(pArcLines){
-        if (pArcLines){
-            return pArcLines.some(function(pArcLine){
-                return pArcLine.some(function(pArc){
-                    return (["alt", "else", "opt", "break", "par",
-                      "seq", "strict", "neg", "critical",
-                      "ignore", "consider", "assert",
-                      "loop", "ref", "exc"].indexOf(pArc.kind) > -1);
-                });
-            });
-        }
-        return false;
-    }
-
-    function getMetaInfo(pOptions, pArcLines){
-        var lHasExtendedOptions  = hasExtendedOptions(pOptions);
-        var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLines);
-        return {
-            "extendedOptions" : lHasExtendedOptions,
-            "extendedArcTypes": lHasExtendedArcTypes,
-            "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
-        }
     }
 }
 
@@ -143,10 +79,10 @@ program
         d.entities = extractUndeclaredEntities(d.entities, d.arcs);
         var lRetval = d
 
-        lRetval = merge ({meta: getMetaInfo(d.options, d.arcs)}, lRetval);
+        lRetval = _assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
 
         if (pre.length > 0) {
-            lRetval = merge({precomment: pre}, lRetval);
+            lRetval = _assign({precomment: pre}, lRetval);
         }
         return lRetval;
     }
@@ -173,33 +109,33 @@ optionlist
     = options:((o:option "," {return o})*
                (o:option ";" {return o}))
     {
-      return optionArray2Object(options[0].concat(options[1]));
+      return parserHelpers.optionArray2Object(options[0].concat(options[1]));
     }
 
 option
     = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            return nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"width"i _ "=" _ value:sizelike _
         {
-            return nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            return nameValue2Option(name, flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapentities"i _ "=" _ value:booleanlike _
         {
-            return nameValue2Option(name, flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapboxes"i _ "=" _ value:booleanlike _
         {
-            return nameValue2Option(name, flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"watermark"i _ "=" _ value:quotedstring _
         {
-            return nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
 
 entitylist
@@ -211,8 +147,7 @@ entitylist
 entity "entity"
     =  _ name:identifier _ label:(":" _ l:string _ {return l})?
     {
-      var lEntity = {};
-      lEntity.name = name;
+      var lEntity = initEntity(name);
       if (!!label) {
         lEntity.label = label;
       }
@@ -270,7 +205,7 @@ spanarc
             arcs : arcs
         };
         if (label) {
-          retval.label = label;
+            retval.label = label;
         }
         return retval;
       })

@@ -60,7 +60,7 @@ $(LIBDIRS):
 	mkdir -p $@
 
 $(CUSTOM_LODASH): node_modules/lodash-cli/package.json
-	$(LODASH) exports=umd include=memoize,cloneDeep,flatten,defaults --development --output $@
+	$(LODASH) exports=umd include=memoize,cloneDeep,flatten,defaults,assign --development --output $@
 
 # dependencies
 include jsdependencies.mk
