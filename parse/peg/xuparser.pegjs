@@ -14,21 +14,16 @@
  *   arcskip). This grammar does allow them.
  */
 
-{
-    var parserHelpers = require('./parserHelpers');
-    var _assign = require('../lib/lodash/lodash.custom').assign;
-}
-
 program
     =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
     {
         d.entities = parserHelpers.checkForUndeclaredEntities(d.entities, d.arcs);
         var lRetval = d;
 
-        lRetval = _assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
+        lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
 
         if (pre.length > 0) {
-            lRetval = _assign({precomment: pre}, lRetval);
+            lRetval = _.assign({precomment: pre}, lRetval);
         }
 
         return lRetval;
@@ -98,14 +93,14 @@ entitylist
 entity "entity"
     =  _ name:string _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-            return _assign ({name:name}, attrList);
+            return _.assign ({name:name}, attrList);
         }
     /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
         {
           if (parserHelpers.isMscGenKeyword(name)){
             error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
           }
-          return _assign ({name:name}, attrList);
+          return _.assign ({name:name}, attrList);
         }
 
 arclist
@@ -126,7 +121,7 @@ regulararc
     / (a:commentarc {return a}))
     al:("[" al:attributelist "]" {return al})?
     {
-      return _assign (a, al);
+      return _.assign (a, al);
     }
 
 singlearc
@@ -148,7 +143,7 @@ dualarc
 spanarc
     = (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
         {
-            return _assign (
+            return _.assign (
                 {
                     kind     : kind,
                     from     : from,

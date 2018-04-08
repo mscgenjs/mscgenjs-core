@@ -54,7 +54,7 @@ help:
 
 # production rules
 parse/%parser.js: parse/peg/%parser.pegjs
-	$(PEGJS) --format umd -o $@ $<
+	$(PEGJS) --extra-options-file .pegjs-config.json -o $@ $<
 
 $(LIBDIRS):
 	mkdir -p $@

@@ -21,6 +21,21 @@ main/static-resolver.js: \
 	render/text/ast2msgenny.js \
 	render/text/ast2xu.js
 
+parse/mscgenparser.js: \
+	lib/lodash/lodash.custom.js \
+	parse/parserHelpers.js
+
+parse/parserHelpers.js: \
+	lib/lodash/lodash.custom.js
+
+parse/msgennyparser.js: \
+	lib/lodash/lodash.custom.js \
+	parse/parserHelpers.js
+
+parse/xuparser.js: \
+	lib/lodash/lodash.custom.js \
+	parse/parserHelpers.js
+
 render/graphics/renderast.js: \
 	lib/lodash/lodash.custom.js \
 	render/astmassage/aggregatekind.js \
@@ -125,9 +140,6 @@ render/text/ast2xu.js: \
 
 indexAMD.js: \
 	index.js
-
-parse/parserHelpers.js: \
-	lib/lodash/lodash.custom.js
 
 render/astmassage/colorize.js: \
 	render/astmassage/aggregatekind.js \

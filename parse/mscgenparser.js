@@ -5,11 +5,11 @@
  */
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(["../lib/lodash/lodash.custom", "./parserHelpers"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require("../lib/lodash/lodash.custom"), require("./parserHelpers"));
   }
-})(this, function() {
+})(this, function(_, parserHelpers) {
   "use strict";
 
   function peg$subclass(child, parent) {
@@ -155,10 +155,10 @@
                 d.entities = parserHelpers.checkForUndeclaredEntities(d.entities, d.arcs);
                 var lRetval = d;
 
-                lRetval = _assign ({meta: getMetaInfo()}, lRetval);
+                lRetval = _.assign ({meta: getMetaInfo()}, lRetval);
 
                 if (pre.length > 0) {
-                    lRetval = _assign({precomment: pre}, lRetval);
+                    lRetval = _.assign({precomment: pre}, lRetval);
                 }
                 return lRetval;
             },
@@ -213,13 +213,13 @@
         peg$c33 = peg$literalExpectation("]", false),
         peg$c34 = function(name, a) {return a},
         peg$c35 = function(name, attrList) {
-                    return _assign ({name:name}, attrList);
+                    return _.assign ({name:name}, attrList);
                 },
         peg$c36 = function(name, attrList) {
                   if (parserHelpers.isMscGenKeyword(name)){
                     error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
                   }
-                  return _assign ({name:name}, attrList);
+                  return _.assign ({name:name}, attrList);
                 },
         peg$c37 = function(a) {return a},
         peg$c38 = function(al) {
@@ -227,7 +227,7 @@
             },
         peg$c39 = function(a, al) {return al},
         peg$c40 = function(a, al) {
-              return _assign (a, al);
+              return _.assign (a, al);
             },
         peg$c41 = function(kind) {return {kind:kind}},
         peg$c42 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
@@ -3094,9 +3094,6 @@
       return s0;
     }
 
-
-        var parserHelpers = require('./parserHelpers');
-        var _assign = require('../lib/lodash/lodash.custom').assign;
 
         function getMetaInfo(){
             return {

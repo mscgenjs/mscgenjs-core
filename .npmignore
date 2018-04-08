@@ -26,6 +26,7 @@ tracking.*
 .eslintignore
 .eslintrc.json
 .gitlab-ci.yml
+.pegjs-config.json
 .travis.yml
 almond.*.frag
 CODE_OF_CONDUCT.md

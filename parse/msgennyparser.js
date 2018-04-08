@@ -5,11 +5,11 @@
  */
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define(["../lib/lodash/lodash.custom", "./parserHelpers"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require("../lib/lodash/lodash.custom"), require("./parserHelpers"));
   }
-})(this, function() {
+})(this, function(_, parserHelpers) {
   "use strict";
 
   function peg$subclass(child, parent) {
@@ -151,10 +151,10 @@
                 d.entities = extractUndeclaredEntities(d.entities, d.arcs);
                 var lRetval = d
 
-                lRetval = _assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
+                lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
 
                 if (pre.length > 0) {
-                    lRetval = _assign({precomment: pre}, lRetval);
+                    lRetval = _.assign({precomment: pre}, lRetval);
                 }
                 return lRetval;
             },
@@ -3401,9 +3401,6 @@
     }
 
 
-        var parserHelpers = require('./parserHelpers');
-        var _assign = require('../lib/lodash/lodash.custom').assign;
-
         function entityExists (pEntities, pName, pEntityNamesToIgnore) {
             if (pName === undefined || pName === "*") {
                 return true;
@@ -3439,7 +3436,7 @@
                     // if the arc kind is arcspanning recurse into its arcs
                     if (pArc.arcs){
                         pEntityNamesToIgnore[pArc.to] = true;
-                        _assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
+                        _.assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
                         delete pEntityNamesToIgnore[pArc.to];
                     }
                     if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
