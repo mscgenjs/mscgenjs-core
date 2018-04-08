@@ -1,6 +1,6 @@
 {
   "name": "mscgenjs",
-  "version": "1.15.1",
+  "version": "1.15.2",
   "description": "Sequence chart rendering library",
   "main": "index.js",
   "dependencies": {
