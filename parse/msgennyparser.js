@@ -147,16 +147,17 @@
         peg$startRuleFunctions = { program: peg$parseprogram },
         peg$startRuleFunction  = peg$parseprogram,
 
-        peg$c0 = function(pre, d) {
-                d.entities = extractUndeclaredEntities(d.entities, d.arcs);
-                var lRetval = d
-
-                lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
+        peg$c0 = function(pre, declarations) {
+                declarations.entities = extractUndeclaredEntities(declarations.entities || [], declarations.arcs);
+                declarations = _.assign (
+                    {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)},
+                    declarations
+                );
 
                 if (pre.length > 0) {
-                    lRetval = _.assign({precomment: pre}, lRetval);
+                    declarations = _.assign({precomment: pre}, declarations);
                 }
-                return lRetval;
+                return declarations;
             },
         peg$c1 = function(options, entities, arcs) {
                   var lDeclarationList = {};
@@ -3421,9 +3422,6 @@
         }
 
         function extractUndeclaredEntities (pEntities, pArcLines, pEntityNamesToIgnore) {
-            if (!pEntities) {
-                pEntities = [];
-            }
 
             if (!pEntityNamesToIgnore){
                 pEntityNamesToIgnore = {};

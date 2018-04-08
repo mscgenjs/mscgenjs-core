@@ -42,9 +42,6 @@
     }
 
     function extractUndeclaredEntities (pEntities, pArcLines, pEntityNamesToIgnore) {
-        if (!pEntities) {
-            pEntities = [];
-        }
 
         if (!pEntityNamesToIgnore){
             pEntityNamesToIgnore = {};
@@ -71,17 +68,18 @@
 }
 
 program
-    =  pre:_ d:declarationlist _
+    =  pre:_ declarations:declarationlist _
     {
-        d.entities = extractUndeclaredEntities(d.entities, d.arcs);
-        var lRetval = d
-
-        lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
+        declarations.entities = extractUndeclaredEntities(declarations.entities || [], declarations.arcs);
+        declarations = _.assign (
+            {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)},
+            declarations
+        );
 
         if (pre.length > 0) {
-            lRetval = _.assign({precomment: pre}, lRetval);
+            declarations = _.assign({precomment: pre}, declarations);
         }
-        return lRetval;
+        return declarations;
     }
 
 declarationlist
