@@ -55,7 +55,8 @@ optionlist
     = options:((o:option "," {return o})*
               (o:option ";" {return o}))
     {
-      return parserHelpers.optionArray2Object(options[0].concat(options[1]));
+        // make the option array into an options object
+        return options[0].concat(options[1]).reduce(_.assign, {})
     }
 
 option "option"
@@ -223,7 +224,8 @@ spanarctoken "inline expression"
 attributelist
     = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
     {
-      return parserHelpers.optionArray2Object(attributes[0].concat(attributes[1]));
+        // transform the array of attributes into an object
+        return attributes[0].concat(attributes[1]).reduce(_.assign, {});
     }
 
 attribute

@@ -25,9 +25,6 @@ parse/mscgenparser.js: \
 	lib/lodash/lodash.custom.js \
 	parse/parserHelpers.js
 
-parse/parserHelpers.js: \
-	lib/lodash/lodash.custom.js
-
 parse/msgennyparser.js: \
 	lib/lodash/lodash.custom.js \
 	parse/parserHelpers.js
@@ -254,9 +251,6 @@ main/static-resolver.js: \
 parse/mscgenparser.js: \
 	lib/lodash/lodash.custom.js \
 	parse/parserHelpers.js
-
-parse/parserHelpers.js: \
-	lib/lodash/lodash.custom.js
 
 parse/msgennyparser.js: \
 	lib/lodash/lodash.custom.js \

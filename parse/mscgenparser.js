@@ -183,7 +183,8 @@
         peg$c11 = ";",
         peg$c12 = peg$literalExpectation(";", false),
         peg$c13 = function(options) {
-                return parserHelpers.optionArray2Object(options[0].concat(options[1]));
+                // make the option array into an options object
+                return options[0].concat(options[1]).reduce(_.assign, {})
             },
         peg$c14 = peg$otherExpectation("option"),
         peg$c15 = "hscale",
@@ -299,7 +300,8 @@
         peg$c108 = "box",
         peg$c109 = peg$literalExpectation("box", true),
         peg$c110 = function(attributes) {
-              return parserHelpers.optionArray2Object(attributes[0].concat(attributes[1]));
+                // transform the array of attributes into an object
+                return attributes[0].concat(attributes[1]).reduce(_.assign, {});
             },
         peg$c111 = function(name, value) {
               var lAttribute = {};

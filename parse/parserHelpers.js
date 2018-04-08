@@ -13,11 +13,6 @@ if (typeof define !== 'function') {
 }
 
 define(function(require) {
-    var _assign = require('../lib/lodash/lodash.custom').assign;
-
-    function optionArray2Object (pOptionList) {
-        return pOptionList.reduce(_assign, {});
-    }
 
     function nameValue2Option(pName, pValue){
         var lOption = {};
@@ -29,21 +24,10 @@ define(function(require) {
         return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
 
-    function buildEntityNotDefinedMessage(pEntityName, pArc){
-        return "Entity '" + pEntityName + "' in arc " +
-               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
-               "is not defined.";
-    }
-
     function entityExists (pEntities, pName) {
         return pName === undefined || pName === "*" || pEntities.some(function(pEntity){
             return pEntity.name === pName;
         });
-    }
-
-    function EntityNotDefinedError(pEntityName, pArc) {
-        this.name = "EntityNotDefinedError";
-        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
     }
 
     function isMscGenKeyword(pString){
@@ -55,6 +39,17 @@ define(function(require) {
             "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour",
             "arcskip"
         ].indexOf(pString) > -1;
+    }
+
+    function buildEntityNotDefinedMessage(pEntityName, pArc){
+        return "Entity '" + pEntityName + "' in arc " +
+               "'" + pArc.from + " " + pArc.kind + " " + pArc.to + "' " +
+               "is not defined.";
+    }
+
+    function EntityNotDefinedError(pEntityName, pArc) {
+        this.name = "EntityNotDefinedError";
+        this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
     }
 
     function checkForUndeclaredEntities (pEntities, pArcLines) {
@@ -108,7 +103,6 @@ define(function(require) {
     }
 
     return {
-        optionArray2Object: optionArray2Object,
         nameValue2Option: nameValue2Option,
 
         flattenBoolean: flattenBoolean,

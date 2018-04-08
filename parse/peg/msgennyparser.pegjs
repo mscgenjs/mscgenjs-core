@@ -106,7 +106,8 @@ optionlist
     = options:((o:option "," {return o})*
                (o:option ";" {return o}))
     {
-      return parserHelpers.optionArray2Object(options[0].concat(options[1]));
+        // make the option array into an options object
+        return options[0].concat(options[1]).reduce(_.assign, {});
     }
 
 option

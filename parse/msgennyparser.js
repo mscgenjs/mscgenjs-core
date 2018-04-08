@@ -177,7 +177,8 @@
         peg$c5 = ";",
         peg$c6 = peg$literalExpectation(";", false),
         peg$c7 = function(options) {
-              return parserHelpers.optionArray2Object(options[0].concat(options[1]));
+                // make the option array into an options object
+                return options[0].concat(options[1]).reduce(_.assign, {});
             },
         peg$c8 = "hscale",
         peg$c9 = peg$literalExpectation("hscale", true),
