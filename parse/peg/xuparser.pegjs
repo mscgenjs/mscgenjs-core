@@ -15,18 +15,18 @@
  */
 
 program
-    =  pre:_ starttoken _  "{" _ d:declarationlist _ "}" _
+    =  pre:_ starttoken _  "{" _ declarations:declarationlist _ "}" _
     {
-        d.entities = parserHelpers.checkForUndeclaredEntities(d.entities, d.arcs);
-        var lRetval = d;
+        declarations.entities = declarations.entities || [];
+        parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-        lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
+        declarations = _.assign ({meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
 
         if (pre.length > 0) {
-            lRetval = _.assign({precomment: pre}, lRetval);
+            declarations = _.assign({precomment: pre}, declarations);
         }
 
-        return lRetval;
+        return declarations;
     }
 
 starttoken
@@ -132,13 +132,13 @@ commentarc
 
 dualarc
     = (_ from:identifier _ kind:dualarctoken _ to:identifier _
-        {return {kind: kind, from:from, to:to, location:location()}})
+        {return {kind: kind, from:from, to:to}})
     / (_ "*" _ kind:bckarrowtoken _ to:identifier _
-        {return {kind:kind, from: "*", to:to, location:location()}})
+        {return {kind:kind, from: "*", to:to}})
     /(_ from:identifier _ kind:fwdarrowtoken _ "*" _
-        {return {kind:kind, from: from, to:"*", location:location()}})
+        {return {kind:kind, from: from, to:"*"}})
     /(_ from:identifier _ kind:bidiarrowtoken _ "*" _
-        {return {kind:kind, from: from, to:"*", location:location()}})
+        {return {kind:kind, from: from, to:"*"}})
 
 spanarc
     = (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
@@ -148,7 +148,6 @@ spanarc
                     kind     : kind,
                     from     : from,
                     to       : to,
-                    location : location(),
                     arcs     : arclist
                 },
                 al

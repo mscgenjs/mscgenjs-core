@@ -151,16 +151,16 @@
         peg$c1 = peg$literalExpectation("{", false),
         peg$c2 = "}",
         peg$c3 = peg$literalExpectation("}", false),
-        peg$c4 = function(pre, d) {
-                d.entities = parserHelpers.checkForUndeclaredEntities(d.entities, d.arcs);
-                var lRetval = d;
+        peg$c4 = function(pre, declarations) {
+                declarations.entities = declarations.entities || [];
+                parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-                lRetval = _.assign ({meta: getMetaInfo()}, lRetval);
+                declarations = _.assign ({meta: getMetaInfo()}, declarations);
 
                 if (pre.length > 0) {
-                    lRetval = _.assign({precomment: pre}, lRetval);
+                    declarations = _.assign({precomment: pre}, declarations);
                 }
-                return lRetval;
+                return declarations;
             },
         peg$c5 = "msc",
         peg$c6 = peg$literalExpectation("msc", true),
@@ -230,11 +230,11 @@
               return _.assign (a, al);
             },
         peg$c41 = function(kind) {return {kind:kind}},
-        peg$c42 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
+        peg$c42 = function(from, kind, to) {return {kind: kind, from:from, to:to}},
         peg$c43 = "*",
         peg$c44 = peg$literalExpectation("*", false),
-        peg$c45 = function(kind, to) {return {kind:kind, from: "*", to:to, location:location()}},
-        peg$c46 = function(from, kind) {return {kind:kind, from: from, to:"*", location:location()}},
+        peg$c45 = function(kind, to) {return {kind:kind, from: "*", to:to}},
+        peg$c46 = function(from, kind) {return {kind:kind, from: from, to:"*"}},
         peg$c47 = peg$otherExpectation("empty row"),
         peg$c48 = "|||",
         peg$c49 = peg$literalExpectation("|||", false),

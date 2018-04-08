@@ -44,12 +44,6 @@ define(function(require) {
     function EntityNotDefinedError(pEntityName, pArc) {
         this.name = "EntityNotDefinedError";
         this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
-        /* istanbul ignore else */
-        if(!!pArc.location){
-            this.location = pArc.location;
-            this.location.start.line++;
-            this.location.end.line++;
-        }
     }
 
     function isMscGenKeyword(pString){
@@ -64,29 +58,19 @@ define(function(require) {
     }
 
     function checkForUndeclaredEntities (pEntities, pArcLines) {
-        if (!pEntities) {
-            pEntities = [];
-        }
-
-        if (pArcLines) {
-            pArcLines.forEach(function(pArcLine) {
-                pArcLine.forEach(function(pArc) {
-                    if (pArc.from && !entityExists (pEntities, pArc.from)) {
-                        throw new EntityNotDefinedError(pArc.from, pArc);
-                    }
-                    if (pArc.to && !entityExists (pEntities, pArc.to)) {
-                        throw new EntityNotDefinedError(pArc.to, pArc);
-                    }
-                    if (!!pArc.location) {
-                        delete pArc.location;
-                    }
-                    if (!!pArc.arcs){
-                        checkForUndeclaredEntities(pEntities, pArc.arcs);
-                    }
-                });
+        (pArcLines || []).forEach(function(pArcLine) {
+            pArcLine.forEach(function(pArc) {
+                if (pArc.from && !entityExists (pEntities, pArc.from)) {
+                    throw new EntityNotDefinedError(pArc.from, pArc);
+                }
+                if (pArc.to && !entityExists (pEntities, pArc.to)) {
+                    throw new EntityNotDefinedError(pArc.to, pArc);
+                }
+                if (!!pArc.arcs){
+                    checkForUndeclaredEntities(pEntities, pArc.arcs);
+                }
             });
-        }
-        return pEntities;
+        });
     }
 
     function hasExtendedOptions (pOptions){

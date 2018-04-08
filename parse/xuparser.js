@@ -151,17 +151,17 @@
         peg$c1 = peg$literalExpectation("{", false),
         peg$c2 = "}",
         peg$c3 = peg$literalExpectation("}", false),
-        peg$c4 = function(pre, d) {
-                d.entities = parserHelpers.checkForUndeclaredEntities(d.entities, d.arcs);
-                var lRetval = d;
+        peg$c4 = function(pre, declarations) {
+                declarations.entities = declarations.entities || [];
+                parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-                lRetval = _.assign ({meta: parserHelpers.getMetaInfo(d.options, d.arcs)}, lRetval);
+                declarations = _.assign ({meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
 
                 if (pre.length > 0) {
-                    lRetval = _.assign({precomment: pre}, lRetval);
+                    declarations = _.assign({precomment: pre}, declarations);
                 }
 
-                return lRetval;
+                return declarations;
             },
         peg$c5 = "msc",
         peg$c6 = peg$literalExpectation("msc", true),
@@ -239,11 +239,11 @@
               return _.assign (a, al);
             },
         peg$c49 = function(kind) {return {kind:kind}},
-        peg$c50 = function(from, kind, to) {return {kind: kind, from:from, to:to, location:location()}},
+        peg$c50 = function(from, kind, to) {return {kind: kind, from:from, to:to}},
         peg$c51 = "*",
         peg$c52 = peg$literalExpectation("*", false),
-        peg$c53 = function(kind, to) {return {kind:kind, from: "*", to:to, location:location()}},
-        peg$c54 = function(from, kind) {return {kind:kind, from: from, to:"*", location:location()}},
+        peg$c53 = function(kind, to) {return {kind:kind, from: "*", to:to}},
+        peg$c54 = function(from, kind) {return {kind:kind, from: from, to:"*"}},
         peg$c55 = function(from, kind, to, al) {return al},
         peg$c56 = function(from, kind, to, al, arclist) {
                     return _.assign (
@@ -251,7 +251,6 @@
                             kind     : kind,
                             from     : from,
                             to       : to,
-                            location : location(),
                             arcs     : arclist
                         },
                         al
