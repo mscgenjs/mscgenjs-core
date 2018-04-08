@@ -150,7 +150,7 @@ nsp:
 outdated:
 	$(NPM) outdated
 
-check: lint depcruise test
+check: lint depcruise cover
 
 fullcheck: check outdated nsp
 
