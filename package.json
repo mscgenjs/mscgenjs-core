@@ -49,10 +49,10 @@
     "msgenny"
   ],
   "nyc": {
-    "statements": 86,
-    "branches": 77,
-    "functions": 95,
-    "lines": 89,
+    "statements": 99.8,
+    "branches": 93.2,
+    "functions": 100,
+    "lines": 99.8,
     "exclude": [
       "dist/**/*",
       "lib/**/*",
@@ -61,7 +61,8 @@
       "coverage/**/*",
       "render/graphics/styling/**",
       "render/graphics/svgelementfactory/wobbly.js",
-      "test/**/*"
+      "test/**/*",
+      "parse/*parser.js"
     ],
     "reporter": [
       "text-summary",
