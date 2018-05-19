@@ -121,7 +121,7 @@
     {
       "name": "no-orphans",
       "severity": "error",
-      "from": { "orphan": true },
+      "from": { "orphan": true, "pathNot": "\\.template\\.js" },
       "to": {}
     }
   ],
