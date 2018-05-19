@@ -122,7 +122,7 @@ depcruise:
 	$(NPM) run depcruise
 
 cover: dev-build
-	$(NPM) test
+	$(NPM) run test:cover
 
 publish-patch:
 	$(NPM) version patch

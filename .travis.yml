@@ -14,7 +14,7 @@ script:
   - npm run lint
   - npm run depcruise
   - npm run nsp
-  - npm test
+  - npm run test:cover
   - make install
 
 branches:
