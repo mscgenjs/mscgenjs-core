@@ -1,5 +1,5 @@
-var flatten = require("../../../render/astmassage/flatten");
-var fix     = require("../../astfixtures.json");
+const flatten = require("../../../render/astmassage/flatten");
+const fix     = require("../../astfixtures.json");
 
 describe('render/astmassage/flatten', () => {
     describe('unwind', () => {

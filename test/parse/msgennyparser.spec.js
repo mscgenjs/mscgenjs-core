@@ -1,11 +1,11 @@
 /* eslint max-statements:0 */
-var fs     = require("fs");
-var path   = require("path");
-var parser = require("../../parse/msgennyparser");
-var tst    = require("../testutensils");
-var fix    = require("../astfixtures.json");
+const fs     = require("fs");
+const path   = require("path");
+const parser = require("../../parse/msgennyparser");
+const tst    = require("../testutensils");
+const fix    = require("../astfixtures.json");
 
-var gCorrectOrderFixture = {
+const gCorrectOrderFixture = {
     "precomment":["# A,a, c, d, b, B;", "\n"],
     "meta": {
         "extendedOptions": false,
@@ -46,7 +46,7 @@ var gCorrectOrderFixture = {
     }]]
 };
 
-var gUnicodeEntityFixture = {
+const gUnicodeEntityFixture = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -58,7 +58,7 @@ var gUnicodeEntityFixture = {
         }
     ]
 };
-var gUnicodeEntityInArcFixture = {
+const gUnicodeEntityInArcFixture = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -101,53 +101,53 @@ describe('parse/msgennyparser', () => {
         test(
             'should render a simple AST, with two entities auto declared',
             () => {
-                var lAST = parser.parse('a => "b space": a simple script;');
+                const lAST = parser.parse('a => "b space": a simple script;');
                 expect(lAST).toEqual(fix.astSimple);
             }
         );
         test('should ignore c++ style one line comments', () => {
-            var lAST = parser.parse('a => "b space": a simple script;//ignored');
+            const lAST = parser.parse('a => "b space": a simple script;//ignored');
             expect(lAST).toEqual(fix.astSimple);
         });
         test("should produce an (almost empty) AST for empty input", () => {
-            var lAST = parser.parse("");
+            const lAST = parser.parse("");
             expect(lAST).toEqual(fix.astEmpty);
         });
         test(
             "should produce an AST even when non entity arcs are its only content",
             () => {
-                var lAST = parser.parse('---:start;...:no entities ...; ---:end;');
+                const lAST = parser.parse('---:start;...:no entities ...; ---:end;');
                 expect(lAST).toEqual(fix.astNoEntities);
             }
         );
         test("should produce lowercase for upper/ mixed case arc kinds", () => {
-            var lAST = parser.parse('a NoTE a, b BOX b, c aBox c, d rbOX d;');
+            const lAST = parser.parse('a NoTE a, b BOX b, c aBox c, d rbOX d;');
             expect(lAST).toEqual(fix.astBoxArcs);
         });
         test("should produce lowercase for upper/ mixed case options", () => {
-            var lAST = parser.parse(
+            const lAST = parser.parse(
                 'HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;'
             );
             expect(lAST).toEqual(fix.astOptions);
         });
         test("should correctly parse naked reals", () => {
-            var lAST = parser.parse('HSCAle=481.1337;a;');
+            const lAST = parser.parse('HSCAle=481.1337;a;');
             expect(lAST.options.hscale).toBe("481.1337");
         });
         test("should correctly parse quoted cardinals", () => {
-            var lAST = parser.parse('width="481";a;');
+            const lAST = parser.parse('width="481";a;');
             expect(lAST.options.width).toBe("481");
         });
         test("should correctly parse quoted reals", () => {
-            var lAST = parser.parse('width="481.1337";a;');
+            const lAST = parser.parse('width="481.1337";a;');
             expect(lAST.options.width).toBe("481.1337");
         });
         test("should correctly parse naked cardinals", () => {
-            var lAST = parser.parse('width=481;a;');
+            const lAST = parser.parse('width=481;a;');
             expect(lAST.options.width).toBe("481");
         });
         test("should keep the labeled name of an entity", () => {
-            var lAST = parser.parse('"實體": This is the label for 實體;');
+            const lAST = parser.parse('"實體": This is the label for 實體;');
             expect(lAST).toEqual(fix.astLabeledEntity);
         });
         test(
@@ -270,7 +270,7 @@ describe('parse/msgennyparser', () => {
             tst.assertSyntaxError('a,b,c; * -x b;', parser);
         });
         test("should parse all types of arcs supported by mscgen", () => {
-            var lAST = parser.parse(
+            const lAST = parser.parse(
                 'a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);'
             );
             expect(lAST).toEqual(fix.astCheatSheet);
@@ -315,32 +315,32 @@ describe('parse/msgennyparser', () => {
 
     describe('#parse() - expansions', () => {
         test('should render a simple AST, with an alt', () => {
-            var lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
+            const lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
             expect(lAST).toEqual(fix.astOneAlt);
         });
         test(
             'should render an AST, with alts, loops and labels (labels in front)',
             () => {
-                var lAST = parser.parse(
+                const lAST = parser.parse(
                     'a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;'
                 );
                 expect(lAST).toEqual(fix.astAltWithinLoop);
             }
         );
         test('should render an AST, with an alt in it', () => {
-            var lAST = parser.parse('a alt b {  c -> d; };');
+            const lAST = parser.parse('a alt b {  c -> d; };');
             expect(lAST).toEqual(fix.astDeclarationWithinArcspan);
         });
         test('automatically declares entities in the right order', () => {
-            var lAST = parser.parse('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
+            const lAST = parser.parse('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
             expect(lAST).toEqual(gCorrectOrderFixture);
         });
         test('should accept "auto" as a valid width', () => {
-            var lAST = parser.parse('arcgradient= 20, width= auTo ; a,b,c,d,e,f; c =>> *: Hello everyone;');
+            const lAST = parser.parse('arcgradient= 20, width= auTo ; a,b,c,d,e,f; c =>> *: Hello everyone;');
             expect(lAST.options.width).toBe("auto");
         });
         test('should accept "AUTO" as a valid width', () => {
-            var lAST = parser.parse('arcgradient= 20, width="AUTO"; a,b,c,d,e,f; c =>> *: Hello everyone;');
+            const lAST = parser.parse('arcgradient= 20, width="AUTO"; a,b,c,d,e,f; c =>> *: Hello everyone;');
             expect(lAST.options.width).toBe("auto");
         });
         test(
@@ -416,11 +416,11 @@ describe('parse/msgennyparser', () => {
     });
     describe('#parse() - file based tests', () => {
         test("should parse all possible arcs", () => {
-            var lTextFromFile = fs.readFileSync(
+            const lTextFromFile = fs.readFileSync(
                 path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.msgenny'),
                 {"encoding":"utf8"}
             );
-            var lAST = parser.parse(lTextFromFile.toString());
+            const lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.json'), lAST);
         });
     });

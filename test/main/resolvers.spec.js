@@ -1,8 +1,6 @@
 /* eslint max-nested-callbacks: 0 */
-// const mscgenjs = require("../index-lazy");
-const tst      = require("../testutensils");
-const fix      = require("../astfixtures.json");
-
+const tst = require("../testutensils");
+const fix = require("../astfixtures.json");
 
 const gExpectedMscGenOutput = `msc {\n\
   a,\n\
@@ -17,8 +15,8 @@ const gExpectedMscGenOutput = `msc {\n\
 }`;
 
 
-[require("../../main/static-resolver"), require("../../main/lazy-resolver")].forEach(mscgenjs => {
-    describe('resolver', () =>{
+[require("../../main/static-resolver"), require("../../main/lazy-resolver")].forEach((mscgenjs) => {
+    describe('resolver', () => {
         function isMscGenParser(pParser){
             tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);
             expect(

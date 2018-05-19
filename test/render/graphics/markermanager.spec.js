@@ -1,8 +1,8 @@
-var fs     = require("fs");
-var path   = require("path");
-var mark   = require("../../../render/graphics/markermanager");
+const fs     = require("fs");
+const path   = require("path");
+const mark   = require("../../../render/graphics/markermanager");
 
-var gMarkerDefs =
+const gMarkerDefs =
     [
         {
             "name": "481callback-#00FF00",
@@ -82,11 +82,11 @@ describe('render/graphics/markermanager', () => {
     describe('#getMarkerDefs - paths not hit in end2end, but that are still important', () => {
 
         test('should return the colors in arcs in inline expressions', () => {
-            var lTextFromFile = fs.readFileSync(
+            const lTextFromFile = fs.readFileSync(
                 path.join(__dirname, '../../fixtures/simpleXuSample.json'),
                 {"encoding":"utf8"}
             );
-            var lAST = JSON.parse(lTextFromFile.toString());
+            const lAST = JSON.parse(lTextFromFile.toString());
             expect(mark.getMarkerDefs("481", lAST)).toEqual(gMarkerDefs);
         });
 

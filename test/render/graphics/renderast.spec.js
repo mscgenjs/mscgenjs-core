@@ -1,11 +1,11 @@
-var path     = require('path');
-var JSDOM    = require("jsdom").JSDOM;
-var renderer = require("../../../render/graphics/renderast");
-var tst      = require("../../testutensils");
+const path     = require('path');
+const JSDOM    = require("jsdom").JSDOM;
+const renderer = require("../../../render/graphics/renderast");
+const tst      = require("../../testutensils");
 
 function ast2svg(pASTString, lWindow, pOptions, pRenderOptions) {
     // make a deep copy first, as renderAST actively modifies its input
-    var lAST = JSON.parse(pASTString);
+    const lAST = JSON.parse(pASTString);
 
     renderer.clean("__svg", lWindow);
     if (Boolean(pOptions.useNew)){
@@ -29,9 +29,7 @@ describe('render/graphics/renderast', () => {
         const lWindow = new JSDOM("<html><body></body></html>").window;
 
         function processAndCompare(pExpectedFile, pInputFile, pOptions, pRenderOptions) {
-            tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
-                return ast2svg(pInput, lWindow, pOptions, pRenderOptions);
-            });
+            tst.assertequalProcessingXML(pExpectedFile, pInputFile, (pInput) => ast2svg(pInput, lWindow, pOptions, pRenderOptions));
         }
         test('should be ok with an empty AST', () => {
             processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'),
@@ -157,16 +155,14 @@ describe('render/graphics/renderast', () => {
         const lWindow = new JSDOM("<html><body><span id='__svg'></span></body></html>").window;
 
         function processAndCompare(pExpectedFile, pInputFile, pIncludeSource, pUseOwnElement) {
-            tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
-                return ast2svg(
-                    pInput,
-                    lWindow,
-                    {
-                        includeSource: pIncludeSource,
-                        useOwnElement: pUseOwnElement
-                    }
-                );
-            });
+            tst.assertequalProcessingXML(pExpectedFile, pInputFile, (pInput) => ast2svg(
+                pInput,
+                lWindow,
+                {
+                    includeSource: pIncludeSource,
+                    useOwnElement: pUseOwnElement
+                }
+            ));
         }
         test('should be ok with an empty AST', () => {
             processAndCompare(path.join(__dirname, '../../fixtures/astempty.svg'),
@@ -221,16 +217,14 @@ describe('render/graphics/renderast', () => {
         const lWindow = new JSDOM("<html><body><span id='__svg'></span></body></html>").window;
 
         function processAndCompare(pExpectedFile, pInputFile, pIncludeSource, pUseOwnElement) {
-            tst.assertequalProcessingXML(pExpectedFile, pInputFile, function(pInput) {
-                return ast2svg(
-                    pInput,
-                    lWindow,
-                    {
-                        includeSource: pIncludeSource,
-                        useOwnElement: pUseOwnElement
-                    }
-                );
-            });
+            tst.assertequalProcessingXML(pExpectedFile, pInputFile, (pInput) => ast2svg(
+                pInput,
+                lWindow,
+                {
+                    includeSource: pIncludeSource,
+                    useOwnElement: pUseOwnElement
+                }
+            ));
         }
         test('one row arcskip, with a row height <= normal row height', () => {
             processAndCompare(path.join(__dirname, '../../fixtures/arcskip/arcskip01.svg'),

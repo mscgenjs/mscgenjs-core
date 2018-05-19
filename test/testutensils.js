@@ -1,15 +1,13 @@
-var fs     = require('fs');
-var crypto = require('crypto');
-var chai   = require("chai");
+const fs     = require('fs');
+const crypto = require('crypto');
+const chai   = require("chai");
 
-var chaiExpect = chai.expect;
+const chaiExpect = chai.expect;
 chai.use(require("chai-xml"));
 
 module.exports = (function() {
 
-    var gHashToUse = ['ripemd160', 'md5', 'sha1'].filter(function(h){
-        return crypto.getHashes().indexOf(h) > -1;
-    })[0];
+    const gHashToUse = ['ripemd160', 'md5', 'sha1'].filter((h) => crypto.getHashes().indexOf(h) > -1)[0];
 
     function hashit(pString){
         return crypto.createHash(gHashToUse).update(pString).digest('hex');
@@ -25,9 +23,9 @@ module.exports = (function() {
         );
     }
     return {
-        assertequalToFileJSON : assertequalToFileJSON,
+        assertequalToFileJSON,
 
-        assertequalFileJSON : function(pFoundFileName, pExpectedFileName){
+        assertequalFileJSON(pFoundFileName, pExpectedFileName){
             assertequalToFileJSON(
                 pExpectedFileName,
                 JSON.parse(
@@ -44,16 +42,16 @@ module.exports = (function() {
             );
         },
 
-        assertequalFileXML : function (pFoundFileName, pExpectedFileName){
-            var lFound    = fs.readFileSync(pFoundFileName, {"encoding" : "utf8"});
-            var lExpected = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
+        assertequalFileXML (pFoundFileName, pExpectedFileName){
+            const lFound    = fs.readFileSync(pFoundFileName, {"encoding" : "utf8"});
+            const lExpected = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
 
             chaiExpect(lFound).xml.to.be.valid();
             chaiExpect(lFound).xml.to.deep.equal(lExpected);
         },
 
-        assertequalProcessingXML : function(pExpectedFileName, pInputFileName, pProcessingFn){
-            var lProcessedInput   = pProcessingFn(
+        assertequalProcessingXML(pExpectedFileName, pInputFileName, pProcessingFn){
+            const lProcessedInput   = pProcessingFn(
                 fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
             );
 
@@ -65,7 +63,7 @@ module.exports = (function() {
             );
         },
 
-        assertequalProcessing : function(pExpectedFileName, pInputFileName, pProcessingFn){
+        assertequalProcessing(pExpectedFileName, pInputFileName, pProcessingFn){
             expect(
                 hashit(
                     fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"})
@@ -79,12 +77,12 @@ module.exports = (function() {
             );
         },
 
-        assertSyntaxError: function(pProgram, pParser, pErrorType){
+        assertSyntaxError(pProgram, pParser, pErrorType){
             if (!pErrorType){
                 pErrorType = "SyntaxError";
             }
             try {
-                var lStillRan = false;
+                let lStillRan = false;
                 if (pParser.parse(pProgram)) {
                     lStillRan = true;
                 }

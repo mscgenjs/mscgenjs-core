@@ -29,11 +29,11 @@ const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
 
-[require("../"), require("../index-lazy")].forEach(mscgenjs => {
+[require("../"), require("../index-lazy")].forEach((mscgenjs) => {
     describe('index', () => {
         describe('#translateMsc()', () => {
             test('no params translates mscgen to json', () => {
-                mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
+                mscgenjs.translateMsc(SIMPLE_MSCGEN, null, (pError, pResult) => {
                     /* eslint no-unused-expression:0 */
                     expect(pError).toBeNull();
                     expect(
@@ -48,7 +48,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 mscgenjs.translateMsc(
                     SIMPLE_MSCGEN,
                     {inputType: "mscgen", outputType: "json"},
-                    function(pError, pResult){
+                    (pError, pResult) => {
                         expect(pError).toBeNull();
                         expect(
                             JSON.parse(pResult)
@@ -58,7 +58,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     });
             });
             test('ast translates mscgen to an AST object', () => {
-                mscgenjs.translateMsc(SIMPLE_MSCGEN, {outputType: "ast"}, function(pError, pResult){
+                mscgenjs.translateMsc(SIMPLE_MSCGEN, {outputType: "ast"}, (pError, pResult) => {
                     /* eslint no-unused-expression:0 */
                     expect(pError).toBeNull();
                     expect(
@@ -72,7 +72,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 mscgenjs.translateMsc(
                     SIMPLE_XU,
                     {inputType: "mscgen", outputType: "msgenny"},
-                    function(pError, pResult){
+                    (pError, pResult) => {
                         expect(pError).not.toBeNull();
                         expect(pError).toBeInstanceOf(Error);
                         expect(pResult).toBeNull();
@@ -82,7 +82,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 mscgenjs.translateMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),
                     {inputType: "json", outputType: "mscgen"},
-                    function(pError, pResult){
+                    (pError, pResult) => {
                         expect(pError).toBeNull();
                         expect(pResult).toBe(gExpectedMscGenOutput);
                     });
@@ -91,7 +91,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 mscgenjs.translateMsc(
                     fix.astOneAlt,
                     {inputType: "json", outputType: "mscgen"},
-                    function(pError, pResult){
+                    (pError, pResult) => {
                         expect(pError).toBeNull();
                         expect(pResult).toBe(gExpectedMscGenOutput);
                     });
@@ -109,7 +109,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 mscgenjs.renderMsc(
                     SIMPLE_MSCGEN,
                     {window: lWindow},
-                    function(pError, pResult){
+                    (pError, pResult) => {
                         expect(pError).toBeNull();
                         chaiExpect(pResult).xml.to.be.valid();
                     }
@@ -119,7 +119,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 mscgenjs.renderMsc(
                     SIMPLE_XU,
                     {window: lWindow},
-                    function(pError, pResult){
+                    (pError, pResult) => {
                         expect(pError).not.toBeNull();
                         expect(pError).toBeInstanceOf(Error);
                         expect(pResult).toBeNull();
@@ -134,7 +134,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         window: lWindow,
                         includeSource: false
                     },
-                    function(pError, pResult){
+                    (pError, pResult) => {
                         expect(pError).toBeNull();
                         chaiExpect(pResult).xml.to.be.valid();
                     }

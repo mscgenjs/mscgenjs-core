@@ -1,8 +1,8 @@
-var colorize = require("../../../render/astmassage/colorize");
-var fix      = require("../../astfixtures.json");
-var _        = require("../../../lib/lodash/lodash.custom");
+const colorize = require("../../../render/astmassage/colorize");
+const fix      = require("../../astfixtures.json");
+const _        = require("../../../lib/lodash/lodash.custom");
 
-var textColoredEntity = {
+const textColoredEntity = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -16,7 +16,7 @@ var textColoredEntity = {
     ]
 };
 
-var arcTextColoredEntity = {
+const arcTextColoredEntity = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -30,7 +30,7 @@ var arcTextColoredEntity = {
     ]
 };
 
-var textColoredEntityWithArc = {
+const textColoredEntityWithArc = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -53,7 +53,7 @@ var textColoredEntityWithArc = {
     ]
 };
 
-var boxes = {
+const boxes = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -97,7 +97,7 @@ var boxes = {
     ]
 };
 
-var coloredBoxes = {
+const coloredBoxes = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -149,7 +149,7 @@ var coloredBoxes = {
     ]
 };
 
-var coloredBoxesForced = {
+const coloredBoxesForced = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -203,7 +203,7 @@ var coloredBoxesForced = {
     ]
 };
 
-var boxesWithNonColoredEntity = {
+const boxesWithNonColoredEntity = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -247,7 +247,7 @@ var boxesWithNonColoredEntity = {
 };
 
 
-var coloredBoxesWithNonColoredEntity = {
+const coloredBoxesWithNonColoredEntity = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -301,7 +301,7 @@ var coloredBoxesWithNonColoredEntity = {
     ]
 };
 
-var alreadyColoredBoxes = {
+const alreadyColoredBoxes = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -360,7 +360,7 @@ var alreadyColoredBoxes = {
     ]
 };
 
-var customScheme = {
+const customScheme = {
     "entityColors": [
         {
             "linecolor" : "#FF0000",
@@ -399,7 +399,7 @@ var customScheme = {
     }
 };
 
-var customMscTestInput = {
+const customMscTestInput = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -493,7 +493,7 @@ var customMscTestInput = {
         ]
     ]
 };
-var customMscTestOutput = {
+const customMscTestOutput = {
     "meta": {
         "extendedOptions": false,
         "extendedArcTypes": false,
@@ -656,7 +656,7 @@ describe('render/text/colorize', () => {
             ).toEqual(coloredBoxesForced);
         });
         test('should not respect any colors when force is applied', () => {
-            var lRosedBoxes = colorize.applyScheme(_.cloneDeep(boxes), 'rosy');
+            const lRosedBoxes = colorize.applyScheme(_.cloneDeep(boxes), 'rosy');
             expect(
                 colorize.applyScheme(lRosedBoxes, 'auto', true)
             ).toEqual(coloredBoxesForced);

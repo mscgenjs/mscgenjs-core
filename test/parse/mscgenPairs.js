@@ -1,4 +1,4 @@
-var fix = require("../astfixtures.json");
+const fix = require("../astfixtures.json");
 
 module.exports = {
     programASTPairs : [{

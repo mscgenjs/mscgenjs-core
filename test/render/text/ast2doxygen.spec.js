@@ -1,25 +1,25 @@
 /* eslint max-len:0 */
-var renderer = require("../../../render/text/ast2doxygen");
-var fix      = require("../../astfixtures.json");
+const renderer = require("../../../render/text/ast2doxygen");
+const fix      = require("../../astfixtures.json");
 
 describe('render/text/ast2doxygen', () => {
     describe('#renderAST() - simple syntax tree', () => {
         test('should, given a simple syntax tree, render a mscgen script', () => {
-            var lProgram = renderer.render(fix.astSimple);
-            var lExpectedProgram =
+            const lProgram = renderer.render(fix.astSimple);
+            const lExpectedProgram =
                 ' * \\msc\n *   a,\n *   "b space";\n * \n *   a => "b space" [label="a simple script"];\n * \\endmsc';
             expect(lProgram).toBe(lExpectedProgram);
         });
 
         test("should preserve the comments at the start of the ast", () => {
-            var lProgram = renderer.render(fix.astWithPreComment);
-            var lExpectedProgram = " * \\msc\n *   a,\n *   b;\n * \n *   a -> b;\n * \\endmsc";
+            const lProgram = renderer.render(fix.astWithPreComment);
+            const lExpectedProgram = " * \\msc\n *   a,\n *   b;\n * \n *   a -> b;\n * \\endmsc";
             expect(lProgram).toBe(lExpectedProgram);
         });
 
         test("should preserve attributes", () => {
-            var lProgram = renderer.render(fix.astAttributes);
-            var lExpectedProgram =
+            const lProgram = renderer.render(fix.astAttributes);
+            const lExpectedProgram =
 ` * \\msc
  *   Alice [linecolor="#008800", textcolor="black", textbgcolor="#CCFFCC", arclinecolor="#008800", arctextcolor="#008800"],
  *   Bob [linecolor="#FF0000", textcolor="black", textbgcolor="#FFCCCC", arclinecolor="#FF0000", arctextcolor="#FF0000"],
@@ -35,8 +35,8 @@ describe('render/text/ast2doxygen', () => {
 
     describe('#renderAST() - xu compatible', () => {
         test('alt only - render correct script', () => {
-            var lProgram = renderer.render(fix.astOneAlt);
-            var lExpectedProgram =
+            const lProgram = renderer.render(fix.astOneAlt);
+            const lExpectedProgram =
 ` * \\msc
  *   a,
  *   b,
@@ -50,8 +50,8 @@ describe('render/text/ast2doxygen', () => {
             expect(lProgram).toBe(lExpectedProgram);
         });
         test('alt within loop - render correct script', () => {
-            var lProgram = renderer.render(fix.astAltWithinLoop);
-            var lExpectedProgram =
+            const lProgram = renderer.render(fix.astAltWithinLoop);
+            const lExpectedProgram =
 ` * \\msc
  *   a,
  *   b,
@@ -72,8 +72,8 @@ describe('render/text/ast2doxygen', () => {
         test(
             'When presented with an unsupported option, renders the script by simply omitting it',
             () => {
-                var lProgram = renderer.render(fix.astWithAWatermark);
-                var lExpectedProgram =
+                const lProgram = renderer.render(fix.astWithAWatermark);
+                const lExpectedProgram =
 ` * \\msc
  *   a;
  * \n * \\endmsc`;
@@ -81,23 +81,23 @@ describe('render/text/ast2doxygen', () => {
             }
         );
         test("Does not render width when that equals 'auto'", () => {
-            var lProgram = renderer.render(fix.auto, true);
-            var lExpectedProgram =
+            const lProgram = renderer.render(fix.auto, true);
+            const lExpectedProgram =
 ` * \\msc
  * \\endmsc`;
             expect(lProgram).toBe(lExpectedProgram);
         });
         test("Render width when that is a number", () => {
-            var lProgram = renderer.render(fix.fixedwidth, true);
-            var lExpectedProgram =
+            const lProgram = renderer.render(fix.fixedwidth, true);
+            const lExpectedProgram =
 ` * \\msc
  *   width=800;
  * \n * \\endmsc`;
             expect(lProgram).toBe(lExpectedProgram);
         });
         test("Puts entities with mscgen keyword for a name in quotes", () => {
-            var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
-            var lExpectedProgram =
+            const lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
+            const lExpectedProgram =
 ` * \\msc\n\
  *   "note";\n\
  * \n * \\endmsc`;

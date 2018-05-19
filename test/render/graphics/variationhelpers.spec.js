@@ -1,4 +1,4 @@
-var geo    = require("../../../render/graphics/svgelementfactory/variationhelpers");
+const geo    = require("../../../render/graphics/svgelementfactory/variationhelpers");
 
 describe('#geometry', () => {
 
@@ -130,9 +130,9 @@ describe('#geometry', () => {
     describe('#getBetweenPoints', () => {
 
         describe("a diagonal", () => {
-            var lBetweenPoints = [];
+            let lBetweenPoints = [];
 
-            beforeAll(function(){
+            beforeAll(() => {
                 lBetweenPoints =
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:0, yTo:10},
@@ -147,12 +147,10 @@ describe('#geometry', () => {
 
             test("returns the endpoint of the line as the last point", () => {
                 expect(
-                    lBetweenPoints.map(function(pPoint){
-                        return {
-                            x: pPoint.x,
-                            y: pPoint.y
-                        };
-                    })[lBetweenPoints.length - 1]
+                    lBetweenPoints.map((pPoint) => ({
+                        x: pPoint.x,
+                        y: pPoint.y
+                    }))[lBetweenPoints.length - 1]
                 ).toEqual({x:0, y:10});
             });
 
@@ -187,9 +185,9 @@ describe('#geometry', () => {
         });
 
         describe("a vertical line", () => {
-            var lBetweenPoints = [];
+            let lBetweenPoints = [];
 
-            beforeAll(function(){
+            beforeAll(() => {
                 lBetweenPoints =
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:10, yTo:10},
@@ -204,12 +202,10 @@ describe('#geometry', () => {
 
             test("returns the endpoint of the line as the last point", () => {
                 expect(
-                    lBetweenPoints.map(function(pPoint){
-                        return {
-                            x: pPoint.x,
-                            y: pPoint.y
-                        };
-                    })[lBetweenPoints.length - 1]
+                    lBetweenPoints.map((pPoint) => ({
+                        x: pPoint.x,
+                        y: pPoint.y
+                    }))[lBetweenPoints.length - 1]
                 ).toEqual({x:10, y:10});
             });
 
@@ -238,9 +234,9 @@ describe('#geometry', () => {
         });
 
         describe("a horizontal line", () => {
-            var lBetweenPoints = [];
+            let lBetweenPoints = [];
 
-            beforeAll(function(){
+            beforeAll(() => {
                 lBetweenPoints =
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:20, xTo:20, yTo:20},
@@ -255,12 +251,10 @@ describe('#geometry', () => {
 
             test("returns the endpoint of the line as the last point", () => {
                 expect(
-                    lBetweenPoints.map(function(pPoint){
-                        return {
-                            x: pPoint.x,
-                            y: pPoint.y
-                        };
-                    })[lBetweenPoints.length - 1]
+                    lBetweenPoints.map((pPoint) => ({
+                        x: pPoint.x,
+                        y: pPoint.y
+                    }))[lBetweenPoints.length - 1]
                 ).toEqual({x:20, y:20});
             });
 
