@@ -1,5 +1,4 @@
 /* eslint max-len:0 */
-var assert   = require("assert");
 var renderer = require("../../../render/text/ast2doxygen");
 var fix      = require("../../astfixtures.json");
 
@@ -9,13 +8,13 @@ describe('render/text/ast2doxygen', () => {
             var lProgram = renderer.render(fix.astSimple);
             var lExpectedProgram =
                 ' * \\msc\n *   a,\n *   "b space";\n * \n *   a => "b space" [label="a simple script"];\n * \\endmsc';
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
 
         test("should preserve the comments at the start of the ast", () => {
             var lProgram = renderer.render(fix.astWithPreComment);
             var lExpectedProgram = " * \\msc\n *   a,\n *   b;\n * \n *   a -> b;\n * \\endmsc";
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
 
         test("should preserve attributes", () => {
@@ -30,7 +29,7 @@ describe('render/text/ast2doxygen', () => {
  *   Bob >> Alice [label="PHEEE!", textcolor="green", textbgcolor="yellow", arcskip="0.3"];
  *   Alice => Alice [label="hihihi", linecolor="#654321"];
  * \\endmsc`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
     });
 
@@ -48,7 +47,7 @@ describe('render/text/ast2doxygen', () => {
  *     c >> b;
  * #;
  * \\endmsc`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
         test('alt within loop - render correct script', () => {
             var lProgram = renderer.render(fix.astAltWithinLoop);
@@ -68,7 +67,7 @@ describe('render/text/ast2doxygen', () => {
  *   a =>> a [label="happy-the-peppy - outside"];
  *   ...;
  * \\endmsc`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
         test(
             'When presented with an unsupported option, renders the script by simply omitting it',
@@ -78,7 +77,7 @@ describe('render/text/ast2doxygen', () => {
 ` * \\msc
  *   a;
  * \n * \\endmsc`;
-                assert.equal(lProgram, lExpectedProgram);
+                expect(lProgram).toBe(lExpectedProgram);
             }
         );
         test("Does not render width when that equals 'auto'", () => {
@@ -86,7 +85,7 @@ describe('render/text/ast2doxygen', () => {
             var lExpectedProgram =
 ` * \\msc
  * \\endmsc`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
         test("Render width when that is a number", () => {
             var lProgram = renderer.render(fix.fixedwidth, true);
@@ -94,7 +93,7 @@ describe('render/text/ast2doxygen', () => {
 ` * \\msc
  *   width=800;
  * \n * \\endmsc`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
         test("Puts entities with mscgen keyword for a name in quotes", () => {
             var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
@@ -102,7 +101,7 @@ describe('render/text/ast2doxygen', () => {
 ` * \\msc\n\
  *   "note";\n\
  * \n * \\endmsc`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
     });
 });

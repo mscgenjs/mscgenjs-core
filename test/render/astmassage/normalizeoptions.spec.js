@@ -1,4 +1,3 @@
-var expect           = require("chai").expect;
 var normalizeoptions = require("../../../render/astmassage/normalizeoptions");
 
 
@@ -8,7 +7,7 @@ describe('render/astmassage/normalizeoptions', () => {
         () => {
             expect(
                 normalizeoptions()
-            ).to.deep.equal({
+            ).toEqual({
                 wordwraparcs: false,
                 wordwrapentities: true,
                 wordwrapboxes: true
@@ -21,7 +20,7 @@ describe('render/astmassage/normalizeoptions', () => {
         () => {
             expect(
                 normalizeoptions({})
-            ).to.deep.equal({
+            ).toEqual({
                 wordwraparcs: false,
                 wordwrapentities: true,
                 wordwrapboxes: true
@@ -37,7 +36,7 @@ describe('render/astmassage/normalizeoptions', () => {
                     hscale: 3.14,
                     watermark: "shark wheels"
                 })
-            ).to.deep.equal({
+            ).toEqual({
                 hscale: 3.14,
                 watermark: "shark wheels",
                 wordwraparcs: false,
@@ -54,7 +53,7 @@ describe('render/astmassage/normalizeoptions', () => {
                 normalizeoptions({
                     wordwrapentities: false
                 })
-            ).to.deep.equal({
+            ).toEqual({
                 wordwraparcs: false,
                 wordwrapentities: false,
                 wordwrapboxes: true

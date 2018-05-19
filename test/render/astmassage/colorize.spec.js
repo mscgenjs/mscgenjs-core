@@ -1,4 +1,3 @@
-var expect   = require("chai").expect;
 var colorize = require("../../../render/astmassage/colorize");
 var fix      = require("../../astfixtures.json");
 var _        = require("../../../lib/lodash/lodash.custom");
@@ -621,63 +620,63 @@ describe('render/text/colorize', () => {
         test('should return the input on uncolor(colorize)', () => {
             expect(
                 colorize.uncolor(colorize.applyScheme(_.cloneDeep(fix.astAltWithinLoop)))
-            ).to.deep.equal(fix.astAltWithinLoop);
+            ).toEqual(fix.astAltWithinLoop);
         });
         test('should, leave already textcolored entities alone', () => {
             expect(
                 colorize.applyScheme(_.cloneDeep(textColoredEntity))
-            ).to.deep.equal(textColoredEntity);
+            ).toEqual(textColoredEntity);
         });
         test('should, leave already textcolored entities alone', () => {
             expect(
                 colorize.applyScheme(_.cloneDeep(textColoredEntity), 'auto')
-            ).to.deep.equal(textColoredEntity);
+            ).toEqual(textColoredEntity);
         });
         test('should, leave already arctextcolored entities alone', () => {
             expect(
                 colorize.applyScheme(arcTextColoredEntity)
-            ).to.deep.equal(arcTextColoredEntity);
+            ).toEqual(arcTextColoredEntity);
         });
         test(
             'should, leave regular arcs departing from already textcolored entities alone',
             () => {
                 expect(
                     colorize.applyScheme(textColoredEntityWithArc)
-                ).to.deep.equal(textColoredEntityWithArc);
+                ).toEqual(textColoredEntityWithArc);
             }
         );
         test('should color box arcs departing from colored entities', () => {
             expect(
                 colorize.applyScheme(_.cloneDeep(boxes))
-            ).to.deep.equal(coloredBoxes);
+            ).toEqual(coloredBoxes);
         });
         test('should not respect any colors when force is applied', () => {
             expect(
                 colorize.applyScheme(_.cloneDeep(boxes), 'auto', true)
-            ).to.deep.equal(coloredBoxesForced);
+            ).toEqual(coloredBoxesForced);
         });
         test('should not respect any colors when force is applied', () => {
             var lRosedBoxes = colorize.applyScheme(_.cloneDeep(boxes), 'rosy');
             expect(
                 colorize.applyScheme(lRosedBoxes, 'auto', true)
-            ).to.deep.equal(coloredBoxesForced);
+            ).toEqual(coloredBoxesForced);
         });
         test('should color box arcs departing from non-colored entities', () => {
             expect(
                 colorize.applyScheme(boxesWithNonColoredEntity)
-            ).to.deep.equal(coloredBoxesWithNonColoredEntity);
+            ).toEqual(coloredBoxesWithNonColoredEntity);
         });
         test('should not color box arcs already having some color', () => {
             expect(
                 colorize.applyScheme(alreadyColoredBoxes)
-            ).to.deep.equal(alreadyColoredBoxes);
+            ).toEqual(alreadyColoredBoxes);
         });
         test(
             'should use custom entity color scheme and arc specifics when passed these',
             () => {
                 expect(
                     colorize.colorize(customMscTestInput, customScheme)
-                ).to.deep.equal(customMscTestOutput);
+                ).toEqual(customMscTestOutput);
             }
         );
     });

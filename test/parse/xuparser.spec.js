@@ -1,6 +1,5 @@
 var fs      = require("fs");
 var path    = require("path");
-var expect  = require("chai").expect;
 var parser  = require("../../parse/xuparser");
 var tst     = require("../testutensils");
 var pairs   = require("./mscgenPairs");
@@ -11,25 +10,25 @@ describe('parse/xuparser', () => {
 
         test("should correctly parse naked reals", () => {
             var lAST = parser.parse('xu{HSCAle=481.1337;a;}');
-            expect(lAST.options.hscale).to.equal("481.1337");
+            expect(lAST.options.hscale).toBe("481.1337");
         });
         test("should correctly parse quoted cardinals", () => {
             var lAST = parser.parse('xu{width="481";a;}');
-            expect(lAST.options.width).to.equal("481");
+            expect(lAST.options.width).toBe("481");
         });
         test("should correctly parse quoted reals", () => {
             var lAST = parser.parse('xu{width="481.1337";a;}');
-            expect(lAST.options.width).to.equal("481.1337");
+            expect(lAST.options.width).toBe("481.1337");
         });
         test("should correctly parse naked cardinals", () => {
             var lAST = parser.parse('xu{width=481;a;}');
-            expect(lAST.options.width).to.equal("481");
+            expect(lAST.options.width).toBe("481");
         });
     });
     describe('#parse() - happy day ASTs - ', () => {
         pairs.programASTPairs.forEach(function(pPair){
             test(pPair.title, () => {
-                expect(parser.parse(pPair.program)).to.deep.equal(pPair.ast);
+                expect(parser.parse(pPair.program)).toEqual(pPair.ast);
             });
         });
     });
@@ -82,7 +81,7 @@ describe('parse/xuparser', () => {
         describe('#parse() - happy day ASTs - ', () => {
             xuPairs.programASTPairs.forEach(function(pPair){
                 test(pPair.title, () => {
-                    expect(parser.parse(pPair.program)).to.deep.equal(pPair.ast);
+                    expect(parser.parse(pPair.program)).toEqual(pPair.ast);
                 });
             });
         });
@@ -96,17 +95,17 @@ describe('parse/xuparser', () => {
         });
         test('should accept watermark as an option', () => {
             var lAST = parser.parse('xu{arcgradient= 20, watermark="Goûter le filigraine" ; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
-            expect(lAST.options.watermark).to.equal("Goûter le filigraine");
+            expect(lAST.options.watermark).toBe("Goûter le filigraine");
         });
         test('should accept AUTO as a valid width', () => {
             var lAST = parser.parse('xu{ arcgradient=20, width=AUTO; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}');
-            expect(lAST.options.width).to.equal("auto");
+            expect(lAST.options.width).toBe("auto");
         });
         test('should accept "AUTO" as a valid width', () => {
             var lAST = parser.parse(
                 'xu{ arcgradient=20, width="AUTO"; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}'
             );
-            expect(lAST.options.width).to.equal("auto");
+            expect(lAST.options.width).toBe("auto");
         });
     });
 });

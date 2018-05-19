@@ -1,7 +1,5 @@
 var fs          = require("fs");
 var path        = require("path");
-var assert      = require("assert");
-var expect      = require("chai").expect;
 var ast2animate = require("../../../render/text/ast2animate");
 var parser      = require("../../../parse/xuparser");
 var fix         = require("../../astfixtures.json");
@@ -143,26 +141,26 @@ describe('render/text/ast2ani', () => {
         test('should return a length of 1 for astEmpty', () => {
             var ani = new ast2animate.FrameFactory();
             ani.init(fix.astEmpty);
-            assert.equal(0, ani.getPosition());
-            assert.equal(1, ani.getLength());
+            expect(ani.getPosition()).toBe(0);
+            expect(ani.getLength()).toBe(1);
         });
         test('should return a length of 2 for astSimple', () => {
             var ani = new ast2animate.FrameFactory();
             ani.init(fix.astSimple);
-            assert.equal(2, ani.getLength());
+            expect(ani.getLength()).toBe(2);
         });
         test('should return a length of 15 for astCheatSheet', () => {
             var ani = new ast2animate.FrameFactory();
             ani.init(fix.astCheatSheet);
-            assert.equal(0, ani.getPosition());
-            assert.equal(15, ani.getLength());
+            expect(ani.getPosition()).toBe(0);
+            expect(ani.getLength()).toBe(15);
         });
     });
 
     describe('#getFrame(0)', () => {
         test('should return astEmpty for astEmpty', () => {
             var ani = new ast2animate.FrameFactory(fix.astEmpty);
-            expect(ani.getFrame(0)).to.deep.equal(fix.astEmpty);
+            expect(ani.getFrame(0)).toEqual(fix.astEmpty);
         });
         test('should return entities for astSimple', () => {
             var ani = new ast2animate.FrameFactory(fix.astSimple);
@@ -179,17 +177,17 @@ describe('render/text/ast2ani', () => {
                 }],
                 arcs : [[{"kind": "|||"}]]
             };
-            expect(ani.getFrame(0)).to.deep.equal(astSimpleEntitiesOnly);
+            expect(ani.getFrame(0)).toEqual(astSimpleEntitiesOnly);
         });
 
         test('should return entities for astCheatSheet', () => {
             var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
-            expect(ani.getFrame(0)).to.deep.equal(astCheatSheet0);
+            expect(ani.getFrame(0)).toEqual(astCheatSheet0);
         });
 
         test('should return entities for astCheatSheet for length < 0', () => {
             var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
-            expect(ani.getFrame(-481)).to.deep.equal(astCheatSheet0);
+            expect(ani.getFrame(-481)).toEqual(astCheatSheet0);
         });
 
     });
@@ -197,21 +195,21 @@ describe('render/text/ast2ani', () => {
     describe('#getFrame(getLength())', () => {
         test('should return astEmpty for astEmpty', () => {
             var ani = new ast2animate.FrameFactory(fix.astEmpty);
-            expect(ani.getFrame(ani.getLength())).to.deep.equal(fix.astEmpty);
+            expect(ani.getFrame(ani.getLength())).toEqual(fix.astEmpty);
         });
         test('should return astSimple for astSimple', () => {
             var ani = new ast2animate.FrameFactory(fix.astSimple);
-            expect(ani.getFrame(ani.getLength())).to.deep.equal(fix.astSimple);
+            expect(ani.getFrame(ani.getLength())).toEqual(fix.astSimple);
         });
         test('should return astCheatSheet for astCheatSheet', () => {
             var ani = new ast2animate.FrameFactory(fix.astCheatSheet);
-            expect(ani.getFrame(ani.getLength())).to.deep.equal(fix.astCheatSheet);
+            expect(ani.getFrame(ani.getLength())).toEqual(fix.astCheatSheet);
         });
         test(
             'should return astCheatSheet for astCheatSheet and length === somethingbig',
             () => {
                 var ani = new ast2animate.FrameFactory(fix.astCheatSheet, true);
-                expect(ani.getFrame(481)).to.deep.equal(fix.astCheatSheet);
+                expect(ani.getFrame(481)).toEqual(fix.astCheatSheet);
             }
         );
     });
@@ -223,21 +221,21 @@ describe('render/text/ast2ani', () => {
         test(
             'should return entities and first arc from astCheatSheet for astCheatSheet',
             () => {
-                expect(ani.getFrame(1)).to.deep.equal(astCheatSheet1);
+                expect(ani.getFrame(1)).toEqual(astCheatSheet1);
             }
         );
 
         test(
             'should return entities and first three arcs from astCheatSheet for astCheatSheet',
             () => {
-                expect(ani.getFrame(3)).to.deep.equal(astCheatSheet3);
+                expect(ani.getFrame(3)).toEqual(astCheatSheet3);
             }
         );
 
         test(
             'should return entities and first two arcs from astCheatSheet for astCheatSheet',
             () => {
-                expect(ani.getFrame(2)).to.deep.equal(astCheatSheet2);
+                expect(ani.getFrame(2)).toEqual(astCheatSheet2);
             }
         );
     });
@@ -249,9 +247,9 @@ describe('render/text/ast2ani', () => {
             'getCurrentFrame should return astCheatSheet after call to end()',
             () => {
                 ani.end();
-                assert.equal(15, ani.getPosition());
-                assert.equal(100, ani.getPercentage());
-                expect(ani.getCurrentFrame()).to.deep.equal(fix.astCheatSheet);
+                expect(ani.getPosition()).toBe(15);
+                expect(ani.getPercentage()).toBe(100);
+                expect(ani.getCurrentFrame()).toEqual(fix.astCheatSheet);
             }
         );
         test(
@@ -259,9 +257,9 @@ describe('render/text/ast2ani', () => {
             () => {
                 ani.end();
                 ani.dec(14);
-                assert.equal(1, ani.getPosition());
-                assert.equal(100 / 15, ani.getPercentage());
-                expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet1);
+                expect(ani.getPosition()).toBe(1);
+                expect(ani.getPercentage()).toBe(100 / 15);
+                expect(ani.getCurrentFrame()).toEqual(astCheatSheet1);
             }
         );
         test(
@@ -269,9 +267,9 @@ describe('render/text/ast2ani', () => {
             () => {
                 ani.home();
                 ani.inc(2);
-                assert.equal(2, ani.getPosition());
-                assert.equal(200 / 15, ani.getPercentage());
-                expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet2);
+                expect(ani.getPosition()).toBe(2);
+                expect(ani.getPercentage()).toBe(200 / 15);
+                expect(ani.getCurrentFrame()).toEqual(astCheatSheet2);
             }
         );
         test(
@@ -280,9 +278,9 @@ describe('render/text/ast2ani', () => {
                 ani.home();
                 ani.inc();
                 ani.dec();
-                assert.equal(0, ani.getPosition());
-                assert.equal(0, ani.getPercentage());
-                expect(ani.getCurrentFrame()).to.deep.equal(astCheatSheet0);
+                expect(ani.getPosition()).toBe(0);
+                expect(ani.getPercentage()).toBe(0);
+                expect(ani.getCurrentFrame()).toEqual(astCheatSheet0);
             }
         );
     });
@@ -299,12 +297,12 @@ describe('render/text/ast2ani', () => {
         test(
             'getLength for inline expressions takes expression length into account',
             () => {
-                assert.equal(10, ani.getLength());
+                expect(ani.getLength()).toBe(10);
             }
         );
 
         test('getNoRows takes inline expressions length into account', () => {
-            assert.equal(9, ani.getNoRows());
+            expect(ani.getNoRows()).toBe(9);
         });
 
         test('produces the right frames - 0', () => {

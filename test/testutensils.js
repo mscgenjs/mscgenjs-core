@@ -2,8 +2,7 @@ var fs     = require('fs');
 var crypto = require('crypto');
 var chai   = require("chai");
 
-var assert = chai.assert;
-var expect = chai.expect;
+var chaiExpect = chai.expect;
 chai.use(require("chai-xml"));
 
 module.exports = (function() {
@@ -19,7 +18,7 @@ module.exports = (function() {
     function assertequalToFileJSON(pExpectedFileName, pFound) {
         expect(
             pFound
-        ).to.deep.equal(
+        ).toEqual(
             JSON.parse(
                 fs.readFileSync(pExpectedFileName, {"encoding": "utf8"})
             )
@@ -40,7 +39,7 @@ module.exports = (function() {
         assertequalToFile: function assertequalToFile(pExpectedFileName, pFoundFileName){
             expect(
                 fs.readFileSync(pFoundFileName, {"encoding":"utf8"})
-            ).to.equal(
+            ).toBe(
                 fs.readFileSync(pExpectedFileName, {"encoding":"utf8"})
             );
         },
@@ -49,8 +48,8 @@ module.exports = (function() {
             var lFound    = fs.readFileSync(pFoundFileName, {"encoding" : "utf8"});
             var lExpected = fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"});
 
-            expect(lFound).xml.to.be.valid();
-            expect(lFound).xml.to.deep.equal(lExpected);
+            chaiExpect(lFound).xml.to.be.valid();
+            chaiExpect(lFound).xml.to.deep.equal(lExpected);
         },
 
         assertequalProcessingXML : function(pExpectedFileName, pInputFileName, pProcessingFn){
@@ -58,8 +57,8 @@ module.exports = (function() {
                 fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
             );
 
-            expect(lProcessedInput).xml.to.be.valid();
-            expect(
+            chaiExpect(lProcessedInput).xml.to.be.valid();
+            chaiExpect(
                 lProcessedInput
             ).xml.to.deep.equal(
                 fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"})
@@ -67,14 +66,15 @@ module.exports = (function() {
         },
 
         assertequalProcessing : function(pExpectedFileName, pInputFileName, pProcessingFn){
-            assert.equal(
+            expect(
+                hashit(
+                    fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"})
+                )
+            ).toBe(
                 hashit(
                     pProcessingFn(
                         fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
                     )
-                ),
-                hashit(
-                    fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"})
                 )
             );
         },
@@ -88,9 +88,9 @@ module.exports = (function() {
                 if (pParser.parse(pProgram)) {
                     lStillRan = true;
                 }
-                expect(lStillRan).to.equal(false);
+                expect(lStillRan).toBe(false);
             } catch (e) {
-                expect(e.name).to.equal(pErrorType);
+                expect(e.name).toBe(pErrorType);
             }
         }
     };

@@ -1,11 +1,8 @@
 /* eslint max-nested-callbacks: 0 */
 // const mscgenjs = require("../index-lazy");
-const chai     = require("chai");
 const tst      = require("../testutensils");
 const fix      = require("../astfixtures.json");
 
-const expect   = chai.expect;
-chai.use(require("chai-xml"));
 
 const gExpectedMscGenOutput = `msc {\n\
   a,\n\
@@ -26,13 +23,13 @@ const gExpectedMscGenOutput = `msc {\n\
             tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);
             expect(
                 pParser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}')
-            ).to.deep.equal(
+            ).toEqual(
                 fix.astSimple
             );
         }
 
         function isMscGenTextRenderer(pRenderer){
-            expect(pRenderer.render(fix.astOneAlt)).to.equal(gExpectedMscGenOutput);
+            expect(pRenderer.render(fix.astOneAlt)).toBe(gExpectedMscGenOutput);
         }
 
         describe('#getParser()', () => {

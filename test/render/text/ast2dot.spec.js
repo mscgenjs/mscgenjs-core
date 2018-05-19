@@ -1,4 +1,3 @@
-const assert   = require("assert");
 const fs       = require("fs");
 const path     = require("path");
 const renderer = require("../../../render/text/ast2dot");
@@ -30,7 +29,7 @@ graph {
 
   "a" -- "b space" [label="(1) a simple script", arrowhead="normal"]
 }`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
         test('should, given a syntax tree with boxes, render a dot script', () => {
             const lProgram = renderer.render(fix.astBoxArcs);
@@ -64,7 +63,7 @@ graph {
   box4 [style="rounded", shape="box"]
   box4 -- {"d","d"} [style="dotted", dir="none"]
 }`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
 
     });
@@ -98,7 +97,7 @@ graph {
     "c" -- "b" [label="(4)", style="dashed"]
   }
 }`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
         test('alt within loop - render correct script', () => {
             const lProgram = renderer.render(fix.astAltWithinLoop);
@@ -132,7 +131,7 @@ graph {
   }
   "a" -- "a" [label="(7) happy-the-peppy - outside"]
 }`;
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
     });
 
@@ -148,7 +147,7 @@ graph {
                 {"encoding":"utf8"}
             );
             const lProgram = renderer.render(lAST);
-            assert.equal(lProgram, lExpectedProgram);
+            expect(lProgram).toBe(lExpectedProgram);
         });
     });
 });

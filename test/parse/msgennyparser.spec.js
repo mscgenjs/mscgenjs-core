@@ -1,7 +1,6 @@
 /* eslint max-statements:0 */
 var fs     = require("fs");
 var path   = require("path");
-var expect = require("chai").expect;
 var parser = require("../../parse/msgennyparser");
 var tst    = require("../testutensils");
 var fix    = require("../astfixtures.json");
@@ -103,80 +102,80 @@ describe('parse/msgennyparser', () => {
             'should render a simple AST, with two entities auto declared',
             () => {
                 var lAST = parser.parse('a => "b space": a simple script;');
-                expect(lAST).to.deep.equal(fix.astSimple);
+                expect(lAST).toEqual(fix.astSimple);
             }
         );
         test('should ignore c++ style one line comments', () => {
             var lAST = parser.parse('a => "b space": a simple script;//ignored');
-            expect(lAST).to.deep.equal(fix.astSimple);
+            expect(lAST).toEqual(fix.astSimple);
         });
         test("should produce an (almost empty) AST for empty input", () => {
             var lAST = parser.parse("");
-            expect(lAST).to.deep.equal(fix.astEmpty);
+            expect(lAST).toEqual(fix.astEmpty);
         });
         test(
             "should produce an AST even when non entity arcs are its only content",
             () => {
                 var lAST = parser.parse('---:start;...:no entities ...; ---:end;');
-                expect(lAST).to.deep.equal(fix.astNoEntities);
+                expect(lAST).toEqual(fix.astNoEntities);
             }
         );
         test("should produce lowercase for upper/ mixed case arc kinds", () => {
             var lAST = parser.parse('a NoTE a, b BOX b, c aBox c, d rbOX d;');
-            expect(lAST).to.deep.equal(fix.astBoxArcs);
+            expect(lAST).toEqual(fix.astBoxArcs);
         });
         test("should produce lowercase for upper/ mixed case options", () => {
             var lAST = parser.parse(
                 'HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;'
             );
-            expect(lAST).to.deep.equal(fix.astOptions);
+            expect(lAST).toEqual(fix.astOptions);
         });
         test("should correctly parse naked reals", () => {
             var lAST = parser.parse('HSCAle=481.1337;a;');
-            expect(lAST.options.hscale).to.equal("481.1337");
+            expect(lAST.options.hscale).toBe("481.1337");
         });
         test("should correctly parse quoted cardinals", () => {
             var lAST = parser.parse('width="481";a;');
-            expect(lAST.options.width).to.equal("481");
+            expect(lAST.options.width).toBe("481");
         });
         test("should correctly parse quoted reals", () => {
             var lAST = parser.parse('width="481.1337";a;');
-            expect(lAST.options.width).to.equal("481.1337");
+            expect(lAST.options.width).toBe("481.1337");
         });
         test("should correctly parse naked cardinals", () => {
             var lAST = parser.parse('width=481;a;');
-            expect(lAST.options.width).to.equal("481");
+            expect(lAST.options.width).toBe("481");
         });
         test("should keep the labeled name of an entity", () => {
             var lAST = parser.parse('"實體": This is the label for 實體;');
-            expect(lAST).to.deep.equal(fix.astLabeledEntity);
+            expect(lAST).toEqual(fix.astLabeledEntity);
         });
         test(
             "should generate arcs to all other arcs with both bare and quoted *",
             () => {
                 expect(
                     parser.parse('arcgradient=18; ω; ɑ -> * : ɑ -> *; * <- β : * <- β; ɣ <-> * : ɣ <-> *;')
-                ).to.deep.equal(fix.astAsteriskBoth);
+                ).toEqual(fix.astAsteriskBoth);
                 expect(
                     parser.parse('arcgradient=18; ω; ɑ -> "*" : ɑ -> *; "*" <- β : * <- β; ɣ <-> "*" : ɣ <-> *;')
-                ).to.deep.equal(fix.astAsteriskBoth);
+                ).toEqual(fix.astAsteriskBoth);
             }
         );
         test(
             'should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"',
             () => {
-                expect(parser.parse('wordwraparcs=true;')).to.deep.equal(fix.astWorwraparcstrue);
-                expect(parser.parse('wordwraparcs="true";')).to.deep.equal(fix.astWorwraparcstrue);
-                expect(parser.parse('wordwraparcs=on;')).to.deep.equal(fix.astWorwraparcstrue);
-                expect(parser.parse('wordwraparcs="on";')).to.deep.equal(fix.astWorwraparcstrue);
-                expect(parser.parse('wordwraparcs=1;')).to.deep.equal(fix.astWorwraparcstrue);
-                expect(parser.parse('wordwraparcs="1";')).to.deep.equal(fix.astWorwraparcstrue);
-                expect(parser.parse('wordwraparcs=false;')).to.deep.equal(fix.astWorwraparcsfalse);
-                expect(parser.parse('wordwraparcs="false";')).to.deep.equal(fix.astWorwraparcsfalse);
-                expect(parser.parse('wordwraparcs=off;')).to.deep.equal(fix.astWorwraparcsfalse);
-                expect(parser.parse('wordwraparcs="off";')).to.deep.equal(fix.astWorwraparcsfalse);
-                expect(parser.parse('wordwraparcs=0;')).to.deep.equal(fix.astWorwraparcsfalse);
-                expect(parser.parse('wordwraparcs="0";')).to.deep.equal(fix.astWorwraparcsfalse);
+                expect(parser.parse('wordwraparcs=true;')).toEqual(fix.astWorwraparcstrue);
+                expect(parser.parse('wordwraparcs="true";')).toEqual(fix.astWorwraparcstrue);
+                expect(parser.parse('wordwraparcs=on;')).toEqual(fix.astWorwraparcstrue);
+                expect(parser.parse('wordwraparcs="on";')).toEqual(fix.astWorwraparcstrue);
+                expect(parser.parse('wordwraparcs=1;')).toEqual(fix.astWorwraparcstrue);
+                expect(parser.parse('wordwraparcs="1";')).toEqual(fix.astWorwraparcstrue);
+                expect(parser.parse('wordwraparcs=false;')).toEqual(fix.astWorwraparcsfalse);
+                expect(parser.parse('wordwraparcs="false";')).toEqual(fix.astWorwraparcsfalse);
+                expect(parser.parse('wordwraparcs=off;')).toEqual(fix.astWorwraparcsfalse);
+                expect(parser.parse('wordwraparcs="off";')).toEqual(fix.astWorwraparcsfalse);
+                expect(parser.parse('wordwraparcs=0;')).toEqual(fix.astWorwraparcsfalse);
+                expect(parser.parse('wordwraparcs="0";')).toEqual(fix.astWorwraparcsfalse);
             }
         );
         test("should throw a SyntaxError on an invalid program", () => {
@@ -226,19 +225,19 @@ describe('parse/msgennyparser', () => {
             }
         );
         test("unicode is cool. Also for unquoted entity names", () => {
-            expect(parser.parse('序;')).to.deep.equal(gUnicodeEntityFixture);
+            expect(parser.parse('序;')).toEqual(gUnicodeEntityFixture);
         });
         test("unicode is also cool for quoted entity names", () => {
-            expect(parser.parse('"序";')).to.deep.equal(gUnicodeEntityFixture);
+            expect(parser.parse('"序";')).toEqual(gUnicodeEntityFixture);
         });
         test("unicode is cool. Also for unquoted entity names in arcs", () => {
-            expect(parser.parse('"序" -> 序;🏭 =>> 👳 : 👷+🔧;')).to.deep.equal(gUnicodeEntityInArcFixture);
+            expect(parser.parse('"序" -> 序;🏭 =>> 👳 : 👷+🔧;')).toEqual(gUnicodeEntityInArcFixture);
         });
         test("should throw a SyntaxError on an invalid arc type", () => {
             tst.assertSyntaxError('a, b; a xx b;', parser);
         });
         test("should allow empty inline expressions", () => {
-            expect(parser.parse('a, b; a opt b{};')).to.deep.equal(fix.emptyinlineexpression);
+            expect(parser.parse('a, b; a opt b{};')).toEqual(fix.emptyinlineexpression);
         });
         test(
             "should throw a SyntaxError on _that's not an inline expression_ arc type",
@@ -274,7 +273,7 @@ describe('parse/msgennyparser', () => {
             var lAST = parser.parse(
                 'a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);'
             );
-            expect(lAST).to.deep.equal(fix.astCheatSheet);
+            expect(lAST).toEqual(fix.astCheatSheet);
         });
         test(
             "should throw a SyntaxError when passing a boolean to something expecting numbers",
@@ -317,7 +316,7 @@ describe('parse/msgennyparser', () => {
     describe('#parse() - expansions', () => {
         test('should render a simple AST, with an alt', () => {
             var lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
-            expect(lAST).to.deep.equal(fix.astOneAlt);
+            expect(lAST).toEqual(fix.astOneAlt);
         });
         test(
             'should render an AST, with alts, loops and labels (labels in front)',
@@ -325,24 +324,24 @@ describe('parse/msgennyparser', () => {
                 var lAST = parser.parse(
                     'a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;'
                 );
-                expect(lAST).to.deep.equal(fix.astAltWithinLoop);
+                expect(lAST).toEqual(fix.astAltWithinLoop);
             }
         );
         test('should render an AST, with an alt in it', () => {
             var lAST = parser.parse('a alt b {  c -> d; };');
-            expect(lAST).to.deep.equal(fix.astDeclarationWithinArcspan);
+            expect(lAST).toEqual(fix.astDeclarationWithinArcspan);
         });
         test('automatically declares entities in the right order', () => {
             var lAST = parser.parse('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
-            expect(lAST).to.deep.equal(gCorrectOrderFixture);
+            expect(lAST).toEqual(gCorrectOrderFixture);
         });
         test('should accept "auto" as a valid width', () => {
             var lAST = parser.parse('arcgradient= 20, width= auTo ; a,b,c,d,e,f; c =>> *: Hello everyone;');
-            expect(lAST.options.width).to.equal("auto");
+            expect(lAST.options.width).toBe("auto");
         });
         test('should accept "AUTO" as a valid width', () => {
             var lAST = parser.parse('arcgradient= 20, width="AUTO"; a,b,c,d,e,f; c =>> *: Hello everyone;');
-            expect(lAST.options.width).to.equal("auto");
+            expect(lAST.options.width).toBe("auto");
         });
         test(
             "should throw a SyntaxError on an inline expression without {}",

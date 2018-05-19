@@ -1,4 +1,3 @@
-var expect = require("chai").expect;
 var geo    = require("../../../render/graphics/svgelementfactory/variationhelpers");
 
 describe('#geometry', () => {
@@ -9,7 +8,7 @@ describe('#geometry', () => {
                 geo.getDirection(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10}
                 )
-            ).to.deep.equal(
+            ).toEqual(
                 {
                     signX: -1,
                     signY: 1,
@@ -22,7 +21,7 @@ describe('#geometry', () => {
                 geo.getDirection(
                     {xFrom:0, yFrom:0, xTo:0, yTo:10}
                 )
-            ).to.deep.equal(
+            ).toEqual(
                 {
                     signX: -1,
                     signY: 1,
@@ -35,7 +34,7 @@ describe('#geometry', () => {
                 geo.getDirection(
                     {xFrom:0, yFrom:0, xTo:10, yTo:0}
                 )
-            ).to.deep.equal(
+            ).toEqual(
                 {
                     signX: 1,
                     signY: -1,
@@ -51,28 +50,28 @@ describe('#geometry', () => {
                 geo.getLineLength(
                     {xFrom:10, yFrom:0, xTo:10, yTo:10}
                 )
-            ).to.equal(10);
+            ).toBe(10);
         });
         test("returns 10 for (0,10), (10,10)", () => {
             expect(
                 geo.getLineLength(
                     {xFrom:0, yFrom:10, xTo:10, yTo:10}
                 )
-            ).to.equal(10);
+            ).toBe(10);
         });
         test("returns ~14.1 for (10,0), (0,10)", () => {
             expect(
                 geo.getLineLength(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10}
                 )
-            ).to.equal(14.142135623730951);
+            ).toBe(14.142135623730951);
         });
         test("returns 0 for (10,0), (0,10)", () => {
             expect(
                 geo.getLineLength(
                     {xFrom:10, yFrom:-10, xTo:10, yTo:-10}
                 )
-            ).to.equal(0);
+            ).toBe(0);
         });
     });
 
@@ -83,7 +82,7 @@ describe('#geometry', () => {
                     {xFrom:10, yFrom:0, xTo:0, yTo:10},
                     10
                 )
-            ).equal(1);
+            ).toBe(1);
         });
         test("returns 14 to fit segments of 1 long into ((10,0), (0,10))", () => {
             expect(
@@ -91,7 +90,7 @@ describe('#geometry', () => {
                     {xFrom:10, yFrom:0, xTo:0, yTo:10},
                     1
                 )
-            ).equal(14);
+            ).toBe(14);
         });
         test("returns 14 to fit segments of 1 long into ((10,10), (0,0))", () => {
             expect(
@@ -99,7 +98,7 @@ describe('#geometry', () => {
                     {xFrom:10, yFrom:10, xTo:0, yTo:0},
                     1
                 )
-            ).equal(14);
+            ).toBe(14);
         });
         test("returns 0 to fit segments of 15 long into ((10,10), (0,0))", () => {
             expect(
@@ -107,7 +106,7 @@ describe('#geometry', () => {
                     {xFrom:10, yFrom:10, xTo:0, yTo:0},
                     15
                 )
-            ).equal(0);
+            ).toBe(0);
         });
         test("returns 5 to fit segments of 2 long into ((10,-10), (10,0))", () => {
             expect(
@@ -115,7 +114,7 @@ describe('#geometry', () => {
                     {xFrom:10, yFrom:-10, xTo:10, yTo:0},
                     2
                 )
-            ).equal(5);
+            ).toBe(5);
         });
         test("returns 0 to for a line of 0 length", () => {
             expect(
@@ -123,7 +122,7 @@ describe('#geometry', () => {
                     {xFrom:10, yFrom:-10, xTo:10, yTo:-10},
                     1
                 )
-            ).equal(0);
+            ).toBe(0);
         });
     });
 
@@ -143,7 +142,7 @@ describe('#geometry', () => {
             });
 
             test("returns an array of 4 points", () => {
-                expect(lBetweenPoints.length).to.equal(4);
+                expect(lBetweenPoints.length).toBe(4);
             });
 
             test("returns the endpoint of the line as the last point", () => {
@@ -154,11 +153,11 @@ describe('#geometry', () => {
                             y: pPoint.y
                         };
                     })[lBetweenPoints.length - 1]
-                ).to.deep.equal({x:0, y:10});
+                ).toEqual({x:0, y:10});
             });
 
             test("returns points along the line", () => {
-                expect(lBetweenPoints).to.deep.equal([
+                expect(lBetweenPoints).toEqual([
                     {
                         "controlX": 8.94,
                         "controlY": 1.06,
@@ -200,7 +199,7 @@ describe('#geometry', () => {
             });
 
             test("returns an array of 3 points", () => {
-                expect(lBetweenPoints.length).to.equal(3);
+                expect(lBetweenPoints.length).toBe(3);
             });
 
             test("returns the endpoint of the line as the last point", () => {
@@ -211,11 +210,11 @@ describe('#geometry', () => {
                             y: pPoint.y
                         };
                     })[lBetweenPoints.length - 1]
-                ).to.deep.equal({x:10, y:10});
+                ).toEqual({x:10, y:10});
             });
 
             test("returns points along the line", () => {
-                expect(lBetweenPoints).to.deep.equal([
+                expect(lBetweenPoints).toEqual([
                     {
                         "controlX": 10,
                         "controlY": 1.5,
@@ -251,7 +250,7 @@ describe('#geometry', () => {
             });
 
             test("returns an array of 3 points", () => {
-                expect(lBetweenPoints.length).to.equal(3);
+                expect(lBetweenPoints.length).toBe(3);
             });
 
             test("returns the endpoint of the line as the last point", () => {
@@ -262,11 +261,11 @@ describe('#geometry', () => {
                             y: pPoint.y
                         };
                     })[lBetweenPoints.length - 1]
-                ).to.deep.equal({x:20, y:20});
+                ).toEqual({x:20, y:20});
             });
 
             test("returns points along the line", () => {
-                expect(lBetweenPoints).to.deep.equal([
+                expect(lBetweenPoints).toEqual([
                     {
                         "controlX": 11.5,
                         "controlY": 20,
@@ -297,9 +296,9 @@ describe('#geometry', () => {
                         0,
                         0
                     );
-                    expect("won't come here because it should throw an error").to.equal("did come here nonetheless");
+                    expect("won't come here because it should throw an error").toBe("did come here nonetheless");
                 } catch (e) {
-                    expect(e.toString()).to.equal("Error: pInterval must be > 0");
+                    expect(e.toString()).toBe("Error: pInterval must be > 0");
                 }
             });
 
@@ -310,9 +309,9 @@ describe('#geometry', () => {
                         -42,
                         0
                     );
-                    expect("won't come here because it should throw an error").to.equal("did come here nonetheless");
+                    expect("won't come here because it should throw an error").toBe("did come here nonetheless");
                 } catch (e) {
-                    expect(e.toString()).to.equal("Error: pInterval must be > 0");
+                    expect(e.toString()).toBe("Error: pInterval must be > 0");
                 }
             });
         });
@@ -320,4 +319,3 @@ describe('#geometry', () => {
     });
 
 });
-/* global beforeAll */

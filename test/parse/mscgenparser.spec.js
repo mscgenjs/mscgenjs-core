@@ -1,6 +1,5 @@
 var fs     = require("fs");
 var path   = require("path");
-var expect = require("chai").expect;
 var parser = require("../../parse/mscgenparser");
 var tst    = require("../testutensils");
 var pairs  = require("./mscgenPairs");
@@ -10,26 +9,26 @@ describe('parse/mscgenparser', () => {
 
         test("should correctly parse naked reals", () => {
             var lAST = parser.parse('msc{HSCAle=481.1337;a;}');
-            expect(lAST.options.hscale).to.equal("481.1337");
+            expect(lAST.options.hscale).toBe("481.1337");
         });
         test("should correctly parse quoted cardinals", () => {
             var lAST = parser.parse('msc{width="481";a;}');
-            expect(lAST.options.width).to.equal("481");
+            expect(lAST.options.width).toBe("481");
         });
         test("should correctly parse quoted reals", () => {
             var lAST = parser.parse('msc{width="481.1337";a;}');
-            expect(lAST.options.width).to.equal("481.1337");
+            expect(lAST.options.width).toBe("481.1337");
         });
         test("should correctly parse naked cardinals", () => {
             var lAST = parser.parse('msc{width=481;a;}');
-            expect(lAST.options.width).to.equal("481");
+            expect(lAST.options.width).toBe("481");
         });
     });
 
     describe('#parse() - happy day ASTs - ', () => {
         pairs.programASTPairs.forEach(function(pPair){
             test(pPair.title, () => {
-                expect(parser.parse(pPair.program)).to.deep.equal(pPair.ast);
+                expect(parser.parse(pPair.program)).toEqual(pPair.ast);
             });
         });
     });

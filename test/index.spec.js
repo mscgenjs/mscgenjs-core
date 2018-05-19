@@ -5,7 +5,7 @@ const chai     = require("chai");
 const version  = require("../package.json").version;
 const fix      = require("./astfixtures.json");
 
-const expect   = chai.expect;
+const chaiExpect   = chai.expect;
 chai.use(require("chai-xml"));
 
 const gExpectedMscGenOutput = `msc {\n\
@@ -35,10 +35,10 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
             test('no params translates mscgen to json', () => {
                 mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
                     /* eslint no-unused-expression:0 */
-                    expect(pError).to.be.null;
+                    expect(pError).toBeNull();
                     expect(
                         JSON.parse(pResult)
-                    ).to.deep.equal(
+                    ).toEqual(
                         fix.astSimple
                     );
                 });
@@ -49,10 +49,10 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     SIMPLE_MSCGEN,
                     {inputType: "mscgen", outputType: "json"},
                     function(pError, pResult){
-                        expect(pError).to.be.null;
+                        expect(pError).toBeNull();
                         expect(
                             JSON.parse(pResult)
-                        ).to.deep.equal(
+                        ).toEqual(
                             fix.astSimple
                         );
                     });
@@ -60,10 +60,10 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
             test('ast translates mscgen to an AST object', () => {
                 mscgenjs.translateMsc(SIMPLE_MSCGEN, {outputType: "ast"}, function(pError, pResult){
                     /* eslint no-unused-expression:0 */
-                    expect(pError).to.be.null;
+                    expect(pError).toBeNull();
                     expect(
                         pResult
-                    ).to.deep.equal(
+                    ).toEqual(
                         fix.astSimple
                     );
                 });
@@ -73,9 +73,9 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     SIMPLE_XU,
                     {inputType: "mscgen", outputType: "msgenny"},
                     function(pError, pResult){
-                        expect(pError).to.be.not.null;
-                        expect(pError).to.be.instanceof(Error);
-                        expect(pResult).to.be.null;
+                        expect(pError).not.toBeNull();
+                        expect(pError).toBeInstanceOf(Error);
+                        expect(pResult).toBeNull();
                     });
             });
             test('downgrading xu -> mscgen works', () => {
@@ -83,8 +83,8 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     JSON.stringify(fix.astOneAlt, null, ""),
                     {inputType: "json", outputType: "mscgen"},
                     function(pError, pResult){
-                        expect(pError).to.be.null;
-                        expect(pResult).to.equal(gExpectedMscGenOutput);
+                        expect(pError).toBeNull();
+                        expect(pResult).toBe(gExpectedMscGenOutput);
                     });
             });
             test('translating a raw javascript object works', () => {
@@ -92,12 +92,12 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     fix.astOneAlt,
                     {inputType: "json", outputType: "mscgen"},
                     function(pError, pResult){
-                        expect(pError).to.be.null;
-                        expect(pResult).to.equal(gExpectedMscGenOutput);
+                        expect(pError).toBeNull();
+                        expect(pResult).toBe(gExpectedMscGenOutput);
                     });
             });
             test('returns a version number equal to the one in package.json', () => {
-                expect(mscgenjs.version).to.equal(version);
+                expect(mscgenjs.version).toBe(version);
             });
         });
 
@@ -110,8 +110,8 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     SIMPLE_MSCGEN,
                     {window: lWindow},
                     function(pError, pResult){
-                        expect(pError).to.be.null;
-                        expect(pResult).xml.to.be.valid();
+                        expect(pError).toBeNull();
+                        chaiExpect(pResult).xml.to.be.valid();
                     }
                 );
             });
@@ -120,9 +120,9 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     SIMPLE_XU,
                     {window: lWindow},
                     function(pError, pResult){
-                        expect(pError).to.be.not.null;
-                        expect(pError).to.be.instanceof(Error);
-                        expect(pResult).to.be.null;
+                        expect(pError).not.toBeNull();
+                        expect(pError).toBeInstanceOf(Error);
+                        expect(pResult).toBeNull();
                     }
                 );
             });
@@ -135,8 +135,8 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         includeSource: false
                     },
                     function(pError, pResult){
-                        expect(pError).to.be.null;
-                        expect(pResult).xml.to.be.valid();
+                        expect(pError).toBeNull();
+                        chaiExpect(pResult).xml.to.be.valid();
                     }
                 );
             });
@@ -145,19 +145,19 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
         describe('#getAllowedValues()', () => {
 
             test('returns possible input types', () => {
-                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('inputType');
+                expect(mscgenjs.getAllowedValues()).toHaveProperty('inputType');
             });
 
             test('returns possible output types', () => {
-                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('outputType');
+                expect(mscgenjs.getAllowedValues()).toHaveProperty('outputType');
             });
 
             test('returns possible regularArcTextVerticalAlignment types', () => {
-                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('regularArcTextVerticalAlignment');
+                expect(mscgenjs.getAllowedValues()).toHaveProperty('regularArcTextVerticalAlignment');
             });
 
             test('returns possible namedStyles', () => {
-                expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('namedStyle');
+                expect(mscgenjs.getAllowedValues()).toHaveProperty('namedStyle');
             });
         });
     });

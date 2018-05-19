@@ -1,4 +1,3 @@
-var expect  = require("chai").expect;
 var flatten = require("../../../render/astmassage/flatten");
 var fix     = require("../../astfixtures.json");
 
@@ -7,27 +6,27 @@ describe('render/astmassage/flatten', () => {
         test('should return an "unwound" version of the simple one alt ', () => {
             expect(
                 flatten.unwind(fix.astOneAlt)
-            ).to.deep.equal(fix.astOneAltUnwound);
+            ).toEqual(fix.astOneAltUnwound);
         });
         test(
             'should return an "unwound" version of an alt within a loop ',
             () => {
                 expect(
                     flatten.unwind(fix.astAltWithinLoop)
-                ).to.deep.equal(fix.astAltWithinLoopUnWound);
+                ).toEqual(fix.astAltWithinLoopUnWound);
             }
         );
         test('should keep comments within arc spanning arc bounds', () => {
             expect(
                 flatten.unwind(fix.astOptWithComment)
-            ).to.deep.equal(fix.astOptWithCommentUnWound);
+            ).toEqual(fix.astOptWithCommentUnWound);
         });
         test(
             'should distribute the arc* colors to underlying arcs (one level)',
             () => {
                 expect(
                     flatten.unwind(fix.astInlineWithArcColor)
-                ).to.deep.equal(fix.astInlineWithArcColorUnWound);
+                ).toEqual(fix.astInlineWithArcColorUnWound);
             }
         );
         test(
@@ -35,7 +34,7 @@ describe('render/astmassage/flatten', () => {
             () => {
                 expect(
                     flatten.unwind(fix.astNestedInlinesWithArcColor)
-                ).to.deep.equal(fix.astNestedInlinesWithArcColorUnWound);
+                ).toEqual(fix.astNestedInlinesWithArcColorUnWound);
             }
         );
     });
@@ -44,19 +43,19 @@ describe('render/astmassage/flatten', () => {
         test('leave asts without broadcasts alone', () => {
             expect(
                 flatten.explodeBroadcasts(fix.astAltWithinLoop)
-            ).to.deep.equal(fix.astAltWithinLoop);
+            ).toEqual(fix.astAltWithinLoop);
         });
         test('explode b->* to parallel calls to all other entities', () => {
             expect(
                 flatten.explodeBroadcasts(fix.astSimpleBroadcast)
-            ).to.deep.equal(fix.astSimpleBroadcastExploded);
+            ).toEqual(fix.astSimpleBroadcastExploded);
         });
         test(
             'explode a little more complex broadcast ast to parallel calls to all other entities',
             () => {
                 expect(
                     flatten.explodeBroadcasts(fix.astComplexerBroadcast)
-                ).to.deep.equal(fix.astComplexerBroadcastExploded);
+                ).toEqual(fix.astComplexerBroadcastExploded);
             }
         );
         test(
@@ -64,7 +63,7 @@ describe('render/astmassage/flatten', () => {
             () => {
                 expect(
                     flatten.explodeBroadcasts(fix.astSameArcRowBroadcast)
-                ).to.deep.equal(fix.astSameArcRowBroadcastExploded);
+                ).toEqual(fix.astSameArcRowBroadcastExploded);
             }
         );
     });

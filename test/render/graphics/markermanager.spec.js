@@ -1,6 +1,5 @@
 var fs     = require("fs");
 var path   = require("path");
-var expect = require("chai").expect;
 var mark   = require("../../../render/graphics/markermanager");
 
 var gMarkerDefs =
@@ -88,7 +87,7 @@ describe('render/graphics/markermanager', () => {
                 {"encoding":"utf8"}
             );
             var lAST = JSON.parse(lTextFromFile.toString());
-            expect(mark.getMarkerDefs("481", lAST)).to.deep.equal(gMarkerDefs);
+            expect(mark.getMarkerDefs("481", lAST)).toEqual(gMarkerDefs);
         });
 
     });

@@ -8,6 +8,6 @@
         "security/detect-non-literal-fs-filename": "off" // we're reading & writing all kinds of files while testing ...
     },
     "env": {
-        "mocha": true
+        "jest": true
     }
 }

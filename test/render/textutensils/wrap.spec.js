@@ -1,4 +1,3 @@
-var assert = require("assert");
 var wrap   = require("../../../render/textutensils/wrap");
 
 describe('render/textutensils/wrap', () => {
@@ -7,13 +6,13 @@ describe('render/textutensils/wrap', () => {
         var lWrapAry = wrap.wrap(lWrapThis, 10);
 
         test('should break up in 8 pieces', () => {
-            assert.equal(lWrapAry.length, 8);
+            expect(lWrapAry.length).toBe(8);
         });
         test('should have "Aap noot" in the first line', () => {
-            assert.equal(lWrapAry[0], "Aap noot");
+            expect(lWrapAry[0]).toBe("Aap noot");
         });
         test('should have "schapen." as the last line', () => {
-            assert.equal(lWrapAry[lWrapAry.length - 1], "schapen.");
+            expect(lWrapAry[lWrapAry.length - 1]).toBe("schapen.");
         });
     });
 
@@ -22,13 +21,13 @@ describe('render/textutensils/wrap', () => {
         var lWrapSpacelessAry = wrap.wrap(lWrapSpaceless, 10);
 
         test('should break up in 9 pieces', () => {
-            assert.equal(lWrapSpacelessAry.length, 9);
+            expect(lWrapSpacelessAry.length).toBe(9);
         });
         test('should have "Aap_noot_m" in the first line', () => {
-            assert.equal(lWrapSpacelessAry[0], "Aap_noot_m");
+            expect(lWrapSpacelessAry[0]).toBe("Aap_noot_m");
         });
         test('should have "schapen." as the last line', () => {
-            assert.equal(lWrapSpacelessAry[lWrapSpacelessAry.length - 1], "n.");
+            expect(lWrapSpacelessAry[lWrapSpacelessAry.length - 1]).toBe("n.");
         });
 
     });
@@ -38,10 +37,10 @@ describe('render/textutensils/wrap', () => {
         var lEmptyStringAry = wrap.wrap(lEmptyString, 10);
 
         test('should break up in 1 piece', () => {
-            assert.equal(lEmptyStringAry.length, 1);
+            expect(lEmptyStringAry.length).toBe(1);
         });
         test('should have the empty string in its only component', () => {
-            assert.equal(lEmptyStringAry[0], "");
+            expect(lEmptyStringAry[0]).toBe("");
         });
     });
 
@@ -50,10 +49,10 @@ describe('render/textutensils/wrap', () => {
         var lWrapAry = wrap.wrap(lWrapThis, 100);
 
         test('should break up in 1 piece', () => {
-            assert.equal(lWrapAry.length, 1);
+            expect(lWrapAry.length).toBe(1);
         });
         test('should have the complete lWrapThis in the first line', () => {
-            assert.equal(lWrapAry[0], lWrapThis);
+            expect(lWrapAry[0]).toBe(lWrapThis);
         });
     });
 
