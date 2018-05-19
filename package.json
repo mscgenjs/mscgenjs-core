@@ -31,7 +31,8 @@
     "lint:types": "tslint types/mscgen.d.ts",
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
-    "test": "jest"
+    "test": "jest",
+    "test:changed": "jest --onlyChanged --collectCoverage false"
   },
   "repository": {
     "type": "git",
