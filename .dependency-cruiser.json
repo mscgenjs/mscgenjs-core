@@ -117,9 +117,16 @@
       "severity": "error",
       "from": {},
       "to": { "circular": true }
+    },
+    {
+      "name": "no-orphans",
+      "severity": "error",
+      "from": { "orphan": true },
+      "to": {}
     }
   ],
   "options": {
-    "moduleSystems": ["cjs", "amd", "es6"]
+    "moduleSystems": ["cjs", "amd", "es6"],
+    "doNotFollow": "node_modules"
   }
 }

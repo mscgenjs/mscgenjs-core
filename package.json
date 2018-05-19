@@ -25,7 +25,7 @@
     "pegjs": "0.10.0"
   },
   "scripts": {
-    "depcruise": "depcruise --validate -- main parse render *.js",
+    "depcruise": "depcruise --validate -- main parse render *.js test",
     "depcruise:graph": "depcruise --validate --output-type dot --module-systems amd --exclude \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
     "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
     "lint:fix": "eslint --fix index.js index-lazy.js indexAMD.js main parse render test",
