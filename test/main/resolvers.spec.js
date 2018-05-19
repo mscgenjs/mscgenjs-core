@@ -36,20 +36,26 @@ const gExpectedMscGenOutput = `msc {\n\
         }
 
         describe('#getParser()', () => {
-            it("Returns the mscgen parser when not provided with arguments", () => {
+            test("Returns the mscgen parser when not provided with arguments", () => {
                 isMscGenParser(mscgenjs.getParser());
             });
-            it('Returns the MscGen parser when not provided with a valid argument', () => {
-                isMscGenParser(mscgenjs.getParser("c++"));
-            });
+            test(
+                'Returns the MscGen parser when not provided with a valid argument',
+                () => {
+                    isMscGenParser(mscgenjs.getParser("c++"));
+                }
+            );
         });
 
         describe('#getTextRenderer()', () => {
-            it('Returns the ast2mscgen renderer when not provided with arguments', () => {
-                isMscGenTextRenderer(mscgenjs.getTextRenderer());
-            });
+            test(
+                'Returns the ast2mscgen renderer when not provided with arguments',
+                () => {
+                    isMscGenTextRenderer(mscgenjs.getTextRenderer());
+                }
+            );
 
-            it('Returns the ast2mscgen renderer when not with a valid argument', () => {
+            test('Returns the ast2mscgen renderer when not with a valid argument', () => {
                 isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
             });
         });

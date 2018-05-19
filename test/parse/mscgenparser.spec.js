@@ -5,45 +5,45 @@ var parser = require("../../parse/mscgenparser");
 var tst    = require("../testutensils");
 var pairs  = require("./mscgenPairs");
 
-describe('parse/mscgenparser', function() {
-    describe('#parse() - happy day values', function() {
+describe('parse/mscgenparser', () => {
+    describe('#parse() - happy day values', () => {
 
-        it("should correctly parse naked reals", function() {
+        test("should correctly parse naked reals", () => {
             var lAST = parser.parse('msc{HSCAle=481.1337;a;}');
             expect(lAST.options.hscale).to.equal("481.1337");
         });
-        it("should correctly parse quoted cardinals", function() {
+        test("should correctly parse quoted cardinals", () => {
             var lAST = parser.parse('msc{width="481";a;}');
             expect(lAST.options.width).to.equal("481");
         });
-        it("should correctly parse quoted reals", function() {
+        test("should correctly parse quoted reals", () => {
             var lAST = parser.parse('msc{width="481.1337";a;}');
             expect(lAST.options.width).to.equal("481.1337");
         });
-        it("should correctly parse naked cardinals", function() {
+        test("should correctly parse naked cardinals", () => {
             var lAST = parser.parse('msc{width=481;a;}');
             expect(lAST.options.width).to.equal("481");
         });
     });
 
-    describe('#parse() - happy day ASTs - ', function(){
+    describe('#parse() - happy day ASTs - ', () => {
         pairs.programASTPairs.forEach(function(pPair){
-            it(pPair.title, function(){
+            test(pPair.title, () => {
                 expect(parser.parse(pPair.program)).to.deep.equal(pPair.ast);
             });
         });
     });
 
-    describe('#parse() - syntax errors - ', function(){
+    describe('#parse() - syntax errors - ', () => {
         pairs.syntaxErrors.forEach(function(pPair){
-            it(pPair.title, function() {
+            test(pPair.title, () => {
                 tst.assertSyntaxError(pPair.program, parser, pPair.error);
             });
         });
     });
 
-    describe('#parse() - file based tests - ', function() {
-        it("should parse all possible arcs", function() {
+    describe('#parse() - file based tests - ', () => {
+        test("should parse all possible arcs", () => {
             var lTextFromFile = fs.readFileSync(
                 path.join(__dirname, '../fixtures/test01_all_possible_arcs_mscgen.mscin'),
                 {"encoding" : "utf8"}
@@ -51,14 +51,14 @@ describe('parse/mscgenparser', function() {
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs_mscgen.json'), lAST);
         });
-        it("should parse stuff with colors", function() {
+        test("should parse stuff with colors", () => {
             var lTextFromFile = fs.readFileSync(path.join(__dirname, '../fixtures/rainbow.mscin'), {
                 "encoding" : "utf8"
             });
             var lAST = parser.parse(lTextFromFile.toString());
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/rainbow.json'), lAST);
         });
-        it("strings, ids and urls", function() {
+        test("strings, ids and urls", () => {
             var lTextFromFile = fs.readFileSync(
                 path.join(__dirname, '../fixtures/test10_stringsandurls.mscin'),
                 {"encoding":"utf8"}

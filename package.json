@@ -15,13 +15,12 @@
     "eslint": "4.19.1",
     "eslint-plugin-import": "2.12.0",
     "eslint-plugin-security": "1.4.0",
+    "jest": "22.4.4",
     "js-makedepend": "3.0.0",
     "jsdom": "11.10.0",
     "lodash-cli": "4.17.5",
-    "mocha": "5.2.0",
     "npm-check-updates": "2.14.2",
     "nsp": "3.2.1",
-    "nyc": "11.8.0",
     "pegjs": "0.10.0"
   },
   "scripts": {
@@ -32,8 +31,7 @@
     "lint:types": "tslint types/mscgen.d.ts",
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
-    "test": "mocha --reporter dot --bail --timeout 6000 --recursive test",
-    "test:cover": "nyc --check-coverage npm test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -48,27 +46,49 @@
     "xu",
     "msgenny"
   ],
-  "nyc": {
-    "statements": 99.8,
-    "branches": 93.2,
-    "functions": 100,
-    "lines": 99.8,
-    "exclude": [
-      "dist/**/*",
-      "lib/**/*",
-      "indexAMD.js",
-      "doc/**/*",
-      "coverage/**/*",
-      "render/graphics/styling/**",
-      "render/graphics/svgelementfactory/wobbly.js",
-      "test/**/*",
-      "parse/*parser.js"
-    ],
-    "reporter": [
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
       "text-summary",
       "html"
     ],
-    "all": true
+    "collectCoverageFrom": [
+      "index.js",
+      "index-lazy.js",
+      "main/**/*.js",
+      "parse/**/*.js",
+      "render/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "render/graphics/styling",
+      "render/graphics/svgelementfactory/wobbly\\.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 99.8,
+        "branches": 92.9,
+        "functions": 100,
+        "lines": 99.8
+      },
+      "main": {
+        "statements": 100,
+        "branches": 93.9,
+        "functions": 100,
+        "lines": 100
+      },
+      "render": {
+        "statements": 99.8,
+        "branches": 92.8,
+        "functions": 100,
+        "lines": 99.8
+      },
+      "parse": {
+        "statements": 83,
+        "branches": 74,
+        "functions": 91,
+        "lines": 87
+      }
+    }
   },
   "engines": {
     "node": ">=4.0"

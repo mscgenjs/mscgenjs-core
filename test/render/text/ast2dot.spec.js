@@ -7,7 +7,7 @@ const fix      = require("../../astfixtures.json");
 describe('render/text/ast2dot', () => {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', () => {
 
-        it('should, given a simple syntax tree, render a dot script', () => {
+        test('should, given a simple syntax tree, render a dot script', () => {
             const lProgram = renderer.render(fix.astSimple);
             const lExpectedProgram =
 `/* Sequence chart represented as a directed graph
@@ -32,7 +32,7 @@ graph {
 }`;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it('should, given a syntax tree with boxes, render a dot script', () => {
+        test('should, given a syntax tree with boxes, render a dot script', () => {
             const lProgram = renderer.render(fix.astBoxArcs);
             const lExpectedProgram =
 `/* Sequence chart represented as a directed graph
@@ -70,7 +70,7 @@ graph {
     });
 
     describe('#renderAST() - xu compatible', () => {
-        it('alt only - render correct script', () => {
+        test('alt only - render correct script', () => {
             const lProgram = renderer.render(fix.astOneAlt);
             const lExpectedProgram =
 `/* Sequence chart represented as a directed graph
@@ -100,7 +100,7 @@ graph {
 }`;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it('alt within loop - render correct script', () => {
+        test('alt within loop - render correct script', () => {
             const lProgram = renderer.render(fix.astAltWithinLoop);
             const lExpectedProgram =
 `/* Sequence chart represented as a directed graph
@@ -137,7 +137,7 @@ graph {
     });
 
     describe('#renderAST() - file based tests', () => {
-        it('should render all arcs', () => {
+        test('should render all arcs', () => {
             const lASTString = fs.readFileSync(
                 path.join(__dirname, "../../fixtures/test01_all_possible_arcs_mscgen.json"),
                 {"encoding":"utf8"}

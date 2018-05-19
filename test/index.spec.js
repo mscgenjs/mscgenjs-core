@@ -32,7 +32,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 [require("../"), require("../index-lazy")].forEach(mscgenjs => {
     describe('index', () => {
         describe('#translateMsc()', () => {
-            it('no params translates mscgen to json', () => {
+            test('no params translates mscgen to json', () => {
                 mscgenjs.translateMsc(SIMPLE_MSCGEN, null, function(pError, pResult){
                     /* eslint no-unused-expression:0 */
                     expect(pError).to.be.null;
@@ -44,7 +44,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 });
             });
 
-            it('explicit mscgen & json params translates mscgen to json too', () => {
+            test('explicit mscgen & json params translates mscgen to json too', () => {
                 mscgenjs.translateMsc(
                     SIMPLE_MSCGEN,
                     {inputType: "mscgen", outputType: "json"},
@@ -57,7 +57,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         );
                     });
             });
-            it('ast translates mscgen to an AST object', () => {
+            test('ast translates mscgen to an AST object', () => {
                 mscgenjs.translateMsc(SIMPLE_MSCGEN, {outputType: "ast"}, function(pError, pResult){
                     /* eslint no-unused-expression:0 */
                     expect(pError).to.be.null;
@@ -68,7 +68,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     );
                 });
             });
-            it('invalid mscgen throws an error', () => {
+            test('invalid mscgen throws an error', () => {
                 mscgenjs.translateMsc(
                     SIMPLE_XU,
                     {inputType: "mscgen", outputType: "msgenny"},
@@ -78,7 +78,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         expect(pResult).to.be.null;
                     });
             });
-            it('downgrading xu -> mscgen works', () => {
+            test('downgrading xu -> mscgen works', () => {
                 mscgenjs.translateMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),
                     {inputType: "json", outputType: "mscgen"},
@@ -87,7 +87,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         expect(pResult).to.equal(gExpectedMscGenOutput);
                     });
             });
-            it('translating a raw javascript object works', () => {
+            test('translating a raw javascript object works', () => {
                 mscgenjs.translateMsc(
                     fix.astOneAlt,
                     {inputType: "json", outputType: "mscgen"},
@@ -96,7 +96,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         expect(pResult).to.equal(gExpectedMscGenOutput);
                     });
             });
-            it('returns a version number equal to the one in package.json', () => {
+            test('returns a version number equal to the one in package.json', () => {
                 expect(mscgenjs.version).to.equal(version);
             });
         });
@@ -105,7 +105,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
         describe('#renderMsc()', () => {
             const lWindow = new JSDOM("<html><body><span id='__svg'></span></body></html>").window;
 
-            it('should given given a simple MscGen program, render an svg', () => {
+            test('should given given a simple MscGen program, render an svg', () => {
                 mscgenjs.renderMsc(
                     SIMPLE_MSCGEN,
                     {window: lWindow},
@@ -115,7 +115,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     }
                 );
             });
-            it('should given given an invalid MscGen program, throw an error', () => {
+            test('should given given an invalid MscGen program, throw an error', () => {
                 mscgenjs.renderMsc(
                     SIMPLE_XU,
                     {window: lWindow},
@@ -126,7 +126,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     }
                 );
             });
-            it('should given given a simple AST, render an svg', () => {
+            test('should given given a simple AST, render an svg', () => {
                 mscgenjs.renderMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),
                     {
@@ -144,19 +144,19 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
         describe('#getAllowedValues()', () => {
 
-            it('returns possible input types', () => {
+            test('returns possible input types', () => {
                 expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('inputType');
             });
 
-            it('returns possible output types', () => {
+            test('returns possible output types', () => {
                 expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('outputType');
             });
 
-            it('returns possible regularArcTextVerticalAlignment types', () => {
+            test('returns possible regularArcTextVerticalAlignment types', () => {
                 expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('regularArcTextVerticalAlignment');
             });
 
-            it('returns possible namedStyles', () => {
+            test('returns possible namedStyles', () => {
                 expect(mscgenjs.getAllowedValues()).to.haveOwnProperty('namedStyle');
             });
         });
