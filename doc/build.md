@@ -26,9 +26,6 @@ js-makedepend cannot detect like conditional module loading).
 - `npm run nsp`
     - checks dependencies for known vulnerabilities (with _node security project_)
 
-- `npm stylecheck`
-  runs the coding style checker (jscs)
-
 - `make check` combination target:
     -  checks for occurence of `console` statements
     -  runs the linter on non-library, non-generated source code (= `npm run lint`)

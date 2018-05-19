@@ -6,8 +6,6 @@ const renderer = require("../../../render/text/ast2mscgen");
 const parser   = require("../../../parse/mscgenparser");
 const fix      = require("../../astfixtures.json");
 
-// jscs:disable disallowTrailingWhitespace
-// jscs:disable validateIndentation
 describe('render/text/ast2mscgen', () => {
     describe('#renderAST() - simple syntax tree', () => {
         test('should, given a simple syntax tree, render a mscgen script', () => {
@@ -145,5 +143,3 @@ describe('render/text/ast2mscgen', () => {
         });
     });
 });
-// jscs:enable disallowTrailingWhitespace
-// jscs:enable validateIndentation

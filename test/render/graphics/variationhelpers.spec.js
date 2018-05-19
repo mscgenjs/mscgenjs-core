@@ -320,3 +320,4 @@ describe('#geometry', () => {
     });
 
 });
+/* global beforeAll */
