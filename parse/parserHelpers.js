@@ -106,6 +106,7 @@ define(function(require) {
         nameValue2Option: nameValue2Option,
 
         flattenBoolean: flattenBoolean,
+        entityExists: entityExists,
         checkForUndeclaredEntities: checkForUndeclaredEntities,
         isMscGenKeyword: isMscGenKeyword,
         getMetaInfo: getMetaInfo
