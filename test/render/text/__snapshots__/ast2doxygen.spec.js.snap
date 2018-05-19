@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render/text/ast2doxygen #renderAST() - simple syntax tree should preserve attributes 1`] = `
+" * \\\\msc
+ *   Alice [linecolor=\\"#008800\\", textcolor=\\"black\\", textbgcolor=\\"#CCFFCC\\", arclinecolor=\\"#008800\\", arctextcolor=\\"#008800\\"],
+ *   Bob [linecolor=\\"#FF0000\\", textcolor=\\"black\\", textbgcolor=\\"#FFCCCC\\", arclinecolor=\\"#FF0000\\", arctextcolor=\\"#FF0000\\"],
+ *   pocket [linecolor=\\"#0000FF\\", textcolor=\\"black\\", textbgcolor=\\"#CCCCFF\\", arclinecolor=\\"#0000FF\\", arctextcolor=\\"#0000FF\\"];
+ * 
+ *   Alice => Bob [label=\\"do something funny\\"];
+ *   Bob => pocket [label=\\"fetch (nose flute)\\", textcolor=\\"yellow\\", textbgcolor=\\"green\\", arcskip=\\"0.5\\"];
+ *   Bob >> Alice [label=\\"PHEEE!\\", textcolor=\\"green\\", textbgcolor=\\"yellow\\", arcskip=\\"0.3\\"];
+ *   Alice => Alice [label=\\"hihihi\\", linecolor=\\"#654321\\"];
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - simple syntax tree should preserve the comments at the start of the ast 1`] = `
+" * \\\\msc
+ *   a,
+ *   b;
+ * 
+ *   a -> b;
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - simple syntax tree should, given a simple syntax tree, render a mscgen script 1`] = `
+" * \\\\msc
+ *   a,
+ *   \\"b space\\";
+ * 
+ *   a => \\"b space\\" [label=\\"a simple script\\"];
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - xu compatible Does not render width when that equals 'auto' 1`] = `
+" * \\\\msc
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - xu compatible Puts entities with mscgen keyword for a name in quotes 1`] = `
+" * \\\\msc
+ *   \\"note\\";
+ * 
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - xu compatible Render width when that is a number 1`] = `
+" * \\\\msc
+ *   width=800;
+ * 
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - xu compatible When presented with an unsupported option, renders the script by simply omitting it 1`] = `
+" * \\\\msc
+ *   a;
+ * 
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - xu compatible alt only - render correct script 1`] = `
+" * \\\\msc
+ *   a,
+ *   b,
+ *   c;
+ * 
+ *   a => b;
+ *   b -- c;
+ *     b => c;
+ *     c >> b;
+ * #;
+ * \\\\endmsc"
+`;
+
+exports[`render/text/ast2doxygen #renderAST() - xu compatible alt within loop - render correct script 1`] = `
+" * \\\\msc
+ *   a,
+ *   b,
+ *   c;
+ * 
+ *   a => b;
+ *   a -- c [label=\\"label for loop\\"];
+ *     b -- c [label=\\"label for alt\\"];
+ *       b -> c [label=\\"-> within alt\\"];
+ *       c >> b [label=\\">> within alt\\"];
+   * #;
+ *     b >> a [label=\\">> within loop\\"];
+ * #;
+ *   a =>> a [label=\\"happy-the-peppy - outside\\"];
+ *   ...;
+ * \\\\endmsc"
+`;

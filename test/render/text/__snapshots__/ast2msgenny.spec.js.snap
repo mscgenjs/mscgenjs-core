@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should correctly render parallel calls 1`] = `
+"a,
+b,
+c;
+
+b -> a : \\"{paral\\",
+b =>> c : \\"lel}\\";
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should ignore all attributes, except label and name 1`] = `
+"a : \\"Label for A\\";
+
+a <<=>> a : \\"Label for a <<=>> a\\";
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should not wrap the '*' pseudo entity 1`] = `
+"a,
+b,
+c;
+
+b =>> *;
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should preserve the comments at the start of the ast 1`] = `
+"# pre comment
+/* pre
+ * multiline
+ * comment
+ */
+a,
+b;
+
+a -> b;
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should render options when they're in the syntax tree 1`] = `
+"hscale=\\"1.2\\",
+width=\\"800\\",
+arcgradient=\\"17\\",
+wordwraparcs=true,
+watermark=\\"not in mscgen, available in xù and msgenny\\";
+
+a;
+
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should wrap entity names with a space in quotes 1`] = `
+"\\"space space\\";
+
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should wrap labels with a , in quotes 1`] = `
+"a : \\"comma,\\";
+
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should wrap labels with a ; in quotes 1`] = `
+"a : \\"semi; colon\\";
+
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should, given a simple syntax tree, render a msgenny script 1`] = `
+"a,
+\\"b space\\";
+
+a => \\"b space\\" : \\"a simple script\\";
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - xu compatible Does not put entities with mscgen keyword for a name in quotes 1`] = `
+"note;
+
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - xu compatible alt only - render correct script 1`] = `
+"a,
+b,
+c;
+
+a => b;
+b alt c {
+  b => c;
+  c >> b;
+};
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - xu compatible alt within loop - render correct script 1`] = `
+"a,
+b,
+c;
+
+a => b;
+a loop c : \\"label for loop\\" {
+  b alt c : \\"label for alt\\" {
+    b -> c : \\"-> within alt\\";
+    c >> b : \\">> within alt\\";
+  };
+  b >> a : \\">> within loop\\";
+};
+a =>> a : \\"happy-the-peppy - outside\\";
+...;
+"
+`;
+
+exports[`render/text/ast2msgenny #renderAST() - xu compatible should correctly render empty inline expressions 1`] = `
+"a,
+b;
+
+a opt b {
+};
+"
+`;
