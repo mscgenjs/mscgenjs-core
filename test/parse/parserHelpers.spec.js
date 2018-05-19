@@ -85,3 +85,57 @@ describe('parserHelpers.isMscGenKeyword', () => {
         expect(parserHelpers.isMscGenKeyword('')).toBe(false);
     });
 });
+
+describe('parserHelpers.checkForUndeclaredEntities', () => {
+    test("throws EntityNotDefinedError when to or from not in entities", () => {
+        expect(
+            () =>
+                parserHelpers.checkForUndeclaredEntities(
+                    [],
+                    [[{from: 'doesnotexist', kind: '=>', to: '*'}]]
+                )
+        ).toThrow(parserHelpers.EntityNotDefinedError);
+        expect(
+            () =>
+                parserHelpers.checkForUndeclaredEntities(
+                    [],
+                    [[{from: '*', kind: '<=', to: 'doesnotexist'}]]
+                )
+        ).toThrow(parserHelpers.EntityNotDefinedError);
+        expect(
+            () =>
+                parserHelpers.checkForUndeclaredEntities(
+                    [],
+                    [[{from: 'doesnotexist', kind: '->', to: 'doesnotexist either'}]]
+                )
+        ).toThrow(parserHelpers.EntityNotDefinedError);
+    });
+
+    test("does not throw when to and from are okidoki entities", () => {
+        expect(
+            () =>
+                parserHelpers.checkForUndeclaredEntities(
+                    [{name:'this entity exists'}, {name:'this entity exists too'}],
+                    [[{from: 'this entity exists', kind: '=>', to: 'this entity exists too'}]]
+                )
+        ).not.toThrow();
+        expect(
+            () =>
+                parserHelpers.checkForUndeclaredEntities(
+                    [{name:'this entity exists'}, {name:'this entity exists too'}],
+                    [[{from: 'this entity exists', kind: '=>', to: '*'}]]
+                )
+        ).not.toThrow();
+        expect(
+            () =>
+                parserHelpers.checkForUndeclaredEntities(
+                    [{name:'this entity exists'}, {name:'this entity exists too'}],
+                    [[{from: '*', kind: '<-', to: 'this entity exists'}]]
+                )
+        ).not.toThrow();
+    });
+});
+
+describe('parserHelpers.getMetaInfo', () => {
+    test('joedeldoe toe doe');
+});
