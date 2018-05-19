@@ -353,7 +353,10 @@ test/render/graphics/renderast.spec.js: \
 	render/graphics/renderast.js \
 	test/testutensils.js
 
-test/render/graphics/variationhelpers.js: \
+test/render/graphics/round.spec.js: \
+	render/graphics/svgelementfactory/round.js
+
+test/render/graphics/variationhelpers.spec.js: \
 	render/graphics/svgelementfactory/variationhelpers.js
 
 test/render/text/ast2animate.spec.js: \
