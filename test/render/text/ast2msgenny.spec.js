@@ -5,13 +5,13 @@ const fix      = require("../../astfixtures.json");
 describe('render/text/ast2msgenny', () => {
     describe('#renderAST() - mscgen classic compatible - simple syntax trees', () => {
 
-        it('should, given a simple syntax tree, render a msgenny script', () => {
+        test('should, given a simple syntax tree, render a msgenny script', () => {
             const lProgram = renderer.render(fix.astSimple);
             const lExpectedProgram = 'a,\n"b space";\n\na => "b space" : "a simple script";\n';
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should wrap labels with a , in quotes", () => {
+        test("should wrap labels with a , in quotes", () => {
             const lAST = {
                 "entities" : [{
                     "name" : "a",
@@ -23,7 +23,7 @@ describe('render/text/ast2msgenny', () => {
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should wrap labels with a ; in quotes", () => {
+        test("should wrap labels with a ; in quotes", () => {
             const lAST = {
                 "entities" : [{
                     "name" : "a",
@@ -35,7 +35,7 @@ describe('render/text/ast2msgenny', () => {
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should wrap entity names with a space in quotes", () => {
+        test("should wrap entity names with a space in quotes", () => {
             const lAST = {
                 "entities" : [{
                     "name" : "space space"
@@ -46,7 +46,7 @@ describe('render/text/ast2msgenny', () => {
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should not wrap the '*' pseudo entity", () => {
+        test("should not wrap the '*' pseudo entity", () => {
             const lAST = {
                 "entities": [
                     {
@@ -75,7 +75,7 @@ describe('render/text/ast2msgenny', () => {
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should render options when they're in the syntax tree", () => {
+        test("should render options when they're in the syntax tree", () => {
             const lProgram = renderer.render(fix.astOptions);
             const lExpectedProgram =
 `hscale="1.2",
@@ -89,17 +89,17 @@ a;
 `;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("should ignore all attributes, except label and name", () => {
+        test("should ignore all attributes, except label and name", () => {
             const lProgram = renderer.render(fix.astAllAttributes);
             const lExpectedProgram = 'a : "Label for A";\n\na <<=>> a : "Label for a <<=>> a";\n';
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("should preserve the comments at the start of the ast", () => {
+        test("should preserve the comments at the start of the ast", () => {
             const lProgram = renderer.render(fix.astWithPreComment);
             const lExpectedProgram = "# pre comment\n/* pre\n * multiline\n * comment\n */\na,\nb;\n\na -> b;\n";
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("should correctly render parallel calls", () => {
+        test("should correctly render parallel calls", () => {
             const lProgram = renderer.render(fix.astSimpleParallel);
             const lExpectedProgram = 'a,\nb,\nc;\n\nb -> a : "{paral",\nb =>> c : "lel}";\n';
             assert.equal(lProgram, lExpectedProgram);
@@ -107,12 +107,12 @@ a;
     });
 
     describe('#renderAST() - xu compatible', () => {
-        it('alt only - render correct script', () => {
+        test('alt only - render correct script', () => {
             const lProgram = renderer.render(fix.astOneAlt);
             const lExpectedProgram = "a,\nb,\nc;\n\na => b;\nb alt c {\n  b => c;\n  c >> b;\n};\n";
             assert.equal(lProgram, lExpectedProgram);
         });
-        it('alt within loop - render correct script', () => {
+        test('alt within loop - render correct script', () => {
             const lProgram = renderer.render(fix.astAltWithinLoop);
             const lExpectedProgram =
 `a,
@@ -132,7 +132,7 @@ a =>> a : "happy-the-peppy - outside";
 `;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("should correctly render empty inline expressions", () => {
+        test("should correctly render empty inline expressions", () => {
             const lFixture = {
                 "meta": {
                     "extendedOptions": false,
@@ -162,7 +162,7 @@ a =>> a : "happy-the-peppy - outside";
             const lExpectedProgram = 'a,\nb;\n\na opt b {\n};\n';
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("Does not put entities with mscgen keyword for a name in quotes", () => {
+        test("Does not put entities with mscgen keyword for a name in quotes", () => {
             const lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
             const lExpectedProgram = 'note;\n\n';
             assert.equal(lProgram, lExpectedProgram);

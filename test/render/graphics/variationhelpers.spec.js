@@ -1,10 +1,10 @@
 var expect = require("chai").expect;
 var geo    = require("../../../render/graphics/svgelementfactory/variationhelpers");
 
-describe('#geometry', function() {
+describe('#geometry', () => {
 
-    describe('#getDirection', function () {
-        it("returns -1,1,1 for (10,0),(0,10)", function(){
+    describe('#getDirection', () => {
+        test("returns -1,1,1 for (10,0),(0,10)", () => {
             expect(
                 geo.getDirection(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10}
@@ -17,7 +17,7 @@ describe('#geometry', function() {
                 }
             );
         });
-        it("returns -1,1,-Infinity for (0,0),(0,10)", function(){
+        test("returns -1,1,-Infinity for (0,0),(0,10)", () => {
             expect(
                 geo.getDirection(
                     {xFrom:0, yFrom:0, xTo:0, yTo:10}
@@ -30,7 +30,7 @@ describe('#geometry', function() {
                 }
             );
         });
-        it("returns -1,1,0 for (0,0),(10,0)", function(){
+        test("returns -1,1,0 for (0,0),(10,0)", () => {
             expect(
                 geo.getDirection(
                     {xFrom:0, yFrom:0, xTo:10, yTo:0}
@@ -45,29 +45,29 @@ describe('#geometry', function() {
         });
     });
 
-    describe('#getLineLength', function () {
-        it("returns 10 for (10,0), (10,10)", function(){
+    describe('#getLineLength', () => {
+        test("returns 10 for (10,0), (10,10)", () => {
             expect(
                 geo.getLineLength(
                     {xFrom:10, yFrom:0, xTo:10, yTo:10}
                 )
             ).to.equal(10);
         });
-        it("returns 10 for (0,10), (10,10)", function(){
+        test("returns 10 for (0,10), (10,10)", () => {
             expect(
                 geo.getLineLength(
                     {xFrom:0, yFrom:10, xTo:10, yTo:10}
                 )
             ).to.equal(10);
         });
-        it("returns ~14.1 for (10,0), (0,10)", function(){
+        test("returns ~14.1 for (10,0), (0,10)", () => {
             expect(
                 geo.getLineLength(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10}
                 )
             ).to.equal(14.142135623730951);
         });
-        it("returns 0 for (10,0), (0,10)", function(){
+        test("returns 0 for (10,0), (0,10)", () => {
             expect(
                 geo.getLineLength(
                     {xFrom:10, yFrom:-10, xTo:10, yTo:-10}
@@ -76,8 +76,8 @@ describe('#geometry', function() {
         });
     });
 
-    describe('#getNumberOfSegments', function () {
-        it("returns 1 to fit segments of 10 long into ((10,0), (0,10))", function(){
+    describe('#getNumberOfSegments', () => {
+        test("returns 1 to fit segments of 10 long into ((10,0), (0,10))", () => {
             expect(
                 geo.getNumberOfSegments(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10},
@@ -85,7 +85,7 @@ describe('#geometry', function() {
                 )
             ).equal(1);
         });
-        it("returns 14 to fit segments of 1 long into ((10,0), (0,10))", function(){
+        test("returns 14 to fit segments of 1 long into ((10,0), (0,10))", () => {
             expect(
                 geo.getNumberOfSegments(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10},
@@ -93,7 +93,7 @@ describe('#geometry', function() {
                 )
             ).equal(14);
         });
-        it("returns 14 to fit segments of 1 long into ((10,10), (0,0))", function(){
+        test("returns 14 to fit segments of 1 long into ((10,10), (0,0))", () => {
             expect(
                 geo.getNumberOfSegments(
                     {xFrom:10, yFrom:10, xTo:0, yTo:0},
@@ -101,7 +101,7 @@ describe('#geometry', function() {
                 )
             ).equal(14);
         });
-        it("returns 0 to fit segments of 15 long into ((10,10), (0,0))", function(){
+        test("returns 0 to fit segments of 15 long into ((10,10), (0,0))", () => {
             expect(
                 geo.getNumberOfSegments(
                     {xFrom:10, yFrom:10, xTo:0, yTo:0},
@@ -109,7 +109,7 @@ describe('#geometry', function() {
                 )
             ).equal(0);
         });
-        it("returns 5 to fit segments of 2 long into ((10,-10), (10,0))", function(){
+        test("returns 5 to fit segments of 2 long into ((10,-10), (10,0))", () => {
             expect(
                 geo.getNumberOfSegments(
                     {xFrom:10, yFrom:-10, xTo:10, yTo:0},
@@ -117,7 +117,7 @@ describe('#geometry', function() {
                 )
             ).equal(5);
         });
-        it("returns 0 to for a line of 0 length", function(){
+        test("returns 0 to for a line of 0 length", () => {
             expect(
                 geo.getNumberOfSegments(
                     {xFrom:10, yFrom:-10, xTo:10, yTo:-10},
@@ -128,12 +128,12 @@ describe('#geometry', function() {
     });
 
 
-    describe('#getBetweenPoints', function () {
+    describe('#getBetweenPoints', () => {
 
-        describe("a diagonal", function(){
+        describe("a diagonal", () => {
             var lBetweenPoints = [];
 
-            before(function(){
+            beforeAll(function(){
                 lBetweenPoints =
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:0, yTo:10},
@@ -142,11 +142,11 @@ describe('#geometry', function() {
                     );
             });
 
-            it("returns an array of 4 points", function(){
+            test("returns an array of 4 points", () => {
                 expect(lBetweenPoints.length).to.equal(4);
             });
 
-            it("returns the endpoint of the line as the last point", function(){
+            test("returns the endpoint of the line as the last point", () => {
                 expect(
                     lBetweenPoints.map(function(pPoint){
                         return {
@@ -157,7 +157,7 @@ describe('#geometry', function() {
                 ).to.deep.equal({x:0, y:10});
             });
 
-            it("returns points along the line", function(){
+            test("returns points along the line", () => {
                 expect(lBetweenPoints).to.deep.equal([
                     {
                         "controlX": 8.94,
@@ -187,10 +187,10 @@ describe('#geometry', function() {
             });
         });
 
-        describe("a vertical line", function(){
+        describe("a vertical line", () => {
             var lBetweenPoints = [];
 
-            before(function(){
+            beforeAll(function(){
                 lBetweenPoints =
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:10, yTo:10},
@@ -199,11 +199,11 @@ describe('#geometry', function() {
                     );
             });
 
-            it("returns an array of 3 points", function(){
+            test("returns an array of 3 points", () => {
                 expect(lBetweenPoints.length).to.equal(3);
             });
 
-            it("returns the endpoint of the line as the last point", function(){
+            test("returns the endpoint of the line as the last point", () => {
                 expect(
                     lBetweenPoints.map(function(pPoint){
                         return {
@@ -214,7 +214,7 @@ describe('#geometry', function() {
                 ).to.deep.equal({x:10, y:10});
             });
 
-            it("returns points along the line", function(){
+            test("returns points along the line", () => {
                 expect(lBetweenPoints).to.deep.equal([
                     {
                         "controlX": 10,
@@ -238,10 +238,10 @@ describe('#geometry', function() {
             });
         });
 
-        describe("a horizontal line", function(){
+        describe("a horizontal line", () => {
             var lBetweenPoints = [];
 
-            before(function(){
+            beforeAll(function(){
                 lBetweenPoints =
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:20, xTo:20, yTo:20},
@@ -250,11 +250,11 @@ describe('#geometry', function() {
                     );
             });
 
-            it("returns an array of 3 points", function(){
+            test("returns an array of 3 points", () => {
                 expect(lBetweenPoints.length).to.equal(3);
             });
 
-            it("returns the endpoint of the line as the last point", function(){
+            test("returns the endpoint of the line as the last point", () => {
                 expect(
                     lBetweenPoints.map(function(pPoint){
                         return {
@@ -265,7 +265,7 @@ describe('#geometry', function() {
                 ).to.deep.equal({x:20, y:20});
             });
 
-            it("returns points along the line", function(){
+            test("returns points along the line", () => {
                 expect(lBetweenPoints).to.deep.equal([
                     {
                         "controlX": 11.5,
@@ -289,8 +289,8 @@ describe('#geometry', function() {
             });
         });
 
-        describe("errors", function(){
-            it("throws an error for intervals of length === 0", function(){
+        describe("errors", () => {
+            test("throws an error for intervals of length === 0", () => {
                 try {
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:0, yTo:10},
@@ -303,7 +303,7 @@ describe('#geometry', function() {
                 }
             });
 
-            it("throws an error for intervals of length < 0", function(){
+            test("throws an error for intervals of length < 0", () => {
                 try {
                     geo.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:0, yTo:10},

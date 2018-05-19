@@ -3,22 +3,22 @@ var assert   = require("assert");
 var renderer = require("../../../render/text/ast2doxygen");
 var fix      = require("../../astfixtures.json");
 
-describe('render/text/ast2doxygen', function() {
-    describe('#renderAST() - simple syntax tree', function() {
-        it('should, given a simple syntax tree, render a mscgen script', function() {
+describe('render/text/ast2doxygen', () => {
+    describe('#renderAST() - simple syntax tree', () => {
+        test('should, given a simple syntax tree, render a mscgen script', () => {
             var lProgram = renderer.render(fix.astSimple);
             var lExpectedProgram =
                 ' * \\msc\n *   a,\n *   "b space";\n * \n *   a => "b space" [label="a simple script"];\n * \\endmsc';
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should preserve the comments at the start of the ast", function() {
+        test("should preserve the comments at the start of the ast", () => {
             var lProgram = renderer.render(fix.astWithPreComment);
             var lExpectedProgram = " * \\msc\n *   a,\n *   b;\n * \n *   a -> b;\n * \\endmsc";
             assert.equal(lProgram, lExpectedProgram);
         });
 
-        it("should preserve attributes", function() {
+        test("should preserve attributes", () => {
             var lProgram = renderer.render(fix.astAttributes);
             var lExpectedProgram =
 ` * \\msc
@@ -34,8 +34,8 @@ describe('render/text/ast2doxygen', function() {
         });
     });
 
-    describe('#renderAST() - xu compatible', function() {
-        it('alt only - render correct script', function() {
+    describe('#renderAST() - xu compatible', () => {
+        test('alt only - render correct script', () => {
             var lProgram = renderer.render(fix.astOneAlt);
             var lExpectedProgram =
 ` * \\msc
@@ -50,7 +50,7 @@ describe('render/text/ast2doxygen', function() {
  * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it('alt within loop - render correct script', function() {
+        test('alt within loop - render correct script', () => {
             var lProgram = renderer.render(fix.astAltWithinLoop);
             var lExpectedProgram =
 ` * \\msc
@@ -70,22 +70,25 @@ describe('render/text/ast2doxygen', function() {
  * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it('When presented with an unsupported option, renders the script by simply omitting it', function(){
-            var lProgram = renderer.render(fix.astWithAWatermark);
-            var lExpectedProgram =
+        test(
+            'When presented with an unsupported option, renders the script by simply omitting it',
+            () => {
+                var lProgram = renderer.render(fix.astWithAWatermark);
+                var lExpectedProgram =
 ` * \\msc
  *   a;
  * \n * \\endmsc`;
-            assert.equal(lProgram, lExpectedProgram);
-        });
-        it("Does not render width when that equals 'auto'", function(){
+                assert.equal(lProgram, lExpectedProgram);
+            }
+        );
+        test("Does not render width when that equals 'auto'", () => {
             var lProgram = renderer.render(fix.auto, true);
             var lExpectedProgram =
 ` * \\msc
  * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("Render width when that is a number", function(){
+        test("Render width when that is a number", () => {
             var lProgram = renderer.render(fix.fixedwidth, true);
             var lExpectedProgram =
 ` * \\msc
@@ -93,7 +96,7 @@ describe('render/text/ast2doxygen', function() {
  * \n * \\endmsc`;
             assert.equal(lProgram, lExpectedProgram);
         });
-        it("Puts entities with mscgen keyword for a name in quotes", function(){
+        test("Puts entities with mscgen keyword for a name in quotes", () => {
             var lProgram = renderer.render(fix.entityWithMscGenKeywordAsName, true);
             var lExpectedProgram =
 ` * \\msc\n\

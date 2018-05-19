@@ -79,10 +79,10 @@ var gMarkerDefs =
         }
     ];
 
-describe('render/graphics/markermanager', function() {
-    describe('#getMarkerDefs - paths not hit in end2end, but that are still important', function() {
+describe('render/graphics/markermanager', () => {
+    describe('#getMarkerDefs - paths not hit in end2end, but that are still important', () => {
 
-        it('should return the colors in arcs in inline expressions', function() {
+        test('should return the colors in arcs in inline expressions', () => {
             var lTextFromFile = fs.readFileSync(
                 path.join(__dirname, '../../fixtures/simpleXuSample.json'),
                 {"encoding":"utf8"}
