@@ -1,4 +1,4 @@
-const geo    = require("../../../render/graphics/svgelementfactory/variationhelpers");
+const geo    = require("../../../src/render/graphics/svgelementfactory/variationhelpers");
 
 describe('#geometry', () => {
 

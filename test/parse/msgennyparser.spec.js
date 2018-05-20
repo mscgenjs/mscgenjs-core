@@ -2,8 +2,8 @@
 const fs                 = require("fs");
 const path               = require("path");
 const JSONSchemaMatchers = require("jest-json-schema").matchers;
-const parser             = require("../../parse/msgennyparser");
-const mscgenjsASTSchema  = require("../../parse/mscgenjs-ast.schema.json");
+const parser             = require("../../src/parse/msgennyparser");
+const mscgenjsASTSchema  = require("../../src/parse/mscgenjs-ast.schema.json");
 const tst                = require("../testutensils");
 const fix                = require("../astfixtures.json");
 

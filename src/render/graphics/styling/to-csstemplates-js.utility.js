@@ -54,14 +54,14 @@ const dirToAdditionsArray = pRootDirName =>
         );
 
 process.stdout.write(
-    fs.readFileSync('render/graphics/styling/csstemplates.template.js', 'utf-8')
+    fs.readFileSync('src/render/graphics/styling/csstemplates.template.js', 'utf-8')
         .replace(
             /<%=additionalTemplates%>/g,
-            `[${dirToAdditionsArray("render/graphics/styling/")}]`
+            `[${dirToAdditionsArray("src/render/graphics/styling/")}]`
         )
         .replace(
             /<%=baseTemplateString%>/g,
-            extractFileContents(path.join("render/graphics/styling/", "base.css"))
+            extractFileContents(path.join("src/render/graphics/styling/", "base.css"))
         )
 );
 /* eslint security/detect-non-literal-fs-filename: 0, security/detect-non-literal-require: 0 */

@@ -1,6 +1,6 @@
-const colorize = require("../../../render/astmassage/colorize");
+const colorize = require("../../../src/render/astmassage/colorize");
 const fix      = require("../../astfixtures.json");
-const _        = require("../../../lib/lodash/lodash.custom");
+const _        = require("../../../src/lib/lodash/lodash.custom");
 
 const textColoredEntity = {
     "meta": {

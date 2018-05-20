@@ -1,4 +1,4 @@
-const geo    = require("../../../render/graphics/svgelementfactory/geometry");
+const geo    = require("../../../src/render/graphics/svgelementfactory/geometry");
 
 describe('#geometry', () => {
     describe('#getDiagonalAngle', () => {

@@ -1,5 +1,5 @@
 /* eslint max-len:0 */
-const renderer = require("../../../render/text/ast2doxygen");
+const renderer = require("../../../src/render/text/ast2doxygen");
 const fix      = require("../../astfixtures.json");
 
 describe('render/text/ast2doxygen', () => {

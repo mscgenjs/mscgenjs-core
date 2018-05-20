@@ -12,7 +12,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(function(require) {
+define(function() {
 
     function nameValue2Option(pName, pValue){
         var lOption = {};
@@ -24,6 +24,7 @@ define(function(require) {
         return (["true", "on", "1"].indexOf(pBoolean.toLowerCase()) > -1);
     }
 
+    /* eslint no-undefined: 0 */
     function entityExists (pEntities, pName) {
         return pName === undefined || pName === "*" || pEntities.some(function(pEntity){
             return pEntity.name === pName;
@@ -55,10 +56,10 @@ define(function(require) {
     function checkForUndeclaredEntities (pEntities, pArcLines) {
         (pArcLines || []).forEach(function(pArcLine) {
             pArcLine.forEach(function(pArc) {
-                if (pArc.from && !entityExists (pEntities, pArc.from)) {
+                if (pArc.from && !entityExists(pEntities, pArc.from)) {
                     throw new EntityNotDefinedError(pArc.from, pArc);
                 }
-                if (pArc.to && !entityExists (pEntities, pArc.to)) {
+                if (pArc.to && !entityExists(pEntities, pArc.to)) {
                     throw new EntityNotDefinedError(pArc.to, pArc);
                 }
                 if (!!pArc.arcs){
@@ -71,10 +72,10 @@ define(function(require) {
     function hasExtendedOptions (pOptions){
         if (pOptions){
             return (
-                     pOptions.hasOwnProperty("watermark")
-                  || pOptions.hasOwnProperty("wordwrapentities")
-                  || pOptions.hasOwnProperty("wordwrapboxes")
-                  || ( pOptions.hasOwnProperty("width") && pOptions.width === "auto")
+                pOptions.hasOwnProperty("watermark") ||
+                  pOptions.hasOwnProperty("wordwrapentities") ||
+                  pOptions.hasOwnProperty("wordwrapboxes") ||
+                  (pOptions.hasOwnProperty("width") && pOptions.width === "auto")
             );
         } else {
             return false;
@@ -82,7 +83,7 @@ define(function(require) {
     }
 
     function hasExtendedArcTypes(pArcLines){
-        return (pArcLines|| []).some(function(pArcLine){
+        return (pArcLines || []).some(function(pArcLine){
             return pArcLine.some(function(pArc){
                 return (["alt", "else", "opt", "break", "par",
                     "seq", "strict", "neg", "critical",
@@ -98,8 +99,8 @@ define(function(require) {
         return {
             "extendedOptions" : lHasExtendedOptions,
             "extendedArcTypes": lHasExtendedArcTypes,
-            "extendedFeatures": lHasExtendedOptions||lHasExtendedArcTypes
-        }
+            "extendedFeatures": lHasExtendedOptions || lHasExtendedArcTypes
+        };
     }
 
     return {

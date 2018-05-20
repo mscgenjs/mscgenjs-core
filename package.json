@@ -2,7 +2,7 @@
   "name": "mscgenjs",
   "version": "1.15.2",
   "description": "Sequence chart rendering library",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
     "amdefine": "1.0.1",
     "requirejs": "2.3.5"
@@ -25,10 +25,10 @@
     "pegjs": "0.10.0"
   },
   "scripts": {
-    "depcruise": "depcruise --validate -- main parse render *.js test",
-    "depcruise:graph": "depcruise --validate --do-not-follow \"node_modules|lib\" --output-type dot --module-systems cjs --exclude \"amdefine|lodash\" main parse render *.js | dot -T svg > tmp_deps.svg",
-    "lint": "eslint index.js index-lazy.js indexAMD.js main parse render test",
-    "lint:fix": "eslint --fix index.js index-lazy.js indexAMD.js main parse render test",
+    "depcruise": "depcruise --validate -- src test",
+    "depcruise:graph": "depcruise --validate --do-not-follow \"node_modules|lib\" --output-type dot --module-systems cjs --exclude \"amdefine|lodash\" src | dot -T svg > tmp_deps.svg",
+    "lint": "eslint src test",
+    "lint:fix": "eslint --fix src test",
     "lint:types": "tslint types/mscgen.d.ts",
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
@@ -56,15 +56,15 @@
       "html"
     ],
     "collectCoverageFrom": [
-      "index.js",
-      "index-lazy.js",
-      "main/**/*.js",
-      "parse/**/*.js",
-      "render/**/*.js"
+      "src/index.js",
+      "src/index-lazy.js",
+      "src/main/**/*.js",
+      "src/parse/**/*.js",
+      "src/render/**/*.js"
     ],
     "coveragePathIgnorePatterns": [
-      "render/graphics/styling",
-      "render/graphics/svgelementfactory/wobbly\\.js"
+      "src/render/graphics/styling",
+      "src/render/graphics/svgelementfactory/wobbly\\.js"
     ],
     "coverageThreshold": {
       "global": {
@@ -73,19 +73,19 @@
         "functions": 100,
         "lines": 99.8
       },
-      "main": {
+      "src/main": {
         "statements": 100,
         "branches": 93.9,
         "functions": 100,
         "lines": 100
       },
-      "render": {
+      "src/render": {
         "statements": 99.8,
         "branches": 92.8,
         "functions": 100,
         "lines": 99.8
       },
-      "parse": {
+      "src/parse": {
         "statements": 83,
         "branches": 74,
         "functions": 91,

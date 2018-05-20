@@ -1,6 +1,6 @@
 const fs       = require("fs");
 const path     = require("path");
-const renderer = require("../../../render/text/ast2xu");
+const renderer = require("../../../src/render/text/ast2xu");
 const fix      = require("../../astfixtures.json");
 
 describe(`render/text/ast2xu`, () => {

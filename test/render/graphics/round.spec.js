@@ -1,4 +1,4 @@
-const round = require("../../../render/graphics/svgelementfactory/round");
+const round = require("../../../src/render/graphics/svgelementfactory/round");
 
 describe('#round', () => {
     test("rounds to whole numbers when not passed a precision", () => {

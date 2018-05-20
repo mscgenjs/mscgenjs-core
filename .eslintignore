@@ -1,7 +1,7 @@
-/parse
+src/parse/*parser.js
 lib
 node_modules
 coverage
 .nyc_output
-render/graphics/csstemplates.js
-render/graphics/styling/csstemplates.template.js
+src/render/graphics/csstemplates.js
+src/render/graphics/styling/csstemplates.template.js

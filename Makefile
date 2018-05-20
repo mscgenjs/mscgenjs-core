@@ -6,14 +6,14 @@ MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclu
 LODASH=node_modules/.bin/lodash
 RJS=node_modules/requirejs/bin/r.js
 
-PARSERS=parse/mscgenparser.js \
-	parse/msgennyparser.js \
-	parse/xuparser.js
-CUSTOM_LODASH=lib/lodash/lodash.custom.js
+PARSERS=src/parse/mscgenparser.js \
+	src/parse/msgennyparser.js \
+	src/parse/xuparser.js
+CUSTOM_LODASH=src/lib/lodash/lodash.custom.js
 GENERATED_SOURCES=$(PARSERS) \
 				  $(CUSTOM_LODASH) \
-				  render/graphics/csstemplates.js
-LIBDIRS=lib/lodash
+				  src/render/graphics/csstemplates.js
+LIBDIRS=src/lib/lodash
 
 .PHONY: help dist dev-build install deploy-gh-pages check fullcheck mostlyclean clean lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
@@ -53,7 +53,7 @@ help:
 
 
 # production rules
-parse/%parser.js: parse/peg/%parser.pegjs
+src/parse/%parser.js: src/parse/peg/%parser.pegjs
 	$(PEGJS) --extra-options-file .pegjs-config.json -o $@ $<
 
 $(LIBDIRS):
@@ -66,13 +66,13 @@ $(CUSTOM_LODASH): node_modules/lodash-cli/package.json
 include jsdependencies.mk
 include dependencies.mk
 
-render/graphics/csstemplates.js: render/graphics/styling \
-	render/graphics/styling/to-csstemplates-js.utility.js \
-	render/graphics/styling/base.css \
-	render/graphics/styling/csstemplates.template.js \
-	render/graphics/styling/*.style/*.css \
-	render/graphics/styling/*.style/*.json
-	node render/graphics/styling/to-csstemplates-js.utility.js > $@
+src/render/graphics/csstemplates.js: src/render/graphics/styling \
+	src/render/graphics/styling/to-csstemplates-js.utility.js \
+	src/render/graphics/styling/base.css \
+	src/render/graphics/styling/csstemplates.template.js \
+	src/render/graphics/styling/*.style/*.css \
+	src/render/graphics/styling/*.style/*.json
+	node src/render/graphics/styling/to-csstemplates-js.utility.js > $@
 
 .npmignore: .gitignore
 	cp $< $@
@@ -106,7 +106,7 @@ dist: dev-build node_modules/almond/almond.js
 	mkdir -p dist
 	$(RJS) -o baseUrl=. \
 			name=node_modules/almond/almond \
-			include=index \
+			include=src/index \
 			out=dist/webpack-issue-5316-workaround.js \
 			wrap.startFile=almond.start.frag \
 			wrap.endFile=almond.end.frag \
@@ -162,7 +162,7 @@ run-update-dependencies:
 	$(NPM) install
 
 depend:
-	$(MAKEDEPEND) --system amd,cjs ./
+	$(MAKEDEPEND) --system amd,cjs ./src
 
 clean:
 	rm -rf $(GENERATED_SOURCES)

@@ -1,4 +1,4 @@
-const parserHelpers = require('../../parse/parserHelpers');
+const parserHelpers = require('../../src/parse/parserHelpers');
 
 describe('parserHelpers.nameValue2Option', () => {
     test('Name and value return a name/ value object', () => {
