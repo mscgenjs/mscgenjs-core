@@ -1,8 +1,12 @@
-const fs     = require("fs");
-const path   = require("path");
-const parser = require("../../parse/mscgenparser");
-const tst    = require("../testutensils");
-const pairs  = require("./mscgenPairs");
+const fs                 = require("fs");
+const path               = require("path");
+const JSONSchemaMatchers = require("jest-json-schema").matchers;
+const parser             = require("../../parse/mscgenparser");
+const mscgenjsASTSchema  = require("../../parse/mscgenjs-ast.schema.json");
+const tst                = require("../testutensils");
+const pairs              = require("./mscgenPairs");
+
+expect.extend(JSONSchemaMatchers);
 
 describe('parse/mscgenparser', () => {
     describe('#parse() - happy day values', () => {
@@ -28,7 +32,9 @@ describe('parse/mscgenparser', () => {
     describe('#parse() - happy day ASTs - ', () => {
         pairs.programASTPairs.forEach((pPair) => {
             test(pPair.title, () => {
-                expect(parser.parse(pPair.program)).toEqual(pPair.ast);
+                const lAST = parser.parse(pPair.program);
+                expect(lAST).toMatchSchema(mscgenjsASTSchema);
+                expect(lAST).toEqual(pPair.ast);
             });
         });
     });
@@ -48,6 +54,7 @@ describe('parse/mscgenparser', () => {
                 {"encoding" : "utf8"}
             );
             const lAST = parser.parse(lTextFromFile.toString());
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs_mscgen.json'), lAST);
         });
         test("should parse stuff with colors", () => {
@@ -55,6 +62,7 @@ describe('parse/mscgenparser', () => {
                 "encoding" : "utf8"
             });
             const lAST = parser.parse(lTextFromFile.toString());
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/rainbow.json'), lAST);
         });
         test("strings, ids and urls", () => {
@@ -63,6 +71,7 @@ describe('parse/mscgenparser', () => {
                 {"encoding":"utf8"}
             );
             const lAST = parser.parse(lTextFromFile.toString());
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test10_stringsandurls.json'), lAST);
         });
     });

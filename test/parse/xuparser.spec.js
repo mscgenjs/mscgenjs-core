@@ -1,9 +1,13 @@
-const fs      = require("fs");
-const path    = require("path");
-const parser  = require("../../parse/xuparser");
-const tst     = require("../testutensils");
-const pairs   = require("./mscgenPairs");
-const xuPairs = require("./xuPairs");
+const fs                 = require("fs");
+const path               = require("path");
+const JSONSchemaMatchers = require("jest-json-schema").matchers;
+const parser             = require("../../parse/xuparser");
+const mscgenjsASTSchema  = require("../../parse/mscgenjs-ast.schema.json");
+const tst                = require("../testutensils");
+const pairs              = require("./mscgenPairs");
+const xuPairs            = require("./xuPairs");
+
+expect.extend(JSONSchemaMatchers);
 
 describe('parse/xuparser', () => {
     describe('#parse()', () => {
@@ -57,6 +61,7 @@ describe('parse/xuparser', () => {
                 {"encoding":"utf8"}
             );
             const lAST = parser.parse(lTextFromFile.toString());
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs.json'), lAST);
         });
         test("should parse stuff with colors", () => {
@@ -65,6 +70,7 @@ describe('parse/xuparser', () => {
                 {"encoding":"utf8"}
             );
             const lAST = parser.parse(lTextFromFile.toString());
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/rainbow.json'), lAST);
         });
         test("strings, ids and urls", () => {
@@ -73,6 +79,7 @@ describe('parse/xuparser', () => {
                 {"encoding":"utf8"}
             );
             const lAST = parser.parse(lTextFromFile.toString());
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test10_stringsandurls.json'), lAST);
         });
     });
@@ -81,7 +88,9 @@ describe('parse/xuparser', () => {
         describe('#parse() - happy day ASTs - ', () => {
             xuPairs.programASTPairs.forEach((pPair) => {
                 test(pPair.title, () => {
-                    expect(parser.parse(pPair.program)).toEqual(pPair.ast);
+                    const lAST = parser.parse(pPair.program);
+                    expect(lAST).toMatchSchema(mscgenjsASTSchema);
+                    expect(lAST).toEqual(pPair.ast);
                 });
             });
         });

@@ -1,9 +1,11 @@
 /* eslint max-statements:0 */
-const fs     = require("fs");
-const path   = require("path");
-const parser = require("../../parse/msgennyparser");
-const tst    = require("../testutensils");
-const fix    = require("../astfixtures.json");
+const fs                 = require("fs");
+const path               = require("path");
+const JSONSchemaMatchers = require("jest-json-schema").matchers;
+const parser             = require("../../parse/msgennyparser");
+const mscgenjsASTSchema  = require("../../parse/mscgenjs-ast.schema.json");
+const tst                = require("../testutensils");
+const fix                = require("../astfixtures.json");
 
 const gCorrectOrderFixture = {
     "precomment":["# A,a, c, d, b, B;", "\n"],
@@ -94,40 +96,47 @@ const gUnicodeEntityInArcFixture = {
     ]
 };
 
+expect.extend(JSONSchemaMatchers);
+
 describe('parse/msgennyparser', () => {
 
     describe('#parse()', () => {
-
         test(
             'should render a simple AST, with two entities auto declared',
             () => {
                 const lAST = parser.parse('a => "b space": a simple script;');
+                expect(lAST).toMatchSchema(mscgenjsASTSchema);
                 expect(lAST).toEqual(fix.astSimple);
             }
         );
         test('should ignore c++ style one line comments', () => {
             const lAST = parser.parse('a => "b space": a simple script;//ignored');
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             expect(lAST).toEqual(fix.astSimple);
         });
         test("should produce an (almost empty) AST for empty input", () => {
             const lAST = parser.parse("");
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             expect(lAST).toEqual(fix.astEmpty);
         });
         test(
             "should produce an AST even when non entity arcs are its only content",
             () => {
                 const lAST = parser.parse('---:start;...:no entities ...; ---:end;');
+                expect(lAST).toMatchSchema(mscgenjsASTSchema);
                 expect(lAST).toEqual(fix.astNoEntities);
             }
         );
         test("should produce lowercase for upper/ mixed case arc kinds", () => {
             const lAST = parser.parse('a NoTE a, b BOX b, c aBox c, d rbOX d;');
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             expect(lAST).toEqual(fix.astBoxArcs);
         });
         test("should produce lowercase for upper/ mixed case options", () => {
             const lAST = parser.parse(
                 'HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;'
             );
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             expect(lAST).toEqual(fix.astOptions);
         });
         test("should correctly parse naked reals", () => {
@@ -316,6 +325,7 @@ describe('parse/msgennyparser', () => {
     describe('#parse() - expansions', () => {
         test('should render a simple AST, with an alt', () => {
             const lAST = parser.parse('a=>b; b alt c { b => c; c >> b;};');
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             expect(lAST).toEqual(fix.astOneAlt);
         });
         test(
@@ -324,15 +334,18 @@ describe('parse/msgennyparser', () => {
                 const lAST = parser.parse(
                     'a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;'
                 );
+                expect(lAST).toMatchSchema(mscgenjsASTSchema);
                 expect(lAST).toEqual(fix.astAltWithinLoop);
             }
         );
         test('should render an AST, with an alt in it', () => {
             const lAST = parser.parse('a alt b {  c -> d; };');
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             expect(lAST).toEqual(fix.astDeclarationWithinArcspan);
         });
         test('automatically declares entities in the right order', () => {
             const lAST = parser.parse('# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};');
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             expect(lAST).toEqual(gCorrectOrderFixture);
         });
         test('should accept "auto" as a valid width', () => {
@@ -421,6 +434,7 @@ describe('parse/msgennyparser', () => {
                 {"encoding":"utf8"}
             );
             const lAST = parser.parse(lTextFromFile.toString());
+            expect(lAST).toMatchSchema(mscgenjsASTSchema);
             tst.assertequalToFileJSON(path.join(__dirname, '../fixtures/test01_all_possible_arcs_msgenny.json'), lAST);
         });
     });
