@@ -23,16 +23,8 @@
  */
 
 {
-    function entityExists (pEntities, pName, pEntityNamesToIgnore) {
-        if (pName === undefined || pName === "*") {
-            return true;
-        }
-        if (pEntities.some(function(pEntity){
-            return pEntity.name === pName;
-        })){
-            return true;
-        }
-        return pEntityNamesToIgnore[pName] === true;
+    function entityNeedsExtracting (pEntities, pName, pEntityNamesToIgnore) {
+        return !(parserHelpers.entityExists(pEntities, pName) && pEntityNamesToIgnore[pName] === true);
     }
 
     function initEntity(pName) {
@@ -49,7 +41,7 @@
 
         (pArcLines || []).forEach(function(pArcLine){
             pArcLine.forEach(function(pArc){
-                if (!entityExists (pEntities, pArc.from, pEntityNamesToIgnore)) {
+                if (entityNeedsExtracting (pEntities, pArc.from, pEntityNamesToIgnore)) {
                     pEntities.push(initEntity(pArc.from));
                 }
                 // if the arc kind is arcspanning recurse into its arcs
@@ -58,7 +50,7 @@
                     _.assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
                     delete pEntityNamesToIgnore[pArc.to];
                 }
-                if (!entityExists (pEntities, pArc.to, pEntityNamesToIgnore)) {
+                if (entityNeedsExtracting (pEntities, pArc.to, pEntityNamesToIgnore)) {
                     pEntities.push(initEntity(pArc.to));
                 }
             });
