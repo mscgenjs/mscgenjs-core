@@ -135,9 +135,6 @@ src/render/text/ast2xu.js: \
 	src/render/text/ast2thing.js \
 	src/render/textutensils/escape.js
 
-src/indexAMD.js: \
-	src/index.js
-
 src/render/astmassage/colorize.js: \
 	src/render/astmassage/aggregatekind.js \
 	src/render/astmassage/asttransform.js
@@ -286,9 +283,6 @@ src/render/text/ast2msgenny.js: \
 src/render/text/ast2xu.js: \
 	src/render/text/ast2thing.js \
 	src/render/textutensils/escape.js
-
-src/indexAMD.js: \
-	src/index.js
 
 src/render/astmassage/colorize.js: \
 	src/render/astmassage/aggregatekind.js \
