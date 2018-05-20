@@ -113,8 +113,7 @@ interface ITranslateOptions {
 export function translateMsc(
     pScript: string,
     pOptions?: ITranslateOptions,
-    pCallBack?: (pError: Error, pSuccess: string) => void,
-): void;
+): string;
 
 /**
  * The current (semver compliant) version number string of
