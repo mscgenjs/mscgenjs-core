@@ -137,5 +137,40 @@ describe('parserHelpers.checkForUndeclaredEntities', () => {
 });
 
 describe('parserHelpers.getMetaInfo', () => {
-    test('joedeldoe toe doe');
+    const lNoExtendedFeatures = {"extendedArcTypes": false, "extendedFeatures": false, "extendedOptions": false};
+    const lExtendedOptions    = {"extendedArcTypes": false, "extendedFeatures": true,  "extendedOptions": true};
+    const lExtendedArcTypes   = {"extendedArcTypes": true,  "extendedFeatures": true,  "extendedOptions": false};
+    const lFullOrgan          = {"extendedArcTypes": true,  "extendedFeatures": true,  "extendedOptions": true};
+
+    test('boundary values deliver meta info with everything on false', () => {
+        expect(parserHelpers.getMetaInfo()).toEqual(lNoExtendedFeatures);
+        expect(parserHelpers.getMetaInfo(null, null)).toEqual(lNoExtendedFeatures);
+        expect(parserHelpers.getMetaInfo(undefined, undefined)).toEqual(lNoExtendedFeatures);
+        expect(parserHelpers.getMetaInfo({}, [])).toEqual(lNoExtendedFeatures);
+    });
+
+    test('standard mscgen options deliver meta info with everything on false', () => {
+        expect(parserHelpers.getMetaInfo({wordwraparcs:true})).toEqual(lNoExtendedFeatures);
+        expect(parserHelpers.getMetaInfo({width:481})).toEqual(lNoExtendedFeatures);
+    });
+
+    test('no options but regular arcs deliver meta info with everything on false', () => {
+        expect(parserHelpers.getMetaInfo({}, require('../fixtures/astemptylinesinboxes.json').arcs)).toEqual(lNoExtendedFeatures);
+        expect(parserHelpers.getMetaInfo({}, require('../fixtures/test01_all_possible_arcs_mscgen.json').arcs)).toEqual(lNoExtendedFeatures);
+    });
+
+    test('extended options deliver meta info with options & features on true', () => {
+        expect(parserHelpers.getMetaInfo({watermark:"extended!!"})).toEqual(lExtendedOptions);
+        expect(parserHelpers.getMetaInfo({width:"auto"})).toEqual(lExtendedOptions);
+    });
+
+    test('no options but extended arc types deliver meta info arctypes & features on true', () => {
+        expect(parserHelpers.getMetaInfo({}, require('../fixtures/bumpingboxes.json').arcs)).toEqual(lExtendedArcTypes);
+        expect(parserHelpers.getMetaInfo({}, require('../fixtures/test01_all_possible_arcs.json').arcs)).toEqual(lExtendedArcTypes);
+    });
+
+    test('extended options extended arc types deliver meta info with everything on true', () => {
+        expect(parserHelpers.getMetaInfo({wordwrapentities: true}, require('../fixtures/bumpingboxes.json').arcs)).toEqual(lFullOrgan);
+        expect(parserHelpers.getMetaInfo({wordwrapboxes: true}, require('../fixtures/test01_all_possible_arcs.json').arcs)).toEqual(lFullOrgan);
+    });
 });
