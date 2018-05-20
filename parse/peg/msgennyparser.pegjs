@@ -24,7 +24,7 @@
 
 {
     function entityNeedsExtracting (pEntities, pName, pEntityNamesToIgnore) {
-        return !(parserHelpers.entityExists(pEntities, pName) && pEntityNamesToIgnore[pName] === true);
+        return !(parserHelpers.entityExists(pEntities, pName) || pEntityNamesToIgnore[pName] === true);
     }
 
     function initEntity(pName) {
