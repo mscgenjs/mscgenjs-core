@@ -22,9 +22,9 @@ module.exports = (function(){
         /**
          * See the function of the same name in @index.js.
          */
-        translateMsc: function(pScript, pOptions, pCallBack){
-            main.translateMsc(
-                pScript, pOptions, pCallBack,
+        translateMsc: function(pScript, pOptions){
+            return main.translateMsc(
+                pScript, pOptions,
                 resolver.getParser, resolver.getTextRenderer
             );
         },

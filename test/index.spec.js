@@ -33,69 +33,48 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
     describe('index', () => {
         describe('#translateMsc()', () => {
             test('no params translates mscgen to json', () => {
-                mscgenjs.translateMsc(SIMPLE_MSCGEN, null, (pError, pResult) => {
-                    /* eslint no-unused-expression:0 */
-                    expect(pError).toBeNull();
-                    expect(
-                        JSON.parse(pResult)
-                    ).toEqual(
-                        fix.astSimple
-                    );
-                });
+                expect(JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN))).toEqual(fix.astSimple);
             });
 
             test('explicit mscgen & json params translates mscgen to json too', () => {
-                mscgenjs.translateMsc(
-                    SIMPLE_MSCGEN,
-                    {inputType: "mscgen", outputType: "json"},
-                    (pError, pResult) => {
-                        expect(pError).toBeNull();
-                        expect(
-                            JSON.parse(pResult)
-                        ).toEqual(
-                            fix.astSimple
-                        );
-                    });
+                expect(
+                    JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "json"}))
+                ).toEqual(fix.astSimple);
             });
+
             test('ast translates mscgen to an AST object', () => {
-                mscgenjs.translateMsc(SIMPLE_MSCGEN, {outputType: "ast"}, (pError, pResult) => {
-                    /* eslint no-unused-expression:0 */
-                    expect(pError).toBeNull();
-                    expect(
-                        pResult
-                    ).toEqual(
-                        fix.astSimple
-                    );
-                });
+                expect(
+                    mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "ast"})
+                ).toEqual(fix.astSimple);
             });
+
             test('invalid mscgen throws an error', () => {
-                mscgenjs.translateMsc(
-                    SIMPLE_XU,
-                    {inputType: "mscgen", outputType: "msgenny"},
-                    (pError, pResult) => {
-                        expect(pError).not.toBeNull();
-                        expect(pError).toBeInstanceOf(Error);
-                        expect(pResult).toBeNull();
-                    });
+                expect(
+                    () => mscgenjs.translateMsc(
+                        SIMPLE_XU,
+                        {inputType: "mscgen", outputType: "msgenny"}
+                    )
+                ).toThrow();
             });
+
             test('downgrading xu -> mscgen works', () => {
-                mscgenjs.translateMsc(
-                    JSON.stringify(fix.astOneAlt, null, ""),
-                    {inputType: "json", outputType: "mscgen"},
-                    (pError, pResult) => {
-                        expect(pError).toBeNull();
-                        expect(pResult).toBe(gExpectedMscGenOutput);
-                    });
+                expect(
+                    mscgenjs.translateMsc(
+                        JSON.stringify(fix.astOneAlt, null, ""),
+                        {inputType: "json", outputType: "mscgen"}
+                    )
+                ).toBe(gExpectedMscGenOutput);
             });
+
             test('translating a raw javascript object works', () => {
-                mscgenjs.translateMsc(
-                    fix.astOneAlt,
-                    {inputType: "json", outputType: "mscgen"},
-                    (pError, pResult) => {
-                        expect(pError).toBeNull();
-                        expect(pResult).toBe(gExpectedMscGenOutput);
-                    });
+                expect(
+                    mscgenjs.translateMsc(
+                        fix.astOneAlt,
+                        {inputType: "json", outputType: "mscgen"}
+                    )
+                ).toBe(gExpectedMscGenOutput);
             });
+
             test('returns a version number equal to the one in package.json', () => {
                 expect(mscgenjs.version).toBe(version);
             });

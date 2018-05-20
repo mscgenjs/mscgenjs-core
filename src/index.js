@@ -52,12 +52,8 @@ define(function(require) {
          * @param  {string} pScript     The script to translate
          * @param  {object} pOptions    options influencing parsing & rendering.
          *                              See below for the complete list.
-         * @param  {function} pCallBack function with error, success
-         *                              parameters. translateMsc will pass the
-         *                              resulting script in the success
-         *                              parameter when successful, the error
-         *                              message in the error parameter when not.
-         * @return none
+         * @return {string} - the translated script
+         * @throws {Error} - when there's something wrong
          *
          * Options:
          *   inputType  : the language of pScript defaults to "mscgen". Possible
@@ -65,9 +61,9 @@ define(function(require) {
          *   outputType : defaults to "json". Possible values:
          *                allowedValues.outputType
          */
-        translateMsc: function (pScript, pOptions, pCallBack){
-            main.translateMsc(
-                pScript, pOptions, pCallBack,
+        translateMsc: function (pScript, pOptions){
+            return main.translateMsc(
+                pScript, pOptions,
                 resolver.getParser, resolver.getTextRenderer
             );
         },
