@@ -144,24 +144,20 @@ does _not_ depend on the DOM so you can use it not only in browsers &
 browser-likes, but also hack-free in node.
 
 ```javascript
-mscgenjs.translateMsc(
-    'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
-    {
-        inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
-        outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen, ast
-    },
-    function(pError, pSuccess){
-        if(Boolean(pError)){
-            console.log("error:", pError);
-            return;
+try {
+  let lResult = mscgenjs.translateMsc(
+        'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
+        {
+            inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
+            outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen, ast
         }
-        if(Boolean(pSuccess)){
-            // the transpiled result is in pSuccess
-            console.log(pSuccess);
-            return;
-        }
-        console.log("Neither success nor failure. I do not even.");
-    }
+      );
+  console.log(lResult);
+} catch (pError) {
+  console.error(pError);
+}
+
+
 );
 
 // result:
@@ -208,14 +204,15 @@ _not_ as part of non free software.
 
 ### Dependencies and their licenses
 We built mscgen_js on various libraries, each of which have their own
-license (incidentally all MIT style):
+license:
 - mscgen_js uses [requirejs][requirejs.license] and [amdefine][amdefine.license]
   for modularization.
 - We generated its parsers with [pegjs][pegjs.license].
-- mscgen_js automated tests use [mocha][21], [chai][39],
-  [chai-xml][40] and [jsdom][jsdom.license].
+- mscgen_js automated tests use [jest](https://facebook.github.io/jest),
+  [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
+  [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
 
-It uses [istanbul][28], [eslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
+It uses [eslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
 modicum of verifiable code quality. You can see the build history in
 [Travis][travis.mscgenjs] and an indication of the shape of the code at
 [Bit Hound][bithound.mscgenjs].
@@ -270,8 +267,8 @@ modicum of verifiable code quality. You can see the build history in
 [mscgenjs.interpreter.source.render]: https://github.com/sverweij/mscgen_js/blob/master/src/script/interpreter/uistate.js#L260
 [mscgenjs.issues.compliance]: https://github.com/mscgenjs/mscgenjs-core/labels/compliance
 [mscgenjs.unit]: https://github.com/mscgenjs/mscgenjs-core/tree/master/test
-[mscgenjs.unit.parse]: https://github.com/mscgenjs/mscgenjs-core/blob/master/test/parse/t_mscgenparser_node.js
-[mscgenjs.unit.render]: https://github.com/mscgenjs/mscgenjs-core/blob/master/test/render/graphics/t_renderast.js
+[mscgenjs.unit.parse]: https://github.com/mscgenjs/mscgenjs-core/blob/master/test/parse/mscgenparser.spec.js
+[mscgenjs.unit.render]: https://github.com/mscgenjs/mscgenjs-core/blob/master/test/render/graphics/renderast.spec.js
 [mscgenjs.license]: LICENSE.md
 [mscgenjs.doc.msgenny]: doc/msgenny.md
 [mscgenjs.doc.xu]: doc/xu.md
@@ -282,10 +279,8 @@ modicum of verifiable code quality. You can see the build history in
 [requirejs.license]: doc/licenses/license.requirejs.md
 [travis.mscgenjs]: https://travis-ci.org/mscgenjs/mscgenjs-core
 [travis.mscgenjs.badge]: https://travis-ci.org/mscgenjs/mscgenjs-core.svg?branch=master
-[21]: doc/licenses/license.mocha.md
 [22]: doc/licenses/license.eslint.md
 [23]: https://github.com/sverweij/dependency-cruiser
-[28]: doc/licenses/license.istanbul.md
 [35]: https://nodesecurity.io/
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/krampstudio/chai-xml
