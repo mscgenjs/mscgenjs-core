@@ -1,4 +1,5 @@
 var mscgenjs = require('../../dist/webpack-issue-5316-workaround');
+// var mscgenjs = require('../../src/');
 
 function render(){
     // clear the target area before rendering on it

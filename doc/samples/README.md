@@ -23,7 +23,7 @@ with mscgenjs.
 
 ```sh
 # when you don't have webpack installed yet do that first:
-npm install --global webpack
+npm install --global webpack webpack-cli
 
 # change to this directory
 cd doc/samples

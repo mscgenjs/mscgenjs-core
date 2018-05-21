@@ -1,5 +1,5 @@
 define(function (require) {
-    var mscgenjs = require('../../index');
+    var mscgenjs = require('../../src/index');
 
     function render(){
         window.output.innerHTML = "";
