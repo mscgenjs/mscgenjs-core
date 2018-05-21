@@ -2,7 +2,7 @@
 PEGJS=node_modules/pegjs/bin/pegjs
 GIT=git
 NPM=npm
-MAKEDEPEND=node_modules/.bin/js-makedepend --output-to jsdependencies.mk --exclude "node_modules|doc"
+MAKEDEPEND=node_modules/.bin/js-makedepend --output-to config/jsdependencies.mk --exclude "node_modules|doc"
 LODASH=node_modules/.bin/lodash
 RJS=node_modules/requirejs/bin/r.js
 
@@ -54,7 +54,7 @@ help:
 
 # production rules
 src/parse/%parser.js: src/parse/peg/%parser.pegjs
-	$(PEGJS) --extra-options-file .pegjs-config.json -o $@ $<
+	$(PEGJS) --extra-options-file config/.pegjs-config.json -o $@ $<
 
 $(LIBDIRS):
 	mkdir -p $@
@@ -63,8 +63,8 @@ $(CUSTOM_LODASH): node_modules/lodash-cli/package.json
 	$(LODASH) exports=umd include=memoize,cloneDeep,flatten,defaults,assign --development --output $@
 
 # dependencies
-include jsdependencies.mk
-include dependencies.mk
+include config/jsdependencies.mk
+include config/dependencies.mk
 
 src/render/graphics/csstemplates.js: src/render/graphics/styling \
 	src/render/graphics/styling/to-csstemplates-js.utility.js \
@@ -74,7 +74,7 @@ src/render/graphics/csstemplates.js: src/render/graphics/styling \
 	src/render/graphics/styling/*.style/*.json
 	node src/render/graphics/styling/to-csstemplates-js.utility.js > $@
 
-.npmignore: .gitignore
+.npmignore: .gitignore Makefile
 	cp $< $@
 	echo "" >> $@
 	echo "# to ignore specifically for npm publishing: >> $@"
@@ -85,16 +85,14 @@ src/render/graphics/csstemplates.js: src/render/graphics/styling \
 	echo ".eslintrc.json" >> $@
 	echo ".gitlab-ci.yml" >> $@
 	echo ".travis.yml" >> $@
-	echo "almond.*.frag" >> $@
 	echo "CODE_OF_CONDUCT.md" >> $@
-	echo "CONTRIBUTING.md" >> $@
-	echo "dependencies.mk" >> $@
-	echo "doc" >> $@
-	echo "jsdependencies.mk" >> $@
 	echo "Makefile" >> $@
 	echo "tslint.json" >> $@
-	echo "test/**" >> $@
-	echo "utl/**" >> $@
+	echo ".github" >> $@
+	echo "config" >> $@
+	echo "doc" >> $@
+	echo "test" >> $@
+	echo "utl" >> $@
 
 # "phony" targets
 prerequisites:
@@ -108,8 +106,8 @@ dist: dev-build node_modules/almond/almond.js
 			name=node_modules/almond/almond \
 			include=src/index \
 			out=dist/webpack-issue-5316-workaround.js \
-			wrap.startFile=almond.start.frag \
-			wrap.endFile=almond.end.frag \
+			wrap.startFile=config/almond.start.frag \
+			wrap.endFile=config/almond.end.frag \
 			preserveLicenseComments=true
 
 lint:
