@@ -61,7 +61,11 @@ src/render/astmassage/normalizeoptions.js: \
 	src/lib/lodash/lodash.custom.js
 
 src/render/graphics/entities.js: \
-	src/render/graphics/renderlabels.js
+	src/lib/lodash/lodash.custom.js \
+	src/render/graphics/constants.js \
+	src/render/graphics/renderlabels.js \
+	src/render/graphics/svgelementfactory/index.js \
+	src/render/graphics/svgutensils.js
 
 src/render/graphics/renderlabels.js: \
 	src/render/astmassage/aggregatekind.js \
@@ -183,7 +187,11 @@ src/render/astmassage/normalizeoptions.js: \
 	src/lib/lodash/lodash.custom.js
 
 src/render/graphics/entities.js: \
-	src/render/graphics/renderlabels.js
+	src/lib/lodash/lodash.custom.js \
+	src/render/graphics/constants.js \
+	src/render/graphics/renderlabels.js \
+	src/render/graphics/svgelementfactory/index.js \
+	src/render/graphics/svgutensils.js
 
 src/render/graphics/renderlabels.js: \
 	src/render/astmassage/aggregatekind.js \
