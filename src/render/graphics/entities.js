@@ -7,7 +7,7 @@ define(function(require){
     "use strict";
 
     var renderlabels      = require("./renderlabels");
-    var svgelementfactory = require("./svgelementfactory");
+    var svgelementfactory = require("./svgelementfactory/index");
     var svgutensils       = require("./svgutensils");
     var constants         = require("./constants");
     var _                 = require("../../lib/lodash/lodash.custom");
