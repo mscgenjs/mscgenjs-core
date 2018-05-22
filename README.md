@@ -157,9 +157,6 @@ try {
   console.error(pError);
 }
 
-
-);
-
 // result:
 //
 // msc {
