@@ -40,20 +40,20 @@ define(function(require) {
 
     /* sensible default - get overwritten in bootstrap */
     var gChart = Object.seal({
-        "arcRowHeight"           : DEFAULT_ARCROW_HEIGHT,
-        "arcGradient"            : DEFAULT_ARC_GRADIENT,
-        "arcEndX"                : 0,
-        "wordWrapArcs"           : false,
-        "mirrorEntitiesOnBottom" : false,
-        "regularArcTextVerticalAlignment": "middle",
-        "maxDepth"               : 0,
-        "document"               : {},
-        "layer"                  : {
-            "lifeline"     : {},
-            "sequence"     : {},
-            "notes"        : {},
-            "inline"       : {},
-            "watermark"    : {}
+        arcRowHeight           : DEFAULT_ARCROW_HEIGHT,
+        arcGradient            : DEFAULT_ARC_GRADIENT,
+        arcEndX                : 0,
+        wordWrapArcs           : false,
+        mirrorEntitiesOnBottom : false,
+        regularArcTextVerticalAlignment: "middle",
+        maxDepth               : 0,
+        document               : {},
+        layer                  : {
+            lifeline     : {},
+            sequence     : {},
+            notes        : {},
+            inline       : {},
+            watermark    : {}
         }
     });
     var gInlineExpressionMemory = [];
@@ -190,19 +190,19 @@ define(function(require) {
         var lDepthCorrection = renderutensils.determineDepthCorrection(pAST.depth, constants.LINE_WIDTH);
         var lRowInfo = rowmemory.getLast();
         var lCanvas = {
-            "width" :
+            width :
                 (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
-            "height" :
+            height :
                 Boolean(gChart.mirrorEntitiesOnBottom)
                     ? (2 * entities.getDims().height) + lRowInfo.y + lRowInfo.height + 2 * PAD_VERTICAL
                     : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
-            "horizontaltransform" :
+            horizontaltransform :
                 (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
-            "autoscale" :
+            autoscale :
                 !!pAST.options && !!pAST.options.width && pAST.options.width === "auto",
-            "verticaltransform" :
+            verticaltransform :
                 PAD_VERTICAL,
-            "scale" : 1
+            scale : 1
         };
         lCanvas.x = 0 - lCanvas.horizontaltransform;
         lCanvas.y = 0 - lCanvas.verticaltransform;
@@ -263,82 +263,6 @@ define(function(require) {
     }
 
     /* ----------------------START entity shizzle-------------------------------- */
-    /**
-     * getMaxEntityHeight() -
-     * crude method for determining the max entity height;
-     * - take the entity with the most number of lines
-     * - if that number > 2 (default entity hight easily fits 2 lines of text)
-     *   - render that entity
-     *   - return the height of its bbox
-     *
-     * @param <object> - pEntities - the entities subtree of the AST
-     * @return <int> - height - the height of the heighest entity
-     */
-    function getMaxEntityHeight(pEntities, pOptions){
-        var lHighestEntity = pEntities[0];
-        var lHWM = 2;
-        pEntities.forEach(function(pEntity){
-            var lNoEntityLines = entities.getNoEntityLines(pEntity.label, constants.FONT_SIZE, pOptions);
-            if (lNoEntityLines > lHWM){
-                lHWM = lNoEntityLines;
-                lHighestEntity = pEntity;
-            }
-        });
-
-        if (lHWM > 2){
-            return Math.max(
-                entities.getDims().height,
-                svgutensils.getBBox(
-                    renderEntity(lHighestEntity, 0, 0, pOptions)
-                ).height
-            );
-        }
-        return entities.getDims().height;
-    }
-
-    function sizeEntityBoxToLabel(pLabel, pBBox) {
-        var lLabelWidth = Math.min(
-            svgutensils.getBBox(pLabel).width + (4 * constants.LINE_WIDTH),
-            (pBBox.interEntitySpacing / 3) + pBBox.width
-        );
-        if (lLabelWidth >= pBBox.width) {
-            pBBox.x -= (lLabelWidth - pBBox.width) / 2;
-            pBBox.width = lLabelWidth;
-        }
-        return pBBox;
-    }
-
-    function renderEntity(pEntity, pX, pY, pOptions) {
-        var lGroup = svgelementfactory.createGroup();
-        var lBBox = _.cloneDeep(entities.getDims());
-        lBBox.x = pX ? pX : 0;
-        lBBox.y = pY ? pY : 0;
-        var lLabel = renderlabels.createLabel(
-            _.defaults(
-                pEntity,
-                {
-                    kind: "entity"
-                }
-            ),
-            {
-                x:lBBox.x,
-                y:pY + (lBBox.height / 2),
-                width:lBBox.width
-            },
-            pOptions
-        );
-
-        lGroup.appendChild(
-            svgelementfactory.createRect(
-                sizeEntityBoxToLabel(lLabel, lBBox),
-                "entity",
-                pEntity.linecolor,
-                pEntity.textbgcolor
-            )
-        );
-        lGroup.appendChild(lLabel);
-        return lGroup;
-    }
 
     function renderEntitiesOnBottom(pEntities, pOptions) {
         var lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
@@ -376,16 +300,19 @@ define(function(require) {
      * the gChart.layer.sequence layer
      *
      * @param <object> - pEntities - the entities to render
+     *
+     * TODO: move to entities. Challenge: getting the lEntityXPos
+     *       there in clean way.
      */
     function renderEntities(pEntities, pEntityYPos, pOptions) {
         var lEntityXPos = 0;
-        var lEntityGroup = svgelementfactory.createGroup();
 
         if (pEntities) {
-            entities.setHeight(getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2);
+            var lEntityGroup = svgelementfactory.createGroup();
+            entities.setHeight(entities.getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2);
 
             pEntities.forEach(function(pEntity){
-                lEntityGroup.appendChild(renderEntity(pEntity, lEntityXPos, pEntityYPos, pOptions));
+                lEntityGroup.appendChild(entities.renderEntity(pEntity, lEntityXPos, pEntityYPos, pOptions));
                 entities.setX(pEntity, lEntityXPos);
                 lEntityXPos += entities.getDims().interEntitySpacing;
             });
@@ -1120,29 +1047,6 @@ define(function(require) {
             gChart.document = renderskeleton.init(pWindow);
             svgutensils.init(gChart.document);
             svgutensils.removeRenderedSVGFromElement(pParentElementId);
-        },
-
-        /**
-         * renders the given abstract syntax tree pAST as svg
-         * in the element with id pParentELementId in the window pWindow
-         *
-         * @param {object} pAST - the abstract syntax tree
-         * @param {string} pSource - the source msc to embed in the svg
-         * @param {string} pParentElementId - the id of the parent element in which
-         * to put the __svg_output element
-         * @param {window} pWindow - the browser window to put the svg in
-         * @param {string} pStyleAdditions - valid css that augments the default style
-         */
-        renderAST : function (pAST, pSource, pParentElementId, pWindow, pStyleAdditions) {
-            return _renderASTNew(
-                pAST,
-                pWindow,
-                pParentElementId,
-                {
-                    source: pSource,
-                    styleAdditions: pStyleAdditions
-                }
-            );
         },
 
         /**
