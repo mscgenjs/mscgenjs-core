@@ -64,7 +64,8 @@
     ],
     "coveragePathIgnorePatterns": [
       "src/render/graphics/styling",
-      "src/render/graphics/svgelementfactory/wobbly\\.js"
+      "src/render/graphics/svgelementfactory/wobbly\\.js",
+      "src/parse/.+parser\\.js"
     ],
     "coverageThreshold": {
       "global": {
