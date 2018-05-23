@@ -19,13 +19,18 @@ define(function(require){
     var gEntityDims = Object.seal({
         interEntitySpacing : DEFAULT_INTER_ENTITY_SPACING,
         height             : DEFAULT_ENTITY_HEIGHT,
-        width              : DEFAULT_ENTITY_WIDTH
+        width              : DEFAULT_ENTITY_WIDTH,
+        entityXHWM         : 0
     });
 
     var gEntity2X = {};
 
-    function getX (pName){
+    function getX(pName){
         return gEntity2X[pName];
+    }
+
+    function setX(pEntity, pX){
+        gEntity2X[pEntity.name] = pX + (gEntityDims.width / 2);
     }
 
     function getDims(){
@@ -80,6 +85,21 @@ define(function(require){
         return lGroup;
     }
 
+    function renderEntities(pEntities, pEntityYPos, pOptions){
+        var lEntityGroup = svgelementfactory.createGroup();
+
+        gEntityDims.entityXHWM = 0;
+        gEntityDims.height = getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2;
+
+        pEntities.forEach(function(pEntity){
+            lEntityGroup.appendChild(renderEntity(pEntity, gEntityDims.entityXHWM, pEntityYPos, pOptions));
+            setX(pEntity, gEntityDims.entityXHWM);
+            gEntityDims.entityXHWM += gEntityDims.interEntitySpacing;
+        });
+
+        return lEntityGroup;
+    }
+
     /**
      * getMaxEntityHeight() -
      * crude method for determining the max entity height;
@@ -118,6 +138,7 @@ define(function(require){
             gEntityDims.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
             gEntityDims.height             = DEFAULT_ENTITY_HEIGHT;
             gEntityDims.width              = DEFAULT_ENTITY_WIDTH;
+            gEntityDims.entityXHWM         = 0;
 
             if (pHScale) {
                 gEntityDims.interEntitySpacing = pHScale * DEFAULT_INTER_ENTITY_SPACING;
@@ -126,21 +147,14 @@ define(function(require){
             gEntity2X = {};
         },
         getX: getX,
-        setX: function (pEntity, pX){
-            gEntity2X[pEntity.name] = pX + (gEntityDims.width / 2);
-        },
         getOAndD: function (pFrom, pTo){
             return {
                 from: getX(pFrom) < getX(pTo) ? getX(pFrom) : getX(pTo),
                 to: getX(pTo) > getX(pFrom) ? getX(pTo) : getX(pFrom)
             };
         },
-        setHeight: function (pHeight){
-            gEntityDims.height = pHeight;
-        },
         getDims: getDims,
-        renderEntity: renderEntity,
-        getMaxEntityHeight: getMaxEntityHeight
+        renderEntities: renderEntities
     };
 });
 /* eslint security/detect-object-injection: 0*/

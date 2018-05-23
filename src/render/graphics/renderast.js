@@ -58,7 +58,7 @@ define(function(require) {
     });
     var gInlineExpressionMemory = [];
 
-    function _renderASTNew(pAST, pWindow, pParentElementId, pOptions) {
+    function renderAST(pAST, pWindow, pParentElementId, pOptions) {
         var lAST = Object.freeze(flatten.flatten(pAST));
         var lOptions = pOptions || {};
 
@@ -300,30 +300,19 @@ define(function(require) {
      * the gChart.layer.sequence layer
      *
      * @param <object> - pEntities - the entities to render
+     * @param <int> - pEntityYPos - the Y position to render the entities on
+     * @param <object> - pOptions
      *
-     * TODO: move to entities. Challenge: getting the lEntityXPos
-     *       there in clean way.
      */
     function renderEntities(pEntities, pEntityYPos, pOptions) {
-        var lEntityXPos = 0;
-
         if (pEntities) {
-            var lEntityGroup = svgelementfactory.createGroup();
-            entities.setHeight(entities.getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2);
-
-            pEntities.forEach(function(pEntity){
-                lEntityGroup.appendChild(entities.renderEntity(pEntity, lEntityXPos, pEntityYPos, pOptions));
-                entities.setX(pEntity, lEntityXPos);
-                lEntityXPos += entities.getDims().interEntitySpacing;
-            });
             gChart.layer.sequence.appendChild(
-                lEntityGroup
+                entities.renderEntities(pEntities, pEntityYPos, pOptions)
             );
         }
         gChart.arcEndX =
-            lEntityXPos -
+            entities.getDims().entityXHWM -
             entities.getDims().interEntitySpacing + entities.getDims().width;
-
     }
 
     /* ------------------------END entity shizzle-------------------------------- */
@@ -1065,7 +1054,7 @@ define(function(require) {
          * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
          *   on the bottom of the chart
          */
-        renderASTNew : _renderASTNew
+        renderASTNew : renderAST
     };
 });
 /*
