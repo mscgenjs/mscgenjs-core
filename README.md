@@ -63,7 +63,7 @@ var mscgenjs = require('mscgenjs/dist/webpack-issue-5316-workaround');
 ```javascript
 // requirejs - assuming the module is in your root and you're loading from
 //             node_modules.
-define(['./node_modules/mscgenjs/index'], function(mscgenjs){
+define(['./node_modules/mscgenjs/src/index'], function(mscgenjs){
     // your code here
 });
 
