@@ -9,11 +9,11 @@ function ast2svg(pASTString, lWindow, pOptions, pRenderOptions) {
 
     renderer.clean("__svg", lWindow);
     if (Boolean(pOptions.useNew)){
-        renderer.renderASTNew(lAST, lWindow, "__svg", pRenderOptions);
+        renderer.render(lAST, lWindow, "__svg", pRenderOptions);
     } else if (Boolean(pOptions.includeSource)){
-        renderer.renderASTNew(lAST, lWindow, "__svg", {source: pASTString});
+        renderer.render(lAST, lWindow, "__svg", {source: pASTString});
     } else {
-        renderer.renderASTNew(lAST, lWindow, "__svg", {source: null});
+        renderer.render(lAST, lWindow, "__svg", {source: null});
     }
 
     if (Boolean(pOptions.useOwnElement)){

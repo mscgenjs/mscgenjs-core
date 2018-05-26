@@ -49,7 +49,7 @@ define(function(require){
                 runCallBack(
                     pCallBack,
                     null,
-                    pGetGraphicsRenderer().renderASTNew(
+                    pGetGraphicsRenderer().render(
                         getAST(pScript, lOptions.inputType, pGetParser),
                         lOptions.window,
                         lOptions.elementId,

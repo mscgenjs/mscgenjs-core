@@ -58,8 +58,13 @@ define(function(require) {
     });
     var gInlineExpressionMemory = [];
 
-    function renderAST(pAST, pWindow, pParentElementId, pOptions) {
+    function getParentElement(pWindow, pParentElementId) {
+        return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
+    }
+
+    function render(pAST, pWindow, pParentElementId, pOptions) {
         var lAST = Object.freeze(flatten.flatten(pAST));
+        var lParentElement = getParentElement(pWindow, pParentElementId);
         var lOptions = pOptions || {};
 
         lOptions = _.defaults(lOptions, {
@@ -69,20 +74,17 @@ define(function(require) {
             regularArcTextVerticalAlignment: "middle"
         });
 
+        idmanager.setPrefix(pParentElementId);
         renderASTPre(
             lAST,
             pWindow,
-            pParentElementId,
+            lParentElement,
             lOptions
         );
         renderASTMain(lAST);
         renderASTPost(lAST);
-        var lElement = pWindow.document.getElementById(pParentElementId);
-        if (lElement) {
-            return svgutensils.webkitNamespaceBugWorkaround(lElement.innerHTML);
-        } else {
-            return svgutensils.webkitNamespaceBugWorkaround(pWindow.document.body.innerHTML);
-        }
+
+        return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
     }
 
     function normalizeVerticalAlignment(pVerticalAlignment) {
@@ -100,12 +102,10 @@ define(function(require) {
         return lRetval;
     }
 
-    function renderASTPre(pAST, pWindow, pParentElementId, pOptions){
-        idmanager.setPrefix(pParentElementId);
-
+    function renderASTPre(pAST, pWindow, pParentElement, pOptions){
         gChart.document = renderskeleton.bootstrap(
             pWindow,
-            pParentElementId,
+            pParentElement,
             idmanager.get(),
             markermanager.getMarkerDefs(idmanager.get(), pAST),
             pOptions
@@ -1054,7 +1054,7 @@ define(function(require) {
          * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
          *   on the bottom of the chart
          */
-        renderASTNew : renderAST
+        render : render
     };
 });
 /*
