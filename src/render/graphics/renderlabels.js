@@ -187,7 +187,7 @@ define(function(require) {
             ("box" !== aggregatekind.getAggregate(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
             typeof pKind === 'undefined'
         ){
-            return wrap.wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
+            return wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
         } else {
             return pLabel.split('\\n');
         }

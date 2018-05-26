@@ -3,7 +3,7 @@ const wrap   = require("../../../src/render/textutensils/wrap");
 describe('render/textutensils/wrap', () => {
     describe('#wrap(x, 10) - string with spaces', () => {
         const lWrapThis = "Aap noot mies wim zus jet teun vuur gijs lam kees bok weide does hok duif schapen.";
-        const lWrapAry = wrap.wrap(lWrapThis, 10);
+        const lWrapAry = wrap(lWrapThis, 10);
 
         test('should break up in 8 pieces', () => {
             expect(lWrapAry.length).toBe(8);
@@ -18,7 +18,7 @@ describe('render/textutensils/wrap', () => {
 
     describe('#wrap(x, 10) - string without spaces', () => {
         const lWrapSpaceless = "Aap_noot_mies_wim_zus_jet_teun_vuur_gijs_lam_kees_bok_weide_does_hok_duif_schapen.";
-        const lWrapSpacelessAry = wrap.wrap(lWrapSpaceless, 10);
+        const lWrapSpacelessAry = wrap(lWrapSpaceless, 10);
 
         test('should break up in 9 pieces', () => {
             expect(lWrapSpacelessAry.length).toBe(9);
@@ -34,7 +34,7 @@ describe('render/textutensils/wrap', () => {
 
     describe('#wrap(x, 10) - empty string', () => {
         const lEmptyString = "";
-        const lEmptyStringAry = wrap.wrap(lEmptyString, 10);
+        const lEmptyStringAry = wrap(lEmptyString, 10);
 
         test('should break up in 1 piece', () => {
             expect(lEmptyStringAry.length).toBe(1);
@@ -46,7 +46,7 @@ describe('render/textutensils/wrap', () => {
 
     describe('#wrap(x, 100) - string with spaces', () => {
         const lWrapThis = "Aap noot mies wim zus jet teun vuur gijs lam kees bok weide does hok duif schapen.";
-        const lWrapAry = wrap.wrap(lWrapThis, 100);
+        const lWrapAry = wrap(lWrapThis, 100);
 
         test('should break up in 1 piece', () => {
             expect(lWrapAry.length).toBe(1);
