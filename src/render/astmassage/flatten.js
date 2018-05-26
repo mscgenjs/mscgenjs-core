@@ -249,7 +249,7 @@ define(
          */
             flatten : function(pAST) {
                 pAST.options = normalizeoptions(pAST.options);
-                return asttransform.transform(
+                return asttransform(
                     _unwind(pAST),
                     [nameAsLabel, unescapeLabels],
                     [_swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]
@@ -263,7 +263,7 @@ define(
          */
             dotFlatten : function(pAST) {
                 return _explodeBroadcasts(
-                    asttransform.transform(
+                    asttransform(
                         pAST,
                         [nameAsLabel],
                         [_swapRTLArc, overrideColors]
