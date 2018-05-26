@@ -63,43 +63,20 @@ define(function(require) {
     }
 
     function render(pAST, pWindow, pParentElementId, pOptions) {
-        var lAST = Object.freeze(flatten.flatten(pAST));
+        var lFlattenedAST = Object.freeze(flatten.flatten(pAST));
         var lParentElement = getParentElement(pWindow, pParentElementId);
-        var lOptions = pOptions || {};
-
-        lOptions = _.defaults(lOptions, {
-            source                 : null,
-            styleAdditions         : null,
-            mirrorEntitiesOnBottom : false,
-            regularArcTextVerticalAlignment: "middle"
-        });
 
         idmanager.setPrefix(pParentElementId);
         renderASTPre(
-            lAST,
+            lFlattenedAST,
             pWindow,
             lParentElement,
-            lOptions
+            pOptions || {}
         );
-        renderASTMain(lAST);
-        renderASTPost(lAST);
+        renderASTMain(lFlattenedAST);
+        renderASTPost(lFlattenedAST);
 
         return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
-    }
-
-    function normalizeVerticalAlignment(pVerticalAlignment) {
-        var lRetval = "middle";
-        var VALID_ALIGNMENT_VALUES = ["above", "middle", "below"];
-
-        if (VALID_ALIGNMENT_VALUES.some(
-            function(pValue){
-                return pValue === pVerticalAlignment;
-            }
-        )){
-            lRetval = pVerticalAlignment;
-        }
-
-        return lRetval;
     }
 
     function renderASTPre(pAST, pWindow, pParentElement, pOptions){
@@ -110,8 +87,8 @@ define(function(require) {
             markermanager.getMarkerDefs(idmanager.get(), pAST),
             pOptions
         );
-        gChart.mirrorEntitiesOnBottom = Boolean(pOptions.mirrorEntitiesOnBottom);
-        gChart.regularArcTextVerticalAlignment = normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment);
+        gChart.mirrorEntitiesOnBottom = pOptions.mirrorEntitiesOnBottom;
+        gChart.regularArcTextVerticalAlignment = pOptions.regularArcTextVerticalAlignment;
         svgutensils.init(gChart.document);
 
         gChart.layer = createLayerShortcuts(gChart.document);

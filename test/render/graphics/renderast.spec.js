@@ -4,7 +4,6 @@ const renderer = require("../../../src/render/graphics/renderast");
 const tst      = require("../../testutensils");
 
 function ast2svg(pASTString, lWindow, pOptions, pRenderOptions) {
-    // make a deep copy first, as renderAST actively modifies its input
     const lAST = JSON.parse(pASTString);
 
     renderer.clean("__svg", lWindow);
