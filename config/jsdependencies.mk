@@ -8,7 +8,14 @@ src/index.js: \
 
 src/main/index.js: \
 	src/lib/lodash/lodash.custom.js \
+	src/main/allowedvalues.js \
+	src/main/normalizeoptions.js
+
+src/main/allowedvalues.js: \
 	src/render/graphics/csstemplates.js
+
+src/main/normalizeoptions.js: \
+	src/main/allowedvalues.js
 
 src/main/static-resolver.js: \
 	src/parse/mscgenparser.js \
@@ -88,7 +95,7 @@ src/render/graphics/svgelementfactory/straight.js: \
 src/render/graphics/svgelementfactory/svgprimitives.js: \
 	src/lib/lodash/lodash.custom.js \
 	src/render/graphics/svgelementfactory/domprimitives.js \
-	src/render/graphics/svgelementfactory/geometry.js \
+	src/render/graphics/svgelementfactory/getdiagonalangle.js \
 	src/render/graphics/svgelementfactory/round.js
 
 src/render/graphics/svgelementfactory/wobbly.js: \
@@ -153,7 +160,14 @@ src/index-lazy.js: \
 
 src/main/index.js: \
 	src/lib/lodash/lodash.custom.js \
+	src/main/allowedvalues.js \
+	src/main/normalizeoptions.js
+
+src/main/allowedvalues.js: \
 	src/render/graphics/csstemplates.js
+
+src/main/normalizeoptions.js: \
+	src/main/allowedvalues.js
 
 src/main/lazy-resolver.js: \
 	src/lib/lodash/lodash.custom.js \
@@ -214,7 +228,7 @@ src/render/graphics/svgelementfactory/straight.js: \
 src/render/graphics/svgelementfactory/svgprimitives.js: \
 	src/lib/lodash/lodash.custom.js \
 	src/render/graphics/svgelementfactory/domprimitives.js \
-	src/render/graphics/svgelementfactory/geometry.js \
+	src/render/graphics/svgelementfactory/getdiagonalangle.js \
 	src/render/graphics/svgelementfactory/round.js
 
 src/render/graphics/svgelementfactory/wobbly.js: \
