@@ -168,7 +168,7 @@ define(function(require) {
 
     function renderSingleArc(pArc, pCounter, pIndent) {
         var lRetVal = "";
-        var lAggregatedKind = aggregatekind.getAggregate(pArc.kind);
+        var lAggregatedKind = aggregatekind(pArc.kind);
 
         if (lAggregatedKind === "box") {
             lRetVal += renderBoxArc(pArc, pCounter, pIndent);

@@ -182,9 +182,9 @@ define(function(require) {
     }
 
     function _splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
-        if (("box" === aggregatekind.getAggregate(pKind) && pOptions.wordwrapboxes) ||
+        if (("box" === aggregatekind(pKind) && pOptions.wordwrapboxes) ||
             ("entity" === pKind && pOptions.wordwrapentities) ||
-            ("box" !== aggregatekind.getAggregate(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
+            ("box" !== aggregatekind(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
             typeof pKind === 'undefined'
         ){
             return wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));

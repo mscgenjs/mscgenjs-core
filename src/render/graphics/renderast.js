@@ -393,7 +393,7 @@ define(function(require) {
         pArcRow.forEach(function(pArc){
             var lElement = {};
 
-            switch (aggregatekind.getAggregate(pArc.kind)) {
+            switch (aggregatekind(pArc.kind)) {
             case ("emptyarc"):
                 lElement = renderEmptyArc(pArc, 0);
                 break;
@@ -425,7 +425,7 @@ define(function(require) {
         pArcRow.forEach(function(pArc){
             var lElement = {};
 
-            switch (aggregatekind.getAggregate(pArc.kind)) {
+            switch (aggregatekind(pArc.kind)) {
             case ("emptyarc"):
                 lElement = renderEmptyArc(pArc, rowmemory.get(pRowNumber).y);
                 if ("..." === pArc.kind) {

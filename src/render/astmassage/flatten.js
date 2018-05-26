@@ -91,7 +91,7 @@ define(
 
             pArcRow.forEach(
                 function(pArc){
-                    if ("inline_expression" === aggregatekind.getAggregate(pArc.kind)) {
+                    if ("inline_expression" === aggregatekind(pArc.kind)) {
                         pArc.depth = pDepth;
                         pArc.isVirtual = true;
                         if (Boolean(pArc.arcs)) {
@@ -128,7 +128,7 @@ define(
                             isVirtual : true
                         }]);
                     } else {
-                        if ((pFrom && pTo) && ("emptyarc" === aggregatekind.getAggregate(pArc.kind))) {
+                        if ((pFrom && pTo) && ("emptyarc" === aggregatekind(pArc.kind))) {
                             pArc.from = pFrom;
                             pArc.to = pTo;
                             pArc.depth = pDepth;

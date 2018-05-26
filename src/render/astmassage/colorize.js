@@ -203,7 +203,7 @@ define(function(require) {
         if (lArcCombi) {
             return lArcCombi;
         } else {
-            return pColorScheme.aggregateArcColors[aggregatekind.getAggregate(pKind)];
+            return pColorScheme.aggregateArcColors[aggregatekind(pKind)];
         }
     }
     function colorizeArc (pColorScheme){
