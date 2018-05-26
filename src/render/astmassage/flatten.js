@@ -42,8 +42,8 @@ define(
         }
 
         function _swapRTLArc(pArc) {
-            if (pArc.kind && (normalizekind.getNormalizedKind(pArc.kind) !== pArc.kind)) {
-                pArc.kind = normalizekind.getNormalizedKind(pArc.kind);
+            if (pArc.kind && (normalizekind(pArc.kind) !== pArc.kind)) {
+                pArc.kind = normalizekind(pArc.kind);
 
                 var lTmp = pArc.from;
                 pArc.from = pArc.to;
