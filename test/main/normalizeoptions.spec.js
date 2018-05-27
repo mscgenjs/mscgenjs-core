@@ -11,7 +11,7 @@ describe('normalizeOptions', () => {
             includeSource          : true,
             source                 : undefined,
             styleAdditions         : null,
-            additionalTemplate     : null,
+            additionalTemplate     : "basic",
             mirrorEntitiesOnBottom : false,
             regularArcTextVerticalAlignment: "middle"
         });
@@ -27,7 +27,7 @@ describe('normalizeOptions', () => {
             includeSource          : true,
             source                 : undefined,
             styleAdditions         : null,
-            additionalTemplate     : null,
+            additionalTemplate     : "basic",
             mirrorEntitiesOnBottom : false,
             regularArcTextVerticalAlignment: "middle"
         });
@@ -43,7 +43,7 @@ describe('normalizeOptions', () => {
             includeSource          : false,
             source                 : null,
             styleAdditions         : null,
-            additionalTemplate     : null,
+            additionalTemplate     : "basic",
             mirrorEntitiesOnBottom : false,
             regularArcTextVerticalAlignment: "middle"
         });
