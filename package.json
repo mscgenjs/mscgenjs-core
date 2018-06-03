@@ -53,7 +53,8 @@
     "collectCoverage": true,
     "coverageReporters": [
       "text-summary",
-      "html"
+      "html",
+      "lcov"
     ],
     "collectCoverageFrom": [
       "src/index.js",

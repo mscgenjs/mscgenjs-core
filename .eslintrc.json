@@ -298,5 +298,57 @@
         "amd":true,
         "node": true,
         "browser": true
-    }
+    },
+    "overrides": [
+        {
+            "files": ["test/**/*.js"],
+            "parserOptions": {
+                "ecmaVersion": 6,
+                "sourceType": "module",
+                "ecmaFeatures": {
+                    "jsx": false
+                }
+            },
+            "rules":{
+                "no-unused-expressions": "off",
+                "max-nested-callbacks": ["error", 5],
+                "handle-callback-err": "off",
+                "max-len": "off",
+        
+                // ECMAScript 6
+                "arrow-body-style": "error",
+                "arrow-parens": "error",
+                "arrow-spacing": "error",
+                "constructor-super": "error",
+                "generator-star-spacing": "error",
+                "no-class-assign": "error",
+                "no-confusing-arrow": "error",
+                "no-const-assign": "error",
+                "no-dupe-class-members": "error",
+                "no-duplicate-imports": "error",
+                "no-new-symbol": "error",
+                "no-restricted-imports": "error",
+                "no-this-before-super": "error",
+                "no-useless-computed-key": "error",
+                "no-useless-constructor": "error",
+                "no-var": "error",
+                "object-shorthand": "error",
+                "prefer-arrow-callback": "error",
+                "prefer-const": "error",
+                "prefer-reflect": "error",
+                "prefer-rest-params": "error",
+                "prefer-spread": "error",
+                "prefer-template": "error",
+                "require-yield": "error",
+                "sort-imports": "error",
+                "template-curly-spacing": "error",
+                "yield-star-spacing": "error",
+        
+                "security/detect-non-literal-fs-filename": "off" // we're reading & writing all kinds of files while testing ...
+            },
+            "env": {
+                "jest": true
+            }
+        }
+    ]
 }

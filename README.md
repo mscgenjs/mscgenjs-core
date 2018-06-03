@@ -211,8 +211,7 @@ license:
 
 It uses [eslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
 modicum of verifiable code quality. You can see the build history in
-[Travis][travis.mscgenjs] and an indication of the shape of the code at
-[Bit Hound][bithound.mscgenjs].
+[Travis][travis.mscgenjs].
 
 ## Thanks
 - [Mike McTernan][mscgen.author] for creating the wonderful
@@ -227,7 +226,6 @@ modicum of verifiable code quality. You can see the build history in
 
 ## Build status
 [![Build Status][travis.mscgenjs.badge]][travis.mscgenjs]
-[![bitHound Overall Score][bithound.mscgenjs.badge]][bithound.mscgenjs]
 [![coverage report](https://gitlab.com/sverweij/mscgenjs-core/badges/master/coverage.svg)](https://gitlab.com/sverweij/mscgenjs-core/commits/master)
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
 [![devDependencies Status](https://david-dm.org/mscgenjs/mscgenjs-core/dev-status.svg)](https://david-dm.org/mscgenjs/mscgenjs-core?type=dev)
@@ -237,8 +235,6 @@ modicum of verifiable code quality. You can see the build history in
 
 [amdefine.license]: doc/licenses/license.amdefine.md
 [atom]: https://atom.io
-[bithound.mscgenjs]: https://www.bithound.io/github/mscgenjs/mscgenjs-core
-[bithound.mscgenjs.badge]: https://www.bithound.io/github/mscgenjs/mscgenjs-core/badges/score.svg
 [david.mscgenjs]: https://david-dm.org/mscgenjs/mscgenjs-core
 [david.mscgenjs.badge]: https://david-dm.org/mscgenjs/mscgenjs-core.svg
 [jsdom]: https://github.com/tmpvar/jsdom

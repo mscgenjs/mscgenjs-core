@@ -20,7 +20,6 @@ src/favicon.ico
 tmp_*.md
 tracking.*
 
-.bithoundrc
 .codeclimate.yml
 .dependency-cruiser.json
 .eslintignore

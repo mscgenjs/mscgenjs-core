@@ -78,7 +78,6 @@ src/render/graphics/csstemplates.js: src/render/graphics/styling \
 	cp $< $@
 	echo "" >> $@
 	echo "# to ignore specifically for npm publishing: >> $@"
-	echo ".bithoundrc" >> $@
 	echo ".codeclimate.yml" >> $@
 	echo ".dependency-cruiser.json" >> $@
 	echo ".eslintignore" >> $@
