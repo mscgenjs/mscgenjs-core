@@ -11,7 +11,7 @@ function rad2deg(pDegrees) {
  */
 export default (pBBox) => {
     return (0 - rad2deg(Math.atan(pBBox.height / pBBox.width)));
-}
+};
 
 /*
  This file is part of mscgen_js.

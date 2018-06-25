@@ -16,7 +16,7 @@ export default (pNumber, pPrecision) => {
     return pPrecision
     ? Math.round(pNumber * Math.pow(10, pPrecision)) / Math.pow(10, pPrecision)
     : Math.round(pNumber);
-}
+};
 /*
  This file is part of mscgen_js.
 
