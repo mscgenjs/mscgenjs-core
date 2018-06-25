@@ -6,7 +6,8 @@ checks:
 plugins:
   tslint:
     enabled: true
-    config: tslint.json
+    config: 
+      config: tslint.json
 exclude_patterns:
   - ".github/"
   - "config/"
@@ -18,5 +19,6 @@ exclude_patterns:
   - "**/node_modules/"
   - "**/*.d.ts"
   - "src/parse/*parser.js"
-  - "src/render/**/*.template.js"
+  - "src/render/graphics/styling"
+  - "src/render/graphics/csstemplates.ts"
   - "webpack.config.js"

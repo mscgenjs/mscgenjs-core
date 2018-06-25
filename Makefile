@@ -77,6 +77,8 @@ src/render/graphics/csstemplates.ts: src/render/graphics/styling \
 	echo "CODE_OF_CONDUCT.md" >> $@
 	echo "Makefile" >> $@
 	echo "tslint.json" >> $@
+	echo "tsconfig.json" >> $@
+	echo "src/tsconfig.json" >> $@
 	echo ".github" >> $@
 	echo "config" >> $@
 	echo "doc" >> $@

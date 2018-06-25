@@ -9,6 +9,10 @@
     },
     "rulesDirectory": [],
     "linterOptions": {
-        "exclude": ["dist/**", "*.json", "src/render/graphics/csstemplates.ts"]
+        "exclude": [
+            "dist/**",
+            "*.json",
+            "src/render/graphics/csstemplates.ts"
+        ]
     }
 }

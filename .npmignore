@@ -30,6 +30,8 @@ tracking.*
 CODE_OF_CONDUCT.md
 Makefile
 tslint.json
+tsconfig.json
+src/tsconfig.json
 .github
 config
 doc
