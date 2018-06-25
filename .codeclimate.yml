@@ -6,8 +6,7 @@ checks:
 plugins:
   tslint:
     enabled: true
-    config: 
-      config: tslint.json
+    config: tslint.json
 exclude_patterns:
   - ".github/"
   - "config/"
