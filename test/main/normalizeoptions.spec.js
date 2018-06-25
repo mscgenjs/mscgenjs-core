@@ -1,21 +1,6 @@
-const normalizeOptions = require('../../src/main/normalizeoptions');
+const normalizeOptions = require('../../dist/main/normalizeoptions').default;
 
 describe('normalizeOptions', () => {
-    test('Boundary - no parameters', () => {
-        expect(
-            normalizeOptions()
-        ).toEqual({
-            inputType              : "mscgen",
-            elementId              : "__svg",
-            window                 : window,
-            includeSource          : true,
-            source                 : undefined,
-            styleAdditions         : null,
-            additionalTemplate     : "basic",
-            mirrorEntitiesOnBottom : false,
-            regularArcTextVerticalAlignment: "middle"
-        });
-    });
 
     test('Boundary - empty object as first parameter', () => {
         expect(

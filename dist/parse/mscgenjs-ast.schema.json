@@ -1,0 +1,313 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "mscgenjs abstract syntax tree schema",
+    "$ref": "#/definitions/SequenceChartType",
+    "definitions": {
+        "SequenceChartType": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["meta", "entities"],
+            "properties": {
+                "precomment": { "$ref": "#/definitions/PreCommentType" },
+                "meta": { "$ref": "#/definitions/MetaType" },
+                "options": { "$ref": "#/definitions/OptionsType" },
+                "entities": {
+                    "type":"array",
+                    "items":{"$ref": "#/definitions/EntityType" }
+                },
+                "arcs": {
+                    "type":"array",
+                    "items": {
+                        "type":"array",
+                        "items": {
+                            "$ref": "#/definitions/ArcType"
+                        }
+                    }
+                }
+            }
+        },
+        "PreCommentType": {
+            "description": "Comment preceding the sequence chart - potentially multi-line",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "MetaType": {
+            "description": "Meta information about the chart",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["extendedOptions", "extendedArcTypes", "extendedFeatures"],
+            "properties": {
+                "extendedOptions": {
+                    "description": "True if the chart uses non-mscgen ('extended') options",
+                    "type": "boolean",
+                    "default": false
+                },
+                "extendedArcTypes": {
+                    "description": "True if the chart uses non-mscgen arc types (e.g. composites, like 'loop' or 'alt')",
+                    "type": "boolean",
+                    "default": false
+                },
+                "extendedFeatures": {
+                    "description": "True any of the above is true",
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        },
+        "OptionsType": {
+            "description": "Options that influence graphical rendition of the chart",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "hscale": {
+                    "description": "Horizontally scales the chart a bit. Numbers bigger than 1 enlarge it; smaller than 1 shrink it.",
+                    "type": "string"
+                },
+                "arcgradient": {
+                    "description": "With arcgradient all arcs get skewed a little",
+                    "type": "string"
+                },
+                "width": {
+                    "description": "Scales the whole chart so it fits in exactly the amount of pixels width. The special value \"auto\" auto-scales to 100% width in environments where this makes sense",
+                    "type": "string"
+                },
+                "wordwraparcs": {
+                    "description": "If true, text on arcs gets automatically wrapped",
+                    "$ref": "#/definitions/BooleanesqueType",
+                    "default": "false"
+                },
+                "wordwrapentities": {
+                    "description": "If true, text in entities gets automatically wrapped",
+                    "$ref": "#/definitions/BooleanesqueType",
+                    "default": "true"
+                },
+                "wordwrapboxes": {
+                    "description": "If true, text in boxes gets automatically wrapped",
+                    "$ref": "#/definitions/BooleanesqueType",
+                    "default": "true"
+                },
+                "watermark": {
+                    "description": "Puts a watermark accross the chart",
+                    "type": "string"
+                }
+            }
+        },
+        "EntityType": {
+            "description": "One of the entities between messages get passed",
+            "type":"object",
+            "additionalProperties": false,
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The (unique) name of the entity",
+                    "type": "string"
+                },
+                "label": {
+                    "description": "Label to show for the entity",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "idurl": {
+                    "description": "",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "",
+                    "type": "string"
+                },
+                "linecolor": {
+                    "description": "The color of the life line of the entity",
+                    "type": "string",
+                    "examples": [
+                        "red",
+                        "green",
+                        "transparent",
+                        "#fff",
+                        "#FFFFFF",
+                        "rgba(128, 128,1 128, 0.3)"
+                    ]
+                },
+                "textcolor": {
+                    "description": "The color of the text",
+                    "type": "string"
+                },
+                "textbgcolor": {
+                    "description": "Background color of the entity",
+                    "type": "string"
+                },
+                "arclinecolor": {
+                    "description": "Line color for arcs departing from the lifeline of this entity",
+                    "type": "string"
+                },
+                "arctextcolor": {
+                    "description": "Text color for arcs departing from the lifeline of this entity",
+                    "type": "string"
+                },
+                "arctextbgcolor": {
+                    "description": "Text background color for arcs departing from the lifeline of this entity",
+                    "type": "string"
+                },
+                "arcskip": {
+                    "description": "(strictly possible as an attribute, but meaningless for entities)",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Text to show on hover (only functional on arcs a.t.m.)",
+                    "type": "string"
+                }
+            }
+        },
+        "ArcKindType": {
+            "type":"string",
+            "description": "All possible kinds of arcs",
+            "enum": [
+                "|||", "...", "---",
+                "--", "<->",
+                "==", "<=>", "<<=>>",
+                "..", "<<>>",
+                "::", "<:>",
+                "->", "<-",
+                "=>>", "<<=",
+                "=>", "<=",
+                ">>", "<<",
+                ":>", "<:",
+                "-x", "x-",
+                "box", "note", "abox", "rbox",
+                "alt", "else", "opt", "break",
+                "par", "seq", "strict", "neg",
+                "critical", "ignore", "consider", "assert",
+                "loop", "ref", "exc"
+            ]
+        },
+        "ArcType": {
+            "type":"object",
+            "additionalProperties":false,
+            "required":["kind"],
+            "properties": {
+                "kind": {
+                    "description": "The kind of arc",
+                    "$ref": "#/definitions/ArcKindType",
+                    "examples": [
+                        "=>>",
+                        "->",
+                        "box",
+                        "note",
+                        "alt"
+                    ]
+                },
+                "from": {
+                    "description": "(name of the) entity this arc is from"
+                },
+                "to": {
+                    "description": "(name of the) entity this arc goes to"
+                },
+                "arcs": {
+                    "oneOf": [
+                        {
+                            "type":"array",
+                            "items": {
+                                "type":"array",
+                                "items": {
+                                    "$ref": "#/definitions/ArcType"
+                                }
+                            }
+                        },
+                        {
+                            "type":"null"
+                        }
+                    ]
+                },
+                "label": {
+                    "description": "Label to show for the entity",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "",
+                    "type": "string"
+                },
+                "idurl": {
+                    "description": "",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "",
+                    "type": "string"
+                },
+                "linecolor": {
+                    "description": "The color of the line of the entity",
+                    "type": "string",
+                    "examples": [
+                        "red",
+                        "green",
+                        "transparent",
+                        "#fff",
+                        "#FFFFFF",
+                        "rgba(128, 128,1 128, 0.3)"
+                    ]
+                },
+                "textcolor": {
+                    "description": "The color of the text",
+                    "type": "string"
+                },
+                "textbgcolor": {
+                    "description": "Background color of the text",
+                    "type": "string"
+                },
+                "arclinecolor": {
+                    "description": "(attribute is possible, but is meaningless for arcs)",
+                    "type": "string"
+                },
+                "arctextcolor": {
+                    "description": "(attribute is possible, but is meaningless for arcs)",
+                    "type": "string"
+                },
+                "arctextbgcolor": {
+                    "description": "(attribute is possible, but is meaningless for arcs)",
+                    "type": "string"
+                },
+                "arcskip": {
+                    "description": "The number of arcs to skip",
+                    "type": "string",
+                    "default": "0"
+                },
+                "title": {
+                    "description": "Text to show on hover (only functional on arcs a.t.m.)",
+                    "type": "string"
+                }
+            }
+        },
+        "BooleanesqueType": {
+            "description": "Lenient way to express booleans",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "enum": [
+                        "true",
+                        "false",
+                        "on",
+                        "off",
+                        "1",
+                        "0"
+                    ]
+                },
+                {
+                    "type":"boolean"
+                },
+                {
+                    "type":"number",
+                    "enum": [
+                        0,
+                        1
+                    ]
+                }
+            ]
+        }
+    }
+}

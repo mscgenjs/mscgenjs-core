@@ -1,6 +1,6 @@
-const colorize = require("../../../src/render/astmassage/colorize");
+const _cloneDeep = require('lodash.clonedeep');
+const colorize = require("../../../dist/render/astmassage/colorize").default;
 const fix      = require("../../astfixtures.json");
-const _        = require("../../../src/lib/lodash/lodash.custom");
 
 const textColoredEntity = {
     "meta": {
@@ -619,17 +619,17 @@ describe('render/text/colorize', () => {
     describe('#colorize', () => {
         test('should return the input on uncolor(colorize)', () => {
             expect(
-                colorize.uncolor(colorize.applyScheme(_.cloneDeep(fix.astAltWithinLoop)))
+                colorize.uncolor(colorize.applyScheme(_cloneDeep(fix.astAltWithinLoop)))
             ).toEqual(fix.astAltWithinLoop);
         });
         test('should, leave already textcolored entities alone', () => {
             expect(
-                colorize.applyScheme(_.cloneDeep(textColoredEntity))
+                colorize.applyScheme(_cloneDeep(textColoredEntity))
             ).toEqual(textColoredEntity);
         });
         test('should, leave already textcolored entities alone', () => {
             expect(
-                colorize.applyScheme(_.cloneDeep(textColoredEntity), 'auto')
+                colorize.applyScheme(_cloneDeep(textColoredEntity), 'auto')
             ).toEqual(textColoredEntity);
         });
         test('should, leave already arctextcolored entities alone', () => {
@@ -647,16 +647,16 @@ describe('render/text/colorize', () => {
         );
         test('should color box arcs departing from colored entities', () => {
             expect(
-                colorize.applyScheme(_.cloneDeep(boxes))
+                colorize.applyScheme(_cloneDeep(boxes))
             ).toEqual(coloredBoxes);
         });
         test('should not respect any colors when force is applied', () => {
             expect(
-                colorize.applyScheme(_.cloneDeep(boxes), 'auto', true)
+                colorize.applyScheme(_cloneDeep(boxes), 'auto', true)
             ).toEqual(coloredBoxesForced);
         });
         test('should not respect any colors when force is applied', () => {
-            const lRosedBoxes = colorize.applyScheme(_.cloneDeep(boxes), 'rosy');
+            const lRosedBoxes = colorize.applyScheme(_cloneDeep(boxes), 'rosy');
             expect(
                 colorize.applyScheme(lRosedBoxes, 'auto', true)
             ).toEqual(coloredBoxesForced);

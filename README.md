@@ -202,8 +202,6 @@ _not_ as part of non free software.
 ### Dependencies and their licenses
 We built mscgen_js on various libraries, each of which have their own
 license:
-- mscgen_js uses [requirejs][requirejs.license] and [amdefine][amdefine.license]
-  for modularization.
 - We generated its parsers with [pegjs][pegjs.license].
 - mscgen_js automated tests use [jest](https://facebook.github.io/jest),
   [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
@@ -233,7 +231,6 @@ modicum of verifiable code quality. You can see the build history in
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
-[amdefine.license]: doc/licenses/license.amdefine.md
 [atom]: https://atom.io
 [david.mscgenjs]: https://david-dm.org/mscgenjs/mscgenjs-core
 [david.mscgenjs.badge]: https://david-dm.org/mscgenjs/mscgenjs-core.svg

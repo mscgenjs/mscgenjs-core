@@ -1,5 +1,4 @@
-const normalizeoptions = require("../../../src/render/astmassage/normalizeoptions");
-
+const normalizeoptions = require("../../../dist/render/astmassage/normalizeoptions").default;
 
 describe('render/astmassage/normalizeoptions', () => {
     test(

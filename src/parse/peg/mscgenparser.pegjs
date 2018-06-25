@@ -35,12 +35,12 @@ program
     = pre:_ starttoken _  "{" _ declarations:declarationlist _ "}" _
     {
         declarations.entities = declarations.entities || [];
-        parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
+        parserHelpers.default.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-        declarations = _.assign ({meta: getMetaInfo()}, declarations);
+        declarations = _assign ({meta: getMetaInfo()}, declarations);
 
         if (pre.length > 0) {
-            declarations = _.assign({precomment: pre}, declarations);
+            declarations = _assign({precomment: pre}, declarations);
         }
         return declarations;
     }
@@ -71,17 +71,17 @@ optionlist
                (o:option ";" {return o}))
     {
         // make the option array into an options object
-        return options[0].concat(options[1]).reduce(_.assign, {})
+        return options[0].concat(options[1]).reduce(_assign, {})
     }
 
 option "option"
     = _ name:("hscale"i/ "width"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            return parserHelpers.nameValue2Option(name, value);
+            return parserHelpers.default.nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
+            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
         }
 
 entitylist
@@ -93,14 +93,14 @@ entitylist
 entity "entity"
     =  _ name:string _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-            return _.assign ({name:name}, attrList);
+            return _assign ({name:name}, attrList);
         }
     /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-          if (parserHelpers.isMscGenKeyword(name)){
+          if (parserHelpers.default.isMscGenKeyword(name)){
             error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
           }
-          return _.assign ({name:name}, attrList);
+          return _assign ({name:name}, attrList);
         }
 
 
@@ -119,7 +119,7 @@ arc
     / (a:commentarc {return a}))
     al:("[" al:attributelist "]" {return al})?
     {
-      return _.assign (a, al);
+      return _assign (a, al);
     }
 
 singlearc
@@ -185,7 +185,7 @@ attributelist
     = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
     {
         // transform the array of attributes into an object
-        return attributes[0].concat(attributes[1]).reduce(_.assign, {});
+        return attributes[0].concat(attributes[1]).reduce(_assign, {});
     }
 
 attribute

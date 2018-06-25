@@ -29,7 +29,7 @@ const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
 
-[require("../src"), require("../src/index-lazy")].forEach((mscgenjs) => {
+[require("../dist"), require("../dist/index-lazy")].forEach((mscgenjs) => {
     describe('index', () => {
         describe('#translateMsc()', () => {
             test('no params translates mscgen to json', () => {
@@ -94,10 +94,11 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     }
                 );
             });
+
             test('should given given an invalid MscGen program, throw an error', () => {
                 mscgenjs.renderMsc(
                     SIMPLE_XU,
-                    {window: lWindow},
+                    null,
                     (pError, pResult) => {
                         expect(pError).not.toBeNull();
                         expect(pError).toBeInstanceOf(Error);
@@ -105,6 +106,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     }
                 );
             });
+
             test('should given given a simple AST, render an svg', () => {
                 mscgenjs.renderMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),

@@ -1,6 +1,6 @@
 const fs       = require("fs");
 const path     = require("path");
-const renderer = require("../../../src/render/text/ast2mscgen");
+const renderer = require("../../../dist/render/text/ast2mscgen").default;
 const fix      = require("../../astfixtures.json");
 
 describe('render/text/ast2mscgen', () => {

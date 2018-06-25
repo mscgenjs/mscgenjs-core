@@ -54,7 +54,7 @@ const dirToAdditionsArray = pRootDirName =>
         );
 
 process.stdout.write(
-    fs.readFileSync('src/render/graphics/styling/csstemplates.template.js', 'utf-8')
+    fs.readFileSync('src/render/graphics/styling/csstemplates.tsTemplate', 'utf-8')
         .replace(
             /<%=additionalTemplates%>/g,
             `[${dirToAdditionsArray("src/render/graphics/styling/")}]`

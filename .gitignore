@@ -17,5 +17,6 @@ siteverification.id
 src/*favicon-*.png
 src/*tmp*.*
 src/favicon.ico
+doc/samples/*bundle*
 tmp_*.md
 tracking.*

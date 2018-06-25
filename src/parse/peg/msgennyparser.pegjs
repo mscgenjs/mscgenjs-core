@@ -24,7 +24,7 @@
 
 {
     function entityNeedsExtracting (pEntities, pName, pEntityNamesToIgnore) {
-        return !(parserHelpers.entityExists(pEntities, pName) || pEntityNamesToIgnore[pName] === true);
+        return !(parserHelpers.default.entityExists(pEntities, pName) || pEntityNamesToIgnore[pName] === true);
     }
 
     function initEntity(pName) {
@@ -47,7 +47,7 @@
                 // if the arc kind is arcspanning recurse into its arcs
                 if (pArc.arcs){
                     pEntityNamesToIgnore[pArc.to] = true;
-                    _.assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
+                    _assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
                     delete pEntityNamesToIgnore[pArc.to];
                 }
                 if (entityNeedsExtracting (pEntities, pArc.to, pEntityNamesToIgnore)) {
@@ -63,13 +63,13 @@ program
     =  pre:_ declarations:declarationlist _
     {
         declarations.entities = extractUndeclaredEntities(declarations.entities || [], declarations.arcs);
-        declarations = _.assign (
-            {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)},
+        declarations = _assign (
+            {meta: parserHelpers.default.getMetaInfo(declarations.options, declarations.arcs)},
             declarations
         );
 
         if (pre.length > 0) {
-            declarations = _.assign({precomment: pre}, declarations);
+            declarations = _assign({precomment: pre}, declarations);
         }
         return declarations;
     }
@@ -97,33 +97,33 @@ optionlist
                (o:option ";" {return o}))
     {
         // make the option array into an options object
-        return options[0].concat(options[1]).reduce(_.assign, {});
+        return options[0].concat(options[1]).reduce(_assign, {});
     }
 
 option
     = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            return parserHelpers.nameValue2Option(name, value);
+            return parserHelpers.default.nameValue2Option(name, value);
         }
     / _ name:"width"i _ "=" _ value:sizelike _
         {
-            return parserHelpers.nameValue2Option(name, value);
+            return parserHelpers.default.nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
+            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
         }
     / _ name:"wordwrapentities"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
+            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
         }
     / _ name:"wordwrapboxes"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
+            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
         }
     / _ name:"watermark"i _ "=" _ value:quotedstring _
         {
-            return parserHelpers.nameValue2Option(name, value);
+            return parserHelpers.default.nameValue2Option(name, value);
         }
 
 entitylist

@@ -1,6 +1,6 @@
 const path     = require('path');
 const JSDOM    = require("jsdom").JSDOM;
-const renderer = require("../../../src/render/graphics/renderast");
+const renderer = require("../../../dist/render/graphics/renderast").default;
 const tst      = require("../../testutensils");
 
 function ast2svg(pASTString, lWindow, pOptions, pRenderOptions) {

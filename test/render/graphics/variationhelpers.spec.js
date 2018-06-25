@@ -1,11 +1,11 @@
-const geo    = require("../../../src/render/graphics/svgelementfactory/variationhelpers");
+const variationhelpers = require("../../../dist/render/graphics/svgelementfactory/variationhelpers").default;
 
 describe('#geometry', () => {
 
     describe('#getDirection', () => {
         test("returns -1,1,1 for (10,0),(0,10)", () => {
             expect(
-                geo.getDirection(
+                variationhelpers.getDirection(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10}
                 )
             ).toEqual(
@@ -18,7 +18,7 @@ describe('#geometry', () => {
         });
         test("returns -1,1,-Infinity for (0,0),(0,10)", () => {
             expect(
-                geo.getDirection(
+                variationhelpers.getDirection(
                     {xFrom:0, yFrom:0, xTo:0, yTo:10}
                 )
             ).toEqual(
@@ -31,7 +31,7 @@ describe('#geometry', () => {
         });
         test("returns -1,1,0 for (0,0),(10,0)", () => {
             expect(
-                geo.getDirection(
+                variationhelpers.getDirection(
                     {xFrom:0, yFrom:0, xTo:10, yTo:0}
                 )
             ).toEqual(
@@ -47,28 +47,28 @@ describe('#geometry', () => {
     describe('#getLineLength', () => {
         test("returns 10 for (10,0), (10,10)", () => {
             expect(
-                geo.getLineLength(
+                variationhelpers.getLineLength(
                     {xFrom:10, yFrom:0, xTo:10, yTo:10}
                 )
             ).toBe(10);
         });
         test("returns 10 for (0,10), (10,10)", () => {
             expect(
-                geo.getLineLength(
+                variationhelpers.getLineLength(
                     {xFrom:0, yFrom:10, xTo:10, yTo:10}
                 )
             ).toBe(10);
         });
         test("returns ~14.1 for (10,0), (0,10)", () => {
             expect(
-                geo.getLineLength(
+                variationhelpers.getLineLength(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10}
                 )
             ).toBe(14.142135623730951);
         });
         test("returns 0 for (10,0), (0,10)", () => {
             expect(
-                geo.getLineLength(
+                variationhelpers.getLineLength(
                     {xFrom:10, yFrom:-10, xTo:10, yTo:-10}
                 )
             ).toBe(0);
@@ -78,7 +78,7 @@ describe('#geometry', () => {
     describe('#getNumberOfSegments', () => {
         test("returns 1 to fit segments of 10 long into ((10,0), (0,10))", () => {
             expect(
-                geo.getNumberOfSegments(
+                variationhelpers.getNumberOfSegments(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10},
                     10
                 )
@@ -86,7 +86,7 @@ describe('#geometry', () => {
         });
         test("returns 14 to fit segments of 1 long into ((10,0), (0,10))", () => {
             expect(
-                geo.getNumberOfSegments(
+                variationhelpers.getNumberOfSegments(
                     {xFrom:10, yFrom:0, xTo:0, yTo:10},
                     1
                 )
@@ -94,7 +94,7 @@ describe('#geometry', () => {
         });
         test("returns 14 to fit segments of 1 long into ((10,10), (0,0))", () => {
             expect(
-                geo.getNumberOfSegments(
+                variationhelpers.getNumberOfSegments(
                     {xFrom:10, yFrom:10, xTo:0, yTo:0},
                     1
                 )
@@ -102,7 +102,7 @@ describe('#geometry', () => {
         });
         test("returns 0 to fit segments of 15 long into ((10,10), (0,0))", () => {
             expect(
-                geo.getNumberOfSegments(
+                variationhelpers.getNumberOfSegments(
                     {xFrom:10, yFrom:10, xTo:0, yTo:0},
                     15
                 )
@@ -110,7 +110,7 @@ describe('#geometry', () => {
         });
         test("returns 5 to fit segments of 2 long into ((10,-10), (10,0))", () => {
             expect(
-                geo.getNumberOfSegments(
+                variationhelpers.getNumberOfSegments(
                     {xFrom:10, yFrom:-10, xTo:10, yTo:0},
                     2
                 )
@@ -118,7 +118,7 @@ describe('#geometry', () => {
         });
         test("returns 0 to for a line of 0 length", () => {
             expect(
-                geo.getNumberOfSegments(
+                variationhelpers.getNumberOfSegments(
                     {xFrom:10, yFrom:-10, xTo:10, yTo:-10},
                     1
                 )
@@ -134,7 +134,7 @@ describe('#geometry', () => {
 
             beforeAll(() => {
                 lBetweenPoints =
-                    geo.getBetweenPoints(
+                    variationhelpers.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:0, yTo:10},
                         3,
                         0
@@ -189,7 +189,7 @@ describe('#geometry', () => {
 
             beforeAll(() => {
                 lBetweenPoints =
-                    geo.getBetweenPoints(
+                    variationhelpers.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:10, yTo:10},
                         3,
                         0
@@ -238,7 +238,7 @@ describe('#geometry', () => {
 
             beforeAll(() => {
                 lBetweenPoints =
-                    geo.getBetweenPoints(
+                    variationhelpers.getBetweenPoints(
                         {xFrom:10, yFrom:20, xTo:20, yTo:20},
                         3,
                         0
@@ -285,7 +285,7 @@ describe('#geometry', () => {
         describe("errors", () => {
             test("throws an error for intervals of length === 0", () => {
                 try {
-                    geo.getBetweenPoints(
+                    variationhelpers.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:0, yTo:10},
                         0,
                         0
@@ -298,7 +298,7 @@ describe('#geometry', () => {
 
             test("throws an error for intervals of length < 0", () => {
                 try {
-                    geo.getBetweenPoints(
+                    variationhelpers.getBetweenPoints(
                         {xFrom:10, yFrom:0, xTo:0, yTo:10},
                         -42,
                         0

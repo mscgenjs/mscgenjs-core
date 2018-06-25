@@ -121,12 +121,12 @@
     {
       "name": "no-orphans",
       "severity": "error",
-      "from": { "orphan": true, "pathNot": "\\.template\\.js" },
+      "from": { "orphan": true, "pathNot": "(\\.template\\.js|\\.d\\.ts)" },
       "to": {}
     }
   ],
   "options": {
-    "moduleSystems": ["cjs", "amd", "es6"],
+    "moduleSystems": ["cjs", "es6"],
     "doNotFollow": "node_modules"
   }
 }
