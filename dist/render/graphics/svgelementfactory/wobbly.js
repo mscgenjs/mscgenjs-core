@@ -20,9 +20,9 @@ function createSingleLine(pLine, pOptions) {
         //
         // Adding a little stubble at the start of the line solves
         // all that.
-        svgprimitives_1.default.pathPoint2String("L", variationhelpers_1.default.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + lDir.dy ** 2))), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
+        svgprimitives_1.default.pathPoint2String("L", variationhelpers_1.default.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
             ? 1
-            : variationhelpers_1.default.round(Math.sqrt((lDir.dy ** 2) / (1 + lDir.dy ** 2))))) +
+            : variationhelpers_1.default.round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2)))))) +
         points2CurveString(variationhelpers_1.default.getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR)), {
         class: pOptions ? pOptions.class : null,
     });

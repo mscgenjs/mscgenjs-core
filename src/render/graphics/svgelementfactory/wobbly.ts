@@ -29,10 +29,10 @@ function createSingleLine(pLine, pOptions) {
         // all that.
         svgprimitives.pathPoint2String(
             "L",
-            variationhelpers.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + lDir.dy ** 2))),
+            variationhelpers.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))),
             pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
                 ? 1
-                : variationhelpers.round(Math.sqrt((lDir.dy ** 2) / (1 + lDir.dy ** 2)))),
+                : variationhelpers.round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))))),
         ) +
         points2CurveString(
             variationhelpers.getBetweenPoints(

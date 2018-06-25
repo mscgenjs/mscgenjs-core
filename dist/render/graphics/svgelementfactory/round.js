@@ -14,9 +14,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  *                              Defaults to 0
  * @return number               The rounded number
  */
-exports.default = (pNumber, pPrecision) => pPrecision
-    ? Math.round(pNumber * (10 ** pPrecision)) / (10 ** pPrecision)
-    : Math.round(pNumber);
+exports.default = (pNumber, pPrecision) => {
+    return pPrecision
+        ? Math.round(pNumber * Math.pow(10, pPrecision)) / Math.pow(10, pPrecision)
+        : Math.round(pNumber);
+};
 /*
  This file is part of mscgen_js.
 

@@ -64,10 +64,10 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     const lRetval: any[] = [];
     const lNoSegments   = getNumberOfSegments(pLine, pInterval);
     const lDir          = getDirection(pLine);
-    const lIntervalX    = lDir.signX * Math.sqrt((pInterval ** 2) / (1 + lDir.dy ** 2));
-    const lIntervalY    = lDir.signY * (Math.abs(lDir.dy) === Infinity
+    const lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
+    const lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
         ? pInterval
-        : Math.sqrt((lDir.dy ** 2 * (pInterval ** 2)) / (1 + lDir.dy ** 2)));
+        : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
     let lCurveSection: any = {};
 
     for (let i = 1; i <= lNoSegments; i++) {

@@ -9,7 +9,9 @@ function rad2deg(pDegrees) {
  * @param {object} pBBox - the bounding box (only width and height used)
  * @returns {number} - the angle in degrees
  */
-export default (pBBox) => 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
+export default (pBBox) => {
+    return (0 - rad2deg(Math.atan(pBBox.height / pBBox.width)));
+}
 
 /*
  This file is part of mscgen_js.
