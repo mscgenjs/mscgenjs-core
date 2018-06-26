@@ -29,7 +29,7 @@ function colorLink(pElement, pUrl, pTextColor) {
     colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
 }
 function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
-    const lRect = index_1.default.createRect(svgutensils_1.default.getBBox(lLabelElement), "label-text-background");
+    const lRect = index_1.default.createRect(svgutensils_1.default.getBBox(lLabelElement), { class: "label-text-background" });
     if (pTextbgcolor) {
         lRect.setAttribute("style", `fill:${pTextbgcolor}; stroke:${pTextbgcolor};`);
     }

@@ -47,7 +47,11 @@ function renderEntity(pEntity, pX, pY, pOptions) {
         y: pY + (lBBox.height / 2),
         width: lBBox.width,
     }, pOptions);
-    lGroup.appendChild(index_1.default.createRect(sizeEntityBoxToLabel(lLabel, lBBox), "entity", pEntity.linecolor, pEntity.textbgcolor));
+    lGroup.appendChild(index_1.default.createRect(sizeEntityBoxToLabel(lLabel, lBBox), {
+        class: "entity",
+        color: pEntity.linecolor,
+        bgColor: pEntity.textbgcolor,
+    }));
     lGroup.appendChild(lLabel);
     return lGroup;
 }

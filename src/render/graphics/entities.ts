@@ -68,9 +68,12 @@ function renderEntity(pEntity, pX, pY, pOptions) {
     lGroup.appendChild(
         svgelementfactory.createRect(
             sizeEntityBoxToLabel(lLabel, lBBox),
-            "entity",
-            pEntity.linecolor,
-            pEntity.textbgcolor,
+            {
+                class: "entity",
+                color: pEntity.linecolor,
+                bgColor: pEntity.textbgcolor,
+            },
+
         ),
     );
     lGroup.appendChild(lLabel);

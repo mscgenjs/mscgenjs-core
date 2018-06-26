@@ -30,7 +30,7 @@ function colorLink(pElement, pUrl, pTextColor) {
 }
 
 function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
-    const lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), "label-text-background");
+    const lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), {class: "label-text-background"});
     if (pTextbgcolor) {
         lRect.setAttribute("style", `fill:${pTextbgcolor}; stroke:${pTextbgcolor};`);
     }

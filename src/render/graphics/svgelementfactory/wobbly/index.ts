@@ -59,14 +59,14 @@ function createNote(
     return lGroup;
 }
 
-function createRect(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathElement {
+function createRect(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     return svgprimitives.createPath(
         rect2CurveString(pBBox),
         pOptions,
     );
 }
 
-function createABox(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathElement {
+function createABox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(
         abox2CurveString(pBBox, lSlopeOffset),
@@ -74,7 +74,7 @@ function createABox(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathEle
     );
 }
 
-function createRBox(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathElement {
+function createRBox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     return svgprimitives.createPath(
         rbox2CurveString(pBBox),
         pOptions,

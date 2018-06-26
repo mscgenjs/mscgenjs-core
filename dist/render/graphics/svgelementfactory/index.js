@@ -70,36 +70,28 @@ exports.default = {
      * Unit: pixels
      *
      * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} pRX
-     * @param {number=} pRY
-     * @return {SVGElement}
+     * @param {string} pOptions - reference to the css class to be applied
+     * @return {SVGRectElement}
      */
-    createRect(pBBox, pClass, pColor, pBgColor) {
-        return gRenderMagic.createRect(pBBox, { class: pClass, color: pColor, bgColor: pBgColor });
-    },
+    createRect: gRenderMagic.createRect,
     /**
      * Creates rect with 6px rounded corners of width x height, with the top
      * left corner at coordinates (x, y)
      *
      * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
+     * @param {magic.IBoxOptions} pOptions
      * @return {SVGElement}
      */
-    createRBox(pBBox, pClass, pColor, pBgColor) {
-        return gRenderMagic.createRBox(pBBox, { class: pClass, color: pColor, bgColor: pBgColor });
-    },
+    createRBox: gRenderMagic.createRBox,
     /**
      * Creates an angled box of width x height, with the top left corner
      * at coordinates (x, y)
      *
      * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
+     * @param {magic.IBoxOptions} pOptions
      * @return {SVGElement}
      */
-    createABox(pBBox, pClass, pColor, pBgColor) {
-        return gRenderMagic.createABox(pBBox, { class: pClass, color: pColor, bgColor: pBgColor });
-    },
+    createABox: gRenderMagic.createABox,
     /**
      * Creates a note of pWidth x pHeight, with the top left corner
      * at coordinates (pX, pY). pFoldSize controls the size of the
@@ -110,7 +102,8 @@ exports.default = {
      *
      * @return {SVGElement}
      */
-    createNote(pBBox, pClass, pColor, pBgColor) {
+    createNote: gRenderMagic.createNote,
+    createNoteold(pBBox, pClass, pColor, pBgColor) {
         return gRenderMagic.createNote(pBBox, {
             class: pClass,
             color: pColor,

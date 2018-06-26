@@ -146,7 +146,7 @@ function calculateCanvasDimensions(pAST) {
     return lCanvas;
 }
 function renderBackground(pCanvas) {
-    gChart.document.getElementById(idmanager_1.default.get("_background")).appendChild(index_1.default.createRect(pCanvas, "bglayer"));
+    gChart.document.getElementById(idmanager_1.default.get("_background")).appendChild(index_1.default.createRect(pCanvas, { class: "bglayer" }));
 }
 function renderWatermark(pWatermark, pCanvas) {
     gChart.layer.watermark.appendChild(index_1.default.createDiagonalText(pWatermark, pCanvas, "watermark"));
@@ -685,7 +685,11 @@ function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
         height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants_1.default.LINE_WIDTH,
         x: lStart - lArcDepthCorrection,
         y: pY,
-    }, `box inline_expression ${pArc.kind}`, pArc.linecolor, pArc.textbgcolor);
+    }, {
+        class: `box inline_expression ${pArc.kind}`,
+        color: pArc.linecolor,
+        bgColor: pArc.textbgcolor,
+    });
 }
 /**
  * creates an element representing a box (box, abox, rbox, note)
@@ -715,16 +719,33 @@ function createBox(pOAndD, pArc, pY, pOptions) {
     const lBBox = { width: lWidth, height: lHeight, x: lStart, y: (pY - lHeight / 2) };
     switch (pArc.kind) {
         case ("rbox"):
-            lBox = index_1.default.createRBox(lBBox, "box rbox", pArc.linecolor, pArc.textbgcolor);
+            lBox = index_1.default.createRBox(lBBox, {
+                class: "box rbox",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+            });
             break;
         case ("abox"):
-            lBox = index_1.default.createABox(lBBox, "box abox", pArc.linecolor, pArc.textbgcolor);
+            lBox = index_1.default.createABox(lBBox, {
+                class: "box abox",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+            });
             break;
         case ("note"):
-            lBox = index_1.default.createNote(lBBox, "box note", pArc.linecolor, pArc.textbgcolor);
+            lBox = index_1.default.createNote(lBBox, {
+                class: "box note",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+                lineWidth: constants_1.default.LINE_WIDTH
+            });
             break;
         default: // "box"
-            lBox = index_1.default.createRect(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
+            lBox = index_1.default.createRect(lBBox, {
+                class: "box",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+            });
             break;
     }
     lGroup.appendChild(lBox);

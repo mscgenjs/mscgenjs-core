@@ -79,7 +79,7 @@ function createNote(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathEle
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createRBox(pBBox: geotypes.IBBox, pOptions: any): SVGRectElement {
+function createRBox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGRectElement {
     const RBOX_CORNER_RADIUS = 6; // px
     const lOptions = Object.assign({
         rx: RBOX_CORNER_RADIUS,
@@ -97,7 +97,7 @@ function createRBox(pBBox: geotypes.IBBox, pOptions: any): SVGRectElement {
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createABox(pBBox: geotypes.IBBox, pOptions): SVGPathElement {
+function createABox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(
         svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +

@@ -181,7 +181,7 @@ function calculateCanvasDimensions(pAST) {
 
 function renderBackground(pCanvas) {
     gChart.document.getElementById(idmanager.get("_background")).appendChild(
-        svgelementfactory.createRect(pCanvas, "bglayer"),
+        svgelementfactory.createRect(pCanvas, {class: "bglayer"}),
     );
 }
 
@@ -956,9 +956,12 @@ function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
             x: lStart - lArcDepthCorrection,
             y: pY,
         },
-        `box inline_expression ${pArc.kind}`,
-        pArc.linecolor,
-        pArc.textbgcolor,
+        {
+            class: `box inline_expression ${pArc.kind}`,
+            color: pArc.linecolor,
+            bgColor: pArc.textbgcolor,
+        },
+
     );
 }
 
@@ -997,16 +1000,46 @@ function createBox(pOAndD, pArc, pY, pOptions) {
 
     switch (pArc.kind) {
     case ("rbox"):
-        lBox = svgelementfactory.createRBox(lBBox, "box rbox", pArc.linecolor, pArc.textbgcolor);
+        lBox = svgelementfactory.createRBox(
+            lBBox,
+            {
+                class: "box rbox",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+            },
+        );
         break;
     case ("abox"):
-        lBox = svgelementfactory.createABox(lBBox, "box abox", pArc.linecolor, pArc.textbgcolor);
+        lBox = svgelementfactory.createABox(
+            lBBox,
+            {
+                class: "box abox",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+            },
+        );
         break;
     case ("note"):
-        lBox = svgelementfactory.createNote(lBBox, "box note", pArc.linecolor, pArc.textbgcolor);
+        lBox = svgelementfactory.createNote(
+            lBBox,
+            {
+                class: "box note",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+                lineWidth: constants.LINE_WIDTH
+            }
+            
+        );
         break;
     default:  // "box"
-        lBox = svgelementfactory.createRect(lBBox, "box", pArc.linecolor, pArc.textbgcolor);
+        lBox = svgelementfactory.createRect(
+            lBBox,
+            {
+                class: "box",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+            },
+        );
         break;
     }
 
