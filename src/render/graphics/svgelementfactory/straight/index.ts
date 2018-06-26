@@ -1,7 +1,7 @@
-import * as geotypes from "./geotypes";
-import * as magic from "./magic";
-import svgprimitives from "./svgprimitives";
-import variationhelpers from "./variationhelpers";
+import * as geotypes from "../geotypes";
+import * as magic from "../magic";
+import svgprimitives from "../svgprimitives";
+import variationhelpers from "../variationhelpers";
 
 function createDoubleLine(pLine: geotypes.ILine, pOptions: magic.IOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
@@ -44,28 +44,29 @@ function createDoubleLine(pLine: geotypes.ILine, pOptions: magic.IOptions) {
  *
  * @return {SVGElement}
  */
-function createNote(pBBox: geotypes.IBBox, pOptions: magic.IOptions) {
+function createNote(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathElement {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
 
     const lFoldSizeN = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
     const lFoldSize = lFoldSizeN.toString(10);
 
     return svgprimitives.createPath(
-        `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
-// top line:
-svgprimitives.pathPoint2String("l", pBBox.width - lFoldSizeN, 0) +
-// fold:
-// we lift the pen of the paper here to make sure the fold
-// gets the fill color as well when such is specified
-svgprimitives.pathPoint2String("l", 0, lFoldSize) +
-svgprimitives.pathPoint2String("l", lFoldSize, 0) +
-svgprimitives.pathPoint2String("m", -lFoldSize, -lFoldSize) +
-svgprimitives.pathPoint2String("l", lFoldSize, lFoldSize) +
-// down:
-svgprimitives.pathPoint2String("l", 0, pBBox.height - lFoldSizeN) +
-// bottom line:
-svgprimitives.pathPoint2String("l", -(pBBox.width), 0) +
-svgprimitives.pathPoint2String("l", 0, -(pBBox.height))}z`,
+        svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
+        // top line:
+        svgprimitives.pathPoint2String("l", pBBox.width - lFoldSizeN, 0) +
+        // fold:
+        // we lift the pen of the paper here to make sure the fold
+        // gets the fill color as well when such is specified
+        svgprimitives.pathPoint2String("l", 0, lFoldSize) +
+        svgprimitives.pathPoint2String("l", lFoldSize, 0) +
+        svgprimitives.pathPoint2String("m", -lFoldSize, -lFoldSize) +
+        svgprimitives.pathPoint2String("l", lFoldSize, lFoldSize) +
+        // down:
+        svgprimitives.pathPoint2String("l", 0, pBBox.height - lFoldSizeN) +
+        // bottom line:
+        svgprimitives.pathPoint2String("l", -(pBBox.width), 0) +
+        svgprimitives.pathPoint2String("l", 0, -(pBBox.height)) +
+        "z",
         pOptions,
     );
 }
@@ -78,7 +79,7 @@ svgprimitives.pathPoint2String("l", 0, -(pBBox.height))}z`,
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createRBox(pBBox: geotypes.IBBox, pOptions: any) {
+function createRBox(pBBox: geotypes.IBBox, pOptions: any): SVGRectElement {
     const RBOX_CORNER_RADIUS = 6; // px
     const lOptions = Object.assign({
         rx: RBOX_CORNER_RADIUS,
@@ -96,18 +97,19 @@ function createRBox(pBBox: geotypes.IBBox, pOptions: any) {
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createABox(pBBox: geotypes.IBBox, pOptions) {
+function createABox(pBBox: geotypes.IBBox, pOptions): SVGPathElement {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(
-        `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
-svgprimitives.pathPoint2String("l", lSlopeOffset, -(pBBox.height / 2)) +
-// top line
-svgprimitives.pathPoint2String("l", pBBox.width - 2 * lSlopeOffset, 0) +
-// right wedge
-svgprimitives.pathPoint2String("l", lSlopeOffset, pBBox.height / 2) +
-svgprimitives.pathPoint2String("l", -lSlopeOffset, pBBox.height / 2) +
-// bottom line:
-svgprimitives.pathPoint2String("l", -(pBBox.width - 2 * lSlopeOffset), 0)}z`,
+        svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
+        svgprimitives.pathPoint2String("l", lSlopeOffset, -(pBBox.height / 2)) +
+        // top line
+        svgprimitives.pathPoint2String("l", pBBox.width - 2 * lSlopeOffset, 0) +
+        // right wedge
+        svgprimitives.pathPoint2String("l", lSlopeOffset, pBBox.height / 2) +
+        svgprimitives.pathPoint2String("l", -lSlopeOffset, pBBox.height / 2) +
+        // bottom line:
+        svgprimitives.pathPoint2String("l", -(pBBox.width - 2 * lSlopeOffset), 0) +
+        "z",
         pOptions,
     );
 }
@@ -122,7 +124,7 @@ svgprimitives.pathPoint2String("l", -(pBBox.width - 2 * lSlopeOffset), 0)}z`,
  *
  * @return {SVGElement}
  */
-function createEdgeRemark(pBBox: geotypes.IBBox, pOptions) {
+function createEdgeRemark(pBBox: geotypes.IBBox, pOptions): SVGPathElement {
     const lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
     const lOptions = Object.assign(
         {
