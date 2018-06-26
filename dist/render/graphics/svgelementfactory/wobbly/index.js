@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const curvestringfactory_1 = require("./curvestringfactory");
+const round_1 = require("../round");
 const svgprimitives_1 = require("../svgprimitives");
 const variationhelpers_1 = require("../variationhelpers");
 function createSingleLine(pLine, pOptions = {}) {
@@ -15,9 +16,9 @@ function createSingleLine(pLine, pOptions = {}) {
         //
         // Adding a little stubble at the start of the line solves
         // all that.
-        svgprimitives_1.default.pathPoint2String("L", variationhelpers_1.default.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
+        svgprimitives_1.default.pathPoint2String("L", round_1.default(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
             ? 1
-            : variationhelpers_1.default.round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2)))))) +
+            : round_1.default(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
         curvestringfactory_1.line2CurveString(pLine), pOptions);
 }
 function createNote(pBBox, pOptions) {

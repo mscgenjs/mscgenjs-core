@@ -10,6 +10,7 @@ import {
 
 import * as geotypes from "../geotypes";
 import * as magic from "../magic";
+import round from "../round";
 import svgprimitives from "../svgprimitives";
 import variationhelpers from "../variationhelpers";
 
@@ -32,10 +33,12 @@ function createSingleLine(
         // all that.
         svgprimitives.pathPoint2String(
             "L",
-            variationhelpers.round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2)))),
-            pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
-            ? 1
-            : variationhelpers.round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))))),
+            round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2),
+            pLine.yFrom + lDir.signY * (
+                Math.abs(lDir.dy) === Infinity
+                ? 1
+                : round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2)
+            ),
         ) +
         line2CurveString(pLine),
         pOptions,

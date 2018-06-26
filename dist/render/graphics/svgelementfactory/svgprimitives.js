@@ -180,150 +180,129 @@ function createUTurn(pBBox, pEndY, pOptions) {
         // curve end-pont:
         point2String({ x: lEndX, y: pEndY }), { class: lOptions.class });
 }
+/**
+ * Creates an svg group, identifiable with id pId
+ * @param {string} pId
+ * @return {SVGElement}
+ */
+function createGroup(pId, pClass) {
+    return domprimitives_1.default.createElement("g", {
+        id: pId,
+        class: pClass,
+    });
+}
+/**
+ * Create an arrow marker consisting of a path as specified in pD
+ *
+ * @param {string} pId
+ * @param {string} pD - a string containing the path
+ */
+function createMarkerPath(pId, pD, pColor) {
+    const lMarker = createMarker(pId, "arrow-marker", "auto");
+    /* stroke-dasharray: 'none' should work to override any dashes (like in
+        * return messages (a >> b;)) and making sure the marker end gets
+        * lines
+        * This, however, does not work in webkit, hence the curious
+        * value for the stroke-dasharray
+        */
+    lMarker.appendChild(createPath(pD, {
+        class: "arrow-style",
+        style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",
+    }));
+    return lMarker;
+}
+/**
+ * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
+ *
+ * @param {string} pId
+ * @param {string} pPoints - a string with the points of the polygon
+ * @return {SVGElement}
+ */
+function createMarkerPolygon(pId, pPoints, pColor) {
+    const lMarker = createMarker(pId, "arrow-marker", "auto");
+    lMarker.appendChild(domprimitives_1.default.createElement("polygon", {
+        points: pPoints,
+        class: "arrow-style",
+        stroke: pColor || "black",
+        fill: pColor || "black",
+    }));
+    return lMarker;
+}
+function createTitle(pText) {
+    const lTitle = domprimitives_1.default.createElement("title");
+    const lText = domprimitives_1.default.createTextNode(pText);
+    lTitle.appendChild(lText);
+    return lTitle;
+}
+/**
+ * Creates a text node with the given pText fitting diagonally (bottom-left
+ *  - top right) in canvas pCanvas
+ *
+ * @param {string} pText
+ * @param {object} pDimension (an object with at least a .width and a .height)
+ */
+function createDiagonalText(pText, pDimension, pClass) {
+    return domprimitives_1.default.setAttributes(createText(pText, { x: pDimension.width / 2, y: pDimension.height / 2 }, { class: pClass }), {
+        transform: `rotate(${round_1.default(getdiagonalangle_1.default(pDimension), PRECISION).toString()} ` +
+            `${round_1.default((pDimension.width) / 2, PRECISION).toString()} ` +
+            `${round_1.default((pDimension.height) / 2, PRECISION).toString()})`,
+    });
+}
+/**
+ * Creates a desc element with id pId
+ *
+ * @param {string} pID
+ * @returns {Element}
+ */
+function createDesc() {
+    return domprimitives_1.default.createElement("desc");
+}
+/**
+ * Creates an empty 'defs' element
+ *
+ * @returns {Element}
+ */
+function createDefs() {
+    return domprimitives_1.default.createElement("defs");
+}
+/**
+ * Creates a basic SVG with id pId, and size 0x0
+ * @param {string} pId
+ * @return {Element} an SVG element
+ */
+function createSVG(pId, pClass) {
+    return domprimitives_1.default.createElement("svg", {
+        "version": "1.1",
+        "id": pId,
+        "class": pClass,
+        "xmlns": domprimitives_1.default.SVGNS,
+        "xmlns:xlink": domprimitives_1.default.XLINKNS,
+        "width": "0",
+        "height": "0",
+    });
+}
+function updateSVG(pSVGElement, pAttributes) {
+    domprimitives_1.default.setAttributes(pSVGElement, pAttributes);
+}
 exports.default = {
-    /**
-     * Function to set the document to use. Introduced to enable use of the
-     * rendering utilities under node.js (using the jsdom module)
-     *
-     * @param {document} pDocument
-     */
-    init(pDocument) {
-        domprimitives_1.default.init(pDocument);
-    },
-    /**
-     * Creates a basic SVG with id pId, and size 0x0
-     * @param {string} pId
-     * @return {Element} an SVG element
-     */
-    createSVG(pId, pClass) {
-        return domprimitives_1.default.createElement("svg", {
-            "version": "1.1",
-            "id": pId,
-            "class": pClass,
-            "xmlns": domprimitives_1.default.SVGNS,
-            "xmlns:xlink": domprimitives_1.default.XLINKNS,
-            "width": "0",
-            "height": "0",
-        });
-    },
-    updateSVG(pSVGElement, pAttributes) {
-        domprimitives_1.default.setAttributes(pSVGElement, pAttributes);
-    },
+    init: domprimitives_1.default.init,
+    createSVG,
+    updateSVG,
     // straight + internal for createPath => elementfactory, wobbly & straight
-    colorBox,
-    /**
-     * Creates a desc element with id pId
-     *
-     * @param {string} pID
-     * @returns {Element}
-     */
-    createDesc() {
-        return domprimitives_1.default.createElement("desc");
-    },
-    /**
-     * Creates an empty 'defs' element
-     *
-     * @returns {Element}
-     */
-    createDefs() {
-        return domprimitives_1.default.createElement("defs");
-    },
-    /**
-     * creates a tspan with label pLabel, optionally wrapped in a link
-     * if the url pURL is passed
-     *
-     * @param  {string} pLabel
-     * @param  {string} pURL
-     * @return {element}
-     */
+    createDesc,
+    createDefs,
     createTSpan,
-    /**
-     * Creates a text node with the appropriate tspan & a elements on
-     * position pCoords.
-     *
-     * @param {string} pLabel
-     * @param {object} pCoords
-     * @param {object} pOptions - options to influence rendering
-     *                          {string} pClass - reference to the css class to be applied
-     *                          {string=} pURL - link to render
-     *                          {string=} pID - (small) id text to render
-     *                          {string=} pIDURL - link to render for the id text
-     * @return {SVGElement}
-     */
     createText,
-    /**
-     * Creates a text node with the given pText fitting diagonally (bottom-left
-     *  - top right) in canvas pCanvas
-     *
-     * @param {string} pText
-     * @param {object} pDimension (an object with at least a .width and a .height)
-     */
-    createDiagonalText(pText, pDimension, pClass) {
-        return domprimitives_1.default.setAttributes(createText(pText, { x: pDimension.width / 2, y: pDimension.height / 2 }, { class: pClass }), {
-            transform: `rotate(${round_1.default(getdiagonalangle_1.default(pDimension), PRECISION).toString()} ` +
-                `${round_1.default((pDimension.width) / 2, PRECISION).toString()} ` +
-                `${round_1.default((pDimension.height) / 2, PRECISION).toString()})`,
-        });
-    },
+    createDiagonalText,
     createSingleLine,
     createRect,
     createUTurn,
-    /**
-     * Creates an svg group, identifiable with id pId
-     * @param {string} pId
-     * @return {SVGElement}
-     */
-    createGroup(pId, pClass) {
-        return domprimitives_1.default.createElement("g", {
-            id: pId,
-            class: pClass,
-        });
-    },
+    createGroup,
     // elementfactory, wobbly, straight
     createPath,
-    /**
-     * Create an arrow marker consisting of a path as specified in pD
-     *
-     * @param {string} pId
-     * @param {string} pD - a string containing the path
-     */
-    createMarkerPath(pId, pD, pColor) {
-        const lMarker = createMarker(pId, "arrow-marker", "auto");
-        /* stroke-dasharray: 'none' should work to override any dashes (like in
-         * return messages (a >> b;)) and making sure the marker end gets
-         * lines
-         * This, however, does not work in webkit, hence the curious
-         * value for the stroke-dasharray
-         */
-        lMarker.appendChild(createPath(pD, {
-            class: "arrow-style",
-            style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",
-        }));
-        return lMarker;
-    },
-    /**
-     * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
-     *
-     * @param {string} pId
-     * @param {string} pPoints - a string with the points of the polygon
-     * @return {SVGElement}
-     */
-    createMarkerPolygon(pId, pPoints, pColor) {
-        const lMarker = createMarker(pId, "arrow-marker", "auto");
-        lMarker.appendChild(domprimitives_1.default.createElement("polygon", {
-            points: pPoints,
-            class: "arrow-style",
-            stroke: pColor || "black",
-            fill: pColor || "black",
-        }));
-        return lMarker;
-    },
-    createTitle(pText) {
-        const lTitle = domprimitives_1.default.createElement("title");
-        const lText = domprimitives_1.default.createTextNode(pText);
-        lTitle.appendChild(lText);
-        return lTitle;
-    },
+    createMarkerPath,
+    createMarkerPolygon,
+    createTitle,
     // elementfactory, wobbly
     point2String,
     // elementfactory, wobbly, straight

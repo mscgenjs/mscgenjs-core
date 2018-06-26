@@ -1,15 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const round_1 = require("./round");
 function determineStartCorrection(pLine, pClass, pLineWidth) {
     let lRetval = 0;
-    if (!pClass.includes("nodi")) {
-        if (pClass.includes("bidi")) {
-            if (pLine.xTo > pLine.xFrom) {
-                lRetval = 7.5 * pLineWidth;
-            }
-            else {
-                lRetval = -7.5 * pLineWidth;
-            }
+    if (!pClass.includes("nodi") && pClass.includes("bidi")) {
+        if (pLine.xTo > pLine.xFrom) {
+            lRetval = 7.5 * pLineWidth;
+        }
+        else {
+            lRetval = -7.5 * pLineWidth;
         }
     }
     return lRetval;
@@ -47,14 +46,15 @@ function getDirection(pLine) {
 function getRandomDeviation(pNumber) {
     return Math.round(Math.random() * 2 * pNumber) - pNumber;
 }
-function round(pNumber) {
-    return Math.round(pNumber * 100) / 100;
-}
-function getBetweenPoints(pLine, pInterval, pWobble) {
+function normalizeInterval(pInterval, pLine) {
     if (pInterval <= 0) {
         throw new Error("pInterval must be > 0");
     }
-    pInterval = Math.min(getLineLength(pLine), pInterval);
+    return Math.min(getLineLength(pLine), pInterval);
+}
+const PRECISION = 2;
+function getBetweenPoints(pLine, pInterval, pWobble) {
+    pInterval = normalizeInterval(pInterval, pLine);
     const lRetval = [];
     const lNoSegments = getNumberOfSegments(pLine, pInterval);
     const lDir = getDirection(pLine);
@@ -62,13 +62,13 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     const lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
         ? pInterval
         : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
-    let lCurveSection = {};
+    let lCurveSection;
     for (let i = 1; i <= lNoSegments; i++) {
         lCurveSection = {
-            controlX: round(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble)),
-            controlY: round(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble)),
-            x: round(pLine.xFrom + i * lIntervalX),
-            y: round(pLine.yFrom + i * lIntervalY),
+            controlX: round_1.default(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
+            controlY: round_1.default(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
+            x: round_1.default(pLine.xFrom + i * lIntervalX, PRECISION),
+            y: round_1.default(pLine.yFrom + i * lIntervalY, PRECISION),
         };
         if (pInterval >
             getLineLength({
@@ -85,8 +85,6 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     return lRetval;
 }
 exports.default = {
-    // wobbly and internal for wobbly only functions
-    round,
     determineStartCorrection,
     determineEndCorrection,
     /**

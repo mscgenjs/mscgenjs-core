@@ -1,4 +1,5 @@
 import * as geotypes from "./geotypes";
+import round from "./round";
 
 function determineStartCorrection(
     pLine: geotypes.ILine,
@@ -6,13 +7,11 @@ function determineStartCorrection(
     pLineWidth: number,
 ): number {
     let lRetval = 0;
-    if (!pClass.includes("nodi")) {
-        if (pClass.includes("bidi")) {
-            if (pLine.xTo > pLine.xFrom) {
-                lRetval = 7.5 * pLineWidth;
-            } else {
-                lRetval = -7.5 * pLineWidth;
-            }
+    if (!pClass.includes("nodi") && pClass.includes("bidi")) {
+        if (pLine.xTo > pLine.xFrom) {
+            lRetval = 7.5 * pLineWidth;
+        } else {
+            lRetval = -7.5 * pLineWidth;
         }
     }
     return lRetval;
@@ -61,19 +60,21 @@ function getRandomDeviation(pNumber: number): number {
     return Math.round(Math.random() * 2 * pNumber) - pNumber;
 }
 
-function round(pNumber: number): number {
-    return Math.round(pNumber * 100) / 100;
+function normalizeInterval(pInterval: number, pLine: geotypes.ILine): number {
+    if (pInterval <= 0) {
+        throw new Error("pInterval must be > 0");
+    }
+    return Math.min(getLineLength(pLine), pInterval);
 }
 
+const PRECISION = 2;
 function getBetweenPoints(
     pLine: geotypes.ILine,
     pInterval: number,
     pWobble: number,
 ): geotypes.ICurveSection[] {
-    if (pInterval <= 0) {
-        throw new Error("pInterval must be > 0");
-    }
-    pInterval = Math.min(getLineLength(pLine), pInterval);
+
+    pInterval = normalizeInterval(pInterval, pLine);
 
     const lRetval: geotypes.ICurveSection[] = [];
     const lNoSegments   = getNumberOfSegments(pLine, pInterval);
@@ -82,14 +83,14 @@ function getBetweenPoints(
     const lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
         ? pInterval
         : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
-    let lCurveSection: any = {};
+    let lCurveSection: geotypes.ICurveSection;
 
     for (let i = 1; i <= lNoSegments; i++) {
         lCurveSection = {
-            controlX : round(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble)),
-            controlY : round(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble)),
-            x        : round(pLine.xFrom + i * lIntervalX),
-            y        : round(pLine.yFrom + i * lIntervalY),
+            controlX : round(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
+            controlY : round(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
+            x        : round(pLine.xFrom + i * lIntervalX, PRECISION),
+            y        : round(pLine.yFrom + i * lIntervalY, PRECISION),
         };
         if (pInterval >
             getLineLength({
@@ -108,9 +109,6 @@ function getBetweenPoints(
 }
 
 export default {
-    // wobbly and internal for wobbly only functions
-    round,
-
     determineStartCorrection,
     determineEndCorrection,
 
