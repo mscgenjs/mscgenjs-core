@@ -103,14 +103,6 @@ exports.default = {
      * @return {SVGElement}
      */
     createNote: gRenderMagic.createNote,
-    createNoteold(pBBox, pClass, pColor, pBgColor) {
-        return gRenderMagic.createNote(pBBox, {
-            class: pClass,
-            color: pColor,
-            bgColor: pBgColor,
-            lineWidth: gOptions.LINE_WIDTH,
-        });
-    },
     /**
      * Creates an edge remark (for use in inline expressions) of width x height,
      * with the top left corner at coordinates (x, y). pFoldSize controls the size of the

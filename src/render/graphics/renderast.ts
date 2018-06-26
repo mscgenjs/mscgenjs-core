@@ -1026,9 +1026,9 @@ function createBox(pOAndD, pArc, pY, pOptions) {
                 class: "box note",
                 color: pArc.linecolor,
                 bgColor: pArc.textbgcolor,
-                lineWidth: constants.LINE_WIDTH
-            }
-            
+                lineWidth: constants.LINE_WIDTH,
+            },
+
         );
         break;
     default:  // "box"
