@@ -281,13 +281,10 @@ function createSVG(pId, pClass) {
         "height": "0",
     });
 }
-function updateSVG(pSVGElement, pAttributes) {
-    domprimitives_1.default.setAttributes(pSVGElement, pAttributes);
-}
 exports.default = {
     init: domprimitives_1.default.init,
     createSVG,
-    updateSVG,
+    updateSVG: domprimitives_1.default.setAttributes,
     // straight + internal for createPath => elementfactory, wobbly & straight
     createDesc,
     createDefs,

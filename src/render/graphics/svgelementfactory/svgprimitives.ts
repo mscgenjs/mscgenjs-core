@@ -162,6 +162,7 @@ function colorBox(pElement: SVGElement, pColor: string, pBgColor: string): SVGEl
     }
     return domprimitives.setAttribute(pElement, "style", lStyleString) as SVGElement;
 }
+
 interface ICreateSinlgeLineOptions {
     class?: string;
 }
@@ -396,14 +397,10 @@ function createSVG(pId: string, pClass: string): SVGSVGElement {
     ) as SVGSVGElement;
 }
 
-function updateSVG(pSVGElement: SVGSVGElement, pAttributes: any) {
-    domprimitives.setAttributes(pSVGElement, pAttributes);
-}
-
 export default {
     init: domprimitives.init,
     createSVG,
-    updateSVG,
+    updateSVG: domprimitives.setAttributes,
     // straight + internal for createPath => elementfactory, wobbly & straight
     createDesc,
     createDefs,
