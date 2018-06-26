@@ -240,7 +240,7 @@ function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
     pArc.label = lLabel;
 }
 function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
-    let lElement = {};
+    let lElement = index_1.default.createGroup();
     if (pArc.from && pArc.to) {
         if (pArc.to === "*") { // it's a broadcast arc
             renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions);
@@ -275,7 +275,7 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
 function getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions) {
     let lRetval = 0;
     pArcRow.forEach((pArc) => {
-        let lElement = {};
+        let lElement;
         switch (aggregatekind_1.default(pArc.kind)) {
             case ("emptyarc"):
                 lElement = renderEmptyArc(pArc, 0);
@@ -467,10 +467,42 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
     const lClass = `arc ${kind2class_1.default.getAggregateClass(pKind)} ${kind2class_1.default.getClass(pKind)}`;
     if (pDouble) {
         lRetval = index_1.default.createGroup();
-        const lInnerTurn = index_1.default.createUTurn({ x: pFrom, y: pY }, (pY + pYTo + lHeight - 2 * constants_1.default.LINE_WIDTH), lWidth - 2 * constants_1.default.LINE_WIDTH, lClass, pKind !== "::", lHeight);
+        // const lInnerTurn  = svgelementfactory.createUTurnold(
+        //     {x: pFrom, y: pY},
+        //     (pY + pYTo + lHeight - 2 * constants.LINE_WIDTH), // pEndY
+        //     lWidth - 2 * constants.LINE_WIDTH, // pWidth
+        //     lClass, // pClass
+        //     pKind !== "::", // pDontHitHome
+        //     lHeight, // pHeight
+        // );
+        const lInnerTurn = index_1.default.createUTurn({
+            x: pFrom,
+            y: pY,
+            width: lWidth - 2 * constants_1.default.LINE_WIDTH,
+            height: lHeight,
+        }, (pY + pYTo + lHeight - 2 * constants_1.default.LINE_WIDTH), // pY
+        {
+            class: lClass,
+            dontHitHome: pKind !== "::",
+            lineWidth: constants_1.default.LINE_WIDTH,
+        });
         /* we need a middle turn to attach the arrow to */
-        const lMiddleTurn = index_1.default.createUTurn({ x: pFrom, y: pY }, (pY + pYTo + lHeight - constants_1.default.LINE_WIDTH), lWidth, null, null, lHeight);
-        const lOuterTurn = index_1.default.createUTurn({ x: pFrom, y: pY }, (pY + pYTo + lHeight), lWidth, lClass, pKind !== "::", lHeight);
+        const lMiddleTurn = index_1.default.createUTurn({
+            x: pFrom,
+            y: pY,
+            width: lWidth,
+            height: lHeight,
+        }, (pY + pYTo + lHeight - constants_1.default.LINE_WIDTH), { lineWidth: constants_1.default.LINE_WIDTH });
+        const lOuterTurn = index_1.default.createUTurn({
+            x: pFrom,
+            y: pY,
+            width: lWidth,
+            height: lHeight,
+        }, (pY + pYTo + lHeight), {
+            class: lClass,
+            dontHitHome: pKind !== "::",
+            lineWidth: constants_1.default.LINE_WIDTH,
+        });
         if (Boolean(pLineColor)) {
             lInnerTurn.setAttribute("style", `stroke:${pLineColor}`);
         }
@@ -490,7 +522,13 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
         lRetval = index_1.default.createUTurn({
             x: pFrom,
             y: pY,
-        }, (pY + pYTo + lHeight), lWidth, lClass, pKind === "-x", lHeight);
+            width: lWidth,
+            height: lHeight,
+        }, (pY + pYTo + lHeight), {
+            class: lClass,
+            dontHitHome: pKind === "-x",
+            lineWidth: constants_1.default.LINE_WIDTH,
+        });
         markermanager_1.default.getAttributes(idmanager_1.default.get(), pKind, pLineColor, pFrom, pFrom).forEach((pAttribute) => {
             lRetval.setAttribute(pAttribute.name, pAttribute.value);
         });
@@ -670,7 +708,7 @@ function createBox(pOAndD, pArc, pY, pOptions) {
         ((entities_1.default.getDims().interEntitySpacing - 2 * constants_1.default.LINE_WIDTH - lMaxDepthCorrection) / 2);
     /* end: same as createInlineExpressionBox */
     const lGroup = index_1.default.createGroup();
-    let lBox = {};
+    let lBox;
     const lTextGroup = renderlabels_1.default.createLabel(pArc, { x: lStart, y: pY, width: lWidth }, pOptions);
     const lTextBBox = svgutensils_1.default.getBBox(lTextGroup);
     const lHeight = Math.max(lTextBBox.height + 2 * constants_1.default.LINE_WIDTH, gChart.arcRowHeight - 2 * constants_1.default.LINE_WIDTH);

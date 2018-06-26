@@ -1,19 +1,37 @@
+import * as geotypes from "./geotypes";
+import * as magic from "./magic";
 import svgprimitives from "./svgprimitives";
 import variationhelpers from "./variationhelpers";
 
 const SEGMENT_LENGTH = 70; // 70
 const WOBBLE_FACTOR  = 3; // 1.4?
 
-function points2CurveString(pPoints) {
-    return pPoints.map(
-        (pThisPoint) =>
-            `${svgprimitives.pathPoint2String("S", pThisPoint.controlX, pThisPoint.controlY)} ` +
-            `${svgprimitives.point2String(pThisPoint.x, pThisPoint.y)}`,
+function points2CurveString(
+    pCurveSections: geotypes.ICurveSection[],
+): string {
+    return pCurveSections.map(
+        (pCurveSection: geotypes.ICurveSection) =>
+            `${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` +
+            `${svgprimitives.point2String(pCurveSection as geotypes.IPoint)}`,
     ).join(" ");
-
 }
 
-function createSingleLine(pLine, pOptions) {
+function line2CurveString(
+    pLine: geotypes.ILine,
+): string {
+    return points2CurveString(
+        variationhelpers.getBetweenPoints(
+            pLine,
+            SEGMENT_LENGTH,
+            WOBBLE_FACTOR,
+        ),
+    );
+}
+
+function createSingleLine(
+    pLine: geotypes.ILine,
+    pOptions: {class?: string} = {},
+) {
     const lDir = variationhelpers.getDirection(pLine);
 
     return svgprimitives.createPath(
@@ -34,102 +52,89 @@ function createSingleLine(pLine, pOptions) {
                 ? 1
                 : variationhelpers.round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))))),
         ) +
-        points2CurveString(
-            variationhelpers.getBetweenPoints(
-                pLine,
-                SEGMENT_LENGTH,
-                WOBBLE_FACTOR,
-            ),
-        ),
-        {
-            class: pOptions ? pOptions.class : null,
-        },
+        line2CurveString(pLine),
+        pOptions,
     );
 }
 
-function renderNotePathString(pBBox, pFoldSize) {
+function renderNotePathString(
+    pBBox: geotypes.IBBox,
+    pFoldSize: number,
+): string {
     return `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
     // top line:
-    points2CurveString(
-        variationhelpers.getBetweenPoints({
-            xFrom: pBBox.x,
-            yFrom: pBBox.y,
-            xTo: pBBox.x + pBBox.width - pFoldSize,
-            yTo: pBBox.y,
-        }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-    ) +
+    line2CurveString({
+        xFrom: pBBox.x,
+        yFrom: pBBox.y,
+        xTo: pBBox.x + pBBox.width - pFoldSize,
+        yTo: pBBox.y,
+    }) +
     svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
 
     // fold:
-    points2CurveString(
-        variationhelpers.getBetweenPoints({
-            xFrom: pBBox.x + pBBox.width - pFoldSize,
-            yFrom: pBBox.y,
-            xTo: pBBox.x + pBBox.width,
-            yTo: pBBox.y + pFoldSize,
-        }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-    ) +
+    line2CurveString({
+        xFrom: pBBox.x + pBBox.width - pFoldSize,
+        yFrom: pBBox.y,
+        xTo: pBBox.x + pBBox.width,
+        yTo: pBBox.y + pFoldSize,
+    }) +
     svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize) +
 
     // down:
-    points2CurveString(
-        variationhelpers.getBetweenPoints({
-            xFrom: pBBox.x + pBBox.width,
-            yFrom: pBBox.y + pFoldSize,
-            xTo: pBBox.x + pBBox.width,
-            yTo: pBBox.y + pBBox.height,
-        }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-    ) +
+    line2CurveString({
+        xFrom: pBBox.x + pBBox.width,
+        yFrom: pBBox.y + pFoldSize,
+        xTo: pBBox.x + pBBox.width,
+        yTo: pBBox.y + pBBox.height,
+    }) +
     svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height) +
 
     // bottom line:
-    points2CurveString(
-        variationhelpers.getBetweenPoints({
-            xFrom: pBBox.x + pBBox.width,
-            yFrom: pBBox.y + pBBox.height,
-            xTo: pBBox.x,
-            yTo: pBBox.y + pBBox.height,
-        }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-    ) +
+    line2CurveString({
+        xFrom: pBBox.x + pBBox.width,
+        yFrom: pBBox.y + pBBox.height,
+        xTo: pBBox.x,
+        yTo: pBBox.y + pBBox.height,
+    }) +
     svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
 
     // home:
-    points2CurveString(
-        variationhelpers.getBetweenPoints({
-            xFrom: pBBox.x,
-            yFrom: pBBox.y + pBBox.height,
-            xTo: pBBox.x,
-            yTo: pBBox.y,
-        }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-    ) +
+    line2CurveString({
+        xFrom: pBBox.x,
+        yFrom: pBBox.y + pBBox.height,
+        xTo: pBBox.x,
+        yTo: pBBox.y,
+    }) +
     svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y)}z`;
 }
 
-function renderNoteCornerString(pBBox, pFoldSize) {
+function renderNoteCornerString(
+    pBBox: geotypes.IBBox,
+    pFoldSize: number,
+): string {
     return svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
         // down
-        points2CurveString(
-            variationhelpers.getBetweenPoints({
-                xFrom: pBBox.x + pBBox.width - pFoldSize,
-                yFrom: pBBox.y,
-                xTo: pBBox.x + pBBox.width - pFoldSize,
-                yTo: pBBox.y + pFoldSize,
-            }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-        ) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width - pFoldSize,
+            yFrom: pBBox.y,
+            xTo: pBBox.x + pBBox.width - pFoldSize,
+            yTo: pBBox.y + pFoldSize,
+        }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - pFoldSize, pBBox.y + pFoldSize) +
         // right
-        points2CurveString(
-            variationhelpers.getBetweenPoints({
-                xFrom: pBBox.x + pBBox.width - pFoldSize,
-                yFrom: pBBox.y + pFoldSize,
-                xTo: pBBox.x + pBBox.width,
-                yTo: pBBox.y + pFoldSize,
-            }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-        ) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width - pFoldSize,
+            yFrom: pBBox.y + pFoldSize,
+            xTo: pBBox.x + pBBox.width,
+            yTo: pBBox.y + pFoldSize,
+        }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize);
 }
 
-function createNote(pBBox, pOptions) {
+function createNote(
+    pBBox: geotypes.IBBox,
+    pOptions: magic.IOptions,
+) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     const lFoldSize = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
     const lGroup = svgprimitives.createGroup();
@@ -140,199 +145,174 @@ function createNote(pBBox, pOptions) {
     return lGroup;
 }
 
-function renderRectString(pBBox) {
+function renderRectString(pBBox: geotypes.IBBox): string {
     if (!Boolean(pBBox.y)) {
         pBBox.y = 0;
     }
-    return `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x,
-        yFrom: pBBox.y,
-        xTo: pBBox.x + pBBox.width,
-        yTo: pBBox.y,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y) +
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + pBBox.width,
-        yFrom: pBBox.y,
-        xTo: pBBox.x + pBBox.width,
-        yTo: pBBox.y + pBBox.height,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height) +
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + pBBox.width,
-        yFrom: pBBox.y + pBBox.height,
-        xTo: pBBox.x,
-        yTo: pBBox.y + pBBox.height,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x,
-        yFrom: pBBox.y + pBBox.height,
-        xTo: pBBox.x,
-        yTo: pBBox.y,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-)}z`;
+    return svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
+        line2CurveString({
+            xFrom: pBBox.x,
+            yFrom: pBBox.y,
+            xTo: pBBox.x + pBBox.width,
+            yTo: pBBox.y,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width,
+            yFrom: pBBox.y,
+            xTo: pBBox.x + pBBox.width,
+            yTo: pBBox.y + pBBox.height,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width,
+            yFrom: pBBox.y + pBBox.height,
+            xTo: pBBox.x,
+            yTo: pBBox.y + pBBox.height,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
+        line2CurveString({
+            xFrom: pBBox.x,
+            yFrom: pBBox.y + pBBox.height,
+            xTo: pBBox.x,
+            yTo: pBBox.y,
+        }) +
+        "z";
 }
 
-function createRect(pBBox, pOptions) {
+function createRect(pBBox: geotypes.IBBox, pOptions: magic.IOptions) {
     return svgprimitives.createPath(
         renderRectString(pBBox),
         pOptions,
     );
 }
 
-function createABox(pBBox, pOptions) {
+function createABox(pBBox: geotypes.IBBox, pOptions: magic.IOptions) {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(
-        `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x,
-        yFrom: pBBox.y + (pBBox.height / 2),
-        xTo: pBBox.x + lSlopeOffset,
-        yTo: pBBox.y,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y) +
-// top line
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + lSlopeOffset,
-        yFrom: pBBox.y,
-        xTo: pBBox.x + pBBox.width - lSlopeOffset,
-        yTo: pBBox.y,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y) +
-// right wedge
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + pBBox.width - lSlopeOffset,
-        yFrom: pBBox.y,
-        xTo: pBBox.x + pBBox.width,
-        yTo: pBBox.y + pBBox.height / 2,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height / 2) +
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + pBBox.width,
-        yFrom: pBBox.y + pBBox.height / 2,
-        xTo: pBBox.x + pBBox.width - lSlopeOffset,
-        yTo: pBBox.y + pBBox.height,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y + pBBox.height) +
-// bottom line:
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + pBBox.width - lSlopeOffset,
-        yFrom: pBBox.y + pBBox.height,
-        xTo: pBBox.x + lSlopeOffset,
-        yTo: pBBox.y + pBBox.height,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y + pBBox.height) +
-// home:
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + lSlopeOffset,
-        yFrom: pBBox.y + pBBox.height,
-        xTo: pBBox.x,
-        yTo: pBBox.y + (pBBox.height / 2),
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-)}z`,
+        svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
+        line2CurveString({
+            xFrom: pBBox.x,
+            yFrom: pBBox.y + (pBBox.height / 2),
+            xTo: pBBox.x + lSlopeOffset,
+            yTo: pBBox.y,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y) +
+        // top line
+        line2CurveString({
+            xFrom: pBBox.x + lSlopeOffset,
+            yFrom: pBBox.y,
+            xTo: pBBox.x + pBBox.width - lSlopeOffset,
+            yTo: pBBox.y,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y) +
+        // right wedge
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width - lSlopeOffset,
+            yFrom: pBBox.y,
+            xTo: pBBox.x + pBBox.width,
+            yTo: pBBox.y + pBBox.height / 2,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height / 2) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width,
+            yFrom: pBBox.y + pBBox.height / 2,
+            xTo: pBBox.x + pBBox.width - lSlopeOffset,
+            yTo: pBBox.y + pBBox.height,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - lSlopeOffset, pBBox.y + pBBox.height) +
+        // bottom line:
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width - lSlopeOffset,
+            yFrom: pBBox.y + pBBox.height,
+            xTo: pBBox.x + lSlopeOffset,
+            yTo: pBBox.y + pBBox.height,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + lSlopeOffset, pBBox.y + pBBox.height) +
+        // home:
+        line2CurveString({
+            xFrom: pBBox.x + lSlopeOffset,
+            yFrom: pBBox.y + pBBox.height,
+            xTo: pBBox.x,
+            yTo: pBBox.y + (pBBox.height / 2),
+        }) +
+        "z",
         pOptions,
     );
 }
 
-function createRBox(pBBox, pOptions) {
+function createRBox(pBBox: geotypes.IBBox, pOptions: magic.IOptions) {
     const RBOX_CORNER_RADIUS = 6; // px
 
     return svgprimitives.createPath(
-        `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + RBOX_CORNER_RADIUS) +
-points2CurveString([{
-    controlX: pBBox.x,
-    controlY: pBBox.y,
-    x: pBBox.x + RBOX_CORNER_RADIUS,
-    y: pBBox.y,
-}]) +
+        svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + RBOX_CORNER_RADIUS) +
+        points2CurveString([{
+            controlX: pBBox.x,
+            controlY: pBBox.y,
+            x: pBBox.x + RBOX_CORNER_RADIUS,
+            y: pBBox.y,
+        }]) +
 
-// top
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + RBOX_CORNER_RADIUS,
-        yFrom: pBBox.y,
-        xTo: pBBox.x + pBBox.width - RBOX_CORNER_RADIUS,
-        yTo: pBBox.y,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - RBOX_CORNER_RADIUS, pBBox.y) +
+        // top
+        line2CurveString({
+            xFrom: pBBox.x + RBOX_CORNER_RADIUS,
+            yFrom: pBBox.y,
+            xTo: pBBox.x + pBBox.width - RBOX_CORNER_RADIUS,
+            yTo: pBBox.y,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - RBOX_CORNER_RADIUS, pBBox.y) +
 
-points2CurveString([{
-    controlX: pBBox.x + pBBox.width,
-    controlY: pBBox.y,
-    x: pBBox.x + pBBox.width,
-    y: pBBox.y + RBOX_CORNER_RADIUS,
-}]) +
+        points2CurveString([{
+            controlX: pBBox.x + pBBox.width,
+            controlY: pBBox.y,
+            x: pBBox.x + pBBox.width,
+            y: pBBox.y + RBOX_CORNER_RADIUS,
+        }]) +
 
-// right
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + pBBox.width,
-        yFrom: pBBox.y + RBOX_CORNER_RADIUS,
-        xTo: pBBox.x + pBBox.width,
-        yTo: pBBox.y + pBBox.height - RBOX_CORNER_RADIUS,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - RBOX_CORNER_RADIUS) +
-points2CurveString([{
-    controlX: pBBox.x + pBBox.width,
-    controlY: pBBox.y + pBBox.height,
-    x: pBBox.x + pBBox.width - RBOX_CORNER_RADIUS,
-    y: pBBox.y + pBBox.height,
-}]) +
+        // right
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width,
+            yFrom: pBBox.y + RBOX_CORNER_RADIUS,
+            xTo: pBBox.x + pBBox.width,
+            yTo: pBBox.y + pBBox.height - RBOX_CORNER_RADIUS,
+        }) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - RBOX_CORNER_RADIUS) +
+        points2CurveString([{
+            controlX: pBBox.x + pBBox.width,
+            controlY: pBBox.y + pBBox.height,
+            x: pBBox.x + pBBox.width - RBOX_CORNER_RADIUS,
+            y: pBBox.y + pBBox.height,
+        }]) +
 
-// bottom
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x + pBBox.width - RBOX_CORNER_RADIUS,
-        yFrom: pBBox.y + pBBox.height,
-        xTo: pBBox.x + RBOX_CORNER_RADIUS,
-        yTo: pBBox.y + pBBox.height,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-) +
+        // bottom
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width - RBOX_CORNER_RADIUS,
+            yFrom: pBBox.y + pBBox.height,
+            xTo: pBBox.x + RBOX_CORNER_RADIUS,
+            yTo: pBBox.y + pBBox.height,
+        }) +
 
-svgprimitives.pathPoint2String("L", pBBox.x + RBOX_CORNER_RADIUS, pBBox.y + pBBox.height) +
-points2CurveString([{
-    controlX: pBBox.x,
-    controlY: pBBox.y + pBBox.height,
-    x: pBBox.x,
-    y: pBBox.y + pBBox.height - RBOX_CORNER_RADIUS,
-}]) +
+        svgprimitives.pathPoint2String("L", pBBox.x + RBOX_CORNER_RADIUS, pBBox.y + pBBox.height) +
+        points2CurveString([{
+            controlX: pBBox.x,
+            controlY: pBBox.y + pBBox.height,
+            x: pBBox.x,
+            y: pBBox.y + pBBox.height - RBOX_CORNER_RADIUS,
+        }]) +
 
-// up
-points2CurveString(
-    variationhelpers.getBetweenPoints({
-        xFrom: pBBox.x,
-        yFrom: pBBox.y + pBBox.height - RBOX_CORNER_RADIUS,
-        xTo: pBBox.x,
-        yTo: pBBox.y + RBOX_CORNER_RADIUS,
-    }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-)}z`,
+        // up
+        line2CurveString({
+            xFrom: pBBox.x,
+            yFrom: pBBox.y + pBBox.height - RBOX_CORNER_RADIUS,
+            xTo: pBBox.x,
+            yTo: pBBox.y + RBOX_CORNER_RADIUS,
+        }) +
+        "z",
         pOptions,
     );
 }
 
-function createEdgeRemark(pBBox, pOptions) {
+function createEdgeRemark(pBBox: geotypes.IBBox, pOptions: magic.IOptions) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     const lGroup = svgprimitives.createGroup();
 
@@ -341,15 +321,16 @@ function createEdgeRemark(pBBox, pOptions) {
 
     pOptions.color = "transparent!important"; /* :blush: */
     const lBackground = svgprimitives.createPath(
-        `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (lLineWidth / 2)) +
-// top line:
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (lLineWidth / 2)) +
-// down:
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
-// fold:
-svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width  - lFoldSize, pBBox.y + pBBox.height) +
-// bottom line:
-svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height)}z`,
+        svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (lLineWidth / 2)) +
+        // top line:
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (lLineWidth / 2)) +
+        // down:
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
+        // fold:
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width  - lFoldSize, pBBox.y + pBBox.height) +
+        // bottom line:
+        svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
+        "z",
         pOptions,
     );
 
@@ -359,34 +340,28 @@ svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height)}z`,
         // start:
         svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
         // down:
-        points2CurveString(
-            variationhelpers.getBetweenPoints({
-                xFrom: pBBox.x + pBBox.width,
-                yFrom: pBBox.y,
-                xTo: pBBox.x + pBBox.width,
-                yTo: pBBox.y + pBBox.height - lFoldSize,
-            }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-        ) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width,
+            yFrom: pBBox.y,
+            xTo: pBBox.x + pBBox.width,
+            yTo: pBBox.y + pBBox.height - lFoldSize,
+        }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
         // fold:
-        points2CurveString(
-            variationhelpers.getBetweenPoints({
-                xFrom: pBBox.x + pBBox.width,
-                yFrom: pBBox.y + pBBox.height - lFoldSize,
-                xTo: pBBox.x + pBBox.width - lFoldSize,
-                yTo: pBBox.y + pBBox.height,
-            }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-        ) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width,
+            yFrom: pBBox.y + pBBox.height - lFoldSize,
+            xTo: pBBox.x + pBBox.width - lFoldSize,
+            yTo: pBBox.y + pBBox.height,
+        }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width  - lFoldSize, pBBox.y + pBBox.height) +
         // bottom line:
-        points2CurveString(
-            variationhelpers.getBetweenPoints({
-                xFrom: pBBox.x + pBBox.width - lFoldSize,
-                yFrom: pBBox.y + pBBox.height,
-                xTo: pBBox.x - 1,
-                yTo: pBBox.y + pBBox.height,
-            }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-        ) +
+        line2CurveString({
+            xFrom: pBBox.x + pBBox.width - lFoldSize,
+            yFrom: pBBox.y + pBBox.height,
+            xTo: pBBox.x - 1,
+            yTo: pBBox.y + pBBox.height,
+        }) +
         svgprimitives.pathPoint2String("L", pBBox.x - 1, pBBox.y + pBBox.height),
         pOptions,
     );
@@ -395,10 +370,10 @@ svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height)}z`,
     return lGroup;
 }
 
-function createDoubleLine(pLine, pOptions) {
+function createDoubleLine(pLine: geotypes.ILine, pOptions: magic.IOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
     const lSpace = lLineWidth;
-    const lClass = pOptions ? pOptions.class : null;
+    const lClass = pOptions ? pOptions.class : "";
 
     const lDir = variationhelpers.getDirection(pLine);
     const lEndCorr = variationhelpers.determineEndCorrection(pLine, lClass, lLineWidth);
@@ -410,28 +385,24 @@ function createDoubleLine(pLine, pOptions) {
         svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy) +
         svgprimitives.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
         // upper line:
-        points2CurveString(
-            variationhelpers.getBetweenPoints({
-                xFrom: pLine.xFrom + lStartCorr,
-                yFrom: pLine.yFrom - lSpace,
-                xTo: pLine.xTo + lEndCorr,
-                yTo: pLine.yTo - lSpace,
-            }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-        ) +
+        line2CurveString({
+            xFrom: pLine.xFrom + lStartCorr,
+            yFrom: pLine.yFrom - lSpace,
+            xTo: pLine.xTo + lEndCorr,
+            yTo: pLine.yTo - lSpace,
+        }) +
         svgprimitives.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom + lSpace) +
         // lower line
-        points2CurveString(
-            variationhelpers.getBetweenPoints({
-                xFrom: pLine.xFrom + lStartCorr,
-                yFrom: pLine.yFrom + lSpace,
-                xTo: pLine.xTo + lEndCorr,
-                yTo: pLine.yTo + lSpace,
-            }, SEGMENT_LENGTH, WOBBLE_FACTOR),
-        ) +
+        line2CurveString({
+            xFrom: pLine.xFrom + lStartCorr,
+            yFrom: pLine.yFrom + lSpace,
+            xTo: pLine.xTo + lEndCorr,
+            yTo: pLine.yTo + lSpace,
+        }) +
         svgprimitives.pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * lLineWidth * lDir.dy) +
         // right stubble
         svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy),
-        lClass,
+        {class: lClass},
     );
 }
 

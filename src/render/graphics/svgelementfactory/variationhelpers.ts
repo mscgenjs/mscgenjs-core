@@ -1,4 +1,10 @@
-function determineStartCorrection(pLine, pClass, pLineWidth) {
+import * as geotypes from "./geotypes";
+
+function determineStartCorrection(
+    pLine: geotypes.ILine,
+    pClass: string,
+    pLineWidth: number,
+): number {
     let lRetval = 0;
     if (!pClass.includes("nodi")) {
         if (pClass.includes("bidi")) {
@@ -12,7 +18,11 @@ function determineStartCorrection(pLine, pClass, pLineWidth) {
     return lRetval;
 }
 
-function determineEndCorrection(pLine, pClass, pLineWidth) {
+function determineEndCorrection(
+    pLine: geotypes.ILine,
+    pClass: string,
+    pLineWidth: number,
+): number {
     let lRetval = 0;
     if (!pClass.includes("nodi")) {
         lRetval = pLine.xTo > pLine.xFrom ? -7.5 * pLineWidth : 7.5 * pLineWidth;
@@ -20,19 +30,19 @@ function determineEndCorrection(pLine, pClass, pLineWidth) {
     return lRetval;
 }
 
-function getLineLength(pLine) {
+function getLineLength(pLine: geotypes.ILine): number {
     const lA = Math.abs(pLine.xTo - pLine.xFrom);
     const lB = Math.abs(pLine.yTo - pLine.yFrom);
 
     return Math.sqrt((lA * lA) + (lB * lB));
 }
 
-function getNumberOfSegments(pLine, pInterval) {
+function getNumberOfSegments(pLine: geotypes.ILine, pInterval: number): number {
     const lLineLength = getLineLength(pLine);
     return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
 }
 
-function getDirection(pLine) {
+function getDirection(pLine: geotypes.ILine): geotypes.IDirection {
     const lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
     return {
         signX: lSignX,
@@ -47,21 +57,25 @@ function getDirection(pLine) {
  * @param  {number} pNumber a real
  * @return {number}
  */
-function getRandomDeviation(pNumber) {
+function getRandomDeviation(pNumber: number): number {
     return Math.round(Math.random() * 2 * pNumber) - pNumber;
 }
 
-function round(pNumber) {
+function round(pNumber: number): number {
     return Math.round(pNumber * 100) / 100;
 }
 
-function getBetweenPoints(pLine, pInterval, pWobble) {
+function getBetweenPoints(
+    pLine: geotypes.ILine,
+    pInterval: number,
+    pWobble: number,
+): geotypes.ICurveSection[] {
     if (pInterval <= 0) {
         throw new Error("pInterval must be > 0");
     }
     pInterval = Math.min(getLineLength(pLine), pInterval);
 
-    const lRetval: any[] = [];
+    const lRetval: geotypes.ICurveSection[] = [];
     const lNoSegments   = getNumberOfSegments(pLine, pInterval);
     const lDir          = getDirection(pLine);
     const lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));

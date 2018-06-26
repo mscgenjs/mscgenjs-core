@@ -127,6 +127,7 @@
   ],
   "options": {
     "moduleSystems": ["cjs", "es6"],
-    "doNotFollow": "node_modules"
+    "doNotFollow": "node_modules",
+    "tsPreCompilationDeps": true
   }
 }

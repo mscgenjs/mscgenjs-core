@@ -5,7 +5,7 @@ const variationhelpers_1 = require("./variationhelpers");
 function createDoubleLine(pLine, pOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
     const lSpace = lLineWidth;
-    const lClass = pOptions ? pOptions.class : null;
+    const lClass = pOptions ? pOptions.class : "";
     const lDir = variationhelpers_1.default.getDirection(pLine);
     const lEndCorr = variationhelpers_1.default.determineEndCorrection(pLine, lClass, lLineWidth);
     const lStartCorr = variationhelpers_1.default.determineStartCorrection(pLine, lClass, lLineWidth);
@@ -66,9 +66,11 @@ function createNote(pBBox, pOptions) {
  */
 function createRBox(pBBox, pOptions) {
     const RBOX_CORNER_RADIUS = 6; // px
-    pOptions.rx = RBOX_CORNER_RADIUS;
-    pOptions.ry = RBOX_CORNER_RADIUS;
-    return svgprimitives_1.default.createRect(pBBox, pOptions);
+    const lOptions = Object.assign({
+        rx: RBOX_CORNER_RADIUS,
+        ry: RBOX_CORNER_RADIUS,
+    }, pOptions);
+    return svgprimitives_1.default.createRect(pBBox, lOptions);
 }
 /**
  * Creates an angled box of width x height, with the top left corner

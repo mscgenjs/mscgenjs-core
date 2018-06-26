@@ -3,29 +3,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SVGNS = "http://www.w3.org/2000/svg";
 const XLINKNS = "http://www.w3.org/1999/xlink";
 let gDocument = {};
-function _setAttribute(pObject, pAttribute, pValue) {
+function _setAttribute(pElement, pKey, pValue) {
     if (Boolean(pValue)) {
-        pObject.setAttribute(pAttribute, pValue);
+        pElement.setAttribute(pKey, pValue);
     }
-    return pObject;
+    return pElement;
 }
-function _setAttributeNS(pObject, pNS, pAttribute, pValue) {
+function _setAttributeNS(pElement, pNS, pKey, pValue) {
     if (Boolean(pValue)) {
-        pObject.setAttributeNS(pNS, pAttribute, pValue);
+        pElement.setAttributeNS(pNS, pKey, pValue);
     }
-    return pObject;
+    return pElement;
 }
-function _setAttributes(pObject, pAttributes) {
+function _setAttributes(pElement, pAttributes) {
     Object.keys(pAttributes || {}).forEach((pKey) => {
-        _setAttribute(pObject, pKey, pAttributes[pKey]);
+        _setAttribute(pElement, pKey, pAttributes[pKey]);
     });
-    return pObject;
+    return pElement;
 }
-function _setAttributesNS(pObject, pNS, pAttributes) {
+function _setAttributesNS(pElement, pNS, pAttributes) {
     Object.keys(pAttributes || {}).forEach((pKey) => {
-        _setAttributeNS(pObject, pNS, pKey, pAttributes[pKey]);
+        _setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
     });
-    return pObject;
+    return pElement;
 }
 function _createElement(pElementType, pAttributes) {
     return _setAttributes(gDocument.createElementNS(SVGNS, pElementType), pAttributes);

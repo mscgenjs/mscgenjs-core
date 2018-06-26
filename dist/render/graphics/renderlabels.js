@@ -36,7 +36,7 @@ function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
     return lRect;
 }
 function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc) {
-    let lText = {};
+    let lText;
     if (pPosition === 0) {
         lText = index_1.default.createText(pLine, {
             x: pMiddle,
@@ -88,7 +88,7 @@ function createLabel(pArc, pDims, pOptions, pId) {
     if (pArc.label) {
         const lMiddle = pDims.x + (pDims.width / 2);
         const lLines = splitLabel(pArc.label, pArc.kind, pDims.width, constants_1.default.FONT_SIZE, pOptions);
-        let lText = {};
+        let lText;
         if (!!pOptions && pOptions.alignAbove) {
             lLines.forEach(() => {
                 lLines.push("");

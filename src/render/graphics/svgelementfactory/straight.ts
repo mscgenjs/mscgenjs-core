@@ -1,10 +1,12 @@
+import * as geotypes from "./geotypes";
+import * as magic from "./magic";
 import svgprimitives from "./svgprimitives";
 import variationhelpers from "./variationhelpers";
 
-function createDoubleLine(pLine, pOptions) {
+function createDoubleLine(pLine: geotypes.ILine, pOptions: magic.IOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
     const lSpace = lLineWidth;
-    const lClass = pOptions ? pOptions.class : null;
+    const lClass = pOptions ? pOptions.class : "";
 
     const lDir = variationhelpers.getDirection(pLine);
     const lEndCorr = variationhelpers.determineEndCorrection(pLine, lClass, lLineWidth);
@@ -42,7 +44,7 @@ function createDoubleLine(pLine, pOptions) {
  *
  * @return {SVGElement}
  */
-function createNote(pBBox, pOptions) {
+function createNote(pBBox: geotypes.IBBox, pOptions: magic.IOptions) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
 
     const lFoldSizeN = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
@@ -76,12 +78,14 @@ svgprimitives.pathPoint2String("l", 0, -(pBBox.height))}z`,
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createRBox(pBBox, pOptions) {
+function createRBox(pBBox: geotypes.IBBox, pOptions: any) {
     const RBOX_CORNER_RADIUS = 6; // px
-    pOptions.rx = RBOX_CORNER_RADIUS;
-    pOptions.ry = RBOX_CORNER_RADIUS;
+    const lOptions = Object.assign({
+        rx: RBOX_CORNER_RADIUS,
+        ry: RBOX_CORNER_RADIUS,
+    }, pOptions);
 
-    return svgprimitives.createRect(pBBox, pOptions);
+    return svgprimitives.createRect(pBBox, lOptions);
 }
 
 /**
@@ -92,7 +96,7 @@ function createRBox(pBBox, pOptions) {
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createABox(pBBox, pOptions) {
+function createABox(pBBox: geotypes.IBBox, pOptions) {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(
         `${svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
@@ -118,7 +122,7 @@ svgprimitives.pathPoint2String("l", -(pBBox.width - 2 * lSlopeOffset), 0)}z`,
  *
  * @return {SVGElement}
  */
-function createEdgeRemark(pBBox, pOptions) {
+function createEdgeRemark(pBBox: geotypes.IBBox, pOptions) {
     const lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
     const lOptions = Object.assign(
         {

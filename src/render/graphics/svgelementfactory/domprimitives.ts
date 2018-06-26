@@ -3,42 +3,42 @@ const XLINKNS = "http://www.w3.org/1999/xlink";
 
 let gDocument: any = {};
 
-function _setAttribute(pObject, pAttribute, pValue) {
+function _setAttribute(pElement: Element, pKey: string, pValue?: any): Element {
     if (Boolean(pValue)) {
-        pObject.setAttribute(pAttribute, pValue);
+        pElement.setAttribute(pKey, pValue);
     }
-    return pObject;
+    return pElement;
 }
 
-function _setAttributeNS(pObject, pNS, pAttribute, pValue) {
+function _setAttributeNS(pElement: Element, pNS: string, pKey: string, pValue?: any): Element {
     if (Boolean(pValue)) {
-        pObject.setAttributeNS(pNS, pAttribute, pValue);
+        pElement.setAttributeNS(pNS, pKey, pValue);
     }
-    return pObject;
+    return pElement;
 }
 
-function _setAttributes(pObject, pAttributes) {
+function _setAttributes(pElement: Element, pAttributes) {
     Object.keys(pAttributes || {}).forEach((pKey) => {
-        _setAttribute(pObject, pKey, pAttributes[pKey]);
+        _setAttribute(pElement, pKey, pAttributes[pKey]);
     });
-    return pObject;
+    return pElement;
 }
 
-function _setAttributesNS(pObject, pNS, pAttributes) {
+function _setAttributesNS(pElement: Element, pNS, pAttributes) {
     Object.keys(pAttributes || {}).forEach((pKey) => {
-        _setAttributeNS(pObject, pNS, pKey, pAttributes[pKey]);
+        _setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
     });
-    return pObject;
+    return pElement;
 }
 
-function _createElement(pElementType, pAttributes?) {
+function _createElement(pElementType: string, pAttributes?): SVGElement {
     return _setAttributes(
         gDocument.createElementNS(SVGNS, pElementType),
         pAttributes,
-    );
+    ) as SVGElement;
 }
 
-function _createTextNode(pText) {
+function _createTextNode(pText: string) {
     return gDocument.createTextNode(pText);
 }
 
@@ -52,7 +52,7 @@ export default {
      *
      * @param {document} pDocument
      */
-    init(pDocument) {
+    init(pDocument: Document) {
         gDocument = pDocument;
     },
     /**

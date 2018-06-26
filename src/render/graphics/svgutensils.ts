@@ -1,5 +1,6 @@
 import * as memoize from "lodash.memoize";
 import idmanager from "./idmanager";
+import * as geotypes from "./svgelementfactory/geotypes";
 import svgelementfactory from "./svgelementfactory/index";
 
 /**
@@ -10,7 +11,7 @@ let gDocument: any = {};
 const gSvgBBoxerId = idmanager.get("bboxer");
 
 /* istanbul ignore next */
-function _createBBoxerSVG(pId) {
+function _createBBoxerSVG(pId): SVGSVGElement {
     const lSvg = svgelementfactory.createSVG(pId, idmanager.get());
     gDocument.body.appendChild(lSvg);
 
@@ -18,7 +19,7 @@ function _createBBoxerSVG(pId) {
 }
 
 /* istanbul ignore next */
-function getNativeBBox(pElement) {
+function getNativeBBox(pElement: SVGGElement): geotypes.IBBox {
     /* getNativeBBoxWithCache */
     let lSvg = gDocument.getElementById(gSvgBBoxerId);
     lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
@@ -39,7 +40,7 @@ function getNativeBBox(pElement) {
     * if height or width has a wacky value:
     */
 /* istanbul ignore next */
-function sanitizeBBox(pBBox) {
+function sanitizeBBox(pBBox: geotypes.IBBox): geotypes.IBBox {
     const INSANELYBIG = 100000;
 
     if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG) {
@@ -54,7 +55,7 @@ function sanitizeBBox(pBBox) {
     }
 }
 
-function _getBBox(pElement) {
+function _getBBox(pElement: SVGGElement): geotypes.IBBox {
     /* istanbul ignore if */
     if (typeof (pElement.getBBox) === "function") {
         return sanitizeBBox(getNativeBBox(pElement));
@@ -68,7 +69,7 @@ function _getBBox(pElement) {
     }
 }
 
-function _calculateTextHeight() {
+function _calculateTextHeight(): number {
     /* Uses a string with some characters that tend to stick out
         * above/ below the current line and an 'astral codepoint' to
         * determine the text height to use everywhere.
@@ -87,7 +88,7 @@ function _calculateTextHeight() {
     ).height;
 }
 
-function _removeRenderedSVGFromElement(pElementId) {
+function _removeRenderedSVGFromElement(pElementId: string) {
     idmanager.setPrefix(pElementId);
     const lChildElement = gDocument.getElementById(idmanager.get());
     if (Boolean(lChildElement)) {
@@ -101,7 +102,7 @@ function _removeRenderedSVGFromElement(pElementId) {
 }
 
 export default {
-    init(pDocument) {
+    init(pDocument: Document) {
         gDocument = pDocument;
     },
     removeRenderedSVGFromElement : _removeRenderedSVGFromElement,
@@ -130,9 +131,9 @@ export default {
     // namespace prefixes in front of xlink and all hrefs respectively.
     // this function does a crude global replace to circumvent the
     // resulting problems. Problem happens for xhtml too
-    webkitNamespaceBugWorkaround(pText) {
-        return pText.replace(/ xlink=/g, " xmlns:xlink=", "g")
-            .replace(/ href=/g, " xlink:href=", "g");
+    webkitNamespaceBugWorkaround(pText: string): string {
+        return pText.replace(/ xlink=/g, " xmlns:xlink=")
+            .replace(/ href=/g, " xlink:href=");
     },
 };
 /*

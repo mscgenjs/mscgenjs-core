@@ -181,18 +181,12 @@ exports.default = {
      * Creates a u-turn, departing on pStartX, pStarty and
      * ending on pStartX, pEndY with a width of pWidth
      *
-     * @param {object} pPoint
+     * @param {object} pBBox
      * @param {number} pEndY
-     * @param {number} pWidth
-     * @param {string} pClass - reference to the css class to be applied
+     * @param {object} pOptions
      * @return {SVGElement}
      */
-    createUTurn(pPoint, pEndY, pWidth, pClass, pDontHitHome, pHeight) {
-        return gRenderMagic.createUTurn(pPoint, pEndY, pWidth, pClass, {
-            dontHitHome: pDontHitHome,
-            lineWidth: gOptions.LINE_WIDTH,
-        }, pHeight);
-    },
+    createUTurn: gRenderMagic.createUTurn,
     /**
      * Creates an svg group, identifiable with id pId
      * @param {string} pId

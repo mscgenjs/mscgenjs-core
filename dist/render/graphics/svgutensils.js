@@ -115,8 +115,8 @@ exports.default = {
     // this function does a crude global replace to circumvent the
     // resulting problems. Problem happens for xhtml too
     webkitNamespaceBugWorkaround(pText) {
-        return pText.replace(/ xlink=/g, " xmlns:xlink=", "g")
-            .replace(/ href=/g, " xlink:href=", "g");
+        return pText.replace(/ xlink=/g, " xmlns:xlink=")
+            .replace(/ href=/g, " xlink:href=");
     },
 };
 /*

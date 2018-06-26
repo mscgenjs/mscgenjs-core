@@ -4,22 +4,22 @@ const domprimitives_1 = require("./domprimitives");
 const getdiagonalangle_1 = require("./getdiagonalangle");
 const round_1 = require("./round");
 const PRECISION = 2;
-function point2String(pX, pY) {
-    return `${round_1.default(pX, PRECISION).toString()},${round_1.default(pY, PRECISION).toString()} `;
+function point2String(pPoint) {
+    return `${round_1.default(pPoint.x, PRECISION).toString()},${round_1.default(pPoint.y, PRECISION).toString()} `;
 }
 function pathPoint2String(pType, pX, pY) {
-    return pType + point2String(pX, pY);
+    return pType + point2String({ x: pX, y: pY });
 }
 function createMarker(pId, pClass, pOrient, pViewBox) {
     /* so, why not start at refX=0, refY=0? It would simplify reasoning
-        * about marker paths significantly...
-        *
-        * TL;DR: canvg doesn't seem to handle this very well.
-        * - Don't know yet why.
-        * - Suspicion: with (0,0) the marker paths we use would end up having
-        *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
-        *   signal)
-        */
+     * about marker paths significantly...
+     *
+     * TL;DR: canvg doesn't seem to handle this very well.
+     * - Don't know yet why.
+     * - Suspicion: with (0,0) the marker paths we use would end up having
+     *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
+     *   signal)
+    */
     return domprimitives_1.default.createElement("marker", {
         orient: pOrient,
         id: pId,
@@ -32,11 +32,11 @@ function createMarker(pId, pClass, pOrient, pViewBox) {
         markerHeight: "10",
     });
     /* for scaling to the lineWidth of the line the marker is attached to,
-        * userSpaceOnUse looks like a good plan, but it is not only the
-        * paths that don't scale, it's also the linewidth (which makes sense).
-        * We'll have to roll our own path transformation algorithm if we want
-        * to change only the linewidth and not the rest
-        */
+    * userSpaceOnUse looks like a good plan, but it is not only the
+    * paths that don't scale, it's also the linewidth (which makes sense).
+    * We'll have to roll our own path transformation algorithm if we want
+    * to change only the linewidth and not the rest
+    */
 }
 function createLink(pURL, pElementToWrap) {
     const lA = domprimitives_1.default.createElement("a");
@@ -111,6 +111,74 @@ function colorBox(pElement, pColor, pBgColor) {
         lStyleString += `stroke:${pColor};`;
     }
     return domprimitives_1.default.setAttribute(pElement, "style", lStyleString);
+}
+function createSingleLine(pLine, pOptions) {
+    return domprimitives_1.default.createElement("line", {
+        x1: round_1.default(pLine.xFrom, PRECISION).toString(),
+        y1: round_1.default(pLine.yFrom, PRECISION).toString(),
+        x2: round_1.default(pLine.xTo, PRECISION).toString(),
+        y2: round_1.default(pLine.yTo, PRECISION).toString(),
+        class: pOptions ? pOptions.class : null,
+    });
+}
+/**
+ * Creates an svg rectangle of width x height, with the top left
+ * corner at coordinates (x, y). pRX and pRY define the amount of
+ * rounding the corners of the rectangle get; when they're left out
+ * the function will render the corners as straight.
+ *
+ * Unit: pixels
+ *
+ * @param {object} pBBox
+ * @param {string} pClass - reference to the css class to be applied
+ * @param {number=} pRX
+ * @param {number=} pRY
+ * @return {SVGElement}
+ */
+function createRect(pBBox, pOptions) {
+    const lOptions = Object.assign({
+        class: null,
+        color: null,
+        bgColor: null,
+        rx: null,
+        ry: null,
+    }, pOptions);
+    return colorBox(domprimitives_1.default.createElement("rect", {
+        width: round_1.default(pBBox.width, PRECISION),
+        height: round_1.default(pBBox.height, PRECISION),
+        x: round_1.default(pBBox.x, PRECISION),
+        y: round_1.default(pBBox.y, PRECISION),
+        rx: round_1.default(lOptions.rx, PRECISION),
+        ry: round_1.default(lOptions.ry, PRECISION),
+        class: lOptions.class,
+    }), lOptions.color, lOptions.bgColor);
+}
+/**
+ * Creates a u-turn, departing on pPoint.x, pPoint.y and
+ * ending on pPoint.x, pEndY with a width of pWidth
+ *
+ * @param {object} pBBox
+ * @param {number} pEndY
+ * @param {number} pWidth
+ * @param {string} pOptions - reference to the css class to be applied
+ * @return {SVGElement}
+ */
+function createUTurn(pBBox, pEndY, pOptions) {
+    const lOptions = Object.assign({
+        class: null,
+        dontHitHome: false,
+        lineWidth: 1,
+    }, pOptions);
+    const lEndX = lOptions.dontHitHome ? pBBox.x + 7.5 * lOptions.lineWidth : pBBox.x;
+    return createPath(
+    // point to start from:
+    pathPoint2String("M", pBBox.x, pBBox.y - (pBBox.height / 2)) +
+        // curve first to:
+        pathPoint2String("C", pBBox.x + pBBox.width, pBBox.y - ((7.5 * lOptions.lineWidth) / 2)) +
+        // curve back from.:
+        point2String({ x: pBBox.x + pBBox.width, y: pEndY + 0 }) +
+        // curve end-pont:
+        point2String({ x: lEndX, y: pEndY }), { class: lOptions.class });
 }
 exports.default = {
     /**
@@ -188,82 +256,18 @@ exports.default = {
      *  - top right) in canvas pCanvas
      *
      * @param {string} pText
-     * @param {object} pCanvas (an object with at least a .width and a .height)
+     * @param {object} pDimension (an object with at least a .width and a .height)
      */
-    createDiagonalText(pText, pCanvas, pClass) {
-        return domprimitives_1.default.setAttributes(createText(pText, { x: pCanvas.width / 2, y: pCanvas.height / 2 }, { class: pClass }), {
-            transform: `rotate(${round_1.default(getdiagonalangle_1.default(pCanvas), PRECISION).toString()} ` +
-                `${round_1.default((pCanvas.width) / 2, PRECISION).toString()} ` +
-                `${round_1.default((pCanvas.height) / 2, PRECISION).toString()})`,
+    createDiagonalText(pText, pDimension, pClass) {
+        return domprimitives_1.default.setAttributes(createText(pText, { x: pDimension.width / 2, y: pDimension.height / 2 }, { class: pClass }), {
+            transform: `rotate(${round_1.default(getdiagonalangle_1.default(pDimension), PRECISION).toString()} ` +
+                `${round_1.default((pDimension.width) / 2, PRECISION).toString()} ` +
+                `${round_1.default((pDimension.height) / 2, PRECISION).toString()})`,
         });
     },
-    createSingleLine(pLine, pOptions) {
-        return domprimitives_1.default.createElement("line", {
-            x1: round_1.default(pLine.xFrom, PRECISION).toString(),
-            y1: round_1.default(pLine.yFrom, PRECISION).toString(),
-            x2: round_1.default(pLine.xTo, PRECISION).toString(),
-            y2: round_1.default(pLine.yTo, PRECISION).toString(),
-            class: pOptions ? pOptions.class : null,
-        });
-    },
-    /**
-     * Creates an svg rectangle of width x height, with the top left
-     * corner at coordinates (x, y). pRX and pRY define the amount of
-     * rounding the corners of the rectangle get; when they're left out
-     * the function will render the corners as straight.
-     *
-     * Unit: pixels
-     *
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} pRX
-     * @param {number=} pRY
-     * @return {SVGElement}
-     */
-    createRect(pBBox, pOptions) {
-        const lOptions = Object.assign({
-            class: null,
-            color: null,
-            bgColor: null,
-            rx: null,
-            ry: null,
-        }, pOptions);
-        return colorBox(domprimitives_1.default.createElement("rect", {
-            width: round_1.default(pBBox.width, PRECISION),
-            height: round_1.default(pBBox.height, PRECISION),
-            x: round_1.default(pBBox.x, PRECISION),
-            y: round_1.default(pBBox.y, PRECISION),
-            rx: round_1.default(lOptions.rx, PRECISION),
-            ry: round_1.default(lOptions.ry, PRECISION),
-            class: lOptions.class,
-        }), lOptions.color, lOptions.bgColor);
-    },
-    /**
-     * Creates a u-turn, departing on pPoint.x, pPoint.y and
-     * ending on pPoint.x, pEndY with a width of pWidth
-     *
-     * @param {object} pPoint
-     * @param {number} pEndY
-     * @param {number} pWidth
-     * @param {string} pClass - reference to the css class to be applied
-     * @return {SVGElement}
-     */
-    createUTurn(pPoint, pEndY, pWidth, pClass, pOptions, pHeight) {
-        const lOptions = Object.assign({
-            dontHitHome: false,
-            lineWidth: 1,
-        }, pOptions);
-        const lEndX = lOptions.dontHitHome ? pPoint.x + 7.5 * pOptions.lineWidth : pPoint.x;
-        return createPath(
-        // point to start from:
-        pathPoint2String("M", pPoint.x, pPoint.y - (pHeight / 2)) +
-            // curve first to:
-            pathPoint2String("C", pPoint.x + pWidth, pPoint.y - ((7.5 * pOptions.lineWidth) / 2)) +
-            // curve back from.:
-            point2String(pPoint.x + pWidth, pEndY + 0) +
-            // curve end-pont:
-            point2String(lEndX, pEndY), { class: pClass });
-    },
+    createSingleLine,
+    createRect,
+    createUTurn,
     /**
      * Creates an svg group, identifiable with id pId
      * @param {string} pId
@@ -286,11 +290,11 @@ exports.default = {
     createMarkerPath(pId, pD, pColor) {
         const lMarker = createMarker(pId, "arrow-marker", "auto");
         /* stroke-dasharray: 'none' should work to override any dashes (like in
-            * return messages (a >> b;)) and making sure the marker end gets
-            * lines
-            * This, however, does not work in webkit, hence the curious
-            * value for the stroke-dasharray
-            */
+         * return messages (a >> b;)) and making sure the marker end gets
+         * lines
+         * This, however, does not work in webkit, hence the curious
+         * value for the stroke-dasharray
+         */
         lMarker.appendChild(createPath(pD, {
             class: "arrow-style",
             style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",

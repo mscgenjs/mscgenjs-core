@@ -309,7 +309,7 @@ function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
 }
 
 function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
-    let lElement = {};
+    let lElement: SVGGElement = svgelementfactory.createGroup();
 
     if (pArc.from && pArc.to) {
         if (pArc.to === "*") { // it's a broadcast arc
@@ -359,7 +359,7 @@ function getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions) {
     let lRetval = 0;
 
     pArcRow.forEach((pArc) => {
-        let lElement = {};
+        let lElement: SVGGElement;
 
         switch (aggregatekind(pArc.kind)) {
         case ("emptyarc"):
@@ -655,30 +655,53 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
 
     if (pDouble) {
         lRetval = svgelementfactory.createGroup();
-        const lInnerTurn  = svgelementfactory.createUTurn(
-            {x: pFrom, y: pY},
-            (pY + pYTo + lHeight - 2 * constants.LINE_WIDTH),
-            lWidth - 2 * constants.LINE_WIDTH,
-            lClass,
-            pKind !== "::",
-            lHeight,
+        // const lInnerTurn  = svgelementfactory.createUTurnold(
+        //     {x: pFrom, y: pY},
+        //     (pY + pYTo + lHeight - 2 * constants.LINE_WIDTH), // pEndY
+        //     lWidth - 2 * constants.LINE_WIDTH, // pWidth
+        //     lClass, // pClass
+        //     pKind !== "::", // pDontHitHome
+        //     lHeight, // pHeight
+        // );
+        const lInnerTurn = svgelementfactory.createUTurn(
+            {
+                x: pFrom,
+                y: pY,
+                width: lWidth - 2 * constants.LINE_WIDTH,
+                height: lHeight,
+            },
+            (pY + pYTo + lHeight - 2 * constants.LINE_WIDTH), // pY
+            {
+                class: lClass,
+                dontHitHome: pKind !== "::",
+                lineWidth: constants.LINE_WIDTH,
+            },
+
         );
         /* we need a middle turn to attach the arrow to */
         const lMiddleTurn = svgelementfactory.createUTurn(
-            {x: pFrom, y: pY},
+            {
+                x: pFrom,
+                y: pY,
+                width: lWidth,
+                height: lHeight,
+            },
             (pY + pYTo + lHeight - constants.LINE_WIDTH),
-            lWidth,
-            null,
-            null,
-            lHeight,
+            { lineWidth: constants.LINE_WIDTH},
         );
-        const lOuterTurn  = svgelementfactory.createUTurn(
-            {x: pFrom, y: pY},
+        const lOuterTurn = svgelementfactory.createUTurn(
+            {
+                x: pFrom,
+                y: pY,
+                width: lWidth,
+                height: lHeight,
+            },
             (pY + pYTo + lHeight),
-            lWidth,
-            lClass,
-            pKind !== "::",
-            lHeight,
+            {
+                class: lClass,
+                dontHitHome: pKind !== "::",
+                lineWidth: constants.LINE_WIDTH,
+            },
         );
         if (Boolean(pLineColor)) {
             lInnerTurn.setAttribute("style", `stroke:${pLineColor}`);
@@ -699,12 +722,15 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
             {
                 x: pFrom,
                 y: pY,
+                width: lWidth,
+                height: lHeight,
             },
             (pY + pYTo + lHeight),
-            lWidth,
-            lClass,
-            pKind === "-x",
-            lHeight,
+            {
+                class: lClass,
+                dontHitHome: pKind === "-x",
+                lineWidth: constants.LINE_WIDTH,
+            },
         );
         markermanager.getAttributes(idmanager.get(), pKind, pLineColor, pFrom, pFrom).forEach(
             (pAttribute: any) => {
@@ -960,7 +986,7 @@ function createBox(pOAndD, pArc, pY, pOptions) {
     /* end: same as createInlineExpressionBox */
 
     const lGroup = svgelementfactory.createGroup();
-    let lBox = {};
+    let lBox: SVGElement;
     const lTextGroup = renderlabels.createLabel(pArc, {x: lStart, y: pY, width: lWidth}, pOptions);
     const lTextBBox = svgutensils.getBBox(lTextGroup);
     const lHeight = Math.max(

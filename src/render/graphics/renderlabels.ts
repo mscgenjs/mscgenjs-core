@@ -37,8 +37,8 @@ function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
     return lRect;
 }
 
-function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc) {
-    let lText = {};
+function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc): SVGTextElement {
+    let lText: SVGTextElement;
     if (pPosition === 0) {
         lText = svgelementfactory.createText(
             pLine,
@@ -79,7 +79,7 @@ function determineClasses(pArcKind, pOptionsKind, pPostFix) {
         : lAggregateClass + pPostFix + lClass + pPostFix;
 }
 
-function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
+function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions): SVGTextElement {
     let lY = pStartY + ((pPosition + 1 / 4) * svgutensils.calculateTextHeight());
     let lClass = determineClasses(pArc.kind, pOptions && pOptions.kind, "-text ");
 
@@ -111,7 +111,7 @@ function createLabel(pArc, pDims, pOptions, pId?) {
             constants.FONT_SIZE,
             pOptions,
         );
-        let lText = {};
+        let lText: SVGTextElement;
         if (!!pOptions && pOptions.alignAbove) {
             lLines.forEach(() => {
                 lLines.push("");

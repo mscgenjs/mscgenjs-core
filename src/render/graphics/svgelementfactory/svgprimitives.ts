@@ -1,26 +1,32 @@
 import domprimitives from "./domprimitives";
+import * as geotypes from "./geotypes";
 import getDiagonalAngle from "./getdiagonalangle";
 import round from "./round";
+
 const PRECISION        = 2;
 
-function point2String(pX, pY) {
-    return `${round(pX, PRECISION).toString()},${round(pY, PRECISION).toString()} `;
+function point2String(pPoint: geotypes.IPoint): string {
+    return `${round(pPoint.x, PRECISION).toString()},${round(pPoint.y, PRECISION).toString()} `;
 }
 
-function pathPoint2String(pType, pX, pY) {
-    return pType + point2String(pX, pY);
+function pathPoint2String(pType: string, pX, pY): string {
+    return pType + point2String({x: pX, y: pY});
 }
 
-function createMarker(pId, pClass, pOrient, pViewBox?) {
+function createMarker(
+    pId: string,
+    pClass: string,
+    pOrient: string,
+    pViewBox?: string): SVGMarkerElement {
     /* so, why not start at refX=0, refY=0? It would simplify reasoning
-        * about marker paths significantly...
-        *
-        * TL;DR: canvg doesn't seem to handle this very well.
-        * - Don't know yet why.
-        * - Suspicion: with (0,0) the marker paths we use would end up having
-        *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
-        *   signal)
-        */
+     * about marker paths significantly...
+     *
+     * TL;DR: canvg doesn't seem to handle this very well.
+     * - Don't know yet why.
+     * - Suspicion: with (0,0) the marker paths we use would end up having
+     *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
+     *   signal)
+    */
     return domprimitives.createElement(
         "marker",
         {
@@ -34,17 +40,17 @@ function createMarker(pId, pClass, pOrient, pViewBox?) {
             markerWidth: "10",
             markerHeight: "10",
         },
-    );
+    ) as SVGMarkerElement;
     /* for scaling to the lineWidth of the line the marker is attached to,
-        * userSpaceOnUse looks like a good plan, but it is not only the
-        * paths that don't scale, it's also the linewidth (which makes sense).
-        * We'll have to roll our own path transformation algorithm if we want
-        * to change only the linewidth and not the rest
-        */
+    * userSpaceOnUse looks like a good plan, but it is not only the
+    * paths that don't scale, it's also the linewidth (which makes sense).
+    * We'll have to roll our own path transformation algorithm if we want
+    * to change only the linewidth and not the rest
+    */
 
 }
 
-function createLink(pURL, pElementToWrap) {
+function createLink(pURL: string, pElementToWrap: SVGElement): SVGAElement {
     const lA = domprimitives.createElement("a");
     domprimitives.setAttributesNS(
         lA,
@@ -55,25 +61,31 @@ function createLink(pURL, pElementToWrap) {
         },
     );
     lA.appendChild(pElementToWrap);
-    return lA;
+    return lA as SVGAElement;
 }
 
 /* superscript style could also be super or a number (1em) or a % (100%) */
 let lSuperscriptStyle = "vertical-align:text-top;";
 lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
 
-function createTSpan(pLabel, pURL) {
+function createTSpan(pLabel: string, pURL: string): SVGTSpanElement|SVGAElement {
     const lTSpanLabel = domprimitives.createElement("tspan");
     const lContent = domprimitives.createTextNode(pLabel);
     lTSpanLabel.appendChild(lContent);
     if (pURL) {
         return createLink(pURL, lTSpanLabel);
     } else {
-        return lTSpanLabel;
+        return lTSpanLabel as SVGTSpanElement;
     }
 }
 
-function createText(pLabel, pCoords, pOptions?) {
+interface ICreateTextOptions {
+    class?: string;
+    url?: string;
+    id?: string;
+    idurl?: string;
+}
+function createText(pLabel: string, pCoords: geotypes.IPoint, pOptions?: ICreateTextOptions): SVGTextElement {
     const lOptions = Object.assign(
         {
             class: null,
@@ -99,9 +111,15 @@ function createText(pLabel, pCoords, pOptions?) {
         lTSpanID.setAttribute("style", lSuperscriptStyle);
         lText.appendChild(lTSpanID);
     }
-    return lText;
+    return lText as SVGTextElement;
 }
 
+interface ICreatePathOptions {
+    class?: string;
+    style?: string;
+    color?: string;
+    bgColor?: string;
+}
 /**
  * Creates an svg path element given the path pD, with pClass applied
  * (if provided)
@@ -110,7 +128,7 @@ function createText(pLabel, pCoords, pOptions?) {
  * @param {string} pOptions - an object with (optional) keys class, style, color and bgColor
  * @return {SVGElement}
  */
-function createPath(pD, pOptions) {
+function createPath(pD: string, pOptions: ICreatePathOptions): SVGPathElement {
     const lOptions = Object.assign(
         {
             class: null,
@@ -131,10 +149,10 @@ function createPath(pD, pOptions) {
         ),
         lOptions.color,
         lOptions.bgColor,
-    );
+    ) as SVGPathElement;
 }
 
-function colorBox(pElement, pColor, pBgColor) {
+function colorBox(pElement: SVGElement, pColor: string, pBgColor: string): SVGElement {
     let lStyleString = "";
     if (pBgColor) {
         lStyleString += `fill:${pBgColor};`;
@@ -142,7 +160,111 @@ function colorBox(pElement, pColor, pBgColor) {
     if (pColor) {
         lStyleString += `stroke:${pColor};`;
     }
-    return domprimitives.setAttribute(pElement, "style", lStyleString);
+    return domprimitives.setAttribute(pElement, "style", lStyleString) as SVGElement;
+}
+interface ICreateSinlgeLineOptions {
+    class?: string;
+}
+function createSingleLine(pLine: geotypes.ILine, pOptions: ICreateSinlgeLineOptions): SVGLineElement {
+    return domprimitives.createElement(
+        "line",
+        {
+            x1: round(pLine.xFrom, PRECISION).toString(),
+            y1: round(pLine.yFrom, PRECISION).toString(),
+            x2: round(pLine.xTo, PRECISION).toString(),
+            y2: round(pLine.yTo, PRECISION).toString(),
+            class: pOptions ? pOptions.class : null,
+        },
+    ) as SVGLineElement;
+}
+
+interface ICreateRectOptions {
+    class?: string;
+    color?: string;
+    bgColor?: string;
+    rx?: number;
+    ry?: number;
+}
+/**
+ * Creates an svg rectangle of width x height, with the top left
+ * corner at coordinates (x, y). pRX and pRY define the amount of
+ * rounding the corners of the rectangle get; when they're left out
+ * the function will render the corners as straight.
+ *
+ * Unit: pixels
+ *
+ * @param {object} pBBox
+ * @param {string} pClass - reference to the css class to be applied
+ * @param {number=} pRX
+ * @param {number=} pRY
+ * @return {SVGElement}
+ */
+function createRect(pBBox: geotypes.IBBox, pOptions: ICreateRectOptions): SVGRectElement {
+    const lOptions = Object.assign(
+        {
+            class: null,
+            color: null,
+            bgColor: null,
+            rx: null,
+            ry: null,
+        },
+        pOptions,
+    );
+    return colorBox(
+        domprimitives.createElement(
+            "rect",
+            {
+                width: round(pBBox.width, PRECISION),
+                height: round(pBBox.height, PRECISION),
+                x: round(pBBox.x, PRECISION),
+                y: round(pBBox.y, PRECISION),
+                rx: round(lOptions.rx, PRECISION),
+                ry: round(lOptions.ry, PRECISION),
+                class: lOptions.class,
+            },
+        ),
+        lOptions.color,
+        lOptions.bgColor,
+    ) as SVGRectElement;
+}
+
+interface ICreateUTurnOptions {
+    class?: string;
+    dontHitHome?: boolean;
+    lineWidth?: number;
+}
+/**
+ * Creates a u-turn, departing on pPoint.x, pPoint.y and
+ * ending on pPoint.x, pEndY with a width of pWidth
+ *
+ * @param {object} pBBox
+ * @param {number} pEndY
+ * @param {number} pWidth
+ * @param {string} pOptions - reference to the css class to be applied
+ * @return {SVGElement}
+ */
+function createUTurn(pBBox: geotypes.IBBox, pEndY: number, pOptions: ICreateUTurnOptions): SVGPathElement {
+    const lOptions = Object.assign(
+        {
+            class: null,
+            dontHitHome: false,
+            lineWidth: 1,
+        },
+        pOptions,
+    );
+    const lEndX = lOptions.dontHitHome ? pBBox.x + 7.5 * lOptions.lineWidth : pBBox.x;
+
+    return createPath(
+        // point to start from:
+        pathPoint2String("M", pBBox.x, pBBox.y - (pBBox.height / 2)) +
+        // curve first to:
+        pathPoint2String("C", pBBox.x + pBBox.width, pBBox.y - ((7.5 * lOptions.lineWidth) / 2)) +
+        // curve back from.:
+        point2String({x: pBBox.x + pBBox.width, y: pEndY + 0}) +
+        // curve end-pont:
+        point2String({x: lEndX, y: pEndY}),
+        {class: lOptions.class},
+    );
 }
 
 export default {
@@ -152,7 +274,7 @@ export default {
      *
      * @param {document} pDocument
      */
-    init(pDocument) {
+    init(pDocument: Document) {
         domprimitives.init(pDocument);
     },
 
@@ -161,7 +283,7 @@ export default {
      * @param {string} pId
      * @return {Element} an SVG element
      */
-    createSVG(pId, pClass) {
+    createSVG(pId: string, pClass: string): SVGSVGElement {
         return domprimitives.createElement(
             "svg",
             {
@@ -173,10 +295,10 @@ export default {
                 "width": "0",
                 "height": "0",
             },
-        );
+        ) as SVGSVGElement;
     },
 
-    updateSVG(pSVGElement, pAttributes) {
+    updateSVG(pSVGElement: SVGSVGElement, pAttributes: any) {
         domprimitives.setAttributes(pSVGElement, pAttributes);
     },
 
@@ -189,7 +311,7 @@ export default {
      * @param {string} pID
      * @returns {Element}
      */
-    createDesc() {
+    createDesc(): SVGDescElement {
         return domprimitives.createElement("desc");
     },
 
@@ -198,8 +320,8 @@ export default {
      *
      * @returns {Element}
      */
-    createDefs() {
-        return domprimitives.createElement("defs");
+    createDefs(): SVGDefsElement {
+        return domprimitives.createElement("defs") as SVGDefsElement;
     },
 
     /**
@@ -231,123 +353,37 @@ export default {
      *  - top right) in canvas pCanvas
      *
      * @param {string} pText
-     * @param {object} pCanvas (an object with at least a .width and a .height)
+     * @param {object} pDimension (an object with at least a .width and a .height)
      */
-    createDiagonalText(pText, pCanvas, pClass) {
+    createDiagonalText(pText: string, pDimension: geotypes.IDimension, pClass: string): SVGElement {
         return domprimitives.setAttributes(
-            createText(pText, {x: pCanvas.width / 2, y: pCanvas.height / 2}, {class: pClass}),
+            createText(pText, {x: pDimension.width / 2, y: pDimension.height / 2}, {class: pClass}),
             {
                 transform:
-                    `rotate(${round(getDiagonalAngle(pCanvas), PRECISION).toString()} ` +
-                    `${round((pCanvas.width) / 2, PRECISION).toString()} ` +
-                    `${round((pCanvas.height) / 2, PRECISION).toString()})`,
+                    `rotate(${round(getDiagonalAngle(pDimension), PRECISION).toString()} ` +
+                    `${round((pDimension.width) / 2, PRECISION).toString()} ` +
+                    `${round((pDimension.height) / 2, PRECISION).toString()})`,
             },
-        );
+        ) as SVGElement;
     },
 
-    createSingleLine(pLine, pOptions) {
-        return domprimitives.createElement(
-            "line",
-            {
-                x1: round(pLine.xFrom, PRECISION).toString(),
-                y1: round(pLine.yFrom, PRECISION).toString(),
-                x2: round(pLine.xTo, PRECISION).toString(),
-                y2: round(pLine.yTo, PRECISION).toString(),
-                class: pOptions ? pOptions.class : null,
-            },
-        );
-    },
-
-    /**
-     * Creates an svg rectangle of width x height, with the top left
-     * corner at coordinates (x, y). pRX and pRY define the amount of
-     * rounding the corners of the rectangle get; when they're left out
-     * the function will render the corners as straight.
-     *
-     * Unit: pixels
-     *
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} pRX
-     * @param {number=} pRY
-     * @return {SVGElement}
-     */
-    createRect(pBBox, pOptions) {
-        const lOptions = Object.assign(
-            {
-                class: null,
-                color: null,
-                bgColor: null,
-                rx: null,
-                ry: null,
-            },
-            pOptions,
-        );
-        return colorBox(
-            domprimitives.createElement(
-                "rect",
-                {
-                    width: round(pBBox.width, PRECISION),
-                    height: round(pBBox.height, PRECISION),
-                    x: round(pBBox.x, PRECISION),
-                    y: round(pBBox.y, PRECISION),
-                    rx: round(lOptions.rx, PRECISION),
-                    ry: round(lOptions.ry, PRECISION),
-                    class: lOptions.class,
-                },
-            ),
-            lOptions.color,
-            lOptions.bgColor,
-        );
-    },
-
-    /**
-     * Creates a u-turn, departing on pPoint.x, pPoint.y and
-     * ending on pPoint.x, pEndY with a width of pWidth
-     *
-     * @param {object} pPoint
-     * @param {number} pEndY
-     * @param {number} pWidth
-     * @param {string} pClass - reference to the css class to be applied
-     * @return {SVGElement}
-     */
-    createUTurn(pPoint, pEndY, pWidth, pClass, pOptions, pHeight) {
-        const lOptions = Object.assign(
-            {
-                dontHitHome: false,
-                lineWidth: 1,
-            },
-            pOptions,
-        );
-
-        const lEndX = lOptions.dontHitHome ? pPoint.x + 7.5 * pOptions.lineWidth : pPoint.x;
-
-        return createPath(
-            // point to start from:
-            pathPoint2String("M", pPoint.x, pPoint.y - (pHeight / 2)) +
-            // curve first to:
-            pathPoint2String("C", pPoint.x + pWidth, pPoint.y - ((7.5 * pOptions.lineWidth) / 2)) +
-            // curve back from.:
-            point2String(pPoint.x + pWidth, pEndY + 0) +
-            // curve end-pont:
-            point2String(lEndX, pEndY),
-            {class: pClass},
-        );
-    },
+    createSingleLine,
+    createRect,
+    createUTurn,
 
     /**
      * Creates an svg group, identifiable with id pId
      * @param {string} pId
      * @return {SVGElement}
      */
-    createGroup(pId?, pClass?) {
+    createGroup(pId?: string, pClass?: string): SVGGElement {
         return domprimitives.createElement(
             "g",
             {
                 id: pId,
                 class: pClass,
             },
-        );
+        ) as SVGGElement;
     },
 
     // elementfactory, wobbly, straight
@@ -359,14 +395,14 @@ export default {
      * @param {string} pId
      * @param {string} pD - a string containing the path
      */
-    createMarkerPath(pId, pD, pColor) {
+    createMarkerPath(pId: string, pD: string, pColor: string): SVGMarkerElement {
         const lMarker = createMarker(pId, "arrow-marker", "auto");
         /* stroke-dasharray: 'none' should work to override any dashes (like in
-            * return messages (a >> b;)) and making sure the marker end gets
-            * lines
-            * This, however, does not work in webkit, hence the curious
-            * value for the stroke-dasharray
-            */
+         * return messages (a >> b;)) and making sure the marker end gets
+         * lines
+         * This, however, does not work in webkit, hence the curious
+         * value for the stroke-dasharray
+         */
         lMarker.appendChild(
             createPath(
                 pD,
@@ -386,7 +422,7 @@ export default {
      * @param {string} pPoints - a string with the points of the polygon
      * @return {SVGElement}
      */
-    createMarkerPolygon(pId, pPoints, pColor) {
+    createMarkerPolygon(pId: string, pPoints: string, pColor: string): SVGMarkerElement {
         const lMarker = createMarker(pId, "arrow-marker", "auto");
         lMarker.appendChild(
             domprimitives.createElement(
@@ -397,12 +433,12 @@ export default {
                     stroke : pColor || "black",
                     fill   : pColor || "black",
                 },
-            ),
+            ) as SVGPolygonElement,
         );
         return lMarker;
     },
 
-    createTitle(pText) {
+    createTitle(pText: string): SVGTitleElement {
         const lTitle = domprimitives.createElement("title");
         const lText = domprimitives.createTextNode(pText);
         lTitle.appendChild(lText);

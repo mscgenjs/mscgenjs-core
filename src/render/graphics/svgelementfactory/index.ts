@@ -1,10 +1,12 @@
+import * as geotypes from "./geotypes";
+import * as magic from "./magic";
 import straight from "./straight";
 import wobbly from "./wobbly";
 
 let gRenderMagic  = straight;
 let gOptions: any  = {};
 
-function determineRenderMagic(pRenderMagic) {
+function determineRenderMagic(pRenderMagic: magic.MagicType): any {
     if (!Boolean(pRenderMagic)) {
         return gRenderMagic;
     }
@@ -22,7 +24,7 @@ export default {
      *
      * @param {document} pDocument
      */
-    init(pDocument, pOptions) {
+    init(pDocument: Document, pOptions) {
         gRenderMagic.init(pDocument);
         gOptions = Object.assign(
             {
@@ -38,10 +40,9 @@ export default {
      * @param {string} pId
      * @return {Element} an SVG element
      */
-    createSVG(pId, pClass, pRenderMagic?) {
+    createSVG(pId: string, pClass: string, pRenderMagic?: any): SVGSVGElement {
         gRenderMagic = determineRenderMagic(pRenderMagic);
         return gRenderMagic.createSVG(pId, pClass);
-
     },
 
     updateSVG: gRenderMagic.updateSVG,
@@ -87,7 +88,7 @@ export default {
      * @param {number=} pRY
      * @return {SVGElement}
      */
-    createRect(pBBox, pClass?, pColor?, pBgColor?) {
+    createRect(pBBox: geotypes.IBBox, pClass?: string, pColor?: string, pBgColor?: string) {
         return gRenderMagic.createRect(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
     },
 
@@ -99,7 +100,7 @@ export default {
      * @param {string} pClass - reference to the css class to be applied
      * @return {SVGElement}
      */
-    createRBox(pBBox, pClass, pColor, pBgColor) {
+    createRBox(pBBox: geotypes.IBBox, pClass?: string, pColor?: string, pBgColor?: string) {
         return gRenderMagic.createRBox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
     },
 
@@ -111,7 +112,7 @@ export default {
      * @param {string} pClass - reference to the css class to be applied
      * @return {SVGElement}
      */
-    createABox(pBBox, pClass, pColor, pBgColor) {
+    createABox(pBBox: geotypes.IBBox, pClass?: string, pColor?: string, pBgColor?: string) {
         return gRenderMagic.createABox(pBBox, {class: pClass, color: pColor, bgColor: pBgColor});
     },
 
@@ -191,7 +192,7 @@ export default {
      * @param {boolean=} [pDouble=false] - render a double line
      * @return {SVGElement}
      */
-    createLine(pLine, pOptions) {
+    createLine(pLine: geotypes.ILine, pOptions) {
         if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
             if (!pOptions.lineWidth) {
                 pOptions.lineWidth = gOptions.LINE_WIDTH;
@@ -206,25 +207,12 @@ export default {
      * Creates a u-turn, departing on pStartX, pStarty and
      * ending on pStartX, pEndY with a width of pWidth
      *
-     * @param {object} pPoint
+     * @param {object} pBBox
      * @param {number} pEndY
-     * @param {number} pWidth
-     * @param {string} pClass - reference to the css class to be applied
+     * @param {object} pOptions
      * @return {SVGElement}
      */
-    createUTurn(pPoint, pEndY, pWidth, pClass, pDontHitHome, pHeight) {
-        return gRenderMagic.createUTurn(
-            pPoint,
-            pEndY,
-            pWidth,
-            pClass,
-            {
-                dontHitHome: pDontHitHome,
-                lineWidth: gOptions.LINE_WIDTH,
-            },
-            pHeight,
-        );
-    },
+    createUTurn: gRenderMagic.createUTurn,
 
     /**
      * Creates an svg group, identifiable with id pId
