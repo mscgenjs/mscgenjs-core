@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const aggregatekind_1 = require("../astmassage/aggregatekind");
 const KIND2CLASS = Object.freeze({
     "|||": "empty-row",
     "...": "omitted-row",
@@ -26,54 +27,9 @@ const KIND2CLASS = Object.freeze({
     "..": "return",
     "::": "emphasised",
 });
-const KIND2AGGREGATECLASS = Object.freeze({
-    "|||": "empty",
-    "...": "empty",
-    "---": "empty",
-    "->": "directional",
-    "=>": "directional",
-    "=>>": "directional",
-    ">>": "directional",
-    ":>": "directional",
-    "-x": "directional",
-    "<-": "directional",
-    "<=": "directional",
-    "<<=": "directional",
-    "<<": "directional",
-    "<:": "directional",
-    "x-": "directional",
-    "note": "box",
-    "box": "box",
-    "abox": "box",
-    "rbox": "box",
-    "<->": "bidirectional",
-    "<=>": "bidirectional",
-    "<<=>>": "bidirectional",
-    "<<>>": "bidirectional",
-    "<:>": "bidirectional",
-    "--": "nondirectional",
-    "==": "nondirectional",
-    "..": "nondirectional",
-    "::": "nondirectional",
-    "alt": "inline_expression",
-    "else": "inline_expression",
-    "opt": "inline_expression",
-    "break": "inline_expression",
-    "par": "inline_expression",
-    "seq": "inline_expression",
-    "strict": "inline_expression",
-    "neg": "inline_expression",
-    "critical": "inline_expression",
-    "ignore": "inline_expression",
-    "consider": "inline_expression",
-    "assert": "inline_expression",
-    "loop": "inline_expression",
-    "ref": "inline_expression",
-    "exc": "inline_expression",
-});
 exports.default = {
     getClass(pKey) { return KIND2CLASS[pKey] || pKey; },
-    getAggregateClass(pKey) { return KIND2AGGREGATECLASS[pKey] || pKey; },
+    getAggregateClass(pKey) { return aggregatekind_1.default(pKey) || pKey; },
 };
 /*
  This file is part of mscgen_js.

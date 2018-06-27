@@ -99,7 +99,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
                 }]);
         }
         else {
-            if ((pFrom && pTo) && ("emptyarc" === aggregatekind_1.default(pArc.kind))) {
+            if ((pFrom && pTo) && ("empty" === aggregatekind_1.default(pArc.kind))) {
                 pArc.from = pFrom;
                 pArc.to = pTo;
                 pArc.depth = pDepth;

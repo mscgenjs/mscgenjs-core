@@ -93,7 +93,7 @@ export type ArcKindNormalizedType =
     "loop"     | "ref"    | "exc";
 
 export type ArcKindAggregatedType = 
-    "emptyarc"    | "box"           |
+    "empty"    | "box"           |
     "directional" | "bidirectional" | "nondirectional" |
     "inline_expression"
 

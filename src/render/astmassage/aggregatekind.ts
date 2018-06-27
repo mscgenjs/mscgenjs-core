@@ -1,9 +1,9 @@
 import * as mscgenjsast from "../../parse/mscgenjsast";
 
 const KIND2AGGREGATE = Object.freeze({
-    "|||" : "emptyarc",
-    "..." : "emptyarc",
-    "---" : "emptyarc",
+    "|||" : "empty",
+    "..." : "empty",
+    "---" : "empty",
     "->" : "directional",
     "=>" : "directional",
     "=>>" : "directional",

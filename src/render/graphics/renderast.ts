@@ -12,7 +12,7 @@ import _cloneDeep from "lodash.clonedeep";
  * @exports renderast
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-
+import * as mscgenjsast from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import flatten from "../astmassage/flatten";
 import constants from "./constants";
@@ -358,11 +358,11 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
 function getArcRowHeight(pArcRow, pEntities, pOptions) {
     let lRetval = 0;
 
-    pArcRow.forEach((pArc) => {
+    pArcRow.forEach((pArc: mscgenjsast.IArc) => {
         let lElement: SVGGElement;
 
         switch (aggregatekind(pArc.kind)) {
-        case ("emptyarc"):
+        case ("empty"):
             lElement = renderEmptyArc(pArc, 0);
             break;
         case ("box"):
@@ -390,11 +390,11 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
     let lArcRowClass = "arcrow";
     const lRowMemory: any[] = [];
 
-    pArcRow.forEach((pArc) => {
+    pArcRow.forEach((pArc: mscgenjsast.IArc) => {
         let lElement = {};
 
         switch (aggregatekind(pArc.kind)) {
-        case ("emptyarc"):
+        case ("empty"):
             lElement = renderEmptyArc(pArc, rowmemory.get(pRowNumber).y);
             if ("..." === pArc.kind) {
                 lArcRowClass = "arcrowomit";

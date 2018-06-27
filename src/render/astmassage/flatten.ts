@@ -123,7 +123,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom?, pTo?) {
                     isVirtual : true,
                 }]);
             } else {
-                if ((pFrom && pTo) && ("emptyarc" === aggregatekind(pArc.kind))) {
+                if ((pFrom && pTo) && ("empty" === aggregatekind(pArc.kind))) {
                     pArc.from = pFrom;
                     pArc.to = pTo;
                     pArc.depth = pDepth;

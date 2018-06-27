@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const KIND2AGGREGATE = Object.freeze({
-    "|||": "emptyarc",
-    "...": "emptyarc",
-    "---": "emptyarc",
+    "|||": "empty",
+    "...": "empty",
+    "---": "empty",
     "->": "directional",
     "=>": "directional",
     "=>>": "directional",

@@ -1,18 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_clonedeep_1 = require("lodash.clonedeep");
-/**
- *
- * renders an abstract syntax tree of a sequence chart
- *
- * knows of:
- *  - the syntax tree
- *  - the target canvas
- *
- * Defines default sizes and distances for all objects.
- * @exports renderast
- * @author {@link https://github.com/sverweij | Sander Verweij}
- */
 const aggregatekind_1 = require("../astmassage/aggregatekind");
 const flatten_1 = require("../astmassage/flatten");
 const constants_1 = require("./constants");
@@ -277,7 +265,7 @@ function getArcRowHeight(pArcRow, pEntities, pOptions) {
     pArcRow.forEach((pArc) => {
         let lElement;
         switch (aggregatekind_1.default(pArc.kind)) {
-            case ("emptyarc"):
+            case ("empty"):
                 lElement = renderEmptyArc(pArc, 0);
                 break;
             case ("box"):
@@ -301,7 +289,7 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
     pArcRow.forEach((pArc) => {
         let lElement = {};
         switch (aggregatekind_1.default(pArc.kind)) {
-            case ("emptyarc"):
+            case ("empty"):
                 lElement = renderEmptyArc(pArc, rowmemory_1.default.get(pRowNumber).y);
                 if ("..." === pArc.kind) {
                     lArcRowClass = "arcrowomit";
