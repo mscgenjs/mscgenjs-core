@@ -17,10 +17,8 @@ before_script:
 
 script:
   - npm run build
-  - npm run lint
-  - npm run depcruise
+  - npm run check
   - npm run nsp
-  - npm run test:cover
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
