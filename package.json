@@ -53,7 +53,7 @@
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
     "test": "jest --onlyChanged --collectCoverage false",
-    "test:all": "jest --collectCoverage false",
+    "test:all": "jest --collectCoverage false --runInBand",
     "test:cover": "jest",
     "watch": "tsc --project src --watch"
   },
