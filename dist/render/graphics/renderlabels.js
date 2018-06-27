@@ -17,16 +17,13 @@ function colorText(pElement, pTextColor) {
     if (pTextColor) {
         pElement.setAttribute("style", `fill:${pTextColor};`);
     }
+    return pElement;
 }
 /**
  * Makes the text color blue if there is an url and no text color
- *
- * @param <svgElement> pElement
- * @param <string> pUrl
- * @param <string> pTextColor
  */
 function colorLink(pElement, pUrl, pTextColor) {
-    colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
+    return colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
 }
 function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
     const lRect = index_1.default.createRect(svgutensils_1.default.getBBox(lLabelElement), { class: "label-text-background" });
@@ -35,29 +32,19 @@ function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
     }
     return lRect;
 }
-function renderLabelText(pPosition, pLine, pMiddle, pY, pClass, pArc) {
-    let lText;
-    if (pPosition === 0) {
-        lText = index_1.default.createText(pLine, {
-            x: pMiddle,
-            y: pY,
-        }, {
+function renderLabelText(pLine, pPosition, pCoords, pClass, pArc) {
+    const lAttributes = pPosition === 0
+        ? {
             class: pClass,
             url: pArc.url,
             id: pArc.id,
             idurl: pArc.idurl,
-        });
-    }
-    else {
-        lText = index_1.default.createText(pLine, {
-            x: pMiddle,
-            y: pY,
-        }, {
+        }
+        : {
             class: pClass,
             url: pArc.url,
-        });
-    }
-    return lText;
+        };
+    return index_1.default.createText(pLine, pCoords, lAttributes);
 }
 function determineClasses(pArcKind, pOptionsKind, pPostFix) {
     const lKind = pOptionsKind || pArcKind;
@@ -67,35 +54,31 @@ function determineClasses(pArcKind, pOptionsKind, pPostFix) {
         ? lClass + pPostFix
         : lAggregateClass + pPostFix + lClass + pPostFix;
 }
-function createLabelLine(pLine, pMiddle, pStartY, pArc, pPosition, pOptions) {
-    let lY = pStartY + ((pPosition + 1 / 4) * svgutensils_1.default.calculateTextHeight());
-    let lClass = determineClasses(pArc.kind, pOptions && pOptions.kind, "-text ");
-    if (!!pOptions) {
-        if (pOptions.alignLeft) {
-            lClass += "anchor-start ";
-        }
-        if (pOptions.alignAround) {
-            lY = pStartY + ((pPosition + 1 / 4) * (svgutensils_1.default.calculateTextHeight() + constants_1.default.LINE_WIDTH));
-        }
+function createLabelLine(pLine, pMiddle, pStartY, pArc, pLineNumber, pOptions) {
+    let lY = pStartY + ((pLineNumber + 1 / 4) * svgutensils_1.default.calculateTextHeight());
+    let lClass = determineClasses(pArc.kind, pOptions.kind, "-text ");
+    if (pOptions.alignLeft) {
+        lClass += "anchor-start ";
     }
-    const lText = renderLabelText(pPosition, pLine, pMiddle, lY, lClass, pArc);
-    colorText(lText, pArc.textcolor);
-    colorLink(lText, pArc.url, pArc.textcolor);
-    return lText;
+    if (pOptions.alignAround) {
+        lY = pStartY + ((pLineNumber + 1 / 4) * (svgutensils_1.default.calculateTextHeight() + constants_1.default.LINE_WIDTH));
+    }
+    return colorLink(colorText(renderLabelText(pLine, pLineNumber, { x: pMiddle, y: lY }, lClass, pArc), pArc.textcolor), pArc.url, pArc.textcolor);
 }
 function createLabel(pArc, pDims, pOptions, pId) {
     const lGroup = index_1.default.createGroup(pId);
+    pOptions = pOptions || {};
     if (pArc.label) {
         const lMiddle = pDims.x + (pDims.width / 2);
         const lLines = splitLabel(pArc.label, pArc.kind, pDims.width, constants_1.default.FONT_SIZE, pOptions);
         let lText;
-        if (!!pOptions && pOptions.alignAbove) {
+        if (pOptions.alignAbove) {
             lLines.forEach(() => {
                 lLines.push("");
             });
         }
         let lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutensils_1.default.calculateTextHeight() + 1);
-        if (!!pOptions && pOptions.alignAround) {
+        if (pOptions.alignAround) {
             if (lLines.length === 1) {
                 lLines.push("");
             }
@@ -145,10 +128,19 @@ function _determineMaxTextWidthInChars(pWidth, pFontSize) {
     }
     return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
 }
+function isWrappableBox(pKind, pWordWrapBoxes) {
+    return "box" === aggregatekind_1.default(pKind) && pWordWrapBoxes;
+}
+function isWrappableEntity(pKind, pWordWrapEntites) {
+    return "entity" === pKind && pWordWrapEntites;
+}
+function isWrappableArc(pKind, pWordWrapArcs) {
+    return "box" !== aggregatekind_1.default(pKind) && "entity" !== pKind && pWordWrapArcs;
+}
 function labelIsWrappable(pKind /*mscgenjsast.ArcKindType*/, pOptions) {
-    return ("box" === aggregatekind_1.default(pKind) && pOptions.wordwrapboxes) ||
-        ("entity" === pKind && pOptions.wordwrapentities) ||
-        ("box" !== aggregatekind_1.default(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
+    return isWrappableBox(pKind, pOptions.wordwrapboxes) ||
+        isWrappableEntity(pKind, pOptions.wordwrapentities) ||
+        isWrappableArc(pKind, pOptions.wordwraparcs) ||
         typeof pKind === "undefined";
 }
 function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {

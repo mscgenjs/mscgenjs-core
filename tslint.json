@@ -6,7 +6,7 @@
     "jsRules": {},
     "rules": {
         "object-literal-sort-keys": false,
-        "cyclomatic-complexity": [true, 9]
+        "cyclomatic-complexity": [true, 7]
     },
     "rulesDirectory": [],
     "linterOptions": {
