@@ -99,46 +99,71 @@ function createLabelLine(
     );
 }
 
-function createLabel(pArc, pDims, pOptions, pId?) {
+function insertEmptyLines(pLines: string[], pOptions) {
+    if (pOptions.alignAbove) {
+        pLines.forEach(() => {
+            pLines.push("");
+        });
+    }
+    if (pOptions.alignAround && pLines.length === 1) {
+        pLines.push("");
+    }
+    return pLines;
+}
+
+function determineLabelTop(pLines: string[], pDims, pOptions) {
+    if (pOptions.alignAround) {
+        return pDims.y -
+            (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH + 1);
+    } else {
+        return pDims.y - (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + 1);
+    }
+}
+
+function createLabel(
+    pArc: mscgenjsast.IArc,
+    pDims,
+    pOptions,
+    pId?,
+): SVGGElement {
     const lGroup = svgelementfactory.createGroup(pId);
     pOptions = pOptions || {};
 
     if (pArc.label) {
         const lMiddle = pDims.x + (pDims.width / 2);
-        const lLines = splitLabel(
-            pArc.label,
-            pArc.kind,
-            pDims.width,
-            constants.FONT_SIZE,
+        const lLines = insertEmptyLines(
+            splitLabel(
+                pArc.label,
+                pArc.kind,
+                pDims.width,
+                constants.FONT_SIZE,
+                pOptions,
+            ),
             pOptions,
         );
-        let lText: SVGTextElement;
-        if (pOptions.alignAbove) {
-            lLines.forEach(() => {
-                lLines.push("");
-            });
-        }
 
-        let lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + 1);
-        if (pOptions.alignAround) {
-            if (lLines.length === 1) {
-                lLines.push("");
-            }
-            lStartY =
-                pDims.y -
-                (lLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH + 1);
-        }
+        let lLabelTop = determineLabelTop(lLines, pDims, pOptions);
+
         lLines
             .forEach(
                 (pLine, pLineNumber) => {
                     if (pLine !== "") {
-                        lText = createLabelLine(pLine, lMiddle, lStartY, pArc, pLineNumber, pOptions);
-                        if (!!pOptions && pOptions.ownBackground) {
+                        const lText: SVGTextElement =
+                            createLabelLine(
+                                pLine,
+                                lMiddle,
+                                lLabelTop,
+                                pArc,
+                                pLineNumber,
+                                pOptions,
+                            );
+
+                        if (pOptions.ownBackground) {
                             lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
                         }
                         lGroup.appendChild(lText);
                     }
-                    lStartY++;
+                    lLabelTop++;
                 },
             );
     }

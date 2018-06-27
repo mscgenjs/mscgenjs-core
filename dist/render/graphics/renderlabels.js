@@ -65,37 +65,43 @@ function createLabelLine(pLine, pMiddle, pStartY, pArc, pLineNumber, pOptions) {
     }
     return colorLink(colorText(renderLabelText(pLine, pLineNumber, { x: pMiddle, y: lY }, lClass, pArc), pArc.textcolor), pArc.url, pArc.textcolor);
 }
+function insertEmptyLines(pLines, pOptions) {
+    if (pOptions.alignAbove) {
+        pLines.forEach(() => {
+            pLines.push("");
+        });
+    }
+    if (pOptions.alignAround && pLines.length === 1) {
+        pLines.push("");
+    }
+    return pLines;
+}
+function determineLabelTop(pLines, pDims, pOptions) {
+    if (pOptions.alignAround) {
+        return pDims.y -
+            (pLines.length - 1) / 2 * (svgutensils_1.default.calculateTextHeight() + constants_1.default.LINE_WIDTH + 1);
+    }
+    else {
+        return pDims.y - (pLines.length - 1) / 2 * (svgutensils_1.default.calculateTextHeight() + 1);
+    }
+}
 function createLabel(pArc, pDims, pOptions, pId) {
     const lGroup = index_1.default.createGroup(pId);
     pOptions = pOptions || {};
     if (pArc.label) {
         const lMiddle = pDims.x + (pDims.width / 2);
-        const lLines = splitLabel(pArc.label, pArc.kind, pDims.width, constants_1.default.FONT_SIZE, pOptions);
-        let lText;
-        if (pOptions.alignAbove) {
-            lLines.forEach(() => {
-                lLines.push("");
-            });
-        }
-        let lStartY = pDims.y - (lLines.length - 1) / 2 * (svgutensils_1.default.calculateTextHeight() + 1);
-        if (pOptions.alignAround) {
-            if (lLines.length === 1) {
-                lLines.push("");
-            }
-            lStartY =
-                pDims.y -
-                    (lLines.length - 1) / 2 * (svgutensils_1.default.calculateTextHeight() + constants_1.default.LINE_WIDTH + 1);
-        }
+        const lLines = insertEmptyLines(splitLabel(pArc.label, pArc.kind, pDims.width, constants_1.default.FONT_SIZE, pOptions), pOptions);
+        let lLabelTop = determineLabelTop(lLines, pDims, pOptions);
         lLines
             .forEach((pLine, pLineNumber) => {
             if (pLine !== "") {
-                lText = createLabelLine(pLine, lMiddle, lStartY, pArc, pLineNumber, pOptions);
-                if (!!pOptions && pOptions.ownBackground) {
+                const lText = createLabelLine(pLine, lMiddle, lLabelTop, pArc, pLineNumber, pOptions);
+                if (pOptions.ownBackground) {
                     lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
                 }
                 lGroup.appendChild(lText);
             }
-            lStartY++;
+            lLabelTop++;
         });
     }
     return lGroup;
