@@ -1,7 +1,7 @@
 const getDiagonalAngle = require("../../../src/render/graphics/svgelementfactory/getdiagonalangle").default;
 
-describe('#geometry', () => {
-    describe('#getDiagonalAngle', () => {
+describe("#geometry", () => {
+    describe("#getDiagonalAngle", () => {
         test("returns -45 degrees for a square box", () => {
             expect(getDiagonalAngle({height: 10, width: 10})).toBe(-45);
         });

@@ -34,7 +34,6 @@ exports.default = {
     getShape(pKey) { return KIND2SHAPE[pKey]; },
     getStyle(pKey) { return KIND2STYLE[pKey]; },
 };
-/* eslint security/detect-object-injection: 0*/
 /* The 'generic object injection sink' is to a frozen object,
    attempts to modify it will be moot => we can safely use the []
    notation

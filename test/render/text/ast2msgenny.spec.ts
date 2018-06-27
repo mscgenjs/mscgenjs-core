@@ -1,65 +1,65 @@
 const renderer = require("../../../src/render/text/ast2msgenny").default;
 const fix      = require("../../astfixtures.json");
 
-describe('render/text/ast2msgenny', () => {
-    describe('#renderAST() - mscgen classic compatible - simple syntax trees', () => {
+describe("render/text/ast2msgenny", () => {
+    describe("#renderAST() - mscgen classic compatible - simple syntax trees", () => {
 
-        test('should, given a simple syntax tree, render a msgenny script', () => {
+        test("should, given a simple syntax tree, render a msgenny script", () => {
             expect(renderer.render(fix.astSimple)).toMatchSnapshot();
         });
 
         test("should wrap labels with a , in quotes", () => {
             const lAST = {
-                "entities" : [{
-                    "name" : "a",
-                    "label" : "comma,"
-                }]
+                entities : [{
+                    name : "a",
+                    label : "comma,",
+                }],
             };
             expect(renderer.render(lAST)).toMatchSnapshot();
         });
 
         test("should wrap labels with a ; in quotes", () => {
             const lAST = {
-                "entities" : [{
-                    "name" : "a",
-                    "label" : "semi; colon"
-                }]
+                entities : [{
+                    name : "a",
+                    label : "semi; colon",
+                }],
             };
             expect(renderer.render(lAST)).toMatchSnapshot();
         });
 
         test("should wrap entity names with a space in quotes", () => {
             const lAST = {
-                "entities" : [{
-                    "name" : "space space"
-                }]
+                entities : [{
+                    name : "space space",
+                }],
             };
             expect(renderer.render(lAST)).toMatchSnapshot();
         });
 
         test("should not wrap the '*' pseudo entity", () => {
             const lAST = {
-                "entities": [
+                entities: [
                     {
-                        "name": "a"
+                        name: "a",
                     },
                     {
-                        "name": "b"
+                        name: "b",
                     },
                     {
-                        "name": "c"
-                    }
+                        name: "c",
+                    },
                 ],
-                "arcs": [
+                arcs: [
                     [
                         {
-                            "kind": "=>>",
-                            "from": "b",
-                            "to": "*",
-                            "label": ""
-                        }
-                    ]
-                ]
+                            kind: "=>>",
+                            from: "b",
+                            to: "*",
+                            label: "",
+                        },
+                    ],
+                ],
             };
             expect(renderer.render(lAST)).toMatchSnapshot();
         });
@@ -81,38 +81,38 @@ describe('render/text/ast2msgenny', () => {
         });
     });
 
-    describe('#renderAST() - xu compatible', () => {
-        test('alt only - render correct script', () => {
+    describe("#renderAST() - xu compatible", () => {
+        test("alt only - render correct script", () => {
             expect(renderer.render(fix.astOneAlt)).toMatchSnapshot();
         });
-        test('alt within loop - render correct script', () => {
+        test("alt within loop - render correct script", () => {
             expect(renderer.render(fix.astAltWithinLoop)).toMatchSnapshot();
         });
         test("should correctly render empty inline expressions", () => {
             const lFixture = {
-                "meta": {
-                    "extendedOptions": false,
-                    "extendedArcTypes": true,
-                    "extendedFeatures": true
+                meta: {
+                    extendedOptions: false,
+                    extendedArcTypes: true,
+                    extendedFeatures: true,
                 },
-                "entities": [
+                entities: [
                     {
-                        "name": "a"
+                        name: "a",
                     },
                     {
-                        "name": "b"
-                    }
+                        name: "b",
+                    },
                 ],
-                "arcs": [
+                arcs: [
                     [
                         {
-                            "kind": "opt",
-                            "from": "a",
-                            "to": "b",
-                            "arcs": null
-                        }
-                    ]
-                ]
+                            kind: "opt",
+                            from: "a",
+                            to: "b",
+                            arcs: null,
+                        },
+                    ],
+                ],
             };
             expect(renderer.render(lFixture)).toMatchSnapshot();
         });

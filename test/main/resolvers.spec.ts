@@ -1,4 +1,3 @@
-/* eslint max-nested-callbacks: 0 */
 const tst = require("../testutensils");
 const fix = require("../astfixtures.json");
 
@@ -14,43 +13,42 @@ const gExpectedMscGenOutput = `msc {\n\
 #;\n\
 }`;
 
-
 [require("../../src/main/static-resolver").default, require("../../src/main/lazy-resolver").default].forEach((mscgenjs) => {
-    describe('resolver', () => {
-        function isMscGenParser(pParser){
+    describe("resolver", () => {
+        function isMscGenParser(pParser) {
             tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);
             expect(
-                pParser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}')
+                pParser.parse('msc { a,"b space"; a => "b space" [label="a simple script"];}'),
             ).toEqual(
-                fix.astSimple
+                fix.astSimple,
             );
         }
 
-        function isMscGenTextRenderer(pRenderer){
+        function isMscGenTextRenderer(pRenderer) {
             expect(pRenderer.render(fix.astOneAlt)).toBe(gExpectedMscGenOutput);
         }
 
-        describe('#getParser()', () => {
+        describe("#getParser()", () => {
             test("Returns the mscgen parser when not provided with arguments", () => {
                 isMscGenParser(mscgenjs.getParser());
             });
             test(
-                'Returns the MscGen parser when not provided with a valid argument',
+                "Returns the MscGen parser when not provided with a valid argument",
                 () => {
                     isMscGenParser(mscgenjs.getParser("c++"));
-                }
+                },
             );
         });
 
-        describe('#getTextRenderer()', () => {
+        describe("#getTextRenderer()", () => {
             test(
-                'Returns the ast2mscgen renderer when not provided with arguments',
+                "Returns the ast2mscgen renderer when not provided with arguments",
                 () => {
                     isMscGenTextRenderer(mscgenjs.getTextRenderer());
-                }
+                },
             );
 
-            test('Returns the ast2mscgen renderer when not with a valid argument', () => {
+            test("Returns the ast2mscgen renderer when not with a valid argument", () => {
                 isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
             });
         });

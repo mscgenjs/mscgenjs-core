@@ -1,5 +1,3 @@
-/* eslint max-nested-callbacks: 0 */
-// const mscgenjs = require("../index-lazy");
 const JSDOM    = require("jsdom").JSDOM;
 const chai     = require("chai");
 const version  = require("../package.json").version;
@@ -28,74 +26,72 @@ const gExpectedMscGenOutput = `msc {\n\
 const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script"];}';
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
-
 [require("../src"), require("../src/index-lazy")].forEach((mscgenjs) => {
-    describe('index', () => {
-        describe('#translateMsc()', () => {
-            test('no params translates mscgen to json', () => {
+    describe("index", () => {
+        describe("#translateMsc()", () => {
+            test("no params translates mscgen to json", () => {
                 expect(JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN))).toEqual(fix.astSimple);
             });
 
-            test('explicit mscgen & json params translates mscgen to json too', () => {
+            test("explicit mscgen & json params translates mscgen to json too", () => {
                 expect(
-                    JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "json"}))
+                    JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "json"})),
                 ).toEqual(fix.astSimple);
             });
 
-            test('ast translates mscgen to an AST object', () => {
+            test("ast translates mscgen to an AST object", () => {
                 expect(
-                    mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "ast"})
+                    mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "ast"}),
                 ).toEqual(fix.astSimple);
             });
 
-            test('invalid mscgen throws an error', () => {
+            test("invalid mscgen throws an error", () => {
                 expect(
                     () => mscgenjs.translateMsc(
                         SIMPLE_XU,
-                        {inputType: "mscgen", outputType: "msgenny"}
-                    )
+                        {inputType: "mscgen", outputType: "msgenny"},
+                    ),
                 ).toThrow();
             });
 
-            test('downgrading xu -> mscgen works', () => {
+            test("downgrading xu -> mscgen works", () => {
                 expect(
                     mscgenjs.translateMsc(
                         JSON.stringify(fix.astOneAlt, null, ""),
-                        {inputType: "json", outputType: "mscgen"}
-                    )
+                        {inputType: "json", outputType: "mscgen"},
+                    ),
                 ).toBe(gExpectedMscGenOutput);
             });
 
-            test('translating a raw javascript object works', () => {
+            test("translating a raw javascript object works", () => {
                 expect(
                     mscgenjs.translateMsc(
                         fix.astOneAlt,
-                        {inputType: "json", outputType: "mscgen"}
-                    )
+                        {inputType: "json", outputType: "mscgen"},
+                    ),
                 ).toBe(gExpectedMscGenOutput);
             });
 
-            test('returns a version number equal to the one in package.json', () => {
+            test("returns a version number equal to the one in package.json", () => {
                 expect(mscgenjs.version).toBe(version);
             });
         });
 
-
-        describe('#renderMsc()', () => {
+        describe("#renderMsc()", () => {
             const lWindow = new JSDOM("<html><body><span id='__svg'></span></body></html>").window;
 
-            test('should given given a simple MscGen program, render an svg', () => {
+            test("should given given a simple MscGen program, render an svg", () => {
                 mscgenjs.renderMsc(
                     SIMPLE_MSCGEN,
                     {window: lWindow},
                     (pError, pResult) => {
                         expect(pError).toBeNull();
                         chaiExpect(pResult).xml.to.be.valid();
-                    }
+                    },
                 );
             });
 
-            test('should given given an invalid MscGen program, throw an error', () => {
+            test("should given given an invalid MscGen program, throw an error", () => {
                 mscgenjs.renderMsc(
                     SIMPLE_XU,
                     null,
@@ -103,42 +99,42 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         expect(pError).not.toBeNull();
                         expect(pError).toBeInstanceOf(Error);
                         expect(pResult).toBeNull();
-                    }
+                    },
                 );
             });
 
-            test('should given given a simple AST, render an svg', () => {
+            test("should given given a simple AST, render an svg", () => {
                 mscgenjs.renderMsc(
                     JSON.stringify(fix.astOneAlt, null, ""),
                     {
                         inputType: "json",
                         window: lWindow,
-                        includeSource: false
+                        includeSource: false,
                     },
                     (pError, pResult) => {
                         expect(pError).toBeNull();
                         chaiExpect(pResult).xml.to.be.valid();
-                    }
+                    },
                 );
             });
         });
 
-        describe('#getAllowedValues()', () => {
+        describe("#getAllowedValues()", () => {
 
-            test('returns possible input types', () => {
-                expect(mscgenjs.getAllowedValues()).toHaveProperty('inputType');
+            test("returns possible input types", () => {
+                expect(mscgenjs.getAllowedValues()).toHaveProperty("inputType");
             });
 
-            test('returns possible output types', () => {
-                expect(mscgenjs.getAllowedValues()).toHaveProperty('outputType');
+            test("returns possible output types", () => {
+                expect(mscgenjs.getAllowedValues()).toHaveProperty("outputType");
             });
 
-            test('returns possible regularArcTextVerticalAlignment types', () => {
-                expect(mscgenjs.getAllowedValues()).toHaveProperty('regularArcTextVerticalAlignment');
+            test("returns possible regularArcTextVerticalAlignment types", () => {
+                expect(mscgenjs.getAllowedValues()).toHaveProperty("regularArcTextVerticalAlignment");
             });
 
-            test('returns possible namedStyles', () => {
-                expect(mscgenjs.getAllowedValues()).toHaveProperty('namedStyle');
+            test("returns possible namedStyles", () => {
+                expect(mscgenjs.getAllowedValues()).toHaveProperty("namedStyle");
             });
         });
     });

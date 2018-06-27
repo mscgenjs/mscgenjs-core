@@ -11,9 +11,12 @@
     "rulesDirectory": [],
     "linterOptions": {
         "exclude": [
+            "test/**",
             "dist/**",
+            "types/tmp**",
             "*.json",
-            "src/render/graphics/csstemplates.ts"
+            "src/render/graphics/csstemplates.ts",
+            "node_modules"
         ]
     }
 }

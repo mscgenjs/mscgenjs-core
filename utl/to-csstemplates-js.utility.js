@@ -64,8 +64,6 @@ process.stdout.write(
             extractFileContents(path.join("src/render/graphics/styling/", "base.css"))
         )
 );
-/* eslint security/detect-non-literal-fs-filename: 0, security/detect-non-literal-require: 0 */
-/* eslint import/no-dynamic-require: 0 */
 /* the purpose of this utility is to write to a file,
    so non-literal-fs filenames are ok here
 */

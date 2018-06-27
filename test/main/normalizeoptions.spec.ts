@@ -1,40 +1,38 @@
-const normalizeOptions = require('../../src/main/normalizeoptions').default;
+const normalizeOptions = require("../../src/main/normalizeoptions").default;
 
-describe('normalizeOptions', () => {
+describe("normalizeOptions", () => {
 
-    test('Boundary - empty object as first parameter', () => {
+    test("Boundary - empty object as first parameter", () => {
         expect(
-            normalizeOptions({})
+            normalizeOptions({}),
         ).toEqual({
             inputType              : "mscgen",
             elementId              : "__svg",
-            window                 : window,
+            window,
             includeSource          : true,
             source                 : undefined,
             styleAdditions         : null,
             additionalTemplate     : "basic",
             mirrorEntitiesOnBottom : false,
-            regularArcTextVerticalAlignment: "middle"
+            regularArcTextVerticalAlignment: "middle",
         });
     });
 
     test('Boundary - only "includeSource" is false', () => {
         expect(
-            normalizeOptions({includeSource:false})
+            normalizeOptions({includeSource: false}),
         ).toEqual({
             inputType              : "mscgen",
             elementId              : "__svg",
-            window                 : window,
+            window,
             includeSource          : false,
             source                 : null,
             styleAdditions         : null,
             additionalTemplate     : "basic",
             mirrorEntitiesOnBottom : false,
-            regularArcTextVerticalAlignment: "middle"
+            regularArcTextVerticalAlignment: "middle",
         });
     });
 });
 
 /* global window */
-/* eslint no-undefined:0 */
-/* eslint object-shorthand:0 */

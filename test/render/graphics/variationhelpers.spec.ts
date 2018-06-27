@@ -1,133 +1,132 @@
 const variationhelpers = require("../../../src/render/graphics/svgelementfactory/variationhelpers").default;
 
-describe('#geometry', () => {
+describe("#geometry", () => {
 
-    describe('#getDirection', () => {
+    describe("#getDirection", () => {
         test("returns -1,1,1 for (10,0),(0,10)", () => {
             expect(
                 variationhelpers.getDirection(
-                    {xFrom:10, yFrom:0, xTo:0, yTo:10}
-                )
+                    {xFrom: 10, yFrom: 0, xTo: 0, yTo: 10},
+                ),
             ).toEqual(
                 {
                     signX: -1,
                     signY: 1,
-                    dy: 1
-                }
+                    dy: 1,
+                },
             );
         });
         test("returns -1,1,-Infinity for (0,0),(0,10)", () => {
             expect(
                 variationhelpers.getDirection(
-                    {xFrom:0, yFrom:0, xTo:0, yTo:10}
-                )
+                    {xFrom: 0, yFrom: 0, xTo: 0, yTo: 10},
+                ),
             ).toEqual(
                 {
                     signX: -1,
                     signY: 1,
-                    dy: -Infinity
-                }
+                    dy: -Infinity,
+                },
             );
         });
         test("returns -1,1,0 for (0,0),(10,0)", () => {
             expect(
                 variationhelpers.getDirection(
-                    {xFrom:0, yFrom:0, xTo:10, yTo:0}
-                )
+                    {xFrom: 0, yFrom: 0, xTo: 10, yTo: 0},
+                ),
             ).toEqual(
                 {
                     signX: 1,
                     signY: -1,
-                    dy: 0
-                }
+                    dy: 0,
+                },
             );
         });
     });
 
-    describe('#getLineLength', () => {
+    describe("#getLineLength", () => {
         test("returns 10 for (10,0), (10,10)", () => {
             expect(
                 variationhelpers.getLineLength(
-                    {xFrom:10, yFrom:0, xTo:10, yTo:10}
-                )
+                    {xFrom: 10, yFrom: 0, xTo: 10, yTo: 10},
+                ),
             ).toBe(10);
         });
         test("returns 10 for (0,10), (10,10)", () => {
             expect(
                 variationhelpers.getLineLength(
-                    {xFrom:0, yFrom:10, xTo:10, yTo:10}
-                )
+                    {xFrom: 0, yFrom: 10, xTo: 10, yTo: 10},
+                ),
             ).toBe(10);
         });
         test("returns ~14.1 for (10,0), (0,10)", () => {
             expect(
                 variationhelpers.getLineLength(
-                    {xFrom:10, yFrom:0, xTo:0, yTo:10}
-                )
+                    {xFrom: 10, yFrom: 0, xTo: 0, yTo: 10},
+                ),
             ).toBe(14.142135623730951);
         });
         test("returns 0 for (10,0), (0,10)", () => {
             expect(
                 variationhelpers.getLineLength(
-                    {xFrom:10, yFrom:-10, xTo:10, yTo:-10}
-                )
+                    {xFrom: 10, yFrom: -10, xTo: 10, yTo: -10},
+                ),
             ).toBe(0);
         });
     });
 
-    describe('#getNumberOfSegments', () => {
+    describe("#getNumberOfSegments", () => {
         test("returns 1 to fit segments of 10 long into ((10,0), (0,10))", () => {
             expect(
                 variationhelpers.getNumberOfSegments(
-                    {xFrom:10, yFrom:0, xTo:0, yTo:10},
-                    10
-                )
+                    {xFrom: 10, yFrom: 0, xTo: 0, yTo: 10},
+                    10,
+                ),
             ).toBe(1);
         });
         test("returns 14 to fit segments of 1 long into ((10,0), (0,10))", () => {
             expect(
                 variationhelpers.getNumberOfSegments(
-                    {xFrom:10, yFrom:0, xTo:0, yTo:10},
-                    1
-                )
+                    {xFrom: 10, yFrom: 0, xTo: 0, yTo: 10},
+                    1,
+                ),
             ).toBe(14);
         });
         test("returns 14 to fit segments of 1 long into ((10,10), (0,0))", () => {
             expect(
                 variationhelpers.getNumberOfSegments(
-                    {xFrom:10, yFrom:10, xTo:0, yTo:0},
-                    1
-                )
+                    {xFrom: 10, yFrom: 10, xTo: 0, yTo: 0},
+                    1,
+                ),
             ).toBe(14);
         });
         test("returns 0 to fit segments of 15 long into ((10,10), (0,0))", () => {
             expect(
                 variationhelpers.getNumberOfSegments(
-                    {xFrom:10, yFrom:10, xTo:0, yTo:0},
-                    15
-                )
+                    {xFrom: 10, yFrom: 10, xTo: 0, yTo: 0},
+                    15,
+                ),
             ).toBe(0);
         });
         test("returns 5 to fit segments of 2 long into ((10,-10), (10,0))", () => {
             expect(
                 variationhelpers.getNumberOfSegments(
-                    {xFrom:10, yFrom:-10, xTo:10, yTo:0},
-                    2
-                )
+                    {xFrom: 10, yFrom: -10, xTo: 10, yTo: 0},
+                    2,
+                ),
             ).toBe(5);
         });
         test("returns 0 to for a line of 0 length", () => {
             expect(
                 variationhelpers.getNumberOfSegments(
-                    {xFrom:10, yFrom:-10, xTo:10, yTo:-10},
-                    1
-                )
+                    {xFrom: 10, yFrom: -10, xTo: 10, yTo: -10},
+                    1,
+                ),
             ).toBe(0);
         });
     });
 
-
-    describe('#getBetweenPoints', () => {
+    describe("#getBetweenPoints", () => {
 
         describe("a diagonal", () => {
             let lBetweenPoints = [];
@@ -135,9 +134,9 @@ describe('#geometry', () => {
             beforeAll(() => {
                 lBetweenPoints =
                     variationhelpers.getBetweenPoints(
-                        {xFrom:10, yFrom:0, xTo:0, yTo:10},
+                        {xFrom: 10, yFrom: 0, xTo: 0, yTo: 10},
                         3,
-                        0
+                        0,
                     );
             });
 
@@ -149,37 +148,37 @@ describe('#geometry', () => {
                 expect(
                     lBetweenPoints.map((pPoint) => ({
                         x: pPoint.x,
-                        y: pPoint.y
-                    }))[lBetweenPoints.length - 1]
-                ).toEqual({x:0, y:10});
+                        y: pPoint.y,
+                    }))[lBetweenPoints.length - 1],
+                ).toEqual({x: 0, y: 10});
             });
 
             test("returns points along the line", () => {
                 expect(lBetweenPoints).toEqual([
                     {
-                        "controlX": 8.94,
-                        "controlY": 1.06,
-                        "x": 7.88,
-                        "y": 2.12
+                        controlX: 8.94,
+                        controlY: 1.06,
+                        x: 7.88,
+                        y: 2.12,
                     },
                     {
-                        "controlX": 6.82,
-                        "controlY": 3.18,
-                        "x": 5.76,
-                        "y": 4.24
+                        controlX: 6.82,
+                        controlY: 3.18,
+                        x: 5.76,
+                        y: 4.24,
                     },
                     {
-                        "controlX": 4.7,
-                        "controlY": 5.3,
-                        "x": 3.64,
-                        "y": 6.36
+                        controlX: 4.7,
+                        controlY: 5.3,
+                        x: 3.64,
+                        y: 6.36,
                     },
                     {
-                        "controlX": 2.58,
-                        "controlY": 7.42,
-                        "x": 0,
-                        "y": 10
-                    }
+                        controlX: 2.58,
+                        controlY: 7.42,
+                        x: 0,
+                        y: 10,
+                    },
                 ]);
             });
         });
@@ -190,9 +189,9 @@ describe('#geometry', () => {
             beforeAll(() => {
                 lBetweenPoints =
                     variationhelpers.getBetweenPoints(
-                        {xFrom:10, yFrom:0, xTo:10, yTo:10},
+                        {xFrom: 10, yFrom: 0, xTo: 10, yTo: 10},
                         3,
-                        0
+                        0,
                     );
             });
 
@@ -204,31 +203,31 @@ describe('#geometry', () => {
                 expect(
                     lBetweenPoints.map((pPoint) => ({
                         x: pPoint.x,
-                        y: pPoint.y
-                    }))[lBetweenPoints.length - 1]
-                ).toEqual({x:10, y:10});
+                        y: pPoint.y,
+                    }))[lBetweenPoints.length - 1],
+                ).toEqual({x: 10, y: 10});
             });
 
             test("returns points along the line", () => {
                 expect(lBetweenPoints).toEqual([
                     {
-                        "controlX": 10,
-                        "controlY": 1.5,
-                        "x": 10,
-                        "y": 3
+                        controlX: 10,
+                        controlY: 1.5,
+                        x: 10,
+                        y: 3,
                     },
                     {
-                        "controlX": 10,
-                        "controlY": 4.5,
-                        "x": 10,
-                        "y": 6
+                        controlX: 10,
+                        controlY: 4.5,
+                        x: 10,
+                        y: 6,
                     },
                     {
-                        "controlX": 10,
-                        "controlY": 7.5,
-                        "x": 10,
-                        "y": 10
-                    }
+                        controlX: 10,
+                        controlY: 7.5,
+                        x: 10,
+                        y: 10,
+                    },
                 ]);
             });
         });
@@ -239,9 +238,9 @@ describe('#geometry', () => {
             beforeAll(() => {
                 lBetweenPoints =
                     variationhelpers.getBetweenPoints(
-                        {xFrom:10, yFrom:20, xTo:20, yTo:20},
+                        {xFrom: 10, yFrom: 20, xTo: 20, yTo: 20},
                         3,
-                        0
+                        0,
                     );
             });
 
@@ -253,31 +252,31 @@ describe('#geometry', () => {
                 expect(
                     lBetweenPoints.map((pPoint) => ({
                         x: pPoint.x,
-                        y: pPoint.y
-                    }))[lBetweenPoints.length - 1]
-                ).toEqual({x:20, y:20});
+                        y: pPoint.y,
+                    }))[lBetweenPoints.length - 1],
+                ).toEqual({x: 20, y: 20});
             });
 
             test("returns points along the line", () => {
                 expect(lBetweenPoints).toEqual([
                     {
-                        "controlX": 11.5,
-                        "controlY": 20,
-                        "x": 13,
-                        "y": 20
+                        controlX: 11.5,
+                        controlY: 20,
+                        x: 13,
+                        y: 20,
                     },
                     {
-                        "controlX": 14.5,
-                        "controlY": 20,
-                        "x": 16,
-                        "y": 20
+                        controlX: 14.5,
+                        controlY: 20,
+                        x: 16,
+                        y: 20,
                     },
                     {
-                        "controlX": 17.5,
-                        "controlY": 20,
-                        "x": 20,
-                        "y": 20
-                    }
+                        controlX: 17.5,
+                        controlY: 20,
+                        x: 20,
+                        y: 20,
+                    },
                 ]);
             });
         });
@@ -286,9 +285,9 @@ describe('#geometry', () => {
             test("throws an error for intervals of length === 0", () => {
                 try {
                     variationhelpers.getBetweenPoints(
-                        {xFrom:10, yFrom:0, xTo:0, yTo:10},
+                        {xFrom: 10, yFrom: 0, xTo: 0, yTo: 10},
                         0,
-                        0
+                        0,
                     );
                     expect("won't come here because it should throw an error").toBe("did come here nonetheless");
                 } catch (e) {
@@ -299,9 +298,9 @@ describe('#geometry', () => {
             test("throws an error for intervals of length < 0", () => {
                 try {
                     variationhelpers.getBetweenPoints(
-                        {xFrom:10, yFrom:0, xTo:0, yTo:10},
+                        {xFrom: 10, yFrom: 0, xTo: 0, yTo: 10},
                         -42,
-                        0
+                        0,
                     );
                     expect("won't come here because it should throw an error").toBe("did come here nonetheless");
                 } catch (e) {

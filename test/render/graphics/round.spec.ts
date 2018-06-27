@@ -1,6 +1,6 @@
 const round = require("../../../src/render/graphics/svgelementfactory/round").default;
 
-describe('#round', () => {
+describe("#round", () => {
     test("rounds to whole numbers when not passed a precision", () => {
         expect(round(3.14)).toBe(3);
     });

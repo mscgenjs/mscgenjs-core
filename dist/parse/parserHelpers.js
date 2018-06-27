@@ -16,7 +16,6 @@ function nameValue2Option(pName, pValue) {
 function flattenBoolean(pBoolean) {
     return (["true", "on", "1"].includes(pBoolean.toLowerCase()));
 }
-/* eslint no-undefined: 0 */
 function entityExists(pEntities, pName) {
     return pName === undefined || pName === "*" || pEntities.some((pEntity) => pEntity.name === pName);
 }
