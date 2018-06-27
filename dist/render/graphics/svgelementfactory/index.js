@@ -34,8 +34,6 @@ exports.default = {
     },
     /**
      * Creates a basic SVG with id pId, and size 0x0
-     * @param {string} pId
-     * @return {Element} an SVG element
      */
     createSVG(pId, pClass, pRenderMagic) {
         gRenderMagic = determineRenderMagic(pRenderMagic);
@@ -47,22 +45,18 @@ exports.default = {
      * Creates a desc element with id pId
      *
      * @param {string} pID
-     * @returns {Element}
+     * @returns {SVGDescElement}
      */
     createDesc: svgprimitives_1.default.createDesc,
     /**
      * Creates an empty 'defs' element
      *
-     * @returns {Element}
+     * @returns {SVGDefsElement}
      */
     createDefs: svgprimitives_1.default.createDefs,
     /**
      * creates a tspan with label pLabel, optionally wrapped in a link
      * if the url pURL is passed
-     *
-     * @param  {string} pLabel
-     * @param  {string} pURL
-     * @return {element}
      */
     createTSpan: svgprimitives_1.default.createTSpan,
     /**
@@ -72,19 +66,11 @@ exports.default = {
      * the function will render the corners as straight.
      *
      * Unit: pixels
-     *
-     * @param {object} pBBox
-     * @param {string} pOptions - reference to the css class to be applied
-     * @return {SVGRectElement}
      */
     createRect: (pBBox, pOptions) => gRenderMagic.createRect(pBBox, pOptions),
     /**
      * Creates rect with 6px rounded corners of width x height, with the top
      * left corner at coordinates (x, y)
-     *
-     * @param {object} pBBox
-     * @param {magic.IBoxOptions} pOptions
-     * @return {SVGElement}
      */
     createRBox: (pBBox, pOptions) => gRenderMagic.createRBox(pBBox, pOptions),
     /**
@@ -103,43 +89,27 @@ exports.default = {
      * with the top left corner at coordinates (x, y). pFoldSize controls the size of the
      * fold bottom right corner.
      */
-    createEdgeRemark(pBBox, pClass, pColor, pBgColor, pFoldSize) {
+    createEdgeRemark(pBBox, pOptions) {
         return gRenderMagic.createEdgeRemark(pBBox, {
-            class: pClass,
-            color: pColor,
-            bgColor: pBgColor,
-            foldSize: pFoldSize,
+            class: pOptions.class,
+            color: pOptions.color,
+            bgColor: pOptions.bgColor,
+            foldSize: pOptions.foldSize,
             lineWidth: gOptions.LINE_WIDTH,
         });
     },
     /**
      * Creates a text node with the appropriate tspan & a elements on
      * position pCoords.
-     *
-     * @param {string} pLabel
-     * @param {object} pCoords
-     * @param {object} pOptions - options to influence rendering
-     *                          {string} pClass - reference to the css class to be applied
-     *                          {string=} pURL - link to render
-     *                          {string=} pID - (small) id text to render
-     *                          {string=} pIDURL - link to render for the id text
-     * @return {SVGElement}
      */
     createText: svgprimitives_1.default.createText,
     /**
      * Creates a text node with the given pText fitting diagonally (bottom-left
      *  - top right) in canvas pCanvas
-     *
-     * @param {string} pText
-     * @param {object} pCanvas (an object with at least a .width and a .height)
      */
     createDiagonalText: svgprimitives_1.default.createDiagonalText,
     /**
      * Creates a line between to coordinates
-     * @param {object} pLine - an xFrom, yFrom and xTo, yTo pair describing a line
-     * @param {object} pOptions - class: reference to the css class to be applied, lineWidth: line width to use
-     * @param {boolean=} [pDouble=false] - render a double line
-     * @return {SVGElement}
      */
     createLine(pLine, pOptions) {
         if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
@@ -157,15 +127,14 @@ exports.default = {
      * ending on pStartX, pEndY with a width of pWidth
      *
      * @param {object} pBBox
-     * @param {number} pEndY
      * @param {object} pOptions
-     * @return {SVGElement}
+     * @return {SVGPathElement}
      */
     createUTurn: svgprimitives_1.default.createUTurn,
     /**
      * Creates an svg group, identifiable with id pId
      * @param {string} pId
-     * @return {SVGElement}
+     * @return {SVGGElement}
      */
     createGroup: svgprimitives_1.default.createGroup,
     /**
@@ -173,6 +142,7 @@ exports.default = {
      *
      * @param {string} pId
      * @param {string} pD - a string containing the path
+     * @return {SVGPathElement}
      */
     createMarkerPath: svgprimitives_1.default.createMarkerPath,
     /**
@@ -180,7 +150,7 @@ exports.default = {
      *
      * @param {string} pId
      * @param {string} pPoints - a string with the points of the polygon
-     * @return {SVGElement}
+     * @return {SVGPolygonElement}
      */
     createMarkerPolygon: svgprimitives_1.default.createMarkerPolygon,
 };

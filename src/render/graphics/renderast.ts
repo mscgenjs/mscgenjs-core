@@ -586,10 +586,13 @@ function renderInlineExpressionLabel(pArc, pY) {
                 x: lStart,
                 y: pY,
             },
-            "box inline_expression_label",
-            pArc.linecolor,
-            pArc.textbgcolor,
-            FOLD_SIZE,
+            {
+                class: "box inline_expression_label",
+                color: pArc.linecolor,
+                bgColor: pArc.textbgcolor,
+                foldSize: FOLD_SIZE,
+            },
+
         );
     lGroup.appendChild(lBox);
     lGroup.appendChild(lTextGroup);
