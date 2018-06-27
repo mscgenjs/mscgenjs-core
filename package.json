@@ -45,6 +45,7 @@
     "build:copy:mkdir": "shx mkdir -p dist/parse",
     "build:copy:copy": "shx cp src/parse/*.js* dist/parse",
     "check": "npm-run-all depcruise lint test:all",
+    "check:ci": "npm-run-all depcruise lint test:all:ci",
     "check:full": "npm-run-all --parallel depcruise lint nsp test:cover",
     "depcruise": "depcruise --validate -- src test",
     "depcruise:graph": "depcruise --validate --do-not-follow \"node_modules|lib\" --module-systems es6,cjs --output-type dot src | dot -T svg > tmp_deps.svg",
@@ -53,7 +54,8 @@
     "npm-check-updates": "ncu --upgrade",
     "nsp": "nsp check",
     "test": "jest --onlyChanged --collectCoverage false",
-    "test:all": "jest --collectCoverage false --runInBand",
+    "test:all": "jest --collectCoverage false",
+    "test:all:ci": "jest --collectCoverage false --runInBand # runInBand (=sequentially) so node 6 on travis doesn't hang",
     "test:cover": "jest",
     "watch": "tsc --project src --watch"
   },
