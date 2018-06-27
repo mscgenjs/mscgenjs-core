@@ -1,6 +1,7 @@
 const fs       = require("fs");
 const path     = require("path");
-const renderer = require("../../../dist/render/text/ast2dot").default;
+// const renderer = require("../../../src/render/text/ast2dot").default;
+import renderer from "../../../src/render/text/ast2dot";
 const fix      = require("../../astfixtures.json");
 
 describe('render/text/ast2dot', () => {

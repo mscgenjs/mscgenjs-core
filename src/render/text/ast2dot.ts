@@ -1,4 +1,4 @@
-import * as _cloneDeep from "lodash.clonedeep";
+import _cloneDeep from "lodash.clonedeep";
 import aggregatekind from "../astmassage/aggregatekind";
 import flatten from "../astmassage/flatten";
 import wrap from "../textutensils/wrap";

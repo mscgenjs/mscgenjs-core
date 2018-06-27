@@ -1,4 +1,4 @@
-import * as _flatten from "lodash.flatten";
+import _flatten from "lodash.flatten";
 import normalizekind from "../astmassage/normalizekind";
 
 const KINDS = {

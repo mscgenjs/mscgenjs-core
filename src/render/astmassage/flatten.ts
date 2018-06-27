@@ -7,15 +7,18 @@
  */
 import asttransform from "./asttransform";
 
-import * as _cloneDeep from "lodash.clonedeep";
+import _cloneDeep from "lodash.clonedeep";
+import * as mscgenjsast from "../../parse/mscgenjsast";
 import escape from "../textutensils/escape";
+
 import aggregatekind from "./aggregatekind";
 import normalizekind from "./normalizekind";
 import normalizeoptions from "./normalizeoptions";
 
 let gMaxDepth = 0;
 
-function nameAsLabel(pEntity) {
+// makes an IEntity into an IEntityNormalized as a side effect
+function nameAsLabel(pEntity: mscgenjsast.IEntity) {
     if (typeof pEntity.label === "undefined") {
         pEntity.label = pEntity.name;
     }

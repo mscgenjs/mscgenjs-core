@@ -1,4 +1,4 @@
-const getDiagonalAngle = require("../../../dist/render/graphics/svgelementfactory/getdiagonalangle").default;
+const getDiagonalAngle = require("../../../src/render/graphics/svgelementfactory/getdiagonalangle").default;
 
 describe('#geometry', () => {
     describe('#getDiagonalAngle', () => {

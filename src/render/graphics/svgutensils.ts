@@ -1,4 +1,4 @@
-import * as memoize from "lodash.memoize";
+import memoize from "lodash.memoize";
 import idmanager from "./idmanager";
 import * as geotypes from "./svgelementfactory/geotypes";
 import svgelementfactory from "./svgelementfactory/index";

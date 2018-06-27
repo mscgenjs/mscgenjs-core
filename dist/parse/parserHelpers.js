@@ -33,9 +33,9 @@ function isMscGenKeyword(pString) {
 function buildEntityNotDefinedMessage(pEntityName, pArc) {
     return `Entity '${pEntityName}' in arc '${pArc.from} ${pArc.kind} ${pArc.to}' is not defined.`;
 }
-class EntityNotDefinedError extends Error {
+class EntityNotDefinedError {
     constructor(pEntityName, pArc) {
-        super();
+        // super();
         this.name = "EntityNotDefinedError";
         this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
     }

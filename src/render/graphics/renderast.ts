@@ -1,4 +1,4 @@
-import * as _cloneDeep from "lodash.clonedeep";
+import _cloneDeep from "lodash.clonedeep";
 
 /**
  *

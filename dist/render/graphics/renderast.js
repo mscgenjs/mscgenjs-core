@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _cloneDeep = require("lodash.clonedeep");
+const lodash_clonedeep_1 = require("lodash.clonedeep");
 /**
  *
  * renders an abstract syntax tree of a sequence chart
@@ -253,7 +253,7 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
                 }, Object.assign({
                     alignAround: true,
                     ownBackground: true,
-                }, _cloneDeep(pOptions)));
+                }, lodash_clonedeep_1.default(pOptions)));
             pRowMemory.push({
                 title: pArc.title,
                 layer: gChart.layer.sequence,
@@ -287,7 +287,7 @@ function getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions) {
                 lElement = renderInlineExpressionLabel(pArc, 0);
                 break;
             default:
-                const lArc = _cloneDeep(pArc);
+                const lArc = lodash_clonedeep_1.default(pArc);
                 lArc.arcskip = 0; /* ignore arc skips when calculating row heights */
                 lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
         } // switch
@@ -585,7 +585,7 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
             alignLeft: true,
             alignAbove: true,
             ownBackground: true,
-        }, _cloneDeep(pOptions))));
+        }, lodash_clonedeep_1.default(pOptions))));
     }
     else {
         const lLine = index_1.default.createLine({
@@ -610,7 +610,7 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
             alignAround: true,
             alignAbove: (gChart.regularArcTextVerticalAlignment === "above"),
             ownBackground: true,
-        }, _cloneDeep(pOptions))));
+        }, lodash_clonedeep_1.default(pOptions))));
     }
     return lGroup;
 }

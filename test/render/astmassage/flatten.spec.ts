@@ -1,4 +1,4 @@
-const flatten = require("../../../dist/render/astmassage/flatten").default;
+import flatten from "../../../src/render/astmassage/flatten";
 const fix     = require("../../astfixtures.json");
 
 describe('render/astmassage/flatten', () => {

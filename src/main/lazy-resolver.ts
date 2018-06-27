@@ -1,4 +1,4 @@
-import * as memoize from "lodash.memoize";
+import memoize from "lodash.memoize";
 import * as mscgen from "../../types/mscgen";
 
 const DEFAULT_PARSER        = "../parse/mscgenparser";

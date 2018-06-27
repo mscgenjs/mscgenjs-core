@@ -28,7 +28,7 @@ const fileExists = pFileName => {
 
 const dirNameToAdditionNode = pRootDirName =>
     pDirName => {
-        const $config = require("./" + path.join(pDirName, "config.json"));
+        const $config = require("../" + path.join(pRootDirName, pDirName, "config.json"));
 
         return {
             name         : extractName(pDirName),

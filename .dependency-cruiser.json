@@ -23,6 +23,17 @@
       }
     },
     {
+      "name": "not-from-test-to-dist",
+      "comment": "Don't allow dependencies from test to dist (we're testing src only)",
+      "severity": "error",
+      "from": {
+        "path": "^test"
+      },
+      "to": {
+        "path": "dist"
+      }
+    },
+    {
       "name": "not-to-spec",
       "comment": "Don't allow dependencies to (typescript/ javascript/ coffeescript) spec files",
       "severity": "error",

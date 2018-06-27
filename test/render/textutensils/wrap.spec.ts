@@ -1,4 +1,4 @@
-const wrap   = require("../../../dist/render/textutensils/wrap").default;
+const wrap   = require("../../../src/render/textutensils/wrap").default;
 
 describe('render/textutensils/wrap', () => {
     describe('#wrap(x, 10) - string with spaces', () => {

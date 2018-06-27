@@ -1,7 +1,7 @@
 const fs          = require("fs");
 const path        = require("path");
-const ast2animate = require("../../../dist/render/text/ast2animate").default;
-const parser      = require("../../../dist/parse/xuparser");
+const ast2animate = require("../../../src/render/text/ast2animate").default;
+const parser      = require("../../../src/parse/xuparser");
 const fix         = require("../../astfixtures.json");
 const tst         = require("../../testutensils");
 

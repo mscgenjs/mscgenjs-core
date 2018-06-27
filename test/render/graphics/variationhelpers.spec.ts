@@ -1,4 +1,4 @@
-const variationhelpers = require("../../../dist/render/graphics/svgelementfactory/variationhelpers").default;
+const variationhelpers = require("../../../src/render/graphics/svgelementfactory/variationhelpers").default;
 
 describe('#geometry', () => {
 

@@ -1,4 +1,4 @@
-const parserHelpers = require('../../dist/parse/parserHelpers').default;
+import parserHelpers from '../../src/parse/parserHelpers';
 
 describe('parserHelpers.nameValue2Option', () => {
     test('Name and value return a name/ value object', () => {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _cloneDeep = require("lodash.clonedeep");
+const lodash_clonedeep_1 = require("lodash.clonedeep");
 const aggregatekind_1 = require("../astmassage/aggregatekind");
 const flatten_1 = require("../astmassage/flatten");
 const wrap_1 = require("../textutensils/wrap");
@@ -160,7 +160,7 @@ function renderArcLines(pArcLines, pIndent) {
 }
 exports.default = {
     render(pAST) {
-        return _renderAST(flatten_1.default.dotFlatten(_cloneDeep(pAST)));
+        return _renderAST(flatten_1.default.dotFlatten(lodash_clonedeep_1.default(pAST)));
     },
 };
 /*

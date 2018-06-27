@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const memoize = require("lodash.memoize");
+const lodash_memoize_1 = require("lodash.memoize");
 const idmanager_1 = require("./idmanager");
 const index_1 = require("./svgelementfactory/index");
 /**
@@ -108,7 +108,7 @@ exports.default = {
     /**
      * Returns the height in pixels necessary for rendering characters
      */
-    calculateTextHeight: memoize(_calculateTextHeight),
+    calculateTextHeight: lodash_memoize_1.default(_calculateTextHeight),
     // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
     // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
     // namespace prefixes in front of xlink and all hrefs respectively.

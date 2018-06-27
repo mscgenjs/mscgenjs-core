@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _cloneDeep = require("lodash.clonedeep");
+const lodash_clonedeep_1 = require("lodash.clonedeep");
 const EMPTY_ARC = [{ kind: "|||" }];
 class FrameFactory {
     constructor(pAST, pPreCalculate) {
@@ -39,18 +39,18 @@ class FrameFactory {
         */
     init(pAST, pPreCalculate) {
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
-        this.AST = _cloneDeep(pAST);
+        this.AST = lodash_clonedeep_1.default(pAST);
         this.len = _calculateLength(pAST);
         this.noRows = _calcNumberOfRows(pAST);
         this.position = 0;
         if (this.AST.arcs) {
-            this.arcs = _cloneDeep(this.AST.arcs);
+            this.arcs = lodash_clonedeep_1.default(this.AST.arcs);
             this.AST.arcs = [];
         }
         this.frames = [];
         if (this.preCalculate) {
             for (let i = 0; i < this.len; i++) {
-                this.frames.push(_cloneDeep(this._calculateFrame(i)));
+                this.frames.push(lodash_clonedeep_1.default(this._calculateFrame(i)));
             }
         }
     }

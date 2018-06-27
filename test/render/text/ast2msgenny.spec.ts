@@ -1,4 +1,4 @@
-const renderer = require("../../../dist/render/text/ast2msgenny").default;
+const renderer = require("../../../src/render/text/ast2msgenny").default;
 const fix      = require("../../astfixtures.json");
 
 describe('render/text/ast2msgenny', () => {

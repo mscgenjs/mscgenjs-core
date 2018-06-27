@@ -1,11 +1,11 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Defines several mappings of arckinds to agregations
  *
  * @exports node/arcmappings
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-Object.defineProperty(exports, "__esModule", { value: true });
 const KIND2NORMALIZEDKIND = Object.freeze({
     "<-": "->",
     "<=": "=>",

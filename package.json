@@ -27,12 +27,17 @@
     "pegjs": "0.10.0",
     "requirejs": "2.3.5",
     "shx": "0.3.1",
+    "ts-jest": "22.4.6",
     "tslint": "5.10.0",
     "typescript": "2.9.2"
   },
   "scripts": {
-    "build": "npm-run-all build:clean build:compile:pegjs build:copy build:compile:typescript",
-    "build:clean": "shx rm -rf dist/*",
+    "build": "npm-run-all build:clean build:compile:pegjs build:csstemplates build:copy build:compile:typescript",
+    "build:clean": "npm-run-all --parallel build:clean:dist build:clean:parse build:clean:csstemplates",
+    "build:clean:csstemplates": "shx rm -f src/render/graphics/csstemplates.ts", 
+    "build:clean:dist": "shx rm -rf dist/*",
+    "build:clean:parse": "shx rm -rf src/parse/*parser.js",
+    "build:csstemplates": "node utl/to-csstemplates-js.utility.js > src/render/graphics/csstemplates.ts", 
     "build:compile:typescript": "tsc --project src",
     "build:compile:pegjs": "npm-run-all --parallel build:compile:pegjs:mscgen build:compile:pegjs:msgenny build:compile:pegjs:xu",
     "build:compile:pegjs:mscgen": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/mscgenparser.js src/parse/peg/mscgenparser.pegjs",
@@ -71,6 +76,14 @@
     "msgenny"
   ],
   "jest": {
+    "moduleFileExtensions": [
+        "ts",
+        "js"
+    ],
+    "transform": {
+        "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "test.*\\.spec\\.(ts|js)$",
     "collectCoverage": true,
     "coverageReporters": [
       "text-summary",
@@ -78,16 +91,17 @@
       "lcov"
     ],
     "collectCoverageFrom": [
-      "dist/index.js",
-      "dist/index-lazy.js",
-      "dist/main/**/*.js",
-      "dist/parse/**/*.js",
-      "dist/render/**/*.js"
+      "src/index.ts",
+      "src/index-lazy.ts",
+      "src/main/**/*.ts",
+      "src/parse/**/*.ts",
+      "src/render/**/*.ts"
     ],
     "coveragePathIgnorePatterns": [
-      "dist/render/graphics/styling",
-      "dist/render/graphics/svgelementfactory/wobbly",
-      "dist/parse/.+parser\\.js"
+      ".+\\.d\\.ts$",
+      "src/render/graphics/styling",
+      "src/render/graphics/svgelementfactory/wobbly",
+      "src/parse/.+parser\\.js"
     ],
     "coverageThreshold": {
       "global": {
@@ -96,19 +110,19 @@
         "functions": 100,
         "lines": 99.8
       },
-      "dist/main": {
+      "src/main": {
         "statements": 100,
         "branches": 93.9,
         "functions": 100,
         "lines": 100
       },
-      "dist/render": {
+      "src/render": {
         "statements": 99.8,
         "branches": 92.7,
         "functions": 100,
         "lines": 99.8
       },
-      "dist/parse": {
+      "src/parse": {
         "statements": 83,
         "branches": 74,
         "functions": 91,

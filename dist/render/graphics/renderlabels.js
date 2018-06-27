@@ -145,11 +145,14 @@ function _determineMaxTextWidthInChars(pWidth, pFontSize) {
     }
     return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
 }
-function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
-    if (("box" === aggregatekind_1.default(pKind) && pOptions.wordwrapboxes) ||
+function labelIsWrappable(pKind /*mscgenjsast.ArcKindType*/, pOptions) {
+    return ("box" === aggregatekind_1.default(pKind) && pOptions.wordwrapboxes) ||
         ("entity" === pKind && pOptions.wordwrapentities) ||
         ("box" !== aggregatekind_1.default(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
-        typeof pKind === "undefined") {
+        typeof pKind === "undefined";
+}
+function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
+    if (labelIsWrappable(pKind, pOptions)) {
         return wrap_1.default(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
     }
     else {

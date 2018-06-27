@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _flatten = require("lodash.flatten");
+const lodash_flatten_1 = require("lodash.flatten");
 const normalizekind_1 = require("../astmassage/normalizekind");
 const KINDS = {
     "->": {
@@ -237,7 +237,7 @@ function extractKindColorCombis(pAST) {
 exports.default = {
     getAttributes: _getAttributes,
     getMarkerDefs(pId, pAST) {
-        return _flatten(extractKindColorCombis(pAST)
+        return lodash_flatten_1.default(extractKindColorCombis(pAST)
             .map((pCombi) => MARKERPATHS[pCombi.kind]
             .variants
             .map((pVariant) => ({

@@ -1,3 +1,5 @@
+import * as mscgenjsast from "../../parse/mscgenjsast";
+
 const KIND2AGGREGATE = Object.freeze({
     "|||" : "emptyarc",
     "..." : "emptyarc",
@@ -44,7 +46,7 @@ const KIND2AGGREGATE = Object.freeze({
     "exc" : "inline_expression",
 });
 
-export default (pKey) => KIND2AGGREGATE[pKey];
+export default (pKey: mscgenjsast.ArcKindType) => KIND2AGGREGATE[pKey] as mscgenjsast.ArcKindAggregatedType;
 
 /*
  This file is part of mscgen_js.

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const memoize = require("lodash.memoize");
+const lodash_memoize_1 = require("lodash.memoize");
 const DEFAULT_PARSER = "../parse/mscgenparser";
 const DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 const gLang2Parser = Object.freeze({
@@ -16,14 +16,14 @@ const gLang2TextRenderer = Object.freeze({
     doxygen: "../render/text/ast2doxygen",
 });
 exports.default = {
-    getParser: memoize((pLanguage) => {
+    getParser: lodash_memoize_1.default((pLanguage) => {
         if (["ast", "json"].indexOf(pLanguage) > -1) {
             return JSON;
         }
         return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
     }),
-    getGraphicsRenderer: memoize(() => require("../render/graphics/renderast").default),
-    getTextRenderer: memoize((pLanguage) => require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER).default),
+    getGraphicsRenderer: lodash_memoize_1.default(() => require("../render/graphics/renderast").default),
+    getTextRenderer: lodash_memoize_1.default((pLanguage) => require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER).default),
 };
 /*
  This file is part of mscgen_js.

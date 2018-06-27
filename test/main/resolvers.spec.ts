@@ -15,7 +15,7 @@ const gExpectedMscGenOutput = `msc {\n\
 }`;
 
 
-[require("../../dist/main/static-resolver").default, require("../../dist/main/lazy-resolver").default].forEach((mscgenjs) => {
+[require("../../src/main/static-resolver").default, require("../../src/main/lazy-resolver").default].forEach((mscgenjs) => {
     describe('resolver', () => {
         function isMscGenParser(pParser){
             tst.assertSyntaxError('xu { watermark="this is only valid in xu"; a,b; a->b;}', pParser);

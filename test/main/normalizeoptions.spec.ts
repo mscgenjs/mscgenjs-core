@@ -1,4 +1,4 @@
-const normalizeOptions = require('../../dist/main/normalizeoptions').default;
+const normalizeOptions = require('../../src/main/normalizeoptions').default;
 
 describe('normalizeOptions', () => {
 

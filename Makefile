@@ -57,12 +57,12 @@ include config/jsdependencies.mk
 include config/dependencies.mk
 
 src/render/graphics/csstemplates.ts: src/render/graphics/styling \
-	src/render/graphics/styling/to-csstemplates-js.utility.js \
+	utl/to-csstemplates-js.utility.js \
 	src/render/graphics/styling/base.css \
 	src/render/graphics/styling/csstemplates.tsTemplate \
 	src/render/graphics/styling/*.style/*.css \
 	src/render/graphics/styling/*.style/*.json
-	node src/render/graphics/styling/to-csstemplates-js.utility.js > $@
+	node utl/to-csstemplates-js.utility.js > $@
 
 .npmignore: .gitignore Makefile
 	cp $< $@

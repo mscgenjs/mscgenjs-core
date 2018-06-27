@@ -1,5 +1,5 @@
 const _cloneDeep = require('lodash.clonedeep');
-const colorize = require("../../../dist/render/astmassage/colorize").default;
+const colorize = require("../../../src/render/astmassage/colorize").default;
 const fix      = require("../../astfixtures.json");
 
 const textColoredEntity = {

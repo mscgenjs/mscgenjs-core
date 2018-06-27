@@ -1,4 +1,6 @@
-export default (pOptions) => Object.assign(
+import * as mscgenjsast from "../../parse/mscgenjsast";
+
+export default (pOptions: mscgenjsast.IOptions): mscgenjsast.IOptionsNormalized => Object.assign(
     {
         wordwraparcs     : false,
         wordwrapentities : true,

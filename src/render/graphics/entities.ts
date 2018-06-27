@@ -1,6 +1,8 @@
-import * as _cloneDeep from "lodash.clonedeep";
+import _cloneDeep from "lodash.clonedeep";
+import * as mscgenjsast from "../../parse/mscgenjsast";
 import constants from "./constants";
 import renderlabels from "./renderlabels";
+import * as geotypes from "./svgelementfactory/geotypes";
 import svgelementfactory from "./svgelementfactory/index";
 import svgutensils from "./svgutensils";
 
@@ -29,14 +31,14 @@ function getDims() {
     return gEntityDims;
 }
 
-function getNoEntityLines(pLabel, pFontSize, pOptions) {
-    return renderlabels.splitLabel(pLabel, "entity", gEntityDims.width, pFontSize, pOptions).length;
+function getNoEntityLines(pLabel, pFontSize, pChartOptions: mscgenjsast.IOptionsNormalized) {
+    return renderlabels.splitLabel(pLabel, "entity", gEntityDims.width, pFontSize, pChartOptions).length;
 }
 
-function sizeEntityBoxToLabel(pLabel, pBBox) {
+function sizeEntityBoxToLabel(pLabel, pBBox: geotypes.IBBox) {
     const lLabelWidth = Math.min(
         svgutensils.getBBox(pLabel).width + (4 * constants.LINE_WIDTH),
-        (pBBox.interEntitySpacing / 3) + pBBox.width,
+        (gEntityDims.interEntitySpacing / 3) + pBBox.width,
     );
     if (lLabelWidth >= pBBox.width) {
         pBBox.x -= (lLabelWidth - pBBox.width) / 2;
@@ -45,11 +47,14 @@ function sizeEntityBoxToLabel(pLabel, pBBox) {
     return pBBox;
 }
 
-function renderEntity(pEntity, pX, pY, pOptions) {
+function renderEntity(pEntity, pX, pY, pOptions: mscgenjsast.IOptionsNormalized): SVGGElement {
     const lGroup = svgelementfactory.createGroup();
-    const lBBox = _cloneDeep(gEntityDims);
-    lBBox.x = pX ? pX : 0;
-    lBBox.y = pY ? pY : 0;
+    const lBBox: geotypes.IBBox = {
+        x: pX || 0,
+        y: pY || 0,
+        width: gEntityDims.width,
+        height: gEntityDims.height,
+    };
     const lLabel = renderlabels.createLabel(
         Object.assign(
             {
@@ -57,11 +62,8 @@ function renderEntity(pEntity, pX, pY, pOptions) {
             },
             pEntity,
         ),
-        {
-            x: lBBox.x,
-            y: pY + (lBBox.height / 2),
-            width: lBBox.width,
-        },
+        Object.assign ({}, lBBox, {y: lBBox.y + (lBBox.height / 2)},
+        ),
         pOptions,
     );
 
@@ -80,7 +82,7 @@ function renderEntity(pEntity, pX, pY, pOptions) {
     return lGroup;
 }
 
-function renderEntities(pEntities, pEntityYPos, pOptions) {
+function renderEntities(pEntities: any[], pEntityYPos: number, pOptions: mscgenjsast.IOptionsNormalized) {
     const lEntityGroup = svgelementfactory.createGroup();
 
     gEntityDims.entityXHWM = 0;

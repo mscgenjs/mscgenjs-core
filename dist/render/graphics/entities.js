@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _cloneDeep = require("lodash.clonedeep");
 const constants_1 = require("./constants");
 const renderlabels_1 = require("./renderlabels");
 const index_1 = require("./svgelementfactory/index");
@@ -24,11 +23,11 @@ function setX(pEntity, pX) {
 function getDims() {
     return gEntityDims;
 }
-function getNoEntityLines(pLabel, pFontSize, pOptions) {
-    return renderlabels_1.default.splitLabel(pLabel, "entity", gEntityDims.width, pFontSize, pOptions).length;
+function getNoEntityLines(pLabel, pFontSize, pChartOptions) {
+    return renderlabels_1.default.splitLabel(pLabel, "entity", gEntityDims.width, pFontSize, pChartOptions).length;
 }
 function sizeEntityBoxToLabel(pLabel, pBBox) {
-    const lLabelWidth = Math.min(svgutensils_1.default.getBBox(pLabel).width + (4 * constants_1.default.LINE_WIDTH), (pBBox.interEntitySpacing / 3) + pBBox.width);
+    const lLabelWidth = Math.min(svgutensils_1.default.getBBox(pLabel).width + (4 * constants_1.default.LINE_WIDTH), (gEntityDims.interEntitySpacing / 3) + pBBox.width);
     if (lLabelWidth >= pBBox.width) {
         pBBox.x -= (lLabelWidth - pBBox.width) / 2;
         pBBox.width = lLabelWidth;
@@ -37,16 +36,15 @@ function sizeEntityBoxToLabel(pLabel, pBBox) {
 }
 function renderEntity(pEntity, pX, pY, pOptions) {
     const lGroup = index_1.default.createGroup();
-    const lBBox = _cloneDeep(gEntityDims);
-    lBBox.x = pX ? pX : 0;
-    lBBox.y = pY ? pY : 0;
+    const lBBox = {
+        x: pX || 0,
+        y: pY || 0,
+        width: gEntityDims.width,
+        height: gEntityDims.height,
+    };
     const lLabel = renderlabels_1.default.createLabel(Object.assign({
         kind: "entity",
-    }, pEntity), {
-        x: lBBox.x,
-        y: pY + (lBBox.height / 2),
-        width: lBBox.width,
-    }, pOptions);
+    }, pEntity), Object.assign({}, lBBox, { y: lBBox.y + (lBBox.height / 2) }), pOptions);
     lGroup.appendChild(index_1.default.createRect(sizeEntityBoxToLabel(lLabel, lBBox), {
         class: "entity",
         color: pEntity.linecolor,

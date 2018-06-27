@@ -203,10 +203,12 @@
                     ]
                 },
                 "from": {
-                    "description": "(name of the) entity this arc is from"
+                    "description": "(name of the) entity this arc is from",
+                    "type": "string"
                 },
                 "to": {
-                    "description": "(name of the) entity this arc goes to"
+                    "description": "(name of the) entity this arc goes to",
+                    "type": "string"
                 },
                 "arcs": {
                     "oneOf": [

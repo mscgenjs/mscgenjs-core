@@ -7,12 +7,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 const asttransform_1 = require("./asttransform");
-const _cloneDeep = require("lodash.clonedeep");
+const lodash_clonedeep_1 = require("lodash.clonedeep");
 const escape_1 = require("../textutensils/escape");
 const aggregatekind_1 = require("./aggregatekind");
 const normalizekind_1 = require("./normalizekind");
 const normalizeoptions_1 = require("./normalizeoptions");
 let gMaxDepth = 0;
+// makes an IEntity into an IEntityNormalized as a side effect
 function nameAsLabel(pEntity) {
     if (typeof pEntity.label === "undefined") {
         pEntity.label = pEntity.name;
@@ -73,7 +74,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;
             if (Boolean(pArc.arcs)) {
-                const lInlineExpression = _cloneDeep(pArc);
+                const lInlineExpression = lodash_clonedeep_1.default(pArc);
                 lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
                 delete lInlineExpression.arcs;
                 lArcRowToPush.push(lInlineExpression);
@@ -113,10 +114,10 @@ function _unwind(pAST) {
     const lAST = {};
     gMaxDepth = 0;
     if (Boolean(pAST.options)) {
-        lAST.options = _cloneDeep(pAST.options);
+        lAST.options = lodash_clonedeep_1.default(pAST.options);
     }
     if (Boolean(pAST.entities)) {
-        lAST.entities = _cloneDeep(pAST.entities);
+        lAST.entities = lodash_clonedeep_1.default(pAST.entities);
     }
     lAST.arcs = [];
     if (pAST && pAST.arcs) {
@@ -134,7 +135,7 @@ function _unwind(pAST) {
 function explodeBroadcastArc(pEntities, pArc) {
     return pEntities.filter((pEntity) => pArc.from !== pEntity.name).map((pEntity) => {
         pArc.to = pEntity.name;
-        return _cloneDeep(pArc);
+        return lodash_clonedeep_1.default(pArc);
     });
 }
 function _explodeBroadcasts(pAST) {
@@ -149,7 +150,7 @@ function _explodeBroadcasts(pAST) {
                 /* save a clone of the broadcast arc attributes
                     * and remove the original bc arc
                     */
-                lOriginalBroadcastArc = _cloneDeep(pArc);
+                lOriginalBroadcastArc = lodash_clonedeep_1.default(pArc);
                 delete pAST.arcs[pArcRowIndex][pArcIndex];
                 lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                 pArcRow[pArcIndex] = lExplodedArcsAry.shift();

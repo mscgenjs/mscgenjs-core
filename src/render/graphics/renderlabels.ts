@@ -1,3 +1,4 @@
+import * as  mscgenjsast from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import wrap from "../textutensils/wrap";
 import constants from "./constants";
@@ -174,12 +175,15 @@ function _determineMaxTextWidthInChars(pWidth, pFontSize) {
     return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
 }
 
-function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
-    if (("box" === aggregatekind(pKind) && pOptions.wordwrapboxes) ||
-        ("entity" === pKind && pOptions.wordwrapentities) ||
-        ("box" !== aggregatekind(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
-        typeof pKind === "undefined"
-    ) {
+function labelIsWrappable(pKind: any /*mscgenjsast.ArcKindType*/, pOptions: mscgenjsast.IOptionsNormalized): boolean {
+    return ("box" === aggregatekind(pKind) && pOptions.wordwrapboxes) ||
+            ("entity" === pKind && pOptions.wordwrapentities) ||
+            ("box" !== aggregatekind(pKind) && "entity" !== pKind && pOptions.wordwraparcs) ||
+            typeof pKind === "undefined";
+}
+
+function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions: mscgenjsast.IOptionsNormalized) {
+    if (labelIsWrappable(pKind, pOptions)) {
         return wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
     } else {
         return pLabel.split("\\n");

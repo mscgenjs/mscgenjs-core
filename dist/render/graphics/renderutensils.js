@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _cloneDeep = require("lodash.clonedeep");
+const lodash_clonedeep_1 = require("lodash.clonedeep");
 exports.default = {
     scaleCanvasToWidth(pWidth, pCanvas) {
-        const lCanvas = _cloneDeep(pCanvas);
+        const lCanvas = lodash_clonedeep_1.default(pCanvas);
         lCanvas.scale = (pWidth / lCanvas.width);
         lCanvas.width *= lCanvas.scale;
         lCanvas.height *= lCanvas.scale;

@@ -29,7 +29,7 @@ const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
 
-[require("../dist"), require("../dist/index-lazy")].forEach((mscgenjs) => {
+[require("../src"), require("../src/index-lazy")].forEach((mscgenjs) => {
     describe('index', () => {
         describe('#translateMsc()', () => {
             test('no params translates mscgen to json', () => {
