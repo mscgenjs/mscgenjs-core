@@ -272,7 +272,7 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
     } // if both a from and a to
     return lElement;
 }
-function getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions) {
+function getArcRowHeight(pArcRow, pEntities, pOptions) {
     let lRetval = 0;
     pArcRow.forEach((pArc) => {
         let lElement;
@@ -356,10 +356,10 @@ function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
             return pArc.isVirtual;
         }
         if (pArcRow.every(isVirtualArc)) {
-            rowmemory_1.default.set(pRowNumber, Math.max(rowmemory_1.default.get(pRowNumber).height, getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)));
+            rowmemory_1.default.set(pRowNumber, Math.max(rowmemory_1.default.get(pRowNumber).height, getArcRowHeight(pArcRow, pEntities, pOptions)));
         }
         else {
-            rowmemory_1.default.set(pRowNumber, Math.max(rowmemory_1.default.get(pRowNumber).height, getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions)), lRealRowNumber);
+            rowmemory_1.default.set(pRowNumber, Math.max(rowmemory_1.default.get(pRowNumber).height, getArcRowHeight(pArcRow, pEntities, pOptions)), lRealRowNumber);
             lRealRowNumber++;
         }
     });

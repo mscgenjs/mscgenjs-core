@@ -355,7 +355,7 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
     return lElement;
 }
 
-function getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions) {
+function getArcRowHeight(pArcRow, pEntities, pOptions) {
     let lRetval = 0;
 
     pArcRow.forEach((pArc) => {
@@ -475,7 +475,7 @@ function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
                 pRowNumber,
                 Math.max(
                     rowmemory.get(pRowNumber).height,
-                    getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions),
+                    getArcRowHeight(pArcRow, pEntities, pOptions),
                 ),
             );
         } else {
@@ -483,7 +483,7 @@ function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
                 pRowNumber,
                 Math.max(
                     rowmemory.get(pRowNumber).height,
-                    getArcRowHeight(pArcRow, pRowNumber, pEntities, pOptions),
+                    getArcRowHeight(pArcRow, pEntities, pOptions),
                 ),
                 lRealRowNumber,
             );

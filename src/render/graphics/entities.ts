@@ -1,4 +1,3 @@
-import _cloneDeep from "lodash.clonedeep";
 import * as mscgenjsast from "../../parse/mscgenjsast";
 import constants from "./constants";
 import renderlabels from "./renderlabels";

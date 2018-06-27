@@ -10,6 +10,7 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
+    "@types/node": "10.3.6",
     "almond": "0.3.3",
     "chai": "4.1.2",
     "chai-xml": "0.3.2",
@@ -31,10 +32,10 @@
   "scripts": {
     "build": "npm-run-all build:clean build:compile:pegjs build:csstemplates build:copy build:compile:typescript",
     "build:clean": "npm-run-all --parallel build:clean:dist build:clean:parse build:clean:csstemplates",
-    "build:clean:csstemplates": "shx rm -f src/render/graphics/csstemplates.ts", 
+    "build:clean:csstemplates": "shx rm -f src/render/graphics/csstemplates.ts",
     "build:clean:dist": "shx rm -rf dist/*",
     "build:clean:parse": "shx rm -rf src/parse/*parser.js",
-    "build:csstemplates": "node utl/to-csstemplates-js.utility.js > src/render/graphics/csstemplates.ts", 
+    "build:csstemplates": "node utl/to-csstemplates-js.utility.js > src/render/graphics/csstemplates.ts",
     "build:compile:typescript": "tsc --project src",
     "build:compile:pegjs": "npm-run-all --parallel build:compile:pegjs:mscgen build:compile:pegjs:msgenny build:compile:pegjs:xu",
     "build:compile:pegjs:mscgen": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/mscgenparser.js src/parse/peg/mscgenparser.pegjs",
@@ -69,11 +70,11 @@
   ],
   "jest": {
     "moduleFileExtensions": [
-        "ts",
-        "js"
+      "ts",
+      "js"
     ],
     "transform": {
-        "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "test.*\\.spec\\.(ts|js)$",
     "collectCoverage": true,
