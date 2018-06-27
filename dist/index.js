@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = require("./main/index");
-const static_resolver_1 = require("./main/static-resolver");
+const index_1 = __importDefault(require("./main/index"));
+const static_resolver_1 = __importDefault(require("./main/static-resolver"));
 module.exports = {
     /**
      * parses the given script and renders it in the DOM element with

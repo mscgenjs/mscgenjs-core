@@ -1,9 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const curvestringfactory_1 = require("./curvestringfactory");
-const round_1 = require("../round");
-const svgprimitives_1 = require("../svgprimitives");
-const variationhelpers_1 = require("../variationhelpers");
+const round_1 = __importDefault(require("../round"));
+const svgprimitives_1 = __importDefault(require("../svgprimitives"));
+const variationhelpers_1 = __importDefault(require("../variationhelpers"));
 function createSingleLine(pLine, pOptions = {}) {
     const lDir = variationhelpers_1.default.getDirection(pLine);
     return svgprimitives_1.default.createPath(svgprimitives_1.default.pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
@@ -31,14 +34,14 @@ function createNote(pBBox, pOptions) {
     return lGroup;
 }
 function createRect(pBBox, pOptions) {
-    return svgprimitives_1.default.createPath(curvestringfactory_1.rect2CurveString(pBBox), pOptions);
+    return svgprimitives_1.default.createPath(curvestringfactory_1.rbox2CurveString(pBBox, 0), pOptions);
 }
 function createABox(pBBox, pOptions) {
     const lSlopeOffset = 3;
     return svgprimitives_1.default.createPath(curvestringfactory_1.abox2CurveString(pBBox, lSlopeOffset), pOptions);
 }
 function createRBox(pBBox, pOptions) {
-    return svgprimitives_1.default.createPath(curvestringfactory_1.rbox2CurveString(pBBox), pOptions);
+    return svgprimitives_1.default.createPath(curvestringfactory_1.rbox2CurveString(pBBox, 6), pOptions);
 }
 function createEdgeRemark(pBBox, pOptions) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
@@ -76,19 +79,6 @@ exports.default = {
     createABox,
     createRBox,
     createEdgeRemark,
-    createDesc: svgprimitives_1.default.createDesc,
-    createDefs: svgprimitives_1.default.createDefs,
-    createDiagonalText: svgprimitives_1.default.createDiagonalText,
-    createTSpan: svgprimitives_1.default.createTSpan,
-    createText: svgprimitives_1.default.createText,
-    createUTurn: svgprimitives_1.default.createUTurn,
-    createGroup: svgprimitives_1.default.createGroup,
-    createMarkerPath: svgprimitives_1.default.createMarkerPath,
-    createMarkerPolygon: svgprimitives_1.default.createMarkerPolygon,
-    createTitle: svgprimitives_1.default.createTitle,
-    createSVG: svgprimitives_1.default.createSVG,
-    updateSVG: svgprimitives_1.default.updateSVG,
-    init: svgprimitives_1.default.init,
 };
 /*
  This file is part of mscgen_js.

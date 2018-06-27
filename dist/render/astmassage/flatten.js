@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Defines some functions to simplify a given abstract syntax tree.
@@ -6,12 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @exports node/flatten
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-const asttransform_1 = require("./asttransform");
-const lodash_clonedeep_1 = require("lodash.clonedeep");
-const escape_1 = require("../textutensils/escape");
-const aggregatekind_1 = require("./aggregatekind");
-const normalizekind_1 = require("./normalizekind");
-const normalizeoptions_1 = require("./normalizeoptions");
+const asttransform_1 = __importDefault(require("./asttransform"));
+const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
+const escape_1 = __importDefault(require("../textutensils/escape"));
+const aggregatekind_1 = __importDefault(require("./aggregatekind"));
+const normalizekind_1 = __importDefault(require("./normalizekind"));
+const normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
 let gMaxDepth = 0;
 // makes an IEntity into an IEntityNormalized as a side effect
 function nameAsLabel(pEntity) {

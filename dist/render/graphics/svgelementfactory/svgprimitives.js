@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const domprimitives_1 = require("./domprimitives");
-const getdiagonalangle_1 = require("./getdiagonalangle");
-const round_1 = require("./round");
+const domprimitives_1 = __importDefault(require("./domprimitives"));
+const getdiagonalangle_1 = __importDefault(require("./getdiagonalangle"));
+const round_1 = __importDefault(require("./round"));
 const PRECISION = 2;
 function point2String(pPoint) {
     return `${round_1.default(pPoint.x, PRECISION).toString()},${round_1.default(pPoint.y, PRECISION).toString()} `;

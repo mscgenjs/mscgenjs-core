@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = require("./main");
-const lazy_resolver_1 = require("./main/lazy-resolver");
+const main_1 = __importDefault(require("./main"));
+const lazy_resolver_1 = __importDefault(require("./main/lazy-resolver"));
 /**
  * Exactly the same interface as @index.js - the only difference is that the
  * functions only load dependencies at the moment they need them.

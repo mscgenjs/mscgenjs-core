@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const svgprimitives_1 = require("../svgprimitives");
-const variationhelpers_1 = require("../variationhelpers");
+const svgprimitives_1 = __importDefault(require("../svgprimitives"));
+const variationhelpers_1 = __importDefault(require("../variationhelpers"));
 function createDoubleLine(pLine, pOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
     const lSpace = lLineWidth;
@@ -131,19 +134,6 @@ exports.default = {
     createABox,
     createRBox,
     createEdgeRemark,
-    createDesc: svgprimitives_1.default.createDesc,
-    createDefs: svgprimitives_1.default.createDefs,
-    createDiagonalText: svgprimitives_1.default.createDiagonalText,
-    createTSpan: svgprimitives_1.default.createTSpan,
-    createText: svgprimitives_1.default.createText,
-    createUTurn: svgprimitives_1.default.createUTurn,
-    createGroup: svgprimitives_1.default.createGroup,
-    createMarkerPath: svgprimitives_1.default.createMarkerPath,
-    createMarkerPolygon: svgprimitives_1.default.createMarkerPolygon,
-    createTitle: svgprimitives_1.default.createTitle,
-    createSVG: svgprimitives_1.default.createSVG,
-    updateSVG: svgprimitives_1.default.updateSVG,
-    init: svgprimitives_1.default.init,
 };
 /*
  This file is part of mscgen_js.

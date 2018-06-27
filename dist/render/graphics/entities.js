@@ -1,9 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = require("./constants");
-const renderlabels_1 = require("./renderlabels");
-const index_1 = require("./svgelementfactory/index");
-const svgutensils_1 = require("./svgutensils");
+const constants_1 = __importDefault(require("./constants"));
+const renderlabels_1 = __importDefault(require("./renderlabels"));
+const index_1 = __importDefault(require("./svgelementfactory/index"));
+const svgutensils_1 = __importDefault(require("./svgutensils"));
 const DEFAULT_INTER_ENTITY_SPACING = 160; // px
 const DEFAULT_ENTITY_WIDTH = 100; // px
 const DEFAULT_ENTITY_HEIGHT = 34; // px

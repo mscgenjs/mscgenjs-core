@@ -1,14 +1,24 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mscgenparser = require("../parse/mscgenparser");
-const msgennyparser = require("../parse/msgennyparser");
-const xuparser = require("../parse/xuparser");
-const renderast_1 = require("../render/graphics/renderast");
-const ast2dot_1 = require("../render/text/ast2dot");
-const ast2doxygen_1 = require("../render/text/ast2doxygen");
-const ast2mscgen_1 = require("../render/text/ast2mscgen");
-const ast2msgenny_1 = require("../render/text/ast2msgenny");
-const ast2xu_1 = require("../render/text/ast2xu");
+const mscgenparser = __importStar(require("../parse/mscgenparser"));
+const msgennyparser = __importStar(require("../parse/msgennyparser"));
+const xuparser = __importStar(require("../parse/xuparser"));
+const renderast_1 = __importDefault(require("../render/graphics/renderast"));
+const ast2dot_1 = __importDefault(require("../render/text/ast2dot"));
+const ast2doxygen_1 = __importDefault(require("../render/text/ast2doxygen"));
+const ast2mscgen_1 = __importDefault(require("../render/text/ast2mscgen"));
+const ast2msgenny_1 = __importDefault(require("../render/text/ast2msgenny"));
+const ast2xu_1 = __importDefault(require("../render/text/ast2xu"));
 const DEFAULT_PARSER = mscgenparser;
 const DEFAULT_TEXT_RENDERER = ast2mscgen_1.default;
 const gLang2Parser = Object.freeze({

@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const csstemplates_1 = require("../render/graphics/csstemplates");
+const csstemplates_1 = __importDefault(require("../render/graphics/csstemplates"));
 exports.default = Object.freeze({
     inputType: [
         { name: "mscgen", experimental: false },

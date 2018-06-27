@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const round_1 = require("./round");
+const round_1 = __importDefault(require("./round"));
 function determineStartCorrection(pLine, pClass, pLineWidth) {
     let lRetval = 0;
     if (!pClass.includes("nodi") && pClass.includes("bidi")) {

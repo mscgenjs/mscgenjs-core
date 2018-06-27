@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const allowedvalues_1 = require("./allowedvalues");
-const normalizeoptions_1 = require("./normalizeoptions");
+const allowedvalues_1 = __importDefault(require("./allowedvalues"));
+const normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
 function isProbablyAnASTAlready(pScript, pInputType) {
     return pInputType === "json" && typeof pScript === "object";
 }

@@ -1,11 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const aggregatekind_1 = require("../astmassage/aggregatekind");
-const wrap_1 = require("../textutensils/wrap");
-const constants_1 = require("./constants");
-const kind2class_1 = require("./kind2class");
-const index_1 = require("./svgelementfactory/index");
-const svgutensils_1 = require("./svgutensils");
+const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+const wrap_1 = __importDefault(require("../textutensils/wrap"));
+const constants_1 = __importDefault(require("./constants"));
+const kind2class_1 = __importDefault(require("./kind2class"));
+const index_1 = __importDefault(require("./svgelementfactory/index"));
+const svgutensils_1 = __importDefault(require("./svgutensils"));
 /**
  * Sets the fill color of the passed pElement to the textcolor of
  * the given pArc

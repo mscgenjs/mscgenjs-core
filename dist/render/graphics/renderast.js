@@ -1,19 +1,22 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_clonedeep_1 = require("lodash.clonedeep");
-const aggregatekind_1 = require("../astmassage/aggregatekind");
-const flatten_1 = require("../astmassage/flatten");
-const constants_1 = require("./constants");
-const entities_1 = require("./entities");
-const idmanager_1 = require("./idmanager");
-const kind2class_1 = require("./kind2class");
-const markermanager_1 = require("./markermanager");
-const renderlabels_1 = require("./renderlabels");
-const renderskeleton_1 = require("./renderskeleton");
-const renderutensils_1 = require("./renderutensils");
-const rowmemory_1 = require("./rowmemory");
-const index_1 = require("./svgelementfactory/index");
-const svgutensils_1 = require("./svgutensils");
+const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
+const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+const flatten_1 = __importDefault(require("../astmassage/flatten"));
+const constants_1 = __importDefault(require("./constants"));
+const entities_1 = __importDefault(require("./entities"));
+const idmanager_1 = __importDefault(require("./idmanager"));
+const kind2class_1 = __importDefault(require("./kind2class"));
+const markermanager_1 = __importDefault(require("./markermanager"));
+const renderlabels_1 = __importDefault(require("./renderlabels"));
+const renderskeleton_1 = __importDefault(require("./renderskeleton"));
+const renderutensils_1 = __importDefault(require("./renderutensils"));
+const rowmemory_1 = __importDefault(require("./rowmemory"));
+const index_1 = __importDefault(require("./svgelementfactory/index"));
+const svgutensils_1 = __importDefault(require("./svgutensils"));
 const PAD_VERTICAL = 3;
 const DEFAULT_ARCROW_HEIGHT = 38; // chart only
 const DEFAULT_ARC_GRADIENT = 0; // chart only

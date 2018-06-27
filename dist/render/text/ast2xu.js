@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const escape_1 = require("../textutensils/escape");
-const ast2thing_1 = require("./ast2thing");
+const escape_1 = __importDefault(require("../textutensils/escape"));
+const ast2thing_1 = __importDefault(require("./ast2thing"));
 let INDENT = "  ";
 let SP = " ";
 let EOL = "\n";

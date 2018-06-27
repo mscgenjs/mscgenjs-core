@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const allowedvalues_1 = require("./allowedvalues");
+const allowedvalues_1 = __importDefault(require("./allowedvalues"));
 function normalizeValueFromValidValues(pValue, pValidValues, pDefault) {
     let lRetval = pDefault;
     if (pValidValues.some((pValidValue) => pValidValue.name === pValue)) {

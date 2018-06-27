@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_memoize_1 = require("lodash.memoize");
+const lodash_memoize_1 = __importDefault(require("lodash.memoize"));
 const DEFAULT_PARSER = "../parse/mscgenparser";
 const DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 const gLang2Parser = Object.freeze({

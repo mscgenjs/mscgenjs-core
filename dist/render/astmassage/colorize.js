@@ -10,9 +10,12 @@
  *      - black linecolor
  *      - light yellow textbgcolor
  */
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const asttransform_1 = require("./asttransform");
-const aggregatekind_1 = require("./aggregatekind");
+const asttransform_1 = __importDefault(require("./asttransform"));
+const aggregatekind_1 = __importDefault(require("./aggregatekind"));
 const gSchemes = {
     minimal: {
         entityColors: [

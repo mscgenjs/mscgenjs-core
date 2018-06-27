@@ -1,10 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_clonedeep_1 = require("lodash.clonedeep");
-const aggregatekind_1 = require("../astmassage/aggregatekind");
-const flatten_1 = require("../astmassage/flatten");
-const wrap_1 = require("../textutensils/wrap");
-const dotMappings_1 = require("./dotMappings");
+const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
+const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+const flatten_1 = __importDefault(require("../astmassage/flatten"));
+const wrap_1 = __importDefault(require("../textutensils/wrap"));
+const dotMappings_1 = __importDefault(require("./dotMappings"));
 const INDENT = "  ";
 const MAX_TEXT_WIDTH = 40;
 let gCounter = 0;

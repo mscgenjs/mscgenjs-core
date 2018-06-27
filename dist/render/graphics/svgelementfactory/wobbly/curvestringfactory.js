@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const svgprimitives_1 = require("../svgprimitives");
-const variationhelpers_1 = require("../variationhelpers");
+const svgprimitives_1 = __importDefault(require("../svgprimitives"));
+const variationhelpers_1 = __importDefault(require("../variationhelpers"));
 const SEGMENT_LENGTH = 70; // 70
 const WOBBLE_FACTOR = 3; // 1.4?
 function points2CurveString(pCurveSections) {
@@ -128,7 +131,6 @@ function abox2CurveString(pBBox, pSlopeOffset) {
 }
 exports.abox2CurveString = abox2CurveString;
 function rbox2CurveString(pBBox, pRBoxCornerRadius) {
-    pRBoxCornerRadius = pRBoxCornerRadius || 6; // px
     return svgprimitives_1.default.pathPoint2String("M", pBBox.x, pBBox.y + pRBoxCornerRadius) +
         points2CurveString([{
                 controlX: pBBox.x,
@@ -188,13 +190,6 @@ function rbox2CurveString(pBBox, pRBoxCornerRadius) {
         "z";
 }
 exports.rbox2CurveString = rbox2CurveString;
-function rect2CurveString(pBBox) {
-    if (!Boolean(pBBox.y)) {
-        pBBox.y = 0;
-    }
-    return rbox2CurveString(pBBox, 0);
-}
-exports.rect2CurveString = rect2CurveString;
 function doubleLine2CurveString(pLine, pOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
     const lSpace = lLineWidth;

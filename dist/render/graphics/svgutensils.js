@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_memoize_1 = require("lodash.memoize");
-const idmanager_1 = require("./idmanager");
-const index_1 = require("./svgelementfactory/index");
+const lodash_memoize_1 = __importDefault(require("lodash.memoize"));
+const idmanager_1 = __importDefault(require("./idmanager"));
+const index_1 = __importDefault(require("./svgelementfactory/index"));
 /**
  * Some SVG specific calculations & workarounds
  */

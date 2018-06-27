@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const straight_1 = require("./straight");
-const wobbly_1 = require("./wobbly");
+const straight_1 = __importDefault(require("./straight"));
+const svgprimitives_1 = __importDefault(require("./svgprimitives"));
+const wobbly_1 = __importDefault(require("./wobbly"));
 let gRenderMagic = straight_1.default;
 let gOptions = {};
 function determineRenderMagic(pRenderMagic) {
@@ -22,7 +26,7 @@ exports.default = {
      * @param {document} pDocument
      */
     init(pDocument, pOptions) {
-        gRenderMagic.init(pDocument);
+        svgprimitives_1.default.init(pDocument);
         gOptions = Object.assign({
             LINE_WIDTH: 2,
             FONT_SIZE: 12,
@@ -35,23 +39,23 @@ exports.default = {
      */
     createSVG(pId, pClass, pRenderMagic) {
         gRenderMagic = determineRenderMagic(pRenderMagic);
-        return gRenderMagic.createSVG(pId, pClass);
+        return svgprimitives_1.default.createSVG(pId, pClass);
     },
-    updateSVG: gRenderMagic.updateSVG,
-    createTitle: gRenderMagic.createTitle,
+    updateSVG: svgprimitives_1.default.updateSVG,
+    createTitle: svgprimitives_1.default.createTitle,
     /**
      * Creates a desc element with id pId
      *
      * @param {string} pID
      * @returns {Element}
      */
-    createDesc: gRenderMagic.createDesc,
+    createDesc: svgprimitives_1.default.createDesc,
     /**
      * Creates an empty 'defs' element
      *
      * @returns {Element}
      */
-    createDefs: gRenderMagic.createDefs,
+    createDefs: svgprimitives_1.default.createDefs,
     /**
      * creates a tspan with label pLabel, optionally wrapped in a link
      * if the url pURL is passed
@@ -60,7 +64,7 @@ exports.default = {
      * @param  {string} pURL
      * @return {element}
      */
-    createTSpan: gRenderMagic.createTSpan,
+    createTSpan: svgprimitives_1.default.createTSpan,
     /**
      * Creates an svg rectangle of width x height, with the top left
      * corner at coordinates (x, y). pRX and pRY define the amount of
@@ -73,7 +77,7 @@ exports.default = {
      * @param {string} pOptions - reference to the css class to be applied
      * @return {SVGRectElement}
      */
-    createRect: gRenderMagic.createRect,
+    createRect: (pBBox, pOptions) => gRenderMagic.createRect(pBBox, pOptions),
     /**
      * Creates rect with 6px rounded corners of width x height, with the top
      * left corner at coordinates (x, y)
@@ -82,36 +86,22 @@ exports.default = {
      * @param {magic.IBoxOptions} pOptions
      * @return {SVGElement}
      */
-    createRBox: gRenderMagic.createRBox,
+    createRBox: (pBBox, pOptions) => gRenderMagic.createRBox(pBBox, pOptions),
     /**
      * Creates an angled box of width x height, with the top left corner
      * at coordinates (x, y)
-     *
-     * @param {object} pBBox
-     * @param {magic.IBoxOptions} pOptions
-     * @return {SVGElement}
      */
-    createABox: gRenderMagic.createABox,
+    createABox: (pBBox, pOptions) => gRenderMagic.createABox(pBBox, pOptions),
     /**
      * Creates a note of pWidth x pHeight, with the top left corner
      * at coordinates (pX, pY). pFoldSize controls the size of the
      * fold in the top right corner.
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} [pFoldSize=9]
-     *
-     * @return {SVGElement}
      */
-    createNote: gRenderMagic.createNote,
+    createNote: (pBBox, pOptions) => gRenderMagic.createNote(pBBox, pOptions),
     /**
      * Creates an edge remark (for use in inline expressions) of width x height,
      * with the top left corner at coordinates (x, y). pFoldSize controls the size of the
      * fold bottom right corner.
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} [pFoldSize=7]
-     *
-     * @return {SVGElement}
      */
     createEdgeRemark(pBBox, pClass, pColor, pBgColor, pFoldSize) {
         return gRenderMagic.createEdgeRemark(pBBox, {
@@ -135,7 +125,7 @@ exports.default = {
      *                          {string=} pIDURL - link to render for the id text
      * @return {SVGElement}
      */
-    createText: gRenderMagic.createText,
+    createText: svgprimitives_1.default.createText,
     /**
      * Creates a text node with the given pText fitting diagonally (bottom-left
      *  - top right) in canvas pCanvas
@@ -143,7 +133,7 @@ exports.default = {
      * @param {string} pText
      * @param {object} pCanvas (an object with at least a .width and a .height)
      */
-    createDiagonalText: gRenderMagic.createDiagonalText,
+    createDiagonalText: svgprimitives_1.default.createDiagonalText,
     /**
      * Creates a line between to coordinates
      * @param {object} pLine - an xFrom, yFrom and xTo, yTo pair describing a line
@@ -171,20 +161,20 @@ exports.default = {
      * @param {object} pOptions
      * @return {SVGElement}
      */
-    createUTurn: gRenderMagic.createUTurn,
+    createUTurn: svgprimitives_1.default.createUTurn,
     /**
      * Creates an svg group, identifiable with id pId
      * @param {string} pId
      * @return {SVGElement}
      */
-    createGroup: gRenderMagic.createGroup,
+    createGroup: svgprimitives_1.default.createGroup,
     /**
      * Create an arrow marker consisting of a path as specified in pD
      *
      * @param {string} pId
      * @param {string} pD - a string containing the path
      */
-    createMarkerPath: gRenderMagic.createMarkerPath,
+    createMarkerPath: svgprimitives_1.default.createMarkerPath,
     /**
      * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
      *
@@ -192,7 +182,7 @@ exports.default = {
      * @param {string} pPoints - a string with the points of the polygon
      * @return {SVGElement}
      */
-    createMarkerPolygon: gRenderMagic.createMarkerPolygon,
+    createMarkerPolygon: svgprimitives_1.default.createMarkerPolygon,
 };
 /*
  This file is part of mscgen_js.
