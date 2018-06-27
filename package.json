@@ -52,11 +52,13 @@
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "npm-check-updates": "ncu --upgrade",
+    "npm-install": "npm install",
     "nsp": "nsp check",
     "test": "jest --onlyChanged --collectCoverage false",
     "test:all": "jest --collectCoverage false",
     "test:all:ci": "jest --collectCoverage false --runInBand # runInBand (=sequentially) so node 6 on travis doesn't hang",
     "test:cover": "jest",
+    "update-dependencies": "npm-run-all npm-check-updates npm-install build lint:fix check:full",
     "watch": "tsc --project src --watch"
   },
   "repository": {

@@ -102,27 +102,6 @@ dist: dev-build node_modules/almond/almond.js
 			preserveLicenseComments=true \
 			optimize=none
 
-lint:
-	$(NPM) run lint
-
-lint-fix:
-	$(NPM) run lint:fix
-
-depcruise:
-	$(NPM) run depcruise
-
-cover: dev-build
-	$(NPM) run test:cover
-
-publish-patch:
-	$(NPM) version patch
-
-publish-minor:
-	$(NPM) version minor
-
-publish-major:
-	$(NPM) version major
-
 tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
@@ -131,29 +110,5 @@ push-mirrors:
 	$(GIT) push bitbucket-mirror
 	$(GIT) push gitlab-mirror
 
-test: dev-build
-	$(NPM) test
-
-nsp:
-	$(NPM) run nsp
-
-outdated:
-	$(NPM) outdated
-
-check: lint depcruise cover
-
-fullcheck: check outdated nsp
-
-update-dependencies: run-update-dependencies clean dev-build test nsp lint-fix
-	$(GIT) diff package.json
-
-run-update-dependencies:
-	$(NPM) run npm-check-updates
-	$(NPM) install
-
 depend:
 	$(MAKEDEPEND) --system amd,cjs ./src
-
-clean:
-	rm -rf $(GENERATED_SOURCES)
-	rm -rf coverage
