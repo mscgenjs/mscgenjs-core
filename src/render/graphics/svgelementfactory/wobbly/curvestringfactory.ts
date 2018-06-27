@@ -144,9 +144,7 @@ export function abox2CurveString(pBBox: geotypes.IBBox, pSlopeOffset: number): s
         "z";
 }
 
-export function rbox2CurveString(pBBox: geotypes.IBBox, pRBoxCornerRadius?: number): string {
-    pRBoxCornerRadius = pRBoxCornerRadius || 6; // px
-
+export function rbox2CurveString(pBBox: geotypes.IBBox, pRBoxCornerRadius: number): string {
     return svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pRBoxCornerRadius) +
         points2CurveString([{
             controlX: pBBox.x,
@@ -204,13 +202,6 @@ export function rbox2CurveString(pBBox: geotypes.IBBox, pRBoxCornerRadius?: numb
             yTo: pBBox.y + pRBoxCornerRadius,
         }) +
         "z";
-}
-
-export function rect2CurveString(pBBox: geotypes.IBBox): string {
-    if (!Boolean(pBBox.y)) {
-        pBBox.y = 0;
-    }
-    return rbox2CurveString(pBBox, 0);
 }
 
 export function doubleLine2CurveString(pLine: geotypes.ILine, pOptions): string {

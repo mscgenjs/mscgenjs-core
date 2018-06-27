@@ -4,7 +4,6 @@ import {
     edgeRemark2CurveString,
     line2CurveString,
     rbox2CurveString,
-    rect2CurveString,
     renderNoteCornerString,
     renderNotePathString } from "./curvestringfactory";
 
@@ -61,7 +60,7 @@ function createNote(
 
 function createRect(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     return svgprimitives.createPath(
-        rect2CurveString(pBBox),
+        rbox2CurveString(pBBox, 0),
         pOptions,
     );
 }
@@ -76,7 +75,7 @@ function createABox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPath
 
 function createRBox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     return svgprimitives.createPath(
-        rbox2CurveString(pBBox),
+        rbox2CurveString(pBBox, 6),
         pOptions,
     );
 }
@@ -130,20 +129,6 @@ export default {
     createABox,
     createRBox,
     createEdgeRemark,
-
-    createDesc: svgprimitives.createDesc,
-    createDefs: svgprimitives.createDefs,
-    createDiagonalText: svgprimitives.createDiagonalText,
-    createTSpan: svgprimitives.createTSpan,
-    createText: svgprimitives.createText,
-    createUTurn: svgprimitives.createUTurn,
-    createGroup: svgprimitives.createGroup,
-    createMarkerPath: svgprimitives.createMarkerPath,
-    createMarkerPolygon: svgprimitives.createMarkerPolygon,
-    createTitle: svgprimitives.createTitle,
-    createSVG: svgprimitives.createSVG,
-    updateSVG: svgprimitives.updateSVG,
-    init: svgprimitives.init,
 };
 
 /*

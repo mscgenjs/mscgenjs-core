@@ -28,7 +28,7 @@ function colorLink(pElement: SVGTextElement, pUrl?: string, pTextColor?: string)
     return colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
 }
 
-function renderArcLabelLineBackground(lLabelElement: SVGGElement, pTextbgcolor): SVGRectElement {
+function renderArcLabelLineBackground(lLabelElement: SVGGElement, pTextbgcolor): SVGElement {
     const lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), {class: "label-text-background"});
     if (pTextbgcolor) {
         lRect.setAttribute("style", `fill:${pTextbgcolor}; stroke:${pTextbgcolor};`);

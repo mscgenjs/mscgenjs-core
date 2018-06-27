@@ -1,10 +1,11 @@
 import * as geotypes from "./geotypes";
 import * as magic from "./magic";
 import straight from "./straight";
+import svgprimitives from "./svgprimitives";
 import wobbly from "./wobbly";
 
 let gRenderMagic  = straight;
-let gOptions: any  = {};
+let gOptions: any = {};
 
 function determineRenderMagic(pRenderMagic: magic.MagicType): any {
     if (!Boolean(pRenderMagic)) {
@@ -25,7 +26,7 @@ export default {
      * @param {document} pDocument
      */
     init(pDocument: Document, pOptions) {
-        gRenderMagic.init(pDocument);
+        svgprimitives.init(pDocument);
         gOptions = Object.assign(
             {
                 LINE_WIDTH: 2,
@@ -42,12 +43,12 @@ export default {
      */
     createSVG(pId: string, pClass: string, pRenderMagic?: any): SVGSVGElement {
         gRenderMagic = determineRenderMagic(pRenderMagic);
-        return gRenderMagic.createSVG(pId, pClass);
+        return svgprimitives.createSVG(pId, pClass);
     },
 
-    updateSVG: gRenderMagic.updateSVG,
+    updateSVG: svgprimitives.updateSVG,
 
-    createTitle: gRenderMagic.createTitle,
+    createTitle: svgprimitives.createTitle,
 
     /**
      * Creates a desc element with id pId
@@ -55,14 +56,14 @@ export default {
      * @param {string} pID
      * @returns {Element}
      */
-    createDesc: gRenderMagic.createDesc,
+    createDesc: svgprimitives.createDesc,
 
     /**
      * Creates an empty 'defs' element
      *
      * @returns {Element}
      */
-    createDefs: gRenderMagic.createDefs,
+    createDefs: svgprimitives.createDefs,
 
     /**
      * creates a tspan with label pLabel, optionally wrapped in a link
@@ -72,7 +73,7 @@ export default {
      * @param  {string} pURL
      * @return {element}
      */
-    createTSpan: gRenderMagic.createTSpan,
+    createTSpan: svgprimitives.createTSpan,
 
     /**
      * Creates an svg rectangle of width x height, with the top left
@@ -86,7 +87,8 @@ export default {
      * @param {string} pOptions - reference to the css class to be applied
      * @return {SVGRectElement}
      */
-    createRect: gRenderMagic.createRect,
+    createRect: (pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGRectElement | SVGPathElement =>
+        gRenderMagic.createRect (pBBox, pOptions),
 
     /**
      * Creates rect with 6px rounded corners of width x height, with the top
@@ -96,39 +98,28 @@ export default {
      * @param {magic.IBoxOptions} pOptions
      * @return {SVGElement}
      */
-    createRBox: gRenderMagic.createRBox,
+    createRBox: (pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGRectElement | SVGPathElement =>
+        gRenderMagic.createRBox (pBBox, pOptions),
 
     /**
      * Creates an angled box of width x height, with the top left corner
      * at coordinates (x, y)
-     *
-     * @param {object} pBBox
-     * @param {magic.IBoxOptions} pOptions
-     * @return {SVGElement}
      */
-    createABox: gRenderMagic.createABox,
+    createABox: (pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement =>
+        gRenderMagic.createABox (pBBox, pOptions),
 
     /**
      * Creates a note of pWidth x pHeight, with the top left corner
      * at coordinates (pX, pY). pFoldSize controls the size of the
      * fold in the top right corner.
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} [pFoldSize=9]
-     *
-     * @return {SVGElement}
      */
-    createNote: gRenderMagic.createNote,
+    createNote: (pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathElement =>
+        gRenderMagic.createNote(pBBox, pOptions),
 
     /**
      * Creates an edge remark (for use in inline expressions) of width x height,
      * with the top left corner at coordinates (x, y). pFoldSize controls the size of the
      * fold bottom right corner.
-     * @param {object} pBBox
-     * @param {string} pClass - reference to the css class to be applied
-     * @param {number=} [pFoldSize=7]
-     *
-     * @return {SVGElement}
      */
     createEdgeRemark(pBBox, pClass, pColor, pBgColor, pFoldSize) {
         return gRenderMagic.createEdgeRemark(
@@ -156,7 +147,7 @@ export default {
      *                          {string=} pIDURL - link to render for the id text
      * @return {SVGElement}
      */
-    createText: gRenderMagic.createText,
+    createText: svgprimitives.createText,
 
     /**
      * Creates a text node with the given pText fitting diagonally (bottom-left
@@ -165,7 +156,7 @@ export default {
      * @param {string} pText
      * @param {object} pCanvas (an object with at least a .width and a .height)
      */
-    createDiagonalText: gRenderMagic.createDiagonalText,
+    createDiagonalText: svgprimitives.createDiagonalText,
 
     /**
      * Creates a line between to coordinates
@@ -194,14 +185,14 @@ export default {
      * @param {object} pOptions
      * @return {SVGElement}
      */
-    createUTurn: gRenderMagic.createUTurn,
+    createUTurn: svgprimitives.createUTurn,
 
     /**
      * Creates an svg group, identifiable with id pId
      * @param {string} pId
      * @return {SVGElement}
      */
-    createGroup: gRenderMagic.createGroup,
+    createGroup: svgprimitives.createGroup,
 
     /**
      * Create an arrow marker consisting of a path as specified in pD
@@ -209,7 +200,7 @@ export default {
      * @param {string} pId
      * @param {string} pD - a string containing the path
      */
-    createMarkerPath: gRenderMagic.createMarkerPath,
+    createMarkerPath: svgprimitives.createMarkerPath,
 
     /**
      * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
@@ -218,7 +209,7 @@ export default {
      * @param {string} pPoints - a string with the points of the polygon
      * @return {SVGElement}
      */
-    createMarkerPolygon: gRenderMagic.createMarkerPolygon,
+    createMarkerPolygon: svgprimitives.createMarkerPolygon,
 };
 /*
  This file is part of mscgen_js.

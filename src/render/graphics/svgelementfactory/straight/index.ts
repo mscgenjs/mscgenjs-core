@@ -158,20 +158,6 @@ export default {
     createABox,
     createRBox,
     createEdgeRemark,
-
-    createDesc: svgprimitives.createDesc,
-    createDefs: svgprimitives.createDefs,
-    createDiagonalText: svgprimitives.createDiagonalText,
-    createTSpan: svgprimitives.createTSpan,
-    createText: svgprimitives.createText,
-    createUTurn: svgprimitives.createUTurn,
-    createGroup: svgprimitives.createGroup,
-    createMarkerPath: svgprimitives.createMarkerPath,
-    createMarkerPolygon: svgprimitives.createMarkerPolygon,
-    createTitle: svgprimitives.createTitle,
-    createSVG: svgprimitives.createSVG,
-    updateSVG: svgprimitives.updateSVG,
-    init: svgprimitives.init,
 };
 /*
  This file is part of mscgen_js.
