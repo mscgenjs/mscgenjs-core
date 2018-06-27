@@ -124,7 +124,7 @@ function createLabel(
     pArc: mscgenjsast.IArc,
     pDims,
     pOptions,
-    pId?,
+    pId?: string,
 ): SVGGElement {
     const lGroup = svgelementfactory.createGroup(pId);
     pOptions = pOptions || {};
@@ -132,13 +132,7 @@ function createLabel(
     if (pArc.label) {
         const lMiddle = pDims.x + (pDims.width / 2);
         const lLines = insertEmptyLines(
-            splitLabel(
-                pArc.label,
-                pArc.kind,
-                pDims.width,
-                constants.FONT_SIZE,
-                pOptions,
-            ),
+            splitLabel(pArc.label, pArc.kind, pDims.width, constants.FONT_SIZE, pOptions),
             pOptions,
         );
 
@@ -149,15 +143,7 @@ function createLabel(
                 (pLine, pLineNumber) => {
                     if (pLine !== "") {
                         const lText: SVGTextElement =
-                            createLabelLine(
-                                pLine,
-                                lMiddle,
-                                lLabelTop,
-                                pArc,
-                                pLineNumber,
-                                pOptions,
-                            );
-
+                            createLabelLine(pLine, lMiddle, lLabelTop, pArc, pLineNumber, pOptions);
                         if (pOptions.ownBackground) {
                             lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
                         }
