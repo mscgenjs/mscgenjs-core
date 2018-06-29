@@ -30,13 +30,13 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
             test("explicit mscgen & json params translates mscgen to json too", () => {
                 expect(
-                    JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "json"})),
+                    JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "json"}))
                 ).toEqual(fix.astSimple);
             });
 
             test("ast translates mscgen to an AST object", () => {
                 expect(
-                    mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "ast"}),
+                    mscgenjs.translateMsc(SIMPLE_MSCGEN, {inputType: "mscgen", outputType: "ast"})
                 ).toEqual(fix.astSimple);
             });
 
@@ -44,8 +44,8 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 expect(
                     () => mscgenjs.translateMsc(
                         SIMPLE_XU,
-                        {inputType: "mscgen", outputType: "msgenny"},
-                    ),
+                        {inputType: "mscgen", outputType: "msgenny"}
+                    )
                 ).toThrow();
             });
 
@@ -53,8 +53,8 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 expect(
                     mscgenjs.translateMsc(
                         JSON.stringify(fix.astOneAlt, null, ""),
-                        {inputType: "json", outputType: "mscgen"},
-                    ),
+                        {inputType: "json", outputType: "mscgen"}
+                    )
                 ).toBe(gExpectedMscGenOutput);
             });
 
@@ -62,8 +62,8 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                 expect(
                     mscgenjs.translateMsc(
                         fix.astOneAlt,
-                        {inputType: "json", outputType: "mscgen"},
-                    ),
+                        {inputType: "json", outputType: "mscgen"}
+                    )
                 ).toBe(gExpectedMscGenOutput);
             });
 
@@ -82,7 +82,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     (pError, pResult) => {
                         expect(pError).toBeNull();
                         chaiExpect(pResult).xml.to.be.valid();
-                    },
+                    }
                 );
             });
 
@@ -94,7 +94,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                         expect(pError).not.toBeNull();
                         expect(pError).toBeInstanceOf(Error);
                         expect(pResult).toBeNull();
-                    },
+                    }
                 );
             });
 
@@ -109,7 +109,7 @@ const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
                     (pError, pResult) => {
                         expect(pError).toBeNull();
                         chaiExpect(pResult).xml.to.be.valid();
-                    },
+                    }
                 );
             });
         });
