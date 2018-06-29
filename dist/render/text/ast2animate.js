@@ -51,8 +51,8 @@ class FrameFactory {
     init(pAST, pPreCalculate) {
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
         this.AST = lodash_clonedeep_1.default(pAST);
-        this.len = _calculateLength(pAST);
-        this.noRows = _calcNumberOfRows(pAST);
+        this.len = this._calculateLength(pAST);
+        this.noRows = this._calcNumberOfRows(pAST);
         this.position = 0;
         if (this.AST.arcs) {
             this.arcs = lodash_clonedeep_1.default(this.AST.arcs);
@@ -142,59 +142,68 @@ class FrameFactory {
         return (this.len > 0) && (this.position > 0) ? 100 * (Math.min(1, this.position / this.len)) : 0;
     }
     /*
-     * Returns the AST the subset frame pFrameNo should constitute
-     */
-    _calculateFrame(pFrameNo) {
-        const lFrameNo = Math.min(pFrameNo, this.len - 1);
-        let lFrameCount = 0;
-        let lRowNo = 0;
-        if (this.len - 1 > 0) {
-            this.AST.arcs = [];
-        }
-        if (this.AST.arcs) {
-            while (lFrameCount < lFrameNo) {
-                this.AST.arcs[lRowNo] = [];
-                for (let j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++) {
-                    this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
-                }
-                lRowNo++;
-            }
-            for (let k = lRowNo; k < this.noRows; k++) {
-                this.AST.arcs[k] = EMPTY_ARC;
-            }
-        }
-        return this.AST;
-    }
-    /*
      * returns the number of rows for the current AST
      */
     getNoRows() {
         return this.noRows;
     }
-}
-/*
- * calculates the number of "frames" in the current AST
- * --> does not yet cater for recursive structures
- */
-function _calculateLength(pThing) {
-    let lRetval = 1; /* separate frame for entities */
-    if (pThing.arcs) {
-        lRetval = pThing.arcs.reduce((pSum, pArcRow) => /*
-            * inner itself counts for two arcs (one extra for
-            * drawing the bottom), but for one frame)
-            */ pSum + ((Boolean(pArcRow[0].arcs) ? _calculateLength(pArcRow[0]) : pArcRow.length)), lRetval);
+    _drawArcsUntilRow(pFrameNo) {
+        let lFrameCount = 0;
+        let lRowNo = 0;
+        if (this.AST.arcs) {
+            while (lFrameCount < pFrameNo) {
+                this.AST.arcs[lRowNo] = [];
+                for (let j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < pFrameNo); j++) {
+                    this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
+                }
+                lRowNo++;
+            }
+        }
+        return lRowNo;
     }
-    return lRetval;
-}
-/*
- * returns the number of rows for a given AST (/ AST snippet)
- */
-function _calcNumberOfRows(pThing) {
-    let lRetval = 0;
-    if (pThing.arcs) {
-        lRetval = pThing.arcs.reduce((pSum, pArcRow) => pSum + (Boolean(pArcRow[0].arcs) ? _calcNumberOfRows(pArcRow[0]) + 2 : 1), lRetval);
+    _fillDownWithEmptyArcs(pRowNoFrom) {
+        if (this.AST.arcs) {
+            for (let k = pRowNoFrom; k < this.noRows; k++) {
+                this.AST.arcs[k] = EMPTY_ARC;
+            }
+        }
     }
-    return lRetval;
+    /*
+     * Returns the AST the subset frame pFrameNo should constitute
+     */
+    _calculateFrame(pFrameNo) {
+        pFrameNo = Math.min(pFrameNo, this.len - 1);
+        if (this.len - 1 > 0) {
+            this.AST.arcs = [];
+        }
+        const lRowNo = this._drawArcsUntilRow(pFrameNo);
+        this._fillDownWithEmptyArcs(lRowNo);
+        return this.AST;
+    }
+    /*
+     * calculates the number of "frames" in the current AST
+     * --> does not yet cater for recursive structures
+     */
+    _calculateLength(pThing) {
+        let lRetval = 1; /* separate frame for entities */
+        if (pThing.arcs) {
+            lRetval = pThing.arcs.reduce((pSum, pArcRow) => /*
+                * inner itself counts for two arcs (one extra for
+                * drawing the bottom), but for one frame)
+                */ pSum + ((Boolean(pArcRow[0].arcs) ? this._calculateLength(pArcRow[0]) : pArcRow.length)), lRetval);
+        }
+        return lRetval;
+    }
+    /*
+     * returns the number of rows for a given AST (/ AST snippet)
+     */
+    _calcNumberOfRows(pThing) {
+        let lRetval = 0;
+        if (pThing.arcs) {
+            lRetval = pThing.arcs.reduce((pSum, pArcRow) => pSum + (Boolean(pArcRow[0].arcs) ? this._calcNumberOfRows(pArcRow[0]) + 2 : 1), lRetval);
+        }
+        return lRetval;
+    }
 }
 exports.default = {
     FrameFactory,
