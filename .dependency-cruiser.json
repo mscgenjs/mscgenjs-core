@@ -27,7 +27,8 @@
       "comment": "Don't allow dependencies from test to dist (we're testing src only)",
       "severity": "error",
       "from": {
-        "path": "^test"
+        "path": "^test",
+        "pathNot": "^test/dist-index\\.spec\\.js"
       },
       "to": {
         "path": "dist"
