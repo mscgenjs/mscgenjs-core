@@ -1,9 +1,10 @@
-const JSDOM    = require("jsdom").JSDOM;
-const chai     = require("chai");
+import { JSDOM } from "jsdom";
+import chai from "chai";
 const version  = require("../package.json").version;
 const fix      = require("./astfixtures.json");
 
 const chaiExpect   = chai.expect;
+
 chai.use(require("chai-xml"));
 
 const gExpectedMscGenOutput = `msc {\n\
@@ -17,11 +18,6 @@ const gExpectedMscGenOutput = `msc {\n\
     c >> b;\n\
 #;\n\
 }`;
-
-/*
- * NOTE: the cli/t_actions.js already excercises index.js for most scenarios.
- *       These tests cover the rest
- */
 
 const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script"];}';
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';

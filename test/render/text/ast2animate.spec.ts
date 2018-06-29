@@ -1,9 +1,10 @@
-const fs          = require("fs");
-const path        = require("path");
-const ast2animate = require("../../../src/render/text/ast2animate").default;
-const parser      = require("../../../src/parse/xuparser");
+import fs from "fs";
+import path from "path";
+import ast2animate from "../../../src/render/text/ast2animate";
+import * as parser from "../../../src/parse/xuparser";
+import * as tst from "../../testutensils";
+
 const fix         = require("../../astfixtures.json");
-const tst         = require("../../testutensils");
 
 describe("render/text/ast2ani", () => {
     const astCheatSheet0 = {
