@@ -121,5 +121,5 @@ export interface ISequenceChart {
     meta: IMeta;
     options?: IOptions;
     entities: IEntity[];
-    arcs?: IArc[];
+    arcs?: IArc[][];
 }

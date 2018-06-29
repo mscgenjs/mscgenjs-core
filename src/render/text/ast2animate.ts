@@ -1,19 +1,28 @@
 import _cloneDeep from "lodash.clonedeep";
+import * as mscgenjsast from "../../parse/mscgenjsast";
 
-const EMPTY_ARC = [{kind: "|||"}];
+const EMPTY_ARC = [{kind: "|||" as mscgenjsast.ArcKindType}];
+const EMPTY_AST = {
+    entities: [],
+    meta: {
+        extendedArcTypes: false,
+        extendedFeatures: false,
+        extendedOptions: false,
+    },
+};
 
 class FrameFactory {
-    public AST: any;
-    public arcs: any;
+    public AST: mscgenjsast.ISequenceChart;
+    public arcs: mscgenjsast.IArc[][];
     public len: number;
     public noRows: number;
     public position: number;
-    public frames: any[];
+    public frames: mscgenjsast.ISequenceChart[];
     public preCalculate: boolean;
 
-    constructor(pAST, pPreCalculate) {
-        this.AST          = {};
-        this.arcs         = {};
+    constructor(pAST: mscgenjsast.ISequenceChart, pPreCalculate?: boolean) {
+        this.AST          = EMPTY_AST;
+        this.arcs         = [[]] as mscgenjsast.IArc[][];
         this.len          = 0;
         this.noRows       = 0;
         this.position     = 0;
@@ -46,7 +55,7 @@ class FrameFactory {
         *                 Paramater might get removed somewhere in the near
         *                 future.
         */
-    public init(pAST: any, pPreCalculate?: boolean) {
+    public init(pAST: mscgenjsast.ISequenceChart, pPreCalculate?: boolean): void {
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
         this.AST          = _cloneDeep(pAST);
         this.len          = _calculateLength(pAST);
@@ -65,59 +74,59 @@ class FrameFactory {
     }
 
     /*
-        * Set position to the provided frame number
-        * If pFrameNumber > last frame, sets position to last frame
-        * If pFrameNumber < first frame, sets position to first frame
-        */
-    public setPosition(pPosition) {
+     * Set position to the provided frame number
+     * If pFrameNumber > last frame, sets position to last frame
+     * If pFrameNumber < first frame, sets position to first frame
+     */
+    public setPosition(pPosition: number): void {
         this.position = Math.min(this.len, Math.max(0, pPosition));
     }
 
     /*
-        * Go to the first frame
-        */
-    public home() {
+     * Go to the first frame
+     */
+    public home(): void {
         this.position = 0;
     }
 
     /*
-        * Skips pFrames ahead. When pFrames not provided, skips 1 ahead
-        *
-        * won't go beyond the last frame
-        */
-    public inc(pFrames= 1) {
+     * Skips pFrames ahead. When pFrames not provided, skips 1 ahead
+     *
+     * won't go beyond the last frame
+     */
+    public inc(pFrames: number = 1): void {
         this.setPosition(this.position + pFrames);
     }
 
     /*
-        * Skips pFrames back. When pFrames not provided, skips 1 back
-        *
-        * won't go before the first frame
-        */
-    public dec(pFrames= 1) {
+     * Skips pFrames back. When pFrames not provided, skips 1 back
+     *
+     * won't go before the first frame
+     */
+    public dec(pFrames: number = 1): void {
         this.setPosition(this.position - pFrames);
     }
 
     /*
-        * Go to the last frame
-        */
-    public end() {
+     * Go to the last frame
+     */
+    public end(): void {
         this.position = this.len;
     }
 
     /*
-        * returns the current frame
-        */
-    public getCurrentFrame() {
+     * returns the current frame
+     */
+    public getCurrentFrame(): mscgenjsast.ISequenceChart {
         return this.getFrame(this.position);
     }
 
     /*
-        * returns frame pFrameNo
-        * if pFrameNo >= getLength() - returns the last frame (=== original AST)
-        * if pFrameNo <= 0 - returns the first frame (=== original AST - arcs)
-        */
-    public getFrame(pFrameNo) {
+     * returns frame pFrameNo
+     * if pFrameNo >= getLength() - returns the last frame (=== original AST)
+     * if pFrameNo <= 0 - returns the first frame (=== original AST - arcs)
+     */
+    public getFrame(pFrameNo: number): mscgenjsast.ISequenceChart {
         pFrameNo = Math.max(0, Math.min(pFrameNo, this.len - 1));
         if (this.preCalculate) {
             return this.frames[pFrameNo];
@@ -127,32 +136,32 @@ class FrameFactory {
     }
 
     /*
-        * returns the position of the current frame (number)
-        */
-    public getPosition() {
+     * returns the position of the current frame (number)
+     */
+    public getPosition(): number {
         return this.position;
     }
 
     /*
-        * returns the number of "frames" in this AST
-        * */
-    public getLength() {
+     * returns the number of "frames" in this AST
+     */
+    public getLength(): number {
         return this.len;
     }
 
     /*
-        * returns the ratio position/ length in percents.
-        * 0 <= result <= 100, even when position actually exceeds
-        * length or is below 0
-        */
-    public getPercentage() {
+     * returns the ratio position/ length in percents.
+     * 0 <= result <= 100, even when position actually exceeds
+     * length or is below 0
+     */
+    public getPercentage(): number {
         return (this.len > 0) && (this.position > 0) ? 100 * (Math.min(1, this.position / this.len)) : 0;
     }
 
     /*
-        * Returns the AST the subset frame pFrameNo should constitute
-        */
-    public _calculateFrame(pFrameNo) {
+     * Returns the AST the subset frame pFrameNo should constitute
+     */
+    public _calculateFrame(pFrameNo: number): mscgenjsast.ISequenceChart {
         const lFrameNo = Math.min(pFrameNo, this.len - 1);
         let lFrameCount = 0;
         let lRowNo = 0;
@@ -161,32 +170,35 @@ class FrameFactory {
             this.AST.arcs = [];
         }
 
-        while (lFrameCount < lFrameNo) {
-            this.AST.arcs[lRowNo] = [];
-            for (let j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++) {
-                this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
+        if (this.AST.arcs) {
+            while (lFrameCount < lFrameNo) {
+                this.AST.arcs[lRowNo] = [] as mscgenjsast.IArc[];
+                for (let j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < lFrameNo); j++) {
+                    this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
+                }
+                lRowNo++;
             }
-            lRowNo++;
+
+            for (let k = lRowNo; k < this.noRows; k++) {
+                this.AST.arcs[k] = EMPTY_ARC;
+            }
         }
 
-        for (let k = lRowNo; k < this.noRows; k++) {
-            this.AST.arcs[k] = EMPTY_ARC;
-        }
         return this.AST;
     }
 
     /*
-        * returns the number of rows for the current AST
-        */
+     * returns the number of rows for the current AST
+     */
     public getNoRows() {
         return this.noRows;
     }
 }
 
 /*
-    * calculates the number of "frames" in the current AST
-    * --> does not yet cater for recursive structures
-    */
+ * calculates the number of "frames" in the current AST
+ * --> does not yet cater for recursive structures
+ */
 function _calculateLength(pThing) {
     let lRetval = 1; /* separate frame for entities */
     if (pThing.arcs) {
@@ -200,8 +212,8 @@ function _calculateLength(pThing) {
 }
 
 /*
-    * returns the number of rows for a given AST (/ AST snippet)
-    */
+ * returns the number of rows for a given AST (/ AST snippet)
+ */
 function _calcNumberOfRows(pThing) {
     let lRetval = 0;
     if (pThing.arcs) {
