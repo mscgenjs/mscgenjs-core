@@ -10,7 +10,7 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/node": "10.3.6",
+    "@types/node": "10.5.1",
     "almond": "0.3.3",
     "chai": "4.1.2",
     "chai-xml": "0.3.2",
