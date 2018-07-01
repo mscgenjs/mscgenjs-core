@@ -91,17 +91,6 @@ prerequisites:
 
 dev-build: $(GENERATED_SOURCES) .npmignore
 
-dist: dev-build node_modules/almond/almond.js
-	mkdir -p dist
-	$(RJS) -o baseUrl=. \
-			name=node_modules/almond/almond \
-			include=dist/index \
-			out=dist/webpack-issue-5316-workaround.js \
-			wrap.startFile=config/almond.start.frag \
-			wrap.endFile=config/almond.end.frag \
-			preserveLicenseComments=true \
-			optimize=none
-
 tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
