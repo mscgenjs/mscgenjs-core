@@ -26,11 +26,13 @@
     "requirejs": "2.3.5",
     "shx": "0.3.1",
     "ts-jest": "22.4.6",
+    "ts-loader": "4.4.2",
     "tslint": "5.10.0",
     "typescript": "2.9.2"
   },
   "scripts": {
-    "build": "npm-run-all build:clean build:compile:pegjs build:csstemplates build:copy build:compile:typescript",
+    "build": "npm-run-all build:clean build:compile:pegjs build:csstemplates build:copy build:compile:typescript build:bundle",
+    "build:bundle": "webpack",
     "build:clean": "npm-run-all --parallel build:clean:dist build:clean:parse build:clean:csstemplates",
     "build:clean:csstemplates": "shx rm -f src/render/graphics/csstemplates.ts",
     "build:clean:dist": "shx rm -rf dist/*",
