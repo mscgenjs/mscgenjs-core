@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const parserHelpers_1 = __importDefault(require("../../parse/parserHelpers"));
 const escape_1 = __importDefault(require("../textutensils/escape"));
 const INDENT = "  ";
 const SP = " ";
@@ -10,9 +11,9 @@ const EOL = "\n";
 const CONFIG = {
     renderCommentfn: renderComments,
     renderOptionfn: renderOption,
-    optionIsValidfn: optionIsValid,
+    optionIsValidfn: () => true,
     renderEntityNamefn: renderEntityName,
-    renderKindfn: renderKind,
+    renderKindfn: (x) => x,
     supportedOptions: [
         "hscale",
         "width",
@@ -54,21 +55,12 @@ const CONFIG = {
         closer: "",
     },
 };
-const gConfig = {};
-function fillGloblalConfig(pConfig) {
-    Object.getOwnPropertyNames(pConfig).forEach((pAttribute) => {
-        gConfig[pAttribute] = pConfig[pAttribute];
-    });
+let gConfig = {};
+function render(pAST, pConfig) {
+    gConfig = Object.assign({}, CONFIG, pConfig);
+    return renderAST(pAST);
 }
-function processConfig(pConfig) {
-    fillGloblalConfig(CONFIG);
-    fillGloblalConfig(pConfig);
-}
-function _renderAST(pAST, pConfig) {
-    processConfig(pConfig);
-    return doTheRender(pAST);
-}
-function doTheRender(pAST) {
+function renderAST(pAST) {
     let lRetVal = "";
     if (pAST) {
         if (pAST.precomment) {
@@ -105,20 +97,10 @@ function extractSupportedOptions(pOptions, pSupportedOptions) {
 function renderComments(pArray) {
     return pArray.reduce((pPrevComment, pCurComment) => pPrevComment + pCurComment, "");
 }
-function isMscGenKeyword(pString) {
-    return [
-        "box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
-        "wordwraparcs", "label", "color", "idurl", "id", "url",
-        "linecolor", "textcolor",
-        "textbgcolor", "arclinecolor",
-        "arctextcolor", "arctextbgcolor",
-        "arcskip",
-    ].includes(pString);
-}
 function isQuotable(pString) {
     const lMatchResult = pString.match(/[a-z0-9]+/gi);
     if (Boolean(lMatchResult)) {
-        return (lMatchResult.length !== 1) || isMscGenKeyword(pString);
+        return (lMatchResult.length !== 1) || parserHelpers_1.default.isMscGenKeyword(pString);
     }
     else {
         return pString !== "*";
@@ -131,9 +113,6 @@ function renderOption(pOption) {
     return `${pOption.name}=${typeof pOption.value === "string"
         ? "\"" + escape_1.default.escapeString(pOption.value) + "\""
         : pOption.value.toString()}`;
-}
-function optionIsValid( /* pOption*/) {
-    return true;
 }
 function renderOptions(pOptions) {
     const lOptions = extractSupportedOptions(pOptions, gConfig.supportedOptions)
@@ -172,9 +151,6 @@ function renderAttributes(pArcOrEntity, pSupportedAttributes) {
     }
     return lRetVal;
 }
-function renderKind(pKind) {
-    return pKind;
-}
 function renderArc(pArc, pIndent) {
     let lRetVal = "";
     if (pArc.from) {
@@ -212,7 +188,7 @@ function renderArcLines(pArcLines, pIndent) {
     return pArcLines.reduce((pPrev, pArcLine) => pPrev + renderArcLine(pArcLine, pIndent), "");
 }
 exports.default = {
-    render: _renderAST,
+    render,
 };
 /*
  This file is part of mscgen_js.

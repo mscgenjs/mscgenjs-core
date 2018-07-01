@@ -1,3 +1,4 @@
+import parserHelpers from "../../parse/parserHelpers";
 import escape from "../textutensils/escape";
 
 const INDENT = "  ";
@@ -7,9 +8,9 @@ const EOL = "\n";
 const CONFIG = {
     renderCommentfn : renderComments,
     renderOptionfn : renderOption,
-    optionIsValidfn: optionIsValid,
+    optionIsValidfn: () => true,
     renderEntityNamefn : renderEntityName,
-    renderKindfn : renderKind,
+    renderKindfn : (x) => x,
     supportedOptions : [
         "hscale",
         "width",
@@ -51,25 +52,18 @@ const CONFIG = {
         closer : "",
     },
 };
-const gConfig = {} as any;
+let gConfig = {} as any;
 
-function fillGloblalConfig(pConfig) {
-    Object.getOwnPropertyNames(pConfig).forEach((pAttribute) => {
-        gConfig[pAttribute] = pConfig[pAttribute];
-    });
+function render(pAST, pConfig) {
+    gConfig = Object.assign (
+        {},
+        CONFIG,
+        pConfig,
+    );
+    return renderAST(pAST);
 }
 
-function processConfig(pConfig) {
-    fillGloblalConfig(CONFIG);
-    fillGloblalConfig(pConfig);
-}
-
-function _renderAST(pAST, pConfig) {
-    processConfig(pConfig);
-    return doTheRender(pAST);
-}
-
-function doTheRender(pAST) {
+function renderAST(pAST) {
     let lRetVal = "";
     if (pAST) {
         if (pAST.precomment) {
@@ -109,21 +103,10 @@ function renderComments(pArray) {
     return pArray.reduce((pPrevComment, pCurComment) => pPrevComment + pCurComment, "");
 }
 
-function isMscGenKeyword(pString) {
-    return [
-        "box", "abox", "rbox", "note", "msc", "hscale", "width", "arcgradient",
-        "wordwraparcs", "label", "color", "idurl", "id", "url",
-        "linecolor", "textcolor",
-        "textbgcolor", "arclinecolor",
-        "arctextcolor", "arctextbgcolor",
-        "arcskip",
-    ].includes(pString);
-}
-
 function isQuotable(pString) {
     const lMatchResult = pString.match(/[a-z0-9]+/gi);
     if (Boolean(lMatchResult)) {
-        return (lMatchResult.length !== 1) || isMscGenKeyword(pString);
+        return (lMatchResult.length !== 1) || parserHelpers.isMscGenKeyword(pString);
     } else {
         return pString !== "*";
     }
@@ -137,10 +120,6 @@ function renderOption(pOption) {
     return `${pOption.name}=${typeof pOption.value === "string"
             ? "\"" + escape.escapeString(pOption.value) + "\""
             : pOption.value.toString()}`;
-}
-
-function optionIsValid(/* pOption*/) {
-    return true;
 }
 
 function renderOptions(pOptions) {
@@ -196,10 +175,6 @@ function renderAttributes(pArcOrEntity, pSupportedAttributes) {
     return lRetVal;
 }
 
-function renderKind(pKind) {
-    return pKind;
-}
-
 function renderArc(pArc, pIndent) {
     let lRetVal = "";
     if (pArc.from) {
@@ -243,7 +218,7 @@ function renderArcLines(pArcLines, pIndent) {
 }
 
 export default {
-    render : _renderAST,
+    render,
 };
 
 /*
