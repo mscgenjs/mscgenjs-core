@@ -180,7 +180,7 @@ class FrameFactory {
         return lRowNo;
     }
 
-    private _fillDownWithEmptyArcs(pRowNoFrom: number) {
+    private _fillDownWithEmptyArcs(pRowNoFrom: number): void {
         if (this.AST.arcs) {
             for (let k = pRowNoFrom; k < this.noRows; k++) {
                 this.AST.arcs[k] = EMPTY_ARC;
@@ -223,7 +223,7 @@ class FrameFactory {
     /*
      * returns the number of rows for a given AST (/ AST snippet)
      */
-    private _calcNumberOfRows(pThing) {
+    private _calcNumberOfRows(pThing: any): number {
         let lRetval = 0;
         if (pThing.arcs) {
             lRetval = pThing.arcs.reduce(
