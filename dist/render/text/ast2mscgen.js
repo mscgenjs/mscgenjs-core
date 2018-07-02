@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 const ast2xu_1 = require("./ast2xu");
 class MscGenAdaptor extends ast2xu_1.XuAdaptor {
-    init(pConfig = {}) {
+    init(pConfig) {
         super.init(Object.assign({
             supportedOptions: ["hscale", "width", "arcgradient", "wordwraparcs"],
             supportedEntityAttributes: [

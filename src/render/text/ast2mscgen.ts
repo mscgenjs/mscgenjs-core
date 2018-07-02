@@ -3,7 +3,7 @@ import {XuAdaptor} from "./ast2xu";
 
 export class MscGenAdaptor extends XuAdaptor {
 
-    public init(pConfig = {}) {
+    public init(pConfig) {
         super.init(
             Object.assign(
                 {
