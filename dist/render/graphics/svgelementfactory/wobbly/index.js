@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const curvestringfactory_1 = require("./curvestringfactory");
+const helpers_1 = require("./helpers");
 const round_1 = __importDefault(require("../round"));
 const svgprimitives_1 = __importDefault(require("../svgprimitives"));
 const variationhelpers_1 = __importDefault(require("../variationhelpers"));
@@ -22,7 +23,7 @@ function createSingleLine(pLine, pOptions = {}) {
         svgprimitives_1.default.pathPoint2String("L", round_1.default(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
             ? 1
             : round_1.default(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
-        curvestringfactory_1.line2CurveString(pLine), pOptions);
+        helpers_1.line2CurveString(pLine), pOptions);
 }
 function createNote(pBBox, pOptions) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;

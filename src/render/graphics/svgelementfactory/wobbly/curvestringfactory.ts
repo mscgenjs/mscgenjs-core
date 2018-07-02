@@ -1,28 +1,9 @@
 import * as geotypes from "../geotypes";
 import svgprimitives from "../svgprimitives";
 import variationhelpers from "../variationhelpers";
+import {line2CurveString, points2CurveString} from "./helpers";
 
-const SEGMENT_LENGTH = 70; // 70
-const WOBBLE_FACTOR  = 3; // 1.4?
-
-function points2CurveString(pCurveSections: geotypes.ICurveSection[]): string {
-    return pCurveSections.map((pCurveSection: geotypes.ICurveSection) =>
-        `${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` +
-        `${svgprimitives.point2String(pCurveSection as geotypes.IPoint)}`).join(" ");
-}
-
-export function line2CurveString(pLine: geotypes.ILine): string {
-    return points2CurveString(
-        variationhelpers.getBetweenPoints(
-            pLine, SEGMENT_LENGTH, WOBBLE_FACTOR,
-        ),
-    );
-}
-
-export function renderNotePathString(
-    pBBox: geotypes.IBBox,
-    pFoldSize: number,
-): string {
+export function renderNotePathString(pBBox: geotypes.IBBox, pFoldSize: number): string {
     return svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
     // top line:
     line2CurveString({
@@ -71,10 +52,7 @@ export function renderNotePathString(
     "z";
 }
 
-export function renderNoteCornerString(
-    pBBox: geotypes.IBBox,
-    pFoldSize: number,
-): string {
+export function renderNoteCornerString(pBBox: geotypes.IBBox, pFoldSize: number): string {
     return svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
         // down
         line2CurveString({

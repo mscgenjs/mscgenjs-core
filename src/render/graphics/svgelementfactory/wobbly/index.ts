@@ -2,10 +2,10 @@ import {
     abox2CurveString,
     doubleLine2CurveString,
     edgeRemark2CurveString,
-    line2CurveString,
     rbox2CurveString,
     renderNoteCornerString,
     renderNotePathString } from "./curvestringfactory";
+import {line2CurveString} from "./helpers";
 
 import * as geotypes from "../geotypes";
 import * as magic from "../magic";
