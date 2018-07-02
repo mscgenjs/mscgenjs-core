@@ -1,193 +1,7 @@
-/* Automatically adds colors to an AST:
- *    - any entity without a color(linecolor, textcolor,
- *      textbgcolor or their arc* variants) get assigned a
- *      - linecolor
- *      - textbgcolor
- *      - arclinecolor
- *    - colors picked rom from an array (possibly random w no repeat?)
- *    - notes without any color get a
- *      - black linecolor
- *      - light yellow textbgcolor
- */
-
-import asttransform from "./asttransform";
-
+import { IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
 import aggregatekind from "./aggregatekind";
-
-const gSchemes = {
-    minimal: {
-        entityColors: [
-            {},
-        ],
-        arcColors: {
-            "note": {
-                linecolor: "black",
-                textbgcolor: "#FFFFCC",
-            },
-            "---": {
-                linecolor: "grey",
-                textbgcolor: "white",
-            },
-            ">>": {
-                linecolor: "#555",
-            },
-            "<<": {
-                linecolor: "#555",
-            },
-            "-x": {
-                linecolor: "#500",
-            },
-            "x-": {
-                linecolor: "#500",
-            },
-        },
-        aggregateArcColors: {
-            inline_expression: {
-                linecolor: "grey",
-            },
-            box: {
-                linecolor: "black",
-                textbgcolor: "white",
-            },
-        },
-    },
-    rosy: {
-        entityColors: [
-            {
-                linecolor: "maroon",
-                textbgcolor: "#FFFFCC",
-            },
-        ],
-        arcColors: {
-            "note": {
-                linecolor: "maroon",
-                textbgcolor: "#FFFFCC",
-            },
-            "---": {
-                linecolor: "grey",
-                textbgcolor: "white",
-            },
-        },
-        aggregateArcColors: {
-            inline_expression: {
-                linecolor: "maroon",
-                textcolor: "maroon",
-            },
-            box: {
-                linecolor: "maroon",
-                textbgcolor: "#FFFFCC",
-            },
-        },
-    },
-    bluey: {
-        entityColors: [
-            {
-                linecolor: "#00A1DE",
-                textbgcolor: "#00A1DE",
-                textcolor: "white",
-            },
-        ],
-        arcColors: {
-            "note": {
-                linecolor: "white",
-                textbgcolor: "#E77B2F",
-                textcolor: "white",
-            },
-            "---": {
-                linecolor: "#00A1DE",
-                textcolor: "#005B82",
-                textbgcolor: "white",
-            },
-        },
-        aggregateArcColors: {
-            inline_expression: {
-                linecolor: "#00A1DE",
-                textcolor: "#005B82",
-            },
-            box: {
-                linecolor: "#00A1DE",
-                textbgcolor: "white",
-                textcolor: "#005B82",
-            },
-            emptyarc: {
-                textcolor:  "#005B82",
-                linecolor:  "#005B82",
-            },
-            directional: {
-                textcolor:  "#005B82",
-                linecolor:  "#005B82",
-            },
-            bidirectional: {
-                textcolor:  "#005B82",
-                linecolor:  "#005B82",
-            },
-            nondirectional: {
-                textcolor:  "#005B82",
-                linecolor:  "#005B82",
-            },
-        },
-    },
-    auto: {
-        entityColors: [
-            {
-                linecolor: "#008800",
-                textbgcolor: "#CCFFCC",
-            },
-            {
-                linecolor: "#FF0000",
-                textbgcolor: "#FFCCCC",
-            },
-            {
-                linecolor: "#0000FF",
-                textbgcolor: "#CCCCFF",
-            },
-            {
-                linecolor: "#FF00FF",
-                textbgcolor: "#FFCCFF",
-            },
-            {
-                linecolor: "black",
-                textbgcolor: "#DDDDDD",
-            },
-            {
-                linecolor: "orange",
-                textbgcolor: "#FFFFCC",
-            },
-            {
-                linecolor: "#117700",
-                textbgcolor: "#00FF00",
-            },
-            {
-                linecolor: "purple",
-                textbgcolor: "violet",
-            },
-            {
-                linecolor: "grey",
-                textbgcolor: "white",
-            },
-        ],
-        arcColors: {
-            "note": {
-                linecolor: "black",
-                textbgcolor: "#FFFFCC",
-            },
-            "---": {
-                linecolor: "grey",
-                textbgcolor: "white",
-            },
-        },
-        aggregateArcColors: {
-            inline_expression: {
-                linecolor: "grey",
-                textbgcolor: "white",
-            },
-            box: {
-                linecolor: "black",
-                textbgcolor: "white",
-            },
-        },
-    },
-};
+import asttransform from "./asttransform";
+import colorizeschemes from "./colorizeschemes";
 
 let gColorCombiCount = 0;
 
@@ -226,7 +40,7 @@ function getNextColorCombi(pColorScheme) {
     return pColorScheme.entityColors[lColorCombiCount];
 }
 
-function hasColors(pArcOrEntity) {
+function hasColors(pArcOrEntity: IArc|IEntity) {
     return ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"]
         .some((pColorAttr) => Boolean(pArcOrEntity[pColorAttr]));
 }
@@ -247,7 +61,7 @@ function colorizeEntity(pColorScheme) {
     };
 }
 
-function _colorize(pAST, pColorScheme, pForce) {
+function _colorize(pAST: ISequenceChart, pColorScheme, pForce: boolean): ISequenceChart {
     gColorCombiCount = 0;
 
     return asttransform(
@@ -257,7 +71,7 @@ function _colorize(pAST, pColorScheme, pForce) {
     );
 }
 
-function uncolorThing(pThing) {
+function uncolorThing(pThing: IEntity|IArc) {
     delete pThing.linecolor;
     delete pThing.textcolor;
     delete pThing.textbgcolor;
@@ -267,17 +81,17 @@ function uncolorThing(pThing) {
     return pThing;
 }
 
-function _uncolor(pAST) {
+function _uncolor(pAST: ISequenceChart): ISequenceChart {
     return asttransform(pAST, [uncolorThing], [uncolorThing]);
 }
 
 export default {
     uncolor: _uncolor,
     colorize: _colorize,
-    applyScheme(pAST, pColorSchemeName, pForced) {
-        return _colorize(pAST, gSchemes[pColorSchemeName]
-            ? gSchemes[pColorSchemeName]
-            : gSchemes.auto, pForced);
+    applyScheme(pAST: ISequenceChart, pColorSchemeName, pForced: boolean) {
+        return _colorize(pAST, colorizeschemes[pColorSchemeName]
+            ? colorizeschemes[pColorSchemeName]
+            : colorizeschemes.auto, pForced);
     },
 };
 
