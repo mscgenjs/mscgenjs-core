@@ -61,10 +61,11 @@ function translateAttributes(pThing: IEntity|IArc): string[] {
 
 function renderAttributeBlock(pAttrs): string {
     let lRetVal = "";
-    if (pAttrs.length > 0) {
-        lRetVal = pAttrs.slice(0, -1).reduce((pPrev, pAttr) => `${pPrev + pAttr}, `, " [");
-        lRetVal += `${pAttrs.slice(-1)}]`;
-    }
+    // no need to check whether there's > 0 attribute passed here:
+    // - entities have a mandatory 'name' attribute,
+    // - arcs have a mandatory 'kind' attribute
+    lRetVal = pAttrs.slice(0, -1).reduce((pPrev, pAttr) => `${pPrev + pAttr}, `, " [");
+    lRetVal += `${pAttrs.slice(-1)}]`;
     return lRetVal;
 }
 
@@ -157,14 +158,13 @@ function renderSingleArc(pArc: IArc, pCounter: number, pIndent: string): string 
 function renderArc(pArc: IArc, pIndent: string): string {
     let lRetVal = "";
 
-    if (pArc.from && pArc.kind && pArc.to) {
+    if (pArc.from && pArc.to) {
         lRetVal += `${INDENT + pIndent + renderSingleArc(pArc, ++gCounter, pIndent)}\n`;
         if (pArc.arcs) {
             lRetVal += `${INDENT + pIndent}subgraph cluster_${gCounter.toString()}{`;
-            if (pArc.label) {
-                lRetVal +=
-                    `\n${INDENT}${pIndent} label="${pArc.kind}: ${pArc.label}" labeljust="l"\n`;
-            }
+            // not checking for pArc.label because there's at least a counter in it
+            // at this point
+            lRetVal += `\n${INDENT}${pIndent} label="${pArc.kind}: ${pArc.label}" labeljust="l"\n`;
             lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
             lRetVal += `${INDENT + pIndent}}\n`;
         }

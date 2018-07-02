@@ -7,6 +7,10 @@ const fix      = require("../../astfixtures.json");
 describe("render/text/ast2dot", () => {
     describe("#renderAST() - mscgen classic compatible - simple syntax trees", () => {
 
+        test("should, given an 'empty' syntax tree, render a dot script", () => {
+            expect(renderer.render(fix.astEmpty)).toMatchSnapshot();
+        });
+
         test("should, given a simple syntax tree, render a dot script", () => {
             expect(renderer.render(fix.astSimple)).toMatchSnapshot();
         });
