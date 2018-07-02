@@ -1,3 +1,14 @@
+export interface IColorAttributes {
+    linecolor: string;
+    textcolor: string;
+    textbgcolor: string;
+}
+
+export interface IColorScheme {
+    entityColors: IColorAttributes[];
+    arcColors: any;
+    aggregateArcColors: any;
+}
 export default {
     minimal: {
         entityColors: [

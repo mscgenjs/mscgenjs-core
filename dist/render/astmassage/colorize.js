@@ -28,7 +28,6 @@ function colorizeArc(pColorScheme) {
                 pArc.textbgcolor = lColorCombi.textbgcolor;
             }
         }
-        return pArc;
     };
 }
 function getNextColorCombi(pColorScheme) {
@@ -57,12 +56,11 @@ function colorizeEntity(pColorScheme) {
             }
             pEntity.arclinecolor = lNextColorCombi.linecolor;
         }
-        return pEntity;
     };
 }
-function _colorize(pAST, pColorScheme, pForce) {
+function colorize(pAST, pColorScheme, pForce) {
     gColorCombiCount = 0;
-    return asttransform_1.default(pForce ? _uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
+    return asttransform_1.default(pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
 }
 function uncolorThing(pThing) {
     delete pThing.linecolor;
@@ -71,16 +69,15 @@ function uncolorThing(pThing) {
     delete pThing.arclinecolor;
     delete pThing.arctextcolor;
     delete pThing.arctextbgcolor;
-    return pThing;
 }
-function _uncolor(pAST) {
+function uncolor(pAST) {
     return asttransform_1.default(pAST, [uncolorThing], [uncolorThing]);
 }
 exports.default = {
-    uncolor: _uncolor,
-    colorize: _colorize,
+    uncolor,
+    colorize,
     applyScheme(pAST, pColorSchemeName, pForced) {
-        return _colorize(pAST, colorizeschemes_1.default[pColorSchemeName]
+        return colorize(pAST, colorizeschemes_1.default[pColorSchemeName]
             ? colorizeschemes_1.default[pColorSchemeName]
             : colorizeschemes_1.default.auto, pForced);
     },

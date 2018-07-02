@@ -1,11 +1,11 @@
-import { IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
+import { ArcKindType, IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
 import aggregatekind from "./aggregatekind";
 import asttransform from "./asttransform";
-import colorizeschemes from "./colorizeschemes";
+import colorizeschemes, {IColorScheme} from "./colorizeschemes";
 
 let gColorCombiCount = 0;
 
-function getArcColorCombis(pColorScheme, pKind) {
+function getArcColorCombis(pColorScheme: IColorScheme, pKind: ArcKindType) {
     const lArcCombi = pColorScheme.arcColors[pKind];
     if (lArcCombi) {
         return lArcCombi;
@@ -13,8 +13,8 @@ function getArcColorCombis(pColorScheme, pKind) {
         return pColorScheme.aggregateArcColors[aggregatekind(pKind)];
     }
 }
-function colorizeArc(pColorScheme) {
-    return (pArc) => {
+function colorizeArc(pColorScheme: IColorScheme) {
+    return (pArc: IArc) => {
         if (!hasColors(pArc)) {
             const lColorCombi = getArcColorCombis(pColorScheme, pArc.kind);
             if (lColorCombi) {
@@ -25,11 +25,10 @@ function colorizeArc(pColorScheme) {
                 pArc.textbgcolor = lColorCombi.textbgcolor;
             }
         }
-        return pArc;
     };
 }
 
-function getNextColorCombi(pColorScheme) {
+function getNextColorCombi(pColorScheme: IColorScheme) {
     const lColorCombiCount = gColorCombiCount;
     if (gColorCombiCount < pColorScheme.entityColors.length - 1) {
         gColorCombiCount += 1;
@@ -45,8 +44,8 @@ function hasColors(pArcOrEntity: IArc|IEntity) {
         .some((pColorAttr) => Boolean(pArcOrEntity[pColorAttr]));
 }
 
-function colorizeEntity(pColorScheme) {
-    return (pEntity) => {
+function colorizeEntity(pColorScheme: IColorScheme) {
+    return (pEntity: IEntity) => {
         if (!hasColors(pEntity)) {
             const lNextColorCombi = getNextColorCombi(pColorScheme);
             pEntity.linecolor = lNextColorCombi.linecolor;
@@ -57,15 +56,14 @@ function colorizeEntity(pColorScheme) {
             }
             pEntity.arclinecolor = lNextColorCombi.linecolor;
         }
-        return pEntity;
     };
 }
 
-function _colorize(pAST: ISequenceChart, pColorScheme, pForce: boolean): ISequenceChart {
+function colorize(pAST: ISequenceChart, pColorScheme: IColorScheme, pForce: boolean): ISequenceChart {
     gColorCombiCount = 0;
 
     return asttransform(
-        pForce ? _uncolor(pAST) : pAST,
+        pForce ? uncolor(pAST) : pAST,
         [colorizeEntity(pColorScheme)],
         [colorizeArc(pColorScheme)],
     );
@@ -78,18 +76,17 @@ function uncolorThing(pThing: IEntity|IArc) {
     delete pThing.arclinecolor;
     delete pThing.arctextcolor;
     delete pThing.arctextbgcolor;
-    return pThing;
 }
 
-function _uncolor(pAST: ISequenceChart): ISequenceChart {
+function uncolor(pAST: ISequenceChart): ISequenceChart {
     return asttransform(pAST, [uncolorThing], [uncolorThing]);
 }
 
 export default {
-    uncolor: _uncolor,
-    colorize: _colorize,
-    applyScheme(pAST: ISequenceChart, pColorSchemeName, pForced: boolean) {
-        return _colorize(pAST, colorizeschemes[pColorSchemeName]
+    uncolor,
+    colorize,
+    applyScheme(pAST: ISequenceChart, pColorSchemeName: string, pForced: boolean) {
+        return colorize(pAST, colorizeschemes[pColorSchemeName]
             ? colorizeschemes[pColorSchemeName]
             : colorizeschemes.auto, pForced);
     },
