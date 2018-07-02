@@ -1,93 +1,52 @@
 import aggregatekind from "../astmassage/aggregatekind";
-import escape from "../textutensils/escape";
-import ast2thing from "./ast2thing";
+import {XuAdaptor} from "./ast2xu";
 
-let INDENT = "  ";
-let SP = " ";
-let EOL = "\n";
+export class MscGenAdaptor extends XuAdaptor {
 
-function init(pMinimal) {
-    if (true === pMinimal) {
-        INDENT = "";
-        SP = "";
-        EOL = "";
-    } else {
-        INDENT = "  ";
-        SP = " ";
-        EOL = "\n";
+    public init(pConfig = {}) {
+        super.init(
+            Object.assign(
+                {
+                    supportedOptions : ["hscale", "width", "arcgradient", "wordwraparcs"],
+                    supportedEntityAttributes : [
+                        "label", "idurl", "id", "url",
+                        "linecolor", "textcolor", "textbgcolor",
+                        "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                    ],
+                    supportedArcAttributes : [
+                        "label", "idurl", "id", "url",
+                        "linecolor", "textcolor", "textbgcolor",
+                        "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                    ],
+                    inline : {
+                        opener : `;${this.eol}`,
+                        closer : "#",
+                    },
+                },
+                pConfig,
+            ),
+        );
     }
-}
 
-function renderKind(pKind) {
-    if ("inline_expression" === aggregatekind(pKind)) {
-        return "--";
+    protected renderKind(pKind) {
+        if ("inline_expression" === aggregatekind(pKind)) {
+            return "--";
+        }
+        return pKind;
     }
-    return pKind;
-}
 
-function renderAttribute(pAttribute) {
-    let lRetVal = "";
-    if (pAttribute.name && pAttribute.value) {
-        lRetVal += `${pAttribute.name}="${escape.escapeString(pAttribute.value)}"`;
+    protected optionIsValid(pOption) {
+        if (Boolean(pOption.value) && typeof (pOption.value) === "string") {
+            return pOption.value.toLowerCase() !== "auto";
+        }
+        return true;
     }
-    return lRetVal;
-}
-
-function optionIsValid(pOption) {
-    if (Boolean(pOption.value) && typeof (pOption.value) === "string") {
-        return pOption.value.toLowerCase() !== "auto";
-    }
-    return true;
 }
 
 export default {
-    render(pAST, pMinimal) {
-        init(pMinimal);
-        return ast2thing.render(pAST, {
-            renderAttributefn : renderAttribute,
-            optionIsValidfn: optionIsValid,
-            renderKindfn : renderKind,
-            supportedOptions : ["hscale", "width", "arcgradient", "wordwraparcs"],
-            supportedEntityAttributes : [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
-            ],
-            supportedArcAttributes : [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
-            ],
-            program : {
-                opener : `msc${SP}{${EOL}`,
-                closer : "}",
-            },
-            option : {
-                opener : INDENT,
-                separator : `,${EOL}${INDENT}`,
-                closer : `;${EOL}${EOL}`,
-            },
-            entity : {
-                opener: INDENT,
-                separator : `,${EOL}${INDENT}`,
-                closer : `;${EOL}${EOL}`,
-            },
-            attribute : {
-                opener : `${SP}[`,
-                separator : `,${SP}`,
-                closer : "]",
-
-            },
-            arcline : {
-                opener : INDENT,
-                separator : `,${EOL}${INDENT}`,
-                closer : `;${EOL}`,
-            },
-            inline : {
-                opener : `;${EOL}`,
-                closer : "#",
-            },
-        });
+    render: (pAST, pMinimal) => {
+        const lAdaptor = new MscGenAdaptor(pMinimal);
+        return lAdaptor.render(pAST);
     },
 };
 /*

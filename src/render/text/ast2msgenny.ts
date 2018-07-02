@@ -1,43 +1,67 @@
-import ast2thing from "./ast2thing";
+import { XuAdaptor } from "./ast2xu";
 
-const EOL = "\n";
-
-function renderMsGennyString(pString) {
-    return `"${pString}"`;
-}
-
-function entityNameIsQuotable(pString) {
-    const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
-    if (Boolean(lMatchResult)) {
-        return lMatchResult.length !== 1;
-    } else {
-        return pString !== "*";
+class MsGennyAdaptor extends XuAdaptor {
+    public init() {
+        super.init({
+            supportedEntityAttributes : ["label"],
+            supportedArcAttributes : ["label"],
+            program : {
+                opener : "",
+                closer : "",
+            },
+            option : {
+                opener : "",
+                separator : `,${this.eol}`,
+                closer : `;${this.eol}${this.eol}`,
+            },
+            entity : {
+                opener : "",
+                separator : `,${this.eol}`,
+                closer : `;${this.eol}${this.eol}`,
+            },
+            arcline : {
+                opener : "",
+                separator : `,${this.eol}`,
+                closer : `;${this.eol}`,
+            },
+            inline : {
+                opener : ` {${this.eol}`,
+                closer : "}",
+            },
+            attribute : {
+                opener : "",
+                separator : "",
+                closer : "",
+            },
+        });
     }
-}
 
-function renderEntityName(pString) {
-    return entityNameIsQuotable(pString) ? `"${pString}"` : pString;
-}
-
-function renderAttribute(pAttribute) {
-    let lRetVal = "";
-    if (pAttribute.name && pAttribute.value) {
-        lRetVal += ` : ${renderMsGennyString(pAttribute.value)}`;
+    protected renderEntityName(pString) {
+        return this.entityNameIsQuotable(pString) ? `"${pString}"` : pString;
     }
-    return lRetVal;
+
+    protected renderAttribute(pAttribute) {
+        let lRetVal = "";
+        if (pAttribute.name && pAttribute.value) {
+            lRetVal += ` : "${pAttribute.value}"`;
+        }
+        return lRetVal;
+    }
+
+    private entityNameIsQuotable(pString) {
+        const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
+        if (Boolean(lMatchResult)) {
+            return lMatchResult.length !== 1;
+        } else {
+            return pString !== "*";
+        }
+    }
 }
 
 export default {
     render(pAST) {
-        return ast2thing.render(pAST, {
-            renderAttributefn : renderAttribute,
-            renderEntityNamefn : renderEntityName,
-            entity : {
-                opener : "",
-                separator : `,${EOL}`,
-                closer : `;${EOL}${EOL}`,
-            },
-        });
+        const lAdaptor = new MsGennyAdaptor();
+        return lAdaptor.render(pAST);
     },
 };
 /*

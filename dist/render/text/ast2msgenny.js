@@ -1,43 +1,65 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const ast2thing_1 = __importDefault(require("./ast2thing"));
-const EOL = "\n";
-function renderMsGennyString(pString) {
-    return `"${pString}"`;
-}
-function entityNameIsQuotable(pString) {
-    const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
-    if (Boolean(lMatchResult)) {
-        return lMatchResult.length !== 1;
+const ast2xu_1 = require("./ast2xu");
+class MsGennyAdaptor extends ast2xu_1.XuAdaptor {
+    init() {
+        super.init({
+            supportedEntityAttributes: ["label"],
+            supportedArcAttributes: ["label"],
+            program: {
+                opener: "",
+                closer: "",
+            },
+            option: {
+                opener: "",
+                separator: `,${this.eol}`,
+                closer: `;${this.eol}${this.eol}`,
+            },
+            entity: {
+                opener: "",
+                separator: `,${this.eol}`,
+                closer: `;${this.eol}${this.eol}`,
+            },
+            arcline: {
+                opener: "",
+                separator: `,${this.eol}`,
+                closer: `;${this.eol}`,
+            },
+            inline: {
+                opener: ` {${this.eol}`,
+                closer: "}",
+            },
+            attribute: {
+                opener: "",
+                separator: "",
+                closer: "",
+            },
+        });
     }
-    else {
-        return pString !== "*";
+    renderEntityName(pString) {
+        return this.entityNameIsQuotable(pString) ? `"${pString}"` : pString;
     }
-}
-function renderEntityName(pString) {
-    return entityNameIsQuotable(pString) ? `"${pString}"` : pString;
-}
-function renderAttribute(pAttribute) {
-    let lRetVal = "";
-    if (pAttribute.name && pAttribute.value) {
-        lRetVal += ` : ${renderMsGennyString(pAttribute.value)}`;
+    renderAttribute(pAttribute) {
+        let lRetVal = "";
+        if (pAttribute.name && pAttribute.value) {
+            lRetVal += ` : "${pAttribute.value}"`;
+        }
+        return lRetVal;
     }
-    return lRetVal;
+    entityNameIsQuotable(pString) {
+        const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
+        if (Boolean(lMatchResult)) {
+            return lMatchResult.length !== 1;
+        }
+        else {
+            return pString !== "*";
+        }
+    }
 }
 exports.default = {
     render(pAST) {
-        return ast2thing_1.default.render(pAST, {
-            renderAttributefn: renderAttribute,
-            renderEntityNamefn: renderEntityName,
-            entity: {
-                opener: "",
-                separator: `,${EOL}`,
-                closer: `;${EOL}${EOL}`,
-            },
-        });
+        const lAdaptor = new MsGennyAdaptor();
+        return lAdaptor.render(pAST);
     },
 };
 /*

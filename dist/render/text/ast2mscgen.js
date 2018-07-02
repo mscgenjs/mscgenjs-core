@@ -4,49 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
-const escape_1 = __importDefault(require("../textutensils/escape"));
-const ast2thing_1 = __importDefault(require("./ast2thing"));
-let INDENT = "  ";
-let SP = " ";
-let EOL = "\n";
-function init(pMinimal) {
-    if (true === pMinimal) {
-        INDENT = "";
-        SP = "";
-        EOL = "";
-    }
-    else {
-        INDENT = "  ";
-        SP = " ";
-        EOL = "\n";
-    }
-}
-function renderKind(pKind) {
-    if ("inline_expression" === aggregatekind_1.default(pKind)) {
-        return "--";
-    }
-    return pKind;
-}
-function renderAttribute(pAttribute) {
-    let lRetVal = "";
-    if (pAttribute.name && pAttribute.value) {
-        lRetVal += `${pAttribute.name}="${escape_1.default.escapeString(pAttribute.value)}"`;
-    }
-    return lRetVal;
-}
-function optionIsValid(pOption) {
-    if (Boolean(pOption.value) && typeof (pOption.value) === "string") {
-        return pOption.value.toLowerCase() !== "auto";
-    }
-    return true;
-}
-exports.default = {
-    render(pAST, pMinimal) {
-        init(pMinimal);
-        return ast2thing_1.default.render(pAST, {
-            renderAttributefn: renderAttribute,
-            optionIsValidfn: optionIsValid,
-            renderKindfn: renderKind,
+const ast2xu_1 = require("./ast2xu");
+class MscGenAdaptor extends ast2xu_1.XuAdaptor {
+    init(pConfig = {}) {
+        super.init(Object.assign({
             supportedOptions: ["hscale", "width", "arcgradient", "wordwraparcs"],
             supportedEntityAttributes: [
                 "label", "idurl", "id", "url",
@@ -58,35 +19,30 @@ exports.default = {
                 "linecolor", "textcolor", "textbgcolor",
                 "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
             ],
-            program: {
-                opener: `msc${SP}{${EOL}`,
-                closer: "}",
-            },
-            option: {
-                opener: INDENT,
-                separator: `,${EOL}${INDENT}`,
-                closer: `;${EOL}${EOL}`,
-            },
-            entity: {
-                opener: INDENT,
-                separator: `,${EOL}${INDENT}`,
-                closer: `;${EOL}${EOL}`,
-            },
-            attribute: {
-                opener: `${SP}[`,
-                separator: `,${SP}`,
-                closer: "]",
-            },
-            arcline: {
-                opener: INDENT,
-                separator: `,${EOL}${INDENT}`,
-                closer: `;${EOL}`,
-            },
             inline: {
-                opener: `;${EOL}`,
+                opener: `;${this.eol}`,
                 closer: "#",
             },
-        });
+        }, pConfig));
+    }
+    renderKind(pKind) {
+        if ("inline_expression" === aggregatekind_1.default(pKind)) {
+            return "--";
+        }
+        return pKind;
+    }
+    optionIsValid(pOption) {
+        if (Boolean(pOption.value) && typeof (pOption.value) === "string") {
+            return pOption.value.toLowerCase() !== "auto";
+        }
+        return true;
+    }
+}
+exports.MscGenAdaptor = MscGenAdaptor;
+exports.default = {
+    render: (pAST, pMinimal) => {
+        const lAdaptor = new MscGenAdaptor(pMinimal);
+        return lAdaptor.render(pAST);
     },
 };
 /*

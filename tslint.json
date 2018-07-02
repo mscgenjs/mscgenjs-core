@@ -6,7 +6,11 @@
     "jsRules": {},
     "rules": {
         "object-literal-sort-keys": false,
-        "cyclomatic-complexity": [true, 7]
+        "cyclomatic-complexity": [true, 7],
+        "max-file-line-count": {
+            "severity": "warning",
+            "options": [1105] // ideally, 250
+        }
     },
     "rulesDirectory": [],
     "linterOptions": {

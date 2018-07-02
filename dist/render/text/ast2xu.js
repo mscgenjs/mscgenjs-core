@@ -3,35 +3,82 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const parserHelpers_1 = __importDefault(require("../../parse/parserHelpers"));
 const escape_1 = __importDefault(require("../textutensils/escape"));
-const ast2thing_1 = __importDefault(require("./ast2thing"));
-let INDENT = "  ";
-let SP = " ";
-let EOL = "\n";
-function init(pMinimal) {
-    if (true === pMinimal) {
-        INDENT = "";
-        SP = "";
-        EOL = "";
+class XuAdaptor {
+    constructor(pMinimal = false) {
+        this.indent = "  ";
+        this.space = " ";
+        this.eol = "\n";
+        this.config = {};
+        if (true === pMinimal) {
+            this.indent = "";
+            this.space = "";
+            this.eol = "";
+        }
+        else {
+            this.indent = "  ";
+            this.space = " ";
+            this.eol = "\n";
+        }
+        this.init(this.config);
     }
-    else {
-        INDENT = "  ";
-        SP = " ";
-        EOL = "\n";
+    init(pConfig) {
+        this.config = Object.assign({}, this.getConfig(), pConfig);
     }
-}
-function renderAttribute(pAttribute) {
-    let lRetVal = "";
-    if (pAttribute.name && pAttribute.value) {
-        lRetVal += `${pAttribute.name}="${escape_1.default.escapeString(pAttribute.value)}"`;
+    render(pAST) {
+        let lRetVal = "";
+        if (pAST.precomment) {
+            lRetVal += this.renderComments(pAST.precomment);
+        }
+        lRetVal += this.config.program.opener;
+        if (pAST.options) {
+            lRetVal += this.renderOptions(pAST.options);
+        }
+        lRetVal += this.renderEntities(pAST.entities);
+        if (pAST.arcs) {
+            lRetVal += this.renderArcLines(pAST.arcs, "");
+        }
+        lRetVal += this.config.program.closer;
+        return lRetVal;
     }
-    return lRetVal;
-}
-exports.default = {
-    render(pAST, pMinimal) {
-        init(pMinimal);
-        return ast2thing_1.default.render(pAST, {
-            renderAttributefn: renderAttribute,
+    renderEntityName(pString) {
+        return this.isQuotable(pString) ? `"${pString}"` : pString;
+    }
+    renderAttribute(pAttribute) {
+        let lRetVal = "";
+        if (pAttribute.name && pAttribute.value) {
+            lRetVal += `${pAttribute.name}="${escape_1.default.escapeString(pAttribute.value)}"`;
+        }
+        return lRetVal;
+    }
+    renderComments(pArray) {
+        return pArray.reduce((pPrevComment, pCurComment) => pPrevComment + pCurComment, "");
+    }
+    renderOption(pOption) {
+        return `${pOption.name}=${typeof pOption.value === "string"
+            ? "\"" + escape_1.default.escapeString(pOption.value) + "\""
+            : pOption.value.toString()}`;
+    }
+    optionIsValid(pOption) {
+        // actually: return true. Not using pOption is a
+        // compiler error, though, so *hack*
+        return true || pOption;
+    }
+    renderKind(pKind) {
+        return pKind;
+    }
+    getConfig() {
+        return {
+            supportedOptions: [
+                "hscale",
+                "width",
+                "arcgradient",
+                "wordwraparcs",
+                "watermark",
+                "wordwrapentities",
+                "wordwrapboxes",
+            ],
             supportedEntityAttributes: [
                 "label", "idurl", "id", "url",
                 "linecolor", "textcolor", "textbgcolor",
@@ -44,34 +91,131 @@ exports.default = {
                 "title",
             ],
             program: {
-                opener: `msc${SP}{${EOL}`,
+                opener: `msc${this.space}{${this.eol}`,
                 closer: "}",
             },
             option: {
-                opener: INDENT,
-                separator: `,${EOL}${INDENT}`,
-                closer: `;${EOL}${EOL}`,
+                opener: this.indent,
+                separator: `,${this.eol}${this.indent}`,
+                closer: `;${this.eol}${this.eol}`,
             },
             entity: {
-                opener: INDENT,
-                separator: `,${EOL}${INDENT}`,
-                closer: `;${EOL}${EOL}`,
+                opener: this.indent,
+                separator: `,${this.eol}${this.indent}`,
+                closer: `;${this.eol}${this.eol}`,
             },
             attribute: {
-                opener: `${SP}[`,
-                separator: `,${SP}`,
+                opener: `${this.space}[`,
+                separator: `,${this.space}`,
                 closer: "]",
             },
             arcline: {
-                opener: INDENT,
-                separator: `,${EOL}${INDENT}`,
-                closer: `;${EOL}`,
+                opener: this.indent,
+                separator: `,${this.eol}${this.indent}`,
+                closer: `;${this.eol}`,
             },
             inline: {
-                opener: `${SP}{${EOL}`,
-                closer: `${INDENT}}`,
+                opener: `${this.space}{${this.eol}`,
+                closer: `${this.indent}}`,
             },
-        });
+        };
+    }
+    extractSupportedOptions(pOptions, pSupportedOptions) {
+        return pSupportedOptions
+            .filter((pSupportedOption) => typeof pOptions[pSupportedOption] !== "undefined")
+            .map((pSupportedOption) => ({
+            name: pSupportedOption,
+            value: pOptions[pSupportedOption],
+        }));
+    }
+    isQuotable(pString) {
+        const lMatchResult = pString.match(/[a-z0-9]+/gi);
+        if (!!lMatchResult) {
+            return (lMatchResult.length !== 1) || parserHelpers_1.default.isMscGenKeyword(pString);
+        }
+        else {
+            return pString !== "*";
+        }
+    }
+    renderOptions(pOptions) {
+        const lOptions = this.extractSupportedOptions(pOptions, this.config.supportedOptions)
+            .filter(this.optionIsValid);
+        let lRetVal = "";
+        if (lOptions.length > 0) {
+            const lLastOption = lOptions.pop();
+            lRetVal = lOptions
+                .reduce((pPrevOption, pCurOption) => pPrevOption + this.renderOption(pCurOption) + this.config.option.separator, this.config.option.opener);
+            lRetVal += this.renderOption(lLastOption) + this.config.option.closer;
+        }
+        return lRetVal;
+    }
+    renderEntity(pEntity) {
+        return this.renderEntityName(pEntity.name) +
+            this.renderAttributes(pEntity, this.config.supportedEntityAttributes);
+    }
+    renderEntities(pEntities) {
+        let lRetVal = "";
+        if (pEntities.length > 0) {
+            lRetVal = pEntities
+                .slice(0, -1)
+                .reduce((pPrev, pEntity) => pPrev + this.renderEntity(pEntity) + this.config.entity.separator, this.config.entity.opener);
+            lRetVal += this.renderEntity(pEntities[pEntities.length - 1]) + this.config.entity.closer;
+        }
+        return lRetVal;
+    }
+    renderAttributes(pArcOrEntity, pSupportedAttributes) {
+        let lRetVal = "";
+        const lAttributes = this.extractSupportedOptions(pArcOrEntity, pSupportedAttributes);
+        if (lAttributes.length > 0) {
+            const lLastAtribute = lAttributes.pop();
+            lRetVal = lAttributes
+                .reduce((pPreviousAttribute, pCurrentAttribute) => pPreviousAttribute +
+                this.renderAttribute(pCurrentAttribute) +
+                this.config.attribute.separator, this.config.attribute.opener);
+            lRetVal += this.renderAttribute(lLastAtribute) + this.config.attribute.closer;
+        }
+        return lRetVal;
+    }
+    renderArc(pArc, pIndent) {
+        let lRetVal = "";
+        if (pArc.from) {
+            lRetVal += `${this.renderEntityName(pArc.from)} `;
+        }
+        lRetVal += this.renderKind(pArc.kind);
+        if (pArc.to) {
+            lRetVal += ` ${this.renderEntityName(pArc.to)}`;
+        }
+        lRetVal += this.renderAttributes(pArc, this.config.supportedArcAttributes);
+        if (pArc.arcs) {
+            lRetVal += this.config.inline.opener;
+            lRetVal += this.renderArcLines(pArc.arcs, pIndent + this.indent);
+            lRetVal += pIndent + this.config.inline.closer;
+        }
+        if (null === pArc.arcs) {
+            lRetVal += this.config.inline.opener;
+            lRetVal += pIndent + this.config.inline.closer;
+        }
+        return lRetVal;
+    }
+    renderArcLine(pArcLine, pIndent) {
+        let lRetVal = "";
+        if (pArcLine.length > 0) {
+            lRetVal = pArcLine
+                .slice(0, -1)
+                .reduce((pPrev, pArc) => pPrev + pIndent + this.renderArc(pArc, pIndent) + this.config.arcline.separator, this.config.arcline.opener);
+            lRetVal += pIndent + this.renderArc(pArcLine[pArcLine.length - 1], pIndent) + this.config.arcline.closer;
+        }
+        return lRetVal;
+    }
+    renderArcLines(pArcLines, pIndent) {
+        return pArcLines.reduce((pPrev, pArcLine) => pPrev + this.renderArcLine(pArcLine, pIndent), "");
+    }
+}
+exports.XuAdaptor = XuAdaptor;
+exports.default = {
+    render: (pAST, pMinimal) => {
+        const lAdaptor = new XuAdaptor(pMinimal);
+        return lAdaptor.render(pAST);
     },
 };
 /*

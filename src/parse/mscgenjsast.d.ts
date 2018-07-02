@@ -101,7 +101,7 @@ export interface IArc {
     kind: ArcKindType;
     from?: string;
     to?: string;
-    arcs?: IArc[];
+    arcs?: IArc[][];
     label?: string;
     id?: string;
     idurl?: string;
