@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  *
- * @exports node/flatten
- * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 const asttransform_1 = __importDefault(require("./asttransform"));
 const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
@@ -33,8 +31,8 @@ function unescapeLabels(pArcOrEntity) {
 function emptyStringForNoLabel(pArc) {
     pArc.label = Boolean(pArc.label) ? pArc.label : "";
 }
-function _swapRTLArc(pArc) {
-    if (pArc.kind && (normalizekind_1.default(pArc.kind) !== pArc.kind)) {
+function swapRTLArc(pArc) {
+    if ((normalizekind_1.default(pArc.kind) !== pArc.kind)) {
         pArc.kind = normalizekind_1.default(pArc.kind);
         const lTmp = pArc.from;
         pArc.from = pArc.to;
@@ -59,9 +57,9 @@ function overrideColorsFromThing(pArc, pThing) {
 */
 function overrideColors(pArc, pEntities) {
     if (pArc && pArc.from) {
-        const lMatchingEntities = pEntities.filter((pEntity) => pEntity.name === pArc.from);
-        if (lMatchingEntities.length > 0) {
-            overrideColorsFromThing(pArc, lMatchingEntities[0]);
+        const lMatchingEntity = pEntities.find((pEntity) => pEntity.name === pArc.from);
+        if (Boolean(lMatchingEntity)) {
+            overrideColorsFromThing(pArc, lMatchingEntity);
         }
     }
 }
@@ -113,17 +111,15 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
     lRetval.push(lArcRowToPush);
     return lRetval.concat(lUnWoundSubArcs);
 }
-function _unwind(pAST) {
+function unwind(pAST) {
     const lAST = {};
     gMaxDepth = 0;
     if (Boolean(pAST.options)) {
         lAST.options = lodash_clonedeep_1.default(pAST.options);
     }
-    if (Boolean(pAST.entities)) {
-        lAST.entities = lodash_clonedeep_1.default(pAST.entities);
-    }
+    lAST.entities = lodash_clonedeep_1.default(pAST.entities);
     lAST.arcs = [];
-    if (pAST && pAST.arcs) {
+    if (pAST.arcs) {
         pAST.arcs
             .forEach((pArcRow) => {
             unwindArcRow(pArcRow, 0)
@@ -136,26 +132,27 @@ function _unwind(pAST) {
     return lAST;
 }
 function explodeBroadcastArc(pEntities, pArc) {
-    return pEntities.filter((pEntity) => pArc.from !== pEntity.name).map((pEntity) => {
+    return pEntities
+        .filter((pEntity) => pArc.from !== pEntity.name)
+        .map((pEntity) => {
         pArc.to = pEntity.name;
         return lodash_clonedeep_1.default(pArc);
     });
 }
-function _explodeBroadcasts(pAST) {
-    if (pAST.entities && pAST.arcs) {
-        let lExplodedArcsAry = [];
-        let lOriginalBroadcastArc = {};
+function explodeBroadcasts(pAST) {
+    if (pAST.arcs) {
         pAST.arcs.forEach((pArcRow, pArcRowIndex) => {
             pArcRow
-                .filter((pArc) => /* assuming swap has been done already and "*"
-            is in no 'from'  anymore */ pArc.to === "*")
+                // this assumes swap has been done already
+                // and "*" is in no 'from'  anymore
+                .filter((pArc) => pArc.to === "*")
                 .forEach((pArc, pArcIndex) => {
                 /* save a clone of the broadcast arc attributes
-                    * and remove the original bc arc
-                    */
-                lOriginalBroadcastArc = lodash_clonedeep_1.default(pArc);
+                 * and remove the original bc arc
+                 */
+                const lOriginalBroadcastArc = lodash_clonedeep_1.default(pArc);
                 delete pAST.arcs[pArcRowIndex][pArcIndex];
-                lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
+                const lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                 pArcRow[pArcIndex] = lExplodedArcsAry.shift();
                 pAST.arcs[pArcRowIndex] = pArcRow.concat(lExplodedArcsAry);
             });
@@ -170,19 +167,13 @@ exports.default = {
      * resulting in an equivalent (b << a becomes a >> b).
      *
      * If the arc is facing forwards or is symetrical, it is left alone.
-     *
-     * @param {arc} pArc
-     * @return {arc}
      */
-    swapRTLArc: _swapRTLArc,
+    swapRTLArc,
     /**
      * Flattens any recursion in the arcs of the given abstract syntax tree to make it
      * more easy to render.
-     *
-     * @param {ast} pAST
-     * @return {ast}
      */
-    unwind: _unwind,
+    unwind,
     /**
      * expands "broadcast" arcs to its individual counterparts
      * Example in mscgen:
@@ -196,7 +187,7 @@ exports.default = {
      *     a -> b, a -> c, a -> d;
      * }
      */
-    explodeBroadcasts: _explodeBroadcasts,
+    explodeBroadcasts,
     /**
      * Simplifies an AST:
      *    - entities without a label get one (the name of the label)
@@ -206,12 +197,10 @@ exports.default = {
      *    - flattens any recursion (see the {@linkcode unwind} function in
      *      in this module)
      *    - distributes arc*color from the entities to the affected arcs
-     * @param {ast} pAST
-     * @return {ast}
      */
     flatten(pAST) {
         pAST.options = normalizeoptions_1.default(pAST.options);
-        return asttransform_1.default(_unwind(pAST), [nameAsLabel, unescapeLabels], [_swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]);
+        return asttransform_1.default(unwind(pAST), [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]);
     },
     /**
      * Simplifies an AST same as the @link {flatten} function, but without flattening the recursion
@@ -220,7 +209,7 @@ exports.default = {
      * @return {ast}
      */
     dotFlatten(pAST) {
-        return _explodeBroadcasts(asttransform_1.default(pAST, [nameAsLabel], [_swapRTLArc, overrideColors]));
+        return explodeBroadcasts(asttransform_1.default(pAST, [nameAsLabel], [swapRTLArc, overrideColors]));
     },
 };
 /*
