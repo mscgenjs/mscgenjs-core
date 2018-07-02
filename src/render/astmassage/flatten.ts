@@ -15,7 +15,6 @@ import normalizeoptions from "./normalizeoptions";
 
 let gMaxDepth = 0;
 
-// makes an IEntity into an IEntityNormalized as a side effect
 function nameAsLabel(pEntity: mscgenjsast.IEntity) {
     if (typeof pEntity.label === "undefined") {
         pEntity.label = pEntity.name;
@@ -193,6 +192,10 @@ function explodeBroadcasts(pAST) {
 
 export default {
     /**
+     * If the entity has no label, set the label of the entity to its name
+     */
+    nameAsLabel,
+    /**
      * If the arc is "facing backwards" (right to left) this function sets the arc
      * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
      * resulting in an equivalent (b << a becomes a >> b).
@@ -219,6 +222,7 @@ export default {
      * }
      */
     explodeBroadcasts,
+    overrideColors,
     /**
      * Simplifies an AST:
      *    - entities without a label get one (the name of the label)
@@ -235,21 +239,6 @@ export default {
             unwind(pAST),
             [nameAsLabel, unescapeLabels],
             [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel],
-        );
-    },
-    /**
-     * Simplifies an AST same as the @link {flatten} function, but without flattening the recursion
-     *
-     * @param {ast} pAST
-     * @return {ast}
-     */
-    dotFlatten(pAST: mscgenjsast.ISequenceChart): any {
-        return explodeBroadcasts(
-            asttransform(
-                pAST,
-                [nameAsLabel],
-                [swapRTLArc, overrideColors],
-            ),
         );
     },
 };

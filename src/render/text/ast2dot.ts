@@ -1,6 +1,7 @@
 import _cloneDeep from "lodash.clonedeep";
 import { ArcKindAggregatedType, IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
+import asttransform from "../astmassage/asttransform";
 import flatten from "../astmassage/flatten";
 import wrap from "../textutensils/wrap";
 import dotMappings from "./dotMappings";
@@ -186,9 +187,24 @@ function renderArcLines(pArcLines: IArc[][], pIndent: string): string {
         );
 }
 
+/**
+ * - Gives each entity a label
+ * - Sets arc kinds from left to right where applicable
+ * - pre-calculates colors from regular colors and arc*-colors
+ */
+function flattenMe(pAST: ISequenceChart): ISequenceChart {
+    return flatten.explodeBroadcasts(
+        asttransform(
+            pAST,
+            [flatten.nameAsLabel],
+            [flatten.swapRTLArc, flatten.overrideColors],
+        ),
+    );
+}
+
 export default {
     render(pAST: ISequenceChart): string {
-        return render(flatten.dotFlatten(_cloneDeep(pAST)));
+        return render(flattenMe(_cloneDeep(pAST)));
     },
 };
 

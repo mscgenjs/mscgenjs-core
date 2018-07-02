@@ -14,7 +14,6 @@ const aggregatekind_1 = __importDefault(require("./aggregatekind"));
 const normalizekind_1 = __importDefault(require("./normalizekind"));
 const normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
 let gMaxDepth = 0;
-// makes an IEntity into an IEntityNormalized as a side effect
 function nameAsLabel(pEntity) {
     if (typeof pEntity.label === "undefined") {
         pEntity.label = pEntity.name;
@@ -162,6 +161,10 @@ function explodeBroadcasts(pAST) {
 }
 exports.default = {
     /**
+     * If the entity has no label, set the label of the entity to its name
+     */
+    nameAsLabel,
+    /**
      * If the arc is "facing backwards" (right to left) this function sets the arc
      * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
      * resulting in an equivalent (b << a becomes a >> b).
@@ -188,6 +191,7 @@ exports.default = {
      * }
      */
     explodeBroadcasts,
+    overrideColors,
     /**
      * Simplifies an AST:
      *    - entities without a label get one (the name of the label)
@@ -201,15 +205,6 @@ exports.default = {
     flatten(pAST) {
         pAST.options = normalizeoptions_1.default(pAST.options);
         return asttransform_1.default(unwind(pAST), [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]);
-    },
-    /**
-     * Simplifies an AST same as the @link {flatten} function, but without flattening the recursion
-     *
-     * @param {ast} pAST
-     * @return {ast}
-     */
-    dotFlatten(pAST) {
-        return explodeBroadcasts(asttransform_1.default(pAST, [nameAsLabel], [swapRTLArc, overrideColors]));
     },
 };
 /*

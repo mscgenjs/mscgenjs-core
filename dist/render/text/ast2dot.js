@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
 const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+const asttransform_1 = __importDefault(require("../astmassage/asttransform"));
 const flatten_1 = __importDefault(require("../astmassage/flatten"));
 const wrap_1 = __importDefault(require("../textutensils/wrap"));
 const dotMappings_1 = __importDefault(require("./dotMappings"));
@@ -157,9 +158,17 @@ function renderArcLines(pArcLines, pIndent) {
         .reduce((pPrevArcLine, pNextArcLine) => pPrevArcLine + pNextArcLine
         .reduce((pPrevArc, pNextArc) => pPrevArc + renderArc(pNextArc, pIndent), ""), "");
 }
+/**
+ * - Gives each entity a label
+ * - Sets arc kinds from left to right where applicable
+ * - pre-calculates colors from regular colors and arc*-colors
+ */
+function flattenMe(pAST) {
+    return flatten_1.default.explodeBroadcasts(asttransform_1.default(pAST, [flatten_1.default.nameAsLabel], [flatten_1.default.swapRTLArc, flatten_1.default.overrideColors]));
+}
 exports.default = {
     render(pAST) {
-        return render(flatten_1.default.dotFlatten(lodash_clonedeep_1.default(pAST)));
+        return render(flattenMe(lodash_clonedeep_1.default(pAST)));
     },
 };
 /*
