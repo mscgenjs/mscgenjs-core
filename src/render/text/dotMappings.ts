@@ -1,8 +1,6 @@
 /**
  * Defines several mappings of arckinds to agregations
  *
- * @exports node/arcmappings
- * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 const KIND2ARROW = Object.freeze({
     "->" : "rvee",
@@ -28,7 +26,6 @@ const KIND2STYLE = Object.freeze({
 });
 
 export default {
-    // dot only
     getArrow(pKey) { return KIND2ARROW[pKey]; },
     getShape(pKey) { return KIND2SHAPE[pKey]; },
     getStyle(pKey) { return KIND2STYLE[pKey]; },

@@ -11,7 +11,7 @@ const dotMappings_1 = __importDefault(require("./dotMappings"));
 const INDENT = "  ";
 const MAX_TEXT_WIDTH = 40;
 let gCounter = 0;
-function _renderAST(pAST) {
+function render(pAST) {
     let lRetVal = "/* Sequence chart represented as a directed graph\n" +
         " * in the graphviz dot language (http://graphviz.org/)\n" +
         " *\n" +
@@ -27,14 +27,10 @@ function _renderAST(pAST) {
     lRetVal += `${INDENT}node [style=filled, fillcolor=white fontname="Helvetica", fontsize="9" ]\n`;
     lRetVal += `${INDENT}edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n`;
     lRetVal += "\n";
-    if (pAST) {
-        if (pAST.entities) {
-            lRetVal += `${renderEntities(pAST.entities)}\n`;
-        }
-        if (pAST.arcs) {
-            gCounter = 0;
-            lRetVal += renderArcLines(pAST.arcs, "");
-        }
+    lRetVal += `${renderEntities(pAST.entities)}\n`;
+    if (pAST.arcs) {
+        gCounter = 0;
+        lRetVal += renderArcLines(pAST.arcs, "");
     }
     return lRetVal += "}";
 }
@@ -78,7 +74,7 @@ function renderEntities(pEntities) {
     return pEntities.reduce((pPrev, pEntity) => `${pPrev + INDENT + renderEntity(pEntity)};\n`, "");
 }
 /* ArcLine handling */
-function counterizeLabel(pLabel, pCounter) {
+function counterizeLabel(pCounter, pLabel) {
     if (pLabel) {
         return `(${pCounter}) ${pLabel}`;
     }
@@ -103,7 +99,7 @@ function renderBoxArc(pArc, pCounter, pIndent) {
 }
 function renderRegularArc(pArc, pAggregatedKind, pCounter) {
     let lRetVal = "";
-    pArc.label = counterizeLabel(pArc.label, pCounter);
+    pArc.label = counterizeLabel(pCounter, pArc.label);
     const lAttrs = translateAttributes(pArc);
     pushAttribute(lAttrs, dotMappings_1.default.getStyle(pArc.kind), "style");
     switch (pAggregatedKind) {
@@ -163,7 +159,7 @@ function renderArcLines(pArcLines, pIndent) {
 }
 exports.default = {
     render(pAST) {
-        return _renderAST(flatten_1.default.dotFlatten(lodash_clonedeep_1.default(pAST)));
+        return render(flatten_1.default.dotFlatten(lodash_clonedeep_1.default(pAST)));
     },
 };
 /*

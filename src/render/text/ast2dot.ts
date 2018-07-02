@@ -1,4 +1,5 @@
 import _cloneDeep from "lodash.clonedeep";
+import { ArcKindAggregatedType, IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import flatten from "../astmassage/flatten";
 import wrap from "../textutensils/wrap";
@@ -8,7 +9,7 @@ const INDENT = "  ";
 const MAX_TEXT_WIDTH = 40;
 let gCounter = 0;
 
-function _renderAST(pAST) {
+function render(pAST: ISequenceChart): string {
     let lRetVal =
         "/* Sequence chart represented as a directed graph\n" +
         " * in the graphviz dot language (http://graphviz.org/)\n" +
@@ -26,20 +27,16 @@ function _renderAST(pAST) {
     lRetVal += `${INDENT}edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n`;
     lRetVal += "\n";
 
-    if (pAST) {
-        if (pAST.entities) {
-            lRetVal += `${renderEntities(pAST.entities)}\n`;
-        }
-        if (pAST.arcs) {
-            gCounter = 0;
-            lRetVal += renderArcLines(pAST.arcs, "");
-        }
+    lRetVal += `${renderEntities(pAST.entities)}\n`;
+    if (pAST.arcs) {
+        gCounter = 0;
+        lRetVal += renderArcLines(pAST.arcs, "");
     }
     return lRetVal += "}";
 }
 
 /* Attribute handling */
-function renderString(pString) {
+function renderString(pString: string): string {
     const lStringAry = wrap(pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
     let lString = lStringAry.slice(0, -1).reduce((pPrev, pLine) => `${pPrev + pLine}\n`, "");
     lString += lStringAry.slice(-1);
@@ -56,13 +53,13 @@ function pushAttribute(pArray, pAttr, pString) {
     }
 }
 
-function translateAttributes(pThing) {
+function translateAttributes(pThing: IEntity|IArc): string[] {
     return ["label", "color", "fontcolor", "fillcolor"]
-    .filter((pSupportedAttr) => Boolean(pThing[pSupportedAttr]))
-    .map((pSupportedAttr) => renderAttribute(pThing[pSupportedAttr], pSupportedAttr));
+        .filter((pSupportedAttr) => Boolean(pThing[pSupportedAttr]))
+        .map((pSupportedAttr) => renderAttribute(pThing[pSupportedAttr], pSupportedAttr));
 }
 
-function renderAttributeBlock(pAttrs) {
+function renderAttributeBlock(pAttrs): string {
     let lRetVal = "";
     if (pAttrs.length > 0) {
         lRetVal = pAttrs.slice(0, -1).reduce((pPrev, pAttr) => `${pPrev + pAttr}, `, " [");
@@ -72,21 +69,21 @@ function renderAttributeBlock(pAttrs) {
 }
 
 /* Entity handling */
-function renderEntityName(pString) {
+function renderEntityName(pString: string): string {
     return `"${pString}"`;
 }
 
-function renderEntity(pEntity) {
+function renderEntity(pEntity: IEntity): string {
     return renderEntityName(pEntity.name) +
             renderAttributeBlock(translateAttributes(pEntity));
 }
 
-function renderEntities(pEntities) {
+function renderEntities(pEntities: IEntity[]): string {
     return pEntities.reduce((pPrev, pEntity) => `${pPrev + INDENT + renderEntity(pEntity)};\n`, "");
 }
 
 /* ArcLine handling */
-function counterizeLabel(pLabel, pCounter) {
+function counterizeLabel(pCounter: number, pLabel?: string): string {
     if (pLabel) {
         return `(${pCounter}) ${pLabel}`;
     } else {
@@ -94,7 +91,7 @@ function counterizeLabel(pLabel, pCounter) {
     }
 }
 
-function renderBoxArc(pArc, pCounter, pIndent) {
+function renderBoxArc(pArc: any, pCounter: number, pIndent: string): string {
     let lRetVal = "";
     const lBoxName = `box${pCounter.toString()}`;
     lRetVal += lBoxName;
@@ -114,9 +111,9 @@ function renderBoxArc(pArc, pCounter, pIndent) {
     return lRetVal;
 }
 
-function renderRegularArc(pArc, pAggregatedKind, pCounter) {
+function renderRegularArc(pArc: any, pAggregatedKind: ArcKindAggregatedType, pCounter: number): string {
     let lRetVal = "";
-    pArc.label = counterizeLabel(pArc.label, pCounter);
+    pArc.label = counterizeLabel(pCounter, pArc.label);
     const lAttrs = translateAttributes(pArc);
 
     pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
@@ -145,7 +142,7 @@ function renderRegularArc(pArc, pAggregatedKind, pCounter) {
     return lRetVal;
 }
 
-function renderSingleArc(pArc, pCounter, pIndent) {
+function renderSingleArc(pArc: IArc, pCounter: number, pIndent: string): string {
     let lRetVal = "";
     const lAggregatedKind = aggregatekind(pArc.kind);
 
@@ -157,7 +154,7 @@ function renderSingleArc(pArc, pCounter, pIndent) {
     return lRetVal;
 }
 
-function renderArc(pArc, pIndent) {
+function renderArc(pArc: IArc, pIndent: string): string {
     let lRetVal = "";
 
     if (pArc.from && pArc.kind && pArc.to) {
@@ -176,7 +173,7 @@ function renderArc(pArc, pIndent) {
 
 }
 
-function renderArcLines(pArcLines, pIndent) {
+function renderArcLines(pArcLines: IArc[][], pIndent: string): string {
     return pArcLines
         .reduce(
             (pPrevArcLine, pNextArcLine) =>
@@ -190,8 +187,8 @@ function renderArcLines(pArcLines, pIndent) {
 }
 
 export default {
-    render(pAST) {
-        return _renderAST(flatten.dotFlatten(_cloneDeep(pAST)));
+    render(pAST: ISequenceChart): string {
+        return render(flatten.dotFlatten(_cloneDeep(pAST)));
     },
 };
 
