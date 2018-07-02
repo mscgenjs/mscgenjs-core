@@ -1,7 +1,6 @@
 
 /**
  * Defines some functions to simplify a given abstract syntax tree.
- *
  */
 import asttransform from "./asttransform";
 
@@ -21,20 +20,20 @@ function nameAsLabel(pEntity: mscgenjsast.IEntity) {
     }
 }
 
-function unescapeLabels(pArcOrEntity) {
-    if (Boolean(pArcOrEntity.label)) {
+function unescapeLabels(pArcOrEntity: mscgenjsast.IArc|mscgenjsast.IEntity): void {
+    if (!!pArcOrEntity.label) {
         pArcOrEntity.label = escape.unescapeString(pArcOrEntity.label);
     }
-    if (Boolean(pArcOrEntity.id)) {
+    if (!!pArcOrEntity.id) {
         pArcOrEntity.id = escape.unescapeString(pArcOrEntity.id);
     }
 }
 
-function emptyStringForNoLabel(pArc) {
+function emptyStringForNoLabel(pArc: mscgenjsast.IArc): void {
     pArc.label = Boolean(pArc.label) ? pArc.label : "";
 }
 
-function swapRTLArc(pArc) {
+function swapRTLArc(pArc: mscgenjsast.IArc): void {
     if ((normalizekind(pArc.kind) !== pArc.kind)) {
         pArc.kind = normalizekind(pArc.kind);
 
@@ -42,10 +41,9 @@ function swapRTLArc(pArc) {
         pArc.from = pArc.to;
         pArc.to = lTmp;
     }
-    return pArc;
 }
 
-function overrideColorsFromThing(pArc, pThing) {
+function overrideColorsFromThing(pArc: mscgenjsast.IArc, pThing: mscgenjsast.IArc|mscgenjsast.IEntity) {
     if (!(pArc.linecolor) && pThing.arclinecolor) {
         pArc.linecolor = pThing.arclinecolor;
     }
@@ -61,22 +59,22 @@ function overrideColorsFromThing(pArc, pThing) {
 * assumes arc direction to be either LTR, both, or none
 * so arc.from exists.
 */
-function overrideColors(pArc, pEntities) {
+function overrideColors(pArc: mscgenjsast.IArc, pEntities: mscgenjsast.IEntity[] = []) {
     if (pArc && pArc.from) {
         const lMatchingEntity = pEntities.find((pEntity) => pEntity.name === pArc.from);
-        if (Boolean(lMatchingEntity)) {
+        if (!!lMatchingEntity) {
             overrideColorsFromThing(pArc, lMatchingEntity);
         }
     }
 }
-function calcNumberOfRows(pInlineExpression) {
+function calcNumberOfRows(pInlineExpression):number {
     return pInlineExpression.arcs.reduce(
         (pSum, pArc) => pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0),
         pInlineExpression.arcs.length,
     );
 }
 
-function unwindArcRow(pArcRow, pDepth, pFrom?, pTo?) {
+function unwindArcRow(pArcRow, pDepth:number, pFrom?:string, pTo?:string) {
     const lRetval: any[] = [];
     const lArcRowToPush: any[] = [];
     let lUnWoundSubArcs: any[] = [];
@@ -133,7 +131,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom?, pTo?) {
     return lRetval.concat(lUnWoundSubArcs);
 }
 
-function unwind(pAST) {
+function unwind(pAST: mscgenjsast.ISequenceChart):any {
     const lAST: any = {};
     gMaxDepth = 0;
 
@@ -211,15 +209,9 @@ export default {
     /**
      * expands "broadcast" arcs to its individual counterparts
      * Example in mscgen:
-     * msc{
-     *     a,b,c,d;
      *     a -> *;
-     * }
      * output:
-     * msc {
-     *     a,b,c,d;
      *     a -> b, a -> c, a -> d;
-     * }
      */
     explodeBroadcasts,
     overrideColors,

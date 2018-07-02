@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Defines some functions to simplify a given abstract syntax tree.
- *
  */
 const asttransform_1 = __importDefault(require("./asttransform"));
 const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
@@ -20,10 +19,10 @@ function nameAsLabel(pEntity) {
     }
 }
 function unescapeLabels(pArcOrEntity) {
-    if (Boolean(pArcOrEntity.label)) {
+    if (!!pArcOrEntity.label) {
         pArcOrEntity.label = escape_1.default.unescapeString(pArcOrEntity.label);
     }
-    if (Boolean(pArcOrEntity.id)) {
+    if (!!pArcOrEntity.id) {
         pArcOrEntity.id = escape_1.default.unescapeString(pArcOrEntity.id);
     }
 }
@@ -37,7 +36,6 @@ function swapRTLArc(pArc) {
         pArc.from = pArc.to;
         pArc.to = lTmp;
     }
-    return pArc;
 }
 function overrideColorsFromThing(pArc, pThing) {
     if (!(pArc.linecolor) && pThing.arclinecolor) {
@@ -54,10 +52,10 @@ function overrideColorsFromThing(pArc, pThing) {
 * assumes arc direction to be either LTR, both, or none
 * so arc.from exists.
 */
-function overrideColors(pArc, pEntities) {
+function overrideColors(pArc, pEntities = []) {
     if (pArc && pArc.from) {
         const lMatchingEntity = pEntities.find((pEntity) => pEntity.name === pArc.from);
-        if (Boolean(lMatchingEntity)) {
+        if (!!lMatchingEntity) {
             overrideColorsFromThing(pArc, lMatchingEntity);
         }
     }
@@ -180,15 +178,9 @@ exports.default = {
     /**
      * expands "broadcast" arcs to its individual counterparts
      * Example in mscgen:
-     * msc{
-     *     a,b,c,d;
      *     a -> *;
-     * }
      * output:
-     * msc {
-     *     a,b,c,d;
      *     a -> b, a -> c, a -> d;
-     * }
      */
     explodeBroadcasts,
     overrideColors,
