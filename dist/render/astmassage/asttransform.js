@@ -25,7 +25,7 @@ function transformArcRow(pEntities, pArcRow, pFunctionAry) {
     });
 }
 function transformArcRows(pEntities, pArcRows, pFunctionAry) {
-    if (pEntities && pArcRows && pFunctionAry) {
+    if (pArcRows && pFunctionAry) {
         pArcRows.forEach((pArcRow) => {
             transformArcRow(pEntities, pArcRow, pFunctionAry);
         });
@@ -33,21 +33,21 @@ function transformArcRows(pEntities, pArcRows, pFunctionAry) {
 }
 /**
  * Generic function for performing manipulations on abstract syntax trees. It takes a
- * series of functions as arguments and applies them to the entities, arcs and arc
+ * series of functions as arguments and applies them to the entities and arc
  * rows in the syntax tree respectively.
  *
  * @param {ast} pAST - the syntax tree to transform
  * @param {Array} pEntityTransforms - an array of functions. Each function shall take
  * an entity as input an return the modified entity
- * @param {Array} pArcTransforms - an array of functions. Each function shall take
- * and arc and entities as input and return the modified arc
  * @param {Array} pArcRowTransforms - an array of functions. Each function shall take
  * an arc row and entities as input return the modified arc row
  * @return {ast} - the modified syntax tree
  */
-exports.default = (pAST, pEnityTransforms, pArcTransforms) => {
-    transformEntities(pAST.entities, pEnityTransforms);
-    transformArcRows(pAST.entities, pAST.arcs, pArcTransforms);
+exports.default = (pAST, pEntityTransforms, pArcRowTransforms) => {
+    transformEntities(pAST.entities, pEntityTransforms);
+    if (pAST.arcs) {
+        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
+    }
     return pAST;
 };
 /*

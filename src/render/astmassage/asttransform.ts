@@ -1,4 +1,9 @@
-function transformEntities(pEntities, pFunctionAry) {
+import { IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
+
+type EntityTransformFunctionType = (pEntity: IEntity) => void;
+type ArcTransformFunctionType    = (pArc: IArc, pEntities?: IEntity[], pArcRow?: IArc[]) => void;
+
+function transformEntities(pEntities: IEntity[], pFunctionAry: EntityTransformFunctionType[]) {
     if (pEntities && pFunctionAry) {
         pEntities.forEach((pEntity) => {
             pFunctionAry.forEach((pFunction) => {
@@ -8,7 +13,7 @@ function transformEntities(pEntities, pFunctionAry) {
     }
 }
 
-function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
+function transformArc(pEntities: IEntity[], pArcRow: IArc[], pArc: IArc, pFunctionAry: ArcTransformFunctionType[]) {
     if (pFunctionAry) {
         pFunctionAry.forEach((pFunction) => {
             pFunction(pArc, pEntities, pArcRow);
@@ -16,7 +21,7 @@ function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
     }
 }
 
-function transformArcRow(pEntities, pArcRow, pFunctionAry) {
+function transformArcRow(pEntities: IEntity[], pArcRow: IArc[], pFunctionAry: ArcTransformFunctionType[]) {
     pArcRow.forEach((pArc) => {
         transformArc(pEntities, pArcRow, pArc, pFunctionAry);
         if (pArc.arcs) {
@@ -25,8 +30,8 @@ function transformArcRow(pEntities, pArcRow, pFunctionAry) {
     });
 }
 
-function transformArcRows(pEntities, pArcRows, pFunctionAry) {
-    if (pEntities && pArcRows && pFunctionAry) {
+function transformArcRows(pEntities: IEntity[], pArcRows: IArc[][], pFunctionAry: ArcTransformFunctionType[]) {
+    if (pArcRows && pFunctionAry) {
         pArcRows.forEach((pArcRow) => {
             transformArcRow(pEntities, pArcRow, pFunctionAry);
         });
@@ -35,21 +40,26 @@ function transformArcRows(pEntities, pArcRows, pFunctionAry) {
 
 /**
  * Generic function for performing manipulations on abstract syntax trees. It takes a
- * series of functions as arguments and applies them to the entities, arcs and arc
+ * series of functions as arguments and applies them to the entities and arc
  * rows in the syntax tree respectively.
  *
  * @param {ast} pAST - the syntax tree to transform
  * @param {Array} pEntityTransforms - an array of functions. Each function shall take
  * an entity as input an return the modified entity
- * @param {Array} pArcTransforms - an array of functions. Each function shall take
- * and arc and entities as input and return the modified arc
  * @param {Array} pArcRowTransforms - an array of functions. Each function shall take
  * an arc row and entities as input return the modified arc row
  * @return {ast} - the modified syntax tree
  */
-export default (pAST, pEnityTransforms, pArcTransforms) => {
-    transformEntities(pAST.entities, pEnityTransforms);
-    transformArcRows(pAST.entities, pAST.arcs, pArcTransforms);
+export default (
+    pAST: ISequenceChart,
+    pEntityTransforms: EntityTransformFunctionType[],
+    pArcRowTransforms: ArcTransformFunctionType[],
+) => {
+    transformEntities(pAST.entities, pEntityTransforms);
+    if (pAST.arcs) {
+        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
+    }
+
     return pAST;
 };
 /*
