@@ -67,14 +67,14 @@ function overrideColors(pArc: mscgenjsast.IArc, pEntities: mscgenjsast.IEntity[]
         }
     }
 }
-function calcNumberOfRows(pInlineExpression):number {
+function calcNumberOfRows(pInlineExpression): number {
     return pInlineExpression.arcs.reduce(
         (pSum, pArc) => pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0),
         pInlineExpression.arcs.length,
     );
 }
 
-function unwindArcRow(pArcRow, pDepth:number, pFrom?:string, pTo?:string) {
+function unwindArcRow(pArcRow, pDepth: number, pFrom?: string, pTo?: string) {
     const lRetval: any[] = [];
     const lArcRowToPush: any[] = [];
     let lUnWoundSubArcs: any[] = [];
@@ -131,7 +131,7 @@ function unwindArcRow(pArcRow, pDepth:number, pFrom?:string, pTo?:string) {
     return lRetval.concat(lUnWoundSubArcs);
 }
 
-function unwind(pAST: mscgenjsast.ISequenceChart):any {
+function unwind(pAST: mscgenjsast.ISequenceChart): any {
     const lAST: any = {};
     gMaxDepth = 0;
 

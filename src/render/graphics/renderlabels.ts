@@ -62,12 +62,12 @@ function renderLabelText(
     );
 }
 
-function determineClasses(pArcKind, pOptionsKind, pPostFix) {
-    const lKind = pOptionsKind || pArcKind;
+function determineClasses(pArcKind: mscgenjsast.ArcKindType, pPostFix: string) {
+    const lKind = pArcKind;
     const lClass = kind2class.getClass(lKind);
     const lAggregateClass = kind2class.getAggregateClass(lKind);
 
-    return lClass === lAggregateClass
+    return (lClass as string === lAggregateClass as string)
         ? lClass + pPostFix
         : lAggregateClass + pPostFix + lClass + pPostFix;
 }
@@ -81,7 +81,7 @@ function createLabelLine(
     pOptions,
 ): SVGTextElement {
     let lY = pStartY + ((pLineNumber + 1 / 4) * svgutensils.calculateTextHeight());
-    let lClass = determineClasses(pArc.kind, pOptions.kind, "-text ");
+    let lClass = determineClasses(pArc.kind, "-text ");
 
     if (pOptions.alignLeft) {
         lClass += "anchor-start ";

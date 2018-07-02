@@ -49,17 +49,17 @@ function renderLabelText(pLine, pPosition, pCoords, pClass, pArc) {
         };
     return index_1.default.createText(pLine, pCoords, lAttributes);
 }
-function determineClasses(pArcKind, pOptionsKind, pPostFix) {
-    const lKind = pOptionsKind || pArcKind;
+function determineClasses(pArcKind, pPostFix) {
+    const lKind = pArcKind;
     const lClass = kind2class_1.default.getClass(lKind);
     const lAggregateClass = kind2class_1.default.getAggregateClass(lKind);
-    return lClass === lAggregateClass
+    return (lClass === lAggregateClass)
         ? lClass + pPostFix
         : lAggregateClass + pPostFix + lClass + pPostFix;
 }
 function createLabelLine(pLine, pMiddle, pStartY, pArc, pLineNumber, pOptions) {
     let lY = pStartY + ((pLineNumber + 1 / 4) * svgutensils_1.default.calculateTextHeight());
-    let lClass = determineClasses(pArc.kind, pOptions.kind, "-text ");
+    let lClass = determineClasses(pArc.kind, "-text ");
     if (pOptions.alignLeft) {
         lClass += "anchor-start ";
     }

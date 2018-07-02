@@ -1,3 +1,4 @@
+import { ArcKindAggregatedType, ArcKindClassType, ArcKindType } from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 
 const KIND2CLASS = Object.freeze({
@@ -28,8 +29,8 @@ const KIND2CLASS = Object.freeze({
 });
 
 export default {
-    getClass(pKey) { return KIND2CLASS[pKey] || pKey; },
-    getAggregateClass(pKey) { return aggregatekind(pKey) || pKey; },
+    getClass(pKey: ArcKindType): ArcKindClassType { return KIND2CLASS[pKey] || pKey; },
+    getAggregateClass(pKey: ArcKindType): ArcKindAggregatedType { return aggregatekind(pKey) || pKey; },
 };
 /*
  This file is part of mscgen_js.

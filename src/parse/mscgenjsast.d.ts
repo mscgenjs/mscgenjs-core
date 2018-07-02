@@ -74,6 +74,11 @@ export type ArcKindType =
     "critical" | "ignore" | "consider" | "assert" |
     "loop"     | "ref"    | "exc";
 
+export type ArcKindClassType =
+    "empty-row" | "omitted-row" | "comment-row" |
+    "signal"    | "method"      | "callback"    | 
+    "return"    | "emphasised"  | "lost";
+
 export type ArcKindNormalizedType =
     "|||"      | "..."    | "---" |
     "--"       | "<->"    |
@@ -93,7 +98,7 @@ export type ArcKindNormalizedType =
     "loop"     | "ref"    | "exc";
 
 export type ArcKindAggregatedType = 
-    "empty"    | "box"           |
+    "empty"       | "box"           |
     "directional" | "bidirectional" | "nondirectional" |
     "inline_expression"
 
