@@ -1,20 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function transformEntities(pEntities, pFunctionAry) {
-    if (pEntities && pFunctionAry) {
-        pEntities.forEach((pEntity) => {
-            pFunctionAry.forEach((pFunction) => {
-                pFunction(pEntity);
-            });
+    pEntities.forEach((pEntity) => {
+        pFunctionAry.forEach((pFunction) => {
+            pFunction(pEntity);
         });
-    }
+    });
 }
 function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
-    if (pFunctionAry) {
-        pFunctionAry.forEach((pFunction) => {
-            pFunction(pArc, pEntities, pArcRow);
-        });
-    }
+    pFunctionAry.forEach((pFunction) => {
+        pFunction(pArc, pEntities, pArcRow);
+    });
 }
 function transformArcRow(pEntities, pArcRow, pFunctionAry) {
     pArcRow.forEach((pArc) => {
@@ -25,11 +21,9 @@ function transformArcRow(pEntities, pArcRow, pFunctionAry) {
     });
 }
 function transformArcRows(pEntities, pArcRows, pFunctionAry) {
-    if (pArcRows && pFunctionAry) {
-        pArcRows.forEach((pArcRow) => {
-            transformArcRow(pEntities, pArcRow, pFunctionAry);
-        });
-    }
+    pArcRows.forEach((pArcRow) => {
+        transformArcRow(pEntities, pArcRow, pFunctionAry);
+    });
 }
 /**
  * Generic function for performing manipulations on abstract syntax trees. It takes a

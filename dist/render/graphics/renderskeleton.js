@@ -69,7 +69,7 @@ function _init(pWindow) {
     });
     return pWindow.document;
 }
-function _bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
+function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
     gDocument = _init(pWindow);
     const lSkeletonSvg = index_1.default.createSVG(pSvgElementId, pSvgElementId, distillRenderMagic(pOptions));
     if (Boolean(pOptions.source)) {
@@ -125,7 +125,7 @@ exports.default = {
      *        additionalTemplate - string identifying a named style
      *
      */
-    bootstrap: _bootstrap,
+    bootstrap,
     /**
      * Initializes the document to the document associated with the
      * given pWindow and returns it.

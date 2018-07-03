@@ -1,4 +1,5 @@
 import _flatten from "lodash.flatten";
+import { IFlatSequenceChart } from "../astmassage/flatten";
 import normalizekind from "../astmassage/normalizekind";
 
 const KINDS = {
@@ -239,14 +240,14 @@ function toColorCombiObject(pColorCombi) {
     * For the same reason it's not really necessary to handle the recursion
     * of inline expressions (note that the code is doing that notwithstanding)
     */
-function extractKindColorCombis(pAST) {
+function extractKindColorCombis(pAST: IFlatSequenceChart) {
     return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
 }
 
 export default {
     getAttributes: _getAttributes,
 
-    getMarkerDefs(pId, pAST) {
+    getMarkerDefs(pId: string, pAST: IFlatSequenceChart) {
         return _flatten(
             extractKindColorCombis(pAST)
             .map((pCombi) => MARKERPATHS[pCombi.kind]

@@ -42,11 +42,11 @@ let gInlineExpressionMemory = [];
 function getParentElement(pWindow, pParentElementId) {
     return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
 }
-function render(pAST, pWindow, pParentElementId, pOptions) {
+function render(pAST, pWindow, pParentElementId, pRenderOptions) {
     const lFlattenedAST = Object.freeze(flatten_1.default.flatten(pAST));
     const lParentElement = getParentElement(pWindow, pParentElementId);
     idmanager_1.default.setPrefix(pParentElementId);
-    renderASTPre(lFlattenedAST, pWindow, lParentElement, pOptions || {});
+    renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});
     renderASTMain(lFlattenedAST);
     renderASTPost(lFlattenedAST);
     return svgutensils_1.default.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
@@ -93,13 +93,11 @@ function preProcessOptionsArcs(pChart, pOptions) {
     pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
     pChart.arcGradient = DEFAULT_ARC_GRADIENT;
     pChart.wordWrapArcs = false;
-    if (pOptions) {
-        if (pOptions.arcgradient) {
-            pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-            pChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
-        }
-        pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
+    if (pOptions.arcgradient) {
+        pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
+        pChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
     }
+    pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
 }
 /**
  * preProcessOptions() -
@@ -137,40 +135,43 @@ function calculateCanvasDimensions(pAST) {
     return lCanvas;
 }
 function renderBackground(pCanvas) {
-    gChart.document.getElementById(idmanager_1.default.get("_background")).appendChild(index_1.default.createRect(pCanvas, { class: "bglayer" }));
+    const lBackground = gChart.document.getElementById(idmanager_1.default.get("_background"));
+    if (lBackground) {
+        lBackground.appendChild(index_1.default.createRect(pCanvas, { class: "bglayer" }));
+    }
 }
 function renderWatermark(pWatermark, pCanvas) {
     gChart.layer.watermark.appendChild(index_1.default.createDiagonalText(pWatermark, pCanvas, "watermark"));
 }
 function postProcessOptions(pOptions, pCanvas) {
-    if (pOptions) {
-        if (pOptions.watermark) {
-            renderWatermark(pOptions.watermark, pCanvas);
-        }
-        if (pOptions.width && pOptions.width !== "auto") {
-            pCanvas = renderutensils_1.default.scaleCanvasToWidth(pOptions.width, pCanvas);
-        }
+    if (pOptions.watermark) {
+        renderWatermark(pOptions.watermark, pCanvas);
+    }
+    if (pOptions.width && pOptions.width !== "auto") {
+        pCanvas = renderutensils_1.default.scaleCanvasToWidth(pOptions.width, pCanvas);
     }
     return pCanvas;
 }
 function renderSvgElement(pCanvas) {
     const lSvgElement = gChart.document.getElementById(idmanager_1.default.get());
     const lBody = gChart.document.getElementById(idmanager_1.default.get("_body"));
-    lBody.setAttribute("transform", `translate(${pCanvas.horizontaltransform},${pCanvas.verticaltransform}) ` +
-        `scale(${pCanvas.scale},${pCanvas.scale})`);
-    if (!!pCanvas.autoscale && pCanvas.autoscale === true) {
-        index_1.default.updateSVG(lSvgElement, {
-            width: "100%",
-            height: "100%",
-            viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
-        });
-    }
-    else {
-        index_1.default.updateSVG(lSvgElement, {
-            width: pCanvas.width.toString(),
-            height: pCanvas.height.toString(),
-            viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
-        });
+    if (lBody && lSvgElement) {
+        lBody.setAttribute("transform", `translate(${pCanvas.horizontaltransform},${pCanvas.verticaltransform}) ` +
+            `scale(${pCanvas.scale},${pCanvas.scale})`);
+        if (!!pCanvas.autoscale && pCanvas.autoscale === true) {
+            index_1.default.updateSVG(lSvgElement, {
+                width: "100%",
+                height: "100%",
+                viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
+            });
+        }
+        else {
+            index_1.default.updateSVG(lSvgElement, {
+                width: pCanvas.width.toString(),
+                height: pCanvas.height.toString(),
+                viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
+            });
+        }
     }
 }
 /* ----------------------START entity shizzle-------------------------------- */
@@ -180,7 +181,7 @@ function renderEntitiesOnBottom(pEntities, pOptions) {
         insert a life line between the last arc and the entities so there's
         some visual breathing room
         */
-    createLifeLines(pEntities, "arcrow", null, lLifeLineSpacerY).forEach((pLifeLine) => {
+    createLifeLines(pEntities, "arcrow", gChart.arcRowHeight, lLifeLineSpacerY).forEach((pLifeLine) => {
         gChart.layer.lifeline.appendChild(pLifeLine);
     });
     /*
@@ -363,16 +364,14 @@ function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
 function renderArcRows(pArcRows, pEntities, pOptions) {
     gInlineExpressionMemory = [];
     /* put some space between the entities and the arcs */
-    createLifeLines(pEntities, "arcrow", null, rowmemory_1.default.get(-1).y).forEach((pLifeLine) => {
+    createLifeLines(pEntities, "arcrow", gChart.arcRowHeight, rowmemory_1.default.get(-1).y).forEach((pLifeLine) => {
         gChart.layer.lifeline.appendChild(pLifeLine);
     });
-    if (pArcRows) {
-        precalculateArcRowHeights(pArcRows, pEntities, pOptions);
-        pArcRows.forEach((pArcRow, pCounter) => {
-            renderArcRow(pArcRow, pCounter, pEntities, pOptions);
-        });
-        renderInlineExpressions(gInlineExpressionMemory);
-    } // if pArcRows
+    precalculateArcRowHeights(pArcRows, pEntities, pOptions);
+    pArcRows.forEach((pArcRow, pCounter) => {
+        renderArcRow(pArcRow, pCounter, pEntities, pOptions);
+    });
+    renderInlineExpressions(gInlineExpressionMemory);
 } // function
 /**
  * renderInlineExpressionLabel() - renders the label of an inline expression
@@ -437,7 +436,8 @@ function renderInlineExpression(pArcMem, pY) {
     return createInlineExpressionBox(entities_1.default.getOAndD(pArcMem.arc.from, pArcMem.arc.to), pArcMem.arc, lHeight, pY);
 }
 function createLifeLines(pEntities, pClass, pHeight, pY) {
-    if (!pHeight || pHeight < gChart.arcRowHeight) {
+    /* istanbul ignore if */
+    if (pHeight < gChart.arcRowHeight) {
         pHeight = gChart.arcRowHeight;
     }
     return pEntities.map((pEntity) => {
@@ -455,7 +455,7 @@ function createLifeLines(pEntities, pClass, pHeight, pY) {
         return lLine;
     });
 }
-function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
+function createSelfRefArc(pKind, pX, pYTo, pDouble, pY, pLineColor) {
     // globals: (gChart ->) arcRowHeight, (entities ->) interEntitySpacing
     const lHeight = 2 * (gChart.arcRowHeight / 5);
     const lWidth = entities_1.default.getDims().interEntitySpacing / 2;
@@ -463,16 +463,8 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
     const lClass = `arc ${kind2class_1.default.getAggregateClass(pKind)} ${kind2class_1.default.getClass(pKind)}`;
     if (pDouble) {
         lRetval = index_1.default.createGroup();
-        // const lInnerTurn  = svgelementfactory.createUTurnold(
-        //     {x: pFrom, y: pY},
-        //     (pY + pYTo + lHeight - 2 * constants.LINE_WIDTH), // pEndY
-        //     lWidth - 2 * constants.LINE_WIDTH, // pWidth
-        //     lClass, // pClass
-        //     pKind !== "::", // pDontHitHome
-        //     lHeight, // pHeight
-        // );
         const lInnerTurn = index_1.default.createUTurn({
-            x: pFrom,
+            x: pX,
             y: pY,
             width: lWidth - 2 * constants_1.default.LINE_WIDTH,
             height: lHeight,
@@ -484,13 +476,13 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
         });
         /* we need a middle turn to attach the arrow to */
         const lMiddleTurn = index_1.default.createUTurn({
-            x: pFrom,
+            x: pX,
             y: pY,
             width: lWidth,
             height: lHeight,
         }, (pY + pYTo + lHeight - constants_1.default.LINE_WIDTH), { lineWidth: constants_1.default.LINE_WIDTH });
         const lOuterTurn = index_1.default.createUTurn({
-            x: pFrom,
+            x: pX,
             y: pY,
             width: lWidth,
             height: lHeight,
@@ -499,10 +491,10 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
             dontHitHome: pKind !== "::",
             lineWidth: constants_1.default.LINE_WIDTH,
         });
-        if (Boolean(pLineColor)) {
+        if (!!pLineColor) {
             lInnerTurn.setAttribute("style", `stroke:${pLineColor}`);
         }
-        markermanager_1.default.getAttributes(idmanager_1.default.get(), pKind, pLineColor, pFrom, pFrom).forEach((pAttribute) => {
+        markermanager_1.default.getAttributes(idmanager_1.default.get(), pKind, pLineColor, pX, pX).forEach((pAttribute) => {
             lMiddleTurn.setAttribute(pAttribute.name, pAttribute.value);
         });
         lMiddleTurn.setAttribute("style", "stroke:transparent;");
@@ -516,7 +508,7 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
     }
     else {
         lRetval = index_1.default.createUTurn({
-            x: pFrom,
+            x: pX,
             y: pY,
             width: lWidth,
             height: lHeight,
@@ -525,7 +517,7 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
             dontHitHome: pKind === "-x",
             lineWidth: constants_1.default.LINE_WIDTH,
         });
-        markermanager_1.default.getAttributes(idmanager_1.default.get(), pKind, pLineColor, pFrom, pFrom).forEach((pAttribute) => {
+        markermanager_1.default.getAttributes(idmanager_1.default.get(), pKind, pLineColor, pX, pX).forEach((pAttribute) => {
             lRetval.setAttribute(pAttribute.name, pAttribute.value);
         });
     }
@@ -539,9 +531,9 @@ function renderEmptyArc(pArc, pY) {
         return createLifeLinesText(pArc, entities_1.default.getOAndD(pArc.from, pArc.to), pY);
     }
 }
-function determineYToAbsolute(pRowNumber, pArcSkip, pArcGradient) {
+function determineYToAbsolute(pRowNumber, pArcGradient, pArcSkip) {
     let lRetval = rowmemory_1.default.get(pRowNumber).y + pArcGradient;
-    if (Boolean(pArcSkip)) {
+    if (!!pArcSkip) {
         const lWholeArcSkip = Math.floor(pArcSkip);
         const lRestArcSkip = pArcSkip - lWholeArcSkip;
         const lCurrentRealRowNumber = rowmemory_1.default.get(pRowNumber).realRowNumber;
@@ -561,20 +553,20 @@ function determineDirectionClass(pArcKind) {
     }
     return "";
 }
-function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
+function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
     const lGroup = index_1.default.createGroup();
     let lClass = "arc ";
     lClass += determineDirectionClass(pArc.kind);
     lClass += `${kind2class_1.default.getAggregateClass(pArc.kind)} ${kind2class_1.default.getClass(pArc.kind)}`;
     const lDoubleLine = [":>", "::", "<:>"].includes(pArc.kind);
-    const lYToAbsolute = determineYToAbsolute(pRowNumber, pArc.arcskip, gChart.arcGradient);
-    pTo = renderutensils_1.default.determineArcXTo(pArc.kind, pFrom, pTo);
-    if (pFrom === pTo) {
-        lGroup.appendChild(createSelfRefArc(pArc.kind, pFrom, lYToAbsolute - rowmemory_1.default.get(pRowNumber).y - gChart.arcGradient, lDoubleLine, pArc.linecolor, rowmemory_1.default.get(pRowNumber).y));
+    const lYToAbsolute = determineYToAbsolute(pRowNumber, gChart.arcGradient, pArc.arcskip);
+    pXTo = renderutensils_1.default.determineArcXTo(pArc.kind, pXFrom, pXTo);
+    if (pXFrom === pXTo) {
+        lGroup.appendChild(createSelfRefArc(pArc.kind, pXFrom, lYToAbsolute - rowmemory_1.default.get(pRowNumber).y - gChart.arcGradient, lDoubleLine, rowmemory_1.default.get(pRowNumber).y, pArc.linecolor));
         /* creates a label left aligned, a little above the arc*/
         const lTextWidth = 2 * entities_1.default.getDims().interEntitySpacing / 3;
         lGroup.appendChild(renderlabels_1.default.createLabel(pArc, {
-            x: pFrom + 1.5 * constants_1.default.LINE_WIDTH - (lTextWidth / 2),
+            x: pXFrom + 1.5 * constants_1.default.LINE_WIDTH - (lTextWidth / 2),
             y: rowmemory_1.default.get(pRowNumber).y - (gChart.arcRowHeight / 5) - constants_1.default.LINE_WIDTH / 2,
             width: lTextWidth,
         }, Object.assign({
@@ -585,23 +577,23 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
     }
     else {
         const lLine = index_1.default.createLine({
-            xFrom: pFrom,
+            xFrom: pXFrom,
             yFrom: rowmemory_1.default.get(pRowNumber).y,
-            xTo: pTo,
+            xTo: pXTo,
             yTo: lYToAbsolute,
         }, {
             class: lClass,
             doubleLine: lDoubleLine,
         });
-        markermanager_1.default.getAttributes(idmanager_1.default.get(), pArc.kind, pArc.linecolor, pFrom, pTo).forEach((pAttribute) => {
+        markermanager_1.default.getAttributes(idmanager_1.default.get(), pArc.kind, pArc.linecolor, pXFrom, pXTo).forEach((pAttribute) => {
             lLine.setAttribute(pAttribute.name, pAttribute.value);
         });
         lGroup.appendChild(lLine);
         /* create a label centered on the arc */
         lGroup.appendChild(renderlabels_1.default.createLabel(pArc, {
-            x: pFrom,
+            x: pXFrom,
             y: rowmemory_1.default.get(pRowNumber).y + ((lYToAbsolute - rowmemory_1.default.get(pRowNumber).y) / 2),
-            width: pTo - pFrom,
+            width: pXTo - pXFrom,
         }, Object.assign({
             alignAround: true,
             alignAbove: (gChart.regularArcTextVerticalAlignment === "above"),

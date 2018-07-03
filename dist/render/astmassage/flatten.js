@@ -110,19 +110,20 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
     lRetval.push(lFlatArcRow);
     return lRetval.concat(lUnWoundSubArcs);
 }
-function unwind(pAST) {
-    const lAST = {};
+function unwind(pArcRows) {
+    if (pArcRows) {
+        return pArcRows.reduce((pAll, pArcRow) => pAll.concat(unwindArcRow(pArcRow, 0)), []);
+    }
+    return [];
+}
+function normalize(pAST) {
     gMaxDepth = 0;
-    if (Boolean(pAST.options)) {
-        lAST.options = lodash_clonedeep_1.default(pAST.options);
-    }
-    lAST.entities = lodash_clonedeep_1.default(pAST.entities);
-    lAST.arcs = [];
-    if (pAST.arcs) {
-        lAST.arcs = pAST.arcs.reduce((pAll, pArcRow) => pAll.concat(unwindArcRow(pArcRow, 0)), []);
-    }
-    lAST.depth = gMaxDepth + 1;
-    return lAST;
+    return {
+        options: normalizeoptions_1.default(pAST.options),
+        entities: lodash_clonedeep_1.default(pAST.entities),
+        arcs: unwind(pAST.arcs),
+        depth: gMaxDepth + 1,
+    };
 }
 exports.default = {
     /**
@@ -141,7 +142,7 @@ exports.default = {
      * Flattens any recursion in the arcs of the given abstract syntax tree to make it
      * more easy to render.
      */
-    unwind,
+    normalize,
     overrideColors,
     /**
      * Simplifies an AST:
@@ -154,8 +155,7 @@ exports.default = {
      *    - distributes arc*color from the entities to the affected arcs
      */
     flatten(pAST) {
-        pAST.options = normalizeoptions_1.default(pAST.options);
-        return unwind(asttransform_1.default(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
+        return normalize(asttransform_1.default(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
     },
 };
 /*

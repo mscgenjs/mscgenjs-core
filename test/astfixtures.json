@@ -562,6 +562,11 @@
     ]
   },
   "astOneAltUnwound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -701,6 +706,11 @@
     ]
   },
   "astAltWithinLoopUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -841,6 +851,11 @@
     ]
   },
   "astOptWithCommentUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -968,6 +983,11 @@
     ]
   },
   "astInlineWithArcColorUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -1090,6 +1110,11 @@
     ]
   },
   "astNestedInlinesWithArcColorUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"

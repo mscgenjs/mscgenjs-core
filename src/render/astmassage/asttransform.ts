@@ -4,21 +4,17 @@ type EntityTransformFunctionType = (pEntity: IEntity) => void;
 type ArcTransformFunctionType    = (pArc: IArc, pEntities?: IEntity[], pArcRow?: IArc[]) => void;
 
 function transformEntities(pEntities: IEntity[], pFunctionAry: EntityTransformFunctionType[]) {
-    if (pEntities && pFunctionAry) {
-        pEntities.forEach((pEntity) => {
-            pFunctionAry.forEach((pFunction) => {
-                pFunction(pEntity);
-            });
+    pEntities.forEach((pEntity) => {
+        pFunctionAry.forEach((pFunction) => {
+            pFunction(pEntity);
         });
-    }
+    });
 }
 
 function transformArc(pEntities: IEntity[], pArcRow: IArc[], pArc: IArc, pFunctionAry: ArcTransformFunctionType[]) {
-    if (pFunctionAry) {
-        pFunctionAry.forEach((pFunction) => {
-            pFunction(pArc, pEntities, pArcRow);
-        });
-    }
+    pFunctionAry.forEach((pFunction) => {
+        pFunction(pArc, pEntities, pArcRow);
+    });
 }
 
 function transformArcRow(pEntities: IEntity[], pArcRow: IArc[], pFunctionAry: ArcTransformFunctionType[]) {
@@ -31,11 +27,9 @@ function transformArcRow(pEntities: IEntity[], pArcRow: IArc[], pFunctionAry: Ar
 }
 
 function transformArcRows(pEntities: IEntity[], pArcRows: IArc[][], pFunctionAry: ArcTransformFunctionType[]) {
-    if (pArcRows && pFunctionAry) {
-        pArcRows.forEach((pArcRow) => {
-            transformArcRow(pEntities, pArcRow, pFunctionAry);
-        });
-    }
+    pArcRows.forEach((pArcRow) => {
+        transformArcRow(pEntities, pArcRow, pFunctionAry);
+    });
 }
 
 /**

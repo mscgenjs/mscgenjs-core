@@ -31,6 +31,7 @@ function getNoEntityLines(pLabel, pFontSize, pChartOptions) {
 }
 function sizeEntityBoxToLabel(pLabel, pBBox) {
     const lLabelWidth = Math.min(svgutensils_1.default.getBBox(pLabel).width + (4 * constants_1.default.LINE_WIDTH), (gEntityDims.interEntitySpacing / 3) + pBBox.width);
+    /* istanbul ignore if */
     if (lLabelWidth >= pBBox.width) {
         pBBox.x -= (lLabelWidth - pBBox.width) / 2;
         pBBox.width = lLabelWidth;

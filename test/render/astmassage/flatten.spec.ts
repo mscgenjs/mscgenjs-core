@@ -2,30 +2,30 @@ import flatten from "../../../src/render/astmassage/flatten";
 const fix     = require("../../astfixtures.json");
 
 describe("render/astmassage/flatten", () => {
-    describe("unwind", () => {
+    describe("normalize", () => {
         test('should return an "unwound" version of the simple one alt ', () => {
             expect(
-                flatten.unwind(fix.astOneAlt),
+                flatten.normalize(fix.astOneAlt),
             ).toEqual(fix.astOneAltUnwound);
         });
         test(
             'should return an "unwound" version of an alt within a loop ',
             () => {
                 expect(
-                    flatten.unwind(fix.astAltWithinLoop),
+                    flatten.normalize(fix.astAltWithinLoop),
                 ).toEqual(fix.astAltWithinLoopUnWound);
             },
         );
         test("should keep comments within arc spanning arc bounds", () => {
             expect(
-                flatten.unwind(fix.astOptWithComment),
+                flatten.normalize(fix.astOptWithComment),
             ).toEqual(fix.astOptWithCommentUnWound);
         });
         test(
             "should distribute the arc* colors to underlying arcs (one level)",
             () => {
                 expect(
-                    flatten.unwind(fix.astInlineWithArcColor),
+                    flatten.normalize(fix.astInlineWithArcColor),
                 ).toEqual(fix.astInlineWithArcColorUnWound);
             },
         );
@@ -33,7 +33,7 @@ describe("render/astmassage/flatten", () => {
             "should distribute the arc* colors to underlying arcs (one level, but not more)",
             () => {
                 expect(
-                    flatten.unwind(fix.astNestedInlinesWithArcColor),
+                    flatten.normalize(fix.astNestedInlinesWithArcColor),
                 ).toEqual(fix.astNestedInlinesWithArcColorUnWound);
             },
         );

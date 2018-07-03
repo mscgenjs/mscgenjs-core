@@ -40,21 +40,6 @@ export interface IEntity {
     title?: string;
 }
 
-export interface IEntityNormalized {
-    name: string;
-    label: string;
-    id?: string;
-    idurl?: string;
-    url?: string;
-    linecolor?: string;
-    textcolor?: string;
-    textbgcolor?: string;
-    arclinecolor?: string;
-    arctextcolor?: string;
-    arctextbgcolor?: string;
-    arcskip?: number;
-    title?: string;
-}
 
 export type ArcKindType =
     "|||"      | "..."    | "---" |

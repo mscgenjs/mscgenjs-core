@@ -12,9 +12,10 @@ import _cloneDeep from "lodash.clonedeep";
  * @exports renderast
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
+import { INormalizedRenderOptions, RegularArcTextVerticalAlignmentType } from "../../../types/mscgen";
 import * as mscgenjsast from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
-import flatten from "../astmassage/flatten";
+import flatten, { IEntityNormalized, IFlatArc, IFlatSequenceChart } from "../astmassage/flatten";
 import constants from "./constants";
 import entities from "./entities";
 import idmanager from "./idmanager";
@@ -31,32 +32,69 @@ const PAD_VERTICAL          = 3;
 const DEFAULT_ARCROW_HEIGHT = 38; // chart only
 const DEFAULT_ARC_GRADIENT  = 0; // chart only
 
+interface IChartLayer {
+    lifeline: SVGGElement;
+    sequence: SVGGElement;
+    notes: SVGGElement;
+    inline: SVGGElement;
+    watermark: SVGGElement;
+}
+
+interface IChart {
+    arcRowHeight: number;
+    arcGradient: number;
+    arcEndX: number;
+    wordWrapArcs: boolean;
+    mirrorEntitiesOnBottom: boolean;
+    regularArcTextVerticalAlignment: RegularArcTextVerticalAlignmentType;
+    maxDepth: number;
+    document: Document;
+    layer: IChartLayer;
+}
+
+interface ICanvas {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    horizontaltransform: number;
+    autoscale: boolean;
+    verticaltransform: number;
+    scale: number;
+}
+
 /* sensible default - get overwritten in bootstrap */
-const gChart = Object.seal({
+const gChart: IChart = Object.seal({
     arcRowHeight           : DEFAULT_ARCROW_HEIGHT,
     arcGradient            : DEFAULT_ARC_GRADIENT,
     arcEndX                : 0,
     wordWrapArcs           : false,
     mirrorEntitiesOnBottom : false,
-    regularArcTextVerticalAlignment: "middle",
+    regularArcTextVerticalAlignment: "middle" as RegularArcTextVerticalAlignmentType,
     maxDepth               : 0,
-    document               : {},
+    document               : {} as Document,
     layer                  : {
-        lifeline     : {},
-        sequence     : {},
-        notes        : {},
-        inline       : {},
-        watermark    : {},
+        lifeline     : {} as SVGGElement,
+        sequence     : {} as SVGGElement,
+        notes        : {} as SVGGElement,
+        inline       : {} as SVGGElement,
+        watermark    : {} as SVGGElement,
     },
-}) as any;
+});
+
 let gInlineExpressionMemory: any[] = [];
 
-function getParentElement(pWindow, pParentElementId) {
+function getParentElement(pWindow: Window, pParentElementId: string): HTMLElement {
     return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
 }
 
-function render(pAST, pWindow, pParentElementId, pOptions) {
-    const lFlattenedAST = Object.freeze(flatten.flatten(pAST));
+function render(
+    pAST: mscgenjsast.ISequenceChart,
+    pWindow: Window,
+    pParentElementId: string,
+    pRenderOptions: INormalizedRenderOptions,
+) {
+    const lFlattenedAST: IFlatSequenceChart = Object.freeze(flatten.flatten(pAST));
     const lParentElement = getParentElement(pWindow, pParentElementId);
 
     idmanager.setPrefix(pParentElementId);
@@ -64,7 +102,7 @@ function render(pAST, pWindow, pParentElementId, pOptions) {
         lFlattenedAST,
         pWindow,
         lParentElement,
-        pOptions || {},
+        pRenderOptions || {},
     );
     renderASTMain(lFlattenedAST);
     renderASTPost(lFlattenedAST);
@@ -72,7 +110,12 @@ function render(pAST, pWindow, pParentElementId, pOptions) {
     return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
 }
 
-function renderASTPre(pAST, pWindow, pParentElement, pOptions) {
+function renderASTPre(
+    pAST: IFlatSequenceChart,
+    pWindow: Window,
+    pParentElement: HTMLElement,
+    pOptions: INormalizedRenderOptions,
+) {
     gChart.document = renderskeleton.bootstrap(
         pWindow,
         pParentElement,
@@ -90,7 +133,7 @@ function renderASTPre(pAST, pWindow, pParentElement, pOptions) {
     preProcessOptions(gChart, pAST.options);
 }
 
-function renderASTMain(pAST) {
+function renderASTMain(pAST: IFlatSequenceChart) {
     renderEntities(pAST.entities, 0, pAST.options);
     rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
     renderArcRows(pAST.arcs, pAST.entities, pAST.options);
@@ -99,8 +142,8 @@ function renderASTMain(pAST) {
     }
 }
 
-function renderASTPost(pAST) {
-    let lCanvas = calculateCanvasDimensions(pAST);
+function renderASTPost(pAST: IFlatSequenceChart) {
+    let lCanvas: ICanvas = calculateCanvasDimensions(pAST);
 
     /* canvg ignores the background-color on svg level and makes the background
         * transparent in stead. To work around this insert a white rectangle the size
@@ -123,18 +166,16 @@ function createLayerShortcuts(pDocument) {
     };
 }
 
-function preProcessOptionsArcs(pChart, pOptions) {
+function preProcessOptionsArcs(pChart: IChart, pOptions: mscgenjsast.IOptionsNormalized) {
     pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
     pChart.arcGradient  = DEFAULT_ARC_GRADIENT;
     pChart.wordWrapArcs = false;
 
-    if (pOptions) {
-        if (pOptions.arcgradient) {
-            pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-            pChart.arcGradient  = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
-        }
-        pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
+    if (pOptions.arcgradient) {
+        pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
+        pChart.arcGradient  = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
     }
+    pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
 }
 
 /**
@@ -151,12 +192,12 @@ function preProcessOptionsArcs(pChart, pOptions) {
  *
  * @param <object> - pOptions - the option part of the AST
  */
-function preProcessOptions(pChart, pOptions) {
+function preProcessOptions(pChart: IChart, pOptions: mscgenjsast.IOptionsNormalized) {
     entities.init(pOptions && pOptions.hscale);
     preProcessOptionsArcs(pChart, pOptions);
 }
 
-function calculateCanvasDimensions(pAST) {
+function calculateCanvasDimensions(pAST: IFlatSequenceChart): ICanvas {
     const lDepthCorrection = renderutensils.determineDepthCorrection(pAST.depth, constants.LINE_WIDTH);
     const lRowInfo = rowmemory.getLast();
     const lCanvas = {
@@ -179,62 +220,65 @@ function calculateCanvasDimensions(pAST) {
     return lCanvas;
 }
 
-function renderBackground(pCanvas) {
-    gChart.document.getElementById(idmanager.get("_background")).appendChild(
-        svgelementfactory.createRect(pCanvas, {class: "bglayer"}),
-    );
+function renderBackground(pCanvas: ICanvas) {
+    const lBackground = gChart.document.getElementById(idmanager.get("_background"));
+    if (lBackground) {
+        lBackground.appendChild(
+            svgelementfactory.createRect(pCanvas, {class: "bglayer"}),
+        );
+    }
 }
 
-function renderWatermark(pWatermark, pCanvas) {
+function renderWatermark(pWatermark: string, pCanvas: ICanvas) {
     gChart.layer.watermark.appendChild(
         svgelementfactory.createDiagonalText(pWatermark, pCanvas, "watermark"),
     );
 }
 
-function postProcessOptions(pOptions, pCanvas) {
-    if (pOptions) {
-        if (pOptions.watermark) {
-            renderWatermark(pOptions.watermark, pCanvas);
-        }
-        if (pOptions.width && pOptions.width !== "auto") {
-            pCanvas = renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
-        }
+function postProcessOptions(pOptions: mscgenjsast.IOptionsNormalized, pCanvas: ICanvas) {
+    if (pOptions.watermark) {
+        renderWatermark(pOptions.watermark, pCanvas);
+    }
+    if (pOptions.width && pOptions.width !== "auto") {
+        pCanvas = renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
     }
     return pCanvas;
 }
 
-function renderSvgElement(pCanvas) {
+function renderSvgElement(pCanvas: ICanvas) {
     const lSvgElement = gChart.document.getElementById(idmanager.get());
     const lBody = gChart.document.getElementById(idmanager.get("_body"));
-    lBody.setAttribute(
-        "transform",
-        `translate(${pCanvas.horizontaltransform},${pCanvas.verticaltransform}) ` +
-        `scale(${pCanvas.scale},${pCanvas.scale})`,
-    );
-    if (!!pCanvas.autoscale && pCanvas.autoscale === true) {
-        svgelementfactory.updateSVG(
-            lSvgElement,
-            {
-                width: "100%",
-                height: "100%",
-                viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
-            },
+    if (lBody && lSvgElement) {
+        lBody.setAttribute(
+            "transform",
+            `translate(${pCanvas.horizontaltransform},${pCanvas.verticaltransform}) ` +
+            `scale(${pCanvas.scale},${pCanvas.scale})`,
         );
-    } else {
-        svgelementfactory.updateSVG(
-            lSvgElement,
-            {
-                width: pCanvas.width.toString(),
-                height: pCanvas.height.toString(),
-                viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
-            },
-        );
+        if (!!pCanvas.autoscale && pCanvas.autoscale === true) {
+            svgelementfactory.updateSVG(
+                lSvgElement,
+                {
+                    width: "100%",
+                    height: "100%",
+                    viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
+                },
+            );
+        } else {
+            svgelementfactory.updateSVG(
+                lSvgElement,
+                {
+                    width: pCanvas.width.toString(),
+                    height: pCanvas.height.toString(),
+                    viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
+                },
+            );
+        }
     }
 }
 
 /* ----------------------START entity shizzle-------------------------------- */
 
-function renderEntitiesOnBottom(pEntities, pOptions) {
+function renderEntitiesOnBottom(pEntities: IEntityNormalized[], pOptions: mscgenjsast.IOptionsNormalized) {
     const lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
 
     /*
@@ -245,7 +289,7 @@ function renderEntitiesOnBottom(pEntities, pOptions) {
     createLifeLines(
         pEntities,
         "arcrow",
-        null,
+        gChart.arcRowHeight,
         lLifeLineSpacerY,
     ).forEach((pLifeLine) => {
         gChart.layer.lifeline.appendChild(pLifeLine);
@@ -274,7 +318,7 @@ function renderEntitiesOnBottom(pEntities, pOptions) {
  * @param <object> - pOptions
  *
  */
-function renderEntities(pEntities, pEntityYPos, pOptions) {
+function renderEntities(pEntities: IEntityNormalized[], pEntityYPos, pOptions: mscgenjsast.IOptionsNormalized) {
     gChart.layer.sequence.appendChild(
         entities.renderEntities(pEntities, pEntityYPos, pOptions),
     );
@@ -285,7 +329,13 @@ function renderEntities(pEntities, pEntityYPos, pOptions) {
 
 /* ------------------------END entity shizzle-------------------------------- */
 
-function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
+function renderBroadcastArc(
+    pArc: IFlatArc,
+    pEntities: IEntityNormalized[],
+    pRowMemory,
+    pRowNumber: number,
+    pOptions: mscgenjsast.IOptionsNormalized,
+) {
     let xTo    = 0;
     const lLabel = pArc.label;
     const xFrom  = entities.getX(pArc.from);
@@ -308,7 +358,13 @@ function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
     pArc.label = lLabel;
 }
 
-function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
+function renderRegularArc(
+    pArc: IFlatArc,
+    pEntities: IEntityNormalized[],
+    pRowMemory,
+    pRowNumber: number,
+    pOptions: mscgenjsast.IOptionsNormalized,
+) {
     let lElement: SVGGElement = svgelementfactory.createGroup();
 
     if (pArc.from && pArc.to) {
@@ -355,10 +411,14 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
     return lElement;
 }
 
-function getArcRowHeight(pArcRow, pEntities, pOptions) {
+function getArcRowHeight(
+    pArcRow: IFlatArc[],
+    pEntities: IEntityNormalized[],
+    pOptions: mscgenjsast.IOptionsNormalized,
+) {
     let lRetval = 0;
 
-    pArcRow.forEach((pArc: mscgenjsast.IArc) => {
+    pArcRow.forEach((pArc: IFlatArc) => {
         let lElement: SVGGElement;
 
         switch (aggregatekind(pArc.kind)) {
@@ -386,11 +446,15 @@ function getArcRowHeight(pArcRow, pEntities, pOptions) {
     return lRetval;
 }
 
-function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
+function renderArcRow(
+    pArcRow: IFlatArc[],
+    pRowNumber, pEntities: IEntityNormalized[],
+    pOptions: mscgenjsast.IOptionsNormalized,
+) {
     let lArcRowClass = "arcrow";
     const lRowMemory: any[] = [];
 
-    pArcRow.forEach((pArc: mscgenjsast.IArc) => {
+    pArcRow.forEach((pArc: IFlatArc) => {
         let lElement = {};
 
         switch (aggregatekind(pArc.kind)) {
@@ -455,14 +519,20 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
     lRowMemory.forEach((pRowMemoryLine) => {
         if (pRowMemoryLine.element) {
             if (pRowMemoryLine.title) {
-                pRowMemoryLine.element.appendChild(svgelementfactory.createTitle(pRowMemoryLine.title));
+                pRowMemoryLine.element.appendChild(
+                    svgelementfactory.createTitle(pRowMemoryLine.title),
+                );
             }
             pRowMemoryLine.layer.appendChild(pRowMemoryLine.element);
         }
     });
 }
 
-function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
+function precalculateArcRowHeights(
+    pArcRows: IFlatArc[][],
+    pEntities: IEntityNormalized[],
+    pOptions: mscgenjsast.IOptionsNormalized,
+) {
     let lRealRowNumber = 0;
 
     pArcRows.forEach((pArcRow, pRowNumber) => {
@@ -497,26 +567,28 @@ function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
  * @param <object> - pArcRows - the arc rows to render
  * @param <object> - pEntities - the entities to consider
  */
-function renderArcRows(pArcRows, pEntities, pOptions) {
+function renderArcRows(
+    pArcRows: IFlatArc[][],
+    pEntities: IEntityNormalized[],
+    pOptions: mscgenjsast.IOptionsNormalized,
+) {
     gInlineExpressionMemory = [];
 
     /* put some space between the entities and the arcs */
     createLifeLines(
         pEntities,
         "arcrow",
-        null,
+        gChart.arcRowHeight,
         rowmemory.get(-1).y,
     ).forEach((pLifeLine) => {
         gChart.layer.lifeline.appendChild(pLifeLine);
     });
 
-    if (pArcRows) {
-        precalculateArcRowHeights(pArcRows, pEntities, pOptions);
-        pArcRows.forEach((pArcRow, pCounter) => {
-            renderArcRow(pArcRow, pCounter, pEntities, pOptions);
-        });
-        renderInlineExpressions(gInlineExpressionMemory);
-    } // if pArcRows
+    precalculateArcRowHeights(pArcRows, pEntities, pOptions);
+    pArcRows.forEach((pArcRow, pCounter) => {
+        renderArcRow(pArcRow, pCounter, pEntities, pOptions);
+    });
+    renderInlineExpressions(gInlineExpressionMemory);
 }// function
 
 /**
@@ -526,7 +598,7 @@ function renderArcRows(pArcRows, pEntities, pOptions) {
  * @param <object> pArc - the arc spanning arc
  * @param <number pY - where to start
  */
-function renderInlineExpressionLabel(pArc, pY) {
+function renderInlineExpressionLabel(pArc: IFlatArc, pY: number) {
     const lOnD = entities.getOAndD(pArc.from, pArc.to);
     const FOLD_SIZE = 7;
     const lLabelContentAlreadyDetermined = pY > 0;
@@ -610,7 +682,7 @@ function renderInlineExpressions(pInlineExpressions) {
     );
 }
 
-function renderInlineExpression(pArcMem, pY) {
+function renderInlineExpression(pArcMem, pY: number) {
     const lFromY = rowmemory.get(pArcMem.rownum).y;
     const lToY = rowmemory.get(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
     const lHeight = lToY - lFromY;
@@ -624,8 +696,14 @@ function renderInlineExpression(pArcMem, pY) {
     );
 }
 
-function createLifeLines(pEntities, pClass, pHeight, pY) {
-    if (!pHeight || pHeight < gChart.arcRowHeight) {
+function createLifeLines(
+    pEntities: IEntityNormalized[],
+    pClass: string,
+    pHeight: number,
+    pY: number,
+): Array<SVGLineElement|SVGPathElement> {
+    /* istanbul ignore if */
+    if (pHeight < gChart.arcRowHeight) {
         pHeight = gChart.arcRowHeight;
     }
 
@@ -648,7 +726,14 @@ function createLifeLines(pEntities, pClass, pHeight, pY) {
     });
 }
 
-function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
+function createSelfRefArc(
+    pKind: mscgenjsast.ArcKindNormalizedType,
+    pX: number,
+    pYTo: number,
+    pDouble: boolean,
+    pY: number,
+    pLineColor?: string,
+) {
     // globals: (gChart ->) arcRowHeight, (entities ->) interEntitySpacing
 
     const lHeight = 2 * (gChart.arcRowHeight / 5);
@@ -658,17 +743,10 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
 
     if (pDouble) {
         lRetval = svgelementfactory.createGroup();
-        // const lInnerTurn  = svgelementfactory.createUTurnold(
-        //     {x: pFrom, y: pY},
-        //     (pY + pYTo + lHeight - 2 * constants.LINE_WIDTH), // pEndY
-        //     lWidth - 2 * constants.LINE_WIDTH, // pWidth
-        //     lClass, // pClass
-        //     pKind !== "::", // pDontHitHome
-        //     lHeight, // pHeight
-        // );
+
         const lInnerTurn = svgelementfactory.createUTurn(
             {
-                x: pFrom,
+                x: pX,
                 y: pY,
                 width: lWidth - 2 * constants.LINE_WIDTH,
                 height: lHeight,
@@ -684,7 +762,7 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
         /* we need a middle turn to attach the arrow to */
         const lMiddleTurn = svgelementfactory.createUTurn(
             {
-                x: pFrom,
+                x: pX,
                 y: pY,
                 width: lWidth,
                 height: lHeight,
@@ -694,7 +772,7 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
         );
         const lOuterTurn = svgelementfactory.createUTurn(
             {
-                x: pFrom,
+                x: pX,
                 y: pY,
                 width: lWidth,
                 height: lHeight,
@@ -706,10 +784,10 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
                 lineWidth: constants.LINE_WIDTH,
             },
         );
-        if (Boolean(pLineColor)) {
+        if (!!pLineColor) {
             lInnerTurn.setAttribute("style", `stroke:${pLineColor}`);
         }
-        markermanager.getAttributes(idmanager.get(), pKind, pLineColor, pFrom, pFrom).forEach((pAttribute: any) => {
+        markermanager.getAttributes(idmanager.get(), pKind, pLineColor, pX, pX).forEach((pAttribute: any) => {
             lMiddleTurn.setAttribute(pAttribute.name, pAttribute.value);
         });
         lMiddleTurn.setAttribute("style", "stroke:transparent;");
@@ -723,7 +801,7 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
     } else {
         lRetval = svgelementfactory.createUTurn(
             {
-                x: pFrom,
+                x: pX,
                 y: pY,
                 width: lWidth,
                 height: lHeight,
@@ -735,7 +813,7 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
                 lineWidth: constants.LINE_WIDTH,
             },
         );
-        markermanager.getAttributes(idmanager.get(), pKind, pLineColor, pFrom, pFrom).forEach(
+        markermanager.getAttributes(idmanager.get(), pKind, pLineColor, pX, pX).forEach(
             (pAttribute: any) => {
                 lRetval.setAttribute(pAttribute.name, pAttribute.value);
             },
@@ -745,7 +823,7 @@ function createSelfRefArc(pKind, pFrom, pYTo, pDouble, pLineColor, pY) {
     return lRetval;
 }
 
-function renderEmptyArc(pArc, pY) {
+function renderEmptyArc(pArc: IFlatArc, pY: number) {
     if (pArc.kind === "---") {
         return createComment(pArc, entities.getOAndD(pArc.from, pArc.to), pY);
     } else { /* "..." / "|||" */
@@ -753,10 +831,10 @@ function renderEmptyArc(pArc, pY) {
     }
 }
 
-function determineYToAbsolute(pRowNumber, pArcSkip, pArcGradient) {
+function determineYToAbsolute(pRowNumber: number, pArcGradient: number, pArcSkip?: number): number {
     let lRetval = rowmemory.get(pRowNumber).y + pArcGradient;
 
-    if (Boolean(pArcSkip)) {
+    if (!!pArcSkip) {
         const lWholeArcSkip = Math.floor(pArcSkip);
         const lRestArcSkip = pArcSkip - lWholeArcSkip;
         const lCurrentRealRowNumber = rowmemory.get(pRowNumber).realRowNumber;
@@ -771,7 +849,7 @@ function determineYToAbsolute(pRowNumber, pArcSkip, pArcGradient) {
     return lRetval;
 }
 
-function determineDirectionClass(pArcKind) {
+function determineDirectionClass(pArcKind: mscgenjsast.ArcKindNormalizedType): string {
     if (pArcKind === "<:>") {
         return "bidi ";
     } else if (pArcKind === "::") {
@@ -780,25 +858,31 @@ function determineDirectionClass(pArcKind) {
     return "";
 }
 
-function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
+function createArc(
+    pArc: IFlatArc,
+    pXFrom: number,
+    pXTo: number,
+    pRowNumber: number,
+    pOptions: mscgenjsast.IOptionsNormalized,
+) {
     const lGroup = svgelementfactory.createGroup();
     let lClass = "arc ";
     lClass += determineDirectionClass(pArc.kind);
     lClass += `${kind2class.getAggregateClass(pArc.kind)} ${kind2class.getClass(pArc.kind)}`;
     const lDoubleLine = [":>", "::", "<:>"].includes(pArc.kind);
-    const lYToAbsolute = determineYToAbsolute(pRowNumber, pArc.arcskip, gChart.arcGradient);
+    const lYToAbsolute = determineYToAbsolute(pRowNumber, gChart.arcGradient, pArc.arcskip);
 
-    pTo = renderutensils.determineArcXTo(pArc.kind, pFrom, pTo);
+    pXTo = renderutensils.determineArcXTo(pArc.kind, pXFrom, pXTo);
 
-    if (pFrom === pTo) {
+    if (pXFrom === pXTo) {
         lGroup.appendChild(
             createSelfRefArc(
                 pArc.kind,
-                pFrom,
+                pXFrom,
                 lYToAbsolute - rowmemory.get(pRowNumber).y - gChart.arcGradient,
                 lDoubleLine,
-                pArc.linecolor,
                 rowmemory.get(pRowNumber).y,
+                pArc.linecolor,
             ),
         );
 
@@ -808,7 +892,7 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
             renderlabels.createLabel(
                 pArc,
                 {
-                    x: pFrom + 1.5 * constants.LINE_WIDTH - (lTextWidth / 2),
+                    x: pXFrom + 1.5 * constants.LINE_WIDTH - (lTextWidth / 2),
                     y: rowmemory.get(pRowNumber).y - (gChart.arcRowHeight / 5) - constants.LINE_WIDTH / 2,
                     width: lTextWidth,
                 },
@@ -825,9 +909,9 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
     } else {
         const lLine = svgelementfactory.createLine(
             {
-                xFrom: pFrom,
+                xFrom: pXFrom,
                 yFrom: rowmemory.get(pRowNumber).y,
-                xTo: pTo,
+                xTo: pXTo,
                 yTo: lYToAbsolute,
             },
             {
@@ -836,7 +920,7 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
             },
         );
         markermanager.getAttributes(
-            idmanager.get(), pArc.kind, pArc.linecolor, pFrom, pTo,
+            idmanager.get(), pArc.kind, pArc.linecolor, pXFrom, pXTo,
         ).forEach((pAttribute: any) => {
             lLine.setAttribute(pAttribute.name, pAttribute.value);
         });
@@ -847,9 +931,9 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
             renderlabels.createLabel(
                 pArc,
                 {
-                    x: pFrom,
+                    x: pXFrom,
                     y: rowmemory.get(pRowNumber).y + ((lYToAbsolute - rowmemory.get(pRowNumber).y) / 2),
-                    width: pTo - pFrom,
+                    width: pXTo - pXFrom,
                 },
                 Object.assign(
                     {
@@ -874,7 +958,7 @@ function createArc(pArc, pFrom, pTo, pRowNumber, pOptions) {
  * @param <string> - pId - unique identification of the text in the svg
  * @param <object> - pArc - the arc to render
  */
-function createLifeLinesText(pArc, pOAndD, pY) {
+function createLifeLinesText(pArc: IFlatArc, pOAndD, pY: number) {
     let lArcStart = 0;
     let lArcEnd   = gChart.arcEndX;
 
@@ -895,7 +979,7 @@ function createLifeLinesText(pArc, pOAndD, pY) {
  * @param <string> - pId - the unique identification of the comment within the svg
  * @param <object> - pArc - the (comment) arc to render
  */
-function createComment(pArc, pOAndD, pY) {
+function createComment(pArc: IFlatArc, pOAndD, pY: number) {
     let lStartX = 0;
     let lEndX = gChart.arcEndX;
     let lClass = "comment";
@@ -938,7 +1022,7 @@ function createComment(pArc, pOAndD, pY) {
     return lGroup;
 }
 
-function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
+function createInlineExpressionBox(pOAndD, pArc: IFlatArc, pHeight: number, pY: number) {
     /* begin: same as createBox */
     const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
     const lWidth =
@@ -964,7 +1048,6 @@ function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
             color: pArc.linecolor,
             bgColor: pArc.textbgcolor,
         },
-
     );
 }
 
@@ -980,7 +1063,7 @@ function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
  * takes the bounding box of the (rendered) label of the arc, taking care not
  * to get smaller than the default arc row height
  */
-function createBox(pOAndD, pArc, pY, pOptions) {
+function createBox(pOAndD, pArc: IFlatArc, pY: number, pOptions: mscgenjsast.IOptionsNormalized) {
     /* begin: same as createInlineExpressionBox */
     const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
     const lWidth =
@@ -1062,7 +1145,7 @@ export default {
      * @param - {window} pWindow - the browser window object
      *
      */
-    clean(pParentElementId, pWindow) {
+    clean(pParentElementId: string, pWindow: Window) {
         gChart.document = renderskeleton.init(pWindow);
         svgutensils.init(gChart.document);
         svgutensils.removeRenderedSVGFromElement(pParentElementId);

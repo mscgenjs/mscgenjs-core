@@ -39,6 +39,7 @@ function sizeEntityBoxToLabel(pLabel, pBBox: geotypes.IBBox) {
         svgutensils.getBBox(pLabel).width + (4 * constants.LINE_WIDTH),
         (gEntityDims.interEntitySpacing / 3) + pBBox.width,
     );
+    /* istanbul ignore if */
     if (lLabelWidth >= pBBox.width) {
         pBBox.x -= (lLabelWidth - pBBox.width) / 2;
         pBBox.width = lLabelWidth;
@@ -46,7 +47,7 @@ function sizeEntityBoxToLabel(pLabel, pBBox: geotypes.IBBox) {
     return pBBox;
 }
 
-function renderEntity(pEntity, pX, pY, pOptions: mscgenjsast.IOptionsNormalized): SVGGElement {
+function renderEntity(pEntity, pX: number, pY: number, pOptions: mscgenjsast.IOptionsNormalized): SVGGElement {
     const lGroup = svgelementfactory.createGroup();
     const lBBox: geotypes.IBBox = {
         x: pX || 0,

@@ -57,7 +57,7 @@ function setupDefs(pElementId, pMarkerDefs, pOptions) {
     return lDefs;
 }
 
-function setupBody(pElementId) {
+function setupBody(pElementId: string): SVGGElement {
     const lBody = svgelementfactory.createGroup(`${pElementId}_body`);
 
     lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_background`));
@@ -69,7 +69,7 @@ function setupBody(pElementId) {
     return lBody;
 }
 
-function _init(pWindow) {
+function _init(pWindow: Window): Document {
     svgelementfactory.init(
         pWindow.document,
         {
@@ -81,7 +81,7 @@ function _init(pWindow) {
     return pWindow.document;
 }
 
-function _bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
+function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
 
     gDocument = _init(pWindow);
 
@@ -153,7 +153,7 @@ export default {
      *        additionalTemplate - string identifying a named style
      *
      */
-    bootstrap : _bootstrap,
+    bootstrap,
 
     /**
      * Initializes the document to the document associated with the

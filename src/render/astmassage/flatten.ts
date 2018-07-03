@@ -12,7 +12,11 @@ import aggregatekind from "./aggregatekind";
 import normalizekind from "./normalizekind";
 import normalizeoptions from "./normalizeoptions";
 
-interface IFlatArc {
+export interface IEntityNormalized extends mscgenjsast.IEntity {
+    label: string;
+}
+
+export interface IFlatArc {
     kind: mscgenjsast.ArcKindNormalizedType;
     from?: string;
     to?: string;
@@ -38,9 +42,9 @@ interface IFlatArc {
     numberofrows?: number; // for inline expression arcs => maybe father a child for this
 }
 
-interface IFlatSequenceChart {
-    options?: mscgenjsast.IOptionsNormalized;
-    entities: mscgenjsast.IEntityNormalized[];
+export interface IFlatSequenceChart {
+    options: mscgenjsast.IOptionsNormalized;
+    entities: IEntityNormalized[];
     arcs: IFlatArc[][];
     depth: number;
 }
@@ -107,7 +111,7 @@ function calcNumberOfRows(pInlineExpression): number {
     );
 }
 
-function unwindArcRow(pArcRow: mscgenjsast.IArc[]|any, pDepth: number, pFrom?: string, pTo?: string) {
+function unwindArcRow(pArcRow: mscgenjsast.IArc[]|any, pDepth: number, pFrom?: string, pTo?: string): any {
     const lRetval: any[] = [];
     const lFlatArcRow: IFlatArc[] = [];
     let lUnWoundSubArcs: Array<Array<IFlatArc|any>> = [];
@@ -166,24 +170,24 @@ function unwindArcRow(pArcRow: mscgenjsast.IArc[]|any, pDepth: number, pFrom?: s
     return lRetval.concat(lUnWoundSubArcs);
 }
 
-function unwind(pAST: mscgenjsast.ISequenceChart): IFlatSequenceChart {
-    const lAST: any = {};
-    gMaxDepth = 0;
-
-    if (Boolean(pAST.options)) {
-        lAST.options = _cloneDeep(pAST.options);
-    }
-    lAST.entities = _cloneDeep(pAST.entities);
-    lAST.arcs = [];
-
-    if (pAST.arcs) {
-        lAST.arcs = pAST.arcs.reduce(
-            (pAll, pArcRow) => pAll.concat(unwindArcRow(pArcRow, 0))
+function unwind(pArcRows?: mscgenjsast.IArc[][]): IFlatArc[][] {
+    if (pArcRows) {
+        return pArcRows.reduce(
+            (pAll: IFlatArc[][], pArcRow: mscgenjsast.IArc[]) => pAll.concat(unwindArcRow(pArcRow, 0))
             , [],
         );
     }
-    lAST.depth = gMaxDepth + 1;
-    return lAST;
+    return [];
+}
+
+function normalize(pAST: mscgenjsast.ISequenceChart): IFlatSequenceChart {
+    gMaxDepth = 0;
+    return {
+        options: normalizeoptions(pAST.options),
+        entities: _cloneDeep(pAST.entities),
+        arcs: unwind(pAST.arcs),
+        depth: gMaxDepth + 1,
+    };
 }
 
 export default {
@@ -203,7 +207,7 @@ export default {
      * Flattens any recursion in the arcs of the given abstract syntax tree to make it
      * more easy to render.
      */
-    unwind,
+    normalize,
     overrideColors,
     /**
      * Simplifies an AST:
@@ -216,8 +220,7 @@ export default {
      *    - distributes arc*color from the entities to the affected arcs
      */
     flatten(pAST: mscgenjsast.ISequenceChart): IFlatSequenceChart {
-        pAST.options = normalizeoptions(pAST.options);
-        return unwind(
+        return normalize(
             asttransform(
                 pAST,
                 [nameAsLabel, unescapeLabels],
