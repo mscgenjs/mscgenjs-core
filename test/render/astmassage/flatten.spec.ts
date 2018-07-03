@@ -38,34 +38,4 @@ describe("render/astmassage/flatten", () => {
             },
         );
     });
-
-    describe("explodeBroadcasts", () => {
-        test("leave asts without broadcasts alone", () => {
-            expect(
-                flatten.explodeBroadcasts(fix.astAltWithinLoop),
-            ).toEqual(fix.astAltWithinLoop);
-        });
-        test("explode b->* to parallel calls to all other entities", () => {
-            expect(
-                flatten.explodeBroadcasts(fix.astSimpleBroadcast),
-            ).toEqual(fix.astSimpleBroadcastExploded);
-        });
-        test(
-            "explode a little more complex broadcast ast to parallel calls to all other entities",
-            () => {
-                expect(
-                    flatten.explodeBroadcasts(fix.astComplexerBroadcast),
-                ).toEqual(fix.astComplexerBroadcastExploded);
-            },
-        );
-        test(
-            "correctly explode a broadcast that has other arcs in the same arc row",
-            () => {
-                expect(
-                    flatten.explodeBroadcasts(fix.astSameArcRowBroadcast),
-                ).toEqual(fix.astSameArcRowBroadcastExploded);
-            },
-        );
-    });
-
 });

@@ -54,7 +54,7 @@ export default (
     pAST: ISequenceChart,
     pEntityTransforms: EntityTransformFunctionType[],
     pArcRowTransforms: ArcTransformFunctionType[],
-) => {
+): any => {
     transformEntities(pAST.entities, pEntityTransforms);
     if (pAST.arcs) {
         transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);

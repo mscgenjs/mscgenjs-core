@@ -187,13 +187,53 @@ function renderArcLines(pArcLines: IArc[][], pIndent: string): string {
         );
 }
 
+function explodeBroadcastArc(pEntities: IEntity[], pArc: IArc): IArc[] {
+    return pEntities
+        .filter((pEntity) => pArc.from !== pEntity.name)
+        .map(
+            (pEntity) => {
+                pArc.to = pEntity.name;
+                return _cloneDeep(pArc);
+        });
+}
+/**
+ * expands "broadcast" arcs to its individual counterparts
+ * Example in mscgen:
+ *     a -> *;
+ * output:
+ *     a -> b, a -> c, a -> d;
+ */
+function explodeBroadcasts(pAST) {
+    if (pAST.arcs) {
+        pAST.arcs.forEach((pArcRow, pArcRowIndex) => {
+            pArcRow
+                // this assumes swap has been done already
+                // and "*" is in no 'from'  anymore
+                .filter((pArc) => pArc.to === "*")
+                .forEach((pArc: IArc, pArcIndex: number) => {
+                   /* save a clone of the broadcast arc attributes
+                    * and remove the original bc arc
+                    */
+                    const lOriginalBroadcastArc = _cloneDeep(pArc);
+
+                    delete pAST.arcs[pArcRowIndex][pArcIndex];
+                    const lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
+
+                    pArcRow[pArcIndex] = lExplodedArcsAry.shift();
+                    pAST.arcs[pArcRowIndex] = pArcRow.concat(lExplodedArcsAry);
+                });
+        });
+    }
+    return pAST;
+}
+
 /**
  * - Gives each entity a label
  * - Sets arc kinds from left to right where applicable
  * - pre-calculates colors from regular colors and arc*-colors
  */
 function flattenMe(pAST: ISequenceChart): ISequenceChart {
-    return flatten.explodeBroadcasts(
+    return explodeBroadcasts(
         asttransform(
             pAST,
             [flatten.nameAsLabel],
@@ -203,6 +243,7 @@ function flattenMe(pAST: ISequenceChart): ISequenceChart {
 }
 
 export default {
+    explodeBroadcasts,
     render(pAST: ISequenceChart): string {
         return render(flattenMe(_cloneDeep(pAST)));
     },

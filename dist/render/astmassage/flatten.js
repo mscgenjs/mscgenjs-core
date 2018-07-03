@@ -65,17 +65,17 @@ function calcNumberOfRows(pInlineExpression) {
 }
 function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
     const lRetval = [];
-    const lArcRowToPush = [];
+    const lFlatArcRow = [];
     let lUnWoundSubArcs = [];
     pArcRow.forEach((pArc) => {
         if ("inline_expression" === aggregatekind_1.default(pArc.kind)) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;
-            if (Boolean(pArc.arcs)) {
+            if (!!pArc.arcs) {
                 const lInlineExpression = lodash_clonedeep_1.default(pArc);
                 lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
                 delete lInlineExpression.arcs;
-                lArcRowToPush.push(lInlineExpression);
+                lFlatArcRow.push(lInlineExpression);
                 pArc.arcs.forEach((pSubArcRow) => {
                     lUnWoundSubArcs = lUnWoundSubArcs.concat(unwindArcRow(pSubArcRow, pDepth + 1, lInlineExpression.from, lInlineExpression.to));
                     pSubArcRow.forEach((pSubArc) => {
@@ -87,12 +87,14 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
                 }
             }
             else {
-                lArcRowToPush.push(pArc);
+                lFlatArcRow.push(pArc);
             }
             lUnWoundSubArcs.push([{
                     kind: "|||",
                     from: pArc.from,
                     to: pArc.to,
+                    // label: "",
+                    // depth: pDepth,
                     isVirtual: true,
                 }]);
         }
@@ -102,10 +104,10 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
                 pArc.to = pTo;
                 pArc.depth = pDepth;
             }
-            lArcRowToPush.push(pArc);
+            lFlatArcRow.push(pArc);
         }
     });
-    lRetval.push(lArcRowToPush);
+    lRetval.push(lFlatArcRow);
     return lRetval.concat(lUnWoundSubArcs);
 }
 function unwind(pAST) {
@@ -117,45 +119,10 @@ function unwind(pAST) {
     lAST.entities = lodash_clonedeep_1.default(pAST.entities);
     lAST.arcs = [];
     if (pAST.arcs) {
-        pAST.arcs
-            .forEach((pArcRow) => {
-            unwindArcRow(pArcRow, 0)
-                .forEach((pUnwoundArcRow) => {
-                lAST.arcs.push(pUnwoundArcRow);
-            });
-        });
+        lAST.arcs = pAST.arcs.reduce((pAll, pArcRow) => pAll.concat(unwindArcRow(pArcRow, 0)), []);
     }
     lAST.depth = gMaxDepth + 1;
     return lAST;
-}
-function explodeBroadcastArc(pEntities, pArc) {
-    return pEntities
-        .filter((pEntity) => pArc.from !== pEntity.name)
-        .map((pEntity) => {
-        pArc.to = pEntity.name;
-        return lodash_clonedeep_1.default(pArc);
-    });
-}
-function explodeBroadcasts(pAST) {
-    if (pAST.arcs) {
-        pAST.arcs.forEach((pArcRow, pArcRowIndex) => {
-            pArcRow
-                // this assumes swap has been done already
-                // and "*" is in no 'from'  anymore
-                .filter((pArc) => pArc.to === "*")
-                .forEach((pArc, pArcIndex) => {
-                /* save a clone of the broadcast arc attributes
-                 * and remove the original bc arc
-                 */
-                const lOriginalBroadcastArc = lodash_clonedeep_1.default(pArc);
-                delete pAST.arcs[pArcRowIndex][pArcIndex];
-                const lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
-                pArcRow[pArcIndex] = lExplodedArcsAry.shift();
-                pAST.arcs[pArcRowIndex] = pArcRow.concat(lExplodedArcsAry);
-            });
-        });
-    }
-    return pAST;
 }
 exports.default = {
     /**
@@ -175,14 +142,6 @@ exports.default = {
      * more easy to render.
      */
     unwind,
-    /**
-     * expands "broadcast" arcs to its individual counterparts
-     * Example in mscgen:
-     *     a -> *;
-     * output:
-     *     a -> b, a -> c, a -> d;
-     */
-    explodeBroadcasts,
     overrideColors,
     /**
      * Simplifies an AST:
@@ -196,7 +155,7 @@ exports.default = {
      */
     flatten(pAST) {
         pAST.options = normalizeoptions_1.default(pAST.options);
-        return asttransform_1.default(unwind(pAST), [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]);
+        return unwind(asttransform_1.default(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
     },
 };
 /*

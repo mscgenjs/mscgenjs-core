@@ -12,6 +12,39 @@ import aggregatekind from "./aggregatekind";
 import normalizekind from "./normalizekind";
 import normalizeoptions from "./normalizeoptions";
 
+interface IFlatArc {
+    kind: mscgenjsast.ArcKindNormalizedType;
+    from?: string;
+    to?: string;
+    // nested arcs explicityly removed during flattening
+    // arcs?: IArc[][];
+    label: string;
+    id?: string;
+    idurl?: string;
+    url?: string;
+    linecolor?: string;
+    textcolor?: string;
+    textbgcolor?: string;
+    // arc*color might be there but should be ignored as they have
+    // no meaning for arcs:
+    // arclinecolor?: string;
+    // arctextcolor?: string;
+    // arctextbgcolor?: string;
+    arcskip?: number;
+    title?: string;
+
+    depth: number;
+    isVirtual?: boolean;
+    numberofrows?: number; // for inline expression arcs => maybe father a child for this
+}
+
+interface IFlatSequenceChart {
+    options?: mscgenjsast.IOptionsNormalized;
+    entities: mscgenjsast.IEntityNormalized[];
+    arcs: IFlatArc[][];
+    depth: number;
+}
+
 let gMaxDepth = 0;
 
 function nameAsLabel(pEntity: mscgenjsast.IEntity) {
@@ -74,21 +107,21 @@ function calcNumberOfRows(pInlineExpression): number {
     );
 }
 
-function unwindArcRow(pArcRow, pDepth: number, pFrom?: string, pTo?: string) {
+function unwindArcRow(pArcRow: mscgenjsast.IArc[]|any, pDepth: number, pFrom?: string, pTo?: string) {
     const lRetval: any[] = [];
-    const lArcRowToPush: any[] = [];
-    let lUnWoundSubArcs: any[] = [];
+    const lFlatArcRow: IFlatArc[] = [];
+    let lUnWoundSubArcs: Array<Array<IFlatArc|any>> = [];
 
     pArcRow.forEach(
-        (pArc) => {
+        (pArc: mscgenjsast.IArc|any) => {
             if ("inline_expression" === aggregatekind(pArc.kind)) {
                 pArc.depth = pDepth;
                 pArc.isVirtual = true;
-                if (Boolean(pArc.arcs)) {
+                if (!!pArc.arcs) {
                     const lInlineExpression = _cloneDeep(pArc);
                     lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
                     delete lInlineExpression.arcs;
-                    lArcRowToPush.push(lInlineExpression);
+                    lFlatArcRow.push(lInlineExpression);
 
                     pArc.arcs.forEach(
                         (pSubArcRow) => {
@@ -109,12 +142,14 @@ function unwindArcRow(pArcRow, pDepth: number, pFrom?: string, pTo?: string) {
                         gMaxDepth = pDepth;
                     }
                 } else {
-                    lArcRowToPush.push(pArc);
+                    lFlatArcRow.push(pArc);
                 }
                 lUnWoundSubArcs.push([{
                     kind : "|||",
                     from : pArc.from,
                     to : pArc.to,
+                    // label: "",
+                    // depth: pDepth,
                     isVirtual : true,
                 }]);
             } else {
@@ -123,15 +158,15 @@ function unwindArcRow(pArcRow, pDepth: number, pFrom?: string, pTo?: string) {
                     pArc.to = pTo;
                     pArc.depth = pDepth;
                 }
-                lArcRowToPush.push(pArc);
+                lFlatArcRow.push(pArc);
             }
         },
     );
-    lRetval.push(lArcRowToPush);
+    lRetval.push(lFlatArcRow);
     return lRetval.concat(lUnWoundSubArcs);
 }
 
-function unwind(pAST: mscgenjsast.ISequenceChart): any {
+function unwind(pAST: mscgenjsast.ISequenceChart): IFlatSequenceChart {
     const lAST: any = {};
     gMaxDepth = 0;
 
@@ -142,50 +177,13 @@ function unwind(pAST: mscgenjsast.ISequenceChart): any {
     lAST.arcs = [];
 
     if (pAST.arcs) {
-        pAST.arcs
-            .forEach((pArcRow) => {
-                unwindArcRow(pArcRow, 0)
-                    .forEach((pUnwoundArcRow) => {
-                        lAST.arcs.push(pUnwoundArcRow);
-                    });
-            });
+        lAST.arcs = pAST.arcs.reduce(
+            (pAll, pArcRow) => pAll.concat(unwindArcRow(pArcRow, 0))
+            , [],
+        );
     }
     lAST.depth = gMaxDepth + 1;
     return lAST;
-}
-
-function explodeBroadcastArc(pEntities: mscgenjsast.IEntity[], pArc: mscgenjsast.IArc): mscgenjsast.IArc[] {
-    return pEntities
-        .filter((pEntity) => pArc.from !== pEntity.name)
-        .map(
-            (pEntity) => {
-                pArc.to = pEntity.name;
-                return _cloneDeep(pArc);
-        });
-}
-
-function explodeBroadcasts(pAST) {
-    if (pAST.arcs) {
-        pAST.arcs.forEach((pArcRow, pArcRowIndex) => {
-            pArcRow
-                // this assumes swap has been done already
-                // and "*" is in no 'from'  anymore
-                .filter((pArc) => pArc.to === "*")
-                .forEach((pArc: mscgenjsast.IArc, pArcIndex: number) => {
-                   /* save a clone of the broadcast arc attributes
-                    * and remove the original bc arc
-                    */
-                    const lOriginalBroadcastArc = _cloneDeep(pArc);
-
-                    delete pAST.arcs[pArcRowIndex][pArcIndex];
-                    const lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
-
-                    pArcRow[pArcIndex] = lExplodedArcsAry.shift();
-                    pAST.arcs[pArcRowIndex] = pArcRow.concat(lExplodedArcsAry);
-                });
-        });
-    }
-    return pAST;
 }
 
 export default {
@@ -206,14 +204,6 @@ export default {
      * more easy to render.
      */
     unwind,
-    /**
-     * expands "broadcast" arcs to its individual counterparts
-     * Example in mscgen:
-     *     a -> *;
-     * output:
-     *     a -> b, a -> c, a -> d;
-     */
-    explodeBroadcasts,
     overrideColors,
     /**
      * Simplifies an AST:
@@ -225,12 +215,14 @@ export default {
      *      in this module)
      *    - distributes arc*color from the entities to the affected arcs
      */
-    flatten(pAST: mscgenjsast.ISequenceChart): any {
+    flatten(pAST: mscgenjsast.ISequenceChart): IFlatSequenceChart {
         pAST.options = normalizeoptions(pAST.options);
-        return asttransform(
-            unwind(pAST),
-            [nameAsLabel, unescapeLabels],
-            [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel],
+        return unwind(
+            asttransform(
+                pAST,
+                [nameAsLabel, unescapeLabels],
+                [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel],
+            ),
         );
     },
 };

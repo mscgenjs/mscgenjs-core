@@ -158,15 +158,52 @@ function renderArcLines(pArcLines, pIndent) {
         .reduce((pPrevArcLine, pNextArcLine) => pPrevArcLine + pNextArcLine
         .reduce((pPrevArc, pNextArc) => pPrevArc + renderArc(pNextArc, pIndent), ""), "");
 }
+function explodeBroadcastArc(pEntities, pArc) {
+    return pEntities
+        .filter((pEntity) => pArc.from !== pEntity.name)
+        .map((pEntity) => {
+        pArc.to = pEntity.name;
+        return lodash_clonedeep_1.default(pArc);
+    });
+}
+/**
+ * expands "broadcast" arcs to its individual counterparts
+ * Example in mscgen:
+ *     a -> *;
+ * output:
+ *     a -> b, a -> c, a -> d;
+ */
+function explodeBroadcasts(pAST) {
+    if (pAST.arcs) {
+        pAST.arcs.forEach((pArcRow, pArcRowIndex) => {
+            pArcRow
+                // this assumes swap has been done already
+                // and "*" is in no 'from'  anymore
+                .filter((pArc) => pArc.to === "*")
+                .forEach((pArc, pArcIndex) => {
+                /* save a clone of the broadcast arc attributes
+                 * and remove the original bc arc
+                 */
+                const lOriginalBroadcastArc = lodash_clonedeep_1.default(pArc);
+                delete pAST.arcs[pArcRowIndex][pArcIndex];
+                const lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
+                pArcRow[pArcIndex] = lExplodedArcsAry.shift();
+                pAST.arcs[pArcRowIndex] = pArcRow.concat(lExplodedArcsAry);
+            });
+        });
+    }
+    return pAST;
+}
 /**
  * - Gives each entity a label
  * - Sets arc kinds from left to right where applicable
  * - pre-calculates colors from regular colors and arc*-colors
  */
 function flattenMe(pAST) {
-    return flatten_1.default.explodeBroadcasts(asttransform_1.default(pAST, [flatten_1.default.nameAsLabel], [flatten_1.default.swapRTLArc, flatten_1.default.overrideColors]));
+    return explodeBroadcasts(asttransform_1.default(pAST, [flatten_1.default.nameAsLabel], [flatten_1.default.swapRTLArc, flatten_1.default.overrideColors]));
 }
 exports.default = {
+    explodeBroadcasts,
     render(pAST) {
         return render(flattenMe(lodash_clonedeep_1.default(pAST)));
     },
