@@ -15,6 +15,7 @@ function get(pRowNumber) {
         return {
             y: (gDefaultEntityHeight + (1.5 * gDefaultArcRowHeight)) + pRowNumber * gDefaultArcRowHeight,
             height: gDefaultArcRowHeight,
+            realRowNumber: gRowInfoArray.length - 1,
         };
     }
 }
@@ -62,7 +63,7 @@ exports.default = {
      * @param <int> pRowNumber
      * @param <int> pHeight
      */
-    set(pRowNumber, pHeight, pRealRowNumber) {
+    set(pRowNumber, pHeight, pRealRowNumber = -1) {
         const lPreviousRowInfo = get(pRowNumber - 1);
         gRowInfoArray[pRowNumber] = {
             y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,

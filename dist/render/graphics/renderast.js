@@ -344,10 +344,7 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
 function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
     let lRealRowNumber = 0;
     pArcRows.forEach((pArcRow, pRowNumber) => {
-        function isVirtualArc(pArc) {
-            return pArc.isVirtual;
-        }
-        if (pArcRow.every(isVirtualArc)) {
+        if (pArcRow.every((pArc) => pArc.isVirtual)) {
             rowmemory_1.default.set(pRowNumber, Math.max(rowmemory_1.default.get(pRowNumber).height, getArcRowHeight(pArcRow, pEntities, pOptions)));
         }
         else {

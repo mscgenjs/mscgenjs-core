@@ -536,11 +536,7 @@ function precalculateArcRowHeights(
     let lRealRowNumber = 0;
 
     pArcRows.forEach((pArcRow, pRowNumber) => {
-        function isVirtualArc(pArc) {
-            return pArc.isVirtual;
-        }
-
-        if (pArcRow.every(isVirtualArc)) {
+        if (pArcRow.every((pArc) => pArc.isVirtual)) {
             rowmemory.set(
                 pRowNumber,
                 Math.max(

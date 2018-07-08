@@ -68,6 +68,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
     const lFlatArcRow = [];
     let lUnWoundSubArcs = [];
     pArcRow.forEach((pArc) => {
+        pArc.isVirtual = false;
         if ("inline_expression" === aggregatekind_1.default(pArc.kind)) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;

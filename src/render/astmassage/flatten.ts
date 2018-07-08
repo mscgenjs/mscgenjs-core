@@ -38,7 +38,7 @@ export interface IFlatArc {
     title?: string;
 
     depth: number;
-    isVirtual?: boolean;
+    isVirtual: boolean;
     numberofrows?: number; // for inline expression arcs => maybe father a child for this
 }
 
@@ -118,6 +118,7 @@ function unwindArcRow(pArcRow: mscgenjsast.IArc[]|any, pDepth: number, pFrom?: s
 
     pArcRow.forEach(
         (pArc: mscgenjsast.IArc|any) => {
+            pArc.isVirtual = false;
             if ("inline_expression" === aggregatekind(pArc.kind)) {
                 pArc.depth = pDepth;
                 pArc.isVirtual = true;

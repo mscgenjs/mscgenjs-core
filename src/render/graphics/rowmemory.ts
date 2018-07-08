@@ -2,22 +2,29 @@
  * Functions to help determine the correct height and
  * y position of rows befor rendering them.
  */
-let gRowInfoArray: any[] = [];
+let gRowInfoArray: IRowMemorySlot[] = [];
 let gDefaultEntityHeight = 0;
 let gDefaultArcRowHeight = 0;
 
-function get(pRowNumber) {
+export interface IRowMemorySlot {
+    y: number;
+    height: number;
+    realRowNumber: number;
+}
+
+function get(pRowNumber: number): IRowMemorySlot {
     if (gRowInfoArray[pRowNumber]) {
         return gRowInfoArray[pRowNumber];
     } else {
         return {
             y : (gDefaultEntityHeight + (1.5 * gDefaultArcRowHeight)) + pRowNumber * gDefaultArcRowHeight,
             height : gDefaultArcRowHeight,
+            realRowNumber: gRowInfoArray.length - 1,
         };
     }
 }
 
-function getLast() {
+function getLast(): IRowMemorySlot {
     return get(gRowInfoArray.length - 1);
 }
 
@@ -26,7 +33,7 @@ export default {
     /**
      * clearRowInfo() - resets the helper array to an empty one
      */
-    clear(pEntityHeight, pArcRowHeight) {
+    clear(pEntityHeight: number, pArcRowHeight: number): void {
         gRowInfoArray = [];
         gDefaultEntityHeight = pEntityHeight;
         gDefaultArcRowHeight = pArcRowHeight;
@@ -49,7 +56,7 @@ export default {
      *
      * @param <int> pRealRowNumber
      */
-    getByRealRowNumber(pRealRowNumber) {
+    getByRealRowNumber(pRealRowNumber): IRowMemorySlot {
         let lRetval = gRowInfoArray.find((pRowInfo) => pRowInfo.realRowNumber === pRealRowNumber);
 
         if (typeof lRetval === "undefined") {
@@ -68,7 +75,7 @@ export default {
      * @param <int> pRowNumber
      * @param <int> pHeight
      */
-    set(pRowNumber, pHeight, pRealRowNumber?) {
+    set(pRowNumber: number, pHeight: number, pRealRowNumber: number = -1): void {
         const lPreviousRowInfo = get(pRowNumber - 1);
 
         gRowInfoArray[pRowNumber] = {
