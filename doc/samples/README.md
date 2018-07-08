@@ -1,6 +1,6 @@
 # A simple msgenny interpreter
-`mscgenjs` modules are written as AMD modules, but contain a module wrapper
-(courtesy of _amdefine_) which enables use both in AMD and CommonJS
+`mscgenjs` modules are written as typescript modules, which, after
+transpilation should enable use both in AMD and CommonJS
 environments
 
 ## A CommonJS example (using webpack)

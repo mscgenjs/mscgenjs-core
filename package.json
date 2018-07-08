@@ -1,40 +1,69 @@
 {
   "name": "mscgenjs",
-  "version": "2.0.0",
+  "version": "2.1.0-beta-0",
   "description": "Sequence chart rendering library",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "dependencies": {
-    "amdefine": "1.0.1",
-    "requirejs": "2.3.5"
+    "lodash.assign": "4.2.0",
+    "lodash.clonedeep": "4.5.0",
+    "lodash.flatten": "4.4.0",
+    "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "almond": "0.3.3",
+    "@types/node": "10.5.2",
     "chai": "4.1.2",
     "chai-xml": "0.3.2",
-    "dependency-cruiser": "4.0.0",
-    "eslint": "4.19.1",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-security": "1.4.0",
-    "jest": "23.0.0",
+    "dependency-cruiser": "4.1.1",
+    "jest": "23.3.0",
     "jest-json-schema": "2.0.0",
-    "js-makedepend": "3.0.0",
+    "js-makedepend": "3.0.1",
     "jsdom": "11.11.0",
-    "lodash-cli": "4.17.5",
-    "npm-check-updates": "2.14.2",
+    "npm-run-all": "4.1.3",
     "nsp": "3.2.1",
-    "pegjs": "0.10.0"
+    "pegjs": "0.10.0",
+    "requirejs": "2.3.5",
+    "shx": "0.3.1",
+    "ts-jest": "23.0.0",
+    "ts-loader": "4.4.2",
+    "tslint": "5.10.0",
+    "typescript": "2.9.2",
+    "upem": "1.0.0",
+    "webpack": "4.15.1",
+    "webpack-cli": "3.0.8"
   },
   "scripts": {
+    "build": "npm-run-all build:clean build:compile:pegjs build:csstemplates build:copy build:compile:typescript build:bundle",
+    "build:bundle": "webpack",
+    "build:clean": "npm-run-all --parallel build:clean:dist build:clean:parse build:clean:csstemplates",
+    "build:clean:csstemplates": "shx rm -f src/render/graphics/csstemplates.ts",
+    "build:clean:dist": "shx rm -rf dist/*",
+    "build:clean:parse": "shx rm -rf src/parse/*parser.js",
+    "build:csstemplates": "node utl/to-csstemplates-js.utility.js > src/render/graphics/csstemplates.ts",
+    "build:compile:typescript": "tsc --project src",
+    "build:compile:pegjs": "npm-run-all --parallel build:compile:pegjs:mscgen build:compile:pegjs:msgenny build:compile:pegjs:xu",
+    "build:compile:pegjs:mscgen": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/mscgenparser.js src/parse/peg/mscgenparser.pegjs",
+    "build:compile:pegjs:msgenny": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/msgennyparser.js src/parse/peg/msgennyparser.pegjs",
+    "build:compile:pegjs:xu": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/xuparser.js src/parse/peg/xuparser.pegjs",
+    "build:copy": "npm-run-all build:copy:mkdir build:copy:copy",
+    "build:copy:mkdir": "shx mkdir -p dist/parse",
+    "build:copy:copy": "shx cp src/parse/*.js* dist/parse",
+    "check": "npm-run-all depcruise lint test:all",
+    "check:ci": "npm-run-all depcruise lint test:all:ci",
+    "check:full": "npm-run-all --parallel depcruise lint nsp test:cover",
     "depcruise": "depcruise --validate -- src test",
-    "depcruise:graph": "depcruise --validate --do-not-follow \"node_modules|lib\" --output-type dot --module-systems cjs --exclude \"amdefine|lodash\" src | dot -T svg > tmp_deps.svg",
-    "lint": "eslint src test",
-    "lint:fix": "eslint --fix src test",
-    "lint:types": "tslint types/mscgen.d.ts",
+    "depcruise:graph": "depcruise --validate --do-not-follow \"node_modules|lib\" --module-systems es6,cjs --output-type dot src | dot -T svg > tmp_deps.svg",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project .",
     "npm-check-updates": "ncu --upgrade",
+    "npm-install": "npm install",
     "nsp": "nsp check",
     "test": "jest --onlyChanged --collectCoverage false",
     "test:all": "jest --collectCoverage false",
-    "test:cover": "jest"
+    "test:all:ci": "jest --collectCoverage false --runInBand # runInBand (=sequentially) so node 6 on travis doesn't hang",
+    "test:cover": "jest",
+    "update-dependencies": "npm-run-all update-dependencies:upem npm-install build lint:fix check:full",
+    "update-dependencies:upem": "npm outdated --json | upem",
+    "watch": "tsc --project src --watch"
   },
   "repository": {
     "type": "git",
@@ -50,6 +79,14 @@
     "msgenny"
   ],
   "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "test.*\\.spec\\.(ts|js)$",
     "collectCoverage": true,
     "coverageReporters": [
       "text-summary",
@@ -57,41 +94,42 @@
       "lcov"
     ],
     "collectCoverageFrom": [
-      "src/index.js",
-      "src/index-lazy.js",
-      "src/main/**/*.js",
-      "src/parse/**/*.js",
-      "src/render/**/*.js"
+      "src/index.ts",
+      "src/index-lazy.ts",
+      "src/main/**/*.ts",
+      "src/parse/**/*.ts",
+      "src/render/**/*.ts"
     ],
     "coveragePathIgnorePatterns": [
+      ".+\\.d\\.ts$",
       "src/render/graphics/styling",
-      "src/render/graphics/svgelementfactory/wobbly\\.js",
+      "src/render/graphics/svgelementfactory/wobbly",
       "src/parse/.+parser\\.js"
     ],
     "coverageThreshold": {
       "global": {
         "statements": 99.8,
-        "branches": 92.9,
+        "branches": 93.8,
         "functions": 100,
         "lines": 99.8
       },
       "src/main": {
         "statements": 100,
-        "branches": 93.9,
+        "branches": 97.3,
         "functions": 100,
         "lines": 100
       },
       "src/render": {
         "statements": 99.8,
-        "branches": 92.8,
+        "branches": 93.2,
         "functions": 100,
         "lines": 99.8
       },
       "src/parse": {
-        "statements": 83,
-        "branches": 74,
-        "functions": 91,
-        "lines": 87
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
       }
     }
   },

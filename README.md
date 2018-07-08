@@ -202,14 +202,12 @@ _not_ as part of non free software.
 ### Dependencies and their licenses
 We built mscgen_js on various libraries, each of which have their own
 license:
-- mscgen_js uses [requirejs][requirejs.license] and [amdefine][amdefine.license]
-  for modularization.
 - We generated its parsers with [pegjs][pegjs.license].
 - mscgen_js automated tests use [jest](https://facebook.github.io/jest),
   [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
   [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
 
-It uses [eslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
+It uses [tslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
 modicum of verifiable code quality. You can see the build history in
 [Travis][travis.mscgenjs].
 
@@ -233,7 +231,6 @@ modicum of verifiable code quality. You can see the build history in
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
-[amdefine.license]: doc/licenses/license.amdefine.md
 [atom]: https://atom.io
 [david.mscgenjs]: https://david-dm.org/mscgenjs/mscgenjs-core
 [david.mscgenjs.badge]: https://david-dm.org/mscgenjs/mscgenjs-core.svg
@@ -272,7 +269,7 @@ modicum of verifiable code quality. You can see the build history in
 [requirejs.license]: doc/licenses/license.requirejs.md
 [travis.mscgenjs]: https://travis-ci.org/mscgenjs/mscgenjs-core
 [travis.mscgenjs.badge]: https://travis-ci.org/mscgenjs/mscgenjs-core.svg?branch=master
-[22]: doc/licenses/license.eslint.md
+[22]: https://palantir.github.io/tslint/
 [23]: https://github.com/sverweij/dependency-cruiser
 [35]: https://nodesecurity.io/
 [39]: https://github.com/chaijs/chai

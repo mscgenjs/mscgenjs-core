@@ -1,7 +1,7 @@
 {
     "format": "umd",
     "dependencies": {
-        "_": "../lib/lodash/lodash.custom",
+        "_assign": "lodash.assign",
         "parserHelpers": "./parserHelpers"
     }
 }

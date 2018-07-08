@@ -1,4 +1,4 @@
-var mscgenjs = require('../../dist/webpack-issue-5316-workaround');
+var mscgenjs = require('../..');
 // var mscgenjs = require('../../src/');
 
 function render(){

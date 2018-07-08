@@ -4,27 +4,20 @@ checks:
     config:
       threshold: 30
 plugins:
-  eslint:
+  tslint:
     enabled: true
-    channel: "eslint-4"
-    config: 
-      config: .eslintrc.json
-    checks:
-      # due to eslint version differences the indent rules reported
-      # on codecov are different from those on latest
-      indent:
-        enabled: false  
+    config: tslint.json
 exclude_patterns:
   - ".github/"
   - "config/"
   - "dist/"
   - "doc/"
-  - "src/lib/"
   - "test/"
   - "types/"
   - "utl/"
   - "**/node_modules/"
   - "**/*.d.ts"
   - "src/parse/*parser.js"
-  - "src/render/**/*.template.js"
+  - "src/render/graphics/styling"
+  - "src/render/graphics/csstemplates.ts"
   - "webpack.config.js"
