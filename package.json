@@ -53,14 +53,13 @@
     "depcruise:graph": "depcruise --validate --do-not-follow \"node_modules|lib\" --module-systems es6,cjs --output-type dot src | dot -T svg > tmp_deps.svg",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
-    "npm-check-updates": "ncu --upgrade",
-    "npm-install": "npm install",
     "test": "jest --onlyChanged --collectCoverage false",
     "test:all": "jest --collectCoverage false",
     "test:all:ci": "jest --collectCoverage false --runInBand # runInBand (=sequentially) so node 6 on travis doesn't hang",
     "test:cover": "jest",
-    "update-dependencies": "npm-run-all update-dependencies:upem npm-install build lint:fix check:full",
-    "update-dependencies:upem": "npm outdated --json | upem",
+    "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",
+    "upem:update": "npm outdated --json | upem",
+    "upem:install": "npm install",
     "watch": "tsc --project src --watch"
   },
   "repository": {
