@@ -23,19 +23,14 @@ js-makedepend cannot detect like conditional module loading).
     - generates a report that specifies the test coverage
     - note that it runs the `test` target to determine the coverage
 
-- `npm run nsp`
-    - checks dependencies for known vulnerabilities (with _node security project_)
-
-- `make check` combination target:
-    -  checks for occurence of `console` statements
-    -  runs the linter on non-library, non-generated source code (= `npm run lint`)
-    -  runs a stylecheck
-    -  runs a `make test` (=`npm run test`)
+- `make check` combination target, performs
+    - linting
+    - dependency-cruise
+    - test (including coverage)
 
 - `make fullcheck` combination target:
     - runs a `make check` and
     - `npm outdated` (to check for outdated node_modules)
-    - `npm run nsp` (see above)
 
 ## Prerequisites
 - make

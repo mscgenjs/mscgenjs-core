@@ -207,7 +207,7 @@ license:
   [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
   [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
 
-It uses [tslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
+It uses [tslint][22] and [dependency-cruiser][23] to maintain some
 modicum of verifiable code quality. You can see the build history in
 [Travis][travis.mscgenjs].
 
@@ -271,6 +271,5 @@ modicum of verifiable code quality. You can see the build history in
 [travis.mscgenjs.badge]: https://travis-ci.org/mscgenjs/mscgenjs-core.svg?branch=master
 [22]: https://palantir.github.io/tslint/
 [23]: https://github.com/sverweij/dependency-cruiser
-[35]: https://nodesecurity.io/
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/krampstudio/chai-xml
