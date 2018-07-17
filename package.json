@@ -6,7 +6,9 @@
   "files": [
     "dist/**/*.js",
     "package.json",
-    "README.md"
+    "README.md",
+    "COPYING",
+    "LICENSE.md"
   ],
   "dependencies": {
     "lodash.assign": "4.2.0",
