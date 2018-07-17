@@ -64,32 +64,11 @@ src/render/graphics/csstemplates.ts: src/render/graphics/styling \
 	src/render/graphics/styling/*.style/*.json
 	node utl/to-csstemplates-js.utility.js > $@
 
-.npmignore: .gitignore Makefile
-	cp $< $@
-	echo "" >> $@
-	echo "# to ignore specifically for npm publishing: >> $@"
-	echo ".codeclimate.yml" >> $@
-	echo ".dependency-cruiser.json" >> $@
-	echo ".eslintignore" >> $@
-	echo ".eslintrc.json" >> $@
-	echo ".gitlab-ci.yml" >> $@
-	echo ".travis.yml" >> $@
-	echo "CODE_OF_CONDUCT.md" >> $@
-	echo "Makefile" >> $@
-	echo "tslint.json" >> $@
-	echo "tsconfig.json" >> $@
-	echo "src/tsconfig.json" >> $@
-	echo ".github" >> $@
-	echo "config" >> $@
-	echo "doc" >> $@
-	echo "test" >> $@
-	echo "utl" >> $@
-
 # "phony" targets
 prerequisites:
 	$(NPM) install
 
-dev-build: $(GENERATED_SOURCES) .npmignore
+dev-build: $(GENERATED_SOURCES)
 
 tag:
 	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
