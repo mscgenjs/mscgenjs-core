@@ -30,13 +30,13 @@
     "pegjs": "0.10.0",
     "requirejs": "2.3.5",
     "shx": "0.3.2",
-    "ts-jest": "23.0.0",
+    "ts-jest": "23.0.1",
     "ts-loader": "4.4.2",
     "tslint": "5.11.0",
     "typescript": "2.9.2",
     "upem": "1.0.0",
     "webpack": "4.16.1",
-    "webpack-cli": "3.0.8"
+    "webpack-cli": "3.1.0"
   },
   "scripts": {
     "build": "npm-run-all build:clean build:compile:pegjs build:csstemplates build:copy build:compile:typescript build:bundle",
