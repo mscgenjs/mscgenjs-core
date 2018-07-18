@@ -4,11 +4,12 @@
   "description": "Sequence chart rendering library",
   "main": "dist/index.js",
   "files": [
-    "dist/**/*.js",
-    "package.json",
-    "README.md",
+    "dist/",
+    "types/",
     "COPYING",
-    "LICENSE.md"
+    "LICENSE.md",
+    "package.json",
+    "README.md"
   ],
   "dependencies": {
     "lodash.assign": "4.2.0",
