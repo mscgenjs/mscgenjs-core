@@ -44,13 +44,13 @@ requirejs variant, both of which are in the `mscgenjs`
 
 ```javascript
 // commonjs
-var mscgenjs = require('mscgenjs');
+const mscgenjs = require('mscgenjs');
 ```
 
 ```javascript
 // commonjs, but with lazy loading. Useful when you're using it in
 // e.g. an electron shell without a minifier.
-var mscgenjs = require('mscgenjs/index-lazy');
+const mscgenjs = require('mscgenjs/dist/index-lazy');
 ```
 
 ```javascript
@@ -63,13 +63,13 @@ var mscgenjs = require('mscgenjs/dist/webpack-issue-5316-workaround');
 ```javascript
 // requirejs - assuming the module is in your root and you're loading from
 //             node_modules.
-define(['./node_modules/mscgenjs/src/index'], function(mscgenjs){
+define(['./node_modules/mscgenjs/dist/index.min'], function(mscgenjs){
     // your code here
 });
 
 // ... or using the alternative notation
 define(function(require){
-    var mscgenjs = require("./node_modules/mscgenjs/index");
+    var mscgenjs = require("./node_modules/mscgenjs/dist/index.min");
     // your code here
 });
 ```
