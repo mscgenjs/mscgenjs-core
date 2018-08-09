@@ -95,7 +95,7 @@ export default {
         );
     },
 
-    version: "2.1.0-beta-0",
+    version: "3.0.0-beta-0",
 
     getAllowedValues(): mscgen.IAllowedValues {
         return allowedValues;

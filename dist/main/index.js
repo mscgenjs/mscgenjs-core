@@ -56,7 +56,7 @@ exports.default = {
         }
         return pGetTextRenderer(lOptions.outputType).render(getAST(pScript, lOptions.inputType, pGetParser));
     },
-    version: "2.1.0-beta-0",
+    version: "3.0.0-beta-0",
     getAllowedValues() {
         return allowedvalues_1.default;
     },
