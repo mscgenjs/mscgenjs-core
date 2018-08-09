@@ -54,13 +54,6 @@ const mscgenjs = require('mscgenjs/dist/index-lazy');
 ```
 
 ```javascript
-// commonjs, only for use with webpack > 2, as long as 
-// issue [webpack/webpack#5316](https://github.com/webpack/webpack/issues/5316)
-// remains unresolved
-var mscgenjs = require('mscgenjs/dist/webpack-issue-5316-workaround');
-```
-
-```javascript
 // requirejs - assuming the module is in your root and you're loading from
 //             node_modules.
 define(['./node_modules/mscgenjs/dist/index.min'], function(mscgenjs){
@@ -73,6 +66,11 @@ define(function(require){
     // your code here
 });
 ```
+> Previously, as a workaround for webpack
+> issue [webpack/webpack#5316](https://github.com/webpack/webpack/issues/5316)
+> you needed to include `webpack-issue-5316-workaround` from the
+> `dist` folder. That's not necessary anymore; using `require('mscgenjs')`
+> works fine.
 
 ### Use it
 
