@@ -1,17 +1,4 @@
 import _cloneDeep from "lodash.clonedeep";
-
-/**
- *
- * renders an abstract syntax tree of a sequence chart
- *
- * knows of:
- *  - the syntax tree
- *  - the target canvas
- *
- * Defines default sizes and distances for all objects.
- * @exports renderast
- * @author {@link https://github.com/sverweij | Sander Verweij}
- */
 import { INormalizedRenderOptions, RegularArcTextVerticalAlignmentType } from "../../../types/mscgen";
 import * as mscgenjsast from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
@@ -28,10 +15,7 @@ import rowmemory from "./rowmemory";
 import svgelementfactory from "./svgelementfactory/index";
 import svgutensils from "./svgutensils";
 
-const PAD_VERTICAL          = 3;
-const DEFAULT_ARCROW_HEIGHT = 38; // chart only
-const DEFAULT_ARC_GRADIENT  = 0; // chart only
-
+//#region type declarations
 interface IChartLayer {
     lifeline: SVGGElement;
     sequence: SVGGElement;
@@ -62,7 +46,15 @@ interface ICanvas {
     verticaltransform: number;
     scale: number;
 }
+//#endregion
 
+//#region const
+const PAD_VERTICAL          = 3;
+const DEFAULT_ARCROW_HEIGHT = 38; // chart only
+const DEFAULT_ARC_GRADIENT  = 0; // chart only
+//#endregion
+
+//#region global variables
 /* sensible default - get overwritten in bootstrap */
 const gChart: IChart = Object.seal({
     arcRowHeight           : DEFAULT_ARCROW_HEIGHT,
@@ -83,11 +75,12 @@ const gChart: IChart = Object.seal({
 });
 
 let gInlineExpressionMemory: any[] = [];
+//#endregion
 
 function getParentElement(pWindow: Window, pParentElementId: string): HTMLElement {
     return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
 }
-
+//#region render level 0 & 1
 function render(
     pAST: mscgenjsast.ISequenceChart,
     pWindow: Window,
@@ -155,6 +148,7 @@ function renderASTPost(pAST: IFlatSequenceChart) {
     lCanvas = postProcessOptions(pAST.options, lCanvas);
     renderSvgElement(lCanvas);
 }
+//#endregion
 
 function createLayerShortcuts(pDocument) {
     return {
@@ -276,7 +270,7 @@ function renderSvgElement(pCanvas: ICanvas) {
     }
 }
 
-/* ----------------------START entity shizzle-------------------------------- */
+//#region entities
 
 function renderEntitiesOnBottom(pEntities: IEntityNormalized[], pOptions: mscgenjsast.IOptionsNormalized) {
     const lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
@@ -318,7 +312,7 @@ function renderEntitiesOnBottom(pEntities: IEntityNormalized[], pOptions: mscgen
  * @param <object> - pOptions
  *
  */
-function renderEntities(pEntities: IEntityNormalized[], pEntityYPos, pOptions: mscgenjsast.IOptionsNormalized) {
+function renderEntities(pEntities: IEntityNormalized[], pEntityYPos: number, pOptions: mscgenjsast.IOptionsNormalized) {
     gChart.layer.sequence.appendChild(
         entities.renderEntities(pEntities, pEntityYPos, pOptions),
     );
@@ -327,7 +321,7 @@ function renderEntities(pEntities: IEntityNormalized[], pEntityYPos, pOptions: m
         entities.getDims().interEntitySpacing + entities.getDims().width;
 }
 
-/* ------------------------END entity shizzle-------------------------------- */
+//#endregion
 
 function renderBroadcastArc(
     pArc: IFlatArc,
@@ -585,7 +579,7 @@ function renderArcRows(
         renderArcRow(pArcRow, pCounter, pEntities, pOptions);
     });
     renderInlineExpressions(gInlineExpressionMemory);
-}// function
+}
 
 /**
  * renderInlineExpressionLabel() - renders the label of an inline expression
@@ -666,6 +660,35 @@ function renderInlineExpressionLabel(pArc: IFlatArc, pY: number) {
     lGroup.appendChild(lTextGroup);
 
     return lGroup;
+}
+
+function createInlineExpressionBox(pOAndD, pArc: IFlatArc, pHeight: number, pY: number) {
+    /* begin: same as createBox */
+    const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
+    const lWidth =
+        (pOAndD.to - pOAndD.from) +
+        entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection; // px
+    const lStart =
+        pOAndD.from -
+        ((entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2);
+
+    /* end: same as createBox */
+
+    const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
+
+    return svgelementfactory.createRect(
+        {
+            width: lWidth + lArcDepthCorrection * 2,
+            height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
+            x: lStart - lArcDepthCorrection,
+            y: pY,
+        },
+        {
+            class: `box inline_expression ${pArc.kind}`,
+            color: pArc.linecolor,
+            bgColor: pArc.textbgcolor,
+        },
+    );
 }
 
 function renderInlineExpressions(pInlineExpressions) {
@@ -1018,35 +1041,6 @@ function createComment(pArc: IFlatArc, pOAndD, pY: number) {
     return lGroup;
 }
 
-function createInlineExpressionBox(pOAndD, pArc: IFlatArc, pHeight: number, pY: number) {
-    /* begin: same as createBox */
-    const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
-    const lWidth =
-        (pOAndD.to - pOAndD.from) +
-        entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection; // px
-    const lStart =
-        pOAndD.from -
-        ((entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2);
-
-    /* end: same as createBox */
-
-    const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
-
-    return svgelementfactory.createRect(
-        {
-            width: lWidth + lArcDepthCorrection * 2,
-            height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
-            x: lStart - lArcDepthCorrection,
-            y: pY,
-        },
-        {
-            class: `box inline_expression ${pArc.kind}`,
-            color: pArc.linecolor,
-            bgColor: pArc.textbgcolor,
-        },
-    );
-}
-
 /**
  * creates an element representing a box (box, abox, rbox, note)
  * also (mis?) used for rendering inline expressions/ arc spanning arcs
@@ -1151,11 +1145,11 @@ export default {
      * renders the given abstract syntax tree pAST as svg
      * in the element with id pParentELementId in the window pWindow
      *
-     * @param {object} pAST - the abstract syntax tree
-     * @param {window} pWindow - the browser window to put the svg in
+     * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
+     * @param {Window} pWindow - the browser window to put the svg in
      * @param {string} pParentElementId - the id of the parent element in which
      * to put the __svg_output element
-     * @param  {object} pOptions
+     * @param  {INormalizedRenderOptions} pOptions
      * - styleAdditions:  valid css that augments the default style
      * - additionalTemplate: a named (baked in) template. Current values:
      *  "inverted", "grayscaled"

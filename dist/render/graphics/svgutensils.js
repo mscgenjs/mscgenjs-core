@@ -50,7 +50,7 @@ function sanitizeBBox(pBBox) {
         return pBBox;
     }
 }
-function _getBBox(pElement) {
+function getBBox(pElement) {
     /* istanbul ignore if */
     if (typeof (pElement.getBBox) === "function") {
         return sanitizeBBox(getNativeBBox(pElement));
@@ -72,12 +72,12 @@ function _calculateTextHeight() {
         * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
         * browsers. The string in readable form: ÁjyÎ9ƒ@💩
         */
-    return _getBBox(index_1.default.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
+    return getBBox(index_1.default.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
         x: 0,
         y: 0,
     })).height;
 }
-function _removeRenderedSVGFromElement(pElementId) {
+function removeRenderedSVGFromElement(pElementId) {
     idmanager_1.default.setPrefix(pElementId);
     const lChildElement = gDocument.getElementById(idmanager_1.default.get());
     if (Boolean(lChildElement)) {
@@ -94,7 +94,7 @@ exports.default = {
     init(pDocument) {
         gDocument = pDocument;
     },
-    removeRenderedSVGFromElement: _removeRenderedSVGFromElement,
+    removeRenderedSVGFromElement,
     /**
      * Returns the bounding box of the passed element.
      *
@@ -107,7 +107,7 @@ exports.default = {
      * the function cannot determine the bounding box  be determined, returns 15,15,2,2
      * as "reasonable default"
      */
-    getBBox: _getBBox,
+    getBBox,
     /**
      * Returns the height in pixels necessary for rendering characters
      */

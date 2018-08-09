@@ -36,14 +36,14 @@ class DoxygenAdaptor extends MscGenAdaptor {
 
     public renderComments() {
         /* rendering comments within comments, that are eventually output
-            * to doxygen html - don't think that's going to be necessary
-            * or desired functionality. If it is remember to be able to
-            * - have a solution for nested comments (otherwise: interesting results)
-            * - have a solution for comments that have an other meaning (# this is
-            *    a comment -> doxygen translates this as markdown title)
-            * - handling languages different from c/ java/ d that have alternative
-            *   comment/ documentation sections
-            */
+         * to doxygen html - don't think that's going to be necessary
+         * or desired functionality. If it is remember to be able to
+         * - have a solution for nested comments (otherwise: interesting results)
+         * - have a solution for comments that have an other meaning (# this is
+         *    a comment -> doxygen translates this as markdown title)
+         * - handling languages different from c/ java/ d that have alternative
+         *   comment/ documentation sections
+         */
         return "";
     }
 }

@@ -55,7 +55,7 @@ function sanitizeBBox(pBBox: geotypes.IBBox): geotypes.IBBox {
     }
 }
 
-function _getBBox(pElement: SVGGElement): geotypes.IBBox {
+function getBBox(pElement: SVGGElement): geotypes.IBBox {
     /* istanbul ignore if */
     if (typeof (pElement.getBBox) === "function") {
         return sanitizeBBox(getNativeBBox(pElement));
@@ -77,7 +77,7 @@ function _calculateTextHeight(): number {
         * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
         * browsers. The string in readable form: ÁjyÎ9ƒ@💩
         */
-    return _getBBox(
+    return getBBox(
         svgelementfactory.createText(
             "\u00C1jy\u00CE9\u0192@\uD83D\uDCA9",
             {
@@ -88,7 +88,7 @@ function _calculateTextHeight(): number {
     ).height;
 }
 
-function _removeRenderedSVGFromElement(pElementId: string) {
+function removeRenderedSVGFromElement(pElementId: string) {
     idmanager.setPrefix(pElementId);
     const lChildElement = gDocument.getElementById(idmanager.get());
     if (Boolean(lChildElement)) {
@@ -105,7 +105,7 @@ export default {
     init(pDocument: Document) {
         gDocument = pDocument;
     },
-    removeRenderedSVGFromElement : _removeRenderedSVGFromElement,
+    removeRenderedSVGFromElement,
 
     /**
      * Returns the bounding box of the passed element.
@@ -119,7 +119,7 @@ export default {
      * the function cannot determine the bounding box  be determined, returns 15,15,2,2
      * as "reasonable default"
      */
-    getBBox : _getBBox,
+    getBBox,
 
     /**
      * Returns the height in pixels necessary for rendering characters

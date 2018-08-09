@@ -17,9 +17,13 @@ const renderutensils_1 = __importDefault(require("./renderutensils"));
 const rowmemory_1 = __importDefault(require("./rowmemory"));
 const index_1 = __importDefault(require("./svgelementfactory/index"));
 const svgutensils_1 = __importDefault(require("./svgutensils"));
+//#endregion
+//#region const
 const PAD_VERTICAL = 3;
 const DEFAULT_ARCROW_HEIGHT = 38; // chart only
 const DEFAULT_ARC_GRADIENT = 0; // chart only
+//#endregion
+//#region global variables
 /* sensible default - get overwritten in bootstrap */
 const gChart = Object.seal({
     arcRowHeight: DEFAULT_ARCROW_HEIGHT,
@@ -39,9 +43,11 @@ const gChart = Object.seal({
     },
 });
 let gInlineExpressionMemory = [];
+//#endregion
 function getParentElement(pWindow, pParentElementId) {
     return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
 }
+//#region render level 0 & 1
 function render(pAST, pWindow, pParentElementId, pRenderOptions) {
     const lFlattenedAST = Object.freeze(flatten_1.default.flatten(pAST));
     const lParentElement = getParentElement(pWindow, pParentElementId);
@@ -80,6 +86,7 @@ function renderASTPost(pAST) {
     lCanvas = postProcessOptions(pAST.options, lCanvas);
     renderSvgElement(lCanvas);
 }
+//#endregion
 function createLayerShortcuts(pDocument) {
     return {
         lifeline: pDocument.getElementById(idmanager_1.default.get("_lifelines")),
@@ -174,7 +181,7 @@ function renderSvgElement(pCanvas) {
         }
     }
 }
-/* ----------------------START entity shizzle-------------------------------- */
+//#region entities
 function renderEntitiesOnBottom(pEntities, pOptions) {
     const lLifeLineSpacerY = rowmemory_1.default.getLast().y + (rowmemory_1.default.getLast().height + gChart.arcRowHeight) / 2;
     /*
@@ -212,7 +219,7 @@ function renderEntities(pEntities, pEntityYPos, pOptions) {
         entities_1.default.getDims().entityXHWM -
             entities_1.default.getDims().interEntitySpacing + entities_1.default.getDims().width;
 }
-/* ------------------------END entity shizzle-------------------------------- */
+//#endregion
 function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
     let xTo = 0;
     const lLabel = pArc.label;
@@ -369,7 +376,7 @@ function renderArcRows(pArcRows, pEntities, pOptions) {
         renderArcRow(pArcRow, pCounter, pEntities, pOptions);
     });
     renderInlineExpressions(gInlineExpressionMemory);
-} // function
+}
 /**
  * renderInlineExpressionLabel() - renders the label of an inline expression
  * (/ arc spanning arc)
@@ -419,6 +426,26 @@ function renderInlineExpressionLabel(pArc, pY) {
     lGroup.appendChild(lBox);
     lGroup.appendChild(lTextGroup);
     return lGroup;
+}
+function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
+    /* begin: same as createBox */
+    const lMaxDepthCorrection = gChart.maxDepth * 2 * constants_1.default.LINE_WIDTH;
+    const lWidth = (pOAndD.to - pOAndD.from) +
+        entities_1.default.getDims().interEntitySpacing - 2 * constants_1.default.LINE_WIDTH - lMaxDepthCorrection; // px
+    const lStart = pOAndD.from -
+        ((entities_1.default.getDims().interEntitySpacing - 2 * constants_1.default.LINE_WIDTH - lMaxDepthCorrection) / 2);
+    /* end: same as createBox */
+    const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants_1.default.LINE_WIDTH;
+    return index_1.default.createRect({
+        width: lWidth + lArcDepthCorrection * 2,
+        height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants_1.default.LINE_WIDTH,
+        x: lStart - lArcDepthCorrection,
+        y: pY,
+    }, {
+        class: `box inline_expression ${pArc.kind}`,
+        color: pArc.linecolor,
+        bgColor: pArc.textbgcolor,
+    });
 }
 function renderInlineExpressions(pInlineExpressions) {
     pInlineExpressions.forEach((pInlineExpression) => {
@@ -656,26 +683,6 @@ function createComment(pArc, pOAndD, pY) {
     }
     return lGroup;
 }
-function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
-    /* begin: same as createBox */
-    const lMaxDepthCorrection = gChart.maxDepth * 2 * constants_1.default.LINE_WIDTH;
-    const lWidth = (pOAndD.to - pOAndD.from) +
-        entities_1.default.getDims().interEntitySpacing - 2 * constants_1.default.LINE_WIDTH - lMaxDepthCorrection; // px
-    const lStart = pOAndD.from -
-        ((entities_1.default.getDims().interEntitySpacing - 2 * constants_1.default.LINE_WIDTH - lMaxDepthCorrection) / 2);
-    /* end: same as createBox */
-    const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants_1.default.LINE_WIDTH;
-    return index_1.default.createRect({
-        width: lWidth + lArcDepthCorrection * 2,
-        height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants_1.default.LINE_WIDTH,
-        x: lStart - lArcDepthCorrection,
-        y: pY,
-    }, {
-        class: `box inline_expression ${pArc.kind}`,
-        color: pArc.linecolor,
-        bgColor: pArc.textbgcolor,
-    });
-}
 /**
  * creates an element representing a box (box, abox, rbox, note)
  * also (mis?) used for rendering inline expressions/ arc spanning arcs
@@ -755,11 +762,11 @@ exports.default = {
      * renders the given abstract syntax tree pAST as svg
      * in the element with id pParentELementId in the window pWindow
      *
-     * @param {object} pAST - the abstract syntax tree
-     * @param {window} pWindow - the browser window to put the svg in
+     * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
+     * @param {Window} pWindow - the browser window to put the svg in
      * @param {string} pParentElementId - the id of the parent element in which
      * to put the __svg_output element
-     * @param  {object} pOptions
+     * @param  {INormalizedRenderOptions} pOptions
      * - styleAdditions:  valid css that augments the default style
      * - additionalTemplate: a named (baked in) template. Current values:
      *  "inverted", "grayscaled"
