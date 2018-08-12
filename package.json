@@ -18,11 +18,11 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/node": "10.5.7",
+    "@types/node": "10.5.8",
     "chai": "4.1.2",
     "chai-xml": "0.3.2",
-    "dependency-cruiser": "4.3.2",
-    "jest": "23.4.2",
+    "dependency-cruiser": "4.4.0",
+    "jest": "23.5.0",
     "jest-json-schema": "2.0.1",
     "js-makedepend": "3.0.2",
     "jsdom": "11.12.0",
