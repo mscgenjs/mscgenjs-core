@@ -1,3 +1,4 @@
+import { ISequenceChart } from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import {XuAdaptor} from "./ast2xu";
 
@@ -44,7 +45,7 @@ export class MscGenAdaptor extends XuAdaptor {
 }
 
 export default {
-    render: (pAST, pMinimal) => {
+    render: (pAST: ISequenceChart, pMinimal: boolean) => {
         const lAdaptor = new MscGenAdaptor(pMinimal);
         return lAdaptor.render(pAST);
     },

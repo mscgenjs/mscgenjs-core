@@ -1,3 +1,4 @@
+import { ISequenceChart } from "../../parse/mscgenjsast";
 import { MscGenAdaptor } from "./ast2mscgen";
 
 class DoxygenAdaptor extends MscGenAdaptor {
@@ -49,7 +50,7 @@ class DoxygenAdaptor extends MscGenAdaptor {
 }
 
 export default {
-    render: (pAST) => {
+    render: (pAST: ISequenceChart) => {
         const lAdaptor = new DoxygenAdaptor(false);
         return lAdaptor.render(pAST);
     },

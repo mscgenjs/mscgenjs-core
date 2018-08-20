@@ -48,7 +48,7 @@ class MsGennyAdaptor extends ast2xu_1.XuAdaptor {
     }
     entityNameIsQuotable(pString) {
         const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
-        if (Boolean(lMatchResult)) {
+        if (lMatchResult) {
             return lMatchResult.length !== 1;
         }
         else {

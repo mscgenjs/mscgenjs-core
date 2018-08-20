@@ -1,3 +1,4 @@
+import { ISequenceChart } from "../../parse/mscgenjsast";
 import { XuAdaptor } from "./ast2xu";
 
 class MsGennyAdaptor extends XuAdaptor {
@@ -36,7 +37,7 @@ class MsGennyAdaptor extends XuAdaptor {
         });
     }
 
-    protected renderEntityName(pString) {
+    protected renderEntityName(pString: string) {
         return this.entityNameIsQuotable(pString) ? `"${pString}"` : pString;
     }
 
@@ -48,9 +49,9 @@ class MsGennyAdaptor extends XuAdaptor {
         return lRetVal;
     }
 
-    private entityNameIsQuotable(pString) {
+    private entityNameIsQuotable(pString: string) {
         const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
-        if (Boolean(lMatchResult)) {
+        if (lMatchResult) {
             return lMatchResult.length !== 1;
         } else {
             return pString !== "*";
@@ -59,7 +60,7 @@ class MsGennyAdaptor extends XuAdaptor {
 }
 
 export default {
-    render(pAST) {
+    render(pAST: ISequenceChart) {
         const lAdaptor = new MsGennyAdaptor();
         return lAdaptor.render(pAST);
     },

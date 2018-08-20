@@ -203,7 +203,7 @@ function explodeBroadcastArc(pEntities: IEntity[], pArc: IArc): IArc[] {
  * output:
  *     a -> b, a -> c, a -> d;
  */
-function explodeBroadcasts(pAST) {
+function explodeBroadcasts(pAST): ISequenceChart {
     if (pAST.arcs) {
         pAST.arcs.forEach((pArcRow, pArcRowIndex) => {
             pArcRow

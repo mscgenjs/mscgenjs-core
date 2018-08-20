@@ -247,7 +247,7 @@ export class XuAdaptor {
 }
 
 export default {
-    render: (pAST, pMinimal) => {
+    render: (pAST: ISequenceChart, pMinimal: boolean) => {
         const lAdaptor = new XuAdaptor(pMinimal);
         return lAdaptor.render(pAST);
     },
