@@ -2,9 +2,9 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = __importDefault(require("./main/index"));
-const static_resolver_1 = __importDefault(require("./main/static-resolver"));
+exports.__esModule = true;
+var index_1 = __importDefault(require("./main/index"));
+var static_resolver_1 = __importDefault(require("./main/static-resolver"));
 module.exports = {
     /**
      * parses the given script and renders it in the DOM element with
@@ -35,8 +35,8 @@ module.exports = {
      *  includeSource: whether the generated svg should include the script
      *             in a desc element or not. Defaults to false
      */
-    renderMsc(pScript, pOptions, pCallBack) {
-        index_1.default.renderMsc(pScript, pOptions || {}, pCallBack, static_resolver_1.default.getParser, static_resolver_1.default.getGraphicsRenderer);
+    renderMsc: function (pScript, pOptions, pCallBack) {
+        index_1["default"].renderMsc(pScript, pOptions || {}, pCallBack, static_resolver_1["default"].getParser, static_resolver_1["default"].getGraphicsRenderer);
     },
     /**
      * Translates the input script to an outputscript.
@@ -53,8 +53,8 @@ module.exports = {
      *   outputType : defaults to "json". Possible values:
      *                allowedValues.outputType
      */
-    translateMsc(pScript, pOptions) {
-        return index_1.default.translateMsc(pScript, pOptions || {}, static_resolver_1.default.getParser, static_resolver_1.default.getTextRenderer);
+    translateMsc: function (pScript, pOptions) {
+        return index_1["default"].translateMsc(pScript, pOptions || {}, static_resolver_1["default"].getParser, static_resolver_1["default"].getTextRenderer);
     },
     /**
      * The current (semver compliant) version number string of
@@ -62,7 +62,7 @@ module.exports = {
      *
      * @type {string}
      */
-    version: index_1.default.version,
+    version: index_1["default"].version,
     /**
      *
      * An object with arrays of allowed values for parameters in the
@@ -76,7 +76,7 @@ module.exports = {
      * pOptions.namedStyle
      *
      */
-    getAllowedValues: index_1.default.getAllowedValues,
+    getAllowedValues: index_1["default"].getAllowedValues,
     /**
      * returns a parser module for the given language. The module exposes
      * a parse(pString) function which returns an abstract syntax tree in
@@ -89,7 +89,7 @@ module.exports = {
      *                           "json". Defaults to "mscgen"
      * @return {object}
      */
-    getParser: static_resolver_1.default.getParser,
+    getParser: static_resolver_1["default"].getParser,
     /**
      * returns a renderer that renders the abstract syntax tree as a scalable
      * vector graphics (in practice: @render/graphics/renderast)
@@ -98,7 +98,7 @@ module.exports = {
      *
      * @return {object}
      */
-    getGraphicsRenderer: static_resolver_1.default.getGraphicsRenderer,
+    getGraphicsRenderer: static_resolver_1["default"].getGraphicsRenderer,
     /**
      * returns a renderer to the given language. The module exposes a
      * render(pAST) function which returns a rendition of the abstract
@@ -108,7 +108,7 @@ module.exports = {
      *
      * @return {object}
      */
-    getTextRenderer: static_resolver_1.default.getTextRenderer,
+    getTextRenderer: static_resolver_1["default"].getTextRenderer
 };
 /*
  This file is part of mscgen_js.

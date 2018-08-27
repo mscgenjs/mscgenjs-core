@@ -56,10 +56,10 @@ src/parse/%parser.js: src/parse/peg/%parser.pegjs
 include config/jsdependencies.mk
 include config/dependencies.mk
 
-src/render/graphics/csstemplates.ts: src/render/graphics/styling \
+src/render/graphics/csstemplates.json: src/render/graphics/styling \
 	utl/to-csstemplates-js.utility.js \
 	src/render/graphics/styling/base.css \
-	src/render/graphics/styling/csstemplates.tsTemplate \
+	src/render/graphics/styling/csstemplates.jsonTemplate \
 	src/render/graphics/styling/*.style/*.css \
 	src/render/graphics/styling/*.style/*.json
 	node utl/to-csstemplates-js.utility.js > $@

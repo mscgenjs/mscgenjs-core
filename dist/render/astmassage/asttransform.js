@@ -1,19 +1,19 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 function transformEntities(pEntities, pFunctionAry) {
-    pEntities.forEach((pEntity) => {
-        pFunctionAry.forEach((pFunction) => {
+    pEntities.forEach(function (pEntity) {
+        pFunctionAry.forEach(function (pFunction) {
             pFunction(pEntity);
         });
     });
 }
 function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
-    pFunctionAry.forEach((pFunction) => {
+    pFunctionAry.forEach(function (pFunction) {
         pFunction(pArc, pEntities, pArcRow);
     });
 }
 function transformArcRow(pEntities, pArcRow, pFunctionAry) {
-    pArcRow.forEach((pArc) => {
+    pArcRow.forEach(function (pArc) {
         transformArc(pEntities, pArcRow, pArc, pFunctionAry);
         if (pArc.arcs) {
             transformArcRows(pEntities, pArc.arcs, pFunctionAry);
@@ -21,7 +21,7 @@ function transformArcRow(pEntities, pArcRow, pFunctionAry) {
     });
 }
 function transformArcRows(pEntities, pArcRows, pFunctionAry) {
-    pArcRows.forEach((pArcRow) => {
+    pArcRows.forEach(function (pArcRow) {
         transformArcRow(pEntities, pArcRow, pFunctionAry);
     });
 }
@@ -37,13 +37,13 @@ function transformArcRows(pEntities, pArcRows, pFunctionAry) {
  * an arc row and entities as input return the modified arc row
  * @return {ast} - the modified syntax tree
  */
-exports.default = (pAST, pEntityTransforms, pArcRowTransforms) => {
+exports["default"] = (function (pAST, pEntityTransforms, pArcRowTransforms) {
     transformEntities(pAST.entities, pEntityTransforms);
     if (pAST.arcs) {
         transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
     }
     return pAST;
-};
+});
 /*
  This file is part of mscgen_js.
 

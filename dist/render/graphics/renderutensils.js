@@ -2,11 +2,11 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
-exports.default = {
-    scaleCanvasToWidth(pWidth, pCanvas) {
-        const lCanvas = lodash_clonedeep_1.default(pCanvas);
+exports.__esModule = true;
+var lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
+exports["default"] = {
+    scaleCanvasToWidth: function (pWidth, pCanvas) {
+        var lCanvas = lodash_clonedeep_1["default"](pCanvas);
         lCanvas.scale = (pWidth / lCanvas.width);
         lCanvas.width *= lCanvas.scale;
         lCanvas.height *= lCanvas.scale;
@@ -16,17 +16,17 @@ exports.default = {
         lCanvas.y = 0 - lCanvas.verticaltransform;
         return lCanvas;
     },
-    determineDepthCorrection(pDepth, pLineWidth) {
+    determineDepthCorrection: function (pDepth, pLineWidth) {
         return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
     },
-    determineArcXTo(pKind, pFrom, pTo) {
+    determineArcXTo: function (pKind, pFrom, pTo) {
         if ("-x" === pKind) {
             return pFrom + (pTo - pFrom) * (3 / 4);
         }
         else {
             return pTo;
         }
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

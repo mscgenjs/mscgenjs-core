@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Rounds pNumber to pPrecision numbers after the decimal separator
  *
@@ -14,11 +14,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  *                              Defaults to 0
  * @return number               The rounded number
  */
-exports.default = (pNumber, pPrecision) => {
+exports["default"] = (function (pNumber, pPrecision) {
     return pPrecision
         ? Math.round(pNumber * Math.pow(10, pPrecision)) / Math.pow(10, pPrecision)
         : Math.round(pNumber);
-};
+});
 /*
  This file is part of mscgen_js.
 

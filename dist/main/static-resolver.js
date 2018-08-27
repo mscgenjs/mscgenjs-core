@@ -9,43 +9,43 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const mscgenparser = __importStar(require("../parse/mscgenparser"));
-const msgennyparser = __importStar(require("../parse/msgennyparser"));
-const xuparser = __importStar(require("../parse/xuparser"));
-const renderast_1 = __importDefault(require("../render/graphics/renderast"));
-const ast2dot_1 = __importDefault(require("../render/text/ast2dot"));
-const ast2doxygen_1 = __importDefault(require("../render/text/ast2doxygen"));
-const ast2mscgen_1 = __importDefault(require("../render/text/ast2mscgen"));
-const ast2msgenny_1 = __importDefault(require("../render/text/ast2msgenny"));
-const ast2xu_1 = __importDefault(require("../render/text/ast2xu"));
-const DEFAULT_PARSER = mscgenparser;
-const DEFAULT_TEXT_RENDERER = ast2mscgen_1.default;
-const gLang2Parser = Object.freeze({
+exports.__esModule = true;
+var mscgenparser = __importStar(require("../parse/mscgenparser"));
+var msgennyparser = __importStar(require("../parse/msgennyparser"));
+var xuparser = __importStar(require("../parse/xuparser"));
+var renderast_1 = __importDefault(require("../render/graphics/renderast"));
+var ast2dot_1 = __importDefault(require("../render/text/ast2dot"));
+var ast2doxygen_1 = __importDefault(require("../render/text/ast2doxygen"));
+var ast2mscgen_1 = __importDefault(require("../render/text/ast2mscgen"));
+var ast2msgenny_1 = __importDefault(require("../render/text/ast2msgenny"));
+var ast2xu_1 = __importDefault(require("../render/text/ast2xu"));
+var DEFAULT_PARSER = mscgenparser;
+var DEFAULT_TEXT_RENDERER = ast2mscgen_1["default"];
+var gLang2Parser = Object.freeze({
     mscgen: mscgenparser,
     xu: xuparser,
-    msgenny: msgennyparser,
+    msgenny: msgennyparser
 });
-const gLang2TextRenderer = Object.freeze({
-    mscgen: ast2mscgen_1.default,
-    msgenny: ast2msgenny_1.default,
-    xu: ast2xu_1.default,
-    dot: ast2dot_1.default,
-    doxygen: ast2doxygen_1.default,
+var gLang2TextRenderer = Object.freeze({
+    mscgen: ast2mscgen_1["default"],
+    msgenny: ast2msgenny_1["default"],
+    xu: ast2xu_1["default"],
+    dot: ast2dot_1["default"],
+    doxygen: ast2doxygen_1["default"]
 });
-exports.default = {
-    getParser(pLanguage) {
+exports["default"] = {
+    getParser: function (pLanguage) {
         if (["ast", "json"].includes(pLanguage)) {
             return JSON;
         }
         return gLang2Parser[pLanguage] || DEFAULT_PARSER;
     },
-    getGraphicsRenderer() {
-        return renderast_1.default;
+    getGraphicsRenderer: function () {
+        return renderast_1["default"];
     },
-    getTextRenderer(pLanguage) {
+    getTextRenderer: function (pLanguage) {
         return gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

@@ -2,28 +2,28 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_memoize_1 = __importDefault(require("lodash.memoize"));
-const idmanager_1 = __importDefault(require("./idmanager"));
-const index_1 = __importDefault(require("./svgelementfactory/index"));
+exports.__esModule = true;
+var lodash_memoize_1 = __importDefault(require("lodash.memoize"));
+var idmanager_1 = __importDefault(require("./idmanager"));
+var index_1 = __importDefault(require("./svgelementfactory/index"));
 /**
  * Some SVG specific calculations & workarounds
  */
-let gDocument = {};
-const gSvgBBoxerId = idmanager_1.default.get("bboxer");
+var gDocument = {};
+var gSvgBBoxerId = idmanager_1["default"].get("bboxer");
 /* istanbul ignore next */
 function _createBBoxerSVG(pId) {
-    const lSvg = index_1.default.createSVG(pId, idmanager_1.default.get());
+    var lSvg = index_1["default"].createSVG(pId, idmanager_1["default"].get());
     gDocument.body.appendChild(lSvg);
     return lSvg;
 }
 /* istanbul ignore next */
 function getNativeBBox(pElement) {
     /* getNativeBBoxWithCache */
-    let lSvg = gDocument.getElementById(gSvgBBoxerId);
+    var lSvg = gDocument.getElementById(gSvgBBoxerId);
     lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
     lSvg.appendChild(pElement);
-    const lRetval = pElement.getBBox();
+    var lRetval = pElement.getBBox();
     lSvg.removeChild(pElement);
     return lRetval;
 }
@@ -37,13 +37,13 @@ function getNativeBBox(pElement) {
     */
 /* istanbul ignore next */
 function sanitizeBBox(pBBox) {
-    const INSANELYBIG = 100000;
+    var INSANELYBIG = 100000;
     if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG) {
         return {
             height: 0,
             width: 0,
             x: 0,
-            y: 0,
+            y: 0
         };
     }
     else {
@@ -60,7 +60,7 @@ function getBBox(pElement) {
             height: 15,
             width: 15,
             x: 2,
-            y: 2,
+            y: 2
         };
     }
 }
@@ -72,16 +72,16 @@ function _calculateTextHeight() {
         * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
         * browsers. The string in readable form: ÁjyÎ9ƒ@💩
         */
-    return getBBox(index_1.default.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
+    return getBBox(index_1["default"].createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
         x: 0,
-        y: 0,
+        y: 0
     })).height;
 }
 function removeRenderedSVGFromElement(pElementId) {
-    idmanager_1.default.setPrefix(pElementId);
-    const lChildElement = gDocument.getElementById(idmanager_1.default.get());
+    idmanager_1["default"].setPrefix(pElementId);
+    var lChildElement = gDocument.getElementById(idmanager_1["default"].get());
     if (Boolean(lChildElement)) {
-        const lParentElement = gDocument.getElementById(pElementId);
+        var lParentElement = gDocument.getElementById(pElementId);
         if (lParentElement) {
             lParentElement.removeChild(lChildElement);
         }
@@ -90,11 +90,11 @@ function removeRenderedSVGFromElement(pElementId) {
         }
     }
 }
-exports.default = {
-    init(pDocument) {
+exports["default"] = {
+    init: function (pDocument) {
         gDocument = pDocument;
     },
-    removeRenderedSVGFromElement,
+    removeRenderedSVGFromElement: removeRenderedSVGFromElement,
     /**
      * Returns the bounding box of the passed element.
      *
@@ -107,20 +107,20 @@ exports.default = {
      * the function cannot determine the bounding box  be determined, returns 15,15,2,2
      * as "reasonable default"
      */
-    getBBox,
+    getBBox: getBBox,
     /**
      * Returns the height in pixels necessary for rendering characters
      */
-    calculateTextHeight: lodash_memoize_1.default(_calculateTextHeight),
+    calculateTextHeight: lodash_memoize_1["default"](_calculateTextHeight),
     // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
     // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
     // namespace prefixes in front of xlink and all hrefs respectively.
     // this function does a crude global replace to circumvent the
     // resulting problems. Problem happens for xhtml too
-    webkitNamespaceBugWorkaround(pText) {
+    webkitNamespaceBugWorkaround: function (pText) {
         return pText.replace(/ xlink=/g, " xmlns:xlink=")
             .replace(/ href=/g, " xlink:href=");
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

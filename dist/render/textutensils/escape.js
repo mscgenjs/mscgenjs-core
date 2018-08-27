@@ -1,13 +1,13 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+exports.__esModule = true;
+exports["default"] = {
     /**
      * takes pString and replaces all escaped double quotes with
      * regular double quotes
      * @param {string} pString
      * @return {string}
      */
-    unescapeString(pString) {
+    unescapeString: function (pString) {
         return pString.replace(/\\"/g, '"');
     },
     /**
@@ -16,9 +16,9 @@ exports.default = {
      * @param {string} pString
      * @return {string}
      */
-    escapeString(pString) {
+    escapeString: function (pString) {
         return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

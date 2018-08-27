@@ -2,17 +2,17 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  */
-const asttransform_1 = __importDefault(require("./asttransform"));
-const lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
-const escape_1 = __importDefault(require("../textutensils/escape"));
-const aggregatekind_1 = __importDefault(require("./aggregatekind"));
-const normalizekind_1 = __importDefault(require("./normalizekind"));
-const normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
-let gMaxDepth = 0;
+var asttransform_1 = __importDefault(require("./asttransform"));
+var lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
+var escape_1 = __importDefault(require("../textutensils/escape"));
+var aggregatekind_1 = __importDefault(require("./aggregatekind"));
+var normalizekind_1 = __importDefault(require("./normalizekind"));
+var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
+var gMaxDepth = 0;
 function nameAsLabel(pEntity) {
     if (typeof pEntity.label === "undefined") {
         pEntity.label = pEntity.name;
@@ -20,19 +20,19 @@ function nameAsLabel(pEntity) {
 }
 function unescapeLabels(pArcOrEntity) {
     if (!!pArcOrEntity.label) {
-        pArcOrEntity.label = escape_1.default.unescapeString(pArcOrEntity.label);
+        pArcOrEntity.label = escape_1["default"].unescapeString(pArcOrEntity.label);
     }
     if (!!pArcOrEntity.id) {
-        pArcOrEntity.id = escape_1.default.unescapeString(pArcOrEntity.id);
+        pArcOrEntity.id = escape_1["default"].unescapeString(pArcOrEntity.id);
     }
 }
 function emptyStringForNoLabel(pArc) {
     pArc.label = Boolean(pArc.label) ? pArc.label : "";
 }
 function swapRTLArc(pArc) {
-    if ((normalizekind_1.default(pArc.kind) !== pArc.kind)) {
-        pArc.kind = normalizekind_1.default(pArc.kind);
-        const lTmp = pArc.from;
+    if ((normalizekind_1["default"](pArc.kind) !== pArc.kind)) {
+        pArc.kind = normalizekind_1["default"](pArc.kind);
+        var lTmp = pArc.from;
         pArc.from = pArc.to;
         pArc.to = lTmp;
     }
@@ -52,35 +52,36 @@ function overrideColorsFromThing(pArc, pThing) {
 * assumes arc direction to be either LTR, both, or none
 * so arc.from exists.
 */
-function overrideColors(pArc, pEntities = []) {
+function overrideColors(pArc, pEntities) {
+    if (pEntities === void 0) { pEntities = []; }
     if (pArc && pArc.from) {
-        const lMatchingEntity = pEntities.find((pEntity) => pEntity.name === pArc.from);
+        var lMatchingEntity = pEntities.find(function (pEntity) { return pEntity.name === pArc.from; });
         if (!!lMatchingEntity) {
             overrideColorsFromThing(pArc, lMatchingEntity);
         }
     }
 }
 function calcNumberOfRows(pInlineExpression) {
-    return pInlineExpression.arcs.reduce((pSum, pArc) => pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0), pInlineExpression.arcs.length);
+    return pInlineExpression.arcs.reduce(function (pSum, pArc) { return pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0); }, pInlineExpression.arcs.length);
 }
 function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
-    const lRetval = [];
-    const lFlatArcRow = [];
-    let lUnWoundSubArcs = [];
-    pArcRow.forEach((pArc) => {
+    var lRetval = [];
+    var lFlatArcRow = [];
+    var lUnWoundSubArcs = [];
+    pArcRow.forEach(function (pArc) {
         pArc.isVirtual = false;
-        if ("inline_expression" === aggregatekind_1.default(pArc.kind)) {
+        if ("inline_expression" === aggregatekind_1["default"](pArc.kind)) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;
             if (!!pArc.arcs) {
-                const lInlineExpression = lodash_clonedeep_1.default(pArc);
-                lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
-                delete lInlineExpression.arcs;
-                lFlatArcRow.push(lInlineExpression);
-                pArc.arcs.forEach((pSubArcRow) => {
-                    lUnWoundSubArcs = lUnWoundSubArcs.concat(unwindArcRow(pSubArcRow, pDepth + 1, lInlineExpression.from, lInlineExpression.to));
-                    pSubArcRow.forEach((pSubArc) => {
-                        overrideColorsFromThing(pSubArc, lInlineExpression);
+                var lInlineExpression_1 = lodash_clonedeep_1["default"](pArc);
+                lInlineExpression_1.numberofrows = calcNumberOfRows(lInlineExpression_1);
+                delete lInlineExpression_1.arcs;
+                lFlatArcRow.push(lInlineExpression_1);
+                pArc.arcs.forEach(function (pSubArcRow) {
+                    lUnWoundSubArcs = lUnWoundSubArcs.concat(unwindArcRow(pSubArcRow, pDepth + 1, lInlineExpression_1.from, lInlineExpression_1.to));
+                    pSubArcRow.forEach(function (pSubArc) {
+                        overrideColorsFromThing(pSubArc, lInlineExpression_1);
                     });
                 });
                 if (pDepth > gMaxDepth) {
@@ -96,11 +97,11 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
                     to: pArc.to,
                     // label: "",
                     // depth: pDepth,
-                    isVirtual: true,
+                    isVirtual: true
                 }]);
         }
         else {
-            if ((pFrom && pTo) && ("empty" === aggregatekind_1.default(pArc.kind))) {
+            if ((pFrom && pTo) && ("empty" === aggregatekind_1["default"](pArc.kind))) {
                 pArc.from = pFrom;
                 pArc.to = pTo;
                 pArc.depth = pDepth;
@@ -113,24 +114,24 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
 }
 function unwind(pArcRows) {
     if (pArcRows) {
-        return pArcRows.reduce((pAll, pArcRow) => pAll.concat(unwindArcRow(pArcRow, 0)), []);
+        return pArcRows.reduce(function (pAll, pArcRow) { return pAll.concat(unwindArcRow(pArcRow, 0)); }, []);
     }
     return [];
 }
 function normalize(pAST) {
     gMaxDepth = 0;
     return {
-        options: normalizeoptions_1.default(pAST.options),
-        entities: lodash_clonedeep_1.default(pAST.entities),
+        options: normalizeoptions_1["default"](pAST.options),
+        entities: lodash_clonedeep_1["default"](pAST.entities),
         arcs: unwind(pAST.arcs),
-        depth: gMaxDepth + 1,
+        depth: gMaxDepth + 1
     };
 }
-exports.default = {
+exports["default"] = {
     /**
      * If the entity has no label, set the label of the entity to its name
      */
-    nameAsLabel,
+    nameAsLabel: nameAsLabel,
     /**
      * If the arc is "facing backwards" (right to left) this function sets the arc
      * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
@@ -138,13 +139,13 @@ exports.default = {
      *
      * If the arc is facing forwards or is symetrical, it is left alone.
      */
-    swapRTLArc,
+    swapRTLArc: swapRTLArc,
     /**
      * Flattens any recursion in the arcs of the given abstract syntax tree to make it
      * more easy to render.
      */
-    normalize,
-    overrideColors,
+    normalize: normalize,
+    overrideColors: overrideColors,
     /**
      * Simplifies an AST:
      *    - entities without a label get one (the name of the label)
@@ -155,9 +156,9 @@ exports.default = {
      *      in this module)
      *    - distributes arc*color from the entities to the affected arcs
      */
-    flatten(pAST) {
-        return normalize(asttransform_1.default(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
-    },
+    flatten: function (pAST) {
+        return normalize(asttransform_1["default"](pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
+    }
 };
 /*
  This file is part of mscgen_js.

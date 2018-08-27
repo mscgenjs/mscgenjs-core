@@ -7,9 +7,9 @@
  * in refactoring the parser code a bit.
  *
  */
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 function nameValue2Option(pName, pValue) {
-    const lOption = {};
+    var lOption = {};
     lOption[pName.toLowerCase()] = pValue;
     return lOption;
 }
@@ -17,7 +17,7 @@ function flattenBoolean(pBoolean) {
     return (["true", "on", "1"].includes(pBoolean.toLowerCase()));
 }
 function entityExists(pEntities, pName) {
-    return pName === undefined || pName === "*" || pEntities.some((pEntity) => pEntity.name === pName);
+    return pName === undefined || pName === "*" || pEntities.some(function (pEntity) { return pEntity.name === pName; });
 }
 function isMscGenKeyword(pString) {
     return [
@@ -30,18 +30,19 @@ function isMscGenKeyword(pString) {
     ].includes(pString);
 }
 function buildEntityNotDefinedMessage(pEntityName, pArc) {
-    return `Entity '${pEntityName}' in arc '${pArc.from} ${pArc.kind} ${pArc.to}' is not defined.`;
+    return "Entity '" + pEntityName + "' in arc '" + pArc.from + " " + pArc.kind + " " + pArc.to + "' is not defined.";
 }
-class EntityNotDefinedError {
-    constructor(pEntityName, pArc) {
+var EntityNotDefinedError = /** @class */ (function () {
+    function EntityNotDefinedError(pEntityName, pArc) {
         // super();
         this.name = "EntityNotDefinedError";
         this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
     }
-}
+    return EntityNotDefinedError;
+}());
 function checkForUndeclaredEntities(pEntities, pArcLines) {
-    (pArcLines || []).forEach((pArcLine) => {
-        pArcLine.forEach((pArc) => {
+    (pArcLines || []).forEach(function (pArcLine) {
+        pArcLine.forEach(function (pArc) {
             if (pArc.from && !entityExists(pEntities, pArc.from)) {
                 throw new EntityNotDefinedError(pArc.from, pArc);
             }
@@ -66,28 +67,28 @@ function hasExtendedOptions(pOptions) {
     }
 }
 function hasExtendedArcTypes(pArcLines) {
-    return (pArcLines || []).some((pArcLine) => pArcLine.some((pArc) => ["alt", "else", "opt", "break", "par",
+    return (pArcLines || []).some(function (pArcLine) { return pArcLine.some(function (pArc) { return ["alt", "else", "opt", "break", "par",
         "seq", "strict", "neg", "critical",
         "ignore", "consider", "assert",
-        "loop", "ref", "exc"].includes(pArc.kind)));
+        "loop", "ref", "exc"].includes(pArc.kind); }); });
 }
 function getMetaInfo(pOptions, pArcLines) {
-    const lHasExtendedOptions = hasExtendedOptions(pOptions);
-    const lHasExtendedArcTypes = hasExtendedArcTypes(pArcLines);
+    var lHasExtendedOptions = hasExtendedOptions(pOptions);
+    var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLines);
     return {
         extendedOptions: lHasExtendedOptions,
         extendedArcTypes: lHasExtendedArcTypes,
-        extendedFeatures: lHasExtendedOptions || lHasExtendedArcTypes,
+        extendedFeatures: lHasExtendedOptions || lHasExtendedArcTypes
     };
 }
-exports.default = {
-    nameValue2Option,
-    flattenBoolean,
-    entityExists,
-    checkForUndeclaredEntities,
-    EntityNotDefinedError,
-    isMscGenKeyword,
-    getMetaInfo,
+exports["default"] = {
+    nameValue2Option: nameValue2Option,
+    flattenBoolean: flattenBoolean,
+    entityExists: entityExists,
+    checkForUndeclaredEntities: checkForUndeclaredEntities,
+    EntityNotDefinedError: EntityNotDefinedError,
+    isMscGenKeyword: isMscGenKeyword,
+    getMetaInfo: getMetaInfo
 };
 /*
  This file is part of mscgen_js.

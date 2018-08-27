@@ -1,14 +1,14 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const INNERELEMENTPREFIX = "mscgenjs";
-let gInnerElementId = INNERELEMENTPREFIX;
-exports.default = {
-    setPrefix(pPrefix) {
+exports.__esModule = true;
+var INNERELEMENTPREFIX = "mscgenjs";
+var gInnerElementId = INNERELEMENTPREFIX;
+exports["default"] = {
+    setPrefix: function (pPrefix) {
         gInnerElementId = INNERELEMENTPREFIX + pPrefix;
     },
-    get(pElementIdentifierString) {
+    get: function (pElementIdentifierString) {
         return gInnerElementId + (pElementIdentifierString || "");
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

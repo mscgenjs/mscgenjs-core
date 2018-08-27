@@ -2,11 +2,12 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const parserHelpers_1 = __importDefault(require("../../parse/parserHelpers"));
-const escape_1 = __importDefault(require("../textutensils/escape"));
-class XuAdaptor {
-    constructor(pMinimal = false) {
+exports.__esModule = true;
+var parserHelpers_1 = __importDefault(require("../../parse/parserHelpers"));
+var escape_1 = __importDefault(require("../textutensils/escape"));
+var XuAdaptor = /** @class */ (function () {
+    function XuAdaptor(pMinimal) {
+        if (pMinimal === void 0) { pMinimal = false; }
         this.indent = "  ";
         this.space = " ";
         this.eol = "\n";
@@ -23,11 +24,11 @@ class XuAdaptor {
         }
         this.init(this.config);
     }
-    init(pConfig) {
+    XuAdaptor.prototype.init = function (pConfig) {
         this.config = Object.assign({}, this.getConfig(), pConfig);
-    }
-    render(pAST) {
-        let lRetVal = "";
+    };
+    XuAdaptor.prototype.render = function (pAST) {
+        var lRetVal = "";
         if (pAST.precomment) {
             lRetVal += this.renderComments(pAST.precomment);
         }
@@ -41,34 +42,34 @@ class XuAdaptor {
         }
         lRetVal += this.config.program.closer;
         return lRetVal;
-    }
-    renderEntityName(pString) {
-        return this.isQuotable(pString) ? `"${pString}"` : pString;
-    }
-    renderAttribute(pAttribute) {
-        let lRetVal = "";
+    };
+    XuAdaptor.prototype.renderEntityName = function (pString) {
+        return this.isQuotable(pString) ? "\"" + pString + "\"" : pString;
+    };
+    XuAdaptor.prototype.renderAttribute = function (pAttribute) {
+        var lRetVal = "";
         if (pAttribute.name && pAttribute.value) {
-            lRetVal += `${pAttribute.name}="${escape_1.default.escapeString(pAttribute.value)}"`;
+            lRetVal += pAttribute.name + "=\"" + escape_1["default"].escapeString(pAttribute.value) + "\"";
         }
         return lRetVal;
-    }
-    renderComments(pArray) {
-        return pArray.reduce((pPrevComment, pCurComment) => pPrevComment + pCurComment, "");
-    }
-    renderOption(pOption) {
-        return `${pOption.name}=${typeof pOption.value === "string"
-            ? "\"" + escape_1.default.escapeString(pOption.value) + "\""
-            : pOption.value.toString()}`;
-    }
-    optionIsValid(pOption) {
+    };
+    XuAdaptor.prototype.renderComments = function (pArray) {
+        return pArray.reduce(function (pPrevComment, pCurComment) { return pPrevComment + pCurComment; }, "");
+    };
+    XuAdaptor.prototype.renderOption = function (pOption) {
+        return pOption.name + "=" + (typeof pOption.value === "string"
+            ? "\"" + escape_1["default"].escapeString(pOption.value) + "\""
+            : pOption.value.toString());
+    };
+    XuAdaptor.prototype.optionIsValid = function (pOption) {
         // actually: return true. Not using pOption is a
         // compiler error, though, so *hack*
         return true || pOption;
-    }
-    renderKind(pKind) {
+    };
+    XuAdaptor.prototype.renderKind = function (pKind) {
         return pKind;
-    }
-    getConfig() {
+    };
+    XuAdaptor.prototype.getConfig = function () {
         return {
             supportedOptions: [
                 "hscale",
@@ -91,99 +92,106 @@ class XuAdaptor {
                 "title",
             ],
             program: {
-                opener: `msc${this.space}{${this.eol}`,
-                closer: "}",
+                opener: "msc" + this.space + "{" + this.eol,
+                closer: "}"
             },
             option: {
                 opener: this.indent,
-                separator: `,${this.eol}${this.indent}`,
-                closer: `;${this.eol}${this.eol}`,
+                separator: "," + this.eol + this.indent,
+                closer: ";" + this.eol + this.eol
             },
             entity: {
                 opener: this.indent,
-                separator: `,${this.eol}${this.indent}`,
-                closer: `;${this.eol}${this.eol}`,
+                separator: "," + this.eol + this.indent,
+                closer: ";" + this.eol + this.eol
             },
             attribute: {
-                opener: `${this.space}[`,
-                separator: `,${this.space}`,
-                closer: "]",
+                opener: this.space + "[",
+                separator: "," + this.space,
+                closer: "]"
             },
             arcline: {
                 opener: this.indent,
-                separator: `,${this.eol}${this.indent}`,
-                closer: `;${this.eol}`,
+                separator: "," + this.eol + this.indent,
+                closer: ";" + this.eol
             },
             inline: {
-                opener: `${this.space}{${this.eol}`,
-                closer: `${this.indent}}`,
-            },
+                opener: this.space + "{" + this.eol,
+                closer: this.indent + "}"
+            }
         };
-    }
-    extractSupportedOptions(pOptions, pSupportedOptions) {
+    };
+    XuAdaptor.prototype.extractSupportedOptions = function (pOptions, pSupportedOptions) {
         return pSupportedOptions
-            .filter((pSupportedOption) => typeof pOptions[pSupportedOption] !== "undefined")
-            .map((pSupportedOption) => ({
+            .filter(function (pSupportedOption) { return typeof pOptions[pSupportedOption] !== "undefined"; })
+            .map(function (pSupportedOption) { return ({
             name: pSupportedOption,
-            value: pOptions[pSupportedOption],
-        }));
-    }
-    isQuotable(pString) {
-        const lMatchResult = pString.match(/[a-z0-9]+/gi);
+            value: pOptions[pSupportedOption]
+        }); });
+    };
+    XuAdaptor.prototype.isQuotable = function (pString) {
+        var lMatchResult = pString.match(/[a-z0-9]+/gi);
         if (!!lMatchResult) {
-            return (lMatchResult.length !== 1) || parserHelpers_1.default.isMscGenKeyword(pString);
+            return (lMatchResult.length !== 1) || parserHelpers_1["default"].isMscGenKeyword(pString);
         }
         else {
             return pString !== "*";
         }
-    }
-    renderOptions(pOptions) {
-        const lOptions = this.extractSupportedOptions(pOptions, this.config.supportedOptions)
+    };
+    XuAdaptor.prototype.renderOptions = function (pOptions) {
+        var _this = this;
+        var lOptions = this.extractSupportedOptions(pOptions, this.config.supportedOptions)
             .filter(this.optionIsValid);
-        let lRetVal = "";
+        var lRetVal = "";
         if (lOptions.length > 0) {
-            const lLastOption = lOptions.pop();
+            var lLastOption = lOptions.pop();
             lRetVal = lOptions
-                .reduce((pPrevOption, pCurOption) => pPrevOption + this.renderOption(pCurOption) + this.config.option.separator, this.config.option.opener);
+                .reduce(function (pPrevOption, pCurOption) {
+                return pPrevOption + _this.renderOption(pCurOption) + _this.config.option.separator;
+            }, this.config.option.opener);
             lRetVal += this.renderOption(lLastOption) + this.config.option.closer;
         }
         return lRetVal;
-    }
-    renderEntity(pEntity) {
+    };
+    XuAdaptor.prototype.renderEntity = function (pEntity) {
         return this.renderEntityName(pEntity.name) +
             this.renderAttributes(pEntity, this.config.supportedEntityAttributes);
-    }
-    renderEntities(pEntities) {
-        let lRetVal = "";
+    };
+    XuAdaptor.prototype.renderEntities = function (pEntities) {
+        var _this = this;
+        var lRetVal = "";
         if (pEntities.length > 0) {
             lRetVal = pEntities
                 .slice(0, -1)
-                .reduce((pPrev, pEntity) => pPrev + this.renderEntity(pEntity) + this.config.entity.separator, this.config.entity.opener);
+                .reduce(function (pPrev, pEntity) { return pPrev + _this.renderEntity(pEntity) + _this.config.entity.separator; }, this.config.entity.opener);
             lRetVal += this.renderEntity(pEntities[pEntities.length - 1]) + this.config.entity.closer;
         }
         return lRetVal;
-    }
-    renderAttributes(pArcOrEntity, pSupportedAttributes) {
-        let lRetVal = "";
-        const lAttributes = this.extractSupportedOptions(pArcOrEntity, pSupportedAttributes);
+    };
+    XuAdaptor.prototype.renderAttributes = function (pArcOrEntity, pSupportedAttributes) {
+        var _this = this;
+        var lRetVal = "";
+        var lAttributes = this.extractSupportedOptions(pArcOrEntity, pSupportedAttributes);
         if (lAttributes.length > 0) {
-            const lLastAtribute = lAttributes.pop();
+            var lLastAtribute = lAttributes.pop();
             lRetVal = lAttributes
-                .reduce((pPreviousAttribute, pCurrentAttribute) => pPreviousAttribute +
-                this.renderAttribute(pCurrentAttribute) +
-                this.config.attribute.separator, this.config.attribute.opener);
+                .reduce(function (pPreviousAttribute, pCurrentAttribute) {
+                return pPreviousAttribute +
+                    _this.renderAttribute(pCurrentAttribute) +
+                    _this.config.attribute.separator;
+            }, this.config.attribute.opener);
             lRetVal += this.renderAttribute(lLastAtribute) + this.config.attribute.closer;
         }
         return lRetVal;
-    }
-    renderArc(pArc, pIndent) {
-        let lRetVal = "";
+    };
+    XuAdaptor.prototype.renderArc = function (pArc, pIndent) {
+        var lRetVal = "";
         if (pArc.from) {
-            lRetVal += `${this.renderEntityName(pArc.from)} `;
+            lRetVal += this.renderEntityName(pArc.from) + " ";
         }
         lRetVal += this.renderKind(pArc.kind);
         if (pArc.to) {
-            lRetVal += ` ${this.renderEntityName(pArc.to)}`;
+            lRetVal += " " + this.renderEntityName(pArc.to);
         }
         lRetVal += this.renderAttributes(pArc, this.config.supportedArcAttributes);
         if (pArc.arcs) {
@@ -196,27 +204,30 @@ class XuAdaptor {
             lRetVal += pIndent + this.config.inline.closer;
         }
         return lRetVal;
-    }
-    renderArcLine(pArcLine, pIndent) {
-        let lRetVal = "";
+    };
+    XuAdaptor.prototype.renderArcLine = function (pArcLine, pIndent) {
+        var _this = this;
+        var lRetVal = "";
         if (pArcLine.length > 0) {
             lRetVal = pArcLine
                 .slice(0, -1)
-                .reduce((pPrev, pArc) => pPrev + pIndent + this.renderArc(pArc, pIndent) + this.config.arcline.separator, this.config.arcline.opener);
+                .reduce(function (pPrev, pArc) { return pPrev + pIndent + _this.renderArc(pArc, pIndent) + _this.config.arcline.separator; }, this.config.arcline.opener);
             lRetVal += pIndent + this.renderArc(pArcLine[pArcLine.length - 1], pIndent) + this.config.arcline.closer;
         }
         return lRetVal;
-    }
-    renderArcLines(pArcLines, pIndent) {
-        return pArcLines.reduce((pPrev, pArcLine) => pPrev + this.renderArcLine(pArcLine, pIndent), "");
-    }
-}
+    };
+    XuAdaptor.prototype.renderArcLines = function (pArcLines, pIndent) {
+        var _this = this;
+        return pArcLines.reduce(function (pPrev, pArcLine) { return pPrev + _this.renderArcLine(pArcLine, pIndent); }, "");
+    };
+    return XuAdaptor;
+}());
 exports.XuAdaptor = XuAdaptor;
-exports.default = {
-    render: (pAST, pMinimal) => {
-        const lAdaptor = new XuAdaptor(pMinimal);
+exports["default"] = {
+    render: function (pAST, pMinimal) {
+        var lAdaptor = new XuAdaptor(pMinimal);
         return lAdaptor.render(pAST);
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

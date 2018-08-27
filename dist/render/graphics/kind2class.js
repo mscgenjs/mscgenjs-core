@@ -2,9 +2,9 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
-const KIND2CLASS = Object.freeze({
+exports.__esModule = true;
+var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+var KIND2CLASS = Object.freeze({
     "|||": "empty-row",
     "...": "omitted-row",
     "---": "comment-row",
@@ -28,11 +28,11 @@ const KIND2CLASS = Object.freeze({
     "--": "signal",
     "==": "method",
     "..": "return",
-    "::": "emphasised",
+    "::": "emphasised"
 });
-exports.default = {
-    getClass(pKey) { return KIND2CLASS[pKey] || pKey; },
-    getAggregateClass(pKey) { return aggregatekind_1.default(pKey) || pKey; },
+exports["default"] = {
+    getClass: function (pKey) { return KIND2CLASS[pKey] || pKey; },
+    getAggregateClass: function (pKey) { return aggregatekind_1["default"](pKey) || pKey; }
 };
 /*
  This file is part of mscgen_js.

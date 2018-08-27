@@ -1,6 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const KIND2AGGREGATE = Object.freeze({
+exports.__esModule = true;
+var KIND2AGGREGATE = Object.freeze({
     "|||": "empty",
     "...": "empty",
     "---": "empty",
@@ -43,9 +43,9 @@ const KIND2AGGREGATE = Object.freeze({
     "assert": "inline_expression",
     "loop": "inline_expression",
     "ref": "inline_expression",
-    "exc": "inline_expression",
+    "exc": "inline_expression"
 });
-exports.default = (pKey) => KIND2AGGREGATE[pKey];
+exports["default"] = (function (pKey) { return KIND2AGGREGATE[pKey]; });
 /*
  This file is part of mscgen_js.
 

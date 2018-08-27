@@ -2,15 +2,17 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const round_1 = __importDefault(require("../round"));
-const svgprimitives_1 = __importDefault(require("../svgprimitives"));
-const variationhelpers_1 = __importDefault(require("../variationhelpers"));
-const SEGMENT_LENGTH = 70; // 70
-const WOBBLE_FACTOR = 3; // 1.4?
+exports.__esModule = true;
+var round_1 = __importDefault(require("../round"));
+var svgprimitives_1 = __importDefault(require("../svgprimitives"));
+var variationhelpers_1 = __importDefault(require("../variationhelpers"));
+var SEGMENT_LENGTH = 70; // 70
+var WOBBLE_FACTOR = 3; // 1.4?
 function points2CurveString(pCurveSections) {
-    return pCurveSections.map((pCurveSection) => `${svgprimitives_1.default.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` +
-        `${svgprimitives_1.default.point2String(pCurveSection)}`).join(" ");
+    return pCurveSections.map(function (pCurveSection) {
+        return svgprimitives_1["default"].pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY) + " " +
+            ("" + svgprimitives_1["default"].point2String(pCurveSection));
+    }).join(" ");
 }
 exports.points2CurveString = points2CurveString;
 function line2CurveString(pLine) {
@@ -25,8 +27,8 @@ exports.line2CurveString = line2CurveString;
  */
 // internal exposed for unit testing
 function getLineLength(pLine) {
-    const lA = Math.abs(pLine.xTo - pLine.xFrom);
-    const lB = Math.abs(pLine.yTo - pLine.yFrom);
+    var lA = Math.abs(pLine.xTo - pLine.xFrom);
+    var lB = Math.abs(pLine.yTo - pLine.yFrom);
     return Math.sqrt((lA * lA) + (lB * lB));
 }
 exports.getLineLength = getLineLength;
@@ -41,7 +43,7 @@ exports.getLineLength = getLineLength;
  */
 // internal exposed for unit testing
 function getNumberOfSegments(pLine, pInterval) {
-    const lLineLength = getLineLength(pLine);
+    var lLineLength = getLineLength(pLine);
     return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
 }
 exports.getNumberOfSegments = getNumberOfSegments;
@@ -60,7 +62,7 @@ function normalizeInterval(pInterval, pLine) {
     }
     return Math.min(getLineLength(pLine), pInterval);
 }
-const PRECISION = 2;
+var PRECISION = 2;
 /**
  * returns an array of curvepoints (x,y, controlX, controlY) along pLine,
  * at pInterval length intervals. The pWobble parameter influences the
@@ -78,27 +80,27 @@ const PRECISION = 2;
  */
 function getBetweenPoints(pLine, pInterval, pWobble) {
     pInterval = normalizeInterval(pInterval, pLine);
-    const lRetval = [];
-    const lNoSegments = getNumberOfSegments(pLine, pInterval);
-    const lDir = variationhelpers_1.default.getDirection(pLine);
-    const lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
-    const lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
+    var lRetval = [];
+    var lNoSegments = getNumberOfSegments(pLine, pInterval);
+    var lDir = variationhelpers_1["default"].getDirection(pLine);
+    var lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
+    var lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
         ? pInterval
         : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
-    let lCurveSection;
-    for (let i = 1; i <= lNoSegments; i++) {
+    var lCurveSection;
+    for (var i = 1; i <= lNoSegments; i++) {
         lCurveSection = {
-            controlX: round_1.default(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
-            controlY: round_1.default(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
-            x: round_1.default(pLine.xFrom + i * lIntervalX, PRECISION),
-            y: round_1.default(pLine.yFrom + i * lIntervalY, PRECISION),
+            controlX: round_1["default"](pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
+            controlY: round_1["default"](pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
+            x: round_1["default"](pLine.xFrom + i * lIntervalX, PRECISION),
+            y: round_1["default"](pLine.yFrom + i * lIntervalY, PRECISION)
         };
         if (pInterval >
             getLineLength({
                 xFrom: lCurveSection.x,
                 yFrom: lCurveSection.y,
                 xTo: pLine.xTo,
-                yTo: pLine.yTo,
+                yTo: pLine.yTo
             })) {
             lCurveSection.x = pLine.xTo;
             lCurveSection.y = pLine.yTo;

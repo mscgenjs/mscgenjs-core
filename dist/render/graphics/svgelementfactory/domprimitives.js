@@ -1,8 +1,8 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const SVGNS = "http://www.w3.org/2000/svg";
-const XLINKNS = "http://www.w3.org/1999/xlink";
-let gDocument = {};
+exports.__esModule = true;
+var SVGNS = "http://www.w3.org/2000/svg";
+var XLINKNS = "http://www.w3.org/1999/xlink";
+var gDocument = {};
 function _setAttribute(pElement, pKey, pValue) {
     if (Boolean(pValue)) {
         pElement.setAttribute(pKey, pValue);
@@ -16,13 +16,13 @@ function _setAttributeNS(pElement, pNS, pKey, pValue) {
     return pElement;
 }
 function _setAttributes(pElement, pAttributes) {
-    Object.keys(pAttributes || {}).forEach((pKey) => {
+    Object.keys(pAttributes || {}).forEach(function (pKey) {
         _setAttribute(pElement, pKey, pAttributes[pKey]);
     });
     return pElement;
 }
 function _setAttributesNS(pElement, pNS, pAttributes) {
-    Object.keys(pAttributes || {}).forEach((pKey) => {
+    Object.keys(pAttributes || {}).forEach(function (pKey) {
         _setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
     });
     return pElement;
@@ -33,16 +33,16 @@ function _createElement(pElementType, pAttributes) {
 function _createTextNode(pText) {
     return gDocument.createTextNode(pText);
 }
-exports.default = {
-    SVGNS,
-    XLINKNS,
+exports["default"] = {
+    SVGNS: SVGNS,
+    XLINKNS: XLINKNS,
     /**
      * Function to set the document to use. Introduced to enable use of the
      * rendering utilities under node.js (using the jsdom module)
      *
      * @param {document} pDocument
      */
-    init(pDocument) {
+    init: function (pDocument) {
         gDocument = pDocument;
     },
     /**
@@ -90,7 +90,7 @@ exports.default = {
      * @param {string} pText
      * @return {textNode}
      */
-    createTextNode: _createTextNode,
+    createTextNode: _createTextNode
 };
 /*
  This file is part of mscgen_js.

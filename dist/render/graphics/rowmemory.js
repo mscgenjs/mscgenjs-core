@@ -1,12 +1,12 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Functions to help determine the correct height and
  * y position of rows befor rendering them.
  */
-let gRowInfoArray = [];
-let gDefaultEntityHeight = 0;
-let gDefaultArcRowHeight = 0;
+var gRowInfoArray = [];
+var gDefaultEntityHeight = 0;
+var gDefaultArcRowHeight = 0;
 function get(pRowNumber) {
     if (gRowInfoArray[pRowNumber]) {
         return gRowInfoArray[pRowNumber];
@@ -15,18 +15,18 @@ function get(pRowNumber) {
         return {
             y: (gDefaultEntityHeight + (1.5 * gDefaultArcRowHeight)) + pRowNumber * gDefaultArcRowHeight,
             height: gDefaultArcRowHeight,
-            realRowNumber: gRowInfoArray.length - 1,
+            realRowNumber: gRowInfoArray.length - 1
         };
     }
 }
 function getLast() {
     return get(gRowInfoArray.length - 1);
 }
-exports.default = {
+exports["default"] = {
     /**
      * clearRowInfo() - resets the helper array to an empty one
      */
-    clear(pEntityHeight, pArcRowHeight) {
+    clear: function (pEntityHeight, pArcRowHeight) {
         gRowInfoArray = [];
         gDefaultEntityHeight = pEntityHeight;
         gDefaultArcRowHeight = pArcRowHeight;
@@ -38,7 +38,7 @@ exports.default = {
      *
      * @param <int> pRowNumber
      */
-    get,
+    get: get,
     /**
      *  the row info for a given pRealRowNumber.
      *
@@ -47,15 +47,15 @@ exports.default = {
      *
      * @param <int> pRealRowNumber
      */
-    getByRealRowNumber(pRealRowNumber) {
-        let lRetval = gRowInfoArray.find((pRowInfo) => pRowInfo.realRowNumber === pRealRowNumber);
+    getByRealRowNumber: function (pRealRowNumber) {
+        var lRetval = gRowInfoArray.find(function (pRowInfo) { return pRowInfo.realRowNumber === pRealRowNumber; });
         if (typeof lRetval === "undefined") {
             // most likely asking for something below the bottom of the chart => return the bottom
             lRetval = getLast();
         }
         return lRetval;
     },
-    getLast,
+    getLast: getLast,
     /**
      * set() - stores the pHeight for the given pRowNumber, and sets
      *         the y coordinate of the row
@@ -63,14 +63,15 @@ exports.default = {
      * @param <int> pRowNumber
      * @param <int> pHeight
      */
-    set(pRowNumber, pHeight, pRealRowNumber = -1) {
-        const lPreviousRowInfo = get(pRowNumber - 1);
+    set: function (pRowNumber, pHeight, pRealRowNumber) {
+        if (pRealRowNumber === void 0) { pRealRowNumber = -1; }
+        var lPreviousRowInfo = get(pRowNumber - 1);
         gRowInfoArray[pRowNumber] = {
             y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
             height: pHeight,
-            realRowNumber: pRealRowNumber,
+            realRowNumber: pRealRowNumber
         };
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

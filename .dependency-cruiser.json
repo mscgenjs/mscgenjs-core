@@ -140,6 +140,7 @@
   "options": {
     "moduleSystems": ["cjs", "es6"],
     "doNotFollow": "node_modules",
-    "tsPreCompilationDeps": true
+    "tsPreCompilationDeps": true,
+    "prefix": "https://github.com/mscgenjs/mscgenjs-core/blob/develop"
   }
 }

@@ -2,9 +2,9 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const allowedvalues_1 = __importDefault(require("./allowedvalues"));
-const normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
+exports.__esModule = true;
+var allowedvalues_1 = __importDefault(require("./allowedvalues"));
+var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
 function isProbablyAnASTAlready(pScript, pInputType) {
     return pInputType === "json" && typeof pScript === "object";
 }
@@ -27,26 +27,26 @@ function runCallBack(pCallBack, pError, pResult) {
         }
     }
 }
-exports.default = {
-    renderMsc(pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRenderer) {
-        const lOptions = normalizeoptions_1.default(pOptions, pScript);
+exports["default"] = {
+    renderMsc: function (pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRenderer) {
+        var lOptions = normalizeoptions_1["default"](pOptions, pScript);
         try {
             runCallBack(pCallBack, null, pGetGraphicsRenderer().render(getAST(pScript, lOptions.inputType, pGetParser), lOptions.window, lOptions.elementId, {
                 source: lOptions.source,
                 styleAdditions: lOptions.styleAdditions,
                 additionalTemplate: lOptions.additionalTemplate,
                 mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
-                regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment,
+                regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment
             }));
         }
         catch (pException) {
             runCallBack(pCallBack, pException);
         }
     },
-    translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
-        const lOptions = Object.assign({
+    translateMsc: function (pScript, pOptions, pGetParser, pGetTextRenderer) {
+        var lOptions = Object.assign({
             inputType: "mscgen",
-            outputType: "json",
+            outputType: "json"
         }, pOptions || {});
         if (lOptions.outputType === "ast") {
             return pGetParser(lOptions.inputType).parse(pScript);
@@ -57,9 +57,9 @@ exports.default = {
         return pGetTextRenderer(lOptions.outputType).render(getAST(pScript, lOptions.inputType, pGetParser));
     },
     version: "3.0.0-beta-0",
-    getAllowedValues() {
-        return allowedvalues_1.default;
-    },
+    getAllowedValues: function () {
+        return allowedvalues_1["default"];
+    }
 };
 /*
  This file is part of mscgen_js.

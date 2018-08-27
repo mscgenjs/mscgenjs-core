@@ -1,8 +1,8 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+exports.__esModule = true;
+exports["default"] = {
     LINE_WIDTH: 2,
-    FONT_SIZE: 12,
+    FONT_SIZE: 12
 };
 /*
  This file is part of mscgen_js.

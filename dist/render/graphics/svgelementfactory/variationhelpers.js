@@ -1,7 +1,7 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 function determineStartCorrection(pLine, pClass, pLineWidth) {
-    let lRetval = 0;
+    var lRetval = 0;
     if (!pClass.includes("nodi") && pClass.includes("bidi")) {
         if (pLine.xTo > pLine.xFrom) {
             lRetval = 7.5 * pLineWidth;
@@ -13,23 +13,23 @@ function determineStartCorrection(pLine, pClass, pLineWidth) {
     return lRetval;
 }
 function determineEndCorrection(pLine, pClass, pLineWidth) {
-    let lRetval = 0;
+    var lRetval = 0;
     if (!pClass.includes("nodi")) {
         lRetval = pLine.xTo > pLine.xFrom ? -7.5 * pLineWidth : 7.5 * pLineWidth;
     }
     return lRetval;
 }
 function getDirection(pLine) {
-    const lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
+    var lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
     return {
         signX: lSignX,
         signY: pLine.yTo > pLine.yFrom ? 1 : -1,
-        dy: lSignX * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom),
+        dy: lSignX * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
     };
 }
-exports.default = {
-    determineStartCorrection,
-    determineEndCorrection,
+exports["default"] = {
+    determineStartCorrection: determineStartCorrection,
+    determineEndCorrection: determineEndCorrection,
     /**
      * returns the angle (in radials) of the line
      *
@@ -40,7 +40,7 @@ exports.default = {
      *                      dy: the angle (in radials)
      */
     // straight, wobbly
-    getDirection,
+    getDirection: getDirection
 };
 /*
  This file is part of mscgen_js.

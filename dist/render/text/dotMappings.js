@@ -1,35 +1,35 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Defines several mappings of arckinds to agregations
  *
  */
-const KIND2ARROW = Object.freeze({
+var KIND2ARROW = Object.freeze({
     "->": "rvee",
     "<->": "rvee",
     "=>": "normal",
     "<=>": "normal",
-    "-x": "oinvonormal",
+    "-x": "oinvonormal"
 });
-const KIND2SHAPE = Object.freeze({
+var KIND2SHAPE = Object.freeze({
     box: "box",
     abox: "hexagon",
     rbox: "box",
-    note: "note",
+    note: "note"
 });
-const KIND2STYLE = Object.freeze({
+var KIND2STYLE = Object.freeze({
     ">>": "dashed",
     "<<>>": "dashed",
     "..": "dashed",
     ":>": "bold",
     "<:>": "bold",
     "::": "bold",
-    "rbox": "rounded",
+    "rbox": "rounded"
 });
-exports.default = {
-    getArrow(pKey) { return KIND2ARROW[pKey]; },
-    getShape(pKey) { return KIND2SHAPE[pKey]; },
-    getStyle(pKey) { return KIND2STYLE[pKey]; },
+exports["default"] = {
+    getArrow: function (pKey) { return KIND2ARROW[pKey]; },
+    getShape: function (pKey) { return KIND2SHAPE[pKey]; },
+    getStyle: function (pKey) { return KIND2STYLE[pKey]; }
 };
 /* The 'generic object injection sink' is to a frozen object,
    attempts to modify it will be moot => we can safely use the []

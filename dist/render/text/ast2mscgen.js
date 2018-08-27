@@ -1,13 +1,30 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
-const ast2xu_1 = require("./ast2xu");
-class MscGenAdaptor extends ast2xu_1.XuAdaptor {
-    init(pConfig) {
-        super.init(Object.assign({
+exports.__esModule = true;
+var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+var ast2xu_1 = require("./ast2xu");
+var MscGenAdaptor = /** @class */ (function (_super) {
+    __extends(MscGenAdaptor, _super);
+    function MscGenAdaptor() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    MscGenAdaptor.prototype.init = function (pConfig) {
+        _super.prototype.init.call(this, Object.assign({
             supportedOptions: ["hscale", "width", "arcgradient", "wordwraparcs"],
             supportedEntityAttributes: [
                 "label", "idurl", "id", "url",
@@ -20,30 +37,31 @@ class MscGenAdaptor extends ast2xu_1.XuAdaptor {
                 "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
             ],
             inline: {
-                opener: `;${this.eol}`,
-                closer: "#",
-            },
+                opener: ";" + this.eol,
+                closer: "#"
+            }
         }, pConfig));
-    }
-    renderKind(pKind) {
-        if ("inline_expression" === aggregatekind_1.default(pKind)) {
+    };
+    MscGenAdaptor.prototype.renderKind = function (pKind) {
+        if ("inline_expression" === aggregatekind_1["default"](pKind)) {
             return "--";
         }
         return pKind;
-    }
-    optionIsValid(pOption) {
+    };
+    MscGenAdaptor.prototype.optionIsValid = function (pOption) {
         if (Boolean(pOption.value) && typeof (pOption.value) === "string") {
             return pOption.value.toLowerCase() !== "auto";
         }
         return true;
-    }
-}
+    };
+    return MscGenAdaptor;
+}(ast2xu_1.XuAdaptor));
 exports.MscGenAdaptor = MscGenAdaptor;
-exports.default = {
-    render: (pAST, pMinimal) => {
-        const lAdaptor = new MscGenAdaptor(pMinimal);
+exports["default"] = {
+    render: function (pAST, pMinimal) {
+        var lAdaptor = new MscGenAdaptor(pMinimal);
         return lAdaptor.render(pAST);
-    },
+    }
 };
 /*
  This file is part of mscgen_js.

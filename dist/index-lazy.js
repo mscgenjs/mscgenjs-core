@@ -2,9 +2,9 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const main_1 = __importDefault(require("./main"));
-const lazy_resolver_1 = __importDefault(require("./main/lazy-resolver"));
+exports.__esModule = true;
+var main_1 = __importDefault(require("./main"));
+var lazy_resolver_1 = __importDefault(require("./main/lazy-resolver"));
 /**
  * Exactly the same interface as @index.js - the only difference is that the
  * functions only load dependencies at the moment they need them.
@@ -13,35 +13,35 @@ module.exports = {
     /**
      * See the function of the same name in @index.js.
      */
-    renderMsc(pScript, pOptions, pCallBack) {
-        main_1.default.renderMsc(pScript, pOptions || {}, pCallBack, lazy_resolver_1.default.getParser, lazy_resolver_1.default.getGraphicsRenderer);
+    renderMsc: function (pScript, pOptions, pCallBack) {
+        main_1["default"].renderMsc(pScript, pOptions || {}, pCallBack, lazy_resolver_1["default"].getParser, lazy_resolver_1["default"].getGraphicsRenderer);
     },
     /**
      * See the function of the same name in @index.js.
      */
-    translateMsc(pScript, pOptions) {
-        return main_1.default.translateMsc(pScript, pOptions || {}, lazy_resolver_1.default.getParser, lazy_resolver_1.default.getTextRenderer);
+    translateMsc: function (pScript, pOptions) {
+        return main_1["default"].translateMsc(pScript, pOptions || {}, lazy_resolver_1["default"].getParser, lazy_resolver_1["default"].getTextRenderer);
     },
     /**
      * See the variable of the same name in @index.js.
      */
-    version: main_1.default.version,
+    version: main_1["default"].version,
     /**
      * See the variable of the same name in @index.js.
      */
-    getAllowedValues: main_1.default.getAllowedValues,
+    getAllowedValues: main_1["default"].getAllowedValues,
     /**
      * See the function of the same name in @index.js
      */
-    getParser: lazy_resolver_1.default.getParser,
+    getParser: lazy_resolver_1["default"].getParser,
     /**
      * See the function of the same name in @index.js
      */
-    getGraphicsRenderer: lazy_resolver_1.default.getGraphicsRenderer,
+    getGraphicsRenderer: lazy_resolver_1["default"].getGraphicsRenderer,
     /**
      * See the function of the same name in @index.js
      */
-    getTextRenderer: lazy_resolver_1.default.getTextRenderer,
+    getTextRenderer: lazy_resolver_1["default"].getTextRenderer
 };
 /*
 This file is part of mscgen_js.

@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Wraps text on the first space found before pMaxlength,
  * or exactly pMaxLength when no space was found.
@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param {int} pMaxLength
  * @return {Array of string}
  */
-exports.default = (pText, pMaxLength) => {
-    let lCharCount = 0;
-    const lRetval = [];
-    let lStart = 0;
-    let lNewStart = 0;
-    let lEnd = 0;
-    let i = 0;
-    const lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
+exports["default"] = (function (pText, pMaxLength) {
+    var lCharCount = 0;
+    var lRetval = [];
+    var lStart = 0;
+    var lNewStart = 0;
+    var lEnd = 0;
+    var i = 0;
+    var lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
     while (i <= lText.length) {
         if (i >= (lText.length)) {
             lRetval.push(lText.substring(lStart, i));
@@ -43,7 +43,7 @@ exports.default = (pText, pMaxLength) => {
         i++;
     }
     return lRetval;
-};
+});
 /*
  This file is part of mscgen_js.
 

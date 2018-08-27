@@ -2,18 +2,18 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_flatten_1 = __importDefault(require("lodash.flatten"));
-const normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
-const KINDS = {
+exports.__esModule = true;
+var lodash_flatten_1 = __importDefault(require("lodash.flatten"));
+var normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
+var KINDS = {
     "->": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
             { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})" },
         ],
         marker: {
-            name: "signal",
-        },
+            name: "signal"
+        }
     },
     "<->": {
         attributes: [
@@ -22,8 +22,8 @@ const KINDS = {
             { name: "marker-start", value: "url(#{{id}}{{signal-marker-start}}-{{color}})" },
         ],
         marker: {
-            name: "signal",
-        },
+            name: "signal"
+        }
     },
     "=>>": {
         attributes: [
@@ -32,8 +32,8 @@ const KINDS = {
         ],
         marker: {
             name: "callback",
-            end: "",
-        },
+            end: ""
+        }
     },
     "<<=>>": {
         attributes: [
@@ -44,8 +44,8 @@ const KINDS = {
         marker: {
             name: "callback",
             end: "",
-            start: "-l",
-        },
+            start: "-l"
+        }
     },
     ">>": {
         attributes: [
@@ -54,8 +54,8 @@ const KINDS = {
         ],
         marker: {
             name: "callback",
-            end: "",
-        },
+            end: ""
+        }
     },
     "<<>>": {
         attributes: [
@@ -66,28 +66,28 @@ const KINDS = {
         marker: {
             name: "callback",
             end: "",
-            start: "-l",
-        },
+            start: "-l"
+        }
     },
     "..": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-        ],
+        ]
     },
     "--": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-        ],
+        ]
     },
     "==": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-        ],
+        ]
     },
     "::": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-        ],
+        ]
     },
     "=>": {
         attributes: [
@@ -96,8 +96,8 @@ const KINDS = {
         ],
         marker: {
             name: "method",
-            end: "",
-        },
+            end: ""
+        }
     },
     "<=>": {
         attributes: [
@@ -108,8 +108,8 @@ const KINDS = {
         marker: {
             name: "method",
             end: "",
-            start: "-l",
-        },
+            start: "-l"
+        }
     },
     ":>": {
         attributes: [
@@ -118,8 +118,8 @@ const KINDS = {
         ],
         marker: {
             name: "method",
-            end: "",
-        },
+            end: ""
+        }
     },
     "<:>": {
         attributes: [
@@ -130,8 +130,8 @@ const KINDS = {
         marker: {
             name: "method",
             end: "",
-            start: "-l",
-        },
+            start: "-l"
+        }
     },
     "-x": {
         attributes: [
@@ -140,36 +140,36 @@ const KINDS = {
         ],
         marker: {
             name: "lost",
-            end: "",
-        },
-    },
+            end: ""
+        }
+    }
 };
-const MARKERPATHS = {
+var MARKERPATHS = {
     signal: {
         variants: [
             { name: "", path: "M9,3 l-8, 2" },
             { name: "-u", path: "M9,3 l-8,-2" },
             { name: "-l", path: "M9,3 l 8, 2" },
             { name: "-lu", path: "M9,3 l 8,-2" },
-        ],
+        ]
     },
     method: {
         variants: [
             { name: "", path: "1,1  9,3  1,5" },
             { name: "-l", path: "17,1 9,3 17,5" },
-        ],
+        ]
     },
     callback: {
         variants: [
             { name: "", path: "M 1,1 l 8,2 l-8,2" },
             { name: "-l", path: "M17,1 l-8,2 l 8,2" },
-        ],
+        ]
     },
     lost: {
         variants: [
             { name: "", path: "M7,0 l5,6 M7,6 l5,-6" },
-        ],
-    },
+        ]
+    }
 };
 function getSignalend(pKind, pFrom, pTo) {
     if (pFrom && pTo && (["<->", "->"].includes(pKind))) {
@@ -186,21 +186,21 @@ function getSignalstart(pKind, pFrom, pTo) {
     }
 }
 function _getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
-    let lRetval = [];
+    var lRetval = [];
     if (KINDS[pKind] && KINDS[pKind].attributes) {
-        lRetval = KINDS[pKind].attributes.map((pAttribute) => ({
+        lRetval = KINDS[pKind].attributes.map(function (pAttribute) { return ({
             name: pAttribute.name,
             value: pAttribute.value
                 .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
                 .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
                 .replace(/\{\{id\}\}/g, pId)
-                .replace(/\{\{color\}\}/g, pLineColor || "black"),
-        }));
+                .replace(/\{\{color\}\}/g, pLineColor || "black")
+        }); });
     }
     return lRetval;
 }
 function makeKindColorCombi(pKind, pColor) {
-    return KINDS[normalizekind_1.default(pKind)].marker.name +
+    return KINDS[normalizekind_1["default"](pKind)].marker.name +
         (Boolean(pColor) ? " " + pColor : " black");
 }
 function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
@@ -213,8 +213,8 @@ function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
     if (!!pArc.arcs) {
         pArc.arcs.forEach(_extractKindColorCombis);
     }
-    if (!!pArc.kind && !!KINDS[normalizekind_1.default(pArc.kind)] &&
-        !!(KINDS[normalizekind_1.default(pArc.kind)].marker) &&
+    if (!!pArc.kind && !!KINDS[normalizekind_1["default"](pArc.kind)] &&
+        !!(KINDS[normalizekind_1["default"](pArc.kind)].marker) &&
         !pKindColorCombis.includes(makeKindColorCombi(pArc.kind, pArc.linecolor))) {
         pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));
     }
@@ -237,19 +237,19 @@ function toColorCombiObject(pColorCombi) {
 function extractKindColorCombis(pAST) {
     return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
 }
-exports.default = {
+exports["default"] = {
     getAttributes: _getAttributes,
-    getMarkerDefs(pId, pAST) {
-        return lodash_flatten_1.default(extractKindColorCombis(pAST)
-            .map((pCombi) => MARKERPATHS[pCombi.kind]
+    getMarkerDefs: function (pId, pAST) {
+        return lodash_flatten_1["default"](extractKindColorCombis(pAST)
+            .map(function (pCombi) { return MARKERPATHS[pCombi.kind]
             .variants
-            .map((pVariant) => ({
-            name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
+            .map(function (pVariant) { return ({
+            name: pId + pCombi.kind + pVariant.name + "-" + pCombi.color,
             path: pVariant.path,
             color: pCombi.color,
-            type: pCombi.kind,
-        }))));
-    },
+            type: pCombi.kind
+        }); }); }));
+    }
 };
 /*
  This file is part of mscgen_js.

@@ -1,20 +1,20 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /**
  * Defines several mappings of arckinds to agregations
  *
  * @exports node/arcmappings
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-const KIND2NORMALIZEDKIND = Object.freeze({
+var KIND2NORMALIZEDKIND = Object.freeze({
     "<-": "->",
     "<=": "=>",
     "<<=": "=>>",
     "<<": ">>",
     "<:": ":>",
-    "x-": "-x",
+    "x-": "-x"
 });
-exports.default = (pKey) => KIND2NORMALIZEDKIND[pKey] || pKey;
+exports["default"] = (function (pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; });
 /*
  This file is part of mscgen_js.
 

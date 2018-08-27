@@ -2,24 +2,24 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const aggregatekind_1 = __importDefault(require("./aggregatekind"));
-const asttransform_1 = __importDefault(require("./asttransform"));
-const colorizeschemes_1 = __importDefault(require("./colorizeschemes"));
-let gColorCombiCount = 0;
+exports.__esModule = true;
+var aggregatekind_1 = __importDefault(require("./aggregatekind"));
+var asttransform_1 = __importDefault(require("./asttransform"));
+var colorizeschemes_1 = __importDefault(require("./colorizeschemes"));
+var gColorCombiCount = 0;
 function getArcColorCombis(pColorScheme, pKind) {
-    const lArcCombi = pColorScheme.arcColors[pKind];
+    var lArcCombi = pColorScheme.arcColors[pKind];
     if (lArcCombi) {
         return lArcCombi;
     }
     else {
-        return pColorScheme.aggregateArcColors[aggregatekind_1.default(pKind)];
+        return pColorScheme.aggregateArcColors[aggregatekind_1["default"](pKind)];
     }
 }
 function colorizeArc(pColorScheme) {
-    return (pArc) => {
+    return function (pArc) {
         if (!hasColors(pArc)) {
-            const lColorCombi = getArcColorCombis(pColorScheme, pArc.kind);
+            var lColorCombi = getArcColorCombis(pColorScheme, pArc.kind);
             if (lColorCombi) {
                 pArc.linecolor = lColorCombi.linecolor;
                 if (lColorCombi.textcolor) {
@@ -31,7 +31,7 @@ function colorizeArc(pColorScheme) {
     };
 }
 function getNextColorCombi(pColorScheme) {
-    const lColorCombiCount = gColorCombiCount;
+    var lColorCombiCount = gColorCombiCount;
     if (gColorCombiCount < pColorScheme.entityColors.length - 1) {
         gColorCombiCount += 1;
     }
@@ -42,12 +42,12 @@ function getNextColorCombi(pColorScheme) {
 }
 function hasColors(pArcOrEntity) {
     return ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"]
-        .some((pColorAttr) => Boolean(pArcOrEntity[pColorAttr]));
+        .some(function (pColorAttr) { return Boolean(pArcOrEntity[pColorAttr]); });
 }
 function colorizeEntity(pColorScheme) {
-    return (pEntity) => {
+    return function (pEntity) {
         if (!hasColors(pEntity)) {
-            const lNextColorCombi = getNextColorCombi(pColorScheme);
+            var lNextColorCombi = getNextColorCombi(pColorScheme);
             pEntity.linecolor = lNextColorCombi.linecolor;
             pEntity.textbgcolor = lNextColorCombi.textbgcolor;
             if (lNextColorCombi.textcolor) {
@@ -60,7 +60,7 @@ function colorizeEntity(pColorScheme) {
 }
 function colorize(pAST, pColorScheme, pForce) {
     gColorCombiCount = 0;
-    return asttransform_1.default(pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
+    return asttransform_1["default"](pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
 }
 function uncolorThing(pThing) {
     delete pThing.linecolor;
@@ -71,16 +71,16 @@ function uncolorThing(pThing) {
     delete pThing.arctextbgcolor;
 }
 function uncolor(pAST) {
-    return asttransform_1.default(pAST, [uncolorThing], [uncolorThing]);
+    return asttransform_1["default"](pAST, [uncolorThing], [uncolorThing]);
 }
-exports.default = {
-    uncolor,
-    colorize,
-    applyScheme(pAST, pColorSchemeName, pForced) {
-        return colorize(pAST, colorizeschemes_1.default[pColorSchemeName]
-            ? colorizeschemes_1.default[pColorSchemeName]
-            : colorizeschemes_1.default.auto, pForced);
-    },
+exports["default"] = {
+    uncolor: uncolor,
+    colorize: colorize,
+    applyScheme: function (pAST, pColorSchemeName, pForced) {
+        return colorize(pAST, colorizeschemes_1["default"][pColorSchemeName]
+            ? colorizeschemes_1["default"][pColorSchemeName]
+            : colorizeschemes_1["default"].auto, pForced);
+    }
 };
 /*
  This file is part of mscgen_js.
