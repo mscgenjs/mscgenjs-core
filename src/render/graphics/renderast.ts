@@ -4,7 +4,7 @@ import * as mscgenjsast from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import flatten, { IEntityNormalized, IFlatArc, IFlatSequenceChart } from "../astmassage/flatten";
 import constants from "./constants";
-import entities from "./entities";
+import { IOandD, Thing } from "./entities";
 import idmanager from "./idmanager";
 import kind2class from "./kind2class";
 import markermanager from "./markermanager";
@@ -15,8 +15,10 @@ import rowmemory from "./rowmemory";
 import svgelementfactory from "./svgelementfactory/index";
 import svgutensils from "./svgutensils";
 
+let entities = new Thing(0);
+
 //#region type declarations
-interface IChartLayer {
+interface IChartLayers {
     lifeline: SVGGElement;
     sequence: SVGGElement;
     notes: SVGGElement;
@@ -33,7 +35,7 @@ interface IChart {
     regularArcTextVerticalAlignment: RegularArcTextVerticalAlignmentType;
     maxDepth: number;
     document: Document;
-    layer: IChartLayer;
+    layers: IChartLayers;
 }
 
 interface ICanvas {
@@ -65,7 +67,7 @@ const gChart: IChart = Object.seal({
     regularArcTextVerticalAlignment: "middle" as RegularArcTextVerticalAlignmentType,
     maxDepth               : 0,
     document               : {} as Document,
-    layer                  : {
+    layers                 : {
         lifeline     : {} as SVGGElement,
         sequence     : {} as SVGGElement,
         notes        : {} as SVGGElement,
@@ -120,7 +122,7 @@ function renderASTPre(
     gChart.regularArcTextVerticalAlignment = pOptions.regularArcTextVerticalAlignment;
     svgutensils.init(gChart.document);
 
-    gChart.layer = createLayerShortcuts(gChart.document);
+    gChart.layers = createLayerShortcuts(gChart.document);
     gChart.maxDepth = pAST.depth;
 
     preProcessOptions(gChart, pAST.options);
@@ -187,7 +189,7 @@ function preProcessOptionsArcs(pChart: IChart, pOptions: mscgenjsast.IOptionsNor
  * @param <object> - pOptions - the option part of the AST
  */
 function preProcessOptions(pChart: IChart, pOptions: mscgenjsast.IOptionsNormalized) {
-    entities.init(pOptions && pOptions.hscale);
+    entities = new Thing(pOptions && pOptions.hscale);
     preProcessOptionsArcs(pChart, pOptions);
 }
 
@@ -224,7 +226,7 @@ function renderBackground(pCanvas: ICanvas) {
 }
 
 function renderWatermark(pWatermark: string, pCanvas: ICanvas) {
-    gChart.layer.watermark.appendChild(
+    gChart.layers.watermark.appendChild(
         svgelementfactory.createDiagonalText(pWatermark, pCanvas, "watermark"),
     );
 }
@@ -286,7 +288,7 @@ function renderEntitiesOnBottom(pEntities: IEntityNormalized[], pOptions: mscgen
         gChart.arcRowHeight,
         lLifeLineSpacerY,
     ).forEach((pLifeLine) => {
-        gChart.layer.lifeline.appendChild(pLifeLine);
+        gChart.layers.lifeline.appendChild(pLifeLine);
     });
 
     /*
@@ -305,7 +307,7 @@ function renderEntitiesOnBottom(pEntities: IEntityNormalized[], pOptions: mscgen
 
 /**
  * renderEntities() - renders the given pEntities (subtree of the AST) into
- * the gChart.layer.sequence layer
+ * the gChart.layers.sequence layer
  *
  * @param <object> - pEntities - the entities to render
  * @param <int> - pEntityYPos - the Y position to render the entities on
@@ -313,7 +315,7 @@ function renderEntitiesOnBottom(pEntities: IEntityNormalized[], pOptions: mscgen
  *
  */
 function renderEntities(pEntities: IEntityNormalized[], pEntityYPos: number, pOptions: mscgenjsast.IOptionsNormalized) {
-    gChart.layer.sequence.appendChild(
+    gChart.layers.sequence.appendChild(
         entities.renderEntities(pEntities, pEntityYPos, pOptions),
     );
     gChart.arcEndX =
@@ -343,7 +345,7 @@ function renderBroadcastArc(
             xTo = entities.getX(pEntity.name);
             lElement = createArc(pArc, xFrom, xTo, pRowNumber, pOptions);
             pRowMemory.push({
-                layer : gChart.layer.sequence,
+                layer : gChart.layers.sequence,
                 element: lElement,
             });
         }
@@ -383,7 +385,7 @@ function renderRegularArc(
                 );
             pRowMemory.push({
                 title : pArc.title,
-                layer : gChart.layer.sequence,
+                layer : gChart.layers.sequence,
                 element: lElement,
             });
         } else { // it's a regular arc
@@ -397,7 +399,7 @@ function renderRegularArc(
                 );
             pRowMemory.push({
                 title : pArc.title,
-                layer : gChart.layer.sequence,
+                layer : gChart.layers.sequence,
                 element: lElement,
             });
         }  // / lTo or pArc.from === "*"
@@ -458,7 +460,7 @@ function renderArcRow(
                 lArcRowClass = "arcrowomit";
             }
             lRowMemory.push({
-                layer : gChart.layer.sequence,
+                layer : gChart.layers.sequence,
                 element: lElement,
             });
             break;
@@ -471,14 +473,14 @@ function renderArcRow(
             );
             lRowMemory.push({
                 title : pArc.title,
-                layer : gChart.layer.notes,
+                layer : gChart.layers.notes,
                 element: lElement,
             });
             break;
         case ("inline_expression"):
             lElement = renderInlineExpressionLabel(pArc, rowmemory.get(pRowNumber).y);
             lRowMemory.push({
-                layer : gChart.layer.notes,
+                layer : gChart.layers.notes,
                 element: lElement,
             });
             gInlineExpressionMemory.push({
@@ -507,7 +509,7 @@ function renderArcRow(
         rowmemory.get(pRowNumber).height,
         rowmemory.get(pRowNumber).y,
     ).forEach((pLifeLine) => {
-        gChart.layer.lifeline.appendChild(pLifeLine);
+        gChart.layers.lifeline.appendChild(pLifeLine);
     });
 
     lRowMemory.forEach((pRowMemoryLine) => {
@@ -571,7 +573,7 @@ function renderArcRows(
         gChart.arcRowHeight,
         rowmemory.get(-1).y,
     ).forEach((pLifeLine) => {
-        gChart.layer.lifeline.appendChild(pLifeLine);
+        gChart.layers.lifeline.appendChild(pLifeLine);
     });
 
     precalculateArcRowHeights(pArcRows, pEntities, pOptions);
@@ -694,7 +696,7 @@ function createInlineExpressionBox(pOAndD, pArc: IFlatArc, pHeight: number, pY: 
 function renderInlineExpressions(pInlineExpressions) {
     pInlineExpressions.forEach(
         (pInlineExpression) => {
-            gChart.layer.inline.appendChild(
+            gChart.layers.inline.appendChild(
                 renderInlineExpression(pInlineExpression, rowmemory.get(pInlineExpression.rownum).y),
             );
         },
@@ -1043,17 +1045,16 @@ function createComment(pArc: IFlatArc, pOAndD, pY: number) {
 
 /**
  * creates an element representing a box (box, abox, rbox, note)
- * also (mis?) used for rendering inline expressions/ arc spanning arcs
  *
  * @param <string> - pId - the unique identification of the box within the svg
  * @param <number> - pFrom - the x coordinate to render the box from
- * @param <number> - pTo - the x coordinate to render te box to
+ * @param <number> - pTo - the x coordinate to render the box to
  * @param <object> - pArc - the (box/ arc spanning) arc to render
  * @param <number> - pHeight - the height of the box to render. If not passed
  * takes the bounding box of the (rendered) label of the arc, taking care not
  * to get smaller than the default arc row height
  */
-function createBox(pOAndD, pArc: IFlatArc, pY: number, pOptions: mscgenjsast.IOptionsNormalized) {
+function createBox(pOAndD: IOandD, pArc: IFlatArc, pY: number, pOptions: mscgenjsast.IOptionsNormalized): SVGGElement {
     /* begin: same as createInlineExpressionBox */
     const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
     const lWidth =
