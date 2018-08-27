@@ -37,7 +37,7 @@ export class Thing {
             interEntitySpacing: this.interEntitySpacing,
             height: this.height,
             width: this.width,
-            entityXHWM: this.entityXHWM
+            entityXHWM: this.entityXHWM,
         });
     }
 

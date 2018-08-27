@@ -5,22 +5,23 @@
     ],
     "jsRules": {},
     "rules": {
-        "object-literal-sort-keys": false,
         "cyclomatic-complexity": [true, 7],
+        "object-literal-sort-keys": false,
         "max-file-line-count": {
             "severity": "warning",
             "options": [1250] // ideally, 250
-        }
+        },
+        "no-var-requires": false
     },
     "rulesDirectory": [],
     "linterOptions": {
         "exclude": [
-            "test/**",
-            "dist/**",
-            "types/tmp**",
             "*.json",
+            "dist/**",
+            "node_modules",
             "src/render/graphics/csstemplates.ts",
-            "node_modules"
+            "test/**",
+            "types/tmp**"
         ]
     }
 }
