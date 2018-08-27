@@ -21,7 +21,7 @@
 import svgelementfactory from "./svgelementfactory/index";
 
 import constants from "./constants";
-import csstemplates from "./csstemplates";
+const csstemplates = require("./csstemplates.json");
 
 let gDocument: any = {};
 

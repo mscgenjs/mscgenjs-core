@@ -44,17 +44,14 @@ const dirNameToAdditionNode = pRootDirName =>
 const dirToAdditionsArray = pRootDirName =>
     fs.readdirSync(pRootDirName)
         .filter(dirNameIsAddition)
-        .map((pDirName) =>
-            `
-            Object.freeze(${JSON.stringify(
-        dirNameToAdditionNode(pRootDirName)(pDirName),
-        null,
-        "                "
-    )})`
-        );
+        .map((pDirName) => JSON.stringify(
+            dirNameToAdditionNode(pRootDirName)(pDirName),
+            null,
+            "        "
+        ));
 
 process.stdout.write(
-    fs.readFileSync('src/render/graphics/styling/csstemplates.tsTemplate', 'utf-8')
+    fs.readFileSync('src/render/graphics/styling/csstemplates.jsonTemplate', 'utf-8')
         .replace(
             /<%=additionalTemplates%>/g,
             `[${dirToAdditionsArray("src/render/graphics/styling/")}]`

@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const csstemplates_1 = __importDefault(require("../render/graphics/csstemplates"));
-exports.default = Object.freeze({
+exports.__esModule = true;
+var cssTemplates = require("../render/graphics/csstemplates.json");
+exports["default"] = Object.freeze({
     inputType: [
         { name: "mscgen", experimental: false },
         { name: "msgenny", experimental: false },
@@ -26,12 +23,12 @@ exports.default = Object.freeze({
         { name: "middle", experimental: false },
         { name: "below", experimental: true },
     ],
-    namedStyle: csstemplates_1.default.namedStyles.map((pStyle) => ({
+    namedStyle: cssTemplates.namedStyles.map(function (pStyle) { return ({
         name: pStyle.name,
         description: pStyle.description,
         experimental: pStyle.experimental,
-        deprecated: pStyle.deprecated,
-    })),
+        deprecated: pStyle.deprecated
+    }); })
 });
 /*
  This file is part of mscgen_js.

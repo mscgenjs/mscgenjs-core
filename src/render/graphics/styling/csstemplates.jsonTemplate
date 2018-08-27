@@ -1,0 +1,4 @@
+{
+    "baseTemplate": "<%=baseTemplateString%>",
+    "namedStyles": <%=additionalTemplates%>
+}
