@@ -6,7 +6,7 @@
  * @param {int} pMaxLength
  * @return {Array of string}
  */
-export default (pText: string, pMaxLength: number) => {
+export default (pText: string, pMaxLength: number): string[] => {
     let lCharCount = 0;
     const lRetval = [] as string[];
     let lStart = 0;
