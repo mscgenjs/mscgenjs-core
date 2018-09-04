@@ -50,11 +50,12 @@ export class XuAdaptor {
     protected renderEntityName(pString: string): string {
         return this.isQuotable(pString) ? `"${pString}"` : pString;
     }
-
     protected renderAttribute(pAttribute): string {
         let lRetVal = "";
-        if (pAttribute.name && pAttribute.value) {
-            lRetVal += `${pAttribute.name}="${escape.escapeString(pAttribute.value)}"`;
+        if (pAttribute.name && pAttribute.hasOwnProperty("value")) {
+            lRetVal = typeof pAttribute.value === "string"
+                ? this.renderStringAttribute(pAttribute)
+                : this.renderNonStringAttribute(pAttribute);
         }
         return lRetVal;
     }
@@ -79,6 +80,14 @@ export class XuAdaptor {
         return pKind;
     }
 
+    private renderStringAttribute(pAttribute): string {
+        return `${pAttribute.name}="${escape.escapeString(pAttribute.value)}"`;
+    }
+
+    private renderNonStringAttribute(pAttribute): string {
+        return `${pAttribute.name}=${pAttribute.value}`;
+    }
+
     private getConfig() {
         return {
             supportedOptions : [
@@ -100,6 +109,7 @@ export class XuAdaptor {
                 "linecolor", "textcolor", "textbgcolor",
                 "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
                 "title",
+                "activation",
             ],
             program : {
                 opener : `msc${this.space}{${this.eol}`,

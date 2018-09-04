@@ -75,18 +75,15 @@
                 },
                 "wordwraparcs": {
                     "description": "If true, text on arcs gets automatically wrapped",
-                    "$ref": "#/definitions/BooleanesqueType",
-                    "default": "false"
+                    "type": "boolean"
                 },
                 "wordwrapentities": {
                     "description": "If true, text in entities gets automatically wrapped",
-                    "$ref": "#/definitions/BooleanesqueType",
-                    "default": "true"
+                    "type": "boolean"
                 },
                 "wordwrapboxes": {
                     "description": "If true, text in boxes gets automatically wrapped",
-                    "$ref": "#/definitions/BooleanesqueType",
-                    "default": "true"
+                    "type": "boolean"
                 },
                 "watermark": {
                     "description": "Puts a watermark accross the chart",
@@ -161,6 +158,10 @@
                 "title": {
                     "description": "Text to show on hover (only functional on arcs a.t.m.)",
                     "type": "string"
+                },
+                "activation": {
+                    "description": "Whether this arc activates (value=true) the target arc or de-activates (value=false) the source arc",
+                    "type": "boolean"
                 }
             }
         },
@@ -282,34 +283,12 @@
                 "title": {
                     "description": "Text to show on hover (only functional on arcs a.t.m.)",
                     "type": "string"
+                },
+                "activation": {
+                    "description": "Whether this arc activates (value=true) the target arc or de-activates (value=false) the source arc",
+                    "type": "boolean"
                 }
             }
-        },
-        "BooleanesqueType": {
-            "description": "Lenient way to express booleans",
-            "oneOf": [
-                {
-                    "type": "string",
-                    "enum": [
-                        "true",
-                        "false",
-                        "on",
-                        "off",
-                        "1",
-                        "0"
-                    ]
-                },
-                {
-                    "type":"boolean"
-                },
-                {
-                    "type":"number",
-                    "enum": [
-                        0,
-                        1
-                    ]
-                }
-            ]
         }
     }
 }

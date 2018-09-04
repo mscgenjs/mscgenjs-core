@@ -48,8 +48,10 @@ var XuAdaptor = /** @class */ (function () {
     };
     XuAdaptor.prototype.renderAttribute = function (pAttribute) {
         var lRetVal = "";
-        if (pAttribute.name && pAttribute.value) {
-            lRetVal += pAttribute.name + "=\"" + escape_1["default"].escapeString(pAttribute.value) + "\"";
+        if (pAttribute.name && pAttribute.hasOwnProperty("value")) {
+            lRetVal = typeof pAttribute.value === "string"
+                ? this.renderStringAttribute(pAttribute)
+                : this.renderNonStringAttribute(pAttribute);
         }
         return lRetVal;
     };
@@ -68,6 +70,12 @@ var XuAdaptor = /** @class */ (function () {
     };
     XuAdaptor.prototype.renderKind = function (pKind) {
         return pKind;
+    };
+    XuAdaptor.prototype.renderStringAttribute = function (pAttribute) {
+        return pAttribute.name + "=\"" + escape_1["default"].escapeString(pAttribute.value) + "\"";
+    };
+    XuAdaptor.prototype.renderNonStringAttribute = function (pAttribute) {
+        return pAttribute.name + "=" + pAttribute.value;
     };
     XuAdaptor.prototype.getConfig = function () {
         return {
@@ -90,6 +98,7 @@ var XuAdaptor = /** @class */ (function () {
                 "linecolor", "textcolor", "textbgcolor",
                 "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
                 "title",
+                "activation",
             ],
             program: {
                 opener: "msc" + this.space + "{" + this.eol,

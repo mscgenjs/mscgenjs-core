@@ -242,6 +242,10 @@ exports[`render/text/ast2xu #renderAST() - simple syntax tree should, given a si
 
 exports[`render/text/ast2xu #renderAST() - xu compatible Puts entities with mscgen keyword for a name in quotes 1`] = `"msc{\\"note\\";}"`;
 
+exports[`render/text/ast2xu #renderAST() - xu compatible Re-renders the activation attribute (off) 1`] = `"msc{a,b;a => b[activation=false];}"`;
+
+exports[`render/text/ast2xu #renderAST() - xu compatible Re-renders the activation attribute (on) 1`] = `"msc{a,b;a => b[activation=true];}"`;
+
 exports[`render/text/ast2xu #renderAST() - xu compatible Re-renders title attributes 1`] = `"msc{a,b;a => b[label=\\"the label\\",title=\\"The title meister strikes again\\"];}"`;
 
 exports[`render/text/ast2xu #renderAST() - xu compatible alt only - render correct script 1`] = `

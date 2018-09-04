@@ -89,6 +89,12 @@ describe(`render/text/ast2xu`, () => {
         test("Re-renders title attributes", () => {
             expect(renderer.render(fix.astTitleOnArc, true)).toMatchSnapshot();
         });
+        test("Re-renders the activation attribute (on)", () => {
+            expect(renderer.render(fix.astActivate, true)).toMatchSnapshot();
+        });
+        test("Re-renders the activation attribute (off)", () => {
+            expect(renderer.render(fix.astDeActivate, true)).toMatchSnapshot();
+        });
     });
 
     describe(`#renderAST() - file based tests`, () => {

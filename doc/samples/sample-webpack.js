@@ -6,13 +6,14 @@ function render(){
     window.output.innerHTML = "";
 
     // render whatever is in window.inputscript at the moment
-    mscgenjs.renderMsc(
+    window.output.innerHTML = mscgenjs.translateMsc(
         window.inputscript.value,
         {
-            inputType: "msgenny", // make this "mscgen" or "xu" to make it an interpreter in that language
-            elementId: "output", // id of the element to render in
-            additionalTemplate: "fountainpen" // the 'fountainpen' style addtions makes things look squigly
+            inputType: "xu", // make this "mscgen" or "xu" to make it an interpreter in that language
+            // elementId: "output", // id of the element to render in
+            // additionalTemplate: "fountainpen", // the 'fountainpen' style addtions makes things look squigly
                                               // alternatively use 'lazy', which was developed for msgenny
+            outputType: "xu"
         },
         function (pError, pSuccess) {
             if (Boolean(pError)){

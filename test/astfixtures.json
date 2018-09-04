@@ -1862,5 +1862,55 @@
             }
           ]
         ]
+    },
+    "astActivate": {
+       "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
+        "entities": [
+          {
+            "name": "a"
+          },
+          {
+            "name": "b"
+          }
+        ],
+        "arcs": [
+          [
+            {
+              "kind": "=>",
+              "from": "a",
+              "to": "b",
+              "activation": true
+            }
+          ]
+        ]
+    },
+    "astDeActivate": {
+       "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
+        "entities": [
+          {
+            "name": "a"
+          },
+          {
+            "name": "b"
+          }
+        ],
+        "arcs": [
+          [
+            {
+              "kind": "=>",
+              "from": "a",
+              "to": "b",
+              "activation": false
+            }
+          ]
+        ]
     }
 }

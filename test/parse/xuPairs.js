@@ -17,6 +17,30 @@ module.exports = {
         title: 'should render an AST, with a "title" attribute on an arc',
         program: 'xu { a,b; a => b [label="the label", title="The title meister strikes again"];}',
         ast: astfixtures.astTitleOnArc
+    }, {
+        title: 'activate should render an AST, with activation=true',
+        program: 'xu {a,b; a => b [activate];}',
+        ast: astfixtures.astActivate
+    }, {
+        title: 'activation="on" should render an AST, with activation=true',
+        program: 'xu {a,b; a => b [activation="on"];}',
+        ast: astfixtures.astActivate
+    }, {
+        title: 'deactivate should render an AST, with activation=false',
+        program: 'xu {a,b; a => b [deactivate];}',
+        ast: astfixtures.astDeActivate
+    }, {
+        title: 'activation=off should render an AST, with activation=false',
+        program: 'xu {a,b; a => b [activation=off];}',
+        ast: astfixtures.astDeActivate
+    }, {
+        title: 'should render an AST, with activation=false',
+        program: 'xu {a,b; a => b [activation=0];}',
+        ast: astfixtures.astDeActivate
+    }, {
+        title: 'should render an AST, with activation=false',
+        program: 'xu {a,b; a => b [activation=somethingelse];}',
+        ast: astfixtures.astDeActivate
     }],
     syntaxErrors : [{
         title: 'should throw a SyntaxError on a missing closing bracket',
@@ -49,6 +73,9 @@ module.exports = {
     }, {
         title: 'should throw a SyntaxError when passing a real to something expecting a string',
         program: 'msc{watermark=481.1337; a;}'
+    }, {
+        title: 'should throw a SyntaxError when passing to an attribute without value',
+        program: 'msc{a,b;a=>b[activate="something"];}'
     }, {
         title: 'should throw a SyntaxError when passing a size to something expecting a string',
         program: 'msc{watermark=auto; a;}'

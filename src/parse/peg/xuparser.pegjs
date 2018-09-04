@@ -228,11 +228,25 @@ attributelist
         return attributes[0].concat(attributes[1]).reduce(_assign, {});
     }
 
-attribute
+attribute 
+    = namevalueattribute
+    / valueonlyattribute
+
+valueonlyattribute  "activate or deactivate"
+    = _ name:("activate"i/ "deactivate"i) _
+    {
+        return { activation: name.toLowerCase() === "activate"}
+    }
+
+namevalueattribute
     = _ name:attributename _ "=" _ value:identifier _
     {
       var lAttribute = {};
-      lAttribute[name.toLowerCase().replace("colour", "color")] = value;
+      if (name.toLowerCase() === "activation"){
+          lAttribute.activation = parserHelpers.default.flattenBoolean(value);
+      } else {
+        lAttribute[name.toLowerCase().replace("colour", "color")] = value;
+      }
       return lAttribute
     }
 
@@ -249,6 +263,7 @@ attributename  "attribute name"
     / "arctextbgcolor"i / "arctextbgcolour"i
     / "arcskip"i
     / "title"i
+    / "activation"i
 
 string "double quoted string" // used in watermark messages. Not yet in thos for label attributes
     = '"' s:stringcontent '"' {return s.join("")}
