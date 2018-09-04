@@ -2,6 +2,7 @@
 .nyc_output
 .project
 .settings/*
+.vscode/*
 *.swo
 *.swp
 *tmp*
