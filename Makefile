@@ -10,7 +10,7 @@ PARSERS=src/parse/mscgenparser.js \
 	src/parse/xuparser.js
 GENERATED_SOURCES=$(PARSERS) \
 				  $(CUSTOM_LODASH) \
-				  src/render/graphics/csstemplates.ts
+				  src/render/graphics/csstemplates.json
 
 .PHONY: help dist dev-build install deploy-gh-pages check fullcheck mostlyclean clean lint cover prerequisites report test update-dependencies run-update-dependencies depend bower-package
 
