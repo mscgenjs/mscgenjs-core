@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var allowedvalues_1 = __importDefault(require("./allowedvalues"));
 var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
+var $package = require("../../package.json");
 function isProbablyAnASTAlready(pScript, pInputType) {
     return pInputType === "json" && typeof pScript === "object";
 }
@@ -56,7 +57,7 @@ exports["default"] = {
         }
         return pGetTextRenderer(lOptions.outputType).render(getAST(pScript, lOptions.inputType, pGetParser));
     },
-    version: "3.0.0-beta-0",
+    version: $package.version,
     getAllowedValues: function () {
         return allowedvalues_1["default"];
     }

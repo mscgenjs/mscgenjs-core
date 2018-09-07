@@ -2,6 +2,7 @@ import * as mscgen from "../../types/mscgen";
 
 import allowedValues from "./allowedvalues";
 import normalizeOptions from "./normalizeoptions";
+const $package = require ("../../package.json");
 
 function isProbablyAnASTAlready(pScript: string, pInputType: mscgen.InputType) {
     return pInputType === "json" && typeof pScript === "object";
@@ -95,7 +96,7 @@ export default {
         );
     },
 
-    version: "3.0.0-beta-0",
+    version: $package.version,
 
     getAllowedValues(): mscgen.IAllowedValues {
         return allowedValues;
