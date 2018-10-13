@@ -1,7 +1,17 @@
-import {IRenderOptions, ITranslateOptions} from "../types/mscgen";
-import * as main from "./main";
-import resolver from "./main/lazy-resolver";
-
+"use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+exports.__esModule = true;
+var main = __importStar(require("./main"));
+var lazy_resolver_1 = __importDefault(require("./main/lazy-resolver"));
 /**
  * Exactly the same interface as @index.js - the only difference is that the
  * functions only load dependencies at the moment they need them.
@@ -10,59 +20,35 @@ module.exports = {
     /**
      * See the function of the same name in @index.js.
      */
-    renderMsc(
-        pScript: string,
-        pOptions: IRenderOptions,
-        pCallBack: (pError: Error | null, pResult?: string | null) => void,
-    ): void {
-        main.renderMsc(
-            pScript,
-            pOptions || {},
-            pCallBack,
-            resolver.getParser,
-            resolver.getGraphicsRenderer,
-        );
+    renderMsc: function (pScript, pOptions, pCallBack) {
+        main.renderMsc(pScript, pOptions || {}, pCallBack, lazy_resolver_1["default"].getParser, lazy_resolver_1["default"].getGraphicsRenderer);
     },
-
     /**
      * See the function of the same name in @index.js.
      */
-    translateMsc(
-        pScript: string,
-        pOptions?: ITranslateOptions,
-    ): string {
-        return main.translateMsc(
-            pScript,
-            pOptions || {},
-            resolver.getParser,
-            resolver.getTextRenderer,
-        );
+    translateMsc: function (pScript, pOptions) {
+        return main.translateMsc(pScript, pOptions || {}, lazy_resolver_1["default"].getParser, lazy_resolver_1["default"].getTextRenderer);
     },
-
     /**
      * See the variable of the same name in @index.js.
      */
     version: main.version,
-
     /**
      * See the variable of the same name in @index.js.
      */
     getAllowedValues: main.getAllowedValues,
-
     /**
      * See the function of the same name in @index.js
      */
-    getParser: resolver.getParser,
-
+    getParser: lazy_resolver_1["default"].getParser,
     /**
      * See the function of the same name in @index.js
      */
-    getGraphicsRenderer: resolver.getGraphicsRenderer,
-
+    getGraphicsRenderer: lazy_resolver_1["default"].getGraphicsRenderer,
     /**
      * See the function of the same name in @index.js
      */
-    getTextRenderer: resolver.getTextRenderer,
+    getTextRenderer: lazy_resolver_1["default"].getTextRenderer
 };
 /*
 This file is part of mscgen_js.

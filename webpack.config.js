@@ -18,7 +18,7 @@ module.exports = () => ({
         extensions: ['.js', '.ts']
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist', 'bundle'),
         filename : 'index.min.js',
         library: 'mscgenjs',
         libraryTarget: 'umd'

@@ -21,8 +21,8 @@ const gExpectedMscGenOutput = `msc {\n\
 const SIMPLE_MSCGEN = 'msc { a,"b space"; a => "b space" [label="a simple script"];}';
 const SIMPLE_XU     = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
-[require("../dist"), require("../dist/index-lazy"), require("../dist/index.min.js")].forEach((mscgenjs) => {
-    describe("dist index", () => {
+[require("../dist/cjs"), require("../dist/cjs/index-lazy"), require("../dist/bundle/index.min.js")].forEach((mscgenjs) => {
+    describe("lib & dist index", () => {
         describe("#translateMsc()", () => {
             test("no params translates mscgen to json", () => {
                 expect(JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN))).toEqual(fix.astSimple);

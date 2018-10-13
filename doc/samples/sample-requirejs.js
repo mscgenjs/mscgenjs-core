@@ -1,5 +1,5 @@
 define(function (require) {
-    var mscgenjs = require('../../dist/index.min');
+    var mscgenjs = require('../../dist/bundle/index.min');
 
     function render(){
         window.output.innerHTML = "";
