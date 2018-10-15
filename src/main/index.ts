@@ -2,7 +2,7 @@ import * as mscgen from "../../types/mscgen";
 
 import allowedValues from "./allowedvalues";
 import normalizeOptions from "./normalizeoptions";
-const $package = require ("../../package.json");
+const $version = require ("../version.json");
 
 function isProbablyAnASTAlready(pScript: string, pInputType: mscgen.InputType) {
     return pInputType === "json" && typeof pScript === "object";
@@ -35,73 +35,71 @@ function runCallBack(
     }
 }
 
-export default {
-    renderMsc(
-        pScript: string,
-        pOptions: mscgen.IRenderOptions,
-        pCallBack: (pError: Error | null, pResult?: string | null) => void,
-        pGetParser: (pInputType: mscgen.InputType) => mscgen.IParser,
-        pGetGraphicsRenderer: () => any,
-    ) {
-        const lOptions = normalizeOptions(pOptions, pScript);
+export function renderMsc(
+    pScript: string,
+    pOptions: mscgen.IRenderOptions,
+    pCallBack: (pError: Error | null, pResult?: string | null) => void,
+    pGetParser: (pInputType: mscgen.InputType) => mscgen.IParser,
+    pGetGraphicsRenderer: () => any,
+) {
+    const lOptions = normalizeOptions(pOptions, pScript);
 
-        try {
-            runCallBack(
-                pCallBack,
-                null,
-                pGetGraphicsRenderer().render(
-                    getAST(pScript, lOptions.inputType, pGetParser),
-                    lOptions.window,
-                    lOptions.elementId,
-                    {
-                        source: lOptions.source,
-                        styleAdditions: lOptions.styleAdditions,
-                        additionalTemplate: lOptions.additionalTemplate,
-                        mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
-                        regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment,
-                    },
-                ),
-            );
-        } catch (pException) {
-            runCallBack(pCallBack, pException);
-        }
-    },
-
-    translateMsc(
-        pScript: string,
-        pOptions: mscgen.ITranslateOptions,
-        pGetParser: (pInputType: mscgen.InputType) => mscgen.IParser,
-        pGetTextRenderer: (pOutputType: mscgen.OutputType) => mscgen.IRenderer,
-    ) {
-        const lOptions = Object.assign(
-            {
-                inputType: "mscgen",
-                outputType: "json",
-            },
-            pOptions || {},
+    try {
+        runCallBack(
+            pCallBack,
+            null,
+            pGetGraphicsRenderer().render(
+                getAST(pScript, lOptions.inputType, pGetParser),
+                lOptions.window,
+                lOptions.elementId,
+                {
+                    source: lOptions.source,
+                    styleAdditions: lOptions.styleAdditions,
+                    additionalTemplate: lOptions.additionalTemplate,
+                    mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
+                    regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment,
+                },
+            ),
         );
+    } catch (pException) {
+        runCallBack(pCallBack, pException);
+    }
+}
 
-        if (lOptions.outputType === "ast") {
-            return pGetParser(lOptions.inputType).parse(pScript);
-        }
-        if (lOptions.outputType === "json") {
-            return JSON.stringify(
-                pGetParser(lOptions.inputType).parse(pScript),
-                null,
-                "  ",
-            );
-        }
-        return pGetTextRenderer(lOptions.outputType).render(
-            getAST(pScript, lOptions.inputType, pGetParser),
+export function translateMsc(
+    pScript: string,
+    pOptions: mscgen.ITranslateOptions,
+    pGetParser: (pInputType: mscgen.InputType) => mscgen.IParser,
+    pGetTextRenderer: (pOutputType: mscgen.OutputType) => mscgen.IRenderer,
+) {
+    const lOptions = Object.assign(
+        {
+            inputType: "mscgen",
+            outputType: "json",
+        },
+        pOptions || {},
+    );
+
+    if (lOptions.outputType === "ast") {
+        return pGetParser(lOptions.inputType).parse(pScript);
+    }
+    if (lOptions.outputType === "json") {
+        return JSON.stringify(
+            pGetParser(lOptions.inputType).parse(pScript),
+            null,
+            "  ",
         );
-    },
+    }
+    return pGetTextRenderer(lOptions.outputType).render(
+        getAST(pScript, lOptions.inputType, pGetParser),
+    );
+}
 
-    version: $package.version,
+export const version = $version.version;
 
-    getAllowedValues(): mscgen.IAllowedValues {
-        return allowedValues;
-    },
-};
+export function getAllowedValues(): mscgen.IAllowedValues {
+    return allowedValues;
+}
 /*
  This file is part of mscgen_js.
 

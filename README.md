@@ -37,8 +37,8 @@ include nodejs (although it is possible to get it sorta to work even there with
 `npm install mscgenjs`
 
 ### Import it
-You'll have to import the mscgenjs module somehow. There's a commonjs and a
-requirejs variant, both of which are in the `mscgenjs`
+You'll have to import the mscgenjs module somehow. There's a commonjs, an es2015
+and a requirejs variant, all distributed in the `mscgenjs`
 [npm module](https://www.npmjs.com/package/mscgenjs)
 (repo: [mscgenjs/mscgenjs-core](https://github.com/mscgenjs/mscgenjs-core)).
 
@@ -50,27 +50,36 @@ const mscgenjs = require('mscgenjs');
 ```javascript
 // commonjs, but with lazy loading. Useful when you're using it in
 // e.g. an electron shell without a minifier.
-const mscgenjs = require('mscgenjs/dist/index-lazy');
+const mscgenjs = require('mscgenjs/dist/cjs/index-lazy');
 ```
 
 ```javascript
 // requirejs - assuming the module is in your root and you're loading from
 //             node_modules.
-define(['./node_modules/mscgenjs/dist/index.min'], function(mscgenjs){
+define(['./node_modules/mscgenjs/dist/bundle/index.min'], function(mscgenjs){
     // your code here
 });
 
 // ... or using the alternative notation
 define(function(require){
-    var mscgenjs = require("./node_modules/mscgenjs/dist/index.min");
+    var mscgenjs = require("./node_modules/mscgenjs/dist/bundle/index.min");
     // your code here
 });
 ```
+
+```javascript
+// es2015 modules
+// if you're using webpack or rollup, it'll default to the es2015
+// modules distributed in dist/es2015
+import {renderMsc} from 'mscgenjs';
+```
+
+
 > Previously, as a workaround for webpack
 > issue [webpack/webpack#5316](https://github.com/webpack/webpack/issues/5316)
 > you needed to include `webpack-issue-5316-workaround` from the
 > `dist` folder. That's not necessary anymore; using `require('mscgenjs')`
-> works fine.
+> or `import {renderMsc} from 'mcgenjs'` works fine.
 
 ### Use it
 

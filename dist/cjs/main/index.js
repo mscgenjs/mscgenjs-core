@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var allowedvalues_1 = __importDefault(require("./allowedvalues"));
 var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
-var $package = require("../../package.json");
+var $version = require("../version.json");
 function isProbablyAnASTAlready(pScript, pInputType) {
     return pInputType === "json" && typeof pScript === "object";
 }
@@ -28,40 +28,41 @@ function runCallBack(pCallBack, pError, pResult) {
         }
     }
 }
-exports["default"] = {
-    renderMsc: function (pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRenderer) {
-        var lOptions = normalizeoptions_1["default"](pOptions, pScript);
-        try {
-            runCallBack(pCallBack, null, pGetGraphicsRenderer().render(getAST(pScript, lOptions.inputType, pGetParser), lOptions.window, lOptions.elementId, {
-                source: lOptions.source,
-                styleAdditions: lOptions.styleAdditions,
-                additionalTemplate: lOptions.additionalTemplate,
-                mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
-                regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment
-            }));
-        }
-        catch (pException) {
-            runCallBack(pCallBack, pException);
-        }
-    },
-    translateMsc: function (pScript, pOptions, pGetParser, pGetTextRenderer) {
-        var lOptions = Object.assign({
-            inputType: "mscgen",
-            outputType: "json"
-        }, pOptions || {});
-        if (lOptions.outputType === "ast") {
-            return pGetParser(lOptions.inputType).parse(pScript);
-        }
-        if (lOptions.outputType === "json") {
-            return JSON.stringify(pGetParser(lOptions.inputType).parse(pScript), null, "  ");
-        }
-        return pGetTextRenderer(lOptions.outputType).render(getAST(pScript, lOptions.inputType, pGetParser));
-    },
-    version: $package.version,
-    getAllowedValues: function () {
-        return allowedvalues_1["default"];
+function renderMsc(pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRenderer) {
+    var lOptions = normalizeoptions_1["default"](pOptions, pScript);
+    try {
+        runCallBack(pCallBack, null, pGetGraphicsRenderer().render(getAST(pScript, lOptions.inputType, pGetParser), lOptions.window, lOptions.elementId, {
+            source: lOptions.source,
+            styleAdditions: lOptions.styleAdditions,
+            additionalTemplate: lOptions.additionalTemplate,
+            mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
+            regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment
+        }));
     }
-};
+    catch (pException) {
+        runCallBack(pCallBack, pException);
+    }
+}
+exports.renderMsc = renderMsc;
+function translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
+    var lOptions = Object.assign({
+        inputType: "mscgen",
+        outputType: "json"
+    }, pOptions || {});
+    if (lOptions.outputType === "ast") {
+        return pGetParser(lOptions.inputType).parse(pScript);
+    }
+    if (lOptions.outputType === "json") {
+        return JSON.stringify(pGetParser(lOptions.inputType).parse(pScript), null, "  ");
+    }
+    return pGetTextRenderer(lOptions.outputType).render(getAST(pScript, lOptions.inputType, pGetParser));
+}
+exports.translateMsc = translateMsc;
+exports.version = $version.version;
+function getAllowedValues() {
+    return allowedvalues_1["default"];
+}
+exports.getAllowedValues = getAllowedValues;
 /*
  This file is part of mscgen_js.
 

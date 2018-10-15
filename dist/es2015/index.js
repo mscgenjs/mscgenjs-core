@@ -1,7 +1,5 @@
-import {IRenderOptions, ITranslateOptions} from "../types/mscgen";
 import * as main from "./main/index";
 import resolver from "./main/static-resolver";
-
 /**
  * parses the given script and renders it in the DOM element with
  * id pOptions.elementId.
@@ -31,19 +29,9 @@ import resolver from "./main/static-resolver";
  *  includeSource: whether the generated svg should include the script
  *             in a desc element or not. Defaults to false
  */
-export function renderMsc(
-    pScript: string,
-    pOptions: IRenderOptions,
-    pCallBack: (pError: Error | null, pResult?: string | null) => void,
-): void {
-    main.renderMsc(
-        pScript,
-        pOptions || {},
-        pCallBack,
-        resolver.getParser, resolver.getGraphicsRenderer,
-    );
+export function renderMsc(pScript, pOptions, pCallBack) {
+    main.renderMsc(pScript, pOptions || {}, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
 }
-
 /**
  * Translates the input script to an outputscript.
  *
@@ -59,18 +47,9 @@ export function renderMsc(
  *   outputType : defaults to "json". Possible values:
  *                allowedValues.outputType
  */
-export function translateMsc(
-    pScript: string,
-    pOptions?: ITranslateOptions,
-): string {
-    return main.translateMsc(
-        pScript,
-        pOptions || {},
-        resolver.getParser,
-        resolver.getTextRenderer,
-    );
+export function translateMsc(pScript, pOptions) {
+    return main.translateMsc(pScript, pOptions || {}, resolver.getParser, resolver.getTextRenderer);
 }
-
 /**
  * The current (semver compliant) version number string of
  * mscgenjs
@@ -78,7 +57,6 @@ export function translateMsc(
  * @type {string}
  */
 export const version = main.version;
-
 /**
  *
  * An object with arrays of allowed values for parameters in the
@@ -93,7 +71,6 @@ export const version = main.version;
  *
  */
 export const getAllowedValues = main.getAllowedValues;
-
 /**
  * returns a parser module for the given language. The module exposes
  * a parse(pString) function which returns an abstract syntax tree in
@@ -107,7 +84,6 @@ export const getAllowedValues = main.getAllowedValues;
  * @return {object}
  */
 export const getParser = resolver.getParser;
-
 /**
  * returns a renderer that renders the abstract syntax tree as a scalable
  * vector graphics (in practice: @render/graphics/renderast)
@@ -117,7 +93,6 @@ export const getParser = resolver.getParser;
  * @return {object}
  */
 export const getGraphicsRenderer = resolver.getGraphicsRenderer;
-
 /**
  * returns a renderer to the given language. The module exposes a
  * render(pAST) function which returns a rendition of the abstract
@@ -128,7 +103,6 @@ export const getGraphicsRenderer = resolver.getGraphicsRenderer;
  * @return {object}
  */
 export const getTextRenderer = resolver.getTextRenderer;
-
 /*
  This file is part of mscgen_js.
 
