@@ -81,7 +81,6 @@
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "prepublishOnly": "npm run build",
-    "preversion": "test `git branch | grep \"^* [a-zA-Z]\" | cut -c 3-` = 'master'",
     "version": "npm run build && git add .",
     "test": "jest --onlyChanged --collectCoverage false",
     "test:all": "jest --collectCoverage false",
