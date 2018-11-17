@@ -80,7 +80,7 @@
     "depcruise:graph": "depcruise --exclude .d.ts --validate --do-not-follow \"node_modules\" --module-systems es6,cjs --output-type rcdot src | dot -T svg > tmp_deps.svg",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run check",
     "version": "npm run build && git add .",
     "test": "jest --onlyChanged --collectCoverage false",
     "test:all": "jest --collectCoverage false",
