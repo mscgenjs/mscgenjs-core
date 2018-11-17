@@ -256,11 +256,9 @@ export class XuAdaptor {
     }
 }
 
-export default {
-    render: (pAST: ISequenceChart, pMinimal: boolean) => {
-        const lAdaptor = new XuAdaptor(pMinimal);
-        return lAdaptor.render(pAST);
-    },
+export const render = (pAST: ISequenceChart, pMinimal: boolean) => {
+    const lAdaptor = new XuAdaptor(pMinimal);
+    return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

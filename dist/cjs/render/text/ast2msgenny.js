@@ -74,11 +74,9 @@ var MsGennyAdaptor = /** @class */ (function (_super) {
     };
     return MsGennyAdaptor;
 }(ast2xu_1.XuAdaptor));
-exports["default"] = {
-    render: function (pAST) {
-        var lAdaptor = new MsGennyAdaptor();
-        return lAdaptor.render(pAST);
-    }
+exports.render = function (pAST) {
+    var lAdaptor = new MsGennyAdaptor();
+    return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

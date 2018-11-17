@@ -32,13 +32,13 @@ export default {
     ),
 
     getGraphicsRenderer: memoize(
-        () => require("../render/graphics/renderast").default,
+        () => require("../render/graphics/renderast"),
     ),
 
     getTextRenderer: memoize(
         (pLanguage: mscgen.InputType) => require(
             gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER,
-        ).default,
+        ),
     ),
 };
 /*

@@ -62,6 +62,7 @@ function colorize(pAST, pColorScheme, pForce) {
     gColorCombiCount = 0;
     return asttransform_1["default"](pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
 }
+exports.colorize = colorize;
 function uncolorThing(pThing) {
     delete pThing.linecolor;
     delete pThing.textcolor;
@@ -73,14 +74,11 @@ function uncolorThing(pThing) {
 function uncolor(pAST) {
     return asttransform_1["default"](pAST, [uncolorThing], [uncolorThing]);
 }
-exports["default"] = {
-    uncolor: uncolor,
-    colorize: colorize,
-    applyScheme: function (pAST, pColorSchemeName, pForced) {
-        return colorize(pAST, colorizeschemes_1["default"][pColorSchemeName]
-            ? colorizeschemes_1["default"][pColorSchemeName]
-            : colorizeschemes_1["default"].auto, pForced);
-    }
+exports.uncolor = uncolor;
+exports.applyScheme = function (pAST, pColorSchemeName, pForced) {
+    return colorize(pAST, colorizeschemes_1["default"][pColorSchemeName]
+        ? colorizeschemes_1["default"][pColorSchemeName]
+        : colorizeschemes_1["default"].auto, pForced);
 };
 /*
  This file is part of mscgen_js.

@@ -20,8 +20,8 @@ export default {
         }
         return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
     }),
-    getGraphicsRenderer: memoize(() => require("../render/graphics/renderast").default),
-    getTextRenderer: memoize((pLanguage) => require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER).default),
+    getGraphicsRenderer: memoize(() => require("../render/graphics/renderast")),
+    getTextRenderer: memoize((pLanguage) => require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER)),
 };
 /*
  This file is part of mscgen_js.

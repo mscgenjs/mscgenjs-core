@@ -25,8 +25,8 @@ exports["default"] = {
         }
         return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
     }),
-    getGraphicsRenderer: lodash_memoize_1["default"](function () { return require("../render/graphics/renderast")["default"]; }),
-    getTextRenderer: lodash_memoize_1["default"](function (pLanguage) { return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER)["default"]; })
+    getGraphicsRenderer: lodash_memoize_1["default"](function () { return require("../render/graphics/renderast"); }),
+    getTextRenderer: lodash_memoize_1["default"](function (pLanguage) { return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER); })
 };
 /*
  This file is part of mscgen_js.

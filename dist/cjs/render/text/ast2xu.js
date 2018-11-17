@@ -232,11 +232,9 @@ var XuAdaptor = /** @class */ (function () {
     return XuAdaptor;
 }());
 exports.XuAdaptor = XuAdaptor;
-exports["default"] = {
-    render: function (pAST, pMinimal) {
-        var lAdaptor = new XuAdaptor(pMinimal);
-        return lAdaptor.render(pAST);
-    }
+exports.render = function (pAST, pMinimal) {
+    var lAdaptor = new XuAdaptor(pMinimal);
+    return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

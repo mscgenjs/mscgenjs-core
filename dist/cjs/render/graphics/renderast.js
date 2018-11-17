@@ -2,6 +2,13 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 var lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
@@ -16,7 +23,7 @@ var renderskeleton_1 = __importDefault(require("./renderskeleton"));
 var renderutensils_1 = __importDefault(require("./renderutensils"));
 var rowmemory_1 = __importDefault(require("./rowmemory"));
 var index_1 = __importDefault(require("./svgelementfactory/index"));
-var svgutensils_1 = __importDefault(require("./svgutensils"));
+var svgutensils = __importStar(require("./svgutensils"));
 var entities = new entities_1.Thing(0);
 //#endregion
 //#region const
@@ -49,20 +56,11 @@ function getParentElement(pWindow, pParentElementId) {
     return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
 }
 //#region render level 0 & 1
-function render(pAST, pWindow, pParentElementId, pRenderOptions) {
-    var lFlattenedAST = Object.freeze(flatten_1["default"].flatten(pAST));
-    var lParentElement = getParentElement(pWindow, pParentElementId);
-    idmanager_1["default"].setPrefix(pParentElementId);
-    renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});
-    renderASTMain(lFlattenedAST);
-    renderASTPost(lFlattenedAST);
-    return svgutensils_1["default"].webkitNamespaceBugWorkaround(lParentElement.innerHTML);
-}
 function renderASTPre(pAST, pWindow, pParentElement, pOptions) {
     gChart.document = renderskeleton_1["default"].bootstrap(pWindow, pParentElement, idmanager_1["default"].get(), markermanager_1["default"].getMarkerDefs(idmanager_1["default"].get(), pAST), pOptions);
     gChart.mirrorEntitiesOnBottom = pOptions.mirrorEntitiesOnBottom;
     gChart.regularArcTextVerticalAlignment = pOptions.regularArcTextVerticalAlignment;
-    svgutensils_1["default"].init(gChart.document);
+    svgutensils.init(gChart.document);
     gChart.layers = createLayerShortcuts(gChart.document);
     gChart.maxDepth = pAST.depth;
     preProcessOptions(gChart, pAST.options);
@@ -291,7 +289,7 @@ function getArcRowHeight(pArcRow, pEntities, pOptions) {
                 lArc.arcskip = 0; /* ignore arc skips when calculating row heights */
                 lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
         } // switch
-        lRetval = Math.max(lRetval, svgutensils_1["default"].getBBox(lElement).height + 2 * constants_1["default"].LINE_WIDTH);
+        lRetval = Math.max(lRetval, svgutensils.getBBox(lElement).height + 2 * constants_1["default"].LINE_WIDTH);
     }); // for all arcs in a row
     return lRetval;
 }
@@ -410,7 +408,7 @@ function renderInlineExpressionLabel(pArc, pY) {
         ownBackground: false,
         wordwraparcs: gChart.wordWrapArcs
     });
-    var lBBox = svgutensils_1["default"].getBBox(lTextGroup);
+    var lBBox = svgutensils.getBBox(lTextGroup);
     var lHeight = Math.max(lBBox.height + 2 * constants_1["default"].LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * constants_1["default"].LINE_WIDTH);
     var lWidth = Math.min(lBBox.width + 2 * constants_1["default"].LINE_WIDTH, lMaxWidth);
     var lBox = index_1["default"].createEdgeRemark({
@@ -706,7 +704,7 @@ function createBox(pOAndD, pArc, pY, pOptions) {
     var lGroup = index_1["default"].createGroup();
     var lBox;
     var lTextGroup = renderlabels_1["default"].createLabel(pArc, { x: lStart, y: pY, width: lWidth }, pOptions);
-    var lTextBBox = svgutensils_1["default"].getBBox(lTextGroup);
+    var lTextBBox = svgutensils.getBBox(lTextGroup);
     var lHeight = Math.max(lTextBBox.height + 2 * constants_1["default"].LINE_WIDTH, gChart.arcRowHeight - 2 * constants_1["default"].LINE_WIDTH);
     var lBBox = { width: lWidth, height: lHeight, x: lStart, y: (pY - lHeight / 2) };
     switch (pArc.kind) {
@@ -744,38 +742,45 @@ function createBox(pOAndD, pArc, pY, pOptions) {
     lGroup.appendChild(lTextGroup);
     return lGroup;
 }
-exports["default"] = {
-    /**
-     * removes the element with id pParentElementId from the DOM
-     *
-     * @param - {string} pParentElementId - the element the element with
-     * the id mentioned above is supposed to be residing in
-     * @param - {window} pWindow - the browser window object
-     *
-     */
-    clean: function (pParentElementId, pWindow) {
-        gChart.document = renderskeleton_1["default"].init(pWindow);
-        svgutensils_1["default"].init(gChart.document);
-        svgutensils_1["default"].removeRenderedSVGFromElement(pParentElementId);
-    },
-    /**
-     * renders the given abstract syntax tree pAST as svg
-     * in the element with id pParentELementId in the window pWindow
-     *
-     * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
-     * @param {Window} pWindow - the browser window to put the svg in
-     * @param {string} pParentElementId - the id of the parent element in which
-     * to put the __svg_output element
-     * @param  {INormalizedRenderOptions} pOptions
-     * - styleAdditions:  valid css that augments the default style
-     * - additionalTemplate: a named (baked in) template. Current values:
-     *  "inverted", "grayscaled"
-     * - source: the source msc to embed in the svg
-     * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
-     *   on the bottom of the chart
-     */
-    render: render
+/**
+ * removes the element with id pParentElementId from the DOM
+ *
+ * @param - {string} pParentElementId - the element the element with
+ * the id mentioned above is supposed to be residing in
+ * @param - {window} pWindow - the browser window object
+ *
+ */
+exports.clean = function (pParentElementId, pWindow) {
+    gChart.document = renderskeleton_1["default"].init(pWindow);
+    svgutensils.init(gChart.document);
+    svgutensils.removeRenderedSVGFromElement(pParentElementId);
 };
+/**
+ * renders the given abstract syntax tree pAST as svg
+ * in the element with id pParentELementId in the window pWindow
+ *
+ * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
+ * @param {Window} pWindow - the browser window to put the svg in
+ * @param {string} pParentElementId - the id of the parent element in which
+ * to put the __svg_output element
+ * @param  {INormalizedRenderOptions} pOptions
+ * - styleAdditions:  valid css that augments the default style
+ * - additionalTemplate: a named (baked in) template. Current values:
+ *  "inverted", "grayscaled"
+ * - source: the source msc to embed in the svg
+ * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
+ *   on the bottom of the chart
+ */
+function render(pAST, pWindow, pParentElementId, pRenderOptions) {
+    var lFlattenedAST = Object.freeze(flatten_1["default"].flatten(pAST));
+    var lParentElement = getParentElement(pWindow, pParentElementId);
+    idmanager_1["default"].setPrefix(pParentElementId);
+    renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});
+    renderASTMain(lFlattenedAST);
+    renderASTPost(lFlattenedAST);
+    return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
+}
+exports.render = render;
 /*
  This file is part of mscgen_js.
 

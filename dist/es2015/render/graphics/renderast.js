@@ -11,7 +11,7 @@ import renderskeleton from "./renderskeleton";
 import renderutensils from "./renderutensils";
 import rowmemory from "./rowmemory";
 import svgelementfactory from "./svgelementfactory/index";
-import svgutensils from "./svgutensils";
+import * as svgutensils from "./svgutensils";
 let entities = new Thing(0);
 //#endregion
 //#region const
@@ -44,15 +44,6 @@ function getParentElement(pWindow, pParentElementId) {
     return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
 }
 //#region render level 0 & 1
-function render(pAST, pWindow, pParentElementId, pRenderOptions) {
-    const lFlattenedAST = Object.freeze(flatten.flatten(pAST));
-    const lParentElement = getParentElement(pWindow, pParentElementId);
-    idmanager.setPrefix(pParentElementId);
-    renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});
-    renderASTMain(lFlattenedAST);
-    renderASTPost(lFlattenedAST);
-    return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
-}
 function renderASTPre(pAST, pWindow, pParentElement, pOptions) {
     gChart.document = renderskeleton.bootstrap(pWindow, pParentElement, idmanager.get(), markermanager.getMarkerDefs(idmanager.get(), pAST), pOptions);
     gChart.mirrorEntitiesOnBottom = pOptions.mirrorEntitiesOnBottom;
@@ -739,38 +730,44 @@ function createBox(pOAndD, pArc, pY, pOptions) {
     lGroup.appendChild(lTextGroup);
     return lGroup;
 }
-export default {
-    /**
-     * removes the element with id pParentElementId from the DOM
-     *
-     * @param - {string} pParentElementId - the element the element with
-     * the id mentioned above is supposed to be residing in
-     * @param - {window} pWindow - the browser window object
-     *
-     */
-    clean(pParentElementId, pWindow) {
-        gChart.document = renderskeleton.init(pWindow);
-        svgutensils.init(gChart.document);
-        svgutensils.removeRenderedSVGFromElement(pParentElementId);
-    },
-    /**
-     * renders the given abstract syntax tree pAST as svg
-     * in the element with id pParentELementId in the window pWindow
-     *
-     * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
-     * @param {Window} pWindow - the browser window to put the svg in
-     * @param {string} pParentElementId - the id of the parent element in which
-     * to put the __svg_output element
-     * @param  {INormalizedRenderOptions} pOptions
-     * - styleAdditions:  valid css that augments the default style
-     * - additionalTemplate: a named (baked in) template. Current values:
-     *  "inverted", "grayscaled"
-     * - source: the source msc to embed in the svg
-     * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
-     *   on the bottom of the chart
-     */
-    render,
+/**
+ * removes the element with id pParentElementId from the DOM
+ *
+ * @param - {string} pParentElementId - the element the element with
+ * the id mentioned above is supposed to be residing in
+ * @param - {window} pWindow - the browser window object
+ *
+ */
+export const clean = (pParentElementId, pWindow) => {
+    gChart.document = renderskeleton.init(pWindow);
+    svgutensils.init(gChart.document);
+    svgutensils.removeRenderedSVGFromElement(pParentElementId);
 };
+/**
+ * renders the given abstract syntax tree pAST as svg
+ * in the element with id pParentELementId in the window pWindow
+ *
+ * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
+ * @param {Window} pWindow - the browser window to put the svg in
+ * @param {string} pParentElementId - the id of the parent element in which
+ * to put the __svg_output element
+ * @param  {INormalizedRenderOptions} pOptions
+ * - styleAdditions:  valid css that augments the default style
+ * - additionalTemplate: a named (baked in) template. Current values:
+ *  "inverted", "grayscaled"
+ * - source: the source msc to embed in the svg
+ * - mirrorEntitiesOnBottom: (boolean) whether or not to repeat entities
+ *   on the bottom of the chart
+ */
+export function render(pAST, pWindow, pParentElementId, pRenderOptions) {
+    const lFlattenedAST = Object.freeze(flatten.flatten(pAST));
+    const lParentElement = getParentElement(pWindow, pParentElementId);
+    idmanager.setPrefix(pParentElementId);
+    renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});
+    renderASTMain(lFlattenedAST);
+    renderASTPost(lFlattenedAST);
+    return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
+}
 /*
  This file is part of mscgen_js.
 

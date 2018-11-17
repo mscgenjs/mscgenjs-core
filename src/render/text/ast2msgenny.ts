@@ -59,11 +59,9 @@ class MsGennyAdaptor extends XuAdaptor {
     }
 }
 
-export default {
-    render(pAST: ISequenceChart) {
-        const lAdaptor = new MsGennyAdaptor();
-        return lAdaptor.render(pAST);
-    },
+export const render = (pAST: ISequenceChart) => {
+    const lAdaptor = new MsGennyAdaptor();
+    return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

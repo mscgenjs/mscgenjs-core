@@ -3,7 +3,7 @@ import wrap from "../textutensils/wrap";
 import constants from "./constants";
 import kind2class from "./kind2class";
 import svgelementfactory from "./svgelementfactory/index";
-import svgutensils from "./svgutensils";
+import * as svgutensils from "./svgutensils";
 /**
  * Sets the fill color of the passed pElement to the textcolor of
  * the given pArc

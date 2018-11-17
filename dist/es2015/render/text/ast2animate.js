@@ -8,7 +8,7 @@ const EMPTY_AST = {
         extendedOptions: false,
     },
 };
-class FrameFactory {
+export class FrameFactory {
     constructor(pAST, pPreCalculate) {
         this.AST = EMPTY_AST;
         this.arcs = [[]];
@@ -200,6 +200,3 @@ class FrameFactory {
         return lRetval;
     }
 }
-export default {
-    FrameFactory,
-};

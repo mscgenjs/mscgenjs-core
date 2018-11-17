@@ -2,13 +2,20 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var wrap_1 = __importDefault(require("../textutensils/wrap"));
 var constants_1 = __importDefault(require("./constants"));
 var kind2class_1 = __importDefault(require("./kind2class"));
 var index_1 = __importDefault(require("./svgelementfactory/index"));
-var svgutensils_1 = __importDefault(require("./svgutensils"));
+var svgutensils = __importStar(require("./svgutensils"));
 /**
  * Sets the fill color of the passed pElement to the textcolor of
  * the given pArc
@@ -29,7 +36,7 @@ function colorLink(pElement, pUrl, pTextColor) {
     return colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
 }
 function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
-    var lRect = index_1["default"].createRect(svgutensils_1["default"].getBBox(lLabelElement), { "class": "label-text-background" });
+    var lRect = index_1["default"].createRect(svgutensils.getBBox(lLabelElement), { "class": "label-text-background" });
     if (pTextbgcolor) {
         lRect.setAttribute("style", "fill:" + pTextbgcolor + "; stroke:" + pTextbgcolor + ";");
     }
@@ -58,13 +65,13 @@ function determineClasses(pArcKind, pPostFix) {
         : lAggregateClass + pPostFix + lClass + pPostFix;
 }
 function createLabelLine(pLine, pMiddle, pStartY, pArc, pLineNumber, pOptions) {
-    var lY = pStartY + ((pLineNumber + 1 / 4) * svgutensils_1["default"].calculateTextHeight());
+    var lY = pStartY + ((pLineNumber + 1 / 4) * svgutensils.calculateTextHeight());
     var lClass = determineClasses(pArc.kind, "-text ");
     if (pOptions.alignLeft) {
         lClass += "anchor-start ";
     }
     if (pOptions.alignAround) {
-        lY = pStartY + ((pLineNumber + 1 / 4) * (svgutensils_1["default"].calculateTextHeight() + constants_1["default"].LINE_WIDTH));
+        lY = pStartY + ((pLineNumber + 1 / 4) * (svgutensils.calculateTextHeight() + constants_1["default"].LINE_WIDTH));
     }
     return colorLink(colorText(renderLabelText(pLine, pLineNumber, { x: pMiddle, y: lY }, lClass, pArc), pArc.textcolor), pArc.url, pArc.textcolor);
 }
@@ -82,10 +89,10 @@ function insertEmptyLines(pLines, pOptions) {
 function determineLabelTop(pLines, pDims, pOptions) {
     if (pOptions.alignAround) {
         return pDims.y -
-            (pLines.length - 1) / 2 * (svgutensils_1["default"].calculateTextHeight() + constants_1["default"].LINE_WIDTH + 1);
+            (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants_1["default"].LINE_WIDTH + 1);
     }
     else {
-        return pDims.y - (pLines.length - 1) / 2 * (svgutensils_1["default"].calculateTextHeight() + 1);
+        return pDims.y - (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + 1);
     }
 }
 function createLabel(pArc, pDims, pOptions, pId) {

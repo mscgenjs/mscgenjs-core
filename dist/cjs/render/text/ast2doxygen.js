@@ -63,9 +63,7 @@ var DoxygenAdaptor = /** @class */ (function (_super) {
     };
     return DoxygenAdaptor;
 }(ast2mscgen_1.MscGenAdaptor));
-exports["default"] = {
-    render: function (pAST) {
-        var lAdaptor = new DoxygenAdaptor(false);
-        return lAdaptor.render(pAST);
-    }
+exports.render = function (pAST) {
+    var lAdaptor = new DoxygenAdaptor(false);
+    return lAdaptor.render(pAST);
 };

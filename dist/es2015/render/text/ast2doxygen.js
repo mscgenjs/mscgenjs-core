@@ -43,9 +43,7 @@ class DoxygenAdaptor extends MscGenAdaptor {
         return "";
     }
 }
-export default {
-    render: (pAST) => {
-        const lAdaptor = new DoxygenAdaptor(false);
-        return lAdaptor.render(pAST);
-    },
+export const render = (pAST) => {
+    const lAdaptor = new DoxygenAdaptor(false);
+    return lAdaptor.render(pAST);
 };

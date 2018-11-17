@@ -53,7 +53,7 @@ function colorizeEntity(pColorScheme) {
         }
     };
 }
-function colorize(pAST, pColorScheme, pForce) {
+export function colorize(pAST, pColorScheme, pForce) {
     gColorCombiCount = 0;
     return asttransform(pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
 }
@@ -65,18 +65,12 @@ function uncolorThing(pThing) {
     delete pThing.arctextcolor;
     delete pThing.arctextbgcolor;
 }
-function uncolor(pAST) {
+export function uncolor(pAST) {
     return asttransform(pAST, [uncolorThing], [uncolorThing]);
 }
-export default {
-    uncolor,
-    colorize,
-    applyScheme(pAST, pColorSchemeName, pForced) {
-        return colorize(pAST, colorizeschemes[pColorSchemeName]
-            ? colorizeschemes[pColorSchemeName]
-            : colorizeschemes.auto, pForced);
-    },
-};
+export const applyScheme = (pAST, pColorSchemeName, pForced) => colorize(pAST, colorizeschemes[pColorSchemeName]
+    ? colorizeschemes[pColorSchemeName]
+    : colorizeschemes.auto, pForced);
 /*
  This file is part of mscgen_js.
 

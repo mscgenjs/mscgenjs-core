@@ -55,7 +55,19 @@ function sanitizeBBox(pBBox: geotypes.IBBox): geotypes.IBBox {
     }
 }
 
-function getBBox(pElement: SVGGElement): geotypes.IBBox {
+/**
+ * Returns the bounding box of the passed element.
+ *
+ * Note: to be able to calculate the actual bounding box of an element it has
+ * to be in a DOM tree first. Hence this function temporarily creates the element,
+ * calculates the bounding box and removes the temporarily created element again.
+ *
+ * @param {SVGElement} pElement - the element to calculate the bounding box for
+ * @return {boundingbox} an object with properties height, width, x and y. If
+ * the function cannot determine the bounding box  be determined, returns 15,15,2,2
+ * as "reasonable default"
+ */
+export function getBBox(pElement: SVGGElement): geotypes.IBBox {
     /* istanbul ignore if */
     if (typeof (pElement.getBBox) === "function") {
         return sanitizeBBox(getNativeBBox(pElement));
@@ -88,7 +100,7 @@ function _calculateTextHeight(): number {
     ).height;
 }
 
-function removeRenderedSVGFromElement(pElementId: string) {
+export function removeRenderedSVGFromElement(pElementId: string) {
     idmanager.setPrefix(pElementId);
     const lChildElement = gDocument.getElementById(idmanager.get());
     if (Boolean(lChildElement)) {
@@ -101,40 +113,23 @@ function removeRenderedSVGFromElement(pElementId: string) {
     }
 }
 
-export default {
-    init(pDocument: Document) {
-        gDocument = pDocument;
-    },
-    removeRenderedSVGFromElement,
-
-    /**
-     * Returns the bounding box of the passed element.
-     *
-     * Note: to be able to calculate the actual bounding box of an element it has
-     * to be in a DOM tree first. Hence this function temporarily creates the element,
-     * calculates the bounding box and removes the temporarily created element again.
-     *
-     * @param {SVGElement} pElement - the element to calculate the bounding box for
-     * @return {boundingbox} an object with properties height, width, x and y. If
-     * the function cannot determine the bounding box  be determined, returns 15,15,2,2
-     * as "reasonable default"
-     */
-    getBBox,
+export const init = (pDocument: Document) => {
+    gDocument = pDocument;
+};
 
     /**
      * Returns the height in pixels necessary for rendering characters
      */
-    calculateTextHeight: memoize(_calculateTextHeight),
+export const calculateTextHeight = memoize(_calculateTextHeight);
 
-    // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
-    // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
-    // namespace prefixes in front of xlink and all hrefs respectively.
-    // this function does a crude global replace to circumvent the
-    // resulting problems. Problem happens for xhtml too
-    webkitNamespaceBugWorkaround(pText: string): string {
-        return pText.replace(/ xlink=/g, " xmlns:xlink=")
-            .replace(/ href=/g, " xlink:href=");
-    },
+// webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
+// distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
+// namespace prefixes in front of xlink and all hrefs respectively.
+// this function does a crude global replace to circumvent the
+// resulting problems. Problem happens for xhtml too
+export const webkitNamespaceBugWorkaround = (pText: string): string => {
+    return pText.replace(/ xlink=/g, " xmlns:xlink=")
+        .replace(/ href=/g, " xlink:href=");
 };
 /*
  This file is part of mscgen_js.

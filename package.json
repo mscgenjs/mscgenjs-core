@@ -89,7 +89,7 @@
     "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",
     "upem:update": "npm outdated --json | upem",
     "upem:install": "npm install",
-    "watch": "tsc --project src/tsconfig.esnext.json --watch"
+    "watch": "tsc --project src/tsconfig.cjs.json --watch"
   },
   "repository": {
     "type": "git",

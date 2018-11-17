@@ -3,7 +3,7 @@ import constants from "./constants";
 import renderlabels from "./renderlabels";
 import * as geotypes from "./svgelementfactory/geotypes";
 import svgelementfactory from "./svgelementfactory/index";
-import svgutensils from "./svgutensils";
+import * as svgutensils from "./svgutensils";
 
 export interface IOandD {
     from: number;

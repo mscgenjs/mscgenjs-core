@@ -1,32 +1,32 @@
 const fs       = require("fs");
 const path     = require("path");
 // const renderer = require("../../../src/render/text/ast2dot").default;
-import renderer from "../../../src/render/text/ast2dot";
+import {render, explodeBroadcasts} from "../../../src/render/text/ast2dot";
 const fix      = require("../../astfixtures.json");
 
 describe("render/text/ast2dot", () => {
     describe("#renderAST() - mscgen classic compatible - simple syntax trees", () => {
 
         test("should, given an 'empty' syntax tree, render a dot script", () => {
-            expect(renderer.render(fix.astEmpty)).toMatchSnapshot();
+            expect(render(fix.astEmpty)).toMatchSnapshot();
         });
 
         test("should, given a simple syntax tree, render a dot script", () => {
-            expect(renderer.render(fix.astSimple)).toMatchSnapshot();
+            expect(render(fix.astSimple)).toMatchSnapshot();
         });
 
         test("should, given a syntax tree with boxes, render a dot script", () => {
-            expect(renderer.render(fix.astBoxArcs)).toMatchSnapshot();
+            expect(render(fix.astBoxArcs)).toMatchSnapshot();
         });
 
     });
 
     describe("#renderAST() - xu compatible", () => {
         test("alt only - render correct script", () => {
-            expect(renderer.render(fix.astOneAlt)).toMatchSnapshot();
+            expect(render(fix.astOneAlt)).toMatchSnapshot();
         });
         test("alt within loop - render correct script", () => {
-            expect(renderer.render(fix.astAltWithinLoop)).toMatchSnapshot();
+            expect(render(fix.astAltWithinLoop)).toMatchSnapshot();
         });
     });
 
@@ -37,26 +37,26 @@ describe("render/text/ast2dot", () => {
                 {encoding: "utf8"},
             );
             const lAST = JSON.parse(lASTString);
-            expect(renderer.render(lAST)).toMatchSnapshot();
+            expect(render(lAST)).toMatchSnapshot();
         });
     });
 
     describe("explodeBroadcasts", () => {
         test("leave asts without broadcasts alone", () => {
             expect(
-                renderer.explodeBroadcasts(fix.astAltWithinLoop),
+                explodeBroadcasts(fix.astAltWithinLoop),
             ).toEqual(fix.astAltWithinLoop);
         });
         test("explode b->* to parallel calls to all other entities", () => {
             expect(
-                renderer.explodeBroadcasts(fix.astSimpleBroadcast),
+                explodeBroadcasts(fix.astSimpleBroadcast),
             ).toEqual(fix.astSimpleBroadcastExploded);
         });
         test(
             "explode a little more complex broadcast ast to parallel calls to all other entities",
             () => {
                 expect(
-                    renderer.explodeBroadcasts(fix.astComplexerBroadcast),
+                    explodeBroadcasts(fix.astComplexerBroadcast),
                 ).toEqual(fix.astComplexerBroadcastExploded);
             },
         );
@@ -64,7 +64,7 @@ describe("render/text/ast2dot", () => {
             "correctly explode a broadcast that has other arcs in the same arc row",
             () => {
                 expect(
-                    renderer.explodeBroadcasts(fix.astSameArcRowBroadcast),
+                    explodeBroadcasts(fix.astSameArcRowBroadcast),
                 ).toEqual(fix.astSameArcRowBroadcastExploded);
             },
         );

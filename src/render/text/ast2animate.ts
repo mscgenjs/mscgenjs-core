@@ -11,7 +11,7 @@ const EMPTY_AST = {
     },
 };
 
-class FrameFactory {
+export class FrameFactory {
     public AST: mscgenjsast.ISequenceChart;
     public arcs: mscgenjsast.IArc[][];
     public len: number;
@@ -234,7 +234,3 @@ class FrameFactory {
         return lRetval;
     }
 }
-
-export default {
-    FrameFactory,
-};

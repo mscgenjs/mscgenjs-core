@@ -209,6 +209,4 @@ var FrameFactory = /** @class */ (function () {
     };
     return FrameFactory;
 }());
-exports["default"] = {
-    FrameFactory: FrameFactory
-};
+exports.FrameFactory = FrameFactory;

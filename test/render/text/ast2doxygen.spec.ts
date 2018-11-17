@@ -1,4 +1,4 @@
-const renderer = require("../../../src/render/text/ast2doxygen").default;
+import * as renderer from "../../../src/render/text/ast2doxygen";
 const fix      = require("../../astfixtures.json");
 
 describe("render/text/ast2doxygen", () => {

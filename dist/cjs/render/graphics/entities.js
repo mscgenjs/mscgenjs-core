@@ -2,11 +2,18 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 var constants_1 = __importDefault(require("./constants"));
 var renderlabels_1 = __importDefault(require("./renderlabels"));
 var index_1 = __importDefault(require("./svgelementfactory/index"));
-var svgutensils_1 = __importDefault(require("./svgutensils"));
+var svgutensils = __importStar(require("./svgutensils"));
 var DEFAULT_INTER_ENTITY_SPACING = 160; // px
 var DEFAULT_ENTITY_WIDTH = 100; // px
 var DEFAULT_ENTITY_HEIGHT = 34; // px
@@ -58,7 +65,7 @@ var Thing = /** @class */ (function () {
         return renderlabels_1["default"].splitLabel(pLabel, "entity", this.width, pFontSize, pChartOptions).length;
     };
     Thing.prototype.sizeEntityBoxToLabel = function (pLabel, pBBox) {
-        var lLabelWidth = Math.min(svgutensils_1["default"].getBBox(pLabel).width + (4 * constants_1["default"].LINE_WIDTH), (this.interEntitySpacing / 3) + pBBox.width);
+        var lLabelWidth = Math.min(svgutensils.getBBox(pLabel).width + (4 * constants_1["default"].LINE_WIDTH), (this.interEntitySpacing / 3) + pBBox.width);
         /* istanbul ignore if */
         if (lLabelWidth >= pBBox.width) {
             pBBox.x -= (lLabelWidth - pBBox.width) / 2;
@@ -97,7 +104,7 @@ var Thing = /** @class */ (function () {
             }
         });
         if (lHWM > 2) {
-            return Math.max(this.height, svgutensils_1["default"].getBBox(this.renderEntity(lHighestEntity, 0, 0, pOptions)).height);
+            return Math.max(this.height, svgutensils.getBBox(this.renderEntity(lHighestEntity, 0, 0, pOptions)).height);
         }
         return this.height;
     };

@@ -1,12 +1,12 @@
 import * as mscgenparser from "../parse/mscgenparser";
 import * as msgennyparser from "../parse/msgennyparser";
 import * as xuparser from "../parse/xuparser";
-import renderast from "../render/graphics/renderast";
-import ast2dot from "../render/text/ast2dot";
-import ast2doxygen from "../render/text/ast2doxygen";
-import ast2mscgen from "../render/text/ast2mscgen";
-import ast2msgenny from "../render/text/ast2msgenny";
-import ast2xu from "../render/text/ast2xu";
+import * as renderast from "../render/graphics/renderast";
+import * as ast2dot from "../render/text/ast2dot";
+import * as ast2doxygen from "../render/text/ast2doxygen";
+import * as ast2mscgen from "../render/text/ast2mscgen";
+import * as ast2msgenny from "../render/text/ast2msgenny";
+import * as ast2xu from "../render/text/ast2xu";
 const DEFAULT_PARSER = mscgenparser;
 const DEFAULT_TEXT_RENDERER = ast2mscgen;
 const gLang2Parser = Object.freeze({

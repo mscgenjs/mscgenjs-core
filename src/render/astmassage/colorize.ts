@@ -59,7 +59,7 @@ function colorizeEntity(pColorScheme: IColorScheme) {
     };
 }
 
-function colorize(pAST: ISequenceChart, pColorScheme: IColorScheme, pForce: boolean): ISequenceChart {
+export function colorize(pAST: ISequenceChart, pColorScheme: IColorScheme, pForce: boolean): ISequenceChart {
     gColorCombiCount = 0;
 
     return asttransform(
@@ -78,19 +78,14 @@ function uncolorThing(pThing: IEntity|IArc) {
     delete pThing.arctextbgcolor;
 }
 
-function uncolor(pAST: ISequenceChart): ISequenceChart {
+export function uncolor(pAST: ISequenceChart): ISequenceChart {
     return asttransform(pAST, [uncolorThing], [uncolorThing]);
 }
 
-export default {
-    uncolor,
-    colorize,
-    applyScheme(pAST: ISequenceChart, pColorSchemeName: string, pForced: boolean) {
-        return colorize(pAST, colorizeschemes[pColorSchemeName]
-            ? colorizeschemes[pColorSchemeName]
-            : colorizeschemes.auto, pForced);
-    },
-};
+export const applyScheme = (pAST: ISequenceChart, pColorSchemeName: string, pForced: boolean) =>
+    colorize(pAST, colorizeschemes[pColorSchemeName]
+        ? colorizeschemes[pColorSchemeName]
+        : colorizeschemes.auto, pForced);
 
 /*
  This file is part of mscgen_js.

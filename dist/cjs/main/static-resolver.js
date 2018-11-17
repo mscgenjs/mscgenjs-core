@@ -6,32 +6,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
 var mscgenparser = __importStar(require("../parse/mscgenparser"));
 var msgennyparser = __importStar(require("../parse/msgennyparser"));
 var xuparser = __importStar(require("../parse/xuparser"));
-var renderast_1 = __importDefault(require("../render/graphics/renderast"));
-var ast2dot_1 = __importDefault(require("../render/text/ast2dot"));
-var ast2doxygen_1 = __importDefault(require("../render/text/ast2doxygen"));
-var ast2mscgen_1 = __importDefault(require("../render/text/ast2mscgen"));
-var ast2msgenny_1 = __importDefault(require("../render/text/ast2msgenny"));
-var ast2xu_1 = __importDefault(require("../render/text/ast2xu"));
+var renderast = __importStar(require("../render/graphics/renderast"));
+var ast2dot = __importStar(require("../render/text/ast2dot"));
+var ast2doxygen = __importStar(require("../render/text/ast2doxygen"));
+var ast2mscgen = __importStar(require("../render/text/ast2mscgen"));
+var ast2msgenny = __importStar(require("../render/text/ast2msgenny"));
+var ast2xu = __importStar(require("../render/text/ast2xu"));
 var DEFAULT_PARSER = mscgenparser;
-var DEFAULT_TEXT_RENDERER = ast2mscgen_1["default"];
+var DEFAULT_TEXT_RENDERER = ast2mscgen;
 var gLang2Parser = Object.freeze({
     mscgen: mscgenparser,
     xu: xuparser,
     msgenny: msgennyparser
 });
 var gLang2TextRenderer = Object.freeze({
-    mscgen: ast2mscgen_1["default"],
-    msgenny: ast2msgenny_1["default"],
-    xu: ast2xu_1["default"],
-    dot: ast2dot_1["default"],
-    doxygen: ast2doxygen_1["default"]
+    mscgen: ast2mscgen,
+    msgenny: ast2msgenny,
+    xu: ast2xu,
+    dot: ast2dot,
+    doxygen: ast2doxygen
 });
 exports["default"] = {
     getParser: function (pLanguage) {
@@ -41,7 +38,7 @@ exports["default"] = {
         return gLang2Parser[pLanguage] || DEFAULT_PARSER;
     },
     getGraphicsRenderer: function () {
-        return renderast_1["default"];
+        return renderast;
     },
     getTextRenderer: function (pLanguage) {
         return gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;

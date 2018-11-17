@@ -215,11 +215,9 @@ export class XuAdaptor {
         return pArcLines.reduce((pPrev, pArcLine) => pPrev + this.renderArcLine(pArcLine, pIndent), "");
     }
 }
-export default {
-    render: (pAST, pMinimal) => {
-        const lAdaptor = new XuAdaptor(pMinimal);
-        return lAdaptor.render(pAST);
-    },
+export const render = (pAST, pMinimal) => {
+    const lAdaptor = new XuAdaptor(pMinimal);
+    return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

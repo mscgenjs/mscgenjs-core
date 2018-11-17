@@ -33,11 +33,9 @@ export class MscGenAdaptor extends XuAdaptor {
         return true;
     }
 }
-export default {
-    render: (pAST, pMinimal) => {
-        const lAdaptor = new MscGenAdaptor(pMinimal);
-        return lAdaptor.render(pAST);
-    },
+export const render = (pAST, pMinimal) => {
+    const lAdaptor = new MscGenAdaptor(pMinimal);
+    return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

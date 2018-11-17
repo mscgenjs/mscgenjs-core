@@ -57,11 +57,9 @@ var MscGenAdaptor = /** @class */ (function (_super) {
     return MscGenAdaptor;
 }(ast2xu_1.XuAdaptor));
 exports.MscGenAdaptor = MscGenAdaptor;
-exports["default"] = {
-    render: function (pAST, pMinimal) {
-        var lAdaptor = new MscGenAdaptor(pMinimal);
-        return lAdaptor.render(pAST);
-    }
+exports.render = function (pAST, pMinimal) {
+    var lAdaptor = new MscGenAdaptor(pMinimal);
+    return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.
