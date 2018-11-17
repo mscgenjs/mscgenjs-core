@@ -4,6 +4,24 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
-    "rulesDirectory": []
+    "rules": {
+        "cyclomatic-complexity": [true, 7],
+        "object-literal-sort-keys": false,
+        "max-file-line-count": {
+            "severity": "warning",
+            "options": [1250] // ideally, 250
+        },
+        "no-var-requires": false
+    },
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "*.json",
+            "dist/**",
+            "node_modules",
+            "src/render/graphics/csstemplates.ts",
+            "test/**",
+            "types/tmp**"
+        ]
+    }
 }

@@ -41,13 +41,21 @@
             id="inputscript"
             cols="60" rows="0"
             spellcheck="false"
-            placeholder="Put your nice msgenny script in here">hscale="1.4", wordwraparcs=on;
+            placeholder="Put your nice msgenny script in here">message : "信息",
+sequence : "序",
+chart : "圖";
 
-Alice => Bob   : get Bobs' public key;
-Bob   >> Alice : Bobs' public key;
-Alice => Alice : encrypt with Bob's public key;
-Alice => Bob   : encrypted message;
-Bob   => Bob   : decrypt message with own private key;
+sequence note chart : 
+    "注解 ('zhùjiě') (note/ annotation): \n
+    序 ('xù') is a Chinese character meaning 'sequence' or 'order'.\n
+    圖 ('tú') is a character used for 'map', 'chart' or 'diagram'.\n 
+    序列圖 ('Xùliè tú') - sequence diagram";
+message =>> sequence : "信息 ('xìnxī') - message";
+sequence => chart : "發 ('fā') - send,\nissue or delegate";
+chart =>> chart : "本身 - self",
+sequence box sequence : "箱 ('xiāng') - box";
+chart >> sequence : "回复 ('huífù') - reply";
+message << sequence : "砂光機 ('Shā guāng jī')";
 </textarea>
         <div class="buttonia">
             <button type="button" id="render">render</button>
@@ -55,6 +63,6 @@ Bob   => Bob   : decrypt message with own private key;
             <button type="button" id="loop">add a loop</button>
             <button type="button" id="alt">add an alt</button>
         </div>
-        <div id="output"></div>
+        <pre id="output"></pre>
     </body>
 </html>

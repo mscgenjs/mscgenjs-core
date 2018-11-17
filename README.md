@@ -37,42 +37,49 @@ include nodejs (although it is possible to get it sorta to work even there with
 `npm install mscgenjs`
 
 ### Import it
-You'll have to import the mscgenjs module somehow. There's a commonjs and a
-requirejs variant, both of which are in the `mscgenjs`
+You'll have to import the mscgenjs module somehow. There's a commonjs, an es2015
+and a requirejs variant, all distributed in the `mscgenjs`
 [npm module](https://www.npmjs.com/package/mscgenjs)
 (repo: [mscgenjs/mscgenjs-core](https://github.com/mscgenjs/mscgenjs-core)).
 
 ```javascript
 // commonjs
-var mscgenjs = require('mscgenjs');
+const mscgenjs = require('mscgenjs');
 ```
 
 ```javascript
 // commonjs, but with lazy loading. Useful when you're using it in
 // e.g. an electron shell without a minifier.
-var mscgenjs = require('mscgenjs/index-lazy');
-```
-
-```javascript
-// commonjs, only for use with webpack > 2, as long as 
-// issue [webpack/webpack#5316](https://github.com/webpack/webpack/issues/5316)
-// remains unresolved
-var mscgenjs = require('mscgenjs/dist/webpack-issue-5316-workaround');
+const mscgenjs = require('mscgenjs/dist/cjs/index-lazy');
 ```
 
 ```javascript
 // requirejs - assuming the module is in your root and you're loading from
 //             node_modules.
-define(['./node_modules/mscgenjs/src/index'], function(mscgenjs){
+define(['./node_modules/mscgenjs/dist/bundle/index.min'], function(mscgenjs){
     // your code here
 });
 
 // ... or using the alternative notation
 define(function(require){
-    var mscgenjs = require("./node_modules/mscgenjs/index");
+    var mscgenjs = require("./node_modules/mscgenjs/dist/bundle/index.min");
     // your code here
 });
 ```
+
+```javascript
+// es2015 modules
+// if you're using webpack or rollup, it'll default to the es2015
+// modules distributed in dist/es2015
+import {renderMsc} from 'mscgenjs';
+```
+
+
+> Previously, as a workaround for webpack
+> issue [webpack/webpack#5316](https://github.com/webpack/webpack/issues/5316)
+> you needed to include `webpack-issue-5316-workaround` from the
+> `dist` folder. That's not necessary anymore; using `require('mscgenjs')`
+> or `import {renderMsc} from 'mcgenjs'` works fine.
 
 ### Use it
 
@@ -202,14 +209,12 @@ _not_ as part of non free software.
 ### Dependencies and their licenses
 We built mscgen_js on various libraries, each of which have their own
 license:
-- mscgen_js uses [requirejs][requirejs.license] and [amdefine][amdefine.license]
-  for modularization.
 - We generated its parsers with [pegjs][pegjs.license].
 - mscgen_js automated tests use [jest](https://facebook.github.io/jest),
   [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
   [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
 
-It uses [eslint][22], [dependency-cruiser][23] and [nsp][35] to maintain some
+It uses [tslint][22] and [dependency-cruiser][23] to maintain some
 modicum of verifiable code quality. You can see the build history in
 [Travis][travis.mscgenjs].
 
@@ -233,7 +238,6 @@ modicum of verifiable code quality. You can see the build history in
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
-[amdefine.license]: doc/licenses/license.amdefine.md
 [atom]: https://atom.io
 [david.mscgenjs]: https://david-dm.org/mscgenjs/mscgenjs-core
 [david.mscgenjs.badge]: https://david-dm.org/mscgenjs/mscgenjs-core.svg
@@ -272,8 +276,7 @@ modicum of verifiable code quality. You can see the build history in
 [requirejs.license]: doc/licenses/license.requirejs.md
 [travis.mscgenjs]: https://travis-ci.org/mscgenjs/mscgenjs-core
 [travis.mscgenjs.badge]: https://travis-ci.org/mscgenjs/mscgenjs-core.svg?branch=master
-[22]: doc/licenses/license.eslint.md
+[22]: https://palantir.github.io/tslint/
 [23]: https://github.com/sverweij/dependency-cruiser
-[35]: https://nodesecurity.io/
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/krampstudio/chai-xml

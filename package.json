@@ -1,40 +1,96 @@
 {
   "name": "mscgenjs",
-  "version": "2.0.0",
+  "version": "3.0.0-beta-4",
   "description": "Sequence chart rendering library",
-  "main": "src/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es2015/index.js",
+  "sideEffects": false,
+  "files": [
+    "dist/",
+    "types/",
+    "COPYING",
+    "LICENSE.md",
+    "package.json",
+    "README.md"
+  ],
   "dependencies": {
-    "amdefine": "1.0.1",
-    "requirejs": "2.3.5"
+    "lodash.assign": "4.2.0",
+    "lodash.clonedeep": "4.5.0",
+    "lodash.flatten": "4.4.0",
+    "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "almond": "0.3.3",
-    "chai": "4.1.2",
+    "@types/jest": "23.3.9",
+    "@types/node": "10.12.9",
+    "chai": "4.2.0",
     "chai-xml": "0.3.2",
-    "dependency-cruiser": "4.0.1",
-    "eslint": "4.19.1",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-security": "1.4.0",
-    "jest": "23.1.0",
-    "jest-json-schema": "2.0.0",
-    "js-makedepend": "3.0.1",
-    "jsdom": "11.11.0",
-    "lodash-cli": "4.17.5",
-    "npm-check-updates": "2.14.2",
-    "nsp": "3.2.1",
-    "pegjs": "0.10.0"
+    "dependency-cruiser": "4.6.3",
+    "jest": "23.6.0",
+    "jest-json-schema": "2.0.1",
+    "jsdom": "13.0.0",
+    "npm-run-all": "4.1.3",
+    "pegjs": "0.10.0",
+    "requirejs": "2.3.6",
+    "shx": "0.3.2",
+    "ts-jest": "23.1.4",
+    "ts-loader": "5.3.0",
+    "tslint": "5.11.0",
+    "typescript": "3.1.6",
+    "upem": "1.0.2",
+    "webpack": "4.25.1",
+    "webpack-cli": "3.1.2"
+  },
+  "upem": {
+    "donotup": [
+      "ts-jest"
+    ]
   },
   "scripts": {
+    "build": "npm-run-all build:clean build:prereq --parallel build:es2015 build:cjs build:bundle",
+    "build:prereq": "npm-run-all --parallel build:csstemplates build:compile:pegjs build:extractversion",
+    "build:es2015": "npm-run-all build:es2015:clean build:es2015:copy build:es2015:compile:typescript",
+    "build:cjs": "npm-run-all build:cjs:clean build:cjs:copy build:cjs:compile:typescript",
+    "build:bundle": "webpack",
+    "build:clean": "npm-run-all --parallel build:cjs:clean build:es2015:clean build:clean:parse build:clean:csstemplates",
+    "build:clean:csstemplates": "shx rm -f src/render/graphics/csstemplates.json",
+    "build:clean:parse": "shx rm -rf src/parse/*parser.js",
+    "build:csstemplates": "node utl/to-csstemplates-js.utility.js > src/render/graphics/csstemplates.json",
+    "build:compile:pegjs": "npm-run-all --parallel build:compile:pegjs:mscgen build:compile:pegjs:msgenny build:compile:pegjs:xu",
+    "build:compile:pegjs:mscgen": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/mscgenparser.js src/parse/peg/mscgenparser.pegjs",
+    "build:compile:pegjs:msgenny": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/msgennyparser.js src/parse/peg/msgennyparser.pegjs",
+    "build:compile:pegjs:xu": "pegjs --extra-options-file config/.pegjs-config.json -o src/parse/xuparser.js src/parse/peg/xuparser.pegjs",
+    "build:extractversion": "node utl/create-stripped-packagejson.utility.js > src/version.json",
+    "build:cjs:clean": "shx rm -rf dist/cjs/*",
+    "build:cjs:compile:typescript": "tsc --project src/tsconfig.cjs.json",
+    "build:cjs:copy": "npm-run-all build:cjs:copy:mkdir --parallel build:cjs:copy:parser build:cjs:copy:csstemplates build:cjs:copy:version",
+    "build:cjs:copy:mkdir": "shx mkdir -p dist/cjs/parse dist/cjs/render/graphics",
+    "build:cjs:copy:parser": "shx cp src/parse/*.js* dist/cjs/parse",
+    "build:cjs:copy:csstemplates": "shx cp src/render/graphics/csstemplates.json dist/cjs/render/graphics/csstemplates.json",
+    "build:cjs:copy:version": "shx cp src/version.json dist/cjs/.",
+    "build:es2015:clean": "shx rm -rf dist/es2015/*",
+    "build:es2015:compile:typescript": "tsc --project src/tsconfig.es2015.json",
+    "build:es2015:copy": "npm-run-all build:es2015:copy:mkdir --parallel build:es2015:copy:parser build:es2015:copy:csstemplates build:es2015:copy:version",
+    "build:es2015:copy:mkdir": "shx mkdir -p dist/es2015/parse dist/es2015/render/graphics",
+    "build:es2015:copy:parser": "shx cp src/parse/*.js* dist/es2015/parse",
+    "build:es2015:copy:csstemplates": "shx cp src/render/graphics/csstemplates.json dist/es2015/render/graphics/csstemplates.json",
+    "build:es2015:copy:version": "shx cp src/version.json dist/es2015/.",
+    "check": "npm-run-all depcruise lint test:all",
+    "check:ci": "npm-run-all depcruise lint test:all:ci",
+    "check:full": "npm-run-all --parallel depcruise lint test:cover",
     "depcruise": "depcruise --validate -- src test",
-    "depcruise:graph": "depcruise --validate --do-not-follow \"node_modules|lib\" --output-type dot --module-systems cjs --exclude \"amdefine|lodash\" src | dot -T svg > tmp_deps.svg",
-    "lint": "eslint src test",
-    "lint:fix": "eslint --fix src test",
-    "lint:types": "tslint types/mscgen.d.ts",
-    "npm-check-updates": "ncu --upgrade",
-    "nsp": "nsp check",
+    "depcruise:graph": "depcruise --exclude .d.ts --validate --do-not-follow \"node_modules\" --module-systems es6,cjs --output-type rcdot src | dot -T svg > tmp_deps.svg",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project .",
+    "prepublishOnly": "npm run check",
+    "version": "npm run build && git add .",
     "test": "jest --onlyChanged --collectCoverage false",
     "test:all": "jest --collectCoverage false",
-    "test:cover": "jest"
+    "test:all:ci": "jest --collectCoverage false --runInBand # runInBand (=sequentially) so node 6 on travis doesn't hang",
+    "test:cover": "jest",
+    "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",
+    "upem:update": "npm outdated --json | upem",
+    "upem:install": "npm install",
+    "watch": "tsc --project src/tsconfig.cjs.json --watch"
   },
   "repository": {
     "type": "git",
@@ -50,6 +106,15 @@
     "msgenny"
   ],
   "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts)$": "ts-jest"
+    },
+    "testRegex": "test.*\\.spec\\.(ts|js)$",
+    "testURL": "http://localhost",
     "collectCoverage": true,
     "coverageReporters": [
       "text-summary",
@@ -57,41 +122,42 @@
       "lcov"
     ],
     "collectCoverageFrom": [
-      "src/index.js",
-      "src/index-lazy.js",
-      "src/main/**/*.js",
-      "src/parse/**/*.js",
-      "src/render/**/*.js"
+      "src/index.ts",
+      "src/index-lazy.ts",
+      "src/main/**/*.ts",
+      "src/parse/**/*.ts",
+      "src/render/**/*.ts"
     ],
     "coveragePathIgnorePatterns": [
+      ".+\\.d\\.ts$",
       "src/render/graphics/styling",
-      "src/render/graphics/svgelementfactory/wobbly\\.js",
+      "src/render/graphics/svgelementfactory/wobbly",
       "src/parse/.+parser\\.js"
     ],
     "coverageThreshold": {
       "global": {
         "statements": 99.8,
-        "branches": 92.9,
+        "branches": 93.8,
         "functions": 100,
         "lines": 99.8
       },
       "src/main": {
         "statements": 100,
-        "branches": 93.9,
+        "branches": 97.3,
         "functions": 100,
         "lines": 100
       },
       "src/render": {
         "statements": 99.8,
-        "branches": 92.8,
+        "branches": 93.2,
         "functions": 100,
         "lines": 99.8
       },
       "src/parse": {
-        "statements": 83,
-        "branches": 74,
-        "functions": 91,
-        "lines": 87
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
       }
     }
   },

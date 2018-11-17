@@ -150,7 +150,7 @@ Both Xù and MsGenny have options to also switch that off - `wordwrapboxes`
 on false makes sure no text in any box gets wrapped. Likewise `wordwrapentities`
 on false makes sure no text in entities gets wrapped.
 
-### title - for tool tips
+### title attribute - for tool tips
 
 From version 1.9.0 the xù language supports the `title` attribute. In SVG output
 the graphics renderer packaged with mscgenjs renders these as `<title>` tags.
@@ -176,6 +176,31 @@ xu {
 
 ![rendered](title-attributes.gif)
 
+### activation attribute - for activation bars
+
+To get fatter lines that indicate an entity (/ lifeline) is 'active', you can use the
+boolean `activation` attribute (e.g. (`activation=on` and `activation=off`),
+or their `activate` and `deactivate` short hand.
+
+> Note: work in progress - the language supports it, but the graphics renderer
+> does not yet. There'll probably need to be rules in place (either balancing
+> activations/ deactivations or a robust way to stay out of trouble during
+> rendering).
+
+```xu
+xu {
+  a, b;
+
+  a => b [
+      label="b gets activated with this call",
+      activate
+  ];
+  b >> a [
+      label="with this return, b gets deactivated",
+      deactivate
+  ];
+}
+```
 
 ## MsGenny
 [MsGenny](./msgenny.md) also has support for inline expressions, the if-then-else construct above

@@ -1,12 +1,11 @@
-var mscgenjs = require('../../dist/webpack-issue-5316-workaround');
-// var mscgenjs = require('../../src/');
+import {renderMsc, version} from '../..';
 
 function render(){
     // clear the target area before rendering on it
     window.output.innerHTML = "";
 
     // render whatever is in window.inputscript at the moment
-    mscgenjs.renderMsc(
+    renderMsc(
         window.inputscript.value,
         {
             inputType: "msgenny", // make this "mscgen" or "xu" to make it an interpreter in that language
@@ -50,5 +49,5 @@ window.addEventListener("resize", setTextAreaToWindowHeight);
 
 /* main*/
 setTextAreaToWindowHeight();
-window.version.innerHTML = "mscgenjs ${version}".replace("${version}", mscgenjs.version);
+window.version.innerHTML = "mscgenjs ${version}".replace("${version}", version);
 render();

@@ -46,6 +46,70 @@ interface IRenderOptions {
      * defaults to "middle"
      */
     regularArcTextVerticalAlignment?: RegularArcTextVerticalAlignmentType;
+
+    /**
+     * a string with (css) style additions
+     */
+    styleAdditions?: string | null,
+
+    /**
+     * the window object to use for rendering - takes the browser window by default
+     */
+    window?: any
+}
+
+interface INormalizedRenderOptions {
+    /**
+     * the id of the DOM element to render in. Defaults to
+     * "__svg". renderMsc assumes this element to exist.
+     */
+    elementId: string;
+
+    /**
+     * language to parse - default "mscgen"
+     */
+    inputType: InputType;
+
+    /**
+     * draws entities on both top and bottom of
+     * the chart when true. Defaults to false.
+     */
+    mirrorEntitiesOnBottom: boolean;
+
+    /**
+     * identifier of an additional template. Get the
+     * allowed values from allowedValues.namedStyle
+     */
+    additionalTemplate: string;
+
+    /**
+     * whether the generated svg should include the script
+     * in a desc element or not. Defaults to false
+     */
+    includeSource: boolean;
+
+    /**
+     * the vertical alignment type to use
+     * defaults to "middle"
+     */
+    regularArcTextVerticalAlignment: RegularArcTextVerticalAlignmentType;
+
+    /**
+     * a string with (css) style additions
+     */
+    styleAdditions: string | null,
+
+    /**
+     * the window object to use for rendering - takes the browser window by default
+     */
+    window: any,
+
+    /**
+     * source code to attach to any output that wants it. 
+     * Derived attribute; automatically assigned from the includeSource
+     * boolean during 'normalization' in main
+     */
+    source: string | null
 }
 /**
  * parses the given script and renders it in the DOM element with
@@ -176,6 +240,18 @@ interface IParser {
      * @return {any} - an abstract syntax tree
      */
     parse: (pSource: string) => any;
+}
+
+interface IRenderer {
+    /**
+     * A parser that takes a sequence chart description and
+     * outputs an abstract syntax tree.
+     *
+     * @param {string} pSource - the source code to parse
+     * @throws {Error} - a parse error
+     * @return {any} - an abstract syntax tree
+     */
+    render: (pSomething: any) => any;
 }
 /**
  * returns a parser module for the given language. The module exposes

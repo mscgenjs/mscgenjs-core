@@ -562,6 +562,11 @@
     ]
   },
   "astOneAltUnwound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -578,7 +583,8 @@
         {
           "kind": "=>",
           "from": "a",
-          "to": "b"
+          "to": "b",
+          "isVirtual": false
         }
       ],
       [
@@ -595,14 +601,16 @@
         {
           "kind": "=>",
           "from": "b",
-          "to": "c"
+          "to": "c",
+          "isVirtual": false
         }
       ],
       [
         {
           "kind": ">>",
           "from": "c",
-          "to": "b"
+          "to": "b",
+          "isVirtual": false
         }
       ],
       [
@@ -701,6 +709,11 @@
     ]
   },
   "astAltWithinLoopUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -717,7 +730,8 @@
         {
           "kind": "=>",
           "from": "a",
-          "to": "b"
+          "to": "b",
+          "isVirtual": false
         }
       ],
       [
@@ -747,7 +761,8 @@
           "kind": "->",
           "from": "b",
           "to": "c",
-          "label": "-> within alt"
+          "label": "-> within alt",
+          "isVirtual": false
         }
       ],
       [
@@ -755,7 +770,8 @@
           "kind": ">>",
           "from": "c",
           "to": "b",
-          "label": ">> within alt"
+          "label": ">> within alt",
+          "isVirtual": false
         }
       ],
       [
@@ -771,7 +787,8 @@
           "kind": ">>",
           "from": "b",
           "to": "a",
-          "label": ">> within loop"
+          "label": ">> within loop",
+          "isVirtual": false
         }
       ],
       [
@@ -787,12 +804,14 @@
           "kind": "=>>",
           "from": "a",
           "to": "a",
-          "label": "happy-the-peppy - outside"
+          "label": "happy-the-peppy - outside",
+          "isVirtual": false
         }
       ],
       [
         {
-          "kind": "..."
+          "kind": "...",
+          "isVirtual": false
         }
       ]
     ],
@@ -841,6 +860,11 @@
     ]
   },
   "astOptWithCommentUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -870,7 +894,8 @@
           "label": "within opt",
           "from": "b",
           "to": "c",
-          "depth": 1
+          "depth": 1,
+          "isVirtual": false
         }
       ],
       [
@@ -884,7 +909,8 @@
       [
         {
           "kind": "---",
-          "label": "outside opt"
+          "label": "outside opt",
+          "isVirtual": false
         }
       ]
     ],
@@ -968,6 +994,11 @@
     ]
   },
   "astInlineWithArcColorUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -999,7 +1030,8 @@
           "label": "hasnocolors",
           "linecolor": "red",
           "textcolor": "green",
-          "textbgcolor": "cyan"
+          "textbgcolor": "cyan",
+          "isVirtual": false
         }
       ],
       [
@@ -1090,6 +1122,11 @@
     ]
   },
   "astNestedInlinesWithArcColorUnWound": {
+    "options": {
+      "wordwraparcs": false,
+      "wordwrapboxes": true,
+      "wordwrapentities": true
+    },
     "entities": [
       {
         "name": "a"
@@ -1120,7 +1157,8 @@
           "label": "no colors",
           "linecolor": "red",
           "textcolor": "green",
-          "textbgcolor": "blue"
+          "textbgcolor": "blue",
+          "isVirtual": false
         }
       ],
       [
@@ -1131,7 +1169,8 @@
           "label": "all colors",
           "linecolor": "fuchsia",
           "textcolor": "lime",
-          "textbgcolor": "cyan"
+          "textbgcolor": "cyan",
+          "isVirtual": false
         }
       ],
       [
@@ -1149,7 +1188,8 @@
           "kind": "->",
           "from": "a",
           "to": "b",
-          "label": "no colors"
+          "label": "no colors",
+          "isVirtual": false
         }
       ],
       [
@@ -1160,7 +1200,8 @@
           "label": "all colors",
           "linecolor": "fuchsia",
           "textcolor": "lime",
-          "textbgcolor": "cyan"
+          "textbgcolor": "cyan",
+          "isVirtual": false
         }
       ],
       [
@@ -1818,6 +1859,56 @@
               "to": "b",
               "label": "the label",
               "title": "The title meister strikes again"
+            }
+          ]
+        ]
+    },
+    "astActivate": {
+       "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
+        "entities": [
+          {
+            "name": "a"
+          },
+          {
+            "name": "b"
+          }
+        ],
+        "arcs": [
+          [
+            {
+              "kind": "=>",
+              "from": "a",
+              "to": "b",
+              "activation": true
+            }
+          ]
+        ]
+    },
+    "astDeActivate": {
+       "meta": {
+          "extendedOptions": false,
+          "extendedArcTypes": false,
+          "extendedFeatures": false
+        },
+        "entities": [
+          {
+            "name": "a"
+          },
+          {
+            "name": "b"
+          }
+        ],
+        "arcs": [
+          [
+            {
+              "kind": "=>",
+              "from": "a",
+              "to": "b",
+              "activation": false
             }
           ]
         ]
