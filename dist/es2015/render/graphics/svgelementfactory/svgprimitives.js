@@ -1,11 +1,11 @@
-import domprimitives from "./domprimitives";
+import * as domprimitives from "./domprimitives";
 import getDiagonalAngle from "./getdiagonalangle";
 import round from "./round";
 const PRECISION = 2;
-function point2String(pPoint) {
+export function point2String(pPoint) {
     return `${round(pPoint.x, PRECISION).toString()},${round(pPoint.y, PRECISION).toString()} `;
 }
-function pathPoint2String(pType, pX, pY) {
+export function pathPoint2String(pType, pX, pY) {
     return pType + point2String({ x: pX, y: pY });
 }
 function createMarker(pId, pClass, pOrient, pViewBox) {
@@ -48,7 +48,7 @@ function createLink(pURL, pElementToWrap) {
 /* superscript style could also be super or a number (1em) or a % (100%) */
 let lSuperscriptStyle = "vertical-align:text-top;";
 lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
-function createTSpan(pLabel, pURL) {
+export function createTSpan(pLabel, pURL) {
     const lTSpanLabel = domprimitives.createElement("tspan");
     const lContent = domprimitives.createTextNode(pLabel);
     lTSpanLabel.appendChild(lContent);
@@ -59,7 +59,7 @@ function createTSpan(pLabel, pURL) {
         return lTSpanLabel;
     }
 }
-function createText(pLabel, pCoords, pOptions) {
+export function createText(pLabel, pCoords, pOptions) {
     const lOptions = Object.assign({
         class: null,
         url: null,
@@ -87,7 +87,7 @@ function createText(pLabel, pCoords, pOptions) {
  * @param {string} pOptions - an object with (optional) keys class, style, color and bgColor
  * @return {SVGElement}
  */
-function createPath(pD, pOptions) {
+export function createPath(pD, pOptions) {
     const lOptions = Object.assign({
         class: null,
         style: null,
@@ -110,7 +110,7 @@ function colorBox(pElement, pColor, pBgColor) {
     }
     return domprimitives.setAttribute(pElement, "style", lStyleString);
 }
-function createSingleLine(pLine, pOptions) {
+export function createSingleLine(pLine, pOptions) {
     return domprimitives.createElement("line", {
         x1: round(pLine.xFrom, PRECISION).toString(),
         y1: round(pLine.yFrom, PRECISION).toString(),
@@ -133,7 +133,7 @@ function createSingleLine(pLine, pOptions) {
  * @param {number=} pRY
  * @return {SVGElement}
  */
-function createRect(pBBox, pOptions) {
+export function createRect(pBBox, pOptions) {
     const lOptions = Object.assign({
         class: null,
         color: null,
@@ -161,7 +161,7 @@ function createRect(pBBox, pOptions) {
  * @param {string} pOptions - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createUTurn(pBBox, pEndY, pOptions) {
+export function createUTurn(pBBox, pEndY, pOptions) {
     const lOptions = Object.assign({
         class: null,
         dontHitHome: false,
@@ -183,7 +183,7 @@ function createUTurn(pBBox, pEndY, pOptions) {
  * @param {string} pId
  * @return {SVGElement}
  */
-function createGroup(pId, pClass) {
+export function createGroup(pId, pClass) {
     return domprimitives.createElement("g", {
         id: pId,
         class: pClass,
@@ -195,7 +195,7 @@ function createGroup(pId, pClass) {
  * @param {string} pId
  * @param {string} pD - a string containing the path
  */
-function createMarkerPath(pId, pD, pColor) {
+export function createMarkerPath(pId, pD, pColor) {
     const lMarker = createMarker(pId, "arrow-marker", "auto");
     /* stroke-dasharray: 'none' should work to override any dashes (like in
         * return messages (a >> b;)) and making sure the marker end gets
@@ -216,7 +216,7 @@ function createMarkerPath(pId, pD, pColor) {
  * @param {string} pPoints - a string with the points of the polygon
  * @return {SVGElement}
  */
-function createMarkerPolygon(pId, pPoints, pColor) {
+export function createMarkerPolygon(pId, pPoints, pColor) {
     const lMarker = createMarker(pId, "arrow-marker", "auto");
     lMarker.appendChild(domprimitives.createElement("polygon", {
         points: pPoints,
@@ -226,7 +226,7 @@ function createMarkerPolygon(pId, pPoints, pColor) {
     }));
     return lMarker;
 }
-function createTitle(pText) {
+export function createTitle(pText) {
     const lTitle = domprimitives.createElement("title");
     const lText = domprimitives.createTextNode(pText);
     lTitle.appendChild(lText);
@@ -239,7 +239,7 @@ function createTitle(pText) {
  * @param {string} pText
  * @param {object} pDimension (an object with at least a .width and a .height)
  */
-function createDiagonalText(pText, pDimension, pClass) {
+export function createDiagonalText(pText, pDimension, pClass) {
     return domprimitives.setAttributes(createText(pText, { x: pDimension.width / 2, y: pDimension.height / 2 }, { class: pClass }), {
         transform: `rotate(${round(getDiagonalAngle(pDimension), PRECISION).toString()} ` +
             `${round((pDimension.width) / 2, PRECISION).toString()} ` +
@@ -252,7 +252,7 @@ function createDiagonalText(pText, pDimension, pClass) {
  * @param {string} pID
  * @returns {Element}
  */
-function createDesc() {
+export function createDesc() {
     return domprimitives.createElement("desc");
 }
 /**
@@ -260,7 +260,7 @@ function createDesc() {
  *
  * @returns {Element}
  */
-function createDefs() {
+export function createDefs() {
     return domprimitives.createElement("defs");
 }
 /**
@@ -268,7 +268,7 @@ function createDefs() {
  * @param {string} pId
  * @return {Element} an SVG element
  */
-function createSVG(pId, pClass) {
+export function createSVG(pId, pClass) {
     return domprimitives.createElement("svg", {
         "version": "1.1",
         "id": pId,
@@ -279,30 +279,8 @@ function createSVG(pId, pClass) {
         "height": "0",
     });
 }
-export default {
-    init: domprimitives.init,
-    createSVG,
-    updateSVG: domprimitives.setAttributes,
-    // straight + internal for createPath => elementfactory, wobbly & straight
-    createDesc,
-    createDefs,
-    createTSpan,
-    createText,
-    createDiagonalText,
-    createSingleLine,
-    createRect,
-    createUTurn,
-    createGroup,
-    // elementfactory, wobbly, straight
-    createPath,
-    createMarkerPath,
-    createMarkerPolygon,
-    createTitle,
-    // elementfactory, wobbly
-    point2String,
-    // elementfactory, wobbly, straight
-    pathPoint2String,
-};
+export const init = domprimitives.init;
+export const updateSVG = domprimitives.setAttributes;
 /*
  This file is part of mscgen_js.
 

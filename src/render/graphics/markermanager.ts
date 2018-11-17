@@ -185,7 +185,7 @@ function getSignalstart(pKind, pFrom, pTo) {
     }
 }
 
-function _getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
+export function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
     let lRetval = [];
 
     if (KINDS[pKind] && KINDS[pKind].attributes) {
@@ -244,26 +244,22 @@ function extractKindColorCombis(pAST: IFlatSequenceChart) {
     return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
 }
 
-export default {
-    getAttributes: _getAttributes,
-
-    getMarkerDefs(pId: string, pAST: IFlatSequenceChart) {
-        return _flatten(
-            extractKindColorCombis(pAST)
-            .map((pCombi) => MARKERPATHS[pCombi.kind]
-                .variants
-                .map(
-                    (pVariant) => ({
-                        name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
-                        path: pVariant.path,
-                        color: pCombi.color,
-                        type: pCombi.kind,
-                    }),
-                ),
+export function getMarkerDefs(pId: string, pAST: IFlatSequenceChart) {
+    return _flatten(
+        extractKindColorCombis(pAST)
+        .map((pCombi) => MARKERPATHS[pCombi.kind]
+            .variants
+            .map(
+                (pVariant) => ({
+                    name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
+                    path: pVariant.path,
+                    color: pCombi.color,
+                    type: pCombi.kind,
+                }),
             ),
-        );
-    },
-};
+        ),
+    );
+}
 /*
  This file is part of mscgen_js.
 

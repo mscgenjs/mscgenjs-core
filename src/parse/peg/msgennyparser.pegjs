@@ -24,7 +24,7 @@
 
 {
     function entityNeedsExtracting (pEntities, pName, pEntityNamesToIgnore) {
-        return !(parserHelpers.default.entityExists(pEntities, pName) || pEntityNamesToIgnore[pName] === true);
+        return !(parserHelpers.entityExists(pEntities, pName) || pEntityNamesToIgnore[pName] === true);
     }
 
     function initEntity(pName) {
@@ -64,7 +64,7 @@ program
     {
         declarations.entities = extractUndeclaredEntities(declarations.entities || [], declarations.arcs);
         declarations = _assign (
-            {meta: parserHelpers.default.getMetaInfo(declarations.options, declarations.arcs)},
+            {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)},
             declarations
         );
 
@@ -103,27 +103,27 @@ optionlist
 option
     = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            return parserHelpers.default.nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"width"i _ "=" _ value:sizelike _
         {
-            return parserHelpers.default.nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapentities"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapboxes"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"watermark"i _ "=" _ value:quotedstring _
         {
-            return parserHelpers.default.nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
 
 entitylist

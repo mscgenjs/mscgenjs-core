@@ -1,15 +1,15 @@
-import domprimitives from "./domprimitives";
+import * as domprimitives from "./domprimitives";
 import * as geotypes from "./geotypes";
 import getDiagonalAngle from "./getdiagonalangle";
 import round from "./round";
 
 const PRECISION        = 2;
 
-function point2String(pPoint: geotypes.IPoint): string {
+export function point2String(pPoint: geotypes.IPoint): string {
     return `${round(pPoint.x, PRECISION).toString()},${round(pPoint.y, PRECISION).toString()} `;
 }
 
-function pathPoint2String(pType: string, pX, pY): string {
+export function pathPoint2String(pType: string, pX, pY): string {
     return pType + point2String({x: pX, y: pY});
 }
 
@@ -68,7 +68,7 @@ function createLink(pURL: string, pElementToWrap: SVGElement): SVGAElement {
 let lSuperscriptStyle = "vertical-align:text-top;";
 lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
 
-function createTSpan(pLabel: string, pURL: string): SVGTSpanElement|SVGAElement {
+export function createTSpan(pLabel: string, pURL: string): SVGTSpanElement|SVGAElement {
     const lTSpanLabel = domprimitives.createElement("tspan");
     const lContent = domprimitives.createTextNode(pLabel);
     lTSpanLabel.appendChild(lContent);
@@ -85,7 +85,7 @@ interface ICreateTextOptions {
     id?: string;
     idurl?: string;
 }
-function createText(pLabel: string, pCoords: geotypes.IPoint, pOptions?: ICreateTextOptions): SVGTextElement {
+export function createText(pLabel: string, pCoords: geotypes.IPoint, pOptions?: ICreateTextOptions): SVGTextElement {
     const lOptions = Object.assign(
         {
             class: null,
@@ -128,7 +128,7 @@ interface ICreatePathOptions {
  * @param {string} pOptions - an object with (optional) keys class, style, color and bgColor
  * @return {SVGElement}
  */
-function createPath(pD: string, pOptions: ICreatePathOptions): SVGPathElement {
+export function createPath(pD: string, pOptions: ICreatePathOptions): SVGPathElement {
     const lOptions = Object.assign(
         {
             class: null,
@@ -166,7 +166,7 @@ function colorBox(pElement: SVGElement, pColor: string, pBgColor: string): SVGEl
 interface ICreateSinlgeLineOptions {
     class?: string;
 }
-function createSingleLine(pLine: geotypes.ILine, pOptions: ICreateSinlgeLineOptions): SVGLineElement {
+export function createSingleLine(pLine: geotypes.ILine, pOptions: ICreateSinlgeLineOptions): SVGLineElement {
     return domprimitives.createElement(
         "line",
         {
@@ -200,7 +200,7 @@ interface ICreateRectOptions {
  * @param {number=} pRY
  * @return {SVGElement}
  */
-function createRect(pBBox: geotypes.IBBox, pOptions: ICreateRectOptions): SVGRectElement {
+export function createRect(pBBox: geotypes.IBBox, pOptions: ICreateRectOptions): SVGRectElement {
     const lOptions = Object.assign(
         {
             class: null,
@@ -244,7 +244,7 @@ interface ICreateUTurnOptions {
  * @param {string} pOptions - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createUTurn(pBBox: geotypes.IBBox, pEndY: number, pOptions: ICreateUTurnOptions): SVGPathElement {
+export function createUTurn(pBBox: geotypes.IBBox, pEndY: number, pOptions: ICreateUTurnOptions): SVGPathElement {
     const lOptions = Object.assign(
         {
             class: null,
@@ -273,7 +273,7 @@ function createUTurn(pBBox: geotypes.IBBox, pEndY: number, pOptions: ICreateUTur
  * @param {string} pId
  * @return {SVGElement}
  */
-function createGroup(pId?: string, pClass?: string): SVGGElement {
+export function createGroup(pId?: string, pClass?: string): SVGGElement {
     return domprimitives.createElement(
         "g",
         {
@@ -289,7 +289,7 @@ function createGroup(pId?: string, pClass?: string): SVGGElement {
  * @param {string} pId
  * @param {string} pD - a string containing the path
  */
-function createMarkerPath(pId: string, pD: string, pColor: string): SVGMarkerElement {
+export function createMarkerPath(pId: string, pD: string, pColor: string): SVGMarkerElement {
     const lMarker = createMarker(pId, "arrow-marker", "auto");
     /* stroke-dasharray: 'none' should work to override any dashes (like in
         * return messages (a >> b;)) and making sure the marker end gets
@@ -316,7 +316,7 @@ function createMarkerPath(pId: string, pD: string, pColor: string): SVGMarkerEle
  * @param {string} pPoints - a string with the points of the polygon
  * @return {SVGElement}
  */
-function createMarkerPolygon(pId: string, pPoints: string, pColor: string): SVGMarkerElement {
+export function createMarkerPolygon(pId: string, pPoints: string, pColor: string): SVGMarkerElement {
     const lMarker = createMarker(pId, "arrow-marker", "auto");
     lMarker.appendChild(
         domprimitives.createElement(
@@ -331,8 +331,7 @@ function createMarkerPolygon(pId: string, pPoints: string, pColor: string): SVGM
     );
     return lMarker;
 }
-
-function createTitle(pText: string): SVGTitleElement {
+export function createTitle(pText: string): SVGTitleElement {
     const lTitle = domprimitives.createElement("title");
     const lText = domprimitives.createTextNode(pText);
     lTitle.appendChild(lText);
@@ -346,7 +345,7 @@ function createTitle(pText: string): SVGTitleElement {
  * @param {string} pText
  * @param {object} pDimension (an object with at least a .width and a .height)
  */
-function createDiagonalText(pText: string, pDimension: geotypes.IDimension, pClass: string): SVGElement {
+export function createDiagonalText(pText: string, pDimension: geotypes.IDimension, pClass: string): SVGElement {
     return domprimitives.setAttributes(
         createText(pText, {x: pDimension.width / 2, y: pDimension.height / 2}, {class: pClass}),
         {
@@ -364,7 +363,7 @@ function createDiagonalText(pText: string, pDimension: geotypes.IDimension, pCla
  * @param {string} pID
  * @returns {Element}
  */
-function createDesc(): SVGDescElement {
+export function createDesc(): SVGDescElement {
     return domprimitives.createElement("desc");
 }
 
@@ -373,7 +372,7 @@ function createDesc(): SVGDescElement {
  *
  * @returns {Element}
  */
-function createDefs(): SVGDefsElement {
+export function createDefs(): SVGDefsElement {
     return domprimitives.createElement("defs") as SVGDefsElement;
 }
 
@@ -382,7 +381,7 @@ function createDefs(): SVGDefsElement {
  * @param {string} pId
  * @return {Element} an SVG element
  */
-function createSVG(pId: string, pClass: string): SVGSVGElement {
+export function createSVG(pId: string, pClass: string): SVGSVGElement {
     return domprimitives.createElement(
         "svg",
         {
@@ -397,34 +396,9 @@ function createSVG(pId: string, pClass: string): SVGSVGElement {
     ) as SVGSVGElement;
 }
 
-export default {
-    init: domprimitives.init,
-    createSVG,
-    updateSVG: domprimitives.setAttributes,
-    // straight + internal for createPath => elementfactory, wobbly & straight
-    createDesc,
-    createDefs,
-    createTSpan,
-    createText,
-    createDiagonalText,
-    createSingleLine,
-    createRect,
-    createUTurn,
-    createGroup,
+export const init = domprimitives.init;
+export const updateSVG = domprimitives.setAttributes;
 
-    // elementfactory, wobbly, straight
-    createPath,
-
-    createMarkerPath,
-    createMarkerPolygon,
-    createTitle,
-
-    // elementfactory, wobbly
-    point2String,
-
-    // elementfactory, wobbly, straight
-    pathPoint2String,
-};
 /*
  This file is part of mscgen_js.
 

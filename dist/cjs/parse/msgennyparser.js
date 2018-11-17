@@ -150,7 +150,7 @@
         peg$c0 = function(pre, declarations) {
                 declarations.entities = extractUndeclaredEntities(declarations.entities || [], declarations.arcs);
                 declarations = _assign (
-                    {meta: parserHelpers.default.getMetaInfo(declarations.options, declarations.arcs)},
+                    {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)},
                     declarations
                 );
 
@@ -188,14 +188,14 @@
         peg$c12 = "=",
         peg$c13 = peg$literalExpectation("=", false),
         peg$c14 = function(name, value) {
-                    return parserHelpers.default.nameValue2Option(name, value);
+                    return parserHelpers.nameValue2Option(name, value);
                 },
         peg$c15 = "width",
         peg$c16 = peg$literalExpectation("width", true),
         peg$c17 = "wordwraparcs",
         peg$c18 = peg$literalExpectation("wordwraparcs", true),
         peg$c19 = function(name, value) {
-                    return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+                    return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
                 },
         peg$c20 = "wordwrapentities",
         peg$c21 = peg$literalExpectation("wordwrapentities", true),
@@ -3404,7 +3404,7 @@
 
 
         function entityNeedsExtracting (pEntities, pName, pEntityNamesToIgnore) {
-            return !(parserHelpers.default.entityExists(pEntities, pName) || pEntityNamesToIgnore[pName] === true);
+            return !(parserHelpers.entityExists(pEntities, pName) || pEntityNamesToIgnore[pName] === true);
         }
 
         function initEntity(pName) {

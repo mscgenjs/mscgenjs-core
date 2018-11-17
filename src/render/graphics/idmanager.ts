@@ -2,14 +2,12 @@ const INNERELEMENTPREFIX = "mscgenjs";
 
 let gInnerElementId = INNERELEMENTPREFIX;
 
-export default {
-    setPrefix(pPrefix: string): void {
-        gInnerElementId = INNERELEMENTPREFIX + pPrefix;
-    },
-    get(pElementIdentifierString?: string): string {
-        return gInnerElementId + (pElementIdentifierString || "");
-    },
-};
+export function setPrefix(pPrefix: string): void {
+    gInnerElementId = INNERELEMENTPREFIX + pPrefix;
+}
+export function get(pElementIdentifierString?: string): string {
+    return gInnerElementId + (pElementIdentifierString || "");
+}
 /*
  This file is part of mscgen_js.
 

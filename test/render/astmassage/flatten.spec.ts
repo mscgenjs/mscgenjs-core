@@ -1,4 +1,4 @@
-import flatten from "../../../src/render/astmassage/flatten";
+import * as flatten from "../../../src/render/astmassage/flatten";
 const fix     = require("../../astfixtures.json");
 
 describe("render/astmassage/flatten", () => {

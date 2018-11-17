@@ -17,7 +17,7 @@
  * @exports renderskeleton
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-import svgelementfactory from "./svgelementfactory/index";
+import * as svgelementfactory from "./svgelementfactory/index";
 import constants from "./constants";
 const csstemplates = require("./csstemplates.json");
 let gDocument = {};
@@ -57,15 +57,37 @@ function setupBody(pElementId) {
     lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_watermark`));
     return lBody;
 }
-function _init(pWindow) {
+/**
+ * Initializes the document to the document associated with the
+ * given pWindow and returns it.
+ *
+ * @param {window} pWindow
+ * @return {document}
+ */
+export function init(pWindow) {
     svgelementfactory.init(pWindow.document, {
         LINE_WIDTH: constants.LINE_WIDTH,
         FONT_SIZE: constants.FONT_SIZE,
     });
     return pWindow.document;
 }
-function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
-    gDocument = _init(pWindow);
+/**
+ * Sets up a skeleton svg document with id pSvgElementId in the dom element
+ * pParentElement, both in window pWindow. See the module
+ * documentation for details on the structure of the skeleton.
+ *
+ * @param {string} pParentElement
+ * @param {string} pSvgElementId
+ * @param {object} pMarkerDefs
+ * @param {string} pStyleAdditions
+ * @param {window} pWindow
+ * @param {options} pOptions
+ *        source - the source code (string),
+ *        additionalTemplate - string identifying a named style
+ *
+ */
+export function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
+    gDocument = init(pWindow);
     const lSkeletonSvg = svgelementfactory.createSVG(pSvgElementId, pSvgElementId, distillRenderMagic(pOptions));
     if (Boolean(pOptions.source)) {
         lSkeletonSvg.appendChild(setupDesc(pWindow, pOptions.source));
@@ -104,32 +126,6 @@ function setupStyleElement(pOptions, pSvgElementId) {
         .replace(/<%=lineWidth%>/g, constants.LINE_WIDTH)
         .replace(/<%=id%>/g, pSvgElementId);
 }
-export default {
-    /**
-     * Sets up a skeleton svg document with id pSvgElementId in the dom element
-     * pParentElement, both in window pWindow. See the module
-     * documentation for details on the structure of the skeleton.
-     *
-     * @param {string} pParentElement
-     * @param {string} pSvgElementId
-     * @param {object} pMarkerDefs
-     * @param {string} pStyleAdditions
-     * @param {window} pWindow
-     * @param {options} pOptions
-     *        source - the source code (string),
-     *        additionalTemplate - string identifying a named style
-     *
-     */
-    bootstrap,
-    /**
-     * Initializes the document to the document associated with the
-     * given pWindow and returns it.
-     *
-     * @param {window} pWindow
-     * @return {document}
-     */
-    init: _init,
-};
 /*
  This file is part of mscgen_js.
 

@@ -185,7 +185,7 @@ function getSignalstart(pKind, pFrom, pTo) {
         return "signal-lu";
     }
 }
-function _getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
+function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
     var lRetval = [];
     if (KINDS[pKind] && KINDS[pKind].attributes) {
         lRetval = KINDS[pKind].attributes.map(function (pAttribute) { return ({
@@ -199,6 +199,7 @@ function _getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
     }
     return lRetval;
 }
+exports.getAttributes = getAttributes;
 function makeKindColorCombi(pKind, pColor) {
     return KINDS[normalizekind_1["default"](pKind)].marker.name +
         (Boolean(pColor) ? " " + pColor : " black");
@@ -237,20 +238,18 @@ function toColorCombiObject(pColorCombi) {
 function extractKindColorCombis(pAST) {
     return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
 }
-exports["default"] = {
-    getAttributes: _getAttributes,
-    getMarkerDefs: function (pId, pAST) {
-        return lodash_flatten_1["default"](extractKindColorCombis(pAST)
-            .map(function (pCombi) { return MARKERPATHS[pCombi.kind]
-            .variants
-            .map(function (pVariant) { return ({
-            name: pId + pCombi.kind + pVariant.name + "-" + pCombi.color,
-            path: pVariant.path,
-            color: pCombi.color,
-            type: pCombi.kind
-        }); }); }));
-    }
-};
+function getMarkerDefs(pId, pAST) {
+    return lodash_flatten_1["default"](extractKindColorCombis(pAST)
+        .map(function (pCombi) { return MARKERPATHS[pCombi.kind]
+        .variants
+        .map(function (pVariant) { return ({
+        name: pId + pCombi.kind + pVariant.name + "-" + pCombi.color,
+        path: pVariant.path,
+        color: pCombi.color,
+        type: pCombi.kind
+    }); }); }));
+}
+exports.getMarkerDefs = getMarkerDefs;
 /*
  This file is part of mscgen_js.
 

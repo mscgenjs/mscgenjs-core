@@ -4,30 +4,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
-exports["default"] = {
-    scaleCanvasToWidth: function (pWidth, pCanvas) {
-        var lCanvas = lodash_clonedeep_1["default"](pCanvas);
-        lCanvas.scale = (pWidth / lCanvas.width);
-        lCanvas.width *= lCanvas.scale;
-        lCanvas.height *= lCanvas.scale;
-        lCanvas.horizontaltransform *= lCanvas.scale;
-        lCanvas.verticaltransform *= lCanvas.scale;
-        lCanvas.x = 0 - lCanvas.horizontaltransform;
-        lCanvas.y = 0 - lCanvas.verticaltransform;
-        return lCanvas;
-    },
-    determineDepthCorrection: function (pDepth, pLineWidth) {
-        return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
-    },
-    determineArcXTo: function (pKind, pFrom, pTo) {
-        if ("-x" === pKind) {
-            return pFrom + (pTo - pFrom) * (3 / 4);
-        }
-        else {
-            return pTo;
-        }
+function scaleCanvasToWidth(pWidth, pCanvas) {
+    var lCanvas = lodash_clonedeep_1["default"](pCanvas);
+    lCanvas.scale = (pWidth / lCanvas.width);
+    lCanvas.width *= lCanvas.scale;
+    lCanvas.height *= lCanvas.scale;
+    lCanvas.horizontaltransform *= lCanvas.scale;
+    lCanvas.verticaltransform *= lCanvas.scale;
+    lCanvas.x = 0 - lCanvas.horizontaltransform;
+    lCanvas.y = 0 - lCanvas.verticaltransform;
+    return lCanvas;
+}
+exports.scaleCanvasToWidth = scaleCanvasToWidth;
+function determineDepthCorrection(pDepth, pLineWidth) {
+    return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
+}
+exports.determineDepthCorrection = determineDepthCorrection;
+function determineArcXTo(pKind, pFrom, pTo) {
+    if ("-x" === pKind) {
+        return pFrom + (pTo - pFrom) * (3 / 4);
     }
-};
+    else {
+        return pTo;
+    }
+}
+exports.determineArcXTo = determineArcXTo;
 /*
  This file is part of mscgen_js.
 

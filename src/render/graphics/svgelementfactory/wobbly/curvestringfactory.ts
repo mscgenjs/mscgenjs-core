@@ -1,6 +1,6 @@
 import * as geotypes from "../geotypes";
-import svgprimitives from "../svgprimitives";
-import variationhelpers from "../variationhelpers";
+import * as svgprimitives from "../svgprimitives";
+import * as variationhelpers from "../variationhelpers";
 import {line2CurveString, points2CurveString} from "./helpers";
 
 export function renderNotePathString(pBBox: geotypes.IBBox, pFoldSize: number): string {

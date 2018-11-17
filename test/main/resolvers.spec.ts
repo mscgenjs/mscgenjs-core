@@ -14,8 +14,8 @@ const gExpectedMscGenOutput = `msc {\n\
 }`;
 
 [
-    require("../../src/main/static-resolver").default,
-    require("../../src/main/lazy-resolver").default
+    require("../../src/main/static-resolver"),
+    require("../../src/main/lazy-resolver")
 ].forEach((mscgenjs) => {
     describe("resolver", () => {
         function isMscGenParser(pParser) {

@@ -18,9 +18,9 @@ program
     =  pre:_ starttoken _  "{" _ declarations:declarationlist _ "}" _
     {
         declarations.entities = declarations.entities || [];
-        parserHelpers.default.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
+        parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-        declarations = _assign ({meta: parserHelpers.default.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
+        declarations = _assign ({meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
 
         if (pre.length > 0) {
             declarations = _assign({precomment: pre}, declarations);
@@ -62,27 +62,27 @@ optionlist
 option "option"
     = _ name:("hscale"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            return parserHelpers.default.nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"width"i _ "=" _ value:sizelike _
         {
-            return parserHelpers.default.nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapentities"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"wordwrapboxes"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
     / _ name:"watermark"i _ "=" _ value:string _
         {
-            return parserHelpers.default.nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
 
 entitylist
@@ -98,7 +98,7 @@ entity "entity"
         }
     /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-          if (parserHelpers.default.isMscGenKeyword(name)){
+          if (parserHelpers.isMscGenKeyword(name)){
             error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
           }
           return _assign ({name:name}, attrList);
@@ -243,7 +243,7 @@ namevalueattribute
     {
       var lAttribute = {};
       if (name.toLowerCase() === "activation"){
-          lAttribute.activation = parserHelpers.default.flattenBoolean(value);
+          lAttribute.activation = parserHelpers.flattenBoolean(value);
       } else {
         lAttribute[name.toLowerCase().replace("colour", "color")] = value;
       }

@@ -26,11 +26,12 @@ var KIND2STYLE = Object.freeze({
     "::": "bold",
     "rbox": "rounded"
 });
-exports["default"] = {
-    getArrow: function (pKey) { return KIND2ARROW[pKey]; },
-    getShape: function (pKey) { return KIND2SHAPE[pKey]; },
-    getStyle: function (pKey) { return KIND2STYLE[pKey]; }
-};
+function getArrow(pKey) { return KIND2ARROW[pKey]; }
+exports.getArrow = getArrow;
+function getShape(pKey) { return KIND2SHAPE[pKey]; }
+exports.getShape = getShape;
+function getStyle(pKey) { return KIND2STYLE[pKey]; }
+exports.getStyle = getStyle;
 /* The 'generic object injection sink' is to a frozen object,
    attempts to modify it will be moot => we can safely use the []
    notation

@@ -2,17 +2,17 @@ import _cloneDeep from "lodash.clonedeep";
 import { INormalizedRenderOptions, RegularArcTextVerticalAlignmentType } from "../../../types/mscgen";
 import * as mscgenjsast from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
-import flatten, { IEntityNormalized, IFlatArc, IFlatSequenceChart } from "../astmassage/flatten";
+import { flatten, IEntityNormalized, IFlatArc, IFlatSequenceChart } from "../astmassage/flatten";
 import constants from "./constants";
 import { IOandD, Thing } from "./entities";
-import idmanager from "./idmanager";
-import kind2class from "./kind2class";
-import markermanager from "./markermanager";
-import renderlabels from "./renderlabels";
-import renderskeleton from "./renderskeleton";
-import renderutensils from "./renderutensils";
-import rowmemory from "./rowmemory";
-import svgelementfactory from "./svgelementfactory/index";
+import * as idmanager from "./idmanager";
+import * as kind2class from "./kind2class";
+import * as markermanager from "./markermanager";
+import * as renderlabels from "./renderlabels";
+import * as renderskeleton from "./renderskeleton";
+import * as renderutensils from "./renderutensils";
+import * as rowmemory from "./rowmemory";
+import * as svgelementfactory from "./svgelementfactory/index";
 import * as svgutensils from "./svgutensils";
 
 let entities = new Thing(0);
@@ -1141,7 +1141,7 @@ export function render(
     pParentElementId: string,
     pRenderOptions: INormalizedRenderOptions,
 ) {
-    const lFlattenedAST: IFlatSequenceChart = Object.freeze(flatten.flatten(pAST));
+    const lFlattenedAST: IFlatSequenceChart = Object.freeze(flatten(pAST));
     const lParentElement = getParentElement(pWindow, pParentElementId);
 
     idmanager.setPrefix(pParentElementId);

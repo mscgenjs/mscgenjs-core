@@ -2,9 +2,9 @@ import _cloneDeep from "lodash.clonedeep";
 import { ArcKindAggregatedType, IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import asttransform from "../astmassage/asttransform";
-import flatten from "../astmassage/flatten";
+import * as flatten from "../astmassage/flatten";
 import wrap from "../textutensils/wrap";
-import dotMappings from "./dotMappings";
+import * as dotMappings from "./dotMappings";
 
 const INDENT = "  ";
 const MAX_TEXT_WIDTH = 40;

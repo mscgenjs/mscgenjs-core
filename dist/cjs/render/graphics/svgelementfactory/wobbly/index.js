@@ -2,16 +2,23 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 var curvestringfactory_1 = require("./curvestringfactory");
 var helpers_1 = require("./helpers");
 var round_1 = __importDefault(require("../round"));
-var svgprimitives_1 = __importDefault(require("../svgprimitives"));
-var variationhelpers_1 = __importDefault(require("../variationhelpers"));
+var svgprimitives = __importStar(require("../svgprimitives"));
+var variationhelpers = __importStar(require("../variationhelpers"));
 function createSingleLine(pLine, pOptions) {
     if (pOptions === void 0) { pOptions = {}; }
-    var lDir = variationhelpers_1["default"].getDirection(pLine);
-    return svgprimitives_1["default"].createPath(svgprimitives_1["default"].pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
+    var lDir = variationhelpers.getDirection(pLine);
+    return svgprimitives.createPath(svgprimitives.pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
         // Workaround; gecko and webkit treat markers slapped on the
         // start of a path with 'auto' different from each other when
         // there's not a line at the start and the path is not going
@@ -21,67 +28,65 @@ function createSingleLine(pLine, pOptions) {
         //
         // Adding a little stubble at the start of the line solves
         // all that.
-        svgprimitives_1["default"].pathPoint2String("L", round_1["default"](pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
+        svgprimitives.pathPoint2String("L", round_1["default"](pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
             ? 1
             : round_1["default"](Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
         helpers_1.line2CurveString(pLine), pOptions);
 }
+exports.createSingleLine = createSingleLine;
 function createNote(pBBox, pOptions) {
     var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     var lFoldSize = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
-    var lGroup = svgprimitives_1["default"].createGroup();
-    lGroup.appendChild(svgprimitives_1["default"].createPath(curvestringfactory_1.renderNotePathString(pBBox, lFoldSize), pOptions));
+    var lGroup = svgprimitives.createGroup();
+    lGroup.appendChild(svgprimitives.createPath(curvestringfactory_1.renderNotePathString(pBBox, lFoldSize), pOptions));
     pOptions.bgColor = "transparent";
-    lGroup.appendChild(svgprimitives_1["default"].createPath(curvestringfactory_1.renderNoteCornerString(pBBox, lFoldSize), pOptions));
+    lGroup.appendChild(svgprimitives.createPath(curvestringfactory_1.renderNoteCornerString(pBBox, lFoldSize), pOptions));
     return lGroup;
 }
+exports.createNote = createNote;
 function createRect(pBBox, pOptions) {
-    return svgprimitives_1["default"].createPath(curvestringfactory_1.rbox2CurveString(pBBox, 0), pOptions);
+    return svgprimitives.createPath(curvestringfactory_1.rbox2CurveString(pBBox, 0), pOptions);
 }
+exports.createRect = createRect;
 function createABox(pBBox, pOptions) {
     var lSlopeOffset = 3;
-    return svgprimitives_1["default"].createPath(curvestringfactory_1.abox2CurveString(pBBox, lSlopeOffset), pOptions);
+    return svgprimitives.createPath(curvestringfactory_1.abox2CurveString(pBBox, lSlopeOffset), pOptions);
 }
+exports.createABox = createABox;
 function createRBox(pBBox, pOptions) {
-    return svgprimitives_1["default"].createPath(curvestringfactory_1.rbox2CurveString(pBBox, 6), pOptions);
+    return svgprimitives.createPath(curvestringfactory_1.rbox2CurveString(pBBox, 6), pOptions);
 }
+exports.createRBox = createRBox;
 function createEdgeRemark(pBBox, pOptions) {
     var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
-    var lGroup = svgprimitives_1["default"].createGroup();
+    var lGroup = svgprimitives.createGroup();
     var lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
     var lLineColor = pOptions && pOptions.color ? pOptions.color : "black";
     pOptions.color = "transparent!important"; /* :blush: */
-    var lBackground = svgprimitives_1["default"].createPath(svgprimitives_1["default"].pathPoint2String("M", pBBox.x, pBBox.y + (lLineWidth / 2)) +
+    var lBackground = svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (lLineWidth / 2)) +
         // top line:
-        svgprimitives_1["default"].pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (lLineWidth / 2)) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (lLineWidth / 2)) +
         // down:
-        svgprimitives_1["default"].pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
         // fold:
-        svgprimitives_1["default"].pathPoint2String("L", pBBox.x + pBBox.width - lFoldSize, pBBox.y + pBBox.height) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - lFoldSize, pBBox.y + pBBox.height) +
         // bottom line:
-        svgprimitives_1["default"].pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
+        svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
         "z", pOptions);
     pOptions.bgColor = "transparent";
     pOptions.color = lLineColor;
-    var lLine = svgprimitives_1["default"].createPath(
+    var lLine = svgprimitives.createPath(
     // start:
     curvestringfactory_1.edgeRemark2CurveString(pBBox, lFoldSize), pOptions);
     lGroup.appendChild(lBackground);
     lGroup.appendChild(lLine);
     return lGroup;
 }
+exports.createEdgeRemark = createEdgeRemark;
 function createDoubleLine(pLine, pOptions) {
-    return svgprimitives_1["default"].createPath(curvestringfactory_1.doubleLine2CurveString(pLine, pOptions), { "class": pOptions["class"] });
+    return svgprimitives.createPath(curvestringfactory_1.doubleLine2CurveString(pLine, pOptions), { "class": pOptions["class"] });
 }
-exports["default"] = {
-    createSingleLine: createSingleLine,
-    createDoubleLine: createDoubleLine,
-    createNote: createNote,
-    createRect: createRect,
-    createABox: createABox,
-    createRBox: createRBox,
-    createEdgeRemark: createEdgeRemark
-};
+exports.createDoubleLine = createDoubleLine;
 /*
  This file is part of mscgen_js.
 

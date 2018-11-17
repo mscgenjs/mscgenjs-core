@@ -21,20 +21,14 @@ const gLang2TextRenderer = Object.freeze({
     dot: ast2dot,
     doxygen: ast2doxygen,
 });
-export default {
-    getParser(pLanguage) {
-        if (["ast", "json"].includes(pLanguage)) {
-            return JSON;
-        }
-        return gLang2Parser[pLanguage] || DEFAULT_PARSER;
-    },
-    getGraphicsRenderer() {
-        return renderast;
-    },
-    getTextRenderer(pLanguage) {
-        return gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
-    },
+export const getParser = (pLanguage) => {
+    if (["ast", "json"].includes(pLanguage)) {
+        return JSON;
+    }
+    return gLang2Parser[pLanguage] || DEFAULT_PARSER;
 };
+export const getGraphicsRenderer = () => renderast;
+export const getTextRenderer = (pLanguage) => gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
 /*
  This file is part of mscgen_js.
 

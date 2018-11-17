@@ -1,6 +1,6 @@
 import * as geotypes from "./geotypes";
 
-function determineStartCorrection(
+export function determineStartCorrection(
     pLine: geotypes.ILine,
     pClass: string,
     pLineWidth: number,
@@ -16,7 +16,7 @@ function determineStartCorrection(
     return lRetval;
 }
 
-function determineEndCorrection(
+export function determineEndCorrection(
     pLine: geotypes.ILine,
     pClass: string,
     pLineWidth: number,
@@ -28,7 +28,16 @@ function determineEndCorrection(
     return lRetval;
 }
 
-function getDirection(pLine: geotypes.ILine): geotypes.IDirection {
+/**
+ * returns the angle (in radials) of the line
+ *
+ * @param {object} pLine - (xFrom,yFrom, xTo, YTo quadruple)
+ * @return {object} the angle of the line in an object:
+ *                      signX: the x direction (1 or -1)
+ *                      signY: the y direction (1 or -1)
+ *                      dy: the angle (in radials)
+ */
+export function getDirection(pLine: geotypes.ILine): geotypes.IDirection {
     const lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
     return {
         signX: lSignX,
@@ -37,22 +46,6 @@ function getDirection(pLine: geotypes.ILine): geotypes.IDirection {
     };
 }
 
-export default {
-    determineStartCorrection,
-    determineEndCorrection,
-
-    /**
-     * returns the angle (in radials) of the line
-     *
-     * @param {object} pLine - (xFrom,yFrom, xTo, YTo quadruple)
-     * @return {object} the angle of the line in an object:
-     *                      signX: the x direction (1 or -1)
-     *                      signY: the y direction (1 or -1)
-     *                      dy: the angle (in radials)
-     */
-    // straight, wobbly
-    getDirection,
-};
 /*
  This file is part of mscgen_js.
 

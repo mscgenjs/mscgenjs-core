@@ -1,7 +1,7 @@
 import memoize from "lodash.memoize";
-import idmanager from "./idmanager";
+import * as idmanager from "./idmanager";
 import * as geotypes from "./svgelementfactory/geotypes";
-import svgelementfactory from "./svgelementfactory/index";
+import * as svgelementfactory from "./svgelementfactory/index";
 
 /**
  * Some SVG specific calculations & workarounds

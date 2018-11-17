@@ -12,6 +12,7 @@ function determineStartCorrection(pLine, pClass, pLineWidth) {
     }
     return lRetval;
 }
+exports.determineStartCorrection = determineStartCorrection;
 function determineEndCorrection(pLine, pClass, pLineWidth) {
     var lRetval = 0;
     if (!pClass.includes("nodi")) {
@@ -19,6 +20,16 @@ function determineEndCorrection(pLine, pClass, pLineWidth) {
     }
     return lRetval;
 }
+exports.determineEndCorrection = determineEndCorrection;
+/**
+ * returns the angle (in radials) of the line
+ *
+ * @param {object} pLine - (xFrom,yFrom, xTo, YTo quadruple)
+ * @return {object} the angle of the line in an object:
+ *                      signX: the x direction (1 or -1)
+ *                      signY: the y direction (1 or -1)
+ *                      dy: the angle (in radials)
+ */
 function getDirection(pLine) {
     var lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
     return {
@@ -27,21 +38,7 @@ function getDirection(pLine) {
         dy: lSignX * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
     };
 }
-exports["default"] = {
-    determineStartCorrection: determineStartCorrection,
-    determineEndCorrection: determineEndCorrection,
-    /**
-     * returns the angle (in radials) of the line
-     *
-     * @param {object} pLine - (xFrom,yFrom, xTo, YTo quadruple)
-     * @return {object} the angle of the line in an object:
-     *                      signX: the x direction (1 or -1)
-     *                      signY: the y direction (1 or -1)
-     *                      dy: the angle (in radials)
-     */
-    // straight, wobbly
-    getDirection: getDirection
-};
+exports.getDirection = getDirection;
 /*
  This file is part of mscgen_js.
 

@@ -10,10 +10,10 @@ import {line2CurveString} from "./helpers";
 import * as geotypes from "../geotypes";
 import * as magic from "../magic";
 import round from "../round";
-import svgprimitives from "../svgprimitives";
-import variationhelpers from "../variationhelpers";
+import * as svgprimitives from "../svgprimitives";
+import * as variationhelpers from "../variationhelpers";
 
-function createSingleLine(
+export function createSingleLine(
     pLine: geotypes.ILine,
     pOptions: {class?: string} = {},
 ): SVGPathElement {
@@ -44,7 +44,7 @@ function createSingleLine(
     );
 }
 
-function createNote(
+export function createNote(
     pBBox: geotypes.IBBox,
     pOptions: magic.IOptions,
 ): SVGGElement {
@@ -58,14 +58,14 @@ function createNote(
     return lGroup;
 }
 
-function createRect(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
+export function createRect(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     return svgprimitives.createPath(
         rbox2CurveString(pBBox, 0),
         pOptions,
     );
 }
 
-function createABox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
+export function createABox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(
         abox2CurveString(pBBox, lSlopeOffset),
@@ -73,14 +73,14 @@ function createABox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPath
     );
 }
 
-function createRBox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
+export function createRBox(pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement {
     return svgprimitives.createPath(
         rbox2CurveString(pBBox, 6),
         pOptions,
     );
 }
 
-function createEdgeRemark(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGGElement {
+export function createEdgeRemark(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGGElement {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     const lGroup = svgprimitives.createGroup();
 
@@ -114,22 +114,12 @@ function createEdgeRemark(pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGG
     return lGroup;
 }
 
-function createDoubleLine(pLine: geotypes.ILine, pOptions: magic.IOptions): SVGPathElement {
+export function createDoubleLine(pLine: geotypes.ILine, pOptions: magic.IOptions): SVGPathElement {
     return svgprimitives.createPath(
         doubleLine2CurveString(pLine, pOptions),
         {class: pOptions.class},
     );
 }
-
-export default {
-    createSingleLine,
-    createDoubleLine,
-    createNote,
-    createRect,
-    createABox,
-    createRBox,
-    createEdgeRemark,
-};
 
 /*
  This file is part of mscgen_js.

@@ -6,12 +6,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
 var main = __importStar(require("./main/index"));
-var static_resolver_1 = __importDefault(require("./main/static-resolver"));
+var resolver = __importStar(require("./main/static-resolver"));
 /**
  * parses the given script and renders it in the DOM element with
  * id pOptions.elementId.
@@ -42,7 +39,7 @@ var static_resolver_1 = __importDefault(require("./main/static-resolver"));
  *             in a desc element or not. Defaults to false
  */
 function renderMsc(pScript, pOptions, pCallBack) {
-    main.renderMsc(pScript, pOptions || {}, pCallBack, static_resolver_1["default"].getParser, static_resolver_1["default"].getGraphicsRenderer);
+    main.renderMsc(pScript, pOptions || {}, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
 }
 exports.renderMsc = renderMsc;
 /**
@@ -61,7 +58,7 @@ exports.renderMsc = renderMsc;
  *                allowedValues.outputType
  */
 function translateMsc(pScript, pOptions) {
-    return main.translateMsc(pScript, pOptions || {}, static_resolver_1["default"].getParser, static_resolver_1["default"].getTextRenderer);
+    return main.translateMsc(pScript, pOptions || {}, resolver.getParser, resolver.getTextRenderer);
 }
 exports.translateMsc = translateMsc;
 /**
@@ -97,7 +94,7 @@ exports.getAllowedValues = main.getAllowedValues;
  *                           "json". Defaults to "mscgen"
  * @return {object}
  */
-exports.getParser = static_resolver_1["default"].getParser;
+exports.getParser = resolver.getParser;
 /**
  * returns a renderer that renders the abstract syntax tree as a scalable
  * vector graphics (in practice: @render/graphics/renderast)
@@ -106,7 +103,7 @@ exports.getParser = static_resolver_1["default"].getParser;
  *
  * @return {object}
  */
-exports.getGraphicsRenderer = static_resolver_1["default"].getGraphicsRenderer;
+exports.getGraphicsRenderer = resolver.getGraphicsRenderer;
 /**
  * returns a renderer to the given language. The module exposes a
  * render(pAST) function which returns a rendition of the abstract
@@ -116,7 +113,7 @@ exports.getGraphicsRenderer = static_resolver_1["default"].getGraphicsRenderer;
  *
  * @return {object}
  */
-exports.getTextRenderer = static_resolver_1["default"].getTextRenderer;
+exports.getTextRenderer = resolver.getTextRenderer;
 /*
  This file is part of mscgen_js.
 

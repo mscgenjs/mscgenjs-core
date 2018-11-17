@@ -1,6 +1,6 @@
 import {IRenderOptions, ITranslateOptions} from "../types/mscgen";
 import * as main from "./main";
-import resolver from "./main/lazy-resolver";
+import * as resolver from "./main/lazy-resolver";
 
 /**
  * Exactly the same interface as @index.js - the only difference is that the

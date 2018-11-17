@@ -35,7 +35,7 @@ program
     = pre:_ starttoken _  "{" _ declarations:declarationlist _ "}" _
     {
         declarations.entities = declarations.entities || [];
-        parserHelpers.default.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
+        parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
         declarations = _assign ({meta: getMetaInfo()}, declarations);
 
@@ -77,11 +77,11 @@ optionlist
 option "option"
     = _ name:("hscale"i/ "width"i/ "arcgradient"i) _ "=" _ value:numberlike _
         {
-            return parserHelpers.default.nameValue2Option(name, value);
+            return parserHelpers.nameValue2Option(name, value);
         }
     / _ name:"wordwraparcs"i _ "=" _ value:booleanlike _
         {
-            return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+            return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
         }
 
 entitylist
@@ -97,7 +97,7 @@ entity "entity"
         }
     /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-          if (parserHelpers.default.isMscGenKeyword(name)){
+          if (parserHelpers.isMscGenKeyword(name)){
             error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
           }
           return _assign ({name:name}, attrList);

@@ -1,10 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
 };
 exports.__esModule = true;
-var parserHelpers_1 = __importDefault(require("../../parse/parserHelpers"));
-var escape_1 = __importDefault(require("../textutensils/escape"));
+var parserHelpers = __importStar(require("../../parse/parserHelpers"));
+var escape = __importStar(require("../textutensils/escape"));
 var XuAdaptor = /** @class */ (function () {
     function XuAdaptor(pMinimal) {
         if (pMinimal === void 0) { pMinimal = false; }
@@ -60,7 +64,7 @@ var XuAdaptor = /** @class */ (function () {
     };
     XuAdaptor.prototype.renderOption = function (pOption) {
         return pOption.name + "=" + (typeof pOption.value === "string"
-            ? "\"" + escape_1["default"].escapeString(pOption.value) + "\""
+            ? "\"" + escape.escapeString(pOption.value) + "\""
             : pOption.value.toString());
     };
     XuAdaptor.prototype.optionIsValid = function (pOption) {
@@ -72,7 +76,7 @@ var XuAdaptor = /** @class */ (function () {
         return pKind;
     };
     XuAdaptor.prototype.renderStringAttribute = function (pAttribute) {
-        return pAttribute.name + "=\"" + escape_1["default"].escapeString(pAttribute.value) + "\"";
+        return pAttribute.name + "=\"" + escape.escapeString(pAttribute.value) + "\"";
     };
     XuAdaptor.prototype.renderNonStringAttribute = function (pAttribute) {
         return pAttribute.name + "=" + pAttribute.value;
@@ -141,7 +145,7 @@ var XuAdaptor = /** @class */ (function () {
     XuAdaptor.prototype.isQuotable = function (pString) {
         var lMatchResult = pString.match(/[a-z0-9]+/gi);
         if (!!lMatchResult) {
-            return (lMatchResult.length !== 1) || parserHelpers_1["default"].isMscGenKeyword(pString);
+            return (lMatchResult.length !== 1) || parserHelpers.isMscGenKeyword(pString);
         }
         else {
             return pString !== "*";

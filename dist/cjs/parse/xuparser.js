@@ -153,9 +153,9 @@
         peg$c3 = peg$literalExpectation("}", false),
         peg$c4 = function(pre, declarations) {
                 declarations.entities = declarations.entities || [];
-                parserHelpers.default.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
+                parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-                declarations = _assign ({meta: parserHelpers.default.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
+                declarations = _assign ({meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
 
                 if (pre.length > 0) {
                     declarations = _assign({precomment: pre}, declarations);
@@ -197,14 +197,14 @@
         peg$c21 = "=",
         peg$c22 = peg$literalExpectation("=", false),
         peg$c23 = function(name, value) {
-                    return parserHelpers.default.nameValue2Option(name, value);
+                    return parserHelpers.nameValue2Option(name, value);
                 },
         peg$c24 = "width",
         peg$c25 = peg$literalExpectation("width", true),
         peg$c26 = "wordwraparcs",
         peg$c27 = peg$literalExpectation("wordwraparcs", true),
         peg$c28 = function(name, value) {
-                    return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+                    return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
                 },
         peg$c29 = "wordwrapentities",
         peg$c30 = peg$literalExpectation("wordwrapentities", true),
@@ -226,7 +226,7 @@
                     return _assign ({name:name}, attrList);
                 },
         peg$c44 = function(name, attrList) {
-                  if (parserHelpers.default.isMscGenKeyword(name)){
+                  if (parserHelpers.isMscGenKeyword(name)){
                     error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
                   }
                   return _assign ({name:name}, attrList);
@@ -369,7 +369,7 @@
         peg$c159 = function(name, value) {
               var lAttribute = {};
               if (name.toLowerCase() === "activation"){
-                  lAttribute.activation = parserHelpers.default.flattenBoolean(value);
+                  lAttribute.activation = parserHelpers.flattenBoolean(value);
               } else {
                 lAttribute[name.toLowerCase().replace("colour", "color")] = value;
               }

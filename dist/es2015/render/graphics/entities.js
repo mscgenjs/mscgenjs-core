@@ -1,6 +1,6 @@
 import constants from "./constants";
-import renderlabels from "./renderlabels";
-import svgelementfactory from "./svgelementfactory/index";
+import * as renderlabels from "./renderlabels";
+import * as svgelementfactory from "./svgelementfactory/index";
 import * as svgutensils from "./svgutensils";
 const DEFAULT_INTER_ENTITY_SPACING = 160; // px
 const DEFAULT_ENTITY_WIDTH = 100; // px

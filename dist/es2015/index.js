@@ -1,5 +1,5 @@
 import * as main from "./main/index";
-import resolver from "./main/static-resolver";
+import * as resolver from "./main/static-resolver";
 /**
  * parses the given script and renders it in the DOM element with
  * id pOptions.elementId.

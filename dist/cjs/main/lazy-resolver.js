@@ -18,16 +18,14 @@ var gLang2TextRenderer = Object.freeze({
     dot: "../render/text/ast2dot",
     doxygen: "../render/text/ast2doxygen"
 });
-exports["default"] = {
-    getParser: lodash_memoize_1["default"](function (pLanguage) {
-        if (["ast", "json"].indexOf(pLanguage) > -1) {
-            return JSON;
-        }
-        return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
-    }),
-    getGraphicsRenderer: lodash_memoize_1["default"](function () { return require("../render/graphics/renderast"); }),
-    getTextRenderer: lodash_memoize_1["default"](function (pLanguage) { return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER); })
-};
+exports.getParser = lodash_memoize_1["default"](function (pLanguage) {
+    if (["ast", "json"].indexOf(pLanguage) > -1) {
+        return JSON;
+    }
+    return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
+});
+exports.getGraphicsRenderer = lodash_memoize_1["default"](function () { return require("../render/graphics/renderast"); });
+exports.getTextRenderer = lodash_memoize_1["default"](function (pLanguage) { return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER); });
 /*
  This file is part of mscgen_js.
 

@@ -18,29 +18,27 @@ const gLang2TextRenderer = Object.freeze({
     doxygen : "../render/text/ast2doxygen",
 }) as any;
 
-export default {
-    getParser: memoize(
-        (pLanguage: mscgen.InputType) => {
-            if (["ast", "json"].indexOf(pLanguage) > -1) {
-                return JSON;
-            }
+export const getParser = memoize(
+    (pLanguage: mscgen.InputType) => {
+        if (["ast", "json"].indexOf(pLanguage) > -1) {
+            return JSON;
+        }
 
-            return require(
-                gLang2Parser[pLanguage] || DEFAULT_PARSER,
-            );
-        },
-    ),
+        return require(
+            gLang2Parser[pLanguage] || DEFAULT_PARSER,
+        );
+    },
+);
 
-    getGraphicsRenderer: memoize(
-        () => require("../render/graphics/renderast"),
-    ),
+export const getGraphicsRenderer = memoize(
+    () => require("../render/graphics/renderast"),
+);
 
-    getTextRenderer: memoize(
-        (pLanguage: mscgen.InputType) => require(
-            gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER,
-        ),
+export const getTextRenderer = memoize(
+    (pLanguage: mscgen.InputType) => require(
+        gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER,
     ),
-};
+);
 /*
  This file is part of mscgen_js.
 

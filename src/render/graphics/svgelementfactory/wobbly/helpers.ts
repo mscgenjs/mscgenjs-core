@@ -1,7 +1,7 @@
 import * as geotypes from "../geotypes";
 import round from "../round";
-import svgprimitives from "../svgprimitives";
-import variationhelpers from "../variationhelpers";
+import * as svgprimitives from "../svgprimitives";
+import * as variationhelpers from "../variationhelpers";
 
 const SEGMENT_LENGTH = 70; // 70
 const WOBBLE_FACTOR  = 3; // 1.4?

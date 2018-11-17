@@ -1,16 +1,16 @@
 import _cloneDeep from "lodash.clonedeep";
 import aggregatekind from "../astmassage/aggregatekind";
-import flatten from "../astmassage/flatten";
+import { flatten } from "../astmassage/flatten";
 import constants from "./constants";
 import { Thing } from "./entities";
-import idmanager from "./idmanager";
-import kind2class from "./kind2class";
-import markermanager from "./markermanager";
-import renderlabels from "./renderlabels";
-import renderskeleton from "./renderskeleton";
-import renderutensils from "./renderutensils";
-import rowmemory from "./rowmemory";
-import svgelementfactory from "./svgelementfactory/index";
+import * as idmanager from "./idmanager";
+import * as kind2class from "./kind2class";
+import * as markermanager from "./markermanager";
+import * as renderlabels from "./renderlabels";
+import * as renderskeleton from "./renderskeleton";
+import * as renderutensils from "./renderutensils";
+import * as rowmemory from "./rowmemory";
+import * as svgelementfactory from "./svgelementfactory/index";
 import * as svgutensils from "./svgutensils";
 let entities = new Thing(0);
 //#endregion
@@ -760,7 +760,7 @@ export const clean = (pParentElementId, pWindow) => {
  *   on the bottom of the chart
  */
 export function render(pAST, pWindow, pParentElementId, pRenderOptions) {
-    const lFlattenedAST = Object.freeze(flatten.flatten(pAST));
+    const lFlattenedAST = Object.freeze(flatten(pAST));
     const lParentElement = getParentElement(pWindow, pParentElementId);
     idmanager.setPrefix(pParentElementId);
     renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});

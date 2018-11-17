@@ -18,7 +18,7 @@
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 
-import svgelementfactory from "./svgelementfactory/index";
+import * as svgelementfactory from "./svgelementfactory/index";
 
 import constants from "./constants";
 const csstemplates = require("./csstemplates.json");
@@ -69,7 +69,14 @@ function setupBody(pElementId: string): SVGGElement {
     return lBody;
 }
 
-function _init(pWindow: Window): Document {
+/**
+ * Initializes the document to the document associated with the
+ * given pWindow and returns it.
+ *
+ * @param {window} pWindow
+ * @return {document}
+ */
+export function init(pWindow: Window): Document {
     svgelementfactory.init(
         pWindow.document,
         {
@@ -81,9 +88,24 @@ function _init(pWindow: Window): Document {
     return pWindow.document;
 }
 
-function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
+/**
+ * Sets up a skeleton svg document with id pSvgElementId in the dom element
+ * pParentElement, both in window pWindow. See the module
+ * documentation for details on the structure of the skeleton.
+ *
+ * @param {string} pParentElement
+ * @param {string} pSvgElementId
+ * @param {object} pMarkerDefs
+ * @param {string} pStyleAdditions
+ * @param {window} pWindow
+ * @param {options} pOptions
+ *        source - the source code (string),
+ *        additionalTemplate - string identifying a named style
+ *
+ */
+export function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
 
-    gDocument = _init(pWindow);
+    gDocument = init(pWindow);
 
     const lSkeletonSvg = svgelementfactory.createSVG(pSvgElementId, pSvgElementId, distillRenderMagic(pOptions));
     if (Boolean(pOptions.source)) {
@@ -136,35 +158,6 @@ function setupStyleElement(pOptions, pSvgElementId) {
         .replace(/<%=id%>/g, pSvgElementId);
 
 }
-
-export default {
-    /**
-     * Sets up a skeleton svg document with id pSvgElementId in the dom element
-     * pParentElement, both in window pWindow. See the module
-     * documentation for details on the structure of the skeleton.
-     *
-     * @param {string} pParentElement
-     * @param {string} pSvgElementId
-     * @param {object} pMarkerDefs
-     * @param {string} pStyleAdditions
-     * @param {window} pWindow
-     * @param {options} pOptions
-     *        source - the source code (string),
-     *        additionalTemplate - string identifying a named style
-     *
-     */
-    bootstrap,
-
-    /**
-     * Initializes the document to the document associated with the
-     * given pWindow and returns it.
-     *
-     * @param {window} pWindow
-     * @return {document}
-     */
-    init : _init,
-
-};
 /*
  This file is part of mscgen_js.
 

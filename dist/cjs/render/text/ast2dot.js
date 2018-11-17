@@ -2,13 +2,20 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 var lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var asttransform_1 = __importDefault(require("../astmassage/asttransform"));
-var flatten_1 = __importDefault(require("../astmassage/flatten"));
+var flatten = __importStar(require("../astmassage/flatten"));
 var wrap_1 = __importDefault(require("../textutensils/wrap"));
-var dotMappings_1 = __importDefault(require("./dotMappings"));
+var dotMappings = __importStar(require("./dotMappings"));
 var INDENT = "  ";
 var MAX_TEXT_WIDTH = 40;
 var gCounter = 0;
@@ -66,8 +73,8 @@ function renderBoxArc(pArc, pCounter, pIndent) {
     var lBoxName = "box" + pCounter.toString();
     lRetVal += lBoxName;
     var lAttrs = translateAttributes(pArc);
-    pushAttribute(lAttrs, dotMappings_1["default"].getStyle(pArc.kind), "style");
-    pushAttribute(lAttrs, dotMappings_1["default"].getShape(pArc.kind), "shape");
+    pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
+    pushAttribute(lAttrs, dotMappings.getShape(pArc.kind), "shape");
     lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT + pIndent;
     lAttrs = [];
     pushAttribute(lAttrs, "dotted", "style");
@@ -80,14 +87,14 @@ function renderRegularArc(pArc, pAggregatedKind, pCounter) {
     var lRetVal = "";
     pArc.label = counterizeLabel(pCounter, pArc.label);
     var lAttrs = translateAttributes(pArc);
-    pushAttribute(lAttrs, dotMappings_1["default"].getStyle(pArc.kind), "style");
+    pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
     switch (pAggregatedKind) {
         case ("directional"):
-            pushAttribute(lAttrs, dotMappings_1["default"].getArrow(pArc.kind), "arrowhead");
+            pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
             break;
         case ("bidirectional"):
-            pushAttribute(lAttrs, dotMappings_1["default"].getArrow(pArc.kind), "arrowhead");
-            pushAttribute(lAttrs, dotMappings_1["default"].getArrow(pArc.kind), "arrowtail");
+            pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
+            pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowtail");
             pushAttribute(lAttrs, "both", "dir");
             break;
         case ("nondirectional"):
@@ -151,7 +158,7 @@ function explodeBroadcastArc(pEntities, pArc) {
  * - pre-calculates colors from regular colors and arc*-colors
  */
 function flattenMe(pAST) {
-    return explodeBroadcasts(asttransform_1["default"](pAST, [flatten_1["default"].nameAsLabel], [flatten_1["default"].swapRTLArc, flatten_1["default"].overrideColors]));
+    return explodeBroadcasts(asttransform_1["default"](pAST, [flatten.nameAsLabel], [flatten.swapRTLArc, flatten.overrideColors]));
 }
 /**
  * expands "broadcast" arcs to its individual counterparts

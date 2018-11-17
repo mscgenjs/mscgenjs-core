@@ -1,9 +1,9 @@
 import { abox2CurveString, doubleLine2CurveString, edgeRemark2CurveString, rbox2CurveString, renderNoteCornerString, renderNotePathString } from "./curvestringfactory";
 import { line2CurveString } from "./helpers";
 import round from "../round";
-import svgprimitives from "../svgprimitives";
-import variationhelpers from "../variationhelpers";
-function createSingleLine(pLine, pOptions = {}) {
+import * as svgprimitives from "../svgprimitives";
+import * as variationhelpers from "../variationhelpers";
+export function createSingleLine(pLine, pOptions = {}) {
     const lDir = variationhelpers.getDirection(pLine);
     return svgprimitives.createPath(svgprimitives.pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
         // Workaround; gecko and webkit treat markers slapped on the
@@ -20,7 +20,7 @@ function createSingleLine(pLine, pOptions = {}) {
             : round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
         line2CurveString(pLine), pOptions);
 }
-function createNote(pBBox, pOptions) {
+export function createNote(pBBox, pOptions) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     const lFoldSize = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
     const lGroup = svgprimitives.createGroup();
@@ -29,17 +29,17 @@ function createNote(pBBox, pOptions) {
     lGroup.appendChild(svgprimitives.createPath(renderNoteCornerString(pBBox, lFoldSize), pOptions));
     return lGroup;
 }
-function createRect(pBBox, pOptions) {
+export function createRect(pBBox, pOptions) {
     return svgprimitives.createPath(rbox2CurveString(pBBox, 0), pOptions);
 }
-function createABox(pBBox, pOptions) {
+export function createABox(pBBox, pOptions) {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(abox2CurveString(pBBox, lSlopeOffset), pOptions);
 }
-function createRBox(pBBox, pOptions) {
+export function createRBox(pBBox, pOptions) {
     return svgprimitives.createPath(rbox2CurveString(pBBox, 6), pOptions);
 }
-function createEdgeRemark(pBBox, pOptions) {
+export function createEdgeRemark(pBBox, pOptions) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     const lGroup = svgprimitives.createGroup();
     const lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
@@ -64,18 +64,9 @@ function createEdgeRemark(pBBox, pOptions) {
     lGroup.appendChild(lLine);
     return lGroup;
 }
-function createDoubleLine(pLine, pOptions) {
+export function createDoubleLine(pLine, pOptions) {
     return svgprimitives.createPath(doubleLine2CurveString(pLine, pOptions), { class: pOptions.class });
 }
-export default {
-    createSingleLine,
-    createDoubleLine,
-    createNote,
-    createRect,
-    createABox,
-    createRBox,
-    createEdgeRemark,
-};
 /*
  This file is part of mscgen_js.
 

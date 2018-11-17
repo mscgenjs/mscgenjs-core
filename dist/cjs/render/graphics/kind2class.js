@@ -30,10 +30,14 @@ var KIND2CLASS = Object.freeze({
     "..": "return",
     "::": "emphasised"
 });
-exports["default"] = {
-    getClass: function (pKey) { return KIND2CLASS[pKey] || pKey; },
-    getAggregateClass: function (pKey) { return aggregatekind_1["default"](pKey) || pKey; }
-};
+function getClass(pKey) {
+    return KIND2CLASS[pKey] || pKey;
+}
+exports.getClass = getClass;
+function getAggregateClass(pKey) {
+    return aggregatekind_1["default"](pKey) || pKey;
+}
+exports.getAggregateClass = getAggregateClass;
 /*
  This file is part of mscgen_js.
 

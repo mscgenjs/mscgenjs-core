@@ -11,8 +11,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 exports.__esModule = true;
 var constants_1 = __importDefault(require("./constants"));
-var renderlabels_1 = __importDefault(require("./renderlabels"));
-var index_1 = __importDefault(require("./svgelementfactory/index"));
+var renderlabels = __importStar(require("./renderlabels"));
+var svgelementfactory = __importStar(require("./svgelementfactory/index"));
 var svgutensils = __importStar(require("./svgutensils"));
 var DEFAULT_INTER_ENTITY_SPACING = 160; // px
 var DEFAULT_ENTITY_WIDTH = 100; // px
@@ -48,7 +48,7 @@ var Thing = /** @class */ (function () {
     };
     Thing.prototype.renderEntities = function (pEntities, pEntityYPos, pOptions) {
         var _this = this;
-        var lEntityGroup = index_1["default"].createGroup();
+        var lEntityGroup = svgelementfactory.createGroup();
         this.entityXHWM = 0;
         this.height = this.getMaxEntityHeight(pEntities, pOptions) + constants_1["default"].LINE_WIDTH * 2;
         pEntities.forEach(function (pEntity) {
@@ -62,7 +62,7 @@ var Thing = /** @class */ (function () {
         this.entity2x[pEntity.name] = pX + (this.width / 2);
     };
     Thing.prototype.getNoEntityLines = function (pLabel, pFontSize, pChartOptions) {
-        return renderlabels_1["default"].splitLabel(pLabel, "entity", this.width, pFontSize, pChartOptions).length;
+        return renderlabels.splitLabel(pLabel, "entity", this.width, pFontSize, pChartOptions).length;
     };
     Thing.prototype.sizeEntityBoxToLabel = function (pLabel, pBBox) {
         var lLabelWidth = Math.min(svgutensils.getBBox(pLabel).width + (4 * constants_1["default"].LINE_WIDTH), (this.interEntitySpacing / 3) + pBBox.width);
@@ -74,17 +74,17 @@ var Thing = /** @class */ (function () {
         return pBBox;
     };
     Thing.prototype.renderEntity = function (pEntity, pX, pY, pOptions) {
-        var lGroup = index_1["default"].createGroup();
+        var lGroup = svgelementfactory.createGroup();
         var lBBox = {
             x: pX || 0,
             y: pY || 0,
             width: this.width,
             height: this.height
         };
-        var lLabel = renderlabels_1["default"].createLabel(Object.assign({
+        var lLabel = renderlabels.createLabel(Object.assign({
             kind: "entity"
         }, pEntity), Object.assign({}, lBBox, { y: lBBox.y + (lBBox.height / 2) }), pOptions);
-        lGroup.appendChild(index_1["default"].createRect(this.sizeEntityBoxToLabel(lLabel, lBBox), {
+        lGroup.appendChild(svgelementfactory.createRect(this.sizeEntityBoxToLabel(lLabel, lBBox), {
             "class": "entity",
             color: pEntity.linecolor,
             bgColor: pEntity.textbgcolor

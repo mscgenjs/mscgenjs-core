@@ -2,18 +2,25 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 var lodash_memoize_1 = __importDefault(require("lodash.memoize"));
-var idmanager_1 = __importDefault(require("./idmanager"));
-var index_1 = __importDefault(require("./svgelementfactory/index"));
+var idmanager = __importStar(require("./idmanager"));
+var svgelementfactory = __importStar(require("./svgelementfactory/index"));
 /**
  * Some SVG specific calculations & workarounds
  */
 var gDocument = {};
-var gSvgBBoxerId = idmanager_1["default"].get("bboxer");
+var gSvgBBoxerId = idmanager.get("bboxer");
 /* istanbul ignore next */
 function _createBBoxerSVG(pId) {
-    var lSvg = index_1["default"].createSVG(pId, idmanager_1["default"].get());
+    var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
     gDocument.body.appendChild(lSvg);
     return lSvg;
 }
@@ -85,14 +92,14 @@ function _calculateTextHeight() {
         * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
         * browsers. The string in readable form: ÁjyÎ9ƒ@💩
         */
-    return getBBox(index_1["default"].createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
+    return getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
         x: 0,
         y: 0
     })).height;
 }
 function removeRenderedSVGFromElement(pElementId) {
-    idmanager_1["default"].setPrefix(pElementId);
-    var lChildElement = gDocument.getElementById(idmanager_1["default"].get());
+    idmanager.setPrefix(pElementId);
+    var lChildElement = gDocument.getElementById(idmanager.get());
     if (Boolean(lChildElement)) {
         var lParentElement = gDocument.getElementById(pElementId);
         if (lParentElement) {

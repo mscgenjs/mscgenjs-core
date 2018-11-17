@@ -13,12 +13,15 @@ function nameValue2Option(pName, pValue) {
     lOption[pName.toLowerCase()] = pValue;
     return lOption;
 }
+exports.nameValue2Option = nameValue2Option;
 function flattenBoolean(pBoolean) {
     return (["true", "on", "1"].includes(pBoolean.toLowerCase()));
 }
+exports.flattenBoolean = flattenBoolean;
 function entityExists(pEntities, pName) {
     return pName === undefined || pName === "*" || pEntities.some(function (pEntity) { return pEntity.name === pName; });
 }
+exports.entityExists = entityExists;
 function isMscGenKeyword(pString) {
     return [
         "box", "abox", "rbox", "note", "msc", "hscale", "width",
@@ -29,6 +32,7 @@ function isMscGenKeyword(pString) {
         "arcskip",
     ].includes(pString);
 }
+exports.isMscGenKeyword = isMscGenKeyword;
 function buildEntityNotDefinedMessage(pEntityName, pArc) {
     return "Entity '" + pEntityName + "' in arc '" + pArc.from + " " + pArc.kind + " " + pArc.to + "' is not defined.";
 }
@@ -40,6 +44,7 @@ var EntityNotDefinedError = /** @class */ (function () {
     }
     return EntityNotDefinedError;
 }());
+exports.EntityNotDefinedError = EntityNotDefinedError;
 function checkForUndeclaredEntities(pEntities, pArcLines) {
     (pArcLines || []).forEach(function (pArcLine) {
         pArcLine.forEach(function (pArc) {
@@ -55,6 +60,7 @@ function checkForUndeclaredEntities(pEntities, pArcLines) {
         });
     });
 }
+exports.checkForUndeclaredEntities = checkForUndeclaredEntities;
 function hasExtendedOptions(pOptions) {
     if (pOptions) {
         return (pOptions.hasOwnProperty("watermark") ||
@@ -81,15 +87,7 @@ function getMetaInfo(pOptions, pArcLines) {
         extendedFeatures: lHasExtendedOptions || lHasExtendedArcTypes
     };
 }
-exports["default"] = {
-    nameValue2Option: nameValue2Option,
-    flattenBoolean: flattenBoolean,
-    entityExists: entityExists,
-    checkForUndeclaredEntities: checkForUndeclaredEntities,
-    EntityNotDefinedError: EntityNotDefinedError,
-    isMscGenKeyword: isMscGenKeyword,
-    getMetaInfo: getMetaInfo
-};
+exports.getMetaInfo = getMetaInfo;
 /*
  This file is part of mscgen_js.
 

@@ -1,8 +1,8 @@
 import * as mscgenjsast from "../../parse/mscgenjsast";
 import constants from "./constants";
-import renderlabels from "./renderlabels";
+import * as renderlabels from "./renderlabels";
 import * as geotypes from "./svgelementfactory/geotypes";
-import svgelementfactory from "./svgelementfactory/index";
+import * as svgelementfactory from "./svgelementfactory/index";
 import * as svgutensils from "./svgutensils";
 
 export interface IOandD {

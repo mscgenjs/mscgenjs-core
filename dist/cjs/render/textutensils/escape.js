@@ -1,25 +1,25 @@
 "use strict";
 exports.__esModule = true;
-exports["default"] = {
-    /**
-     * takes pString and replaces all escaped double quotes with
-     * regular double quotes
-     * @param {string} pString
-     * @return {string}
-     */
-    unescapeString: function (pString) {
-        return pString.replace(/\\"/g, '"');
-    },
-    /**
-     * takes pString and replaces all double quotes with
-     * escaped double quotes
-     * @param {string} pString
-     * @return {string}
-     */
-    escapeString: function (pString) {
-        return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
-    }
-};
+/**
+ * takes pString and replaces all escaped double quotes with
+ * regular double quotes
+ * @param {string} pString
+ * @return {string}
+ */
+function unescapeString(pString) {
+    return pString.replace(/\\"/g, '"');
+}
+exports.unescapeString = unescapeString;
+/**
+ * takes pString and replaces all double quotes with
+ * escaped double quotes
+ * @param {string} pString
+ * @return {string}
+ */
+function escapeString(pString) {
+    return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
+}
+exports.escapeString = escapeString;
 /*
  This file is part of mscgen_js.
 

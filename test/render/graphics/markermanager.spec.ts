@@ -1,6 +1,6 @@
 const fs     = require("fs");
 const path   = require("path");
-const mark   = require("../../../src/render/graphics/markermanager").default;
+const mark   = require("../../../src/render/graphics/markermanager");
 
 const gMarkerDefs =
     [

@@ -1,5 +1,5 @@
-import svgprimitives from "../svgprimitives";
-import variationhelpers from "../variationhelpers";
+import * as svgprimitives from "../svgprimitives";
+import * as variationhelpers from "../variationhelpers";
 import { line2CurveString, points2CurveString } from "./helpers";
 export function renderNotePathString(pBBox, pFoldSize) {
     return svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +

@@ -1,6 +1,6 @@
 import { IArc, IEntity, IOptions, ISequenceChart } from "../../parse/mscgenjsast";
-import parserHelpers from "../../parse/parserHelpers";
-import escape from "../textutensils/escape";
+import * as parserHelpers from "../../parse/parserHelpers";
+import * as escape from "../textutensils/escape";
 
 export class XuAdaptor {
     protected indent = "  ";

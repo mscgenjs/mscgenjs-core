@@ -2,16 +2,23 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 var round_1 = __importDefault(require("../round"));
-var svgprimitives_1 = __importDefault(require("../svgprimitives"));
-var variationhelpers_1 = __importDefault(require("../variationhelpers"));
+var svgprimitives = __importStar(require("../svgprimitives"));
+var variationhelpers = __importStar(require("../variationhelpers"));
 var SEGMENT_LENGTH = 70; // 70
 var WOBBLE_FACTOR = 3; // 1.4?
 function points2CurveString(pCurveSections) {
     return pCurveSections.map(function (pCurveSection) {
-        return svgprimitives_1["default"].pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY) + " " +
-            ("" + svgprimitives_1["default"].point2String(pCurveSection));
+        return svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY) + " " +
+            ("" + svgprimitives.point2String(pCurveSection));
     }).join(" ");
 }
 exports.points2CurveString = points2CurveString;
@@ -82,7 +89,7 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     pInterval = normalizeInterval(pInterval, pLine);
     var lRetval = [];
     var lNoSegments = getNumberOfSegments(pLine, pInterval);
-    var lDir = variationhelpers_1["default"].getDirection(pLine);
+    var lDir = variationhelpers.getDirection(pLine);
     var lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
     var lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
         ? pInterval

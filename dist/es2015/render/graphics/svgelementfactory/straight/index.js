@@ -1,6 +1,6 @@
-import svgprimitives from "../svgprimitives";
-import variationhelpers from "../variationhelpers";
-function createDoubleLine(pLine, pOptions) {
+import * as svgprimitives from "../svgprimitives";
+import * as variationhelpers from "../variationhelpers";
+export function createDoubleLine(pLine, pOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
     const lSpace = lLineWidth;
     const lClass = pOptions ? pOptions.class : "";
@@ -34,7 +34,7 @@ function createDoubleLine(pLine, pOptions) {
  *
  * @return {SVGElement}
  */
-function createNote(pBBox, pOptions) {
+export function createNote(pBBox, pOptions) {
     const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     const lFoldSizeN = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
     const lFoldSize = lFoldSizeN.toString(10);
@@ -63,7 +63,7 @@ function createNote(pBBox, pOptions) {
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createRBox(pBBox, pOptions) {
+export function createRBox(pBBox, pOptions) {
     const RBOX_CORNER_RADIUS = 6; // px
     const lOptions = Object.assign({
         rx: RBOX_CORNER_RADIUS,
@@ -79,7 +79,7 @@ function createRBox(pBBox, pOptions) {
  * @param {string} pClass - reference to the css class to be applied
  * @return {SVGElement}
  */
-function createABox(pBBox, pOptions) {
+export function createABox(pBBox, pOptions) {
     const lSlopeOffset = 3;
     return svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
         svgprimitives.pathPoint2String("l", lSlopeOffset, -(pBBox.height / 2)) +
@@ -102,7 +102,7 @@ function createABox(pBBox, pOptions) {
  *
  * @return {SVGElement}
  */
-function createEdgeRemark(pBBox, pOptions) {
+export function createEdgeRemark(pBBox, pOptions) {
     const lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
     const lOptions = Object.assign({
         class: null,
@@ -121,15 +121,8 @@ function createEdgeRemark(pBBox, pOptions) {
         // bottom line:
         svgprimitives.pathPoint2String("l", -(pBBox.width - lFoldSize), 0), lOptions);
 }
-export default {
-    createSingleLine: svgprimitives.createSingleLine,
-    createDoubleLine,
-    createNote,
-    createRect: svgprimitives.createRect,
-    createABox,
-    createRBox,
-    createEdgeRemark,
-};
+export const createSingleLine = svgprimitives.createSingleLine;
+export const createRect = svgprimitives.createRect;
 /*
  This file is part of mscgen_js.
 

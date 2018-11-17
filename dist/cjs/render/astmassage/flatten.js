@@ -2,33 +2,51 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 exports.__esModule = true;
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  */
 var asttransform_1 = __importDefault(require("./asttransform"));
 var lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
-var escape_1 = __importDefault(require("../textutensils/escape"));
+var escape = __importStar(require("../textutensils/escape"));
 var aggregatekind_1 = __importDefault(require("./aggregatekind"));
 var normalizekind_1 = __importDefault(require("./normalizekind"));
 var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
 var gMaxDepth = 0;
+/**
+ * If the entity has no label, set the label of the entity to its name
+ */
 function nameAsLabel(pEntity) {
     if (typeof pEntity.label === "undefined") {
         pEntity.label = pEntity.name;
     }
 }
+exports.nameAsLabel = nameAsLabel;
 function unescapeLabels(pArcOrEntity) {
     if (!!pArcOrEntity.label) {
-        pArcOrEntity.label = escape_1["default"].unescapeString(pArcOrEntity.label);
+        pArcOrEntity.label = escape.unescapeString(pArcOrEntity.label);
     }
     if (!!pArcOrEntity.id) {
-        pArcOrEntity.id = escape_1["default"].unescapeString(pArcOrEntity.id);
+        pArcOrEntity.id = escape.unescapeString(pArcOrEntity.id);
     }
 }
 function emptyStringForNoLabel(pArc) {
     pArc.label = Boolean(pArc.label) ? pArc.label : "";
 }
+/**
+ * If the arc is "facing backwards" (right to left) this function sets the arc
+ * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
+ * resulting in an equivalent (b << a becomes a >> b).
+ *
+ * If the arc is facing forwards or is symetrical, it is left alone.
+ */
 function swapRTLArc(pArc) {
     if ((normalizekind_1["default"](pArc.kind) !== pArc.kind)) {
         pArc.kind = normalizekind_1["default"](pArc.kind);
@@ -37,6 +55,7 @@ function swapRTLArc(pArc) {
         pArc.to = lTmp;
     }
 }
+exports.swapRTLArc = swapRTLArc;
 function overrideColorsFromThing(pArc, pThing) {
     if (!(pArc.linecolor) && pThing.arclinecolor) {
         pArc.linecolor = pThing.arclinecolor;
@@ -61,6 +80,7 @@ function overrideColors(pArc, pEntities) {
         }
     }
 }
+exports.overrideColors = overrideColors;
 function calcNumberOfRows(pInlineExpression) {
     return pInlineExpression.arcs.reduce(function (pSum, pArc) { return pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0); }, pInlineExpression.arcs.length);
 }
@@ -118,6 +138,10 @@ function unwind(pArcRows) {
     }
     return [];
 }
+/**
+ * Flattens any recursion in the arcs of the given abstract syntax tree to make it
+ * more easy to render.
+ */
 function normalize(pAST) {
     gMaxDepth = 0;
     return {
@@ -127,39 +151,21 @@ function normalize(pAST) {
         depth: gMaxDepth + 1
     };
 }
-exports["default"] = {
-    /**
-     * If the entity has no label, set the label of the entity to its name
-     */
-    nameAsLabel: nameAsLabel,
-    /**
-     * If the arc is "facing backwards" (right to left) this function sets the arc
-     * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
-     * resulting in an equivalent (b << a becomes a >> b).
-     *
-     * If the arc is facing forwards or is symetrical, it is left alone.
-     */
-    swapRTLArc: swapRTLArc,
-    /**
-     * Flattens any recursion in the arcs of the given abstract syntax tree to make it
-     * more easy to render.
-     */
-    normalize: normalize,
-    overrideColors: overrideColors,
-    /**
-     * Simplifies an AST:
-     *    - entities without a label get one (the name of the label)
-     *    - arc directions get unified to always go forward
-     *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
-     *    - explodes broadcast arcs
-     *    - flattens any recursion (see the {@linkcode unwind} function in
-     *      in this module)
-     *    - distributes arc*color from the entities to the affected arcs
-     */
-    flatten: function (pAST) {
-        return normalize(asttransform_1["default"](pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
-    }
-};
+exports.normalize = normalize;
+/**
+ * Simplifies an AST:
+ *    - entities without a label get one (the name of the label)
+ *    - arc directions get unified to always go forward
+ *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
+ *    - explodes broadcast arcs
+ *    - flattens any recursion (see the {@linkcode unwind} function in
+ *      in this module)
+ *    - distributes arc*color from the entities to the affected arcs
+ */
+function flatten(pAST) {
+    return normalize(asttransform_1["default"](pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
+}
+exports.flatten = flatten;
 /*
  This file is part of mscgen_js.
 

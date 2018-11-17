@@ -1,112 +1,98 @@
-const SVGNS   = "http://www.w3.org/2000/svg";
-const XLINKNS = "http://www.w3.org/1999/xlink";
+export const SVGNS   = "http://www.w3.org/2000/svg";
+export const XLINKNS = "http://www.w3.org/1999/xlink";
 
 let gDocument: any = {};
 
-function _setAttribute(pElement: Element, pKey: string, pValue?: any): Element {
+/**
+ * Takes an element, adds the passed attribute and value to it
+ * if the value is truthy and returns the element again
+ *
+ * @param {element} pElement
+ * @param {string} pAttribute
+ * @param {string} pValue
+ * @return {element}
+ */
+export function setAttribute(pElement: Element, pKey: string, pValue?: any): Element {
     if (Boolean(pValue)) {
         pElement.setAttribute(pKey, pValue);
     }
     return pElement;
 }
 
-function _setAttributeNS(pElement: Element, pNS: string, pKey: string, pValue?: any): Element {
+export function setAttributeNS(pElement: Element, pNS: string, pKey: string, pValue?: any): Element {
     if (Boolean(pValue)) {
         pElement.setAttributeNS(pNS, pKey, pValue);
     }
     return pElement;
 }
 
-function _setAttributes(pElement: Element, pAttributes) {
+/**
+ * Takes an element, adds the passed attributes to it if they have
+ * a value and returns it.
+ *
+ * @param {element} pElement
+ * @param {object} pAttributes - names/ values object
+ * @return {element}
+ */
+export function setAttributes(pElement: Element, pAttributes) {
     Object.keys(pAttributes || {}).forEach((pKey) => {
-        _setAttribute(pElement, pKey, pAttributes[pKey]);
+        setAttribute(pElement, pKey, pAttributes[pKey]);
     });
     return pElement;
 }
 
-function _setAttributesNS(pElement: Element, pNS, pAttributes) {
+/**
+ * Takes an element, adds the passed attributes to it if they have
+ * a value and returns it.
+ *
+ * @param {element} pElement
+ * @param {string} pNS - the namespace to use for the attributes
+ * @param {object} pAttributes - names/ values object
+ * @return {element}
+ */
+export function setAttributesNS(pElement: Element, pNS, pAttributes) {
     Object.keys(pAttributes || {}).forEach((pKey) => {
-        _setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
+        setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
     });
     return pElement;
 }
 
-function _createElement(pElementType: string, pAttributes?): SVGElement {
-    return _setAttributes(
+/**
+ * creates the element of type pElementType in the SVG namespace,
+ * adds the passed pAttributes to it (see setAttributes)
+ * and returns the newly created element
+ *
+ * @param {string} pElementType
+ * @param {object} pAttributes - names/ values object
+ * @return {element}
+ */
+export function createElement(pElementType: string, pAttributes?): SVGElement {
+    return setAttributes(
         gDocument.createElementNS(SVGNS, pElementType),
         pAttributes,
     ) as SVGElement;
 }
 
-function _createTextNode(pText: string) {
+/**
+ * creates a textNode, initialized with the pText passed
+ *
+ * @param {string} pText
+ * @return {textNode}
+ */
+export function createTextNode(pText: string) {
     return gDocument.createTextNode(pText);
 }
 
-export default {
-    SVGNS,
-    XLINKNS,
+/**
+ * Function to set the document to use. Introduced to enable use of the
+ * rendering utilities under node.js (using the jsdom module)
+ *
+ * @param {document} pDocument
+ */
+export function init(pDocument: Document) {
+    gDocument = pDocument;
+}
 
-    /**
-     * Function to set the document to use. Introduced to enable use of the
-     * rendering utilities under node.js (using the jsdom module)
-     *
-     * @param {document} pDocument
-     */
-    init(pDocument: Document) {
-        gDocument = pDocument;
-    },
-    /**
-     * Takes an element, adds the passed attribute and value to it
-     * if the value is truthy and returns the element again
-     *
-     * @param {element} pElement
-     * @param {string} pAttribute
-     * @param {string} pValue
-     * @return {element}
-     */
-    setAttribute: _setAttribute,
-
-    /**
-     * Takes an element, adds the passed attributes to it if they have
-     * a value and returns it.
-     *
-     * @param {element} pElement
-     * @param {object} pAttributes - names/ values object
-     * @return {element}
-     */
-    setAttributes: _setAttributes,
-
-    /**
-     * Takes an element, adds the passed attributes to it if they have
-     * a value and returns it.
-     *
-     * @param {element} pElement
-     * @param {string} pNS - the namespace to use for the attributes
-     * @param {object} pAttributes - names/ values object
-     * @return {element}
-     */
-    setAttributesNS: _setAttributesNS,
-
-    /**
-     * creates the element of type pElementType in the SVG namespace,
-     * adds the passed pAttributes to it (see setAttributes)
-     * and returns the newly created element
-     *
-     * @param {string} pElementType
-     * @param {object} pAttributes - names/ values object
-     * @return {element}
-     */
-    createElement: _createElement,
-
-    /**
-     * creates a textNode, initialized with the pText passed
-     *
-     * @param {string} pText
-     * @return {textNode}
-     */
-    createTextNode: _createTextNode,
-
-};
 /*
  This file is part of mscgen_js.
 

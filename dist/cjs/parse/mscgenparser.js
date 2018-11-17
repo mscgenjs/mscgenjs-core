@@ -153,7 +153,7 @@
         peg$c3 = peg$literalExpectation("}", false),
         peg$c4 = function(pre, declarations) {
                 declarations.entities = declarations.entities || [];
-                parserHelpers.default.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
+                parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
                 declarations = _assign ({meta: getMetaInfo()}, declarations);
 
@@ -196,12 +196,12 @@
         peg$c21 = "=",
         peg$c22 = peg$literalExpectation("=", false),
         peg$c23 = function(name, value) {
-                    return parserHelpers.default.nameValue2Option(name, value);
+                    return parserHelpers.nameValue2Option(name, value);
                 },
         peg$c24 = "wordwraparcs",
         peg$c25 = peg$literalExpectation("wordwraparcs", true),
         peg$c26 = function(name, value) {
-                    return parserHelpers.default.nameValue2Option(name, parserHelpers.default.flattenBoolean(value));
+                    return parserHelpers.nameValue2Option(name, parserHelpers.flattenBoolean(value));
                 },
         peg$c27 = function(e) {return e},
         peg$c28 = function(el) {
@@ -217,7 +217,7 @@
                     return _assign ({name:name}, attrList);
                 },
         peg$c36 = function(name, attrList) {
-                  if (parserHelpers.default.isMscGenKeyword(name)){
+                  if (parserHelpers.isMscGenKeyword(name)){
                     error("Keywords aren't allowed as entity names (embed them in quotes if you need them)");
                   }
                   return _assign ({name:name}, attrList);

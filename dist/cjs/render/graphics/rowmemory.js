@@ -7,6 +7,13 @@ exports.__esModule = true;
 var gRowInfoArray = [];
 var gDefaultEntityHeight = 0;
 var gDefaultArcRowHeight = 0;
+/**
+ * get() - returns the row info for a given pRowNumber.
+ * If the row info was not set earlier with a setRowinfo call
+ * the function returns a best guess, based on defaults
+ *
+ * @param <int> pRowNumber
+ */
 function get(pRowNumber) {
     if (gRowInfoArray[pRowNumber]) {
         return gRowInfoArray[pRowNumber];
@@ -19,60 +26,54 @@ function get(pRowNumber) {
         };
     }
 }
+exports.get = get;
 function getLast() {
     return get(gRowInfoArray.length - 1);
 }
-exports["default"] = {
-    /**
-     * clearRowInfo() - resets the helper array to an empty one
-     */
-    clear: function (pEntityHeight, pArcRowHeight) {
-        gRowInfoArray = [];
-        gDefaultEntityHeight = pEntityHeight;
-        gDefaultArcRowHeight = pArcRowHeight;
-    },
-    /**
-     * get() - returns the row info for a given pRowNumber.
-     * If the row info was not set earlier with a setRowinfo call
-     * the function returns a best guess, based on defaults
-     *
-     * @param <int> pRowNumber
-     */
-    get: get,
-    /**
-     *  the row info for a given pRealRowNumber.
-     *
-     * If the function couldn't find the real row number it'll
-     * return the virtual instead.
-     *
-     * @param <int> pRealRowNumber
-     */
-    getByRealRowNumber: function (pRealRowNumber) {
-        var lRetval = gRowInfoArray.find(function (pRowInfo) { return pRowInfo.realRowNumber === pRealRowNumber; });
-        if (typeof lRetval === "undefined") {
-            // most likely asking for something below the bottom of the chart => return the bottom
-            lRetval = getLast();
-        }
-        return lRetval;
-    },
-    getLast: getLast,
-    /**
-     * set() - stores the pHeight for the given pRowNumber, and sets
-     *         the y coordinate of the row
-     *
-     * @param <int> pRowNumber
-     * @param <int> pHeight
-     */
-    set: function (pRowNumber, pHeight, pRealRowNumber) {
-        if (pRealRowNumber === void 0) { pRealRowNumber = -1; }
-        var lPreviousRowInfo = get(pRowNumber - 1);
-        gRowInfoArray[pRowNumber] = {
-            y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
-            height: pHeight,
-            realRowNumber: pRealRowNumber
-        };
+exports.getLast = getLast;
+/**
+ * clear() - resets the helper array to an empty one
+ */
+function clear(pEntityHeight, pArcRowHeight) {
+    gRowInfoArray = [];
+    gDefaultEntityHeight = pEntityHeight;
+    gDefaultArcRowHeight = pArcRowHeight;
+}
+exports.clear = clear;
+/**
+ *  the row info for a given pRealRowNumber.
+ *
+ * If the function couldn't find the real row number it'll
+ * return the virtual instead.
+ *
+ * @param <int> pRealRowNumber
+ */
+function getByRealRowNumber(pRealRowNumber) {
+    var lRetval = gRowInfoArray.find(function (pRowInfo) { return pRowInfo.realRowNumber === pRealRowNumber; });
+    if (typeof lRetval === "undefined") {
+        // most likely asking for something below the bottom of the chart => return the bottom
+        lRetval = getLast();
     }
-};
+    return lRetval;
+}
+exports.getByRealRowNumber = getByRealRowNumber;
+/**
+ * set() - stores the pHeight for the given pRowNumber, and sets
+ *         the y coordinate of the row
+ *
+ * @param <int> pRowNumber
+ * @param <int> pHeight
+ */
+function set(pRowNumber, pHeight, pRealRowNumber) {
+    if (pRealRowNumber === void 0) { pRealRowNumber = -1; }
+    var lPreviousRowInfo = get(pRowNumber - 1);
+    gRowInfoArray[pRowNumber] = {
+        y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
+        height: pHeight,
+        realRowNumber: pRealRowNumber
+    };
+}
+exports.set = set;
 /*
  This file is part of mscgen_js.
 

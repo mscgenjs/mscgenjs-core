@@ -1,5 +1,5 @@
-import parserHelpers from "../../parse/parserHelpers";
-import escape from "../textutensils/escape";
+import * as parserHelpers from "../../parse/parserHelpers";
+import * as escape from "../textutensils/escape";
 export class XuAdaptor {
     constructor(pMinimal = false) {
         this.indent = "  ";

@@ -2,14 +2,14 @@
 exports.__esModule = true;
 var INNERELEMENTPREFIX = "mscgenjs";
 var gInnerElementId = INNERELEMENTPREFIX;
-exports["default"] = {
-    setPrefix: function (pPrefix) {
-        gInnerElementId = INNERELEMENTPREFIX + pPrefix;
-    },
-    get: function (pElementIdentifierString) {
-        return gInnerElementId + (pElementIdentifierString || "");
-    }
-};
+function setPrefix(pPrefix) {
+    gInnerElementId = INNERELEMENTPREFIX + pPrefix;
+}
+exports.setPrefix = setPrefix;
+function get(pElementIdentifierString) {
+    return gInnerElementId + (pElementIdentifierString || "");
+}
+exports.get = get;
 /*
  This file is part of mscgen_js.
 

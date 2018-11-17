@@ -3,12 +3,15 @@
  */
 import asttransform from "./asttransform";
 import _cloneDeep from "lodash.clonedeep";
-import escape from "../textutensils/escape";
+import * as escape from "../textutensils/escape";
 import aggregatekind from "./aggregatekind";
 import normalizekind from "./normalizekind";
 import normalizeoptions from "./normalizeoptions";
 let gMaxDepth = 0;
-function nameAsLabel(pEntity) {
+/**
+ * If the entity has no label, set the label of the entity to its name
+ */
+export function nameAsLabel(pEntity) {
     if (typeof pEntity.label === "undefined") {
         pEntity.label = pEntity.name;
     }
@@ -24,7 +27,14 @@ function unescapeLabels(pArcOrEntity) {
 function emptyStringForNoLabel(pArc) {
     pArc.label = Boolean(pArc.label) ? pArc.label : "";
 }
-function swapRTLArc(pArc) {
+/**
+ * If the arc is "facing backwards" (right to left) this function sets the arc
+ * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
+ * resulting in an equivalent (b << a becomes a >> b).
+ *
+ * If the arc is facing forwards or is symetrical, it is left alone.
+ */
+export function swapRTLArc(pArc) {
     if ((normalizekind(pArc.kind) !== pArc.kind)) {
         pArc.kind = normalizekind(pArc.kind);
         const lTmp = pArc.from;
@@ -47,7 +57,7 @@ function overrideColorsFromThing(pArc, pThing) {
 * assumes arc direction to be either LTR, both, or none
 * so arc.from exists.
 */
-function overrideColors(pArc, pEntities = []) {
+export function overrideColors(pArc, pEntities = []) {
     if (pArc && pArc.from) {
         const lMatchingEntity = pEntities.find((pEntity) => pEntity.name === pArc.from);
         if (!!lMatchingEntity) {
@@ -112,7 +122,11 @@ function unwind(pArcRows) {
     }
     return [];
 }
-function normalize(pAST) {
+/**
+ * Flattens any recursion in the arcs of the given abstract syntax tree to make it
+ * more easy to render.
+ */
+export function normalize(pAST) {
     gMaxDepth = 0;
     return {
         options: normalizeoptions(pAST.options),
@@ -121,39 +135,19 @@ function normalize(pAST) {
         depth: gMaxDepth + 1,
     };
 }
-export default {
-    /**
-     * If the entity has no label, set the label of the entity to its name
-     */
-    nameAsLabel,
-    /**
-     * If the arc is "facing backwards" (right to left) this function sets the arc
-     * kind to the left to right variant (e.g. <= becomes =>) and swaps the operands
-     * resulting in an equivalent (b << a becomes a >> b).
-     *
-     * If the arc is facing forwards or is symetrical, it is left alone.
-     */
-    swapRTLArc,
-    /**
-     * Flattens any recursion in the arcs of the given abstract syntax tree to make it
-     * more easy to render.
-     */
-    normalize,
-    overrideColors,
-    /**
-     * Simplifies an AST:
-     *    - entities without a label get one (the name of the label)
-     *    - arc directions get unified to always go forward
-     *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
-     *    - explodes broadcast arcs
-     *    - flattens any recursion (see the {@linkcode unwind} function in
-     *      in this module)
-     *    - distributes arc*color from the entities to the affected arcs
-     */
-    flatten(pAST) {
-        return normalize(asttransform(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
-    },
-};
+/**
+ * Simplifies an AST:
+ *    - entities without a label get one (the name of the label)
+ *    - arc directions get unified to always go forward
+ *      (e.g. for a <- b swap entities and reverse direction so it becomes a -> b)
+ *    - explodes broadcast arcs
+ *    - flattens any recursion (see the {@linkcode unwind} function in
+ *      in this module)
+ *    - distributes arc*color from the entities to the affected arcs
+ */
+export function flatten(pAST) {
+    return normalize(asttransform(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
+}
 /*
  This file is part of mscgen_js.
 

@@ -2,9 +2,9 @@ import * as mscgenjsast from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import wrap from "../textutensils/wrap";
 import constants from "./constants";
-import kind2class from "./kind2class";
+import * as kind2class from "./kind2class";
 import * as geotypes from "./svgelementfactory/geotypes";
-import svgelementfactory from "./svgelementfactory/index";
+import * as svgelementfactory from "./svgelementfactory/index";
 import * as svgutensils from "./svgutensils";
 
 /**
@@ -120,7 +120,17 @@ function determineLabelTop(pLines: string[], pDims, pOptions) {
     }
 }
 
-function createLabel(
+/**
+ * createLabel() - renders the text (label, id, url) for a given pArc
+ * with a bounding box starting at pStartX, pStartY and of a width of at
+ * most pWidth (all in pixels)
+ *
+ * @param <string> - pId - the unique identification of the textlabe (group) within the svg
+ * @param <object> - pArc - the arc of which to render the text
+ * @param <object> - pDims - x and y to start on and a width
+ * @param <object> - pOptions - alignAbove, alignLeft, alignAround, wordWrapArcs, ownBackground, underline
+ */
+export function createLabel(
     pArc: mscgenjsast.IArc,
     pDims,
     pOptions,
@@ -205,40 +215,23 @@ function labelIsWrappable(pKind: any /*mscgenjsast.ArcKindType*/, pOptions: mscg
             typeof pKind === "undefined";
 }
 
-function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions: mscgenjsast.IOptionsNormalized) {
+/**
+ * splitLabel () - splits the given pLabel into an array of strings
+ * - if the arc kind passed is a box the split occurs regardless
+ * - if the arc kind passed is something else, the split occurs
+ *   only if the _word wrap arcs_ option is true.
+ *
+ * @param <string> - pLabel
+ * @param <string> - pKind
+ * @param <number> - pWidth
+ * @param <number> - pFontSize (in px)
+ * @param <object> - options (the one ones heeded: wordwraparcs, wordwrapentities, wordwrapboxes)
+ * @return <array of strings> - lLines
+ */
+export function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions: mscgenjsast.IOptionsNormalized) {
     if (labelIsWrappable(pKind, pOptions)) {
         return wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
     } else {
         return pLabel.split("\\n");
     }
 }
-
-export default {
-    /**
-     * createLabel() - renders the text (label, id, url) for a given pArc
-     * with a bounding box starting at pStartX, pStartY and of a width of at
-     * most pWidth (all in pixels)
-     *
-     * @param <string> - pId - the unique identification of the textlabe (group) within the svg
-     * @param <object> - pArc - the arc of which to render the text
-     * @param <object> - pDims - x and y to start on and a width
-     * @param <object> - pOptions - alignAbove, alignLeft, alignAround, wordWrapArcs, ownBackground, underline
-     */
-    createLabel,
-
-    /**
-     * splitLabel () - splits the given pLabel into an array of strings
-     * - if the arc kind passed is a box the split occurs regardless
-     * - if the arc kind passed is something else, the split occurs
-     *   only if the _word wrap arcs_ option is true.
-     *
-     * @param <string> - pLabel
-     * @param <string> - pKind
-     * @param <number> - pWidth
-     * @param <number> - pFontSize (in px)
-     * @param <object> - options (the one ones heeded: wordwraparcs, wordwrapentities, wordwrapboxes)
-     * @return <array of strings> - lLines
-     */
-    splitLabel,
-
-};

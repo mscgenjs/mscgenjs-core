@@ -28,10 +28,13 @@ const KIND2CLASS = Object.freeze({
     "::"    : "emphasised",
 });
 
-export default {
-    getClass(pKey: ArcKindType): ArcKindClassType { return KIND2CLASS[pKey] || pKey; },
-    getAggregateClass(pKey: ArcKindType): ArcKindAggregatedType { return aggregatekind(pKey) || pKey; },
-};
+export function getClass(pKey: ArcKindType): ArcKindClassType {
+    return KIND2CLASS[pKey] || pKey;
+}
+
+export function getAggregateClass(pKey: ArcKindType): ArcKindAggregatedType {
+    return aggregatekind(pKey) || pKey;
+}
 /*
  This file is part of mscgen_js.
 
