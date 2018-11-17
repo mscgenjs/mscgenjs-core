@@ -20,7 +20,7 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/node": "10.12.5",
+    "@types/node": "10.12.9",
     "chai": "4.2.0",
     "chai-xml": "0.3.2",
     "dependency-cruiser": "4.6.3",
