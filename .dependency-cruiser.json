@@ -1,14 +1,15 @@
 {
+  "extends": "dependency-cruiser/configs/recommended-strict",
   "forbidden": [
       {
         "name": "not-between-renderers",
         "comment": "Don't allow dependencies between the different types of renderers",
         "severity": "error",
         "from": {
-          "path": "^render/graphics|^render/astmassage"
+          "path": "^src/render/graphics|^src/render/astmassage"
         },
         "to": {
-          "path": "^render/text/"
+          "path": "^src/render/text/"
         }
       },
     {
@@ -36,32 +37,11 @@
     },
     {
       "name": "not-to-spec",
-      "comment": "Don't allow dependencies to (typescript/ javascript/ coffeescript) spec files",
+      "comment": "Don't allow dependencies to (typescript/ javascript) spec files",
       "severity": "error",
       "from": {},
       "to": {
-        "path": "\\.spec\\.[js|ts|ls|coffee|litcoffee|coffee\\.md]$"
-      }
-    },
-    {
-      "name": "no-deprecated-core",
-      "comment": "Warn about dependencies on deprecated core modules.",
-      "severity": "warn",
-      "from": {},
-      "to": {
-        "dependencyTypes": [
-          "core"
-        ],
-        "path": "^(punycode|domain)$"
-      }
-    },
-    {
-      "name": "not-to-unresolvable",
-      "comment": "Don't allow dependencies on modules dependency-cruiser can't resolve to files on disk (which probably means they don't exist)",
-      "severity": "error",
-      "from": {},
-      "to": {
-        "couldNotResolve": true
+        "path": "\\.spec\\.[js|ts]$"
       }
     },
     {
@@ -69,7 +49,7 @@
       "severity": "error",
       "comment": "Don't allow dependencies from src/app/lib to a development only package",
       "from": {
-        "path": "^(index\\.js|indexAMD\\.js|index-lazy\\.js|main|parse|render|lib)"
+        "path": "^src"
       },
       "to": {
         "dependencyTypes": [
@@ -78,25 +58,9 @@
       }
     },
     {
-      "name": "no-non-package-json",
-      "severity": "error",
-      "comment": "Don't allow dependencies to packages not in package.json (except from within node_modules)",
-      "from": {
-        "pathNot": "^node_modules"
-      },
-      "to": {
-        "dependencyTypes": [
-          "unknown",
-          "undetermined",
-          "npm-no-pkg",
-          "npm-unknown"
-        ]
-      }
-    },
-    {
       "name": "optional-deps-used",
-      "severity": "info",
-      "comment": "nothing serious - but just check you have some serious try/ catches around the import/ requires of these",
+      "severity": "error",
+      "comment": "We're not working with optional dependencies - don't make sense for mscgenjs",
       "from": {},
       "to": {
         "dependencyTypes": [
@@ -106,40 +70,20 @@
     },
     {
       "name": "peer-deps-used",
-      "comment": "Warn about the use of a peer dependency (peer dependencies are deprecated with the advent of npm 3 - and probably gone with version 4).",
-      "severity": "warn",
+      "comment": "At this moment peer dependencies don't make sense for mscgenjs",
+      "severity": "error",
       "from": {},
       "to": {
         "dependencyTypes": [
           "npm-peer"
         ]
       }
-    },
-    {
-      "name": "no-duplicate-dep-types",
-      "comment": "Warn if a dependency occurs in your package.json more than once (technically: has more than one dependency type)",
-      "severity": "warn",
-      "from": {},
-      "to": {
-        "moreThanOneDependencyType": true
-      }
-    },
-    {
-      "name": "no-circular",
-      "severity": "error",
-      "from": {},
-      "to": { "circular": true }
-    },
-    {
-      "name": "no-orphans",
-      "severity": "error",
-      "from": { "orphan": true, "pathNot": "(\\.template\\.js|\\.d\\.ts)" },
-      "to": {}
     }
   ],
   "options": {
     "moduleSystems": ["cjs", "es6"],
-    "doNotFollow": "node_modules",
+    // doNotFollow is already implied in the 'recommended-strict' config
+    // "doNotFollow": "node_modules",
     "tsPreCompilationDeps": true,
     "prefix": "https://github.com/mscgenjs/mscgenjs-core/blob/develop"
   }

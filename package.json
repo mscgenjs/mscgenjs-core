@@ -78,7 +78,7 @@
     "check:ci": "npm-run-all depcruise lint test:all:ci",
     "check:full": "npm-run-all --parallel depcruise lint test:cover",
     "depcruise": "depcruise --validate -- src test",
-    "depcruise:graph": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --module-systems es6,cjs --output-type rcdot src | dot -T svg > tmp_deps.svg",
+    "depcruise:graph": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type rcdot src | dot -T svg > tmp_deps.svg",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "prepublishOnly": "npm run check",
