@@ -20,25 +20,25 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/jest": "23.3.10",
+    "@types/jest": "23.3.13",
     "@types/node": "10.12.18",
     "chai": "4.2.0",
     "chai-xml": "0.3.2",
     "dependency-cruiser": "4.10.0",
-    "jest": "23.6.0",
+    "jest": "24.0.0",
     "jest-json-schema": "2.0.1",
-    "jsdom": "13.1.0",
+    "jsdom": "13.2.0",
     "npm-run-all": "4.1.5",
     "pegjs": "0.10.0",
     "requirejs": "2.3.6",
     "shx": "0.3.2",
     "ts-jest": "23.1.4",
-    "ts-loader": "5.3.2",
-    "tslint": "5.12.0",
-    "typescript": "3.2.2",
+    "ts-loader": "5.3.3",
+    "tslint": "5.12.1",
+    "typescript": "3.2.4",
     "upem": "1.0.2",
-    "webpack": "4.28.3",
-    "webpack-cli": "3.1.2"
+    "webpack": "4.29.0",
+    "webpack-cli": "3.2.1"
   },
   "upem": {
     "donotup": [
@@ -136,22 +136,22 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 99.8,
+        "statements": 100,
         "branches": 93.8,
         "functions": 100,
-        "lines": 99.8
+        "lines": 100
       },
       "src/main": {
         "statements": 100,
-        "branches": 97.3,
+        "branches": 100,
         "functions": 100,
         "lines": 100
       },
       "src/render": {
-        "statements": 99.8,
-        "branches": 93.2,
+        "statements": 100,
+        "branches": 92,
         "functions": 100,
-        "lines": 99.8
+        "lines": 100
       },
       "src/parse": {
         "statements": 100,

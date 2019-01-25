@@ -48,7 +48,7 @@ function translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
     var lOptions = Object.assign({
         inputType: "mscgen",
         outputType: "json"
-    }, pOptions || {});
+    }, pOptions);
     if (lOptions.outputType === "ast") {
         return pGetParser(lOptions.inputType).parse(pScript);
     }

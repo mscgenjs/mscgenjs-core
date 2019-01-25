@@ -77,7 +77,7 @@ export function translateMsc(
             inputType: "mscgen",
             outputType: "json",
         },
-        pOptions || {},
+        pOptions,
     );
 
     if (lOptions.outputType === "ast") {
