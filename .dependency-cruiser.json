@@ -85,6 +85,6 @@
     // doNotFollow is already implied in the 'recommended-strict' config
     // "doNotFollow": "node_modules",
     "tsPreCompilationDeps": true,
-    "prefix": "https://github.com/mscgenjs/mscgenjs-core/blob/develop"
+    "prefix": "https://github.com/mscgenjs/mscgenjs-core/blob/develop/"
   }
 }
