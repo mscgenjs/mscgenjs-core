@@ -20,25 +20,25 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/jest": "24.0.9",
-    "@types/node": "11.9.6",
+    "@types/jest": "24.0.11",
+    "@types/node": "11.11.6",
     "chai": "4.2.0",
     "chai-xml": "0.3.2",
-    "dependency-cruiser": "4.13.3",
-    "jest": "24.1.0",
+    "dependency-cruiser": "4.15.1",
+    "jest": "24.5.0",
     "jest-json-schema": "2.0.2",
-    "jsdom": "13.2.0",
+    "jsdom": "14.0.0",
     "npm-run-all": "4.1.5",
     "pegjs": "0.10.0",
     "requirejs": "2.3.6",
     "shx": "0.3.2",
     "ts-jest": "23.1.4",
     "ts-loader": "5.3.3",
-    "tslint": "5.13.0",
-    "typescript": "3.3.3333",
+    "tslint": "5.14.0",
+    "typescript": "3.3.4000",
     "upem": "2.0.0",
     "webpack": "4.29.6",
-    "webpack-cli": "3.2.3"
+    "webpack-cli": "3.3.0"
   },
   "upem": {
     "donotup": [
@@ -79,7 +79,7 @@
     "check:full": "npm-run-all --parallel depcruise lint test:cover",
     "depcruise": "depcruise --validate -- src test",
     "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
-    "depcruise:graph:html": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -Ecolor=#00000077 -Epenwidth=2.0 -T svg | cat doc/assets/depcruise-graph-head.snippet.html - doc/assets/depcruise-graph-foot.snippet.html > doc/dependencygraph.html",
+    "depcruise:graph:html": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T svg | cat doc/assets/depcruise-graph-head.snippet.html - doc/assets/depcruise-graph-foot.snippet.html > doc/dependencygraph.html",
     "depcruise:graph:png": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T png > doc/dependencygraph.png",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
