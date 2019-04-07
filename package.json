@@ -80,7 +80,7 @@
     "depcruise": "depcruise --validate -- src test",
     "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
     "depcruise:graph:html": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T svg | cat doc/assets/depcruise-graph-head.snippet.html - doc/assets/depcruise-graph-foot.snippet.html > doc/dependencygraph.html",
-    "depcruise:graph:png": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T png > doc/dependencygraph.png",
+    "depcruise:graph:png": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -Gdpi=192 -T png | pngquant - > doc/dependencygraph.png",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "prepublishOnly": "npm run check",

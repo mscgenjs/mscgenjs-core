@@ -14,6 +14,10 @@ a picture:
   - for the [_command line interface_](https://github.com/sverweij/mscgenjs-cli)
   - for the [atom editor package](https://github.com/sverweij/atom-mscgen-preview)
 
+Dependeny graph (generated with [dependency-cruiser](https://github.com/sverweij/dependency-cruiser)): 
+
+<img width="1648" alt="mscgenjs-core dependency graph" src="dependencygraph.png">
+
 ## Lexical analysis and parsing
 :page_with_curl: code in [../parse/peg](../parse/peg)
 
