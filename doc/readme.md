@@ -16,7 +16,7 @@ a picture:
 
 Dependeny graph (generated with [dependency-cruiser](https://github.com/sverweij/dependency-cruiser)): 
 
-<img width="1648" alt="mscgenjs-core dependency graph" src="dependencygraph.png">
+[<img width="1648" alt="mscgenjs-core dependency graph" src="../docs/dependencygraph.png">](https://mscgenjs.github.io/mscgenjs-core/dependencygraph.html)
 
 ## Lexical analysis and parsing
 :page_with_curl: code in [../parse/peg](../parse/peg)
