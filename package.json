@@ -24,7 +24,7 @@
     "@types/node": "12.0.2",
     "chai": "4.2.0",
     "chai-xml": "0.3.2",
-    "dependency-cruiser": "4.18.0",
+    "dependency-cruiser": "4.19.0",
     "jest": "24.8.0",
     "jest-json-schema": "2.0.2",
     "jsdom": "15.1.0",
@@ -33,11 +33,11 @@
     "requirejs": "2.3.6",
     "shx": "0.3.2",
     "ts-jest": "23.1.4",
-    "ts-loader": "6.0.0",
+    "ts-loader": "6.0.1",
     "tslint": "5.16.0",
     "typescript": "3.4.5",
-    "upem": "2.0.1",
-    "webpack": "4.31.0",
+    "upem": "2.1.0",
+    "webpack": "4.32.2",
     "webpack-cli": "3.3.2"
   },
   "upem": {
