@@ -44,7 +44,7 @@
     "donotup": [
       {
         "package": "ts-jest",
-        "because": "upgrading to the next version makes tests crash with all kinds of weird type errors - maybe investigate some day"
+        "because": "upgrading to the next version makes tests crash with all kinds of weird type errors - maybe investigate later"
       }
     ]
   },
