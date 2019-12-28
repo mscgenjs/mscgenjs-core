@@ -20,11 +20,11 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/jest": "24.0.23",
-    "@types/node": "12.12.7",
+    "@types/jest": "24.0.25",
+    "@types/node": "13.1.1",
     "chai": "4.2.0",
     "chai-xml": "0.3.2",
-    "dependency-cruiser": "5.3.1",
+    "dependency-cruiser": "6.1.0",
     "jest": "24.9.0",
     "jest-json-schema": "2.1.0",
     "jsdom": "15.2.1",
@@ -35,9 +35,9 @@
     "ts-jest": "23.1.4",
     "ts-loader": "6.2.1",
     "tslint": "5.20.1",
-    "typescript": "3.7.2",
+    "typescript": "3.7.4",
     "upem": "3.1.2",
-    "webpack": "4.41.2",
+    "webpack": "4.41.5",
     "webpack-cli": "3.3.10"
   },
   "upem": {
