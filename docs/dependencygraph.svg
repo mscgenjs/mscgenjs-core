@@ -1,35 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>mscgen.js core dependency-graph</title>
-        <style>
-            .node:active path, .node:hover path {
-                stroke:fuchsia;
-                stroke-width:2;
-            }
-            .node:active text, .node:hover text {
-                fill:fuchsia;
-            }
-            .edge:active path, .edge:hover path{
-                stroke:fuchsia;
-                stroke-opacity:1;
-            }
-            .edge:active polygon, .edge:hover polygon  {
-                stroke:fuchsia;
-                fill:fuchsia;
-                stroke-opacity:1;
-                fill-opacity:1;
-            }
-            .edge:active text, .edge:hover text{
-                fill:fuchsia;
-            }
-            .cluster:active path, .cluster:hover path {
-                fill: #ffff0011;
-            }
-        </style>
-    </head>
-    <body>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -1094,5 +1062,3 @@
 </g>
 </g>
 </svg>
-    </body>
-</html>
