@@ -1,108 +1,151 @@
 module.exports = {
-  extends: 'dependency-cruiser/configs/recommended-strict',
+  extends: "dependency-cruiser/configs/recommended-strict",
   forbidden: [
     {
-      name: 'not-between-renderers',
-      comment: "Don't allow dependencies between the different types of renderers",
-      severity: 'error',
+      name: "not-between-renderers",
+      comment:
+        "Don't allow dependencies between the different types of renderers",
+      severity: "error",
       from: {
-        path: '^src/render/graphics|^src/render/astmassage'
+        path: "^src/render/graphics|^src/render/astmassage"
       },
       to: {
-        path: '^src/render/text/'
+        path: "^src/render/text/"
       }
     },
     {
-      name: 'not-to-test',
+      name: "not-to-test",
       comment: "Don't allow dependencies from outside the test folder to test",
-      severity: 'error',
+      severity: "error",
       from: {
-        pathNot: '^test'
+        pathNot: "^test"
       },
       to: {
-        path: '^test'
+        path: "^test"
       }
     },
     {
-      name: 'not-from-test-to-dist',
-      comment: "Don't allow dependencies from test to dist (we're testing src only)",
-      severity: 'error',
+      name: "not-from-test-to-dist",
+      comment:
+        "Don't allow dependencies from test to dist (we're testing src only)",
+      severity: "error",
       from: {
-        path: '^test',
-        pathNot: '^test/dist-index\\.spec\\.js'
+        path: "^test",
+        pathNot: "^test/dist-index\\.spec\\.js"
       },
       to: {
-        path: 'dist'
+        path: "dist"
       }
     },
     {
-      name: 'not-to-spec',
-      comment: "Don't allow dependencies to (typescript/ javascript) spec files",
-      severity: 'error',
+      name: "not-to-spec",
+      comment:
+        "Don't allow dependencies to (typescript/ javascript) spec files",
+      severity: "error",
       from: {},
       to: {
-        path: '\\.spec\\.[js|ts]$'
+        path: "\\.spec\\.[js|ts]$"
       }
     },
     {
-      name: 'not-to-dev-dep',
-      severity: 'error',
-      comment: "Don't allow dependencies from src/app/lib to a development only package",
+      name: "not-to-dev-dep",
+      severity: "error",
+      comment:
+        "Don't allow dependencies from src/app/lib to a development only package",
       from: {
-        path: '^src'
+        path: "^src"
       },
       to: {
-        dependencyTypes: ['npm-dev']
+        dependencyTypes: ["npm-dev"]
       }
     },
     {
-      name: 'optional-deps-used',
-      severity: 'error',
-      comment: "We're not working with optional dependencies - don't make sense for mscgenjs",
+      name: "optional-deps-used",
+      severity: "error",
+      comment:
+        "We're not working with optional dependencies - don't make sense for mscgenjs",
       from: {},
       to: {
-        dependencyTypes: ['npm-optional']
+        dependencyTypes: ["npm-optional"]
       }
     },
     {
-      name: 'peer-deps-used',
+      name: "peer-deps-used",
       comment: "At this moment peer dependencies don't make sense for mscgenjs",
-      severity: 'error',
+      severity: "error",
       from: {},
       to: {
-        dependencyTypes: ['npm-peer']
+        dependencyTypes: ["npm-peer"]
       }
     },
     {
-      name: 'no-unreachable-from-api',
-      comment: 'All sources should be reachable from the API entry point',
+      name: "no-unreachable-from-api",
+      comment: "All sources should be reachable from the API entry point",
       from: {
-        path: '^src/index\\.ts$|^src/index-lazy\\.ts$'
+        path: "^src/index\\.ts$|^src/index-lazy\\.ts$"
       },
       to: {
-        path: '^src/',
-        pathNot: '\\.d\\.ts$|/mscgenjs-ast\\.schema\\.json$',
+        path: "^src/",
+        pathNot: "\\.d\\.ts$|/mscgenjs-ast\\.schema\\.json$",
         reachable: false
       }
     },
     {
-      name: 'no-uncovered',
-      comment: 'All sources should be reachable from at least one test',
-      severity: 'error',
+      name: "no-uncovered",
+      comment: "All sources should be reachable from at least one test",
+      severity: "error",
       from: {
-        path: '^test/^[\\.]+/\\.spec\\.ts$'
+        path: "^test/^[\\.]+/\\.spec\\.ts$"
       },
       to: {
-        path: '^src/',
+        path: "^src/",
         reachable: false
       }
     }
   ],
   options: {
-    moduleSystems: ['cjs', 'es6'],
+    moduleSystems: ["cjs", "es6"],
     // doNotFollow is already implied in the 'recommended-strict' config
     // "doNotFollow": "node_modules",
     tsPreCompilationDeps: true,
-    prefix: 'https://github.com/mscgenjs/mscgenjs-core/blob/develop/'
+    prefix: "https://github.com/mscgenjs/mscgenjs-core/blob/develop/",
+    reporterOptions: {
+      dot: {
+        theme: {
+          modules: [
+            {
+              criteria: { source: "^src/main" },
+              attributes: { fillcolor: "#ccccff" }
+            },
+            {
+              criteria: { source: "^src/render" },
+              attributes: { fillcolor: "#ccffcc" }
+            },
+            {
+              criteria: { source: "^src/parse" },
+              attributes: { fillcolor: "#ffccff" }
+            },
+            {
+              criteria: { source: "parser\\.js$" },
+              attributes: { style: "filled" }
+            }
+          ],
+          dependencies: [
+            {
+              criteria: { resolved: "^src/main" },
+              attributes: { color: "#0000ff77" }
+            },
+            {
+              criteria: { resolved: "^src/render" },
+              attributes: { color: "#00770077" }
+            },
+            {
+              criteria: { resolved: "^src/parse" },
+              attributes: { color: "#ff00ff77" }
+            }
+          ]
+        }
+      }
+    }
   }
 };
