@@ -124,7 +124,7 @@ function calcNumberOfRows(pInlineExpression): number {
 function unwindArcRow(pArcRow: mscgenjsast.IArc[]|any, pDepth: number, pFrom?: string, pTo?: string): any {
     const lRetval: any[] = [];
     const lFlatArcRow: IFlatArc[] = [];
-    let lUnWoundSubArcs: Array<Array<IFlatArc|any>> = [];
+    let lUnWoundSubArcs: (IFlatArc|any)[][] = [];
 
     pArcRow.forEach(
         (pArc: mscgenjsast.IArc|any) => {

@@ -701,7 +701,7 @@ function createLifeLines(
     pClass: string,
     pHeight: number,
     pY: number,
-): Array<SVGLineElement|SVGPathElement> {
+): (SVGLineElement|SVGPathElement)[] {
     /* istanbul ignore if */
     if (pHeight < gChart.arcRowHeight) {
         pHeight = gChart.arcRowHeight;
