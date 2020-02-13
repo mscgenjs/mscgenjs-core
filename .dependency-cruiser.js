@@ -111,6 +111,7 @@ module.exports = {
     prefix: "https://github.com/mscgenjs/mscgenjs-core/blob/develop/",
     reporterOptions: {
       dot: {
+        collapsePattern: "^node_modules/[^/]+",
         theme: {
           modules: [
             {
@@ -128,6 +129,10 @@ module.exports = {
             {
               criteria: { source: "parser\\.js$" },
               attributes: { style: "filled" }
+            },
+            {
+              criteria: { source: "\\.json$" },
+              attributes: { shape: "cylinder" }
             }
           ],
           dependencies: [
