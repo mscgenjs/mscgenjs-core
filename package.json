@@ -20,11 +20,11 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/jest": "25.1.2",
-    "@types/node": "13.7.1",
+    "@types/jest": "25.1.3",
+    "@types/node": "13.7.4",
     "chai": "4.2.0",
     "chai-xml": "0.3.2",
-    "dependency-cruiser": "7.2.0",
+    "dependency-cruiser": "7.3.0-beta-3",
     "jest": "24.9.0",
     "jest-json-schema": "2.1.0",
     "jsdom": "15.2.1",
@@ -35,7 +35,7 @@
     "ts-jest": "23.1.4",
     "ts-loader": "6.2.1",
     "tslint": "6.0.0",
-    "typescript": "3.7.5",
+    "typescript": "3.8.2",
     "upem": "3.1.2",
     "webpack": "4.41.6",
     "webpack-cli": "3.3.11"
@@ -90,7 +90,7 @@
     "check:full": "npm-run-all --parallel depcruise lint test:cover",
     "depcruise": "depcruise --validate -- src test",
     "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
-    "depcruise:graph:html": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T svg | cat docs/assets/depcruise-graph-head.snippet.html - docs/assets/depcruise-graph-foot.snippet.html > docs/dependencygraph.html",
+    "depcruise:graph:html": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T svg | depcruise-wrap-stream-in-html > docs/dependencygraph.html",
     "depcruise:graph:png": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -Gdpi=192 -T png | pngquant - > docs/dependencygraph.png",
     "depcruise:graph:svg": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T svg > docs/dependencygraph.svg",
     "lint": "tslint --project .",
