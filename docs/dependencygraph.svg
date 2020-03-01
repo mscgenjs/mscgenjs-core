@@ -29,10 +29,15 @@
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M202.38,-173C202.38,-173 1199.55,-173 1199.55,-173 1205.55,-173 1211.55,-179 1211.55,-185 1211.55,-185 1211.55,-755 1211.55,-755 1211.55,-761 1205.55,-767 1199.55,-767 1199.55,-767 202.38,-767 202.38,-767 196.38,-767 190.38,-761 190.38,-755 190.38,-755 190.38,-185 190.38,-185 190.38,-179 196.38,-173 202.38,-173"/>
 <text text-anchor="middle" x="700.97" y="-755.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">render</text>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_src/render/astmassage</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M520.49,-458C520.49,-458 691.05,-458 691.05,-458 697.05,-458 703.05,-464 703.05,-470 703.05,-470 703.05,-613 703.05,-613 703.05,-619 697.05,-625 691.05,-625 691.05,-625 520.49,-625 520.49,-625 514.49,-625 508.49,-619 508.49,-613 508.49,-613 508.49,-470 508.49,-470 508.49,-464 514.49,-458 520.49,-458"/>
-<text text-anchor="middle" x="605.77" y="-613.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">astmassage</text>
+<g id="clust10" class="cluster">
+<title>cluster_src/render/text</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M411.2,-633C411.2,-633 671.28,-633 671.28,-633 677.28,-633 683.28,-639 683.28,-645 683.28,-645 683.28,-730 683.28,-730 683.28,-736 677.28,-742 671.28,-742 671.28,-742 411.2,-742 411.2,-742 405.2,-742 399.2,-736 399.2,-730 399.2,-730 399.2,-645 399.2,-645 399.2,-639 405.2,-633 411.2,-633"/>
+<text text-anchor="middle" x="541.24" y="-730.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">text</text>
+</g>
+<g id="clust11" class="cluster">
+<title>cluster_src/render/textutensils</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M728.8,-438C728.8,-438 775.33,-438 775.33,-438 781.33,-438 787.33,-444 787.33,-450 787.33,-450 787.33,-506 787.33,-506 787.33,-512 781.33,-518 775.33,-518 775.33,-518 728.8,-518 728.8,-518 722.8,-518 716.8,-512 716.8,-506 716.8,-506 716.8,-450 716.8,-450 716.8,-444 722.8,-438 728.8,-438"/>
+<text text-anchor="middle" x="752.06" y="-506.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">textutensils</text>
 </g>
 <g id="clust6" class="cluster">
 <title>cluster_src/render/graphics</title>
@@ -54,15 +59,10 @@
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M729.06,-309C729.06,-309 971.45,-309 971.45,-309 977.45,-309 983.45,-315 983.45,-321 983.45,-321 983.45,-362 983.45,-362 983.45,-368 977.45,-374 971.45,-374 971.45,-374 729.06,-374 729.06,-374 723.06,-374 717.06,-368 717.06,-362 717.06,-362 717.06,-321 717.06,-321 717.06,-315 723.06,-309 729.06,-309"/>
 <text text-anchor="middle" x="850.26" y="-362.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">wobbly</text>
 </g>
-<g id="clust10" class="cluster">
-<title>cluster_src/render/text</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M411.2,-633C411.2,-633 671.28,-633 671.28,-633 677.28,-633 683.28,-639 683.28,-645 683.28,-645 683.28,-730 683.28,-730 683.28,-736 677.28,-742 671.28,-742 671.28,-742 411.2,-742 411.2,-742 405.2,-742 399.2,-736 399.2,-730 399.2,-730 399.2,-645 399.2,-645 399.2,-639 405.2,-633 411.2,-633"/>
-<text text-anchor="middle" x="541.24" y="-730.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">text</text>
-</g>
-<g id="clust11" class="cluster">
-<title>cluster_src/render/textutensils</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M728.8,-438C728.8,-438 775.33,-438 775.33,-438 781.33,-438 787.33,-444 787.33,-450 787.33,-450 787.33,-506 787.33,-506 787.33,-512 781.33,-518 775.33,-518 775.33,-518 728.8,-518 728.8,-518 722.8,-518 716.8,-512 716.8,-506 716.8,-506 716.8,-450 716.8,-450 716.8,-444 722.8,-438 728.8,-438"/>
-<text text-anchor="middle" x="752.06" y="-506.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">textutensils</text>
+<g id="clust5" class="cluster">
+<title>cluster_src/render/astmassage</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M520.49,-458C520.49,-458 691.05,-458 691.05,-458 697.05,-458 703.05,-464 703.05,-470 703.05,-470 703.05,-613 703.05,-613 703.05,-619 697.05,-625 691.05,-625 691.05,-625 520.49,-625 520.49,-625 514.49,-625 508.49,-619 508.49,-613 508.49,-613 508.49,-470 508.49,-470 508.49,-464 514.49,-458 520.49,-458"/>
+<text text-anchor="middle" x="605.77" y="-613.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">astmassage</text>
 </g>
 <!-- src/index&#45;lazy.ts -->
 <g id="node1" class="node">
@@ -876,8 +876,8 @@
 <!-- src/render/graphics/markermanager.ts&#45;&gt;src/render/astmassage/flatten.ts -->
 <g id="edge36" class="edge">
 <title>src/render/graphics/markermanager.ts&#45;&gt;src/render/astmassage/flatten.ts</title>
-<path fill="none" stroke="#007700" stroke-width="2" stroke-opacity="0.466667" d="M354.82,-404.77C365.89,-412.91 383.19,-425.06 399.2,-434 410.23,-440.16 479.84,-470.94 518.3,-487.84"/>
-<polygon fill="#007700" fill-opacity="0.466667" stroke="#007700" stroke-width="2" stroke-opacity="0.466667" points="517.85,-489.94 524.19,-490.43 519.54,-486.09 517.85,-489.94"/>
+<path fill="none" stroke="#007700" stroke-opacity="0.466667" d="M354.82,-404.77C365.89,-412.91 383.19,-425.06 399.2,-434 410.23,-440.16 479.84,-470.94 518.3,-487.84"/>
+<polygon fill="none" stroke="#007700" stroke-opacity="0.466667" points="517.85,-489.94 524.19,-490.43 519.54,-486.09 517.85,-489.94"/>
 </g>
 <!-- src/render/graphics/markermanager.ts&#45;&gt;src/render/astmassage/normalizekind.ts -->
 <g id="edge37" class="edge">

@@ -107,7 +107,7 @@ module.exports = {
     moduleSystems: ["cjs", "es6"],
     // doNotFollow is already implied in the 'recommended-strict' config
     // "doNotFollow": "node_modules",
-    tsPreCompilationDeps: true,
+    tsPreCompilationDeps: "specify",
     prefix: "https://github.com/mscgenjs/mscgenjs-core/blob/develop/",
     reporterOptions: {
       dot: {
