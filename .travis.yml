@@ -3,7 +3,6 @@ sudo: required
 language: node_js
 
 node_js:
-  - "8"
   - "10"
   - "12"
   - stable
@@ -12,16 +11,16 @@ install:
   - npm install
 
 before_script:
-  - 'if test `node --version | cut -c 2,3` = 13; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter ; fi'
-  - 'if test `node --version | cut -c 2,3` = 13; then chmod +x ./cc-test-reporter ; fi'
-  - 'if test `node --version | cut -c 2,3` = 13; then ./cc-test-reporter before-build ; fi'
+  - "if test `node --version | cut -c 2,3` = 14; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter ; fi"
+  - "if test `node --version | cut -c 2,3` = 14; then chmod +x ./cc-test-reporter ; fi"
+  - "if test `node --version | cut -c 2,3` = 14; then ./cc-test-reporter before-build ; fi"
 
 script:
   - npm run build
-  - 'if test `node --version | cut -c 2,3` = 13; then npm run check:full; else npm run check:ci; fi'
+  - "if test `node --version | cut -c 2,3` = 14; then npm run check:full; else npm run check:ci; fi"
 
 after_script:
-  - 'if test `node --version | cut -c 2,3` = 13; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi'
+  - "if test `node --version | cut -c 2,3` = 14; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi"
 
 branches:
   except:
@@ -32,5 +31,5 @@ cache:
     - node_modules
 
 addons:
-   code_climate:
-     repo_token: $CODECLIMATE_REPO_TOKEN
+  code_climate:
+    repo_token: $CODECLIMATE_REPO_TOKEN
