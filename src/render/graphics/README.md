@@ -15,7 +15,7 @@ vector graphics (SVG):
   difficult.
 
 ## The scalable vector graphics skeleton
-:page_with_curl: code in [renderskeleton.js](renderskeleton.js)
+:page_with_curl: code in [renderskeleton.ts](renderskeleton.ts)
 
 We use the following structure for the svg
 
@@ -45,11 +45,11 @@ We use the following structure for the svg
 
 ## Chunks of the rendering process
 
-- The render loop (:page_with_curl: code in [renderast.js](renderast.js))    
+- The render loop (:page_with_curl: code in [renderast.ts](renderast.ts))    
   Takes an abstract syntax tree, flattens it, sets up a skeleton and renders
   it, using several
 - Simplifying the abstract syntax tree (:page_with_curl: code in
-  [../text/flatten.js](../text/flatten.js))    
+  [../text/flatten.ts](../text/flatten.ts))    
   A step that takes place after parsing and before rendering.
   It simplifies the syntax tree by a.o.
   - Making sure everything labelable has a label.
@@ -57,20 +57,20 @@ We use the following structure for the svg
      (e.g. `a => b, a => c, a => c`)
   - Unrolling recursive structures.
 - setting up the [SVG skeleton](#the-scalable-vector-graphics-skeleton)
-  (:page_with_curl: code in [renderskeleton.js](renderskeleton.js))    
+  (:page_with_curl: code in [renderskeleton.ts](renderskeleton.ts))    
 - SVG rendering primitives (:page_with_curl: code in
-  [svgelementfactory.js](svgelementfactory.js))    
+  [svgelementfactory.ts](svgelementfactory.ts))    
   Things like 'draw a box', 'create a path'. We did consider external modules
   for this, but none of the ones available in 2013 suited our needs.
-- text wrapping (:page_with_curl: code in [renderlabels.js](renderlabels.js) and
-  [../text/textutensils.js](../text/textutensils.js))    
+- text wrapping (:page_with_curl: code in [renderlabels.ts](renderlabels.ts) and
+  [../text/textutensils.ts](../text/textutensils.ts))    
   HTML implementations are supposed to take care of text wrapping. SVG
   implementations aren't and hence don't. So if you want to have text wrapping
   in SVG's you'll have to 'roll your own'. There's two parts:
-  - Guess how many characters fit a given width in pixels. renderlabels.js uses
+  - Guess how many characters fit a given width in pixels. renderlabels.ts uses
     heuristics for that, taking into account the font size.
   - The wrapping itself. A candidate for replacement by an external module.
-- Determining height and width of diagram elements (in [svgutensils.js](svgutensils.js))    
+- Determining height and width of diagram elements (in [svgutensils.ts](svgutensils.ts))    
   This is needed to make sure text fits within boxes, rows are of the
   correct height and texts get the right background color. We rely on the
   SVG function getBBox for this.
