@@ -27,14 +27,30 @@ var MscGenAdaptor = /** @class */ (function (_super) {
         _super.prototype.init.call(this, Object.assign({
             supportedOptions: ["hscale", "width", "arcgradient", "wordwraparcs"],
             supportedEntityAttributes: [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                "label",
+                "idurl",
+                "id",
+                "url",
+                "linecolor",
+                "textcolor",
+                "textbgcolor",
+                "arclinecolor",
+                "arctextcolor",
+                "arctextbgcolor",
+                "arcskip",
             ],
             supportedArcAttributes: [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                "label",
+                "idurl",
+                "id",
+                "url",
+                "linecolor",
+                "textcolor",
+                "textbgcolor",
+                "arclinecolor",
+                "arctextcolor",
+                "arctextbgcolor",
+                "arcskip",
             ],
             inline: {
                 opener: ";" + this.eol,
@@ -49,7 +65,7 @@ var MscGenAdaptor = /** @class */ (function (_super) {
         return pKind;
     };
     MscGenAdaptor.prototype.optionIsValid = function (pOption) {
-        if (Boolean(pOption.value) && typeof (pOption.value) === "string") {
+        if (Boolean(pOption.value) && typeof pOption.value === "string") {
             return pOption.value.toLowerCase() !== "auto";
         }
         return true;
@@ -58,6 +74,7 @@ var MscGenAdaptor = /** @class */ (function (_super) {
 }(ast2xu_1.XuAdaptor));
 exports.MscGenAdaptor = MscGenAdaptor;
 exports.render = function (pAST, pMinimal) {
+    if (pMinimal === void 0) { pMinimal = false; }
     var lAdaptor = new MscGenAdaptor(pMinimal);
     return lAdaptor.render(pAST);
 };

@@ -5,14 +5,30 @@ export class MscGenAdaptor extends XuAdaptor {
         super.init(Object.assign({
             supportedOptions: ["hscale", "width", "arcgradient", "wordwraparcs"],
             supportedEntityAttributes: [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                "label",
+                "idurl",
+                "id",
+                "url",
+                "linecolor",
+                "textcolor",
+                "textbgcolor",
+                "arclinecolor",
+                "arctextcolor",
+                "arctextbgcolor",
+                "arcskip",
             ],
             supportedArcAttributes: [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                "label",
+                "idurl",
+                "id",
+                "url",
+                "linecolor",
+                "textcolor",
+                "textbgcolor",
+                "arclinecolor",
+                "arctextcolor",
+                "arctextbgcolor",
+                "arcskip",
             ],
             inline: {
                 opener: `;${this.eol}`,
@@ -27,13 +43,13 @@ export class MscGenAdaptor extends XuAdaptor {
         return pKind;
     }
     optionIsValid(pOption) {
-        if (Boolean(pOption.value) && typeof (pOption.value) === "string") {
+        if (Boolean(pOption.value) && typeof pOption.value === "string") {
             return pOption.value.toLowerCase() !== "auto";
         }
         return true;
     }
 }
-export const render = (pAST, pMinimal) => {
+export const render = (pAST, pMinimal = false) => {
     const lAdaptor = new MscGenAdaptor(pMinimal);
     return lAdaptor.render(pAST);
 };

@@ -15,20 +15,43 @@ function nameValue2Option(pName, pValue) {
 }
 exports.nameValue2Option = nameValue2Option;
 function flattenBoolean(pBoolean) {
-    return (["true", "on", "1"].includes(pBoolean.toLowerCase()));
+    return ["true", "on", "1"].includes(pBoolean.toLowerCase());
 }
 exports.flattenBoolean = flattenBoolean;
 function entityExists(pEntities, pName) {
-    return pName === undefined || pName === "*" || pEntities.some(function (pEntity) { return pEntity.name === pName; });
+    return (pName === undefined ||
+        pName === "*" ||
+        pEntities.some(function (pEntity) { return pEntity.name === pName; }));
 }
 exports.entityExists = entityExists;
 function isMscGenKeyword(pString) {
     return [
-        "box", "abox", "rbox", "note", "msc", "hscale", "width",
-        "arcgradient", "wordwraparcs", "label", "color", "idurl", "id",
-        "url", "linecolor", "linecolour", "textcolor", "textcolour",
-        "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
-        "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour",
+        "box",
+        "abox",
+        "rbox",
+        "note",
+        "msc",
+        "hscale",
+        "width",
+        "arcgradient",
+        "wordwraparcs",
+        "label",
+        "color",
+        "idurl",
+        "id",
+        "url",
+        "linecolor",
+        "linecolour",
+        "textcolor",
+        "textcolour",
+        "textbgcolor",
+        "textbgcolour",
+        "arclinecolor",
+        "arclinecolour",
+        "arctextcolor",
+        "arctextcolour",
+        "arctextbgcolor",
+        "arctextbgcolour",
         "arcskip",
     ].includes(pString);
 }
@@ -73,10 +96,27 @@ function hasExtendedOptions(pOptions) {
     }
 }
 function hasExtendedArcTypes(pArcLines) {
-    return (pArcLines || []).some(function (pArcLine) { return pArcLine.some(function (pArc) { return ["alt", "else", "opt", "break", "par",
-        "seq", "strict", "neg", "critical",
-        "ignore", "consider", "assert",
-        "loop", "ref", "exc"].includes(pArc.kind); }); });
+    return (pArcLines || []).some(function (pArcLine) {
+        return pArcLine.some(function (pArc) {
+            return [
+                "alt",
+                "else",
+                "opt",
+                "break",
+                "par",
+                "seq",
+                "strict",
+                "neg",
+                "critical",
+                "ignore",
+                "consider",
+                "assert",
+                "loop",
+                "ref",
+                "exc",
+            ].includes(pArc.kind);
+        });
+    });
 }
 function getMetaInfo(pOptions, pArcLines) {
     var lHasExtendedOptions = hasExtendedOptions(pOptions);

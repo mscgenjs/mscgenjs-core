@@ -12,18 +12,41 @@ export function nameValue2Option(pName, pValue) {
     return lOption;
 }
 export function flattenBoolean(pBoolean) {
-    return (["true", "on", "1"].includes(pBoolean.toLowerCase()));
+    return ["true", "on", "1"].includes(pBoolean.toLowerCase());
 }
 export function entityExists(pEntities, pName) {
-    return pName === undefined || pName === "*" || pEntities.some((pEntity) => pEntity.name === pName);
+    return (pName === undefined ||
+        pName === "*" ||
+        pEntities.some((pEntity) => pEntity.name === pName));
 }
 export function isMscGenKeyword(pString) {
     return [
-        "box", "abox", "rbox", "note", "msc", "hscale", "width",
-        "arcgradient", "wordwraparcs", "label", "color", "idurl", "id",
-        "url", "linecolor", "linecolour", "textcolor", "textcolour",
-        "textbgcolor", "textbgcolour", "arclinecolor", "arclinecolour",
-        "arctextcolor", "arctextcolour", "arctextbgcolor", "arctextbgcolour",
+        "box",
+        "abox",
+        "rbox",
+        "note",
+        "msc",
+        "hscale",
+        "width",
+        "arcgradient",
+        "wordwraparcs",
+        "label",
+        "color",
+        "idurl",
+        "id",
+        "url",
+        "linecolor",
+        "linecolour",
+        "textcolor",
+        "textcolour",
+        "textbgcolor",
+        "textbgcolour",
+        "arclinecolor",
+        "arclinecolour",
+        "arctextcolor",
+        "arctextcolour",
+        "arctextbgcolor",
+        "arctextbgcolour",
         "arcskip",
     ].includes(pString);
 }
@@ -64,10 +87,23 @@ function hasExtendedOptions(pOptions) {
     }
 }
 function hasExtendedArcTypes(pArcLines) {
-    return (pArcLines || []).some((pArcLine) => pArcLine.some((pArc) => ["alt", "else", "opt", "break", "par",
-        "seq", "strict", "neg", "critical",
-        "ignore", "consider", "assert",
-        "loop", "ref", "exc"].includes(pArc.kind)));
+    return (pArcLines || []).some((pArcLine) => pArcLine.some((pArc) => [
+        "alt",
+        "else",
+        "opt",
+        "break",
+        "par",
+        "seq",
+        "strict",
+        "neg",
+        "critical",
+        "ignore",
+        "consider",
+        "assert",
+        "loop",
+        "ref",
+        "exc",
+    ].includes(pArc.kind)));
 }
 export function getMetaInfo(pOptions, pArcLines) {
     const lHasExtendedOptions = hasExtendedOptions(pOptions);

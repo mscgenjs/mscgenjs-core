@@ -27,22 +27,22 @@ export class FrameFactory {
         }
     }
     /*
-        * initializes the frame generator with an AST and
-        * calculates the number of frames in it.
-        *
-        * @param pAST - abstract syntax tree to calculate
-        * @param pPreCalculate - if true the module will pre-calculate all frames
-        *                 in advance. In all other cases the module will
-        *                 calculate each frame when it is called for (with
-        *                 getFrame/ getCurrentFrame calls). Note that the
-        *                 latter usually is fast enough(tm) even for real
-        *                 time rendering. It will probably save you some
-        *                 cpu cycles when you're going traverse the frames
-        *                 a lot, at the expense of memory usage.
-        *
-        *                 Paramater might get removed somewhere in the near
-        *                 future.
-        */
+     * initializes the frame generator with an AST and
+     * calculates the number of frames in it.
+     *
+     * @param pAST - abstract syntax tree to calculate
+     * @param pPreCalculate - if true the module will pre-calculate all frames
+     *                 in advance. In all other cases the module will
+     *                 calculate each frame when it is called for (with
+     *                 getFrame/ getCurrentFrame calls). Note that the
+     *                 latter usually is fast enough(tm) even for real
+     *                 time rendering. It will probably save you some
+     *                 cpu cycles when you're going traverse the frames
+     *                 a lot, at the expense of memory usage.
+     *
+     *                 Paramater might get removed somewhere in the near
+     *                 future.
+     */
     init(pAST, pPreCalculate) {
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
         this.AST = _cloneDeep(pAST);
@@ -134,7 +134,9 @@ export class FrameFactory {
      * length or is below 0
      */
     getPercentage() {
-        return (this.len > 0) && (this.position > 0) ? 100 * (Math.min(1, this.position / this.len)) : 0;
+        return this.len > 0 && this.position > 0
+            ? 100 * Math.min(1, this.position / this.len)
+            : 0;
     }
     /*
      * returns the number of rows for the current AST
@@ -148,7 +150,7 @@ export class FrameFactory {
         if (this.AST.arcs) {
             while (lFrameCount < pFrameNo) {
                 this.AST.arcs[lRowNo] = [];
-                for (let j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < pFrameNo); j++) {
+                for (let j = 0; j < this.arcs[lRowNo].length && lFrameCount++ < pFrameNo; j++) {
                     this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
                 }
                 lRowNo++;
@@ -182,10 +184,15 @@ export class FrameFactory {
     _calculateLength(pThing) {
         let lRetval = 1; /* separate frame for entities */
         if (pThing.arcs) {
-            lRetval = pThing.arcs.reduce((pSum, pArcRow) => /*
-                * inner itself counts for two arcs (one extra for
-                * drawing the bottom), but for one frame)
-                */ pSum + ((Boolean(pArcRow[0].arcs) ? this._calculateLength(pArcRow[0]) : pArcRow.length)), lRetval);
+            lRetval = pThing.arcs.reduce((pSum, pArcRow
+            /*
+             * inner itself counts for two arcs (one extra for
+             * drawing the bottom), but for one frame)
+             */
+            ) => pSum +
+                (Boolean(pArcRow[0].arcs)
+                    ? this._calculateLength(pArcRow[0])
+                    : pArcRow.length), lRetval);
         }
         return lRetval;
     }
@@ -195,7 +202,10 @@ export class FrameFactory {
     _calcNumberOfRows(pThing) {
         let lRetval = 0;
         if (pThing.arcs) {
-            lRetval = pThing.arcs.reduce((pSum, pArcRow) => pSum + (Boolean(pArcRow[0].arcs) ? this._calcNumberOfRows(pArcRow[0]) + 2 : 1), lRetval);
+            lRetval = pThing.arcs.reduce((pSum, pArcRow) => pSum +
+                (Boolean(pArcRow[0].arcs)
+                    ? this._calcNumberOfRows(pArcRow[0]) + 2
+                    : 1), lRetval);
         }
         return lRetval;
     }

@@ -53,9 +53,10 @@ var XuAdaptor = /** @class */ (function () {
     XuAdaptor.prototype.renderAttribute = function (pAttribute) {
         var lRetVal = "";
         if (pAttribute.name && pAttribute.hasOwnProperty("value")) {
-            lRetVal = typeof pAttribute.value === "string"
-                ? this.renderStringAttribute(pAttribute)
-                : this.renderNonStringAttribute(pAttribute);
+            lRetVal =
+                typeof pAttribute.value === "string"
+                    ? this.renderStringAttribute(pAttribute)
+                    : this.renderNonStringAttribute(pAttribute);
         }
         return lRetVal;
     };
@@ -64,7 +65,7 @@ var XuAdaptor = /** @class */ (function () {
     };
     XuAdaptor.prototype.renderOption = function (pOption) {
         return pOption.name + "=" + (typeof pOption.value === "string"
-            ? "\"" + escape.escapeString(pOption.value) + "\""
+            ? '"' + escape.escapeString(pOption.value) + '"'
             : pOption.value.toString());
     };
     XuAdaptor.prototype.optionIsValid = function (pOption) {
@@ -93,14 +94,30 @@ var XuAdaptor = /** @class */ (function () {
                 "wordwrapboxes",
             ],
             supportedEntityAttributes: [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                "label",
+                "idurl",
+                "id",
+                "url",
+                "linecolor",
+                "textcolor",
+                "textbgcolor",
+                "arclinecolor",
+                "arctextcolor",
+                "arctextbgcolor",
+                "arcskip",
             ],
             supportedArcAttributes: [
-                "label", "idurl", "id", "url",
-                "linecolor", "textcolor", "textbgcolor",
-                "arclinecolor", "arctextcolor", "arctextbgcolor", "arcskip",
+                "label",
+                "idurl",
+                "id",
+                "url",
+                "linecolor",
+                "textcolor",
+                "textbgcolor",
+                "arclinecolor",
+                "arctextcolor",
+                "arctextbgcolor",
+                "arcskip",
                 "title",
                 "activation",
             ],
@@ -145,7 +162,7 @@ var XuAdaptor = /** @class */ (function () {
     XuAdaptor.prototype.isQuotable = function (pString) {
         var lMatchResult = pString.match(/[a-z0-9]+/gi);
         if (!!lMatchResult) {
-            return (lMatchResult.length !== 1) || parserHelpers.isMscGenKeyword(pString);
+            return (lMatchResult.length !== 1 || parserHelpers.isMscGenKeyword(pString));
         }
         else {
             return pString !== "*";
@@ -153,22 +170,22 @@ var XuAdaptor = /** @class */ (function () {
     };
     XuAdaptor.prototype.renderOptions = function (pOptions) {
         var _this = this;
-        var lOptions = this.extractSupportedOptions(pOptions, this.config.supportedOptions)
-            .filter(this.optionIsValid);
+        var lOptions = this.extractSupportedOptions(pOptions, this.config.supportedOptions).filter(this.optionIsValid);
         var lRetVal = "";
         if (lOptions.length > 0) {
             var lLastOption = lOptions.pop();
-            lRetVal = lOptions
-                .reduce(function (pPrevOption, pCurOption) {
-                return pPrevOption + _this.renderOption(pCurOption) + _this.config.option.separator;
+            lRetVal = lOptions.reduce(function (pPrevOption, pCurOption) {
+                return pPrevOption +
+                    _this.renderOption(pCurOption) +
+                    _this.config.option.separator;
             }, this.config.option.opener);
             lRetVal += this.renderOption(lLastOption) + this.config.option.closer;
         }
         return lRetVal;
     };
     XuAdaptor.prototype.renderEntity = function (pEntity) {
-        return this.renderEntityName(pEntity.name) +
-            this.renderAttributes(pEntity, this.config.supportedEntityAttributes);
+        return (this.renderEntityName(pEntity.name) +
+            this.renderAttributes(pEntity, this.config.supportedEntityAttributes));
     };
     XuAdaptor.prototype.renderEntities = function (pEntities) {
         var _this = this;
@@ -176,8 +193,12 @@ var XuAdaptor = /** @class */ (function () {
         if (pEntities.length > 0) {
             lRetVal = pEntities
                 .slice(0, -1)
-                .reduce(function (pPrev, pEntity) { return pPrev + _this.renderEntity(pEntity) + _this.config.entity.separator; }, this.config.entity.opener);
-            lRetVal += this.renderEntity(pEntities[pEntities.length - 1]) + this.config.entity.closer;
+                .reduce(function (pPrev, pEntity) {
+                return pPrev + _this.renderEntity(pEntity) + _this.config.entity.separator;
+            }, this.config.entity.opener);
+            lRetVal +=
+                this.renderEntity(pEntities[pEntities.length - 1]) +
+                    this.config.entity.closer;
         }
         return lRetVal;
     };
@@ -187,13 +208,13 @@ var XuAdaptor = /** @class */ (function () {
         var lAttributes = this.extractSupportedOptions(pArcOrEntity, pSupportedAttributes);
         if (lAttributes.length > 0) {
             var lLastAtribute = lAttributes.pop();
-            lRetVal = lAttributes
-                .reduce(function (pPreviousAttribute, pCurrentAttribute) {
+            lRetVal = lAttributes.reduce(function (pPreviousAttribute, pCurrentAttribute) {
                 return pPreviousAttribute +
                     _this.renderAttribute(pCurrentAttribute) +
                     _this.config.attribute.separator;
             }, this.config.attribute.opener);
-            lRetVal += this.renderAttribute(lLastAtribute) + this.config.attribute.closer;
+            lRetVal +=
+                this.renderAttribute(lLastAtribute) + this.config.attribute.closer;
         }
         return lRetVal;
     };
@@ -224,8 +245,16 @@ var XuAdaptor = /** @class */ (function () {
         if (pArcLine.length > 0) {
             lRetVal = pArcLine
                 .slice(0, -1)
-                .reduce(function (pPrev, pArc) { return pPrev + pIndent + _this.renderArc(pArc, pIndent) + _this.config.arcline.separator; }, this.config.arcline.opener);
-            lRetVal += pIndent + this.renderArc(pArcLine[pArcLine.length - 1], pIndent) + this.config.arcline.closer;
+                .reduce(function (pPrev, pArc) {
+                return pPrev +
+                    pIndent +
+                    _this.renderArc(pArc, pIndent) +
+                    _this.config.arcline.separator;
+            }, this.config.arcline.opener);
+            lRetVal +=
+                pIndent +
+                    this.renderArc(pArcLine[pArcLine.length - 1], pIndent) +
+                    this.config.arcline.closer;
         }
         return lRetVal;
     };
@@ -237,6 +266,7 @@ var XuAdaptor = /** @class */ (function () {
 }());
 exports.XuAdaptor = XuAdaptor;
 exports.render = function (pAST, pMinimal) {
+    if (pMinimal === void 0) { pMinimal = false; }
     var lAdaptor = new XuAdaptor(pMinimal);
     return lAdaptor.render(pAST);
 };

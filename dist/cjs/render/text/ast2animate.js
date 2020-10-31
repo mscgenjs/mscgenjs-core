@@ -32,22 +32,22 @@ var FrameFactory = /** @class */ (function () {
         }
     }
     /*
-        * initializes the frame generator with an AST and
-        * calculates the number of frames in it.
-        *
-        * @param pAST - abstract syntax tree to calculate
-        * @param pPreCalculate - if true the module will pre-calculate all frames
-        *                 in advance. In all other cases the module will
-        *                 calculate each frame when it is called for (with
-        *                 getFrame/ getCurrentFrame calls). Note that the
-        *                 latter usually is fast enough(tm) even for real
-        *                 time rendering. It will probably save you some
-        *                 cpu cycles when you're going traverse the frames
-        *                 a lot, at the expense of memory usage.
-        *
-        *                 Paramater might get removed somewhere in the near
-        *                 future.
-        */
+     * initializes the frame generator with an AST and
+     * calculates the number of frames in it.
+     *
+     * @param pAST - abstract syntax tree to calculate
+     * @param pPreCalculate - if true the module will pre-calculate all frames
+     *                 in advance. In all other cases the module will
+     *                 calculate each frame when it is called for (with
+     *                 getFrame/ getCurrentFrame calls). Note that the
+     *                 latter usually is fast enough(tm) even for real
+     *                 time rendering. It will probably save you some
+     *                 cpu cycles when you're going traverse the frames
+     *                 a lot, at the expense of memory usage.
+     *
+     *                 Paramater might get removed somewhere in the near
+     *                 future.
+     */
     FrameFactory.prototype.init = function (pAST, pPreCalculate) {
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
         this.AST = lodash_clonedeep_1["default"](pAST);
@@ -141,7 +141,9 @@ var FrameFactory = /** @class */ (function () {
      * length or is below 0
      */
     FrameFactory.prototype.getPercentage = function () {
-        return (this.len > 0) && (this.position > 0) ? 100 * (Math.min(1, this.position / this.len)) : 0;
+        return this.len > 0 && this.position > 0
+            ? 100 * Math.min(1, this.position / this.len)
+            : 0;
     };
     /*
      * returns the number of rows for the current AST
@@ -155,7 +157,7 @@ var FrameFactory = /** @class */ (function () {
         if (this.AST.arcs) {
             while (lFrameCount < pFrameNo) {
                 this.AST.arcs[lRowNo] = [];
-                for (var j = 0; (j < this.arcs[lRowNo].length) && (lFrameCount++ < pFrameNo); j++) {
+                for (var j = 0; j < this.arcs[lRowNo].length && lFrameCount++ < pFrameNo; j++) {
                     this.AST.arcs[lRowNo].push(this.arcs[lRowNo][j]);
                 }
                 lRowNo++;
@@ -190,8 +192,16 @@ var FrameFactory = /** @class */ (function () {
         var _this = this;
         var lRetval = 1; /* separate frame for entities */
         if (pThing.arcs) {
-            lRetval = pThing.arcs.reduce(function (pSum, pArcRow) {
-                return pSum + ((Boolean(pArcRow[0].arcs) ? _this._calculateLength(pArcRow[0]) : pArcRow.length));
+            lRetval = pThing.arcs.reduce(function (pSum, pArcRow
+            /*
+             * inner itself counts for two arcs (one extra for
+             * drawing the bottom), but for one frame)
+             */
+            ) {
+                return pSum +
+                    (Boolean(pArcRow[0].arcs)
+                        ? _this._calculateLength(pArcRow[0])
+                        : pArcRow.length);
             }, lRetval);
         }
         return lRetval;
@@ -203,7 +213,12 @@ var FrameFactory = /** @class */ (function () {
         var _this = this;
         var lRetval = 0;
         if (pThing.arcs) {
-            lRetval = pThing.arcs.reduce(function (pSum, pArcRow) { return pSum + (Boolean(pArcRow[0].arcs) ? _this._calcNumberOfRows(pArcRow[0]) + 2 : 1); }, lRetval);
+            lRetval = pThing.arcs.reduce(function (pSum, pArcRow) {
+                return pSum +
+                    (Boolean(pArcRow[0].arcs)
+                        ? _this._calcNumberOfRows(pArcRow[0]) + 2
+                        : 1);
+            }, lRetval);
         }
         return lRetval;
     };
