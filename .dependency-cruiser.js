@@ -1,3 +1,4 @@
+/** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
   extends: "dependency-cruiser/configs/recommended-strict",
   forbidden: [
@@ -109,6 +110,7 @@ module.exports = {
     // "doNotFollow": "node_modules",
     tsPreCompilationDeps: "specify",
     prefix: "https://github.com/mscgenjs/mscgenjs-core/blob/master/",
+    progress: { type: "cli-feedback" },
     reporterOptions: {
       dot: {
         collapsePattern: "^node_modules/[^/]+",
