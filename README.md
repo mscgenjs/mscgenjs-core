@@ -1,42 +1,49 @@
 # mscgen_js - core package
+
 Implementation of [MscGen][mscgen] and two derived languages in JavaScript.
 
 > This is the JavaScript _library_ that takes care of parsing and
 > rendering MscGen into sequence diagrams. You might be looking for one
 > of these in stead:
+>
 > - [**online interpreter** - mscgen_js][mscgenjs.interpreter]
 > - [**atom package** - mscgen-preview][mscgen-preview]
 > - [**command line interface** - mscgenjs-cli][mscgenjs.cli]
 > - [how to **embed MscGen in html**][mscgenjs.embed].
 
 ## Features
+
 - Parses and renders [MscGen][mscgen]
   - Accepts all valid [MscGen][mscgen] programs and render them correctly to
     sequence diagrams.
   - All valid MscGen programs accepted by mscgen_js are also accepted and
     rendered correctly by the original `mscgen` command.
   - If you find proof to the contrary: [tell us][mscgenjs.issues.compliance].
-- Parses and renders [Xù][mscgenjs.doc.xu]    
+- Parses and renders [Xù][mscgenjs.doc.xu]  
   Xù is a strict superset of MscGen. It adds things like `alt` and
   `loop`.
-- Parses and renders [MsGenny][mscgenjs.doc.msgenny]    
+- Parses and renders [MsGenny][mscgenjs.doc.msgenny]  
   Same as Xù, but with a simpler syntax.
 - Translates between these three languages
 - Spits out svg, GraphViz dot, doxygen and JSON.
 - runs in all modern browsers (and in _Node.js_).
 
 ## I'm still here. How can I use this?
+
 ### Prerequisites
-mscgen_js works in anything with an implementation of the document object model
+
+mscgen*js works in anything with an implementation of the document object model
 (DOM). This includes web-browsers, client-side application shells like electron
-and even headless browsers like chrome headless and phantomjs. It does _not_
+and even headless browsers like chrome headless and phantomjs. It does \_not*
 include nodejs (although it is possible to get it sorta to work even there with
 [jsdom](https://github.com/tmpvar/jsdom) or with a headless browser).
 
 ### Get it
+
 `npm install mscgenjs`
 
 ### Import it
+
 You'll have to import the mscgenjs module somehow. There's a commonjs, an es2015
 and a requirejs variant, all distributed in the `mscgenjs`
 [npm module](https://www.npmjs.com/package/mscgenjs)
@@ -44,26 +51,26 @@ and a requirejs variant, all distributed in the `mscgenjs`
 
 ```javascript
 // commonjs
-const mscgenjs = require('mscgenjs');
+const mscgenjs = require("mscgenjs");
 ```
 
 ```javascript
 // commonjs, but with lazy loading. Useful when you're using it in
 // e.g. an electron shell without a minifier.
-const mscgenjs = require('mscgenjs/dist/cjs/index-lazy');
+const mscgenjs = require("mscgenjs/dist/cjs/index-lazy");
 ```
 
 ```javascript
 // requirejs - assuming the module is in your root and you're loading from
 //             node_modules.
-define(['./node_modules/mscgenjs/dist/bundle/index.min'], function(mscgenjs){
-    // your code here
+define(["./node_modules/mscgenjs/dist/bundle/index.min"], function (mscgenjs) {
+  // your code here
 });
 
 // ... or using the alternative notation
-define(function(require){
-    var mscgenjs = require("./node_modules/mscgenjs/dist/bundle/index.min");
-    // your code here
+define(function (require) {
+  var mscgenjs = require("./node_modules/mscgenjs/dist/bundle/index.min");
+  // your code here
 });
 ```
 
@@ -71,9 +78,8 @@ define(function(require){
 // es2015 modules
 // if you're using webpack or rollup, it'll default to the es2015
 // modules distributed in dist/es2015
-import {renderMsc} from 'mscgenjs';
+import { renderMsc } from "mscgenjs";
 ```
-
 
 > Previously, as a workaround for webpack
 > issue [webpack/webpack#5316](https://github.com/webpack/webpack/issues/5316)
@@ -83,10 +89,10 @@ import {renderMsc} from 'mscgenjs';
 
 ### Use it
 
-- **use the root module directly** => recommended    
-  e.g.  atom-mscgen-preview takes that approach. See the samples below
+- **use the root module directly** => recommended  
+  e.g. atom-mscgen-preview takes that approach. See the samples below
 - **individually do calls to the parse and render steps** => do this when you have
-  special needs.    
+  special needs.  
   This is the approach the mscgen_js and mscgenjs-inpage script take. The main
   reason these aren't using the root module directly is that it did not exist
   at the time they were written (JUN 2013 and APR 2014 respectively).
@@ -95,6 +101,7 @@ import {renderMsc} from 'mscgenjs';
   [where it happens in mscgenjs-inpage](https://github.com/mscgenjs/mscgenjs-inpage/blob/master/src/mscgen-inpage.js#L116).
 
 Here's some some samples for using the root module directly:
+
 ```Javascript
 // renders the given script in the (already existing) element with id=yourCoolId
 mscgenjs.renderMsc (
@@ -106,29 +113,31 @@ mscgenjs.renderMsc (
 ```
 
 If you want to do error handling, or act on the created svg: provide a callback:
+
 ```javascript
-mscgenjs.renderMsc (
+mscgenjs.renderMsc(
   'msc { a,b; a=>>b[label="render this"; }',
   {
-    elementId: "yourOtherCoolId"
+    elementId: "yourOtherCoolId",
   },
   handleRenderMscResult
 );
 
 function handleRenderMscResult(pError, pSuccess) {
-  if (Boolean(pError)){
-    console.log (pError);
+  if (Boolean(pError)) {
+    console.log(pError);
     return;
-  } else if (Boolean(pSuccess)){
-    console.log ('That worked - cool!');
+  } else if (Boolean(pSuccess)) {
+    console.log("That worked - cool!");
     return;
-   // the svg is in the pSuccess argument
+    // the svg is in the pSuccess argument
   }
-  console.log('Wat! Error nor success?');
+  console.log("Wat! Error nor success?");
 }
 ```
 
 The second parameter in the `renderMsc` call takes some options that influence rendering e.g.
+
 ```javascript
 mscgenjs.renderMsc (
   'a=>>b:render this;',
@@ -145,6 +154,7 @@ In [doc/samples](doc/samples) you'll find a simple dynamic integration using
 webpack and one using requirejs.
 
 ### Transpiling
+
 You can use the second function of the root module for transpiling to and from
 msgenny, mscgen, xù and json and for exporting to dot and doxygen. This function
 does _not_ depend on the DOM so you can use it not only in browsers &
@@ -153,12 +163,12 @@ browser-likes, but also hack-free in node.
 ```javascript
 try {
   let lResult = mscgenjs.translateMsc(
-        'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
-        {
-            inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
-            outputType: "mscgen" // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen, ast
-        }
-      );
+    'wordwraparcs=on; you =>> me: can we translate this to Mscgen please?; me >> you: "yes, you can - use translateMsc";',
+    {
+      inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
+      outputType: "mscgen", // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen, ast
+    }
+  );
   console.log(lResult);
 } catch (pError) {
   console.error(pError);
@@ -195,20 +205,26 @@ Software that uses `mscgenjs`:
 - the [command line interface][mscgenjs.cli.source] (Node.js, chrome headless)
 
 ## Hacking on mscgenjs itself
+
 ### Building mscgenjs
+
 See [build.md][mscgenjs.docbuild].
 
 ### How does mscgenjs work?
+
 You can start reading about that [over here](doc/readme.md)
 
 ## License
+
 This software is free software [licensed under GPLv3][mscgenjs.license].
 This means (a.o.) you _can_ use it as part of other free software, but
 _not_ as part of non free software.
 
 ### Dependencies and their licenses
+
 We built mscgen_js on various libraries, each of which have their own
 license:
+
 - We generated its parsers with [pegjs][pegjs.license].
 - mscgen_js automated tests use [jest](https://facebook.github.io/jest),
   [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
@@ -216,9 +232,10 @@ license:
 
 It uses [tslint][22] and [dependency-cruiser][23] to maintain some
 modicum of verifiable code quality. You can see the build history in
-[Travis][travis.mscgenjs].
+[GitHub actions][gh.actions].
 
 ## Thanks
+
 - [Mike McTernan][mscgen.author] for creating the wonderful
   MscGen language, the accompanying c implementation and for releasing both
   to the public domain (the last one under a [GPLv2][mscgen.license] license
@@ -230,7 +247,8 @@ modicum of verifiable code quality. You can see the build history in
   to outlandish hacks.
 
 ## Build status
-[![Build Status][travis.mscgenjs.badge]][travis.mscgenjs]
+
+[![linting & test coverage](https://github.com/mscgenjs/mscgenjs-core/workflows/linting%20&%20test%20coverage%20-%20linux/badge.svg)][gh.actions]
 [![coverage report](https://gitlab.com/sverweij/mscgenjs-core/badges/master/coverage.svg)](https://gitlab.com/sverweij/mscgenjs-core/commits/master)
 [![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
 [![devDependencies Status](https://david-dm.org/mscgenjs/mscgenjs-core/dev-status.svg)](https://david-dm.org/mscgenjs/mscgenjs-core?type=dev)
@@ -245,6 +263,7 @@ modicum of verifiable code quality. You can see the build history in
 [jsdom.author]: http://tmpvar.com/
 [jsdom.license]: doc/licenses/license.jsdom.md
 [license.gpl-3.0]: http://www.gnu.org/licenses/gpl.html
+[gh.actions]: https://github.com/mscgenjs/mscgenjs-core/actions?query=workflow%3A%22linting+%26+test+coverage+-+linux%22
 [mscgen]: http://www.mcternan.me.uk/mscgen
 [mscgen.author]: http://www.mcternan.me.uk/mscgen
 [mscgen.license]: http://code.google.com/p/mscgen/source/browse/trunk/COPYING
@@ -274,8 +293,6 @@ modicum of verifiable code quality. You can see the build history in
 [pegjs.license]: doc/licenses/license.pegjs.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: doc/licenses/license.requirejs.md
-[travis.mscgenjs]: https://travis-ci.org/mscgenjs/mscgenjs-core
-[travis.mscgenjs.badge]: https://travis-ci.org/mscgenjs/mscgenjs-core.svg?branch=master
 [22]: https://palantir.github.io/tslint/
 [23]: https://github.com/sverweij/dependency-cruiser
 [39]: https://github.com/chaijs/chai

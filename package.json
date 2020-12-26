@@ -102,7 +102,6 @@
     "version": "npm-run-all build depcruise:graph scm:stage",
     "test": "jest --onlyChanged --collectCoverage false",
     "test:all": "jest --collectCoverage false",
-    "test:all:ci": "jest --collectCoverage false --runInBand # runInBand (=sequentially) so node 6 on travis doesn't hang",
     "test:cover": "jest",
     "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",
     "upem:update": "npm outdated --json | upem",
