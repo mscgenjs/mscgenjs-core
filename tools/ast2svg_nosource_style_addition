@@ -7,12 +7,12 @@
  * the SVG _without_ embedding the original source in it.
  *
  * ```sh
- *      ./utl/ast2svg_nosource < funkysyntaxtree.json > vectorgraphicswitoutsource.svg
+ *      ./tools/ast2svg_nosource < funkysyntaxtree.json > vectorgraphicswitoutsource.svg
  * ```
  *
  * or in combination with the command line interface:
  * ```sh
- *      node mscgen.js -p -i hello.mscin -o - | ./utl/ast2svg_nosource > hello_without_source.svg
+ *      node mscgen.js -p -i hello.mscin -o - | ./tools/ast2svg_nosource > hello_without_source.svg
  *  ```
  */
 
@@ -26,15 +26,17 @@ let gInput = "";
 process.stdin.resume();
 process.stdin.setEncoding("utf8");
 
-process.stdin.on("data", function(pChunk) {
-    gInput += pChunk;
+process.stdin.on("data", function (pChunk) {
+  gInput += pChunk;
 });
 
-process.stdin.on("end", function() {
-    const lAST = JSON.parse(gInput);
-    renderast.renderASTNew(lAST, window, "__svg", {styleAdditions: ".an-added-class {}"});
-    process.stdout.write(window.document.body.innerHTML);
-    process.stdin.pause();
+process.stdin.on("end", function () {
+  const lAST = JSON.parse(gInput);
+  renderast.renderASTNew(lAST, window, "__svg", {
+    styleAdditions: ".an-added-class {}",
+  });
+  process.stdout.write(window.document.body.innerHTML);
+  process.stdin.pause();
 });
 /*
  This file is part of mscgen_js.

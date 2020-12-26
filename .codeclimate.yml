@@ -15,7 +15,7 @@ exclude_patterns:
   - "doc/"
   - "test/"
   - "types/"
-  - "utl/"
+  - "tools/"
   - "**/node_modules/"
   - "**/*.d.ts"
   - "src/parse/*parser.js"
