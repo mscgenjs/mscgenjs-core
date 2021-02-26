@@ -39,11 +39,6 @@
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M532,-462C532,-462 706.5,-462 706.5,-462 712.5,-462 718.5,-468 718.5,-474 718.5,-474 718.5,-622 718.5,-622 718.5,-628 712.5,-634 706.5,-634 706.5,-634 532,-634 532,-634 526,-634 520,-628 520,-622 520,-622 520,-474 520,-474 520,-468 526,-462 532,-462"/>
 <text text-anchor="middle" x="619.25" y="-622.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">astmassage</text>
 </g>
-<g id="clust10" class="cluster">
-<title>cluster_src/render/text</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M421,-642C421,-642 685.5,-642 685.5,-642 691.5,-642 697.5,-648 697.5,-654 697.5,-654 697.5,-742 697.5,-742 697.5,-748 691.5,-754 685.5,-754 685.5,-754 421,-754 421,-754 415,-754 409,-748 409,-742 409,-742 409,-654 409,-654 409,-648 415,-642 421,-642"/>
-<text text-anchor="middle" x="553.25" y="-742.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">text</text>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_src/render/graphics</title>
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M215.5,-182C215.5,-182 1218.5,-182 1218.5,-182 1224.5,-182 1230.5,-188 1230.5,-194 1230.5,-194 1230.5,-422 1230.5,-422 1230.5,-428 1224.5,-434 1218.5,-434 1218.5,-434 215.5,-434 215.5,-434 209.5,-434 203.5,-428 203.5,-422 203.5,-422 203.5,-194 203.5,-194 203.5,-188 209.5,-182 215.5,-182"/>
@@ -54,15 +49,20 @@
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M639.5,-216C639.5,-216 1210.5,-216 1210.5,-216 1216.5,-216 1222.5,-222 1222.5,-228 1222.5,-228 1222.5,-396 1222.5,-396 1222.5,-402 1216.5,-408 1210.5,-408 1210.5,-408 639.5,-408 639.5,-408 633.5,-408 627.5,-402 627.5,-396 627.5,-396 627.5,-228 627.5,-228 627.5,-222 633.5,-216 639.5,-216"/>
 <text text-anchor="middle" x="925" y="-396.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">svgelementfactory</text>
 </g>
+<g id="clust8" class="cluster">
+<title>cluster_src/render/graphics/svgelementfactory/straight</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M944.5,-248C944.5,-248 990.5,-248 990.5,-248 996.5,-248 1002.5,-254 1002.5,-260 1002.5,-260 1002.5,-288 1002.5,-288 1002.5,-294 996.5,-300 990.5,-300 990.5,-300 944.5,-300 944.5,-300 938.5,-300 932.5,-294 932.5,-288 932.5,-288 932.5,-260 932.5,-260 932.5,-254 938.5,-248 944.5,-248"/>
+<text text-anchor="middle" x="967.5" y="-288.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">straight</text>
+</g>
 <g id="clust9" class="cluster">
 <title>cluster_src/render/graphics/svgelementfactory/wobbly</title>
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M745.5,-311C745.5,-311 991.5,-311 991.5,-311 997.5,-311 1003.5,-317 1003.5,-323 1003.5,-323 1003.5,-365 1003.5,-365 1003.5,-371 997.5,-377 991.5,-377 991.5,-377 745.5,-377 745.5,-377 739.5,-377 733.5,-371 733.5,-365 733.5,-365 733.5,-323 733.5,-323 733.5,-317 739.5,-311 745.5,-311"/>
 <text text-anchor="middle" x="868.5" y="-365.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">wobbly</text>
 </g>
-<g id="clust8" class="cluster">
-<title>cluster_src/render/graphics/svgelementfactory/straight</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M944.5,-248C944.5,-248 990.5,-248 990.5,-248 996.5,-248 1002.5,-254 1002.5,-260 1002.5,-260 1002.5,-288 1002.5,-288 1002.5,-294 996.5,-300 990.5,-300 990.5,-300 944.5,-300 944.5,-300 938.5,-300 932.5,-294 932.5,-288 932.5,-288 932.5,-260 932.5,-260 932.5,-254 938.5,-248 944.5,-248"/>
-<text text-anchor="middle" x="967.5" y="-288.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">straight</text>
+<g id="clust10" class="cluster">
+<title>cluster_src/render/text</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M421,-642C421,-642 685.5,-642 685.5,-642 691.5,-642 697.5,-648 697.5,-654 697.5,-654 697.5,-742 697.5,-742 697.5,-748 691.5,-754 685.5,-754 685.5,-754 421,-754 421,-754 415,-754 409,-748 409,-742 409,-742 409,-654 409,-654 409,-648 415,-642 421,-642"/>
+<text text-anchor="middle" x="553.25" y="-742.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">text</text>
 </g>
 <!-- src/index&#45;lazy.ts -->
 <g id="node1" class="node">
