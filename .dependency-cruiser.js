@@ -115,6 +115,9 @@ module.exports = {
       dot: {
         collapsePattern: "^node_modules/[^/]+",
         theme: {
+          graph: {
+            splines: "ortho",
+          },
           modules: [
             {
               criteria: { source: "^src/main" },
