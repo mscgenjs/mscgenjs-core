@@ -1,19 +1,21 @@
 # MsGenny
+
 _**Low effort labeling. Auto declarations**_
 
 mscgen already is a simple, concise, well readable language. Write-ability
 leaves room for improvement, though.
-The *MsGenny* language is our attempt to fill that room. It does away with some of
+The _MsGenny_ language is our attempt to fill that room. It does away with some of
 MscGen's more fancy features in favor of low effort labeling
-and automatic entity declarations. This enables you to set up a sequence chart *very*
+and automatic entity declarations. This enables you to set up a sequence chart _very_
 fast. See below for a complete comparison chart.
 
 To have our cake and eat it too we made the mscgen_js [online interpreter][4] translate between
 the two with the flick of a switch. The interpreter also contains a complete [tutorial][5]
-on *MsGenny*.
+on _MsGenny_.
 
 ## Example
-``` msgenny
+
+```msgenny
 a -> b : ab();
 a => c : automatically declares entities used in arcs;
 c =>> c : process(1);
@@ -32,7 +34,8 @@ this renders as
 ([open this chart in the online interpreter](https://sverweij.github.io/mscgen_js/index.html?utm_source=wikum.genny&lang=msgenny&msc=a%20-%3E%20b%20%3A%20ab%28%29%3B%0Aa%20%3D%3E%20c%20%3A%20automatically%20declares%20entities%20used%20in%20arcs%3B%0Ac%20%3D%3E%3E%20c%20%3A%20process%281%29%3B%0Ab%20%3C%3C%3D%20c%20%3A%20Has%20all%20mscgen%20arc%20types...%20%3B%0Ab%20note%20b%3A%20...notes%20%2B%20boxes%20...%3B%0A|||%3B%0A---%20%3A%20Labels%20usually%20don%27t%20need%20enclosing%20quotes%3B%0A---%20%3A%20%22except%20when%20they%20contain%20%2C%20or%20%3B%22%3B%0A...%3B))
 
 The equivalent mscgen program would have looked like this:
-``` mscgen
+
+```mscgen
 msc {
   a, b, c;
 
@@ -47,21 +50,25 @@ msc {
   ...;
 }
 ```
+
 ([open in the mscgen_js online interpreter](https://sverweij.github.io/mscgen_js/index.html?utm_source=wikum.genny&lang=mscgen&msc=msc%20{%0A%20%20a%2C%20b%2C%20c%3B%0A%0A%20%20a%20-%3E%20b%20[label%3D%22ab%28%29%22]%3B%0A%20%20a%20%3D%3E%20c%20[label%3D%22automatically%20declares%20entities%20used%20in%20arcs%22]%3B%0A%20%20c%20%3D%3E%3E%20c%20[label%3D%22process%281%29%22]%3B%0A%20%20b%20%3C%3C%3D%20c%20[label%3D%22Has%20all%20mscgen%20arc%20types...%20%22]%3B%0A%20%20b%20note%20b%20[label%3D%22...notes%20%2B%20boxes%20...%22]%3B%0A%20%20|||%3B%0A%20%20---%20[label%3D%22Labels%20usually%20don%27t%20need%20enclosing%20quotes%22]%3B%0A%20%20---%20[label%3D%22except%20when%20they%20contain%20%2C%20or%20%3B%22]%3B%0A%20%20...%3B%0A}))
 
 ## Usage scenarios
-We often find ourselves starting a sequence chart in *MsGenny*, and, when
-we're done, converting it to *MscGen* (one click in the on line interpreter). After
+
+We often find ourselves starting a sequence chart in _MsGenny_, and, when
+we're done, converting it to _MscGen_ (one click in the on line interpreter). After
 that we either finish it with coloring or directly save the source to
 the documentation.
 
-When in a hurry we directly use the rendered output from *MsGenny*.
+When in a hurry we directly use the rendered output from _MsGenny_.
 
-## A note on quotes ##
-Just like in *MscGen*, in *MsGenny* labels need to be surrounded by quotes.
-To simplify entry, however, in most cases *MsGenny* allows you to
+## A note on quotes
+
+Just like in _MscGen_, in _MsGenny_ labels need to be surrounded by quotes.
+To simplify entry, however, in most cases _MsGenny_ allows you to
 skip the quotes. It only needs quotes when a label contains a comma or a
 semicolon:
+
 ```msgenny
     a => b : "hello b";  # works
     a => b :  hello b;   # works
@@ -71,13 +78,16 @@ semicolon:
     a => b :  hello, b;  # doesn't work; confuses the parser to think the arc stops after hello
 ```
 
-## Formal syntax ##
+## Formal syntax
+
 The formal syntax is described in a [parsing expression grammar][1]. This grammar
 is used to generate the MsGenny parser as well.
 
 ## Feature comparison
-As mentioned above the [online interpreter][4] converts between *MscGen* and *MsGenny*,
+
+As mentioned above the [online interpreter][4] converts between _MscGen_ and _MsGenny_,
 but the [command line interface][2] also does:
+
 ```sh
 # Translate MsGenny => MscGen
 mscgen_js -T mscgen -i yourchart.msgenny -o yourchart.mscgen
@@ -180,7 +190,7 @@ mscgen_js -T msgenny -i yourchart.mscgen -o yourchart.msgenny
     </tr>
 </table>
 
-[1]: ../src/script/parse/peg/msgennyparser.pegjs
+[1]: ../src/script/parse/peg/msgennyparser.peggy
 [2]: ../src/script/cli/README.md
 [4]: https://sverweij.github.io/mscgen_js/?utm_source=wikum.genny
 [5]: https://sverweij.github.io/mscgen_js/tutorial.html?utm_source=wikum.genny
