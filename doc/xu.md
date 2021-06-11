@@ -1,7 +1,9 @@
 # Xù - an MscGen super set
+
 _**It is MscGen, but not as we know it**_
 
 ## Inline expressions
+
 [SDL][2] has a feature called _inline expressions_. They allow you to group a bunch of
 arcs and label them somehow. To define a loop, for instance. Or a conditional statement.
 
@@ -17,6 +19,7 @@ Nonetheless inline expressions are damn handy. Hence Xù - a superset
 of MscGen that includes them.
 
 ## An example
+
 This is an example of a Xù script describing an interaction that loops over
 a list of changes and sorts the old ones to a deletion queue, and the
 rest to a birth queue:
@@ -57,22 +60,25 @@ Rendered (e.g. with the [online interpreter](https://sverweij.github.io/mscgen_j
 ## Syntax
 
 ### Inline expression syntax
+
 As you can see, the syntax of the inline expressions is very similar to that
 of regular arcs, the only difference being that inline expressions have a
 section of arcs, enclosed by curly brackets.
 
-```pegjs
+```peggy
 spanarc         =
  _ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist _ "}" _ ";"
 ```
 
 To compare, this is how a regular arc looks:
-```pegjs
+
+```peggy
 regulararc      =
 _ from:identifier _ kind:arctoken      _ to:identifier _                       ("[" attributelist "]")? _ ";"
 ```
 
 Some more examples
+
 ```xu
 break {
    a => b [label="Can you do this?"];
@@ -81,6 +87,7 @@ break {
 ```
 
 Arguments go into the label as free text.
+
 ```xu
 loop [label="for each grain of sand on the beach"] {
   a => beach [label="get grain"];
@@ -103,6 +110,7 @@ msc {
 ```
 
 To separate sections to execute in parallel you can use a comment line, like so:
+
 ```xu
 par {
   a => b;
@@ -117,9 +125,11 @@ If you're interested in the complete grammar: the parsing expression grammar we
 use to generate the parser is [included in the source][4].
 
 ### start token
+
 MscGen uses `msc` as a start token. As Xù was designed as an extension
 to MscGen the same goes for Xù. If you want to be expressly clear your
 script is a Xù script you can also use that:
+
 ```xu
 xu {
   arcgradient=20;
@@ -138,9 +148,11 @@ xu {
 ```
 
 ### watermark
-Just like msgenny, Xù supports a "watermark" _option_: ```watermark="xù rocks!"```; that puts a watermark diagonally on the rendered chart.
+
+Just like msgenny, Xù supports a "watermark" _option_: `watermark="xù rocks!"`; that puts a watermark diagonally on the rendered chart.
 
 ### autowrapping options
+
 MscGen has an option to automatically wrap text on regular arcs
 (`wordwraparcs`), which is off by default. Text in any box
 (`note`, `box`, `rbox` and `abox`) or entity always automatically wraps
@@ -203,6 +215,7 @@ xu {
 ```
 
 ## MsGenny
+
 [MsGenny](./msgenny.md) also has support for inline expressions, the if-then-else construct above
 would look something like this:
 
@@ -219,13 +232,15 @@ john alt bike: weather is nice {
 ```
 
 ## translating back to MscGen
+
 - The [command line interface][5] handles by translating inline expressions to horizontal lines ("---")
+
 ```sh
 # translate Xù back to MscGen
 mscgen_js --output-type mscgen --input-from funkyInlineThings.xu --output-to funkyFlattenedInlineThings.mscgen
 ```
-- The on line interpreter, in debug mode, has an _Export this chart to Vanilla MscGen_ option behind the `...` button. - e.g. for the [Johnny, bike, shed example](https://sverweij.github.io/mscgen_js//index.html?lang=xu&debug=true&msc=msc%20{%0A%20%20john%2C%0A%20%20shed%2C%0A%20%20bike%3B%0A%0A%20%20john%20alt%20bike%20[label%3D%22weather%20is%20nice%22]%20{%0A%20%20%20%20john%20%3D%3E%3E%20shed%20[label%3D%22get%28bike%29%22]%3B%0A%20%20%20%20shed%20%3E%3E%20john%20[label%3D%22bike%22]%3B%0A%20%20%20%20john%20%3D%3E%3E%20bike%20[label%3D%22use%22]%3B%0A%20%20%20%20---%20[label%3D%22else%22]%3B%0A%20%20%20%20|||%20[label%3D%22john%20stays%20at%20home%22]%3B%0A%20%20}%3B%0A})
 
+- The on line interpreter, in debug mode, has an _Export this chart to Vanilla MscGen_ option behind the `...` button. - e.g. for the [Johnny, bike, shed example](https://sverweij.github.io/mscgen_js//index.html?lang=xu&debug=true&msc=msc%20{%0A%20%20john%2C%0A%20%20shed%2C%0A%20%20bike%3B%0A%0A%20%20john%20alt%20bike%20[label%3D%22weather%20is%20nice%22]%20{%0A%20%20%20%20john%20%3D%3E%3E%20shed%20[label%3D%22get%28bike%29%22]%3B%0A%20%20%20%20shed%20%3E%3E%20john%20[label%3D%22bike%22]%3B%0A%20%20%20%20john%20%3D%3E%3E%20bike%20[label%3D%22use%22]%3B%0A%20%20%20%20---%20[label%3D%22else%22]%3B%0A%20%20%20%20|||%20[label%3D%22john%20stays%20at%20home%22]%3B%0A%20%20}%3B%0A})
 
 To start the interpreter in debug mode, pass `debug=true` to the url:
 [https://sverweij.github.io/mscgen_js/index.html?debug=true](https://sverweij.github.io/mscgen_js/index.html?debug=true)
@@ -312,9 +327,8 @@ To start the interpreter in debug mode, pass `debug=true` to the url:
     </tr>
 </table>
 
-
 [1]: http://my.safaribooksonline.com/book/software-engineering-and-development/uml/0321193687/sequence-diagrams/ch04lev1sec4
 [2]: http://www.sdl-rt.org/standard/V2.3/html/index.htm
 [3]: http://www.omg.org/spec/UML/2.4.1/Superstructure/PDF/
-[4]: ../src/script/parse/peg/xuparser.pegjs
+[4]: ../src/script/parse/peg/xuparser.peggy
 [5]: ../src/script/cli/README.md

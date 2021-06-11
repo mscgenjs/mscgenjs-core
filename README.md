@@ -225,7 +225,7 @@ _not_ as part of non free software.
 We built mscgen_js on various libraries, each of which have their own
 license:
 
-- We generated its parsers with [pegjs][pegjs.license].
+- We generated its parsers with [peggy][peggy.license].
 - mscgen_js automated tests use [jest](https://facebook.github.io/jest),
   [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
   [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
@@ -240,8 +240,8 @@ modicum of verifiable code quality. You can see the build history in
   MscGen language, the accompanying c implementation and for releasing both
   to the public domain (the last one under a [GPLv2][mscgen.license] license
   to be precise).
-- [David Majda][pegjs.author] for cooking and maintaining the fantastic
-  and lightning fast [PEG.js][pegjs] parser generator.
+- [David Majda][peggy.author] for cooking the fantastic and lightning fast
+  [peggy][peggy] parser generator.
 - [Elijah Insua][jsdom.author] for [jsdom][jsdom], which allows us to
   test rendering vector graphics in Node.js without having to resort
   to outlandish hacks.
@@ -288,9 +288,9 @@ modicum of verifiable code quality. You can see the build history in
 [mscgenjs.license]: LICENSE.md
 [mscgenjs.doc.msgenny]: doc/msgenny.md
 [mscgenjs.doc.xu]: doc/xu.md
-[pegjs]: http://pegjs.org
-[pegjs.author]: http://majda.cz/about
-[pegjs.license]: doc/licenses/license.pegjs.md
+[peggy]: https://peggyjs.org
+[peggy.author]: http://majda.cz/about
+[peggy.license]: doc/licenses/license.peggy.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: doc/licenses/license.requirejs.md
 [22]: https://palantir.github.io/tslint/

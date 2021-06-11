@@ -1,25 +1,30 @@
 # Parsing
-The parsers for `mscgen`, `msgenny` and `xù` are written in
-pegjs and deliver the abstract syntax tree as a javascript
-object. In this section we describe
-* [how to generate the parsers from pegjs](#generating-the-parsers)
-* [the structure of and principles behind the abstract syntax trees](#the-abstract-syntax-tree)
 
+The parsers for `mscgen`, `msgenny` and `xù` are written in
+peggy and deliver the abstract syntax tree as a javascript
+object. In this section we describe
+
+- [how to generate the parsers from peggy](#generating-the-parsers)
+- [the structure of and principles behind the abstract syntax trees](#the-abstract-syntax-tree)
 
 ## Generating the parsers
-To create javascript from the .pegjs source usable in node and
+
+To create javascript from the .peggy source usable in node and
 commonjs:
+
 ```bash
-pegjs --format umd -o mscgenparser.js mscgenparser.pegjs
+peggy --format umd -o mscgenparser.js mscgenparser.peggy
 ```
 
 (To create a parser that is usable with require.js, we used to need
-a script that did some magic replacements - with pegjs' `--format umd`
+a script that did some magic replacements - with peggy' `--format umd`
 option that's no longer necessary.)
 
 ## The abstract syntax tree
+
 All parsers generate a JSON syntax tree that consist of three
 parts that make up mscgen programs:
+
 - options
 - entities
 - arcs.
@@ -36,6 +41,7 @@ We will discuss each in detail below.
 > hands you can even edit the syntax tree directly from there.
 
 In the explanation we will use this mscgen program as a reference.
+
 ```mscgen
 # Just a sample chart. Don't think too much of it :-).
 msc {
@@ -56,26 +62,28 @@ msc {
 ```
 
 ### general conventions
-- _Be liberal in what you receive and strict in what you send_    
+
+- _Be liberal in what you receive and strict in what you send_  
   although mscgen (, msgenny, xù) often support multiple spellings
   of attributes and options and are case insensitive the parser
   outputs only one variant of them in - lowercase (e.g. TEXTcolor,
   textColor and TeXtColOUR all translate to the
-    attribute "textcolor")
+  attribute "textcolor")
   - American spelling (e.g. textcolor and textcolour both translate
-  to the
+    to the
     attribute "textcolor")
   - "true" and "false" as values for booleans
-- _If it's not in the input, it's not in the output_    
+- _If it's not in the input, it's not in the output_  
   The parser does not generate "default values" for objects whose
   pendant was not available in the input.
 - _No order guarantees, except for arrays_
-    - The order of attributes within arrays is guaranteed to be the same
-      as in the source program.
-    - For all other objects the order is not guaranteed.
+  - The order of attributes within arrays is guaranteed to be the same
+    as in the source program.
+  - For all other objects the order is not guaranteed.
 - TODO: describe escape mechanism
 
 ### options
+
 `options` is an object with the options that are possible in
 mscgen as attributes.
 
@@ -84,12 +92,12 @@ mscgen as attributes.
 - If the input program does not have any options at all, the
   syntax tree won't have an options object.
 - Note that in mscgen, msgenny and xù the boolean attribute
-`wordwraparcs` can have
-  - the values _true_, _1_, _on_, _"true"_ and _"on"_ for *true* and
-  - _false_, _0_, _off_, _"false"_ and _"off"_ for *false*.    
-  The parser flattens this to "true" and "false" respectively so
-  consumers working with the syntax tree don't have to worry
-  about it.
+  `wordwraparcs` can have
+  - the values _true_, _1_, _on_, _"true"_ and _"on"_ for _true_ and
+  - _false_, _0_, _off_, _"false"_ and _"off"_ for _false_.  
+    The parser flattens this to "true" and "false" respectively so
+    consumers working with the syntax tree don't have to worry
+    about it.
 
 ```json
   "options": {
@@ -101,8 +109,9 @@ mscgen as attributes.
 ```
 
 ### entities
+
 `entities` is an array of anonymous objects, each of which
-represents an entity.  Each of these objects is guaranteed to have
+represents an entity. Each of these objects is guaranteed to have
 a `name` attribute. To remain compatible with mscgen this name
 is /not necessarily unique/, however.
 
@@ -113,11 +122,11 @@ The list of possible attributes is equal to what is allowed for mscgen:
 - Note that mscgen allows its color attributes to be written in
   either British or American spelling (colour, color). The mscgen,
   msgenny and xù parsers all map them to the American variant for the
-  ease of its consumers.  - Shrewd readers will have noticed the
+  ease of its consumers. - Shrewd readers will have noticed the
   parser allows "arcskip" as well, while in the context of an entity
   it is meaningless. The reason for its pressence is simply that the
   mscgen and xù parsers use the same list of attributes for entities
-  as for arcs.  Consumers are advised to ignore the arcskip attribute
+  as for arcs. Consumers are advised to ignore the arcskip attribute
   for entities (our code certainly does :-)).
 
 ```json
@@ -143,12 +152,13 @@ The list of possible attributes is equal to what is allowed for mscgen:
 ```
 
 ### arcs
+
 `arcs` is a two dimensional array of arcs. Each array in the
 outer array represents an arc _row_ (so the name _arcs_ is kind of
 a misnomer - ah well). The inner array consists of anonymous objects
 each of which represents an arc. Each arc is guaranteed to have the
 _kind_ attribute. Most arcs also have a _from_ and a _to_.
-_from_ and _to_ reference an entity by its _name_. The special value "*"
+_from_ and _to_ reference an entity by its _name_. The special value "\*"
 denotes _all enttities_.
 
 Other attributes are optional: "url", "id", "idurl", "linecolor", "textcolor", "textbgcolor", "arcskip"
@@ -199,6 +209,7 @@ Syntax tree snippet:
 ```
 
 ### recursive arcs in xù and msgenny
+
 xù and msgenny both support "inline expressions", which
 can contain other arcs and inline expressions.
 
@@ -261,10 +272,12 @@ msc {
 ```
 
 ### Comments
+
 The parser strips all comments from the source, which makes processing the
 abstract syntax tree a lot simpler. It turned out that it was easy to save
 comments that go on top of the source, without generating undue complexity.
 In the AST they show up somewhere at the top, like this:
+
 ```json
 "precomment": [
   "# Just a sample chart. Don't think too much of it :-).",
@@ -273,8 +286,10 @@ In the AST they show up somewhere at the top, like this:
 ```
 
 ### Meta information
+
 The three languages mscgen_js supports, have different feature sets. To
 indicate if the AST uses extended feature sets, it contains a `meta` section.
+
 ```json
 "meta": {
   "extendedOptions": false,
@@ -282,6 +297,7 @@ indicate if the AST uses extended feature sets, it contains a `meta` section.
   "extendedFeatures": false
 }
 ```
+
 - `extendedOptions` - `true` when the AST contains a non standard option.
   (currently only `watermark`).
 - `extendedArcTypes` - `true` when the AST contains at least one
