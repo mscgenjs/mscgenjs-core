@@ -250,15 +250,11 @@ modicum of verifiable code quality. You can see the build history in
 
 [![linting & test coverage](https://github.com/mscgenjs/mscgenjs-core/workflows/linting%20&%20test%20coverage%20-%20linux/badge.svg)][gh.actions]
 [![coverage report](https://gitlab.com/sverweij/mscgenjs-core/badges/master/coverage.svg)](https://gitlab.com/sverweij/mscgenjs-core/commits/master)
-[![Dependency Status][david.mscgenjs.badge]][david.mscgenjs]
-[![devDependencies Status](https://david-dm.org/mscgenjs/mscgenjs-core/dev-status.svg)](https://david-dm.org/mscgenjs/mscgenjs-core?type=dev)
 [![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
 [atom]: https://atom.io
-[david.mscgenjs]: https://david-dm.org/mscgenjs/mscgenjs-core
-[david.mscgenjs.badge]: https://david-dm.org/mscgenjs/mscgenjs-core.svg
 [jsdom]: https://github.com/tmpvar/jsdom
 [jsdom.author]: http://tmpvar.com/
 [jsdom.license]: doc/licenses/license.jsdom.md
