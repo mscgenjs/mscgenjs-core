@@ -9,7 +9,7 @@
         "object-literal-sort-keys": false,
         "max-file-line-count": {
             "severity": "warning",
-            "options": [1250] // ideally, 250
+            "options": [1270] // ideally, 250
         },
         "no-var-requires": false
     },

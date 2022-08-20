@@ -3,13 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var lodash_flatten_1 = __importDefault(require("lodash.flatten"));
+exports.getMarkerDefs = exports.getAttributes = void 0;
+var flatten_1 = __importDefault(require("lodash/flatten"));
 var normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
 var KINDS = {
     "->": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-            { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})" },
+            {
+                name: "marker-end",
+                value: "url(#{{id}}{{signal-marker-end}}-{{color}})"
+            },
         ],
         marker: {
             name: "signal"
@@ -18,8 +22,14 @@ var KINDS = {
     "<->": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-            { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})" },
-            { name: "marker-start", value: "url(#{{id}}{{signal-marker-start}}-{{color}})" },
+            {
+                name: "marker-end",
+                value: "url(#{{id}}{{signal-marker-end}}-{{color}})"
+            },
+            {
+                name: "marker-start",
+                value: "url(#{{id}}{{signal-marker-start}}-{{color}})"
+            },
         ],
         marker: {
             name: "signal"
@@ -70,24 +80,16 @@ var KINDS = {
         }
     },
     "..": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }]
     },
     "--": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }]
     },
     "==": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }]
     },
     "::": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }]
     },
     "=>": {
         attributes: [
@@ -166,14 +168,12 @@ var MARKERPATHS = {
         ]
     },
     lost: {
-        variants: [
-            { name: "", path: "M7,0 l5,6 M7,6 l5,-6" },
-        ]
+        variants: [{ name: "", path: "M7,0 l5,6 M7,6 l5,-6" }]
     }
 };
 function getSignalend(pKind, pFrom, pTo) {
-    if (pFrom && pTo && (["<->", "->"].includes(pKind))) {
-        return (pFrom < pTo) ? "signal" : "signal-u";
+    if (pFrom && pTo && ["<->", "->"].includes(pKind)) {
+        return pFrom < pTo ? "signal" : "signal-u";
     }
     return "";
 }
@@ -201,8 +201,8 @@ function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
 }
 exports.getAttributes = getAttributes;
 function makeKindColorCombi(pKind, pColor) {
-    return KINDS[normalizekind_1["default"](pKind)].marker.name +
-        (Boolean(pColor) ? " " + pColor : " black");
+    return (KINDS[(0, normalizekind_1["default"])(pKind)].marker.name +
+        (Boolean(pColor) ? " " + pColor : " black"));
 }
 function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
     function _extractKindColorCombis(pArcElt) {
@@ -214,8 +214,9 @@ function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
     if (!!pArc.arcs) {
         pArc.arcs.forEach(_extractKindColorCombis);
     }
-    if (!!pArc.kind && !!KINDS[normalizekind_1["default"](pArc.kind)] &&
-        !!(KINDS[normalizekind_1["default"](pArc.kind)].marker) &&
+    if (!!pArc.kind &&
+        !!KINDS[(0, normalizekind_1["default"])(pArc.kind)] &&
+        !!KINDS[(0, normalizekind_1["default"])(pArc.kind)].marker &&
         !pKindColorCombis.includes(makeKindColorCombi(pArc.kind, pArc.linecolor))) {
         pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));
     }
@@ -225,29 +226,31 @@ function toColorCombiObject(pColorCombi) {
     return { kind: pColorCombi.split(" ")[0], color: pColorCombi.split(" ")[1] };
 }
 /*
-    * We only run through the arcs, while entities
-    * also define colors for arcs with their arclinecolor.
-    * So why does this work?
-    * Because the pAST that is passed here, is usually "flattened"
-    * with the ast flattening module (flatten.js), which already distributes
-    * the arclinecolors from the entities to linecolors in the arc.
-    *
-    * For the same reason it's not really necessary to handle the recursion
-    * of inline expressions (note that the code is doing that notwithstanding)
-    */
+ * We only run through the arcs, while entities
+ * also define colors for arcs with their arclinecolor.
+ * So why does this work?
+ * Because the pAST that is passed here, is usually "flattened"
+ * with the ast flattening module (flatten.js), which already distributes
+ * the arclinecolors from the entities to linecolors in the arc.
+ *
+ * For the same reason it's not really necessary to handle the recursion
+ * of inline expressions (note that the code is doing that notwithstanding)
+ */
 function extractKindColorCombis(pAST) {
-    return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
+    return pAST.arcs
+        .reduce(extractKindColorCombisFromArc, [])
+        .sort()
+        .map(toColorCombiObject);
 }
 function getMarkerDefs(pId, pAST) {
-    return lodash_flatten_1["default"](extractKindColorCombis(pAST)
-        .map(function (pCombi) { return MARKERPATHS[pCombi.kind]
-        .variants
-        .map(function (pVariant) { return ({
-        name: pId + pCombi.kind + pVariant.name + "-" + pCombi.color,
-        path: pVariant.path,
-        color: pCombi.color,
-        type: pCombi.kind
-    }); }); }));
+    return (0, flatten_1["default"])(extractKindColorCombis(pAST).map(function (pCombi) {
+        return MARKERPATHS[pCombi.kind].variants.map(function (pVariant) { return ({
+            name: "".concat(pId + pCombi.kind + pVariant.name, "-").concat(pCombi.color),
+            path: pVariant.path,
+            color: pCombi.color,
+            type: pCombi.kind
+        }); });
+    }));
 }
 exports.getMarkerDefs = getMarkerDefs;
 /*

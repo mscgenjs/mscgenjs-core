@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.get = exports.setPrefix = void 0;
 var INNERELEMENTPREFIX = "mscgenjs";
 var gInnerElementId = INNERELEMENTPREFIX;
 function setPrefix(pPrefix) {

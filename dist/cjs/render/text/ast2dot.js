@@ -1,16 +1,33 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-var lodash_clonedeep_1 = __importDefault(require("lodash.clonedeep"));
+exports.render = exports.explodeBroadcasts = void 0;
+var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var asttransform_1 = __importDefault(require("../astmassage/asttransform"));
 var flatten = __importStar(require("../astmassage/flatten"));
@@ -21,13 +38,15 @@ var MAX_TEXT_WIDTH = 40;
 var gCounter = 0;
 /* Attribute handling */
 function renderString(pString) {
-    var lStringAry = wrap_1["default"](pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
-    var lString = lStringAry.slice(0, -1).reduce(function (pPrev, pLine) { return pPrev + pLine + "\n"; }, "");
+    var lStringAry = (0, wrap_1["default"])(pString.replace(/"/g, '\\"'), MAX_TEXT_WIDTH);
+    var lString = lStringAry
+        .slice(0, -1)
+        .reduce(function (pPrev, pLine) { return "".concat(pPrev + pLine, "\n"); }, "");
     lString += lStringAry.slice(-1);
     return lString;
 }
 function renderAttribute(pAttr, pString) {
-    return pString + "=\"" + renderString(pAttr) + "\"";
+    return "".concat(pString, "=\"").concat(renderString(pAttr), "\"");
 }
 function pushAttribute(pArray, pAttr, pString) {
     if (Boolean(pAttr)) {
@@ -37,49 +56,53 @@ function pushAttribute(pArray, pAttr, pString) {
 function translateAttributes(pThing) {
     return ["label", "color", "fontcolor", "fillcolor"]
         .filter(function (pSupportedAttr) { return Boolean(pThing[pSupportedAttr]); })
-        .map(function (pSupportedAttr) { return renderAttribute(pThing[pSupportedAttr], pSupportedAttr); });
+        .map(function (pSupportedAttr) {
+        return renderAttribute(pThing[pSupportedAttr], pSupportedAttr);
+    });
 }
 function renderAttributeBlock(pAttrs) {
     var lRetVal = "";
     // no need to check whether there's > 0 attribute passed here:
     // - entities have a mandatory 'name' attribute,
     // - arcs have a mandatory 'kind' attribute
-    lRetVal = pAttrs.slice(0, -1).reduce(function (pPrev, pAttr) { return pPrev + pAttr + ", "; }, " [");
-    lRetVal += pAttrs.slice(-1) + "]";
+    lRetVal = pAttrs
+        .slice(0, -1)
+        .reduce(function (pPrev, pAttr) { return "".concat(pPrev + pAttr, ", "); }, " [");
+    lRetVal += "".concat(pAttrs.slice(-1), "]");
     return lRetVal;
 }
 /* Entity handling */
 function renderEntityName(pString) {
-    return "\"" + pString + "\"";
+    return "\"".concat(pString, "\"");
 }
 function renderEntity(pEntity) {
-    return renderEntityName(pEntity.name) +
-        renderAttributeBlock(translateAttributes(pEntity));
+    return (renderEntityName(pEntity.name) +
+        renderAttributeBlock(translateAttributes(pEntity)));
 }
 function renderEntities(pEntities) {
-    return pEntities.reduce(function (pPrev, pEntity) { return pPrev + INDENT + renderEntity(pEntity) + ";\n"; }, "");
+    return pEntities.reduce(function (pPrev, pEntity) { return "".concat(pPrev + INDENT + renderEntity(pEntity), ";\n"); }, "");
 }
 /* ArcLine handling */
 function counterizeLabel(pCounter, pLabel) {
     if (pLabel) {
-        return "(" + pCounter + ") " + pLabel;
+        return "(".concat(pCounter, ") ").concat(pLabel);
     }
     else {
-        return "(" + pCounter + ")";
+        return "(".concat(pCounter, ")");
     }
 }
 function renderBoxArc(pArc, pCounter, pIndent) {
     var lRetVal = "";
-    var lBoxName = "box" + pCounter.toString();
+    var lBoxName = "box".concat(pCounter.toString());
     lRetVal += lBoxName;
     var lAttrs = translateAttributes(pArc);
     pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
     pushAttribute(lAttrs, dotMappings.getShape(pArc.kind), "shape");
-    lRetVal += renderAttributeBlock(lAttrs) + "\n" + INDENT + pIndent;
+    lRetVal += "".concat(renderAttributeBlock(lAttrs), "\n").concat(INDENT).concat(pIndent);
     lAttrs = [];
     pushAttribute(lAttrs, "dotted", "style");
     pushAttribute(lAttrs, "none", "dir");
-    lRetVal += lBoxName + " -- {" + renderEntityName(pArc.from) + "," + renderEntityName(pArc.to) + "}";
+    lRetVal += "".concat(lBoxName, " -- {").concat(renderEntityName(pArc.from), ",").concat(renderEntityName(pArc.to), "}");
     lRetVal += renderAttributeBlock(lAttrs);
     return lRetVal;
 }
@@ -89,31 +112,31 @@ function renderRegularArc(pArc, pAggregatedKind, pCounter) {
     var lAttrs = translateAttributes(pArc);
     pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
     switch (pAggregatedKind) {
-        case ("directional"):
+        case "directional":
             pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
             break;
-        case ("bidirectional"):
+        case "bidirectional":
             pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
             pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowtail");
             pushAttribute(lAttrs, "both", "dir");
             break;
-        case ("nondirectional"):
+        case "nondirectional":
             pushAttribute(lAttrs, "none", "dir");
             break;
         default:
             break;
     }
     if (!pArc.arcs) {
-        lRetVal += renderEntityName(pArc.from) + " ";
+        lRetVal += "".concat(renderEntityName(pArc.from), " ");
         lRetVal += "--";
-        lRetVal += " " + renderEntityName(pArc.to);
+        lRetVal += " ".concat(renderEntityName(pArc.to));
         lRetVal += renderAttributeBlock(lAttrs);
     }
     return lRetVal;
 }
 function renderSingleArc(pArc, pCounter, pIndent) {
     var lRetVal = "";
-    var lAggregatedKind = aggregatekind_1["default"](pArc.kind);
+    var lAggregatedKind = (0, aggregatekind_1["default"])(pArc.kind);
     if (lAggregatedKind === "box") {
         lRetVal += renderBoxArc(pArc, pCounter, pIndent);
     }
@@ -125,23 +148,22 @@ function renderSingleArc(pArc, pCounter, pIndent) {
 function renderArc(pArc, pIndent) {
     var lRetVal = "";
     if (pArc.from && pArc.to) {
-        lRetVal += INDENT + pIndent + renderSingleArc(pArc, ++gCounter, pIndent) + "\n";
+        lRetVal += "".concat(INDENT + pIndent + renderSingleArc(pArc, ++gCounter, pIndent), "\n");
         if (pArc.arcs) {
-            lRetVal += INDENT + pIndent + "subgraph cluster_" + gCounter.toString() + "{";
+            lRetVal += "".concat(INDENT + pIndent, "subgraph cluster_").concat(gCounter.toString(), "{");
             // not checking for pArc.label because there's at least a counter in it
             // at this point
-            lRetVal += "\n" + INDENT + pIndent + " label=\"" + pArc.kind + ": " + pArc.label + "\" labeljust=\"l\"\n";
+            lRetVal += "\n".concat(INDENT).concat(pIndent, " label=\"").concat(pArc.kind, ": ").concat(pArc.label, "\" labeljust=\"l\"\n");
             lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
-            lRetVal += INDENT + pIndent + "}\n";
+            lRetVal += "".concat(INDENT + pIndent, "}\n");
         }
     }
     return lRetVal;
 }
 function renderArcLines(pArcLines, pIndent) {
-    return pArcLines
-        .reduce(function (pPrevArcLine, pNextArcLine) {
-        return pPrevArcLine + pNextArcLine
-            .reduce(function (pPrevArc, pNextArc) { return pPrevArc + renderArc(pNextArc, pIndent); }, "");
+    return pArcLines.reduce(function (pPrevArcLine, pNextArcLine) {
+        return pPrevArcLine +
+            pNextArcLine.reduce(function (pPrevArc, pNextArc) { return pPrevArc + renderArc(pNextArc, pIndent); }, "");
     }, "");
 }
 function explodeBroadcastArc(pEntities, pArc) {
@@ -149,7 +171,7 @@ function explodeBroadcastArc(pEntities, pArc) {
         .filter(function (pEntity) { return pArc.from !== pEntity.name; })
         .map(function (pEntity) {
         pArc.to = pEntity.name;
-        return lodash_clonedeep_1["default"](pArc);
+        return (0, cloneDeep_1["default"])(pArc);
     });
 }
 /**
@@ -158,7 +180,7 @@ function explodeBroadcastArc(pEntities, pArc) {
  * - pre-calculates colors from regular colors and arc*-colors
  */
 function flattenMe(pAST) {
-    return explodeBroadcasts(asttransform_1["default"](pAST, [flatten.nameAsLabel], [flatten.swapRTLArc, flatten.overrideColors]));
+    return explodeBroadcasts((0, asttransform_1["default"])(pAST, [flatten.nameAsLabel], [flatten.swapRTLArc, flatten.overrideColors]));
 }
 /**
  * expands "broadcast" arcs to its individual counterparts
@@ -178,7 +200,7 @@ function explodeBroadcasts(pAST) {
                 /* save a clone of the broadcast arc attributes
                  * and remove the original bc arc
                  */
-                var lOriginalBroadcastArc = lodash_clonedeep_1["default"](pArc);
+                var lOriginalBroadcastArc = (0, cloneDeep_1["default"])(pArc);
                 delete pAST.arcs[pArcRowIndex][pArcIndex];
                 var lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                 pArcRow[pArcIndex] = lExplodedArcsAry.shift();
@@ -190,7 +212,7 @@ function explodeBroadcasts(pAST) {
 }
 exports.explodeBroadcasts = explodeBroadcasts;
 function render(pAST) {
-    var lAST = flattenMe(lodash_clonedeep_1["default"](pAST));
+    var lAST = flattenMe((0, cloneDeep_1["default"])(pAST));
     var lRetVal = "/* Sequence chart represented as a directed graph\n" +
         " * in the graphviz dot language (http://graphviz.org/)\n" +
         " *\n" +
@@ -198,20 +220,20 @@ function render(pAST) {
         " */\n" +
         "\n" +
         "graph {\n";
-    lRetVal += INDENT + "rankdir=LR\n";
-    lRetVal += INDENT + "splines=true\n";
-    lRetVal += INDENT + "ordering=out\n";
-    lRetVal += INDENT + "fontname=\"Helvetica\"\n";
-    lRetVal += INDENT + "fontsize=\"9\"\n";
-    lRetVal += INDENT + "node [style=filled, fillcolor=white fontname=\"Helvetica\", fontsize=\"9\" ]\n";
-    lRetVal += INDENT + "edge [fontname=\"Helvetica\", fontsize=\"9\", arrowhead=vee, arrowtail=vee, dir=forward]\n";
+    lRetVal += "".concat(INDENT, "rankdir=LR\n");
+    lRetVal += "".concat(INDENT, "splines=true\n");
+    lRetVal += "".concat(INDENT, "ordering=out\n");
+    lRetVal += "".concat(INDENT, "fontname=\"Helvetica\"\n");
+    lRetVal += "".concat(INDENT, "fontsize=\"9\"\n");
+    lRetVal += "".concat(INDENT, "node [style=filled, fillcolor=white fontname=\"Helvetica\", fontsize=\"9\" ]\n");
+    lRetVal += "".concat(INDENT, "edge [fontname=\"Helvetica\", fontsize=\"9\", arrowhead=vee, arrowtail=vee, dir=forward]\n");
     lRetVal += "\n";
-    lRetVal += renderEntities(lAST.entities) + "\n";
+    lRetVal += "".concat(renderEntities(lAST.entities), "\n");
     if (lAST.arcs) {
         gCounter = 0;
         lRetVal += renderArcLines(lAST.arcs, "");
     }
-    return lRetVal += "}";
+    return (lRetVal += "}");
 }
 exports.render = render;
 /*

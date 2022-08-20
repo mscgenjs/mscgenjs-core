@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-var lodash_memoize_1 = __importDefault(require("lodash.memoize"));
+exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = void 0;
+var memoize_1 = __importDefault(require("lodash/memoize"));
 var DEFAULT_PARSER = "../parse/mscgenparser";
 var DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 var gLang2Parser = Object.freeze({
@@ -18,14 +19,18 @@ var gLang2TextRenderer = Object.freeze({
     dot: "../render/text/ast2dot",
     doxygen: "../render/text/ast2doxygen"
 });
-exports.getParser = lodash_memoize_1["default"](function (pLanguage) {
+exports.getParser = (0, memoize_1["default"])(function (pLanguage) {
     if (["ast", "json"].indexOf(pLanguage) > -1) {
         return JSON;
     }
     return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
 });
-exports.getGraphicsRenderer = lodash_memoize_1["default"](function () { return require("../render/graphics/renderast"); });
-exports.getTextRenderer = lodash_memoize_1["default"](function (pLanguage) { return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER); });
+exports.getGraphicsRenderer = (0, memoize_1["default"])(function () {
+    return require("../render/graphics/renderast");
+});
+exports.getTextRenderer = (0, memoize_1["default"])(function (pLanguage) {
+    return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER);
+});
 /*
  This file is part of mscgen_js.
 

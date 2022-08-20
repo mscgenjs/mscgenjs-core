@@ -1,6 +1,6 @@
 export default {
     LINE_WIDTH: 2,
-    FONT_SIZE: 12,
+    FONT_SIZE: 12, // px
 };
 /*
  This file is part of mscgen_js.

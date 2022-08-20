@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+exports.applyScheme = exports.uncolor = exports.colorize = void 0;
 var aggregatekind_1 = __importDefault(require("./aggregatekind"));
 var asttransform_1 = __importDefault(require("./asttransform"));
 var colorizeschemes_1 = __importDefault(require("./colorizeschemes"));
@@ -13,7 +14,7 @@ function getArcColorCombis(pColorScheme, pKind) {
         return lArcCombi;
     }
     else {
-        return pColorScheme.aggregateArcColors[aggregatekind_1["default"](pKind)];
+        return pColorScheme.aggregateArcColors[(0, aggregatekind_1["default"])(pKind)];
     }
 }
 function colorizeArc(pColorScheme) {
@@ -60,7 +61,7 @@ function colorizeEntity(pColorScheme) {
 }
 function colorize(pAST, pColorScheme, pForce) {
     gColorCombiCount = 0;
-    return asttransform_1["default"](pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
+    return (0, asttransform_1["default"])(pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
 }
 exports.colorize = colorize;
 function uncolorThing(pThing) {
@@ -72,14 +73,15 @@ function uncolorThing(pThing) {
     delete pThing.arctextbgcolor;
 }
 function uncolor(pAST) {
-    return asttransform_1["default"](pAST, [uncolorThing], [uncolorThing]);
+    return (0, asttransform_1["default"])(pAST, [uncolorThing], [uncolorThing]);
 }
 exports.uncolor = uncolor;
-exports.applyScheme = function (pAST, pColorSchemeName, pForced) {
+var applyScheme = function (pAST, pColorSchemeName, pForced) {
     return colorize(pAST, colorizeschemes_1["default"][pColorSchemeName]
         ? colorizeschemes_1["default"][pColorSchemeName]
         : colorizeschemes_1["default"].auto, pForced);
 };
+exports.applyScheme = applyScheme;
 /*
  This file is part of mscgen_js.
 

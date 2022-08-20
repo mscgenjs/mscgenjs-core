@@ -1,4 +1,4 @@
-import memoize from "lodash.memoize";
+import memoize from "lodash/memoize";
 import * as idmanager from "./idmanager";
 import * as svgelementfactory from "./svgelementfactory/index";
 /**
@@ -23,17 +23,18 @@ function getNativeBBox(pElement) {
     return lRetval;
 }
 /*
-    * workaround for Opera browser quirk: if the dimensions
-    * of an element are 0x0, Opera's getBBox() implementation
-    * returns -Infinity (which is a kind of impractical value
-    * to actually render, even for Opera)
-    * To counter this, manually set the return value to 0x0
-    * if height or width has a wacky value:
-    */
+ * workaround for Opera browser quirk: if the dimensions
+ * of an element are 0x0, Opera's getBBox() implementation
+ * returns -Infinity (which is a kind of impractical value
+ * to actually render, even for Opera)
+ * To counter this, manually set the return value to 0x0
+ * if height or width has a wacky value:
+ */
 /* istanbul ignore next */
 function sanitizeBBox(pBBox) {
     const INSANELYBIG = 100000;
-    if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG) {
+    if (Math.abs(pBBox.height) > INSANELYBIG ||
+        Math.abs(pBBox.width) > INSANELYBIG) {
         return {
             height: 0,
             width: 0,
@@ -59,7 +60,7 @@ function sanitizeBBox(pBBox) {
  */
 export function getBBox(pElement) {
     /* istanbul ignore if */
-    if (typeof (pElement.getBBox) === "function") {
+    if (typeof pElement.getBBox === "function") {
         return sanitizeBBox(getNativeBBox(pElement));
     }
     else {
@@ -73,12 +74,12 @@ export function getBBox(pElement) {
 }
 function _calculateTextHeight() {
     /* Uses a string with some characters that tend to stick out
-        * above/ below the current line and an 'astral codepoint' to
-        * determine the text height to use everywhere.
-        *
-        * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
-        * browsers. The string in readable form: ÁjyÎ9ƒ@💩
-        */
+     * above/ below the current line and an 'astral codepoint' to
+     * determine the text height to use everywhere.
+     *
+     * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
+     * browsers. The string in readable form: ÁjyÎ9ƒ@💩
+     */
     return getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
         x: 0,
         y: 0,
@@ -110,7 +111,8 @@ export const calculateTextHeight = memoize(_calculateTextHeight);
 // this function does a crude global replace to circumvent the
 // resulting problems. Problem happens for xhtml too
 export const webkitNamespaceBugWorkaround = (pText) => {
-    return pText.replace(/ xlink=/g, " xmlns:xlink=")
+    return pText
+        .replace(/ xlink=/g, " xmlns:xlink=")
         .replace(/ href=/g, " xlink:href=");
 };
 /*

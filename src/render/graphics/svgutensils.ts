@@ -1,4 +1,4 @@
-import memoize from "lodash.memoize";
+import memoize from "lodash/memoize";
 import * as idmanager from "./idmanager";
 import * as geotypes from "./svgelementfactory/geotypes";
 import * as svgelementfactory from "./svgelementfactory/index";
@@ -12,47 +12,50 @@ const gSvgBBoxerId = idmanager.get("bboxer");
 
 /* istanbul ignore next */
 function _createBBoxerSVG(pId): SVGSVGElement {
-    const lSvg = svgelementfactory.createSVG(pId, idmanager.get());
-    gDocument.body.appendChild(lSvg);
+  const lSvg = svgelementfactory.createSVG(pId, idmanager.get());
+  gDocument.body.appendChild(lSvg);
 
-    return lSvg;
+  return lSvg;
 }
 
 /* istanbul ignore next */
 function getNativeBBox(pElement: SVGGElement): geotypes.IBBox {
-    /* getNativeBBoxWithCache */
-    let lSvg = gDocument.getElementById(gSvgBBoxerId);
-    lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
+  /* getNativeBBoxWithCache */
+  let lSvg = gDocument.getElementById(gSvgBBoxerId);
+  lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
 
-    lSvg.appendChild(pElement);
-    const lRetval = pElement.getBBox();
-    lSvg.removeChild(pElement);
+  lSvg.appendChild(pElement);
+  const lRetval = pElement.getBBox();
+  lSvg.removeChild(pElement);
 
-    return lRetval;
+  return lRetval;
 }
 
 /*
-    * workaround for Opera browser quirk: if the dimensions
-    * of an element are 0x0, Opera's getBBox() implementation
-    * returns -Infinity (which is a kind of impractical value
-    * to actually render, even for Opera)
-    * To counter this, manually set the return value to 0x0
-    * if height or width has a wacky value:
-    */
+ * workaround for Opera browser quirk: if the dimensions
+ * of an element are 0x0, Opera's getBBox() implementation
+ * returns -Infinity (which is a kind of impractical value
+ * to actually render, even for Opera)
+ * To counter this, manually set the return value to 0x0
+ * if height or width has a wacky value:
+ */
 /* istanbul ignore next */
 function sanitizeBBox(pBBox: geotypes.IBBox): geotypes.IBBox {
-    const INSANELYBIG = 100000;
+  const INSANELYBIG = 100000;
 
-    if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG) {
-        return {
-            height : 0,
-            width : 0,
-            x : 0,
-            y : 0,
-        };
-    } else {
-        return pBBox;
-    }
+  if (
+    Math.abs(pBBox.height) > INSANELYBIG ||
+    Math.abs(pBBox.width) > INSANELYBIG
+  ) {
+    return {
+      height: 0,
+      width: 0,
+      x: 0,
+      y: 0,
+    };
+  } else {
+    return pBBox;
+  }
 }
 
 /**
@@ -68,58 +71,55 @@ function sanitizeBBox(pBBox: geotypes.IBBox): geotypes.IBBox {
  * as "reasonable default"
  */
 export function getBBox(pElement: SVGGElement): geotypes.IBBox {
-    /* istanbul ignore if */
-    if (typeof (pElement.getBBox) === "function") {
-        return sanitizeBBox(getNativeBBox(pElement));
-    } else {
-        return {
-            height : 15,
-            width : 15,
-            x : 2,
-            y : 2,
-        };
-    }
+  /* istanbul ignore if */
+  if (typeof pElement.getBBox === "function") {
+    return sanitizeBBox(getNativeBBox(pElement));
+  } else {
+    return {
+      height: 15,
+      width: 15,
+      x: 2,
+      y: 2,
+    };
+  }
 }
 
 function _calculateTextHeight(): number {
-    /* Uses a string with some characters that tend to stick out
-        * above/ below the current line and an 'astral codepoint' to
-        * determine the text height to use everywhere.
-        *
-        * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
-        * browsers. The string in readable form: ÁjyÎ9ƒ@💩
-        */
-    return getBBox(
-        svgelementfactory.createText(
-            "\u00C1jy\u00CE9\u0192@\uD83D\uDCA9",
-            {
-                x: 0,
-                y: 0,
-            },
-        ),
-    ).height;
+  /* Uses a string with some characters that tend to stick out
+   * above/ below the current line and an 'astral codepoint' to
+   * determine the text height to use everywhere.
+   *
+   * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
+   * browsers. The string in readable form: ÁjyÎ9ƒ@💩
+   */
+  return getBBox(
+    svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
+      x: 0,
+      y: 0,
+    })
+  ).height;
 }
 
 export function removeRenderedSVGFromElement(pElementId: string) {
-    idmanager.setPrefix(pElementId);
-    const lChildElement = gDocument.getElementById(idmanager.get());
-    if (Boolean(lChildElement)) {
-        const lParentElement = gDocument.getElementById(pElementId);
-        if (lParentElement) {
-            lParentElement.removeChild(lChildElement);
-        } else {
-            gDocument.body.removeChild(lChildElement);
-        }
+  idmanager.setPrefix(pElementId);
+  const lChildElement = gDocument.getElementById(idmanager.get());
+  if (Boolean(lChildElement)) {
+    const lParentElement = gDocument.getElementById(pElementId);
+    if (lParentElement) {
+      lParentElement.removeChild(lChildElement);
+    } else {
+      gDocument.body.removeChild(lChildElement);
     }
+  }
 }
 
 export const init = (pDocument: Document) => {
-    gDocument = pDocument;
+  gDocument = pDocument;
 };
 
-    /**
-     * Returns the height in pixels necessary for rendering characters
-     */
+/**
+ * Returns the height in pixels necessary for rendering characters
+ */
 export const calculateTextHeight = memoize(_calculateTextHeight);
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
@@ -128,8 +128,9 @@ export const calculateTextHeight = memoize(_calculateTextHeight);
 // this function does a crude global replace to circumvent the
 // resulting problems. Problem happens for xhtml too
 export const webkitNamespaceBugWorkaround = (pText: string): string => {
-    return pText.replace(/ xlink=/g, " xmlns:xlink=")
-        .replace(/ href=/g, " xlink:href=");
+  return pText
+    .replace(/ xlink=/g, " xmlns:xlink=")
+    .replace(/ href=/g, " xlink:href=");
 };
 /*
  This file is part of mscgen_js.

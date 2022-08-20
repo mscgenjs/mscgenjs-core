@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -16,6 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+exports.render = exports.MscGenAdaptor = void 0;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var ast2xu_1 = require("./ast2xu");
 var MscGenAdaptor = /** @class */ (function (_super) {
@@ -53,13 +56,13 @@ var MscGenAdaptor = /** @class */ (function (_super) {
                 "arcskip",
             ],
             inline: {
-                opener: ";" + this.eol,
+                opener: ";".concat(this.eol),
                 closer: "#"
             }
         }, pConfig));
     };
     MscGenAdaptor.prototype.renderKind = function (pKind) {
-        if ("inline_expression" === aggregatekind_1["default"](pKind)) {
+        if ("inline_expression" === (0, aggregatekind_1["default"])(pKind)) {
             return "--";
         }
         return pKind;
@@ -73,11 +76,12 @@ var MscGenAdaptor = /** @class */ (function (_super) {
     return MscGenAdaptor;
 }(ast2xu_1.XuAdaptor));
 exports.MscGenAdaptor = MscGenAdaptor;
-exports.render = function (pAST, pMinimal) {
+var render = function (pAST, pMinimal) {
     if (pMinimal === void 0) { pMinimal = false; }
     var lAdaptor = new MscGenAdaptor(pMinimal);
     return lAdaptor.render(pAST);
 };
+exports.render = render;
 /*
  This file is part of mscgen_js.
 

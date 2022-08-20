@@ -1,4 +1,4 @@
-import memoize from "lodash.memoize";
+import memoize from "lodash/memoize";
 const DEFAULT_PARSER = "../parse/mscgenparser";
 const DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 const gLang2Parser = Object.freeze({

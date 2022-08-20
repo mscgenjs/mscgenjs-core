@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.escapeString = exports.unescapeString = void 0;
 /**
  * takes pString and replaces all escaped double quotes with
  * regular double quotes

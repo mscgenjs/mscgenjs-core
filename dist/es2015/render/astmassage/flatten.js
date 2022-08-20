@@ -2,7 +2,7 @@
  * Defines some functions to simplify a given abstract syntax tree.
  */
 import asttransform from "./asttransform";
-import _cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import * as escape from "../textutensils/escape";
 import aggregatekind from "./aggregatekind";
 import normalizekind from "./normalizekind";
@@ -35,7 +35,7 @@ function emptyStringForNoLabel(pArc) {
  * If the arc is facing forwards or is symetrical, it is left alone.
  */
 export function swapRTLArc(pArc) {
-    if ((normalizekind(pArc.kind) !== pArc.kind)) {
+    if (normalizekind(pArc.kind) !== pArc.kind) {
         pArc.kind = normalizekind(pArc.kind);
         const lTmp = pArc.from;
         pArc.from = pArc.to;
@@ -43,20 +43,20 @@ export function swapRTLArc(pArc) {
     }
 }
 function overrideColorsFromThing(pArc, pThing) {
-    if (!(pArc.linecolor) && pThing.arclinecolor) {
+    if (!pArc.linecolor && pThing.arclinecolor) {
         pArc.linecolor = pThing.arclinecolor;
     }
-    if (!(pArc.textcolor) && pThing.arctextcolor) {
+    if (!pArc.textcolor && pThing.arctextcolor) {
         pArc.textcolor = pThing.arctextcolor;
     }
-    if (!(pArc.textbgcolor) && pThing.arctextbgcolor) {
+    if (!pArc.textbgcolor && pThing.arctextbgcolor) {
         pArc.textbgcolor = pThing.arctextbgcolor;
     }
 }
 /*
-* assumes arc direction to be either LTR, both, or none
-* so arc.from exists.
-*/
+ * assumes arc direction to be either LTR, both, or none
+ * so arc.from exists.
+ */
 export function overrideColors(pArc, pEntities = []) {
     if (pArc && pArc.from) {
         const lMatchingEntity = pEntities.find((pEntity) => pEntity.name === pArc.from);
@@ -78,7 +78,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;
             if (!!pArc.arcs) {
-                const lInlineExpression = _cloneDeep(pArc);
+                const lInlineExpression = cloneDeep(pArc);
                 lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
                 delete lInlineExpression.arcs;
                 lFlatArcRow.push(lInlineExpression);
@@ -95,17 +95,19 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
             else {
                 lFlatArcRow.push(pArc);
             }
-            lUnWoundSubArcs.push([{
+            lUnWoundSubArcs.push([
+                {
                     kind: "|||",
                     from: pArc.from,
                     to: pArc.to,
                     // label: "",
                     // depth: pDepth,
                     isVirtual: true,
-                }]);
+                },
+            ]);
         }
         else {
-            if ((pFrom && pTo) && ("empty" === aggregatekind(pArc.kind))) {
+            if (pFrom && pTo && "empty" === aggregatekind(pArc.kind)) {
                 pArc.from = pFrom;
                 pArc.to = pTo;
                 pArc.depth = pDepth;
@@ -130,7 +132,7 @@ export function normalize(pAST) {
     gMaxDepth = 0;
     return {
         options: normalizeoptions(pAST.options),
-        entities: _cloneDeep(pAST.entities),
+        entities: cloneDeep(pAST.entities),
         arcs: unwind(pAST.arcs),
         depth: gMaxDepth + 1,
     };

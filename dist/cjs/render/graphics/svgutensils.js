@@ -1,16 +1,33 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-var lodash_memoize_1 = __importDefault(require("lodash.memoize"));
+exports.webkitNamespaceBugWorkaround = exports.calculateTextHeight = exports.init = exports.removeRenderedSVGFromElement = exports.getBBox = void 0;
+var memoize_1 = __importDefault(require("lodash/memoize"));
 var idmanager = __importStar(require("./idmanager"));
 var svgelementfactory = __importStar(require("./svgelementfactory/index"));
 /**
@@ -35,17 +52,18 @@ function getNativeBBox(pElement) {
     return lRetval;
 }
 /*
-    * workaround for Opera browser quirk: if the dimensions
-    * of an element are 0x0, Opera's getBBox() implementation
-    * returns -Infinity (which is a kind of impractical value
-    * to actually render, even for Opera)
-    * To counter this, manually set the return value to 0x0
-    * if height or width has a wacky value:
-    */
+ * workaround for Opera browser quirk: if the dimensions
+ * of an element are 0x0, Opera's getBBox() implementation
+ * returns -Infinity (which is a kind of impractical value
+ * to actually render, even for Opera)
+ * To counter this, manually set the return value to 0x0
+ * if height or width has a wacky value:
+ */
 /* istanbul ignore next */
 function sanitizeBBox(pBBox) {
     var INSANELYBIG = 100000;
-    if (Math.abs(pBBox.height) > INSANELYBIG || Math.abs(pBBox.width) > INSANELYBIG) {
+    if (Math.abs(pBBox.height) > INSANELYBIG ||
+        Math.abs(pBBox.width) > INSANELYBIG) {
         return {
             height: 0,
             width: 0,
@@ -71,7 +89,7 @@ function sanitizeBBox(pBBox) {
  */
 function getBBox(pElement) {
     /* istanbul ignore if */
-    if (typeof (pElement.getBBox) === "function") {
+    if (typeof pElement.getBBox === "function") {
         return sanitizeBBox(getNativeBBox(pElement));
     }
     else {
@@ -86,12 +104,12 @@ function getBBox(pElement) {
 exports.getBBox = getBBox;
 function _calculateTextHeight() {
     /* Uses a string with some characters that tend to stick out
-        * above/ below the current line and an 'astral codepoint' to
-        * determine the text height to use everywhere.
-        *
-        * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
-        * browsers. The string in readable form: ÁjyÎ9ƒ@💩
-        */
+     * above/ below the current line and an 'astral codepoint' to
+     * determine the text height to use everywhere.
+     *
+     * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
+     * browsers. The string in readable form: ÁjyÎ9ƒ@💩
+     */
     return getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
         x: 0,
         y: 0
@@ -111,22 +129,25 @@ function removeRenderedSVGFromElement(pElementId) {
     }
 }
 exports.removeRenderedSVGFromElement = removeRenderedSVGFromElement;
-exports.init = function (pDocument) {
+var init = function (pDocument) {
     gDocument = pDocument;
 };
+exports.init = init;
 /**
  * Returns the height in pixels necessary for rendering characters
  */
-exports.calculateTextHeight = lodash_memoize_1["default"](_calculateTextHeight);
+exports.calculateTextHeight = (0, memoize_1["default"])(_calculateTextHeight);
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
 // namespace prefixes in front of xlink and all hrefs respectively.
 // this function does a crude global replace to circumvent the
 // resulting problems. Problem happens for xhtml too
-exports.webkitNamespaceBugWorkaround = function (pText) {
-    return pText.replace(/ xlink=/g, " xmlns:xlink=")
+var webkitNamespaceBugWorkaround = function (pText) {
+    return pText
+        .replace(/ xlink=/g, " xmlns:xlink=")
         .replace(/ href=/g, " xlink:href=");
 };
+exports.webkitNamespaceBugWorkaround = webkitNamespaceBugWorkaround;
 /*
  This file is part of mscgen_js.
 

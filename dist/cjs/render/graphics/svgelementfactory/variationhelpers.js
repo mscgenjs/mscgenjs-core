@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.getDirection = exports.determineEndCorrection = exports.determineStartCorrection = void 0;
 function determineStartCorrection(pLine, pClass, pLineWidth) {
     var lRetval = 0;
     if (!pClass.includes("nodi") && pClass.includes("bidi")) {

@@ -1,4 +1,4 @@
-import _cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import * as mscgenjsast from "../../parse/mscgenjsast";
 
 const EMPTY_ARC = [{ kind: "|||" as mscgenjsast.ArcKindType }];
@@ -57,18 +57,18 @@ export class FrameFactory {
    */
   public init(pAST: mscgenjsast.ISequenceChart, pPreCalculate?: boolean): void {
     this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
-    this.AST = _cloneDeep(pAST);
+    this.AST = cloneDeep(pAST);
     this.len = this._calculateLength(pAST);
     this.noRows = this._calcNumberOfRows(pAST);
     this.position = 0;
     if (this.AST.arcs) {
-      this.arcs = _cloneDeep(this.AST.arcs);
+      this.arcs = cloneDeep(this.AST.arcs);
       this.AST.arcs = [];
     }
     this.frames = [];
     if (this.preCalculate) {
       for (let i = 0; i < this.len; i++) {
-        this.frames.push(_cloneDeep(this._calculateFrame(i)));
+        this.frames.push(cloneDeep(this._calculateFrame(i)));
       }
     }
   }

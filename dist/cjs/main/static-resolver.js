@@ -1,12 +1,29 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 exports.__esModule = true;
+exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = void 0;
 var mscgenparser = __importStar(require("../parse/mscgenparser"));
 var msgennyparser = __importStar(require("../parse/msgennyparser"));
 var xuparser = __importStar(require("../parse/xuparser"));
@@ -30,18 +47,21 @@ var gLang2TextRenderer = Object.freeze({
     dot: ast2dot,
     doxygen: ast2doxygen
 });
-exports.getParser = function (pLanguage) {
+var getParser = function (pLanguage) {
     if (["ast", "json"].includes(pLanguage)) {
         return JSON;
     }
     return gLang2Parser[pLanguage] || DEFAULT_PARSER;
 };
-exports.getGraphicsRenderer = function () {
+exports.getParser = getParser;
+var getGraphicsRenderer = function () {
     return renderast;
 };
-exports.getTextRenderer = function (pLanguage) {
+exports.getGraphicsRenderer = getGraphicsRenderer;
+var getTextRenderer = function (pLanguage) {
     return gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
 };
+exports.getTextRenderer = getTextRenderer;
 /*
  This file is part of mscgen_js.
 
