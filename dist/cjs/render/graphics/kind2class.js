@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+exports.getAggregateClass = exports.getClass = void 0;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var KIND2CLASS = Object.freeze({
     "|||": "empty-row",
@@ -35,7 +36,7 @@ function getClass(pKey) {
 }
 exports.getClass = getClass;
 function getAggregateClass(pKey) {
-    return aggregatekind_1["default"](pKey) || pKey;
+    return (0, aggregatekind_1["default"])(pKey) || pKey;
 }
 exports.getAggregateClass = getAggregateClass;
 /*

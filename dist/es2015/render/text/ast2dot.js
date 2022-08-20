@@ -1,4 +1,4 @@
-import _cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import aggregatekind from "../astmassage/aggregatekind";
 import asttransform from "../astmassage/asttransform";
 import * as flatten from "../astmassage/flatten";
@@ -9,8 +9,10 @@ const MAX_TEXT_WIDTH = 40;
 let gCounter = 0;
 /* Attribute handling */
 function renderString(pString) {
-    const lStringAry = wrap(pString.replace(/"/g, "\\\""), MAX_TEXT_WIDTH);
-    let lString = lStringAry.slice(0, -1).reduce((pPrev, pLine) => `${pPrev + pLine}\n`, "");
+    const lStringAry = wrap(pString.replace(/"/g, '\\"'), MAX_TEXT_WIDTH);
+    let lString = lStringAry
+        .slice(0, -1)
+        .reduce((pPrev, pLine) => `${pPrev + pLine}\n`, "");
     lString += lStringAry.slice(-1);
     return lString;
 }
@@ -32,7 +34,9 @@ function renderAttributeBlock(pAttrs) {
     // no need to check whether there's > 0 attribute passed here:
     // - entities have a mandatory 'name' attribute,
     // - arcs have a mandatory 'kind' attribute
-    lRetVal = pAttrs.slice(0, -1).reduce((pPrev, pAttr) => `${pPrev + pAttr}, `, " [");
+    lRetVal = pAttrs
+        .slice(0, -1)
+        .reduce((pPrev, pAttr) => `${pPrev + pAttr}, `, " [");
     lRetVal += `${pAttrs.slice(-1)}]`;
     return lRetVal;
 }
@@ -41,8 +45,8 @@ function renderEntityName(pString) {
     return `"${pString}"`;
 }
 function renderEntity(pEntity) {
-    return renderEntityName(pEntity.name) +
-        renderAttributeBlock(translateAttributes(pEntity));
+    return (renderEntityName(pEntity.name) +
+        renderAttributeBlock(translateAttributes(pEntity)));
 }
 function renderEntities(pEntities) {
     return pEntities.reduce((pPrev, pEntity) => `${pPrev + INDENT + renderEntity(pEntity)};\n`, "");
@@ -77,15 +81,15 @@ function renderRegularArc(pArc, pAggregatedKind, pCounter) {
     const lAttrs = translateAttributes(pArc);
     pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
     switch (pAggregatedKind) {
-        case ("directional"):
+        case "directional":
             pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
             break;
-        case ("bidirectional"):
+        case "bidirectional":
             pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowhead");
             pushAttribute(lAttrs, dotMappings.getArrow(pArc.kind), "arrowtail");
             pushAttribute(lAttrs, "both", "dir");
             break;
-        case ("nondirectional"):
+        case "nondirectional":
             pushAttribute(lAttrs, "none", "dir");
             break;
         default:
@@ -126,16 +130,15 @@ function renderArc(pArc, pIndent) {
     return lRetVal;
 }
 function renderArcLines(pArcLines, pIndent) {
-    return pArcLines
-        .reduce((pPrevArcLine, pNextArcLine) => pPrevArcLine + pNextArcLine
-        .reduce((pPrevArc, pNextArc) => pPrevArc + renderArc(pNextArc, pIndent), ""), "");
+    return pArcLines.reduce((pPrevArcLine, pNextArcLine) => pPrevArcLine +
+        pNextArcLine.reduce((pPrevArc, pNextArc) => pPrevArc + renderArc(pNextArc, pIndent), ""), "");
 }
 function explodeBroadcastArc(pEntities, pArc) {
     return pEntities
         .filter((pEntity) => pArc.from !== pEntity.name)
         .map((pEntity) => {
         pArc.to = pEntity.name;
-        return _cloneDeep(pArc);
+        return cloneDeep(pArc);
     });
 }
 /**
@@ -164,7 +167,7 @@ export function explodeBroadcasts(pAST) {
                 /* save a clone of the broadcast arc attributes
                  * and remove the original bc arc
                  */
-                const lOriginalBroadcastArc = _cloneDeep(pArc);
+                const lOriginalBroadcastArc = cloneDeep(pArc);
                 delete pAST.arcs[pArcRowIndex][pArcIndex];
                 const lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                 pArcRow[pArcIndex] = lExplodedArcsAry.shift();
@@ -175,7 +178,7 @@ export function explodeBroadcasts(pAST) {
     return pAST;
 }
 export function render(pAST) {
-    const lAST = flattenMe(_cloneDeep(pAST));
+    const lAST = flattenMe(cloneDeep(pAST));
     let lRetVal = "/* Sequence chart represented as a directed graph\n" +
         " * in the graphviz dot language (http://graphviz.org/)\n" +
         " *\n" +
@@ -196,7 +199,7 @@ export function render(pAST) {
         gCounter = 0;
         lRetVal += renderArcLines(lAST.arcs, "");
     }
-    return lRetVal += "}";
+    return (lRetVal += "}");
 }
 /*
  This file is part of mscgen_js.

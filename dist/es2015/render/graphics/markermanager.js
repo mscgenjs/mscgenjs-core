@@ -1,10 +1,13 @@
-import _flatten from "lodash.flatten";
+import flatten from "lodash/flatten";
 import normalizekind from "../astmassage/normalizekind";
 const KINDS = {
     "->": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-            { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})" },
+            {
+                name: "marker-end",
+                value: "url(#{{id}}{{signal-marker-end}}-{{color}})",
+            },
         ],
         marker: {
             name: "signal",
@@ -13,8 +16,14 @@ const KINDS = {
     "<->": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
-            { name: "marker-end", value: "url(#{{id}}{{signal-marker-end}}-{{color}})" },
-            { name: "marker-start", value: "url(#{{id}}{{signal-marker-start}}-{{color}})" },
+            {
+                name: "marker-end",
+                value: "url(#{{id}}{{signal-marker-end}}-{{color}})",
+            },
+            {
+                name: "marker-start",
+                value: "url(#{{id}}{{signal-marker-start}}-{{color}})",
+            },
         ],
         marker: {
             name: "signal",
@@ -65,24 +74,16 @@ const KINDS = {
         },
     },
     "..": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ],
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "--": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ],
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "==": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ],
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "::": {
-        attributes: [
-            { name: "style", value: "stroke:{{color}}" },
-        ],
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "=>": {
         attributes: [
@@ -161,14 +162,12 @@ const MARKERPATHS = {
         ],
     },
     lost: {
-        variants: [
-            { name: "", path: "M7,0 l5,6 M7,6 l5,-6" },
-        ],
+        variants: [{ name: "", path: "M7,0 l5,6 M7,6 l5,-6" }],
     },
 };
 function getSignalend(pKind, pFrom, pTo) {
-    if (pFrom && pTo && (["<->", "->"].includes(pKind))) {
-        return (pFrom < pTo) ? "signal" : "signal-u";
+    if (pFrom && pTo && ["<->", "->"].includes(pKind)) {
+        return pFrom < pTo ? "signal" : "signal-u";
     }
     return "";
 }
@@ -195,8 +194,8 @@ export function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
     return lRetval;
 }
 function makeKindColorCombi(pKind, pColor) {
-    return KINDS[normalizekind(pKind)].marker.name +
-        (Boolean(pColor) ? " " + pColor : " black");
+    return (KINDS[normalizekind(pKind)].marker.name +
+        (Boolean(pColor) ? " " + pColor : " black"));
 }
 function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
     function _extractKindColorCombis(pArcElt) {
@@ -208,8 +207,9 @@ function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
     if (!!pArc.arcs) {
         pArc.arcs.forEach(_extractKindColorCombis);
     }
-    if (!!pArc.kind && !!KINDS[normalizekind(pArc.kind)] &&
-        !!(KINDS[normalizekind(pArc.kind)].marker) &&
+    if (!!pArc.kind &&
+        !!KINDS[normalizekind(pArc.kind)] &&
+        !!KINDS[normalizekind(pArc.kind)].marker &&
         !pKindColorCombis.includes(makeKindColorCombi(pArc.kind, pArc.linecolor))) {
         pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));
     }
@@ -219,24 +219,24 @@ function toColorCombiObject(pColorCombi) {
     return { kind: pColorCombi.split(" ")[0], color: pColorCombi.split(" ")[1] };
 }
 /*
-    * We only run through the arcs, while entities
-    * also define colors for arcs with their arclinecolor.
-    * So why does this work?
-    * Because the pAST that is passed here, is usually "flattened"
-    * with the ast flattening module (flatten.js), which already distributes
-    * the arclinecolors from the entities to linecolors in the arc.
-    *
-    * For the same reason it's not really necessary to handle the recursion
-    * of inline expressions (note that the code is doing that notwithstanding)
-    */
+ * We only run through the arcs, while entities
+ * also define colors for arcs with their arclinecolor.
+ * So why does this work?
+ * Because the pAST that is passed here, is usually "flattened"
+ * with the ast flattening module (flatten.js), which already distributes
+ * the arclinecolors from the entities to linecolors in the arc.
+ *
+ * For the same reason it's not really necessary to handle the recursion
+ * of inline expressions (note that the code is doing that notwithstanding)
+ */
 function extractKindColorCombis(pAST) {
-    return pAST.arcs.reduce(extractKindColorCombisFromArc, []).sort().map(toColorCombiObject);
+    return pAST.arcs
+        .reduce(extractKindColorCombisFromArc, [])
+        .sort()
+        .map(toColorCombiObject);
 }
 export function getMarkerDefs(pId, pAST) {
-    return _flatten(extractKindColorCombis(pAST)
-        .map((pCombi) => MARKERPATHS[pCombi.kind]
-        .variants
-        .map((pVariant) => ({
+    return flatten(extractKindColorCombis(pAST).map((pCombi) => MARKERPATHS[pCombi.kind].variants.map((pVariant) => ({
         name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
         path: pVariant.path,
         color: pCombi.color,

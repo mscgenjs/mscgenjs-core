@@ -216,7 +216,7 @@ describe("#geometry", () => {
           expect("won't come here because it should throw an error").toBe(
             "did come here nonetheless"
           );
-        } catch (e) {
+        } catch (e: any) {
           expect(e.toString()).toBe("Error: pInterval must be > 0");
         }
       });
@@ -227,7 +227,7 @@ describe("#geometry", () => {
           expect("won't come here because it should throw an error").toBe(
             "did come here nonetheless"
           );
-        } catch (e) {
+        } catch (e: any) {
           expect(e.toString()).toBe("Error: pInterval must be > 0");
         }
       });

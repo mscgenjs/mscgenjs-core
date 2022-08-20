@@ -1,15 +1,32 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
+exports.splitLabel = exports.createLabel = void 0;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var wrap_1 = __importDefault(require("../textutensils/wrap"));
 var constants_1 = __importDefault(require("./constants"));
@@ -25,7 +42,7 @@ var svgutensils = __importStar(require("./svgutensils"));
  */
 function colorText(pElement, pTextColor) {
     if (pTextColor) {
-        pElement.setAttribute("style", "fill:" + pTextColor + ";");
+        pElement.setAttribute("style", "fill:".concat(pTextColor, ";"));
     }
     return pElement;
 }
@@ -38,7 +55,7 @@ function colorLink(pElement, pUrl, pTextColor) {
 function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
     var lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), { "class": "label-text-background" });
     if (pTextbgcolor) {
-        lRect.setAttribute("style", "fill:" + pTextbgcolor + "; stroke:" + pTextbgcolor + ";");
+        lRect.setAttribute("style", "fill:".concat(pTextbgcolor, "; stroke:").concat(pTextbgcolor, ";"));
     }
     return lRect;
 }
@@ -156,13 +173,13 @@ function _determineMaxTextWidthInChars(pWidth, pFontSize) {
     return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
 }
 function isWrappableBox(pKind, pWordWrapBoxes) {
-    return "box" === aggregatekind_1["default"](pKind) && pWordWrapBoxes;
+    return "box" === (0, aggregatekind_1["default"])(pKind) && pWordWrapBoxes;
 }
 function isWrappableEntity(pKind, pWordWrapEntites) {
     return "entity" === pKind && pWordWrapEntites;
 }
 function isWrappableArc(pKind, pWordWrapArcs) {
-    return "box" !== aggregatekind_1["default"](pKind) && "entity" !== pKind && pWordWrapArcs;
+    return "box" !== (0, aggregatekind_1["default"])(pKind) && "entity" !== pKind && pWordWrapArcs;
 }
 function labelIsWrappable(pKind /*mscgenjsast.ArcKindType*/, pOptions) {
     return isWrappableBox(pKind, pOptions.wordwrapboxes) ||
@@ -185,7 +202,7 @@ function labelIsWrappable(pKind /*mscgenjsast.ArcKindType*/, pOptions) {
  */
 function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
     if (labelIsWrappable(pKind, pOptions)) {
-        return wrap_1["default"](pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
+        return (0, wrap_1["default"])(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
     }
     else {
         return pLabel.split("\\n");

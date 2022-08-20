@@ -1,12 +1,29 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 exports.__esModule = true;
+exports.render = exports.XuAdaptor = void 0;
 var parserHelpers = __importStar(require("../../parse/parserHelpers"));
 var escape = __importStar(require("../textutensils/escape"));
 var XuAdaptor = /** @class */ (function () {
@@ -48,7 +65,7 @@ var XuAdaptor = /** @class */ (function () {
         return lRetVal;
     };
     XuAdaptor.prototype.renderEntityName = function (pString) {
-        return this.isQuotable(pString) ? "\"" + pString + "\"" : pString;
+        return this.isQuotable(pString) ? "\"".concat(pString, "\"") : pString;
     };
     XuAdaptor.prototype.renderAttribute = function (pAttribute) {
         var lRetVal = "";
@@ -64,7 +81,7 @@ var XuAdaptor = /** @class */ (function () {
         return pArray.reduce(function (pPrevComment, pCurComment) { return pPrevComment + pCurComment; }, "");
     };
     XuAdaptor.prototype.renderOption = function (pOption) {
-        return pOption.name + "=" + (typeof pOption.value === "string"
+        return "".concat(pOption.name, "=").concat(typeof pOption.value === "string"
             ? '"' + escape.escapeString(pOption.value) + '"'
             : pOption.value.toString());
     };
@@ -77,10 +94,10 @@ var XuAdaptor = /** @class */ (function () {
         return pKind;
     };
     XuAdaptor.prototype.renderStringAttribute = function (pAttribute) {
-        return pAttribute.name + "=\"" + escape.escapeString(pAttribute.value) + "\"";
+        return "".concat(pAttribute.name, "=\"").concat(escape.escapeString(pAttribute.value), "\"");
     };
     XuAdaptor.prototype.renderNonStringAttribute = function (pAttribute) {
-        return pAttribute.name + "=" + pAttribute.value;
+        return "".concat(pAttribute.name, "=").concat(pAttribute.value);
     };
     XuAdaptor.prototype.getConfig = function () {
         return {
@@ -122,32 +139,32 @@ var XuAdaptor = /** @class */ (function () {
                 "activation",
             ],
             program: {
-                opener: "msc" + this.space + "{" + this.eol,
+                opener: "msc".concat(this.space, "{").concat(this.eol),
                 closer: "}"
             },
             option: {
                 opener: this.indent,
-                separator: "," + this.eol + this.indent,
-                closer: ";" + this.eol + this.eol
+                separator: ",".concat(this.eol).concat(this.indent),
+                closer: ";".concat(this.eol).concat(this.eol)
             },
             entity: {
                 opener: this.indent,
-                separator: "," + this.eol + this.indent,
-                closer: ";" + this.eol + this.eol
+                separator: ",".concat(this.eol).concat(this.indent),
+                closer: ";".concat(this.eol).concat(this.eol)
             },
             attribute: {
-                opener: this.space + "[",
-                separator: "," + this.space,
+                opener: "".concat(this.space, "["),
+                separator: ",".concat(this.space),
                 closer: "]"
             },
             arcline: {
                 opener: this.indent,
-                separator: "," + this.eol + this.indent,
-                closer: ";" + this.eol
+                separator: ",".concat(this.eol).concat(this.indent),
+                closer: ";".concat(this.eol)
             },
             inline: {
-                opener: this.space + "{" + this.eol,
-                closer: this.indent + "}"
+                opener: "".concat(this.space, "{").concat(this.eol),
+                closer: "".concat(this.indent, "}")
             }
         };
     };
@@ -221,11 +238,11 @@ var XuAdaptor = /** @class */ (function () {
     XuAdaptor.prototype.renderArc = function (pArc, pIndent) {
         var lRetVal = "";
         if (pArc.from) {
-            lRetVal += this.renderEntityName(pArc.from) + " ";
+            lRetVal += "".concat(this.renderEntityName(pArc.from), " ");
         }
         lRetVal += this.renderKind(pArc.kind);
         if (pArc.to) {
-            lRetVal += " " + this.renderEntityName(pArc.to);
+            lRetVal += " ".concat(this.renderEntityName(pArc.to));
         }
         lRetVal += this.renderAttributes(pArc, this.config.supportedArcAttributes);
         if (pArc.arcs) {
@@ -265,11 +282,12 @@ var XuAdaptor = /** @class */ (function () {
     return XuAdaptor;
 }());
 exports.XuAdaptor = XuAdaptor;
-exports.render = function (pAST, pMinimal) {
+var render = function (pAST, pMinimal) {
     if (pMinimal === void 0) { pMinimal = false; }
     var lAdaptor = new XuAdaptor(pMinimal);
     return lAdaptor.render(pAST);
 };
+exports.render = render;
 /*
  This file is part of mscgen_js.
 

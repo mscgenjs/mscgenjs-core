@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.set = exports.getByRealRowNumber = exports.clear = exports.getLast = exports.get = void 0;
 /**
  * Functions to help determine the correct height and
  * y position of rows befor rendering them.

@@ -1,15 +1,32 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
+exports.getBetweenPoints = exports.getNumberOfSegments = exports.getLineLength = exports.line2CurveString = exports.points2CurveString = void 0;
 var round_1 = __importDefault(require("../round"));
 var svgprimitives = __importStar(require("../svgprimitives"));
 var variationhelpers = __importStar(require("../variationhelpers"));
@@ -17,8 +34,8 @@ var SEGMENT_LENGTH = 70; // 70
 var WOBBLE_FACTOR = 3; // 1.4?
 function points2CurveString(pCurveSections) {
     return pCurveSections.map(function (pCurveSection) {
-        return svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY) + " " +
-            ("" + svgprimitives.point2String(pCurveSection));
+        return "".concat(svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY), " ") +
+            "".concat(svgprimitives.point2String(pCurveSection));
     }).join(" ");
 }
 exports.points2CurveString = points2CurveString;
@@ -97,10 +114,10 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     var lCurveSection;
     for (var i = 1; i <= lNoSegments; i++) {
         lCurveSection = {
-            controlX: round_1["default"](pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
-            controlY: round_1["default"](pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
-            x: round_1["default"](pLine.xFrom + i * lIntervalX, PRECISION),
-            y: round_1["default"](pLine.yFrom + i * lIntervalY, PRECISION)
+            controlX: (0, round_1["default"])(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
+            controlY: (0, round_1["default"])(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
+            x: (0, round_1["default"])(pLine.xFrom + i * lIntervalX, PRECISION),
+            y: (0, round_1["default"])(pLine.yFrom + i * lIntervalY, PRECISION)
         };
         if (pInterval >
             getLineLength({

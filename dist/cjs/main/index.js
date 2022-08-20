@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+exports.getAllowedValues = exports.version = exports.translateMsc = exports.renderMsc = void 0;
 var allowedvalues_1 = __importDefault(require("./allowedvalues"));
 var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
 var $version = require("../version.json");
@@ -29,7 +30,7 @@ function runCallBack(pCallBack, pError, pResult) {
     }
 }
 function renderMsc(pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRenderer) {
-    var lOptions = normalizeoptions_1["default"](pOptions, pScript);
+    var lOptions = (0, normalizeoptions_1["default"])(pOptions, pScript);
     try {
         runCallBack(pCallBack, null, pGetGraphicsRenderer().render(getAST(pScript, lOptions.inputType, pGetParser), lOptions.window, lOptions.elementId, {
             source: lOptions.source,

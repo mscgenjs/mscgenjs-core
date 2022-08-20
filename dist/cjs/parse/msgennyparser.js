@@ -3,9 +3,9 @@
 // https://peggyjs.org/
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {
-    define(["lodash.assign", "./parserHelpers"], factory);
+    define(["lodash/assign", "./parserHelpers"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory(require("lodash.assign"), require("./parserHelpers"));
+    module.exports = factory(require("lodash/assign"), require("./parserHelpers"));
   }
 })(this, function(_assign, parserHelpers) {
   "use strict";

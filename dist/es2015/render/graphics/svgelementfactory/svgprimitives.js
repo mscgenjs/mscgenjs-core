@@ -17,7 +17,7 @@ function createMarker(pId, pClass, pOrient, pViewBox) {
      * - Suspicion: with (0,0) the marker paths we use would end up having
      *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
      *   signal)
-    */
+     */
     return domprimitives.createElement("marker", {
         orient: pOrient,
         id: pId,
@@ -30,11 +30,11 @@ function createMarker(pId, pClass, pOrient, pViewBox) {
         markerHeight: "10",
     });
     /* for scaling to the lineWidth of the line the marker is attached to,
-    * userSpaceOnUse looks like a good plan, but it is not only the
-    * paths that don't scale, it's also the linewidth (which makes sense).
-    * We'll have to roll our own path transformation algorithm if we want
-    * to change only the linewidth and not the rest
-    */
+     * userSpaceOnUse looks like a good plan, but it is not only the
+     * paths that don't scale, it's also the linewidth (which makes sense).
+     * We'll have to roll our own path transformation algorithm if we want
+     * to change only the linewidth and not the rest
+     */
 }
 function createLink(pURL, pElementToWrap) {
     const lA = domprimitives.createElement("a");
@@ -146,8 +146,8 @@ export function createRect(pBBox, pOptions) {
         height: round(pBBox.height, PRECISION),
         x: round(pBBox.x, PRECISION),
         y: round(pBBox.y, PRECISION),
-        rx: round(lOptions.rx, PRECISION),
-        ry: round(lOptions.ry, PRECISION),
+        rx: round(lOptions.rx || 0, PRECISION),
+        ry: round(lOptions.ry || 0, PRECISION),
         class: lOptions.class,
     }), lOptions.color, lOptions.bgColor);
 }
@@ -167,12 +167,14 @@ export function createUTurn(pBBox, pEndY, pOptions) {
         dontHitHome: false,
         lineWidth: 1,
     }, pOptions);
-    const lEndX = lOptions.dontHitHome ? pBBox.x + 7.5 * lOptions.lineWidth : pBBox.x;
+    const lEndX = lOptions.dontHitHome
+        ? pBBox.x + 7.5 * (lOptions.lineWidth || 1)
+        : pBBox.x;
     return createPath(
     // point to start from:
-    pathPoint2String("M", pBBox.x, pBBox.y - (pBBox.height / 2)) +
+    pathPoint2String("M", pBBox.x, pBBox.y - pBBox.height / 2) +
         // curve first to:
-        pathPoint2String("C", pBBox.x + pBBox.width, pBBox.y - ((7.5 * lOptions.lineWidth) / 2)) +
+        pathPoint2String("C", pBBox.x + pBBox.width, pBBox.y - (7.5 * (lOptions.lineWidth || 1)) / 2) +
         // curve back from.:
         point2String({ x: pBBox.x + pBBox.width, y: pEndY + 0 }) +
         // curve end-pont:
@@ -198,11 +200,11 @@ export function createGroup(pId, pClass) {
 export function createMarkerPath(pId, pD, pColor) {
     const lMarker = createMarker(pId, "arrow-marker", "auto");
     /* stroke-dasharray: 'none' should work to override any dashes (like in
-        * return messages (a >> b;)) and making sure the marker end gets
-        * lines
-        * This, however, does not work in webkit, hence the curious
-        * value for the stroke-dasharray
-        */
+     * return messages (a >> b;)) and making sure the marker end gets
+     * lines
+     * This, however, does not work in webkit, hence the curious
+     * value for the stroke-dasharray
+     */
     lMarker.appendChild(createPath(pD, {
         class: "arrow-style",
         style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",
@@ -242,8 +244,8 @@ export function createTitle(pText) {
 export function createDiagonalText(pText, pDimension, pClass) {
     return domprimitives.setAttributes(createText(pText, { x: pDimension.width / 2, y: pDimension.height / 2 }, { class: pClass }), {
         transform: `rotate(${round(getDiagonalAngle(pDimension), PRECISION).toString()} ` +
-            `${round((pDimension.width) / 2, PRECISION).toString()} ` +
-            `${round((pDimension.height) / 2, PRECISION).toString()})`,
+            `${round(pDimension.width / 2, PRECISION).toString()} ` +
+            `${round(pDimension.height / 2, PRECISION).toString()})`,
     });
 }
 /**
@@ -270,13 +272,13 @@ export function createDefs() {
  */
 export function createSVG(pId, pClass) {
     return domprimitives.createElement("svg", {
-        "version": "1.1",
-        "id": pId,
-        "class": pClass,
-        "xmlns": domprimitives.SVGNS,
+        version: "1.1",
+        id: pId,
+        class: pClass,
+        xmlns: domprimitives.SVGNS,
         "xmlns:xlink": domprimitives.XLINKNS,
-        "width": "0",
-        "height": "0",
+        width: "0",
+        height: "0",
     });
 }
 export const init = domprimitives.init;

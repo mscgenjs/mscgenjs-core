@@ -1,27 +1,27 @@
-import _cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 
 export function scaleCanvasToWidth(pWidth, pCanvas) {
-    const lCanvas = _cloneDeep(pCanvas);
+  const lCanvas = cloneDeep(pCanvas);
 
-    lCanvas.scale = (pWidth / lCanvas.width);
-    lCanvas.width *= lCanvas.scale;
-    lCanvas.height *= lCanvas.scale;
-    lCanvas.horizontaltransform *= lCanvas.scale;
-    lCanvas.verticaltransform *= lCanvas.scale;
-    lCanvas.x = 0 - lCanvas.horizontaltransform;
-    lCanvas.y = 0 - lCanvas.verticaltransform;
+  lCanvas.scale = pWidth / lCanvas.width;
+  lCanvas.width *= lCanvas.scale;
+  lCanvas.height *= lCanvas.scale;
+  lCanvas.horizontaltransform *= lCanvas.scale;
+  lCanvas.verticaltransform *= lCanvas.scale;
+  lCanvas.x = 0 - lCanvas.horizontaltransform;
+  lCanvas.y = 0 - lCanvas.verticaltransform;
 
-    return lCanvas;
+  return lCanvas;
 }
 export function determineDepthCorrection(pDepth, pLineWidth) {
-    return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
+  return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
 }
 export function determineArcXTo(pKind, pFrom, pTo) {
-    if ("-x" === pKind) {
-        return pFrom + (pTo - pFrom) * (3 / 4);
-    } else {
-        return pTo;
-    }
+  if ("-x" === pKind) {
+    return pFrom + (pTo - pFrom) * (3 / 4);
+  } else {
+    return pTo;
+  }
 }
 /*
  This file is part of mscgen_js.

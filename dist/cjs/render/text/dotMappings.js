@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.getStyle = exports.getShape = exports.getArrow = void 0;
 /**
  * Defines several mappings of arckinds to agregations
  *

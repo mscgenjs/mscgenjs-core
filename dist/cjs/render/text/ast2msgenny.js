@@ -3,16 +3,19 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 exports.__esModule = true;
+exports.render = void 0;
 var ast2xu_1 = require("./ast2xu");
 var MsGennyAdaptor = /** @class */ (function (_super) {
     __extends(MsGennyAdaptor, _super);
@@ -29,21 +32,21 @@ var MsGennyAdaptor = /** @class */ (function (_super) {
             },
             option: {
                 opener: "",
-                separator: "," + this.eol,
-                closer: ";" + this.eol + this.eol
+                separator: ",".concat(this.eol),
+                closer: ";".concat(this.eol).concat(this.eol)
             },
             entity: {
                 opener: "",
-                separator: "," + this.eol,
-                closer: ";" + this.eol + this.eol
+                separator: ",".concat(this.eol),
+                closer: ";".concat(this.eol).concat(this.eol)
             },
             arcline: {
                 opener: "",
-                separator: "," + this.eol,
-                closer: ";" + this.eol
+                separator: ",".concat(this.eol),
+                closer: ";".concat(this.eol)
             },
             inline: {
-                opener: " {" + this.eol,
+                opener: " {".concat(this.eol),
                 closer: "}"
             },
             attribute: {
@@ -54,12 +57,12 @@ var MsGennyAdaptor = /** @class */ (function (_super) {
         });
     };
     MsGennyAdaptor.prototype.renderEntityName = function (pString) {
-        return this.entityNameIsQuotable(pString) ? "\"" + pString + "\"" : pString;
+        return this.entityNameIsQuotable(pString) ? "\"".concat(pString, "\"") : pString;
     };
     MsGennyAdaptor.prototype.renderAttribute = function (pAttribute) {
         var lRetVal = "";
         if (pAttribute.name && pAttribute.value) {
-            lRetVal += " : \"" + pAttribute.value + "\"";
+            lRetVal += " : \"".concat(pAttribute.value, "\"");
         }
         return lRetVal;
     };
@@ -74,10 +77,11 @@ var MsGennyAdaptor = /** @class */ (function (_super) {
     };
     return MsGennyAdaptor;
 }(ast2xu_1.XuAdaptor));
-exports.render = function (pAST) {
+var render = function (pAST) {
     var lAdaptor = new MsGennyAdaptor();
     return lAdaptor.render(pAST);
 };
+exports.render = render;
 /*
  This file is part of mscgen_js.
 

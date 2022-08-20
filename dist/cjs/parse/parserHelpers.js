@@ -8,6 +8,7 @@
  *
  */
 exports.__esModule = true;
+exports.getMetaInfo = exports.checkForUndeclaredEntities = exports.EntityNotDefinedError = exports.isMscGenKeyword = exports.entityExists = exports.flattenBoolean = exports.nameValue2Option = void 0;
 function nameValue2Option(pName, pValue) {
     var lOption = {};
     lOption[pName.toLowerCase()] = pValue;
@@ -57,7 +58,7 @@ function isMscGenKeyword(pString) {
 }
 exports.isMscGenKeyword = isMscGenKeyword;
 function buildEntityNotDefinedMessage(pEntityName, pArc) {
-    return "Entity '" + pEntityName + "' in arc '" + pArc.from + " " + pArc.kind + " " + pArc.to + "' is not defined.";
+    return "Entity '".concat(pEntityName, "' in arc '").concat(pArc.from, " ").concat(pArc.kind, " ").concat(pArc.to, "' is not defined.");
 }
 var EntityNotDefinedError = /** @class */ (function () {
     function EntityNotDefinedError(pEntityName, pArc) {

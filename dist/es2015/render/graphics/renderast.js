@@ -1,6 +1,6 @@
-import _cloneDeep from "lodash.clonedeep";
+import cloneDeep from "lodash/cloneDeep";
 import aggregatekind from "../astmassage/aggregatekind";
-import { flatten } from "../astmassage/flatten";
+import { flatten, } from "../astmassage/flatten";
 import constants from "./constants";
 import { Thing } from "./entities";
 import * as idmanager from "./idmanager";
@@ -41,13 +41,14 @@ const gChart = Object.seal({
 let gInlineExpressionMemory = [];
 //#endregion
 function getParentElement(pWindow, pParentElementId) {
-    return pWindow.document.getElementById(pParentElementId) || pWindow.document.body;
+    return (pWindow.document.getElementById(pParentElementId) || pWindow.document.body);
 }
 //#region render level 0 & 1
 function renderASTPre(pAST, pWindow, pParentElement, pOptions) {
     gChart.document = renderskeleton.bootstrap(pWindow, pParentElement, idmanager.get(), markermanager.getMarkerDefs(idmanager.get(), pAST), pOptions);
     gChart.mirrorEntitiesOnBottom = pOptions.mirrorEntitiesOnBottom;
-    gChart.regularArcTextVerticalAlignment = pOptions.regularArcTextVerticalAlignment;
+    gChart.regularArcTextVerticalAlignment =
+        pOptions.regularArcTextVerticalAlignment;
     svgutensils.init(gChart.document);
     gChart.layers = createLayerShortcuts(gChart.document);
     gChart.maxDepth = pAST.depth;
@@ -64,11 +65,11 @@ function renderASTMain(pAST) {
 function renderASTPost(pAST) {
     let lCanvas = calculateCanvasDimensions(pAST);
     /* canvg ignores the background-color on svg level and makes the background
-        * transparent in stead. To work around this insert a white rectangle the size
-        * of the canvas in the background layer.
-        *
-        * We do this _before_ scaling is applied to the svg
-        */
+     * transparent in stead. To work around this insert a white rectangle the size
+     * of the canvas in the background layer.
+     *
+     * We do this _before_ scaling is applied to the svg
+     */
     renderBackground(lCanvas);
     lCanvas = postProcessOptions(pAST.options, lCanvas);
     renderSvgElement(lCanvas);
@@ -88,8 +89,10 @@ function preProcessOptionsArcs(pChart, pOptions) {
     pChart.arcGradient = DEFAULT_ARC_GRADIENT;
     pChart.wordWrapArcs = false;
     if (pOptions.arcgradient) {
-        pChart.arcRowHeight = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-        pChart.arcGradient = parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
+        pChart.arcRowHeight =
+            parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
+        pChart.arcGradient =
+            parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
     }
     pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
 }
@@ -115,11 +118,18 @@ function calculateCanvasDimensions(pAST) {
     const lDepthCorrection = renderutensils.determineDepthCorrection(pAST.depth, constants.LINE_WIDTH);
     const lRowInfo = rowmemory.getLast();
     const lCanvas = {
-        width: (pAST.entities.length * entities.getDims().interEntitySpacing) + lDepthCorrection,
+        width: pAST.entities.length * entities.getDims().interEntitySpacing +
+            lDepthCorrection,
         height: Boolean(gChart.mirrorEntitiesOnBottom)
-            ? (2 * entities.getDims().height) + lRowInfo.y + lRowInfo.height + 2 * PAD_VERTICAL
-            : lRowInfo.y + (lRowInfo.height / 2) + 2 * PAD_VERTICAL,
-        horizontaltransform: (entities.getDims().interEntitySpacing + lDepthCorrection - entities.getDims().width) / 2,
+            ? 2 * entities.getDims().height +
+                lRowInfo.y +
+                lRowInfo.height +
+                2 * PAD_VERTICAL
+            : lRowInfo.y + lRowInfo.height / 2 + 2 * PAD_VERTICAL,
+        horizontaltransform: (entities.getDims().interEntitySpacing +
+            lDepthCorrection -
+            entities.getDims().width) /
+            2,
         autoscale: !!pAST.options && !!pAST.options.width && pAST.options.width === "auto",
         verticaltransform: PAD_VERTICAL,
         scale: 1,
@@ -170,25 +180,26 @@ function renderSvgElement(pCanvas) {
 }
 //#region entities
 function renderEntitiesOnBottom(pEntities, pOptions) {
-    const lLifeLineSpacerY = rowmemory.getLast().y + (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
+    const lLifeLineSpacerY = rowmemory.getLast().y +
+        (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
     /*
-        insert a life line between the last arc and the entities so there's
-        some visual breathing room
-        */
+          insert a life line between the last arc and the entities so there's
+          some visual breathing room
+          */
     createLifeLines(pEntities, "arcrow", gChart.arcRowHeight, lLifeLineSpacerY).forEach((pLifeLine) => {
         gChart.layers.lifeline.appendChild(pLifeLine);
     });
     /*
-        We used to have a simple 'use' element here that refered to the
-        entities on top. It's cheaper and faster, however in Firefox
-        56.0b6 (developer edition) they rendered with the wrong font
-        in the best of cases, and as solid black boxes in the worst.
-
-        Looks like a bug in Firefox, that should be fixed there, but
-        implementing this workaround is safer. It also does away with
-        `use` s that seem to be hard to implement well for svg render engine
-        builders (ref the links in uses that didn't work in some browsers).
-        */
+          We used to have a simple 'use' element here that refered to the
+          entities on top. It's cheaper and faster, however in Firefox
+          56.0b6 (developer edition) they rendered with the wrong font
+          in the best of cases, and as solid black boxes in the worst.
+  
+          Looks like a bug in Firefox, that should be fixed there, but
+          implementing this workaround is safer. It also does away with
+          `use` s that seem to be hard to implement well for svg render engine
+          builders (ref the links in uses that didn't work in some browsers).
+          */
     renderEntities(pEntities, lLifeLineSpacerY + gChart.arcRowHeight / 2, pOptions);
 }
 /**
@@ -204,7 +215,8 @@ function renderEntities(pEntities, pEntityYPos, pOptions) {
     gChart.layers.sequence.appendChild(entities.renderEntities(pEntities, pEntityYPos, pOptions));
     gChart.arcEndX =
         entities.getDims().entityXHWM -
-            entities.getDims().interEntitySpacing + entities.getDims().width;
+            entities.getDims().interEntitySpacing +
+            entities.getDims().width;
 }
 //#endregion
 function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
@@ -228,27 +240,27 @@ function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
 function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
     let lElement = svgelementfactory.createGroup();
     if (pArc.from && pArc.to) {
-        if (pArc.to === "*") { // it's a broadcast arc
+        if (pArc.to === "*") {
+            // it's a broadcast arc
             renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions);
             /* creates a label on the current line, smack in the middle */
-            lElement =
-                renderlabels.createLabel(pArc, {
-                    x: 0,
-                    y: rowmemory.get(pRowNumber).y,
-                    width: gChart.arcEndX,
-                }, Object.assign({
-                    alignAround: true,
-                    ownBackground: true,
-                }, _cloneDeep(pOptions)));
+            lElement = renderlabels.createLabel(pArc, {
+                x: 0,
+                y: rowmemory.get(pRowNumber).y,
+                width: gChart.arcEndX,
+            }, Object.assign({
+                alignAround: true,
+                ownBackground: true,
+            }, cloneDeep(pOptions)));
             pRowMemory.push({
                 title: pArc.title,
                 layer: gChart.layers.sequence,
                 element: lElement,
             });
         }
-        else { // it's a regular arc
-            lElement =
-                createArc(pArc, entities.getX(pArc.from), entities.getX(pArc.to), pRowNumber, pOptions);
+        else {
+            // it's a regular arc
+            lElement = createArc(pArc, entities.getX(pArc.from), entities.getX(pArc.to), pRowNumber, pOptions);
             pRowMemory.push({
                 title: pArc.title,
                 layer: gChart.layers.sequence,
@@ -263,18 +275,18 @@ function getArcRowHeight(pArcRow, pEntities, pOptions) {
     pArcRow.forEach((pArc) => {
         let lElement;
         switch (aggregatekind(pArc.kind)) {
-            case ("empty"):
+            case "empty":
                 lElement = renderEmptyArc(pArc, 0);
                 break;
-            case ("box"):
+            case "box":
                 lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, 0, pOptions);
                 break;
-            case ("inline_expression"):
+            case "inline_expression":
                 lElement = renderInlineExpressionLabel(pArc, 0);
                 break;
-            default:
-                const lArc = _cloneDeep(pArc);
-                lArc.arcskip = 0; /* ignore arc skips when calculating row heights */
+            default: /* ignore arc skips when calculating row heights */
+                const lArc = cloneDeep(pArc);
+                lArc.arcskip = 0;
                 lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
         } // switch
         lRetval = Math.max(lRetval, svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH);
@@ -287,7 +299,7 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
     pArcRow.forEach((pArc) => {
         let lElement = {};
         switch (aggregatekind(pArc.kind)) {
-            case ("empty"):
+            case "empty":
                 lElement = renderEmptyArc(pArc, rowmemory.get(pRowNumber).y);
                 if ("..." === pArc.kind) {
                     lArcRowClass = "arcrowomit";
@@ -297,7 +309,7 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
                     element: lElement,
                 });
                 break;
-            case ("box"):
+            case "box":
                 lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, rowmemory.get(pRowNumber).y, pOptions);
                 lRowMemory.push({
                     title: pArc.title,
@@ -305,7 +317,7 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
                     element: lElement,
                 });
                 break;
-            case ("inline_expression"):
+            case "inline_expression":
                 lElement = renderInlineExpressionLabel(pArc, rowmemory.get(pRowNumber).y);
                 lRowMemory.push({
                     layer: gChart.layers.notes,
@@ -321,8 +333,8 @@ function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
         } // switch
     }); // for all arcs in a row
     /*
-        *  only here we can determine the height of the row and the y position
-        */
+     *  only here we can determine the height of the row and the y position
+     */
     createLifeLines(pEntities, lArcRowClass, rowmemory.get(pRowNumber).height, rowmemory.get(pRowNumber).y).forEach((pLifeLine) => {
         gChart.layers.lifeline.appendChild(pLifeLine);
     });
@@ -376,19 +388,23 @@ function renderInlineExpressionLabel(pArc, pY) {
     const FOLD_SIZE = 7;
     const lLabelContentAlreadyDetermined = pY > 0;
     const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
-    const lMaxWidth = (lOnD.to - lOnD.from) +
+    const lMaxWidth = lOnD.to -
+        lOnD.from +
         (entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH) -
         FOLD_SIZE -
         constants.LINE_WIDTH;
-    const lStart = (lOnD.from -
-        ((entities.getDims().interEntitySpacing - 3 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2) -
-        (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH);
+    const lStart = lOnD.from -
+        (entities.getDims().interEntitySpacing -
+            3 * constants.LINE_WIDTH -
+            lMaxDepthCorrection) /
+            2 -
+        (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
     const lGroup = svgelementfactory.createGroup();
     if (!lLabelContentAlreadyDetermined) {
         pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
     }
     const lTextGroup = renderlabels.createLabel(pArc, {
-        x: lStart + constants.LINE_WIDTH - (lMaxWidth / 2),
+        x: lStart + constants.LINE_WIDTH - lMaxWidth / 2,
         y: pY + gChart.arcRowHeight / 4,
         width: lMaxWidth,
     }, {
@@ -397,7 +413,7 @@ function renderInlineExpressionLabel(pArc, pY) {
         wordwraparcs: gChart.wordWrapArcs,
     });
     const lBBox = svgutensils.getBBox(lTextGroup);
-    const lHeight = Math.max(lBBox.height + 2 * constants.LINE_WIDTH, (gChart.arcRowHeight / 2) - 2 * constants.LINE_WIDTH);
+    const lHeight = Math.max(lBBox.height + 2 * constants.LINE_WIDTH, gChart.arcRowHeight / 2 - 2 * constants.LINE_WIDTH);
     const lWidth = Math.min(lBBox.width + 2 * constants.LINE_WIDTH, lMaxWidth);
     const lBox = svgelementfactory.createEdgeRemark({
         width: lWidth - constants.LINE_WIDTH + FOLD_SIZE,
@@ -417,15 +433,23 @@ function renderInlineExpressionLabel(pArc, pY) {
 function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
     /* begin: same as createBox */
     const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
-    const lWidth = (pOAndD.to - pOAndD.from) +
-        entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection; // px
+    const lWidth = pOAndD.to -
+        pOAndD.from +
+        entities.getDims().interEntitySpacing -
+        2 * constants.LINE_WIDTH -
+        lMaxDepthCorrection; // px
     const lStart = pOAndD.from -
-        ((entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2);
+        (entities.getDims().interEntitySpacing -
+            2 * constants.LINE_WIDTH -
+            lMaxDepthCorrection) /
+            2;
     /* end: same as createBox */
     const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
     return svgelementfactory.createRect({
         width: lWidth + lArcDepthCorrection * 2,
-        height: pHeight ? pHeight : gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
+        height: pHeight
+            ? pHeight
+            : gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
         x: lStart - lArcDepthCorrection,
         y: pY,
     }, {
@@ -454,9 +478,9 @@ function createLifeLines(pEntities, pClass, pHeight, pY) {
     return pEntities.map((pEntity) => {
         const lLine = svgelementfactory.createLine({
             xFrom: entities.getX(pEntity.name),
-            yFrom: 0 - (pHeight / 2) + (pY ? pY : 0),
+            yFrom: 0 - pHeight / 2 + (pY ? pY : 0),
             xTo: entities.getX(pEntity.name),
-            yTo: (pHeight / 2) + (pY ? pY : 0),
+            yTo: pHeight / 2 + (pY ? pY : 0),
         }, {
             class: pClass,
         });
@@ -479,7 +503,7 @@ function createSelfRefArc(pKind, pX, pYTo, pDouble, pY, pLineColor) {
             y: pY,
             width: lWidth - 2 * constants.LINE_WIDTH,
             height: lHeight,
-        }, (pY + pYTo + lHeight - 2 * constants.LINE_WIDTH), // pY
+        }, pY + pYTo + lHeight - 2 * constants.LINE_WIDTH, // pY
         {
             class: lClass,
             dontHitHome: pKind !== "::",
@@ -491,13 +515,13 @@ function createSelfRefArc(pKind, pX, pYTo, pDouble, pY, pLineColor) {
             y: pY,
             width: lWidth,
             height: lHeight,
-        }, (pY + pYTo + lHeight - constants.LINE_WIDTH), { lineWidth: constants.LINE_WIDTH });
+        }, pY + pYTo + lHeight - constants.LINE_WIDTH, { lineWidth: constants.LINE_WIDTH });
         const lOuterTurn = svgelementfactory.createUTurn({
             x: pX,
             y: pY,
             width: lWidth,
             height: lHeight,
-        }, (pY + pYTo + lHeight), {
+        }, pY + pYTo + lHeight, {
             class: lClass,
             dontHitHome: pKind !== "::",
             lineWidth: constants.LINE_WIDTH,
@@ -505,7 +529,9 @@ function createSelfRefArc(pKind, pX, pYTo, pDouble, pY, pLineColor) {
         if (!!pLineColor) {
             lInnerTurn.setAttribute("style", `stroke:${pLineColor}`);
         }
-        markermanager.getAttributes(idmanager.get(), pKind, pLineColor, pX, pX).forEach((pAttribute) => {
+        markermanager
+            .getAttributes(idmanager.get(), pKind, pLineColor, pX, pX)
+            .forEach((pAttribute) => {
             lMiddleTurn.setAttribute(pAttribute.name, pAttribute.value);
         });
         lMiddleTurn.setAttribute("style", "stroke:transparent;");
@@ -523,12 +549,14 @@ function createSelfRefArc(pKind, pX, pYTo, pDouble, pY, pLineColor) {
             y: pY,
             width: lWidth,
             height: lHeight,
-        }, (pY + pYTo + lHeight), {
+        }, pY + pYTo + lHeight, {
             class: lClass,
             dontHitHome: pKind === "-x",
             lineWidth: constants.LINE_WIDTH,
         });
-        markermanager.getAttributes(idmanager.get(), pKind, pLineColor, pX, pX).forEach((pAttribute) => {
+        markermanager
+            .getAttributes(idmanager.get(), pKind, pLineColor, pX, pX)
+            .forEach((pAttribute) => {
             lRetval.setAttribute(pAttribute.name, pAttribute.value);
         });
     }
@@ -538,7 +566,8 @@ function renderEmptyArc(pArc, pY) {
     if (pArc.kind === "---") {
         return createComment(pArc, entities.getOAndD(pArc.from, pArc.to), pY);
     }
-    else { /* "..." / "|||" */
+    else {
+        /* "..." / "|||" */
         return createLifeLinesText(pArc, entities.getOAndD(pArc.from, pArc.to), pY);
     }
 }
@@ -550,8 +579,11 @@ function determineYToAbsolute(pRowNumber, pArcGradient, pArcSkip) {
         const lCurrentRealRowNumber = rowmemory.get(pRowNumber).realRowNumber;
         lRetval =
             rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y +
-                lRestArcSkip * (rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip + 1).y -
-                    rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y);
+                lRestArcSkip *
+                    (rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip + 1)
+                        .y -
+                        rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip)
+                            .y);
     }
     return lRetval;
 }
@@ -575,16 +607,18 @@ function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
     if (pXFrom === pXTo) {
         lGroup.appendChild(createSelfRefArc(pArc.kind, pXFrom, lYToAbsolute - rowmemory.get(pRowNumber).y - gChart.arcGradient, lDoubleLine, rowmemory.get(pRowNumber).y, pArc.linecolor));
         /* creates a label left aligned, a little above the arc*/
-        const lTextWidth = 2 * entities.getDims().interEntitySpacing / 3;
+        const lTextWidth = (2 * entities.getDims().interEntitySpacing) / 3;
         lGroup.appendChild(renderlabels.createLabel(pArc, {
-            x: pXFrom + 1.5 * constants.LINE_WIDTH - (lTextWidth / 2),
-            y: rowmemory.get(pRowNumber).y - (gChart.arcRowHeight / 5) - constants.LINE_WIDTH / 2,
+            x: pXFrom + 1.5 * constants.LINE_WIDTH - lTextWidth / 2,
+            y: rowmemory.get(pRowNumber).y -
+                gChart.arcRowHeight / 5 -
+                constants.LINE_WIDTH / 2,
             width: lTextWidth,
         }, Object.assign({
             alignLeft: true,
             alignAbove: true,
             ownBackground: true,
-        }, _cloneDeep(pOptions))));
+        }, cloneDeep(pOptions))));
     }
     else {
         const lLine = svgelementfactory.createLine({
@@ -596,20 +630,23 @@ function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
             class: lClass,
             doubleLine: lDoubleLine,
         });
-        markermanager.getAttributes(idmanager.get(), pArc.kind, pArc.linecolor, pXFrom, pXTo).forEach((pAttribute) => {
+        markermanager
+            .getAttributes(idmanager.get(), pArc.kind, pArc.linecolor, pXFrom, pXTo)
+            .forEach((pAttribute) => {
             lLine.setAttribute(pAttribute.name, pAttribute.value);
         });
         lGroup.appendChild(lLine);
         /* create a label centered on the arc */
         lGroup.appendChild(renderlabels.createLabel(pArc, {
             x: pXFrom,
-            y: rowmemory.get(pRowNumber).y + ((lYToAbsolute - rowmemory.get(pRowNumber).y) / 2),
+            y: rowmemory.get(pRowNumber).y +
+                (lYToAbsolute - rowmemory.get(pRowNumber).y) / 2,
             width: pXTo - pXFrom,
         }, Object.assign({
             alignAround: true,
-            alignAbove: (gChart.regularArcTextVerticalAlignment === "above"),
+            alignAbove: gChart.regularArcTextVerticalAlignment === "above",
             ownBackground: true,
-        }, _cloneDeep(pOptions))));
+        }, cloneDeep(pOptions))));
     }
     return lGroup;
 }
@@ -646,12 +683,12 @@ function createComment(pArc, pOAndD, pY) {
         const lMaxDepthCorrection = gChart.maxDepth * 1 * constants.LINE_WIDTH;
         const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
         lStartX =
-            (pOAndD.from -
-                (entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2) -
+            pOAndD.from -
+                (entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2 -
                 (lArcDepthCorrection - lMaxDepthCorrection);
         lEndX =
-            (pOAndD.to +
-                (entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2) +
+            pOAndD.to +
+                (entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2 +
                 (lArcDepthCorrection - lMaxDepthCorrection);
         lClass = "inline_expression_divider";
     }
@@ -684,33 +721,44 @@ function createComment(pArc, pOAndD, pY) {
 function createBox(pOAndD, pArc, pY, pOptions) {
     /* begin: same as createInlineExpressionBox */
     const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
-    const lWidth = (pOAndD.to - pOAndD.from) +
-        entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection; // px
+    const lWidth = pOAndD.to -
+        pOAndD.from +
+        entities.getDims().interEntitySpacing -
+        2 * constants.LINE_WIDTH -
+        lMaxDepthCorrection; // px
     const lStart = pOAndD.from -
-        ((entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH - lMaxDepthCorrection) / 2);
+        (entities.getDims().interEntitySpacing -
+            2 * constants.LINE_WIDTH -
+            lMaxDepthCorrection) /
+            2;
     /* end: same as createInlineExpressionBox */
     const lGroup = svgelementfactory.createGroup();
     let lBox;
     const lTextGroup = renderlabels.createLabel(pArc, { x: lStart, y: pY, width: lWidth }, pOptions);
     const lTextBBox = svgutensils.getBBox(lTextGroup);
     const lHeight = Math.max(lTextBBox.height + 2 * constants.LINE_WIDTH, gChart.arcRowHeight - 2 * constants.LINE_WIDTH);
-    const lBBox = { width: lWidth, height: lHeight, x: lStart, y: (pY - lHeight / 2) };
+    const lBBox = {
+        width: lWidth,
+        height: lHeight,
+        x: lStart,
+        y: pY - lHeight / 2,
+    };
     switch (pArc.kind) {
-        case ("rbox"):
+        case "rbox":
             lBox = svgelementfactory.createRBox(lBBox, {
                 class: "box rbox",
                 color: pArc.linecolor,
                 bgColor: pArc.textbgcolor,
             });
             break;
-        case ("abox"):
+        case "abox":
             lBox = svgelementfactory.createABox(lBBox, {
                 class: "box abox",
                 color: pArc.linecolor,
                 bgColor: pArc.textbgcolor,
             });
             break;
-        case ("note"):
+        case "note":
             lBox = svgelementfactory.createNote(lBBox, {
                 class: "box note",
                 color: pArc.linecolor,

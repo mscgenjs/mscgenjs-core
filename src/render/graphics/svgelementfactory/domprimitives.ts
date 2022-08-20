@@ -1,4 +1,4 @@
-export const SVGNS   = "http://www.w3.org/2000/svg";
+export const SVGNS = "http://www.w3.org/2000/svg";
 export const XLINKNS = "http://www.w3.org/1999/xlink";
 
 let gDocument: any = {};
@@ -12,18 +12,27 @@ let gDocument: any = {};
  * @param {string} pValue
  * @return {element}
  */
-export function setAttribute(pElement: Element, pKey: string, pValue?: any): Element {
-    if (Boolean(pValue)) {
-        pElement.setAttribute(pKey, pValue);
-    }
-    return pElement;
+export function setAttribute(
+  pElement: Element,
+  pKey: string,
+  pValue?: any
+): Element {
+  if (Boolean(pValue)) {
+    pElement.setAttribute(pKey, pValue);
+  }
+  return pElement;
 }
 
-export function setAttributeNS(pElement: Element, pNS: string, pKey: string, pValue?: any): Element {
-    if (Boolean(pValue)) {
-        pElement.setAttributeNS(pNS, pKey, pValue);
-    }
-    return pElement;
+export function setAttributeNS(
+  pElement: Element,
+  pNS: string,
+  pKey: string,
+  pValue?: any
+): Element {
+  if (Boolean(pValue)) {
+    pElement.setAttributeNS(pNS, pKey, pValue);
+  }
+  return pElement;
 }
 
 /**
@@ -35,10 +44,10 @@ export function setAttributeNS(pElement: Element, pNS: string, pKey: string, pVa
  * @return {element}
  */
 export function setAttributes(pElement: Element, pAttributes) {
-    Object.keys(pAttributes || {}).forEach((pKey) => {
-        setAttribute(pElement, pKey, pAttributes[pKey]);
-    });
-    return pElement;
+  Object.keys(pAttributes || {}).forEach((pKey) => {
+    setAttribute(pElement, pKey, pAttributes[pKey]);
+  });
+  return pElement;
 }
 
 /**
@@ -51,10 +60,10 @@ export function setAttributes(pElement: Element, pAttributes) {
  * @return {element}
  */
 export function setAttributesNS(pElement: Element, pNS, pAttributes) {
-    Object.keys(pAttributes || {}).forEach((pKey) => {
-        setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
-    });
-    return pElement;
+  Object.keys(pAttributes || {}).forEach((pKey) => {
+    setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
+  });
+  return pElement;
 }
 
 /**
@@ -66,11 +75,14 @@ export function setAttributesNS(pElement: Element, pNS, pAttributes) {
  * @param {object} pAttributes - names/ values object
  * @return {element}
  */
-export function createElement(pElementType: string, pAttributes?): SVGElement {
-    return setAttributes(
-        gDocument.createElementNS(SVGNS, pElementType),
-        pAttributes,
-    ) as SVGElement;
+export function createElement(
+  pElementType: string,
+  pAttributes?: any
+): SVGElement {
+  return setAttributes(
+    gDocument.createElementNS(SVGNS, pElementType),
+    pAttributes
+  ) as SVGElement;
 }
 
 /**
@@ -80,7 +92,7 @@ export function createElement(pElementType: string, pAttributes?): SVGElement {
  * @return {textNode}
  */
 export function createTextNode(pText: string) {
-    return gDocument.createTextNode(pText);
+  return gDocument.createTextNode(pText);
 }
 
 /**
@@ -90,7 +102,7 @@ export function createTextNode(pText: string) {
  * @param {document} pDocument
  */
 export function init(pDocument: Document) {
-    gDocument = pDocument;
+  gDocument = pDocument;
 }
 
 /*
