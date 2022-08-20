@@ -21,38 +21,51 @@
   },
   "devDependencies": {
     "@types/jest": "26.0.23",
-    "@types/node": "15.12.2",
-    "chai": "4.3.4",
+    "@types/node": "18.7.8",
+    "chai": "4.3.6",
     "chai-xml": "0.4.0",
-    "dependency-cruiser": "10.0.1",
+    "dependency-cruiser": "11.15.0",
     "jest": "26.6.3",
-    "jest-json-schema": "5.0.0",
-    "jsdom": "16.6.0",
+    "jest-json-schema": "6.1.0",
+    "jsdom": "^16.6.0",
     "npm-run-all": "4.1.5",
-    "peggy": "1.2.0",
+    "peggy": "2.0.1",
     "requirejs": "2.3.6",
-    "shx": "0.3.3",
+    "shx": "0.3.4",
     "ts-jest": "26.5.6",
-    "ts-loader": "9.2.3",
+    "ts-loader": "9.3.1",
     "tslint": "6.1.3",
     "typescript": "3.8.3",
-    "upem": "6.0.0",
-    "webpack": "5.39.0",
-    "webpack-cli": "4.7.2"
+    "upem": "7.2.0",
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0"
   },
   "upem": {
-    "donotup": [
+    "policies": [
       {
-        "package": "typescript",
-        "because": "first need to upgrade some typings so tsc can handle them"
+        "package": "@types/jest",
+        "policy": "pin",
+        "because": "similar shenanigans as jest"
       },
       {
         "package": "jest",
+        "policy": "pin",
         "because": "shenanigans"
       },
       {
+        "package": "jsdom",
+        "policy": "wanted",
+        "because": "really breaking changes (for us)"
+      },
+      {
         "package": "ts-jest",
+        "policy": "pin",
         "because": "jest shenanigans"
+      },
+      {
+        "package": "typescript",
+        "policy": "pin",
+        "because": "first need to upgrade some typings so tsc can handle them"
       }
     ]
   },
@@ -112,7 +125,7 @@
     "test:all": "jest --collectCoverage false",
     "test:cover": "jest",
     "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",
-    "upem:update": "npm outdated --json | upem",
+    "upem:update": "npm outdated --json --long | upem | pbcopy && pbpaste",
     "upem:install": "npm install",
     "watch": "tsc --project src/tsconfig.cjs.json --watch"
   },
