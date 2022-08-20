@@ -18,19 +18,20 @@
     "lodash.memoize": "4.1.2"
   },
   "devDependencies": {
-    "@types/jest": "26.0.23",
+    "@types/jest": "28.1.7",
     "@types/node": "18.7.8",
     "chai": "4.3.6",
     "chai-xml": "0.4.0",
     "dependency-cruiser": "11.15.0",
-    "jest": "26.6.3",
+    "jest": "28.1.3",
+    "jest-environment-jsdom": "28.1.3",
     "jest-json-schema": "6.1.0",
     "jsdom": "^16.6.0",
     "npm-run-all": "4.1.5",
     "peggy": "2.0.1",
     "requirejs": "2.3.6",
     "shx": "0.3.4",
-    "ts-jest": "26.5.6",
+    "ts-jest": "28.0.8",
     "ts-loader": "9.3.1",
     "tslint": "6.1.3",
     "typescript": "4.7.4",
@@ -41,24 +42,9 @@
   "upem": {
     "policies": [
       {
-        "package": "@types/jest",
-        "policy": "pin",
-        "because": "similar shenanigans as jest"
-      },
-      {
-        "package": "jest",
-        "policy": "pin",
-        "because": "shenanigans"
-      },
-      {
         "package": "jsdom",
         "policy": "wanted",
         "because": "really breaking changes (for us)"
-      },
-      {
-        "package": "ts-jest",
-        "policy": "pin",
-        "because": "jest shenanigans"
       }
     ]
   },
@@ -142,7 +128,10 @@
     ],
     "preset": "ts-jest",
     "testRegex": "test.*\\.spec\\.(ts|js)$",
-    "testURL": "http://localhost",
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "url": "http://localhost"
+    },
     "collectCoverage": true,
     "coverageReporters": [
       "text-summary",
