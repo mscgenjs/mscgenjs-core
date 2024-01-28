@@ -1,31 +1,31 @@
-import * as geotypes from "./geotypes";
+import type { ILine, IDirection } from "./geotypes";
 
 export function determineStartCorrection(
-    pLine: geotypes.ILine,
-    pClass: string,
-    pLineWidth: number,
+  pLine: ILine,
+  pClass: string,
+  pLineWidth: number
 ): number {
-    let lRetval = 0;
-    if (!pClass.includes("nodi") && pClass.includes("bidi")) {
-        if (pLine.xTo > pLine.xFrom) {
-            lRetval = 7.5 * pLineWidth;
-        } else {
-            lRetval = -7.5 * pLineWidth;
-        }
+  let lRetval = 0;
+  if (!pClass.includes("nodi") && pClass.includes("bidi")) {
+    if (pLine.xTo > pLine.xFrom) {
+      lRetval = 7.5 * pLineWidth;
+    } else {
+      lRetval = -7.5 * pLineWidth;
     }
-    return lRetval;
+  }
+  return lRetval;
 }
 
 export function determineEndCorrection(
-    pLine: geotypes.ILine,
-    pClass: string,
-    pLineWidth: number,
+  pLine: ILine,
+  pClass: string,
+  pLineWidth: number
 ): number {
-    let lRetval = 0;
-    if (!pClass.includes("nodi")) {
-        lRetval = pLine.xTo > pLine.xFrom ? -7.5 * pLineWidth : 7.5 * pLineWidth;
-    }
-    return lRetval;
+  let lRetval = 0;
+  if (!pClass.includes("nodi")) {
+    lRetval = pLine.xTo > pLine.xFrom ? -7.5 * pLineWidth : 7.5 * pLineWidth;
+  }
+  return lRetval;
 }
 
 /**
@@ -37,13 +37,13 @@ export function determineEndCorrection(
  *                      signY: the y direction (1 or -1)
  *                      dy: the angle (in radials)
  */
-export function getDirection(pLine: geotypes.ILine): geotypes.IDirection {
-    const lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
-    return {
-        signX: lSignX,
-        signY: pLine.yTo > pLine.yFrom ? 1 : -1,
-        dy: lSignX * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom),
-    };
+export function getDirection(pLine: ILine): IDirection {
+  const lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
+  return {
+    signX: lSignX,
+    signY: pLine.yTo > pLine.yFrom ? 1 : -1,
+    dy: (lSignX * (pLine.yTo - pLine.yFrom)) / (pLine.xTo - pLine.xFrom),
+  };
 }
 
 /*

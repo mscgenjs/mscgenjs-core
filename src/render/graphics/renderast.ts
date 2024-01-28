@@ -1,15 +1,19 @@
 import cloneDeep from "lodash/cloneDeep";
-import {
+import type {
   INormalizedRenderOptions,
   RegularArcTextVerticalAlignmentType,
 } from "../../../types/mscgen";
-import * as mscgenjsast from "../../parse/mscgenjsast";
+import type {
+  ISequenceChart,
+  IOptionsNormalized,
+  ArcKindNormalizedType,
+} from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import {
   flatten,
-  IEntityNormalized,
-  IFlatArc,
-  IFlatSequenceChart,
+  type IEntityNormalized,
+  type IFlatArc,
+  type IFlatSequenceChart,
 } from "../astmassage/flatten";
 import constants from "./constants";
 import { IOandD, Thing } from "./entities";
@@ -156,10 +160,7 @@ function createLayerShortcuts(pDocument) {
   };
 }
 
-function preProcessOptionsArcs(
-  pChart: IChart,
-  pOptions: mscgenjsast.IOptionsNormalized
-) {
+function preProcessOptionsArcs(pChart: IChart, pOptions: IOptionsNormalized) {
   pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
   pChart.arcGradient = DEFAULT_ARC_GRADIENT;
   pChart.wordWrapArcs = false;
@@ -187,10 +188,7 @@ function preProcessOptionsArcs(
  *
  * @param <object> - pOptions - the option part of the AST
  */
-function preProcessOptions(
-  pChart: IChart,
-  pOptions: mscgenjsast.IOptionsNormalized
-) {
+function preProcessOptions(pChart: IChart, pOptions: IOptionsNormalized) {
   entities = new Thing(pOptions && pOptions.hscale);
   preProcessOptionsArcs(pChart, pOptions);
 }
@@ -243,10 +241,7 @@ function renderWatermark(pWatermark: string, pCanvas: ICanvas) {
   );
 }
 
-function postProcessOptions(
-  pOptions: mscgenjsast.IOptionsNormalized,
-  pCanvas: ICanvas
-) {
+function postProcessOptions(pOptions: IOptionsNormalized, pCanvas: ICanvas) {
   if (pOptions.watermark) {
     renderWatermark(pOptions.watermark, pCanvas);
   }
@@ -285,7 +280,7 @@ function renderSvgElement(pCanvas: ICanvas) {
 
 function renderEntitiesOnBottom(
   pEntities: IEntityNormalized[],
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   const lLifeLineSpacerY =
     rowmemory.getLast().y +
@@ -335,7 +330,7 @@ function renderEntitiesOnBottom(
 function renderEntities(
   pEntities: IEntityNormalized[],
   pEntityYPos: number,
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   gChart.layers.sequence.appendChild(
     entities.renderEntities(pEntities, pEntityYPos, pOptions)
@@ -353,7 +348,7 @@ function renderBroadcastArc(
   pEntities: IEntityNormalized[],
   pRowMemory,
   pRowNumber: number,
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   let xTo = 0;
   const lLabel = pArc.label;
@@ -382,7 +377,7 @@ function renderRegularArc(
   pEntities: IEntityNormalized[],
   pRowMemory,
   pRowNumber: number,
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   let lElement: SVGGElement = svgelementfactory.createGroup();
 
@@ -433,7 +428,7 @@ function renderRegularArc(
 function getArcRowHeight(
   pArcRow: IFlatArc[],
   pEntities: IEntityNormalized[],
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   let lRetval = 0;
 
@@ -474,7 +469,7 @@ function renderArcRow(
   pArcRow: IFlatArc[],
   pRowNumber,
   pEntities: IEntityNormalized[],
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   let lArcRowClass = "arcrow";
   const lRowMemory: any[] = [];
@@ -558,7 +553,7 @@ function renderArcRow(
 function precalculateArcRowHeights(
   pArcRows: IFlatArc[][],
   pEntities: IEntityNormalized[],
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   let lRealRowNumber = 0;
 
@@ -593,7 +588,7 @@ function precalculateArcRowHeights(
 function renderArcRows(
   pArcRows: IFlatArc[][],
   pEntities: IEntityNormalized[],
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   gInlineExpressionMemory = [];
 
@@ -789,7 +784,7 @@ function createLifeLines(
 }
 
 function createSelfRefArc(
-  pKind: mscgenjsast.ArcKindNormalizedType,
+  pKind: ArcKindNormalizedType,
   pX: number,
   pYTo: number,
   pDouble: boolean,
@@ -920,9 +915,7 @@ function determineYToAbsolute(
   return lRetval;
 }
 
-function determineDirectionClass(
-  pArcKind: mscgenjsast.ArcKindNormalizedType
-): string {
+function determineDirectionClass(pArcKind: ArcKindNormalizedType): string {
   if (pArcKind === "<:>") {
     return "bidi ";
   } else if (pArcKind === "::") {
@@ -936,7 +929,7 @@ function createArc(
   pXFrom: number,
   pXTo: number,
   pRowNumber: number,
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ) {
   const lGroup = svgelementfactory.createGroup();
   let lClass = "arc ";
@@ -1121,7 +1114,7 @@ function createBox(
   pOAndD: IOandD,
   pArc: IFlatArc,
   pY: number,
-  pOptions: mscgenjsast.IOptionsNormalized
+  pOptions: IOptionsNormalized
 ): SVGGElement {
   /* begin: same as createInlineExpressionBox */
   const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
@@ -1214,7 +1207,7 @@ export const clean = (pParentElementId: string, pWindow: Window) => {
  * renders the given abstract syntax tree pAST as svg
  * in the element with id pParentELementId in the window pWindow
  *
- * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
+ * @param {ISequenceChart} pAST - the abstract syntax tree
  * @param {Window} pWindow - the browser window to put the svg in
  * @param {string} pParentElementId - the id of the parent element in which
  * to put the __svg_output element
@@ -1227,7 +1220,7 @@ export const clean = (pParentElementId: string, pWindow: Window) => {
  *   on the bottom of the chart
  */
 export function render(
-  pAST: mscgenjsast.ISequenceChart,
+  pAST: ISequenceChart,
   pWindow: Window,
   pParentElementId: string,
   pRenderOptions: INormalizedRenderOptions

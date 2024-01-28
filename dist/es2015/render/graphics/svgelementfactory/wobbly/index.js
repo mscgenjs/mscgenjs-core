@@ -1,4 +1,4 @@
-import { abox2CurveString, doubleLine2CurveString, edgeRemark2CurveString, rbox2CurveString, renderNoteCornerString, renderNotePathString } from "./curvestringfactory";
+import { abox2CurveString, doubleLine2CurveString, edgeRemark2CurveString, rbox2CurveString, renderNoteCornerString, renderNotePathString, } from "./curvestringfactory";
 import { line2CurveString } from "./helpers";
 import round from "../round";
 import * as svgprimitives from "../svgprimitives";
@@ -15,9 +15,11 @@ export function createSingleLine(pLine, pOptions = {}) {
         //
         // Adding a little stubble at the start of the line solves
         // all that.
-        svgprimitives.pathPoint2String("L", round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
-            ? 1
-            : round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
+        svgprimitives.pathPoint2String("L", round(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom +
+            lDir.signY *
+                (Math.abs(lDir.dy) === Infinity
+                    ? 1
+                    : round(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
         line2CurveString(pLine), pOptions);
 }
 export function createNote(pBBox, pOptions) {
@@ -45,9 +47,9 @@ export function createEdgeRemark(pBBox, pOptions) {
     const lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
     const lLineColor = pOptions && pOptions.color ? pOptions.color : "black";
     pOptions.color = "transparent!important"; /* :blush: */
-    const lBackground = svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (lLineWidth / 2)) +
+    const lBackground = svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + lLineWidth / 2) +
         // top line:
-        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (lLineWidth / 2)) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + lLineWidth / 2) +
         // down:
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
         // fold:
@@ -65,7 +67,9 @@ export function createEdgeRemark(pBBox, pOptions) {
     return lGroup;
 }
 export function createDoubleLine(pLine, pOptions) {
-    return svgprimitives.createPath(doubleLine2CurveString(pLine, pOptions), { class: pOptions.class });
+    return svgprimitives.createPath(doubleLine2CurveString(pLine, pOptions), {
+        class: pOptions.class,
+    });
 }
 /*
  This file is part of mscgen_js.

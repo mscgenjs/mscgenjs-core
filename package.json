@@ -94,11 +94,10 @@
     "check": "npm-run-all depcruise lint test:all",
     "check:ci": "npm-run-all depcruise lint test:all:ci",
     "check:full": "npm-run-all --parallel depcruise lint test:cover",
-    "depcruise": "depcruise src test --validate",
+    "depcruise": "depcruise src test",
     "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
-    "depcruise:graph:html": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T svg | depcruise-wrap-stream-in-html > docs/dependencygraph.html",
-    "depcruise:graph:png": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -Gdpi=192 -T png | pngquant - > docs/dependencygraph.png",
-    "depcruise:graph:svg": "depcruise --exclude \"node_modules|\\.d\\.ts\" --validate --output-type dot src | dot -T svg > docs/dependencygraph.svg",
+    "depcruise:graph:html": "depcruise src test --output-type dot | dot -T svg | tee docs/dependencygraph.svg | depcruise-wrap-stream-in-html > docs/dependencygraph.html",
+    "depcruise:graph:png": "depcruise src test --output-type dot | dot -Gdpi=192 -T png | pngquant - > docs/dependencygraph.png",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "prepublishOnly": "npm run check",
@@ -142,7 +141,7 @@
       "js"
     ],
     "preset": "ts-jest",
-    "testRegex": "test.*\\.spec\\.(ts|js)$",
+    "testRegex": "test.*[.]spec[.](ts|js)$",
     "testEnvironment": "jsdom",
     "testEnvironmentOptions": {
       "url": "http://localhost"
@@ -162,10 +161,10 @@
       "<rootDir>/src/render/**/*.ts"
     ],
     "coveragePathIgnorePatterns": [
-      ".+\\.d\\.ts$",
+      ".+[.]d[.]ts$",
       "src/render/graphics/styling",
       "src/render/graphics/svgelementfactory/wobbly",
-      "src/parse/.+parser\\.js"
+      "src/parse/.+parser[.]js"
     ],
     "coverageThreshold": {
       "global": {
@@ -195,7 +194,7 @@
     }
   },
   "engines": {
-    "node": "^12||^14||>=16"
+    "node": "^18||>=20"
   },
   "types": "./types/mscgen.d.ts",
   "bugs": {

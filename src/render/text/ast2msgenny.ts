@@ -1,67 +1,67 @@
-import { ISequenceChart } from "../../parse/mscgenjsast";
+import type { ISequenceChart } from "../../parse/mscgenjsast";
 import { XuAdaptor } from "./ast2xu";
 
 class MsGennyAdaptor extends XuAdaptor {
-    public init() {
-        super.init({
-            supportedEntityAttributes : ["label"],
-            supportedArcAttributes : ["label"],
-            program : {
-                opener : "",
-                closer : "",
-            },
-            option : {
-                opener : "",
-                separator : `,${this.eol}`,
-                closer : `;${this.eol}${this.eol}`,
-            },
-            entity : {
-                opener : "",
-                separator : `,${this.eol}`,
-                closer : `;${this.eol}${this.eol}`,
-            },
-            arcline : {
-                opener : "",
-                separator : `,${this.eol}`,
-                closer : `;${this.eol}`,
-            },
-            inline : {
-                opener : ` {${this.eol}`,
-                closer : "}",
-            },
-            attribute : {
-                opener : "",
-                separator : "",
-                closer : "",
-            },
-        });
-    }
+  public init() {
+    super.init({
+      supportedEntityAttributes: ["label"],
+      supportedArcAttributes: ["label"],
+      program: {
+        opener: "",
+        closer: "",
+      },
+      option: {
+        opener: "",
+        separator: `,${this.eol}`,
+        closer: `;${this.eol}${this.eol}`,
+      },
+      entity: {
+        opener: "",
+        separator: `,${this.eol}`,
+        closer: `;${this.eol}${this.eol}`,
+      },
+      arcline: {
+        opener: "",
+        separator: `,${this.eol}`,
+        closer: `;${this.eol}`,
+      },
+      inline: {
+        opener: ` {${this.eol}`,
+        closer: "}",
+      },
+      attribute: {
+        opener: "",
+        separator: "",
+        closer: "",
+      },
+    });
+  }
 
-    protected renderEntityName(pString: string) {
-        return this.entityNameIsQuotable(pString) ? `"${pString}"` : pString;
-    }
+  protected renderEntityName(pString: string) {
+    return this.entityNameIsQuotable(pString) ? `"${pString}"` : pString;
+  }
 
-    protected renderAttribute(pAttribute) {
-        let lRetVal = "";
-        if (pAttribute.name && pAttribute.value) {
-            lRetVal += ` : "${pAttribute.value}"`;
-        }
-        return lRetVal;
+  protected renderAttribute(pAttribute) {
+    let lRetVal = "";
+    if (pAttribute.name && pAttribute.value) {
+      lRetVal += ` : "${pAttribute.value}"`;
     }
+    return lRetVal;
+  }
 
-    private entityNameIsQuotable(pString: string) {
-        const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
-        if (lMatchResult) {
-            return lMatchResult.length !== 1;
-        } else {
-            return pString !== "*";
-        }
+  private entityNameIsQuotable(pString: string) {
+    const lMatchResult = pString.match(/[^;, "\t\n\r=\-><:{*]+/gi);
+    if (lMatchResult) {
+      return lMatchResult.length !== 1;
+    } else {
+      return pString !== "*";
     }
+  }
 }
 
 export const render = (pAST: ISequenceChart) => {
-    const lAdaptor = new MsGennyAdaptor();
-    return lAdaptor.render(pAST);
+  const lAdaptor = new MsGennyAdaptor();
+  return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

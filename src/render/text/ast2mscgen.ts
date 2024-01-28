@@ -1,4 +1,4 @@
-import { ISequenceChart } from "../../parse/mscgenjsast";
+import type { ISequenceChart } from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import { XuAdaptor } from "./ast2xu";
 

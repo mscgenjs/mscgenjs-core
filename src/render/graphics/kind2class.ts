@@ -1,39 +1,43 @@
-import { ArcKindAggregatedType, ArcKindClassType, ArcKindType } from "../../parse/mscgenjsast";
+import type {
+  ArcKindAggregatedType,
+  ArcKindClassType,
+  ArcKindType,
+} from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 
 const KIND2CLASS = Object.freeze({
-    "|||"   : "empty-row",
-    "..."   : "omitted-row",
-    "---"   : "comment-row",
-    "->"    : "signal",
-    "=>"    : "method",
-    "=>>"   : "callback",
-    ">>"    : "return",
-    ":>"    : "emphasised",
-    "-x"    : "lost",
-    "<-"    : "signal",
-    "<="    : "method",
-    "<<="   : "callback",
-    "<<"    : "return",
-    "<:"    : "emphasised",
-    "x-"    : "lost",
-    "<->"   : "signal",
-    "<=>"   : "method",
-    "<<=>>" : "callback",
-    "<<>>"  : "return",
-    "<:>"   : "emphasised",
-    "--"    : "signal",
-    "=="    : "method",
-    ".."    : "return",
-    "::"    : "emphasised",
+  "|||": "empty-row",
+  "...": "omitted-row",
+  "---": "comment-row",
+  "->": "signal",
+  "=>": "method",
+  "=>>": "callback",
+  ">>": "return",
+  ":>": "emphasised",
+  "-x": "lost",
+  "<-": "signal",
+  "<=": "method",
+  "<<=": "callback",
+  "<<": "return",
+  "<:": "emphasised",
+  "x-": "lost",
+  "<->": "signal",
+  "<=>": "method",
+  "<<=>>": "callback",
+  "<<>>": "return",
+  "<:>": "emphasised",
+  "--": "signal",
+  "==": "method",
+  "..": "return",
+  "::": "emphasised",
 });
 
 export function getClass(pKey: ArcKindType): ArcKindClassType {
-    return KIND2CLASS[pKey] || pKey;
+  return KIND2CLASS[pKey] || pKey;
 }
 
 export function getAggregateClass(pKey: ArcKindType): ArcKindAggregatedType {
-    return aggregatekind(pKey) || pKey;
+  return aggregatekind(pKey) || pKey;
 }
 /*
  This file is part of mscgen_js.

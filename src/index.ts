@@ -1,4 +1,4 @@
-import {IRenderOptions, ITranslateOptions} from "../types/mscgen";
+import type { IRenderOptions, ITranslateOptions } from "../types/mscgen";
 import * as main from "./main/index";
 import * as resolver from "./main/static-resolver";
 
@@ -32,16 +32,17 @@ import * as resolver from "./main/static-resolver";
  *             in a desc element or not. Defaults to false
  */
 export function renderMsc(
-    pScript: string,
-    pOptions: IRenderOptions,
-    pCallBack: (pError: Error | null, pResult?: string | null) => void,
+  pScript: string,
+  pOptions: IRenderOptions,
+  pCallBack: (pError: Error | null, pResult?: string | null) => void
 ): void {
-    main.renderMsc(
-        pScript,
-        pOptions || {},
-        pCallBack,
-        resolver.getParser, resolver.getGraphicsRenderer,
-    );
+  main.renderMsc(
+    pScript,
+    pOptions || {},
+    pCallBack,
+    resolver.getParser,
+    resolver.getGraphicsRenderer
+  );
 }
 
 /**
@@ -60,15 +61,15 @@ export function renderMsc(
  *                allowedValues.outputType
  */
 export function translateMsc(
-    pScript: string,
-    pOptions?: ITranslateOptions,
+  pScript: string,
+  pOptions?: ITranslateOptions
 ): string {
-    return main.translateMsc(
-        pScript,
-        pOptions || {},
-        resolver.getParser,
-        resolver.getTextRenderer,
-    );
+  return main.translateMsc(
+    pScript,
+    pOptions || {},
+    resolver.getParser,
+    resolver.getTextRenderer
+  );
 }
 
 /**

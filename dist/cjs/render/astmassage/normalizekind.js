@@ -14,7 +14,9 @@ var KIND2NORMALIZEDKIND = Object.freeze({
     "<:": ":>",
     "x-": "-x",
 });
-exports.default = (function (pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; });
+exports.default = (function (pKey) {
+    return KIND2NORMALIZEDKIND[pKey] || pKey;
+});
 /*
  This file is part of mscgen_js.
 

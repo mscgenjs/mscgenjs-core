@@ -33,10 +33,11 @@ var variationhelpers = __importStar(require("../variationhelpers"));
 var SEGMENT_LENGTH = 70; // 70
 var WOBBLE_FACTOR = 3; // 1.4?
 function points2CurveString(pCurveSections) {
-    return pCurveSections.map(function (pCurveSection) {
-        return "".concat(svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY), " ") +
-            "".concat(svgprimitives.point2String(pCurveSection));
-    }).join(" ");
+    return pCurveSections
+        .map(function (pCurveSection) {
+        return "".concat(svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY), " ") + "".concat(svgprimitives.point2String(pCurveSection));
+    })
+        .join(" ");
 }
 exports.points2CurveString = points2CurveString;
 function line2CurveString(pLine) {
@@ -53,7 +54,7 @@ exports.line2CurveString = line2CurveString;
 function getLineLength(pLine) {
     var lA = Math.abs(pLine.xTo - pLine.xFrom);
     var lB = Math.abs(pLine.yTo - pLine.yFrom);
-    return Math.sqrt((lA * lA) + (lB * lB));
+    return Math.sqrt(lA * lA + lB * lB);
 }
 exports.getLineLength = getLineLength;
 /**
@@ -108,9 +109,11 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     var lNoSegments = getNumberOfSegments(pLine, pInterval);
     var lDir = variationhelpers.getDirection(pLine);
     var lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
-    var lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
-        ? pInterval
-        : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
+    var lIntervalY = lDir.signY *
+        (Math.abs(lDir.dy) === Infinity
+            ? pInterval
+            : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) /
+                (1 + Math.pow(lDir.dy, 2))));
     var lCurveSection;
     for (var i = 1; i <= lNoSegments; i++) {
         lCurveSection = {

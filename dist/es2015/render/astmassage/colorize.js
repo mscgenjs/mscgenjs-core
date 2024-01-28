@@ -36,8 +36,14 @@ function getNextColorCombi(pColorScheme) {
     return pColorScheme.entityColors[lColorCombiCount];
 }
 function hasColors(pArcOrEntity) {
-    return ["linecolor", "textcolor", "textbgcolor", "arclinecolor", "arctextcolor", "arctextbgcolor"]
-        .some((pColorAttr) => Boolean(pArcOrEntity[pColorAttr]));
+    return [
+        "linecolor",
+        "textcolor",
+        "textbgcolor",
+        "arclinecolor",
+        "arctextcolor",
+        "arctextbgcolor",
+    ].some((pColorAttr) => Boolean(pArcOrEntity[pColorAttr]));
 }
 function colorizeEntity(pColorScheme) {
     return (pEntity) => {

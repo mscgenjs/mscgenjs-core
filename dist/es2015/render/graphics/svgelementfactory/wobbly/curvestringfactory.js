@@ -2,7 +2,7 @@ import * as svgprimitives from "../svgprimitives";
 import * as variationhelpers from "../variationhelpers";
 import { line2CurveString, points2CurveString } from "./helpers";
 export function renderNotePathString(pBBox, pFoldSize) {
-    return svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
+    return (svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
         // top line:
         line2CurveString({
             xFrom: pBBox.x,
@@ -43,10 +43,10 @@ export function renderNotePathString(pBBox, pFoldSize) {
             yTo: pBBox.y,
         }) +
         svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y) +
-        "z";
+        "z");
 }
 export function renderNoteCornerString(pBBox, pFoldSize) {
-    return svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
+    return (svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
         // down
         line2CurveString({
             xFrom: pBBox.x + pBBox.width - pFoldSize,
@@ -62,13 +62,13 @@ export function renderNoteCornerString(pBBox, pFoldSize) {
             xTo: pBBox.x + pBBox.width,
             yTo: pBBox.y + pFoldSize,
         }) +
-        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize);
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize));
 }
 export function abox2CurveString(pBBox, pSlopeOffset) {
-    return svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
+    return (svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pBBox.height / 2) +
         line2CurveString({
             xFrom: pBBox.x,
-            yFrom: pBBox.y + (pBBox.height / 2),
+            yFrom: pBBox.y + pBBox.height / 2,
             xTo: pBBox.x + pSlopeOffset,
             yTo: pBBox.y,
         }) +
@@ -109,18 +109,20 @@ export function abox2CurveString(pBBox, pSlopeOffset) {
             xFrom: pBBox.x + pSlopeOffset,
             yFrom: pBBox.y + pBBox.height,
             xTo: pBBox.x,
-            yTo: pBBox.y + (pBBox.height / 2),
+            yTo: pBBox.y + pBBox.height / 2,
         }) +
-        "z";
+        "z");
 }
 export function rbox2CurveString(pBBox, pRBoxCornerRadius) {
-    return svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pRBoxCornerRadius) +
-        points2CurveString([{
+    return (svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pRBoxCornerRadius) +
+        points2CurveString([
+            {
                 controlX: pBBox.x,
                 controlY: pBBox.y,
                 x: pBBox.x + pRBoxCornerRadius,
                 y: pBBox.y,
-            }]) +
+            },
+        ]) +
         // top
         line2CurveString({
             xFrom: pBBox.x + pRBoxCornerRadius,
@@ -129,12 +131,14 @@ export function rbox2CurveString(pBBox, pRBoxCornerRadius) {
             yTo: pBBox.y,
         }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width - pRBoxCornerRadius, pBBox.y) +
-        points2CurveString([{
+        points2CurveString([
+            {
                 controlX: pBBox.x + pBBox.width,
                 controlY: pBBox.y,
                 x: pBBox.x + pBBox.width,
                 y: pBBox.y + pRBoxCornerRadius,
-            }]) +
+            },
+        ]) +
         // right
         line2CurveString({
             xFrom: pBBox.x + pBBox.width,
@@ -143,12 +147,14 @@ export function rbox2CurveString(pBBox, pRBoxCornerRadius) {
             yTo: pBBox.y + pBBox.height - pRBoxCornerRadius,
         }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - pRBoxCornerRadius) +
-        points2CurveString([{
+        points2CurveString([
+            {
                 controlX: pBBox.x + pBBox.width,
                 controlY: pBBox.y + pBBox.height,
                 x: pBBox.x + pBBox.width - pRBoxCornerRadius,
                 y: pBBox.y + pBBox.height,
-            }]) +
+            },
+        ]) +
         // bottom
         line2CurveString({
             xFrom: pBBox.x + pBBox.width - pRBoxCornerRadius,
@@ -157,12 +163,14 @@ export function rbox2CurveString(pBBox, pRBoxCornerRadius) {
             yTo: pBBox.y + pBBox.height,
         }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pRBoxCornerRadius, pBBox.y + pBBox.height) +
-        points2CurveString([{
+        points2CurveString([
+            {
                 controlX: pBBox.x,
                 controlY: pBBox.y + pBBox.height,
                 x: pBBox.x,
                 y: pBBox.y + pBBox.height - pRBoxCornerRadius,
-            }]) +
+            },
+        ]) +
         // up
         line2CurveString({
             xFrom: pBBox.x,
@@ -170,7 +178,7 @@ export function rbox2CurveString(pBBox, pRBoxCornerRadius) {
             xTo: pBBox.x,
             yTo: pBBox.y + pRBoxCornerRadius,
         }) +
-        "z";
+        "z");
 }
 export function doubleLine2CurveString(pLine, pOptions) {
     const lLineWidth = pOptions.lineWidth || 1;
@@ -179,7 +187,7 @@ export function doubleLine2CurveString(pLine, pOptions) {
     const lDir = variationhelpers.getDirection(pLine);
     const lEndCorr = variationhelpers.determineEndCorrection(pLine, lClass, lLineWidth);
     const lStartCorr = variationhelpers.determineStartCorrection(pLine, lClass, lLineWidth);
-    return svgprimitives.pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * lLineWidth * lDir.dy)) +
+    return (svgprimitives.pathPoint2String("M", pLine.xFrom, pLine.yFrom - 7.5 * lLineWidth * lDir.dy) +
         // left stubble:
         svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy) +
         svgprimitives.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
@@ -200,10 +208,10 @@ export function doubleLine2CurveString(pLine, pOptions) {
         }) +
         svgprimitives.pathPoint2String("M", pLine.xTo - lDir.signX, pLine.yTo + 7.5 * lLineWidth * lDir.dy) +
         // right stubble
-        svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy);
+        svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy));
 }
 export function edgeRemark2CurveString(pBBox, pFoldSize) {
-    return svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
+    return (svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
         // down:
         line2CurveString({
             xFrom: pBBox.x + pBBox.width,
@@ -227,5 +235,5 @@ export function edgeRemark2CurveString(pBBox, pFoldSize) {
             xTo: pBBox.x - 1,
             yTo: pBBox.y + pBBox.height,
         }) +
-        svgprimitives.pathPoint2String("L", pBBox.x - 1, pBBox.y + pBBox.height);
+        svgprimitives.pathPoint2String("L", pBBox.x - 1, pBBox.y + pBBox.height));
 }

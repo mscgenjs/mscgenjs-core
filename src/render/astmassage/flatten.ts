@@ -4,19 +4,25 @@
 import asttransform from "./asttransform";
 
 import cloneDeep from "lodash/cloneDeep";
-import * as mscgenjsast from "../../parse/mscgenjsast";
+import type {
+  ArcKindNormalizedType,
+  IOptionsNormalized,
+  IEntity,
+  IArc,
+  ISequenceChart,
+} from "../../parse/mscgenjsast";
 import * as escape from "../textutensils/escape";
 
 import aggregatekind from "./aggregatekind";
 import normalizekind from "./normalizekind";
 import normalizeoptions from "./normalizeoptions";
 
-export interface IEntityNormalized extends mscgenjsast.IEntity {
+export interface IEntityNormalized extends IEntity {
   label: string;
 }
 
 export interface IFlatArc {
-  kind: mscgenjsast.ArcKindNormalizedType;
+  kind: ArcKindNormalizedType;
   from?: string;
   to?: string;
   // nested arcs explicityly removed during flattening
@@ -42,7 +48,7 @@ export interface IFlatArc {
 }
 
 export interface IFlatSequenceChart {
-  options: mscgenjsast.IOptionsNormalized;
+  options: IOptionsNormalized;
   entities: IEntityNormalized[];
   arcs: IFlatArc[][];
   depth: number;
@@ -53,15 +59,13 @@ let gMaxDepth = 0;
 /**
  * If the entity has no label, set the label of the entity to its name
  */
-export function nameAsLabel(pEntity: mscgenjsast.IEntity) {
+export function nameAsLabel(pEntity: IEntity) {
   if (typeof pEntity.label === "undefined") {
     pEntity.label = pEntity.name;
   }
 }
 
-function unescapeLabels(
-  pArcOrEntity: mscgenjsast.IArc | mscgenjsast.IEntity
-): void {
+function unescapeLabels(pArcOrEntity: IArc | IEntity): void {
   if (!!pArcOrEntity.label) {
     pArcOrEntity.label = escape.unescapeString(pArcOrEntity.label);
   }
@@ -70,7 +74,7 @@ function unescapeLabels(
   }
 }
 
-function emptyStringForNoLabel(pArc: mscgenjsast.IArc): void {
+function emptyStringForNoLabel(pArc: IArc): void {
   pArc.label = Boolean(pArc.label) ? pArc.label : "";
 }
 
@@ -81,7 +85,7 @@ function emptyStringForNoLabel(pArc: mscgenjsast.IArc): void {
  *
  * If the arc is facing forwards or is symetrical, it is left alone.
  */
-export function swapRTLArc(pArc: mscgenjsast.IArc): void {
+export function swapRTLArc(pArc: IArc): void {
   if (normalizekind(pArc.kind) !== pArc.kind) {
     pArc.kind = normalizekind(pArc.kind);
 
@@ -91,10 +95,7 @@ export function swapRTLArc(pArc: mscgenjsast.IArc): void {
   }
 }
 
-function overrideColorsFromThing(
-  pArc: mscgenjsast.IArc,
-  pThing: mscgenjsast.IArc | mscgenjsast.IEntity
-) {
+function overrideColorsFromThing(pArc: IArc, pThing: IArc | IEntity) {
   if (!pArc.linecolor && pThing.arclinecolor) {
     pArc.linecolor = pThing.arclinecolor;
   }
@@ -110,10 +111,7 @@ function overrideColorsFromThing(
  * assumes arc direction to be either LTR, both, or none
  * so arc.from exists.
  */
-export function overrideColors(
-  pArc: mscgenjsast.IArc,
-  pEntities: mscgenjsast.IEntity[] = []
-) {
+export function overrideColors(pArc: IArc, pEntities: IEntity[] = []) {
   if (pArc && pArc.from) {
     const lMatchingEntity = pEntities.find(
       (pEntity) => pEntity.name === pArc.from
@@ -132,7 +130,7 @@ function calcNumberOfRows(pInlineExpression): number {
 }
 
 function unwindArcRow(
-  pArcRow: mscgenjsast.IArc[] | any,
+  pArcRow: IArc[] | any,
   pDepth: number,
   pFrom?: string,
   pTo?: string
@@ -141,7 +139,7 @@ function unwindArcRow(
   const lFlatArcRow: IFlatArc[] = [];
   let lUnWoundSubArcs: (IFlatArc | any)[][] = [];
 
-  pArcRow.forEach((pArc: mscgenjsast.IArc | any) => {
+  pArcRow.forEach((pArc: IArc | any) => {
     pArc.isVirtual = false;
     if ("inline_expression" === aggregatekind(pArc.kind)) {
       pArc.depth = pDepth;
@@ -194,10 +192,10 @@ function unwindArcRow(
   return lRetval.concat(lUnWoundSubArcs);
 }
 
-function unwind(pArcRows?: mscgenjsast.IArc[][]): IFlatArc[][] {
+function unwind(pArcRows?: IArc[][]): IFlatArc[][] {
   if (pArcRows) {
     return pArcRows.reduce(
-      (pAll: IFlatArc[][], pArcRow: mscgenjsast.IArc[]) =>
+      (pAll: IFlatArc[][], pArcRow: IArc[]) =>
         pAll.concat(unwindArcRow(pArcRow, 0)),
       []
     );
@@ -209,9 +207,7 @@ function unwind(pArcRows?: mscgenjsast.IArc[][]): IFlatArc[][] {
  * Flattens any recursion in the arcs of the given abstract syntax tree to make it
  * more easy to render.
  */
-export function normalize(
-  pAST: mscgenjsast.ISequenceChart
-): IFlatSequenceChart {
+export function normalize(pAST: ISequenceChart): IFlatSequenceChart {
   gMaxDepth = 0;
   return {
     options: normalizeoptions(pAST.options),
@@ -231,7 +227,7 @@ export function normalize(
  *      in this module)
  *    - distributes arc*color from the entities to the affected arcs
  */
-export function flatten(pAST: mscgenjsast.ISequenceChart): IFlatSequenceChart {
+export function flatten(pAST: ISequenceChart): IFlatSequenceChart {
   return normalize(
     asttransform(
       pAST,

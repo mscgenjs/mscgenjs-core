@@ -1,7 +1,11 @@
 import cloneDeep from "lodash/cloneDeep";
-import * as mscgenjsast from "../../parse/mscgenjsast";
+import type {
+  ISequenceChart,
+  IArc,
+  ArcKindType,
+} from "../../parse/mscgenjsast";
 
-const EMPTY_ARC = [{ kind: "|||" as mscgenjsast.ArcKindType }];
+const EMPTY_ARC = [{ kind: "|||" as ArcKindType }];
 const EMPTY_AST = {
   entities: [],
   meta: {
@@ -12,17 +16,17 @@ const EMPTY_AST = {
 };
 
 export class FrameFactory {
-  public AST: mscgenjsast.ISequenceChart;
-  public arcs: mscgenjsast.IArc[][];
+  public AST: ISequenceChart;
+  public arcs: IArc[][];
   public len: number;
   public noRows: number;
   public position: number;
-  public frames: mscgenjsast.ISequenceChart[];
+  public frames: ISequenceChart[];
   public preCalculate: boolean;
 
-  constructor(pAST?: mscgenjsast.ISequenceChart, pPreCalculate?: boolean) {
+  constructor(pAST?: ISequenceChart, pPreCalculate?: boolean) {
     this.AST = EMPTY_AST;
-    this.arcs = [[]] as mscgenjsast.IArc[][];
+    this.arcs = [[]] as IArc[][];
     this.len = 0;
     this.noRows = 0;
     this.position = 0;
@@ -55,7 +59,7 @@ export class FrameFactory {
    *                 Paramater might get removed somewhere in the near
    *                 future.
    */
-  public init(pAST: mscgenjsast.ISequenceChart, pPreCalculate?: boolean): void {
+  public init(pAST: ISequenceChart, pPreCalculate?: boolean): void {
     this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
     this.AST = cloneDeep(pAST);
     this.len = this._calculateLength(pAST);
@@ -117,7 +121,7 @@ export class FrameFactory {
   /*
    * returns the current frame
    */
-  public getCurrentFrame(): mscgenjsast.ISequenceChart {
+  public getCurrentFrame(): ISequenceChart {
     return this.getFrame(this.position);
   }
 
@@ -126,7 +130,7 @@ export class FrameFactory {
    * if pFrameNo >= getLength() - returns the last frame (=== original AST)
    * if pFrameNo <= 0 - returns the first frame (=== original AST - arcs)
    */
-  public getFrame(pFrameNo: number): mscgenjsast.ISequenceChart {
+  public getFrame(pFrameNo: number): ISequenceChart {
     pFrameNo = Math.max(0, Math.min(pFrameNo, this.len - 1));
     if (this.preCalculate) {
       return this.frames[pFrameNo];
@@ -172,7 +176,7 @@ export class FrameFactory {
     let lRowNo = 0;
     if (this.AST.arcs) {
       while (lFrameCount < pFrameNo) {
-        this.AST.arcs[lRowNo] = [] as mscgenjsast.IArc[];
+        this.AST.arcs[lRowNo] = [] as IArc[];
         for (
           let j = 0;
           j < this.arcs[lRowNo].length && lFrameCount++ < pFrameNo;
@@ -197,7 +201,7 @@ export class FrameFactory {
   /*
    * Returns the AST the subset frame pFrameNo should constitute
    */
-  private _calculateFrame(pFrameNo: number): mscgenjsast.ISequenceChart {
+  private _calculateFrame(pFrameNo: number): ISequenceChart {
     pFrameNo = Math.min(pFrameNo, this.len - 1);
 
     if (this.len - 1 > 0) {

@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (function (pOptions) { return Object.assign({
-    wordwraparcs: false,
-    wordwrapentities: true,
-    wordwrapboxes: true,
-}, pOptions || {}); });
+exports.default = (function (pOptions) {
+    return Object.assign({
+        wordwraparcs: false,
+        wordwrapentities: true,
+        wordwrapboxes: true,
+    }, pOptions || {});
+});
 /*
  This file is part of mscgen_js.
 

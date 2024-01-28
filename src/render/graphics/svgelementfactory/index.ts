@@ -1,21 +1,21 @@
-import * as geotypes from "./geotypes";
-import * as magic from "./magic";
+import type { IBBox, ILine } from "./geotypes";
+import type { MagicType, IBoxOptions, IOptions } from "./magic";
 import * as straight from "./straight";
 import * as svgprimitives from "./svgprimitives";
 import * as wobbly from "./wobbly";
 
-let gRenderMagic  = straight;
+let gRenderMagic = straight;
 let gOptions: any = {};
 
-function determineRenderMagic(pRenderMagic: magic.MagicType): any {
-    if (!Boolean(pRenderMagic)) {
-        return gRenderMagic;
-    }
-    /* istanbul ignore if */
-    if ("wobbly" === pRenderMagic) {
-        return wobbly;
-    }
-    return straight;
+function determineRenderMagic(pRenderMagic: MagicType): any {
+  if (!Boolean(pRenderMagic)) {
+    return gRenderMagic;
+  }
+  /* istanbul ignore if */
+  if ("wobbly" === pRenderMagic) {
+    return wobbly;
+  }
+  return straight;
 }
 
 /**
@@ -25,22 +25,26 @@ function determineRenderMagic(pRenderMagic: magic.MagicType): any {
  * @param {document} pDocument
  */
 export function init(pDocument: Document, pOptions) {
-    svgprimitives.init(pDocument);
-    gOptions = Object.assign(
-        {
-            LINE_WIDTH: 2,
-            FONT_SIZE: 12,
-        },
-        pOptions,
-    );
+  svgprimitives.init(pDocument);
+  gOptions = Object.assign(
+    {
+      LINE_WIDTH: 2,
+      FONT_SIZE: 12,
+    },
+    pOptions
+  );
 }
 
 /**
  * Creates a basic SVG with id pId, and size 0x0
  */
-export function createSVG(pId: string, pClass: string, pRenderMagic?: any): SVGSVGElement {
-    gRenderMagic = determineRenderMagic(pRenderMagic);
-    return svgprimitives.createSVG(pId, pClass);
+export function createSVG(
+  pId: string,
+  pClass: string,
+  pRenderMagic?: any
+): SVGSVGElement {
+  gRenderMagic = determineRenderMagic(pRenderMagic);
+  return svgprimitives.createSVG(pId, pClass);
 }
 
 export const updateSVG = svgprimitives.updateSVG;
@@ -76,50 +80,50 @@ export const createTSpan = svgprimitives.createTSpan;
  *
  * Unit: pixels
  */
-export const createRect = (pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGRectElement | SVGPathElement =>
-    gRenderMagic.createRect (pBBox, pOptions);
+export const createRect = (
+  pBBox: IBBox,
+  pOptions: IBoxOptions
+): SVGRectElement | SVGPathElement => gRenderMagic.createRect(pBBox, pOptions);
 
 /**
  * Creates rect with 6px rounded corners of width x height, with the top
  * left corner at coordinates (x, y)
  */
-export const createRBox = (pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGRectElement | SVGPathElement =>
-    gRenderMagic.createRBox (pBBox, pOptions);
+export const createRBox = (
+  pBBox: IBBox,
+  pOptions: IBoxOptions
+): SVGRectElement | SVGPathElement => gRenderMagic.createRBox(pBBox, pOptions);
 
 /**
  * Creates an angled box of width x height, with the top left corner
  * at coordinates (x, y)
  */
-export const createABox = (pBBox: geotypes.IBBox, pOptions: magic.IBoxOptions): SVGPathElement =>
-    gRenderMagic.createABox (pBBox, pOptions);
+export const createABox = (
+  pBBox: IBBox,
+  pOptions: IBoxOptions
+): SVGPathElement => gRenderMagic.createABox(pBBox, pOptions);
 
 /**
  * Creates a note of pWidth x pHeight, with the top left corner
  * at coordinates (pX, pY). pFoldSize controls the size of the
  * fold in the top right corner.
  */
-export const createNote = (pBBox: geotypes.IBBox, pOptions: magic.IOptions): SVGPathElement =>
-    gRenderMagic.createNote(pBBox, pOptions);
+export const createNote = (pBBox: IBBox, pOptions: IOptions): SVGPathElement =>
+  gRenderMagic.createNote(pBBox, pOptions);
 
 /**
  * Creates an edge remark (for use in inline expressions) of width x height,
  * with the top left corner at coordinates (x, y). pFoldSize controls the size of the
  * fold bottom right corner.
  */
-export function createEdgeRemark(
-    pBBox: geotypes.IBBox,
-    pOptions: any,
-) {
-    return gRenderMagic.createEdgeRemark(
-        pBBox,
-        {
-            class: pOptions.class,
-            color: pOptions.color,
-            bgColor: pOptions.bgColor,
-            foldSize: pOptions.foldSize,
-            lineWidth: gOptions.LINE_WIDTH,
-        },
-    );
+export function createEdgeRemark(pBBox: IBBox, pOptions: any) {
+  return gRenderMagic.createEdgeRemark(pBBox, {
+    class: pOptions.class,
+    color: pOptions.color,
+    bgColor: pOptions.bgColor,
+    foldSize: pOptions.foldSize,
+    lineWidth: gOptions.LINE_WIDTH,
+  });
 }
 
 /**
@@ -137,15 +141,18 @@ export const createDiagonalText = svgprimitives.createDiagonalText;
 /**
  * Creates a line between to coordinates
  */
-export function createLine(pLine: geotypes.ILine, pOptions): SVGPathElement | SVGLineElement {
-    if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
-        if (!pOptions.lineWidth) {
-            pOptions.lineWidth = gOptions.LINE_WIDTH;
-        }
-        return gRenderMagic.createDoubleLine(pLine, pOptions);
-    } else {
-        return gRenderMagic.createSingleLine(pLine, pOptions);
+export function createLine(
+  pLine: ILine,
+  pOptions
+): SVGPathElement | SVGLineElement {
+  if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
+    if (!pOptions.lineWidth) {
+      pOptions.lineWidth = gOptions.LINE_WIDTH;
     }
+    return gRenderMagic.createDoubleLine(pLine, pOptions);
+  } else {
+    return gRenderMagic.createSingleLine(pLine, pOptions);
+  }
 }
 
 /**

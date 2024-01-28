@@ -4,8 +4,9 @@ import * as variationhelpers from "../variationhelpers";
 const SEGMENT_LENGTH = 70; // 70
 const WOBBLE_FACTOR = 3; // 1.4?
 export function points2CurveString(pCurveSections) {
-    return pCurveSections.map((pCurveSection) => `${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` +
-        `${svgprimitives.point2String(pCurveSection)}`).join(" ");
+    return pCurveSections
+        .map((pCurveSection) => `${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` + `${svgprimitives.point2String(pCurveSection)}`)
+        .join(" ");
 }
 export function line2CurveString(pLine) {
     return points2CurveString(getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR));
@@ -20,7 +21,7 @@ export function line2CurveString(pLine) {
 export function getLineLength(pLine) {
     const lA = Math.abs(pLine.xTo - pLine.xFrom);
     const lB = Math.abs(pLine.yTo - pLine.yFrom);
-    return Math.sqrt((lA * lA) + (lB * lB));
+    return Math.sqrt(lA * lA + lB * lB);
 }
 /**
  * Calculates the number of times a segment of pInterval length
@@ -73,9 +74,11 @@ export function getBetweenPoints(pLine, pInterval, pWobble) {
     const lNoSegments = getNumberOfSegments(pLine, pInterval);
     const lDir = variationhelpers.getDirection(pLine);
     const lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
-    const lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
-        ? pInterval
-        : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
+    const lIntervalY = lDir.signY *
+        (Math.abs(lDir.dy) === Infinity
+            ? pInterval
+            : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) /
+                (1 + Math.pow(lDir.dy, 2))));
     let lCurveSection;
     for (let i = 1; i <= lNoSegments; i++) {
         lCurveSection = {

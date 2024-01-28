@@ -54,9 +54,7 @@ var getParser = function (pLanguage) {
     return gLang2Parser[pLanguage] || DEFAULT_PARSER;
 };
 exports.getParser = getParser;
-var getGraphicsRenderer = function () {
-    return renderast;
-};
+var getGraphicsRenderer = function () { return renderast; };
 exports.getGraphicsRenderer = getGraphicsRenderer;
 var getTextRenderer = function (pLanguage) {
     return gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;

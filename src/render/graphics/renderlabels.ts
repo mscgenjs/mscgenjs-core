@@ -1,9 +1,13 @@
-import * as mscgenjsast from "../../parse/mscgenjsast";
+import type {
+  IArc,
+  ArcKindType,
+  IOptionsNormalized,
+} from "../../parse/mscgenjsast";
 import aggregatekind from "../astmassage/aggregatekind";
 import wrap from "../textutensils/wrap";
 import constants from "./constants";
 import * as kind2class from "./kind2class";
-import * as geotypes from "./svgelementfactory/geotypes";
+import type { IPoint } from "./svgelementfactory/geotypes";
 import * as svgelementfactory from "./svgelementfactory/index";
 import * as svgutensils from "./svgutensils";
 
@@ -14,110 +18,133 @@ import * as svgutensils from "./svgutensils";
  * @param <svgElement> pElement
  * @param <string> pTextColor
  */
-function colorText(pElement: SVGTextElement, pTextColor?: string): SVGTextElement {
-    if (pTextColor) {
-        pElement.setAttribute("style", `fill:${pTextColor};`);
-    }
-    return pElement;
+function colorText(
+  pElement: SVGTextElement,
+  pTextColor?: string
+): SVGTextElement {
+  if (pTextColor) {
+    pElement.setAttribute("style", `fill:${pTextColor};`);
+  }
+  return pElement;
 }
 
 /**
  * Makes the text color blue if there is an url and no text color
  */
-function colorLink(pElement: SVGTextElement, pUrl?: string, pTextColor?: string): SVGTextElement {
-    return colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
+function colorLink(
+  pElement: SVGTextElement,
+  pUrl?: string,
+  pTextColor?: string
+): SVGTextElement {
+  return colorText(pElement, pUrl && !pTextColor ? "blue" : pTextColor);
 }
 
-function renderArcLabelLineBackground(lLabelElement: SVGGElement, pTextbgcolor): SVGElement {
-    const lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), {class: "label-text-background"});
-    if (pTextbgcolor) {
-        lRect.setAttribute("style", `fill:${pTextbgcolor}; stroke:${pTextbgcolor};`);
-    }
-    return lRect;
+function renderArcLabelLineBackground(
+  lLabelElement: SVGGElement,
+  pTextbgcolor
+): SVGElement {
+  const lRect = svgelementfactory.createRect(
+    svgutensils.getBBox(lLabelElement),
+    { class: "label-text-background" }
+  );
+  if (pTextbgcolor) {
+    lRect.setAttribute(
+      "style",
+      `fill:${pTextbgcolor}; stroke:${pTextbgcolor};`
+    );
+  }
+  return lRect;
 }
 
 function renderLabelText(
-    pLine: string,
-    pPosition: number,
-    pCoords: geotypes.IPoint,
-    pClass: string,
-    pArc: mscgenjsast.IArc,
+  pLine: string,
+  pPosition: number,
+  pCoords: IPoint,
+  pClass: string,
+  pArc: IArc
 ): SVGTextElement {
-    const lAttributes = pPosition === 0
-        ? {
-            class : pClass,
-            url   : pArc.url,
-            id    : pArc.id,
-            idurl : pArc.idurl,
+  const lAttributes =
+    pPosition === 0
+      ? {
+          class: pClass,
+          url: pArc.url,
+          id: pArc.id,
+          idurl: pArc.idurl,
         }
-        : {
-            class : pClass,
-            url   : pArc.url,
+      : {
+          class: pClass,
+          url: pArc.url,
         };
 
-    return svgelementfactory.createText(
-        pLine,
-        pCoords,
-        lAttributes,
-    );
+  return svgelementfactory.createText(pLine, pCoords, lAttributes);
 }
 
-function determineClasses(pArcKind: mscgenjsast.ArcKindType, pPostFix: string) {
-    const lKind = pArcKind;
-    const lClass = kind2class.getClass(lKind);
-    const lAggregateClass = kind2class.getAggregateClass(lKind);
+function determineClasses(pArcKind: ArcKindType, pPostFix: string) {
+  const lKind = pArcKind;
+  const lClass = kind2class.getClass(lKind);
+  const lAggregateClass = kind2class.getAggregateClass(lKind);
 
-    return (lClass as string === lAggregateClass as string)
-        ? lClass + pPostFix
-        : lAggregateClass + pPostFix + lClass + pPostFix;
+  return (lClass as string) === (lAggregateClass as string)
+    ? lClass + pPostFix
+    : lAggregateClass + pPostFix + lClass + pPostFix;
 }
 
 function createLabelLine(
-    pLine: string,
-    pMiddle: number,
-    pStartY: number,
-    pArc: mscgenjsast.IArc,
-    pLineNumber: number,
-    pOptions,
+  pLine: string,
+  pMiddle: number,
+  pStartY: number,
+  pArc: IArc,
+  pLineNumber: number,
+  pOptions
 ): SVGTextElement {
-    let lY = pStartY + ((pLineNumber + 1 / 4) * svgutensils.calculateTextHeight());
-    let lClass = determineClasses(pArc.kind, "-text ");
+  let lY = pStartY + (pLineNumber + 1 / 4) * svgutensils.calculateTextHeight();
+  let lClass = determineClasses(pArc.kind, "-text ");
 
-    if (pOptions.alignLeft) {
-        lClass += "anchor-start ";
-    }
-    if (pOptions.alignAround) {
-        lY = pStartY + ((pLineNumber + 1 / 4) * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH));
-    }
+  if (pOptions.alignLeft) {
+    lClass += "anchor-start ";
+  }
+  if (pOptions.alignAround) {
+    lY =
+      pStartY +
+      (pLineNumber + 1 / 4) *
+        (svgutensils.calculateTextHeight() + constants.LINE_WIDTH);
+  }
 
-    return colorLink(
-        colorText(
-            renderLabelText(pLine, pLineNumber, {x: pMiddle, y: lY}, lClass, pArc),
-            pArc.textcolor,
-        ),
-        pArc.url, pArc.textcolor,
-    );
+  return colorLink(
+    colorText(
+      renderLabelText(pLine, pLineNumber, { x: pMiddle, y: lY }, lClass, pArc),
+      pArc.textcolor
+    ),
+    pArc.url,
+    pArc.textcolor
+  );
 }
 
 function insertEmptyLines(pLines: string[], pOptions) {
-    if (pOptions.alignAbove) {
-        pLines.forEach(() => {
-            pLines.push("");
-        });
-    }
-    if (pOptions.alignAround && pLines.length === 1) {
-        pLines.push("");
-    }
-    return pLines;
+  if (pOptions.alignAbove) {
+    pLines.forEach(() => {
+      pLines.push("");
+    });
+  }
+  if (pOptions.alignAround && pLines.length === 1) {
+    pLines.push("");
+  }
+  return pLines;
 }
 
 function determineLabelTop(pLines: string[], pDims, pOptions) {
-    if (pOptions.alignAround) {
-        return pDims.y -
-            (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants.LINE_WIDTH + 1);
-    } else {
-        return pDims.y - (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + 1);
-    }
+  if (pOptions.alignAround) {
+    return (
+      pDims.y -
+      ((pLines.length - 1) / 2) *
+        (svgutensils.calculateTextHeight() + constants.LINE_WIDTH + 1)
+    );
+  } else {
+    return (
+      pDims.y -
+      ((pLines.length - 1) / 2) * (svgutensils.calculateTextHeight() + 1)
+    );
+  }
 }
 
 /**
@@ -131,39 +158,50 @@ function determineLabelTop(pLines: string[], pDims, pOptions) {
  * @param <object> - pOptions - alignAbove, alignLeft, alignAround, wordWrapArcs, ownBackground, underline
  */
 export function createLabel(
-    pArc: mscgenjsast.IArc,
-    pDims,
-    pOptions,
-    pId?: string,
+  pArc: IArc,
+  pDims,
+  pOptions,
+  pId?: string
 ): SVGGElement {
-    const lGroup = svgelementfactory.createGroup(pId);
-    pOptions = pOptions || {};
+  const lGroup = svgelementfactory.createGroup(pId);
+  pOptions = pOptions || {};
 
-    if (pArc.label) {
-        const lMiddle = pDims.x + (pDims.width / 2);
-        const lLines = insertEmptyLines(
-            splitLabel(pArc.label, pArc.kind, pDims.width, constants.FONT_SIZE, pOptions),
-            pOptions,
+  if (pArc.label) {
+    const lMiddle = pDims.x + pDims.width / 2;
+    const lLines = insertEmptyLines(
+      splitLabel(
+        pArc.label,
+        pArc.kind,
+        pDims.width,
+        constants.FONT_SIZE,
+        pOptions
+      ),
+      pOptions
+    );
+
+    let lLabelTop = determineLabelTop(lLines, pDims, pOptions);
+
+    lLines.forEach((pLine, pLineNumber) => {
+      if (pLine !== "") {
+        const lText: SVGTextElement = createLabelLine(
+          pLine,
+          lMiddle,
+          lLabelTop,
+          pArc,
+          pLineNumber,
+          pOptions
         );
-
-        let lLabelTop = determineLabelTop(lLines, pDims, pOptions);
-
-        lLines
-            .forEach(
-                (pLine, pLineNumber) => {
-                    if (pLine !== "") {
-                        const lText: SVGTextElement =
-                            createLabelLine(pLine, lMiddle, lLabelTop, pArc, pLineNumber, pOptions);
-                        if (pOptions.ownBackground) {
-                            lGroup.appendChild(renderArcLabelLineBackground(lText, pArc.textbgcolor));
-                        }
-                        lGroup.appendChild(lText);
-                    }
-                    lLabelTop++;
-                },
-            );
-    }
-    return lGroup;
+        if (pOptions.ownBackground) {
+          lGroup.appendChild(
+            renderArcLabelLineBackground(lText, pArc.textbgcolor)
+          );
+        }
+        lGroup.appendChild(lText);
+      }
+      lLabelTop++;
+    });
+  }
+  return lGroup;
 }
 
 /**
@@ -181,38 +219,43 @@ export function createLabel(
  * @return {number} - The maxumum number of characters that'll fit
  */
 function _determineMaxTextWidthInChars(pWidth, pFontSize) {
-    const lAbsWidth = Math.abs(pWidth);
-    const REFERENCE_FONT_SIZE = 12; // px
+  const lAbsWidth = Math.abs(pWidth);
+  const REFERENCE_FONT_SIZE = 12; // px
 
-    if (lAbsWidth <= 160) {
-        return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 8);
-    }
-    if (lAbsWidth <= 320) {
-        return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 6.4);
-    }
-    if (lAbsWidth <= 480) {
-        return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.9);
-    }
-    return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
+  if (lAbsWidth <= 160) {
+    return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 8);
+  }
+  if (lAbsWidth <= 320) {
+    return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 6.4);
+  }
+  if (lAbsWidth <= 480) {
+    return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.9);
+  }
+  return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
 }
 
-function isWrappableBox(pKind: mscgenjsast.ArcKindType, pWordWrapBoxes: boolean): boolean {
-    return "box" === aggregatekind(pKind) && pWordWrapBoxes;
+function isWrappableBox(pKind: ArcKindType, pWordWrapBoxes: boolean): boolean {
+  return "box" === aggregatekind(pKind) && pWordWrapBoxes;
 }
 
 function isWrappableEntity(pKind: string, pWordWrapEntites: boolean): boolean {
-    return "entity" === pKind && pWordWrapEntites;
+  return "entity" === pKind && pWordWrapEntites;
 }
 
 function isWrappableArc(pKind: any, pWordWrapArcs: boolean): boolean {
-    return "box" !== aggregatekind(pKind) && "entity" !== pKind && pWordWrapArcs;
+  return "box" !== aggregatekind(pKind) && "entity" !== pKind && pWordWrapArcs;
 }
 
-function labelIsWrappable(pKind: any /*mscgenjsast.ArcKindType*/, pOptions: mscgenjsast.IOptionsNormalized): boolean {
-    return isWrappableBox(pKind, pOptions.wordwrapboxes) ||
-            isWrappableEntity(pKind, pOptions.wordwrapentities) ||
-            isWrappableArc(pKind, pOptions.wordwraparcs) ||
-            typeof pKind === "undefined";
+function labelIsWrappable(
+  pKind: any /*ArcKindType*/,
+  pOptions: IOptionsNormalized
+): boolean {
+  return (
+    isWrappableBox(pKind, pOptions.wordwrapboxes) ||
+    isWrappableEntity(pKind, pOptions.wordwrapentities) ||
+    isWrappableArc(pKind, pOptions.wordwraparcs) ||
+    typeof pKind === "undefined"
+  );
 }
 
 /**
@@ -228,10 +271,16 @@ function labelIsWrappable(pKind: any /*mscgenjsast.ArcKindType*/, pOptions: mscg
  * @param <object> - options (the one ones heeded: wordwraparcs, wordwrapentities, wordwrapboxes)
  * @return <array of strings> - lLines
  */
-export function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions: mscgenjsast.IOptionsNormalized) {
-    if (labelIsWrappable(pKind, pOptions)) {
-        return wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
-    } else {
-        return pLabel.split("\\n");
-    }
+export function splitLabel(
+  pLabel,
+  pKind,
+  pWidth,
+  pFontSize,
+  pOptions: IOptionsNormalized
+) {
+  if (labelIsWrappable(pKind, pOptions)) {
+    return wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
+  } else {
+    return pLabel.split("\\n");
+  }
 }

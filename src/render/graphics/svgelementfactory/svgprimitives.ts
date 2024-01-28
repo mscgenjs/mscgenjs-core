@@ -1,11 +1,11 @@
 import * as domprimitives from "./domprimitives";
-import * as geotypes from "./geotypes";
+import type { IBBox, IPoint, ILine, IDimension } from "./geotypes";
 import getDiagonalAngle from "./getdiagonalangle";
 import round from "./round";
 
 const PRECISION = 2;
 
-export function point2String(pPoint: geotypes.IPoint): string {
+export function point2String(pPoint: IPoint): string {
   return `${round(pPoint.x, PRECISION).toString()},${round(
     pPoint.y,
     PRECISION
@@ -86,7 +86,7 @@ interface ICreateTextOptions {
 }
 export function createText(
   pLabel: string,
-  pCoords: geotypes.IPoint,
+  pCoords: IPoint,
   pOptions?: ICreateTextOptions
 ): SVGTextElement {
   const lOptions: ICreateTextOptions = Object.assign(
@@ -175,7 +175,7 @@ interface ICreateSinlgeLineOptions {
   class?: string;
 }
 export function createSingleLine(
-  pLine: geotypes.ILine,
+  pLine: ILine,
   pOptions: ICreateSinlgeLineOptions
 ): SVGLineElement {
   return domprimitives.createElement("line", {
@@ -209,7 +209,7 @@ interface ICreateRectOptions {
  * @return {SVGElement}
  */
 export function createRect(
-  pBBox: geotypes.IBBox,
+  pBBox: IBBox,
   pOptions: ICreateRectOptions
 ): SVGRectElement {
   const lOptions: ICreateRectOptions = Object.assign(
@@ -253,7 +253,7 @@ interface ICreateUTurnOptions {
  * @return {SVGElement}
  */
 export function createUTurn(
-  pBBox: geotypes.IBBox,
+  pBBox: IBBox,
   pEndY: number,
   pOptions: ICreateUTurnOptions
 ): SVGPathElement {
@@ -364,7 +364,7 @@ export function createTitle(pText: string): SVGTitleElement {
  */
 export function createDiagonalText(
   pText: string,
-  pDimension: geotypes.IDimension,
+  pDimension: IDimension,
   pClass: string
 ): SVGElement {
   return domprimitives.setAttributes(

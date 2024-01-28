@@ -37,7 +37,7 @@ function createDoubleLine(pLine, pOptions) {
     var lLenY = (pLine.yTo - pLine.yFrom).toString();
     var lStubble = svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy);
     var lLine = svgprimitives.pathPoint2String("l", lLenX, lLenY);
-    return svgprimitives.createPath(svgprimitives.pathPoint2String("M", pLine.xFrom, (pLine.yFrom - 7.5 * lLineWidth * lDir.dy)) +
+    return svgprimitives.createPath(svgprimitives.pathPoint2String("M", pLine.xFrom, pLine.yFrom - 7.5 * lLineWidth * lDir.dy) +
         // left stubble:
         lStubble +
         svgprimitives.pathPoint2String("M", pLine.xFrom + lStartCorr, pLine.yFrom - lSpace) +
@@ -78,8 +78,8 @@ function createNote(pBBox, pOptions) {
         // down:
         svgprimitives.pathPoint2String("l", 0, pBBox.height - lFoldSizeN) +
         // bottom line:
-        svgprimitives.pathPoint2String("l", -(pBBox.width), 0) +
-        svgprimitives.pathPoint2String("l", 0, -(pBBox.height)) +
+        svgprimitives.pathPoint2String("l", -pBBox.width, 0) +
+        svgprimitives.pathPoint2String("l", 0, -pBBox.height) +
         "z", pOptions);
 }
 exports.createNote = createNote;
@@ -110,7 +110,7 @@ exports.createRBox = createRBox;
  */
 function createABox(pBBox, pOptions) {
     var lSlopeOffset = 3;
-    return svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (pBBox.height / 2)) +
+    return svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pBBox.height / 2) +
         svgprimitives.pathPoint2String("l", lSlopeOffset, -(pBBox.height / 2)) +
         // top line
         svgprimitives.pathPoint2String("l", pBBox.width - 2 * lSlopeOffset, 0) +

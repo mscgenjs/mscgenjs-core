@@ -1,13 +1,14 @@
-import * as mscgenjsast from "../../parse/mscgenjsast";
+import type { IOptions, IOptionsNormalized } from "../../parse/mscgenjsast";
 
-export default (pOptions?: mscgenjsast.IOptions): mscgenjsast.IOptionsNormalized => Object.assign(
+export default (pOptions?: IOptions): IOptionsNormalized =>
+  Object.assign(
     {
-        wordwraparcs     : false,
-        wordwrapentities : true,
-        wordwrapboxes    : true,
+      wordwraparcs: false,
+      wordwrapentities: true,
+      wordwrapboxes: true,
     },
-    pOptions || {},
-);
+    pOptions || {}
+  );
 /*
  This file is part of mscgen_js.
 

@@ -1,5 +1,5 @@
 import cloneDeep from "lodash/cloneDeep";
-import {
+import type {
   ArcKindAggregatedType,
   IArc,
   IEntity,

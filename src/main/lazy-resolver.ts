@@ -1,5 +1,5 @@
 import memoize from "lodash/memoize";
-import * as mscgen from "../../types/mscgen";
+import type { InputType } from "../../types/mscgen";
 
 const DEFAULT_PARSER = "../parse/mscgenparser";
 const DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
@@ -18,7 +18,7 @@ const gLang2TextRenderer = Object.freeze({
   doxygen: "../render/text/ast2doxygen",
 }) as any;
 
-export const getParser = memoize((pLanguage: mscgen.InputType) => {
+export const getParser = memoize((pLanguage: InputType) => {
   if (["ast", "json"].indexOf(pLanguage) > -1) {
     return JSON;
   }
@@ -30,7 +30,7 @@ export const getGraphicsRenderer = memoize(() =>
   require("../render/graphics/renderast")
 );
 
-export const getTextRenderer = memoize((pLanguage: mscgen.InputType) =>
+export const getTextRenderer = memoize((pLanguage: InputType) =>
   require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER)
 );
 /*

@@ -89,25 +89,19 @@ exports.createTSpan = svgprimitives.createTSpan;
  *
  * Unit: pixels
  */
-var createRect = function (pBBox, pOptions) {
-    return gRenderMagic.createRect(pBBox, pOptions);
-};
+var createRect = function (pBBox, pOptions) { return gRenderMagic.createRect(pBBox, pOptions); };
 exports.createRect = createRect;
 /**
  * Creates rect with 6px rounded corners of width x height, with the top
  * left corner at coordinates (x, y)
  */
-var createRBox = function (pBBox, pOptions) {
-    return gRenderMagic.createRBox(pBBox, pOptions);
-};
+var createRBox = function (pBBox, pOptions) { return gRenderMagic.createRBox(pBBox, pOptions); };
 exports.createRBox = createRBox;
 /**
  * Creates an angled box of width x height, with the top left corner
  * at coordinates (x, y)
  */
-var createABox = function (pBBox, pOptions) {
-    return gRenderMagic.createABox(pBBox, pOptions);
-};
+var createABox = function (pBBox, pOptions) { return gRenderMagic.createABox(pBBox, pOptions); };
 exports.createABox = createABox;
 /**
  * Creates a note of pWidth x pHeight, with the top left corner

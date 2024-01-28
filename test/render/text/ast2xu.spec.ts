@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { ISequenceChart } from "../../../src/parse/mscgenjsast";
+import type { ISequenceChart } from "../../../src/parse/mscgenjsast";
 import * as renderer from "../../../src/render/text/ast2xu";
 const fix = require("../../astfixtures.json");
 

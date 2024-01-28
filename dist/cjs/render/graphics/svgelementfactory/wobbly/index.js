@@ -45,9 +45,11 @@ function createSingleLine(pLine, pOptions) {
         //
         // Adding a little stubble at the start of the line solves
         // all that.
-        svgprimitives.pathPoint2String("L", (0, round_1.default)(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
-            ? 1
-            : (0, round_1.default)(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
+        svgprimitives.pathPoint2String("L", (0, round_1.default)(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom +
+            lDir.signY *
+                (Math.abs(lDir.dy) === Infinity
+                    ? 1
+                    : (0, round_1.default)(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
         (0, helpers_1.line2CurveString)(pLine), pOptions);
 }
 exports.createSingleLine = createSingleLine;
@@ -80,9 +82,9 @@ function createEdgeRemark(pBBox, pOptions) {
     var lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
     var lLineColor = pOptions && pOptions.color ? pOptions.color : "black";
     pOptions.color = "transparent!important"; /* :blush: */
-    var lBackground = svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + (lLineWidth / 2)) +
+    var lBackground = svgprimitives.createPath(svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + lLineWidth / 2) +
         // top line:
-        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + (lLineWidth / 2)) +
+        svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + lLineWidth / 2) +
         // down:
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pBBox.height - lFoldSize) +
         // fold:
@@ -101,7 +103,9 @@ function createEdgeRemark(pBBox, pOptions) {
 }
 exports.createEdgeRemark = createEdgeRemark;
 function createDoubleLine(pLine, pOptions) {
-    return svgprimitives.createPath((0, curvestringfactory_1.doubleLine2CurveString)(pLine, pOptions), { class: pOptions.class });
+    return svgprimitives.createPath((0, curvestringfactory_1.doubleLine2CurveString)(pLine, pOptions), {
+        class: pOptions.class,
+    });
 }
 exports.createDoubleLine = createDoubleLine;
 /*

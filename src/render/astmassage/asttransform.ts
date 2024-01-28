@@ -1,35 +1,55 @@
-import { IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
+import type { IArc, IEntity, ISequenceChart } from "../../parse/mscgenjsast";
 
 type EntityTransformFunctionType = (pEntity: IEntity) => void;
-type ArcTransformFunctionType    = (pArc: IArc, pEntities?: IEntity[], pArcRow?: IArc[]) => void;
+type ArcTransformFunctionType = (
+  pArc: IArc,
+  pEntities?: IEntity[],
+  pArcRow?: IArc[]
+) => void;
 
-function transformEntities(pEntities: IEntity[], pFunctionAry: EntityTransformFunctionType[]) {
-    pEntities.forEach((pEntity) => {
-        pFunctionAry.forEach((pFunction) => {
-            pFunction(pEntity);
-        });
-    });
-}
-
-function transformArc(pEntities: IEntity[], pArcRow: IArc[], pArc: IArc, pFunctionAry: ArcTransformFunctionType[]) {
+function transformEntities(
+  pEntities: IEntity[],
+  pFunctionAry: EntityTransformFunctionType[]
+) {
+  pEntities.forEach((pEntity) => {
     pFunctionAry.forEach((pFunction) => {
-        pFunction(pArc, pEntities, pArcRow);
+      pFunction(pEntity);
     });
+  });
 }
 
-function transformArcRow(pEntities: IEntity[], pArcRow: IArc[], pFunctionAry: ArcTransformFunctionType[]) {
-    pArcRow.forEach((pArc) => {
-        transformArc(pEntities, pArcRow, pArc, pFunctionAry);
-        if (pArc.arcs) {
-            transformArcRows(pEntities, pArc.arcs, pFunctionAry);
-        }
-    });
+function transformArc(
+  pEntities: IEntity[],
+  pArcRow: IArc[],
+  pArc: IArc,
+  pFunctionAry: ArcTransformFunctionType[]
+) {
+  pFunctionAry.forEach((pFunction) => {
+    pFunction(pArc, pEntities, pArcRow);
+  });
 }
 
-function transformArcRows(pEntities: IEntity[], pArcRows: IArc[][], pFunctionAry: ArcTransformFunctionType[]) {
-    pArcRows.forEach((pArcRow) => {
-        transformArcRow(pEntities, pArcRow, pFunctionAry);
-    });
+function transformArcRow(
+  pEntities: IEntity[],
+  pArcRow: IArc[],
+  pFunctionAry: ArcTransformFunctionType[]
+) {
+  pArcRow.forEach((pArc) => {
+    transformArc(pEntities, pArcRow, pArc, pFunctionAry);
+    if (pArc.arcs) {
+      transformArcRows(pEntities, pArc.arcs, pFunctionAry);
+    }
+  });
+}
+
+function transformArcRows(
+  pEntities: IEntity[],
+  pArcRows: IArc[][],
+  pFunctionAry: ArcTransformFunctionType[]
+) {
+  pArcRows.forEach((pArcRow) => {
+    transformArcRow(pEntities, pArcRow, pFunctionAry);
+  });
 }
 
 /**
@@ -45,16 +65,16 @@ function transformArcRows(pEntities: IEntity[], pArcRows: IArc[][], pFunctionAry
  * @return {ast} - the modified syntax tree
  */
 export default (
-    pAST: ISequenceChart,
-    pEntityTransforms: EntityTransformFunctionType[],
-    pArcRowTransforms: ArcTransformFunctionType[],
+  pAST: ISequenceChart,
+  pEntityTransforms: EntityTransformFunctionType[],
+  pArcRowTransforms: ArcTransformFunctionType[]
 ): any => {
-    transformEntities(pAST.entities, pEntityTransforms);
-    if (pAST.arcs) {
-        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
-    }
+  transformEntities(pAST.entities, pEntityTransforms);
+  if (pAST.arcs) {
+    transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
+  }
 
-    return pAST;
+  return pAST;
 };
 /*
  This file is part of mscgen_js.

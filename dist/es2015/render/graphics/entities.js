@@ -21,12 +21,12 @@ export class Thing {
         return this.entity2x[pName];
     }
     getDims() {
-        return ({
+        return {
             interEntitySpacing: this.interEntitySpacing,
             height: this.height,
             width: this.width,
             entityXHWM: this.entityXHWM,
-        });
+        };
     }
     getOAndD(pFrom, pTo) {
         return {
@@ -37,7 +37,8 @@ export class Thing {
     renderEntities(pEntities, pEntityYPos, pOptions) {
         const lEntityGroup = svgelementfactory.createGroup();
         this.entityXHWM = 0;
-        this.height = this.getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2;
+        this.height =
+            this.getMaxEntityHeight(pEntities, pOptions) + constants.LINE_WIDTH * 2;
         pEntities.forEach((pEntity) => {
             lEntityGroup.appendChild(this.renderEntity(pEntity, this.entityXHWM, pEntityYPos, pOptions));
             this.setX(pEntity, this.entityXHWM);
@@ -46,13 +47,13 @@ export class Thing {
         return lEntityGroup;
     }
     setX(pEntity, pX) {
-        this.entity2x[pEntity.name] = pX + (this.width / 2);
+        this.entity2x[pEntity.name] = pX + this.width / 2;
     }
     getNoEntityLines(pLabel, pFontSize, pChartOptions) {
         return renderlabels.splitLabel(pLabel, "entity", this.width, pFontSize, pChartOptions).length;
     }
     sizeEntityBoxToLabel(pLabel, pBBox) {
-        const lLabelWidth = Math.min(svgutensils.getBBox(pLabel).width + (4 * constants.LINE_WIDTH), (this.interEntitySpacing / 3) + pBBox.width);
+        const lLabelWidth = Math.min(svgutensils.getBBox(pLabel).width + 4 * constants.LINE_WIDTH, this.interEntitySpacing / 3 + pBBox.width);
         /* istanbul ignore if */
         if (lLabelWidth >= pBBox.width) {
             pBBox.x -= (lLabelWidth - pBBox.width) / 2;
@@ -70,7 +71,7 @@ export class Thing {
         };
         const lLabel = renderlabels.createLabel(Object.assign({
             kind: "entity",
-        }, pEntity), Object.assign({}, lBBox, { y: lBBox.y + (lBBox.height / 2) }), pOptions);
+        }, pEntity), Object.assign({}, lBBox, { y: lBBox.y + lBBox.height / 2 }), pOptions);
         lGroup.appendChild(svgelementfactory.createRect(this.sizeEntityBoxToLabel(lLabel, lBBox), {
             class: "entity",
             color: pEntity.linecolor,
@@ -90,7 +91,8 @@ export class Thing {
             }
         });
         if (lHWM > 2) {
-            return Math.max(this.height, svgutensils.getBBox(this.renderEntity(lHighestEntity, 0, 0, pOptions)).height);
+            return Math.max(this.height, svgutensils.getBBox(this.renderEntity(lHighestEntity, 0, 0, pOptions))
+                .height);
         }
         return this.height;
     }

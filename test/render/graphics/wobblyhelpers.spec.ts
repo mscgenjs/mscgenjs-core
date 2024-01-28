@@ -3,7 +3,7 @@ import {
   getNumberOfSegments,
   getBetweenPoints,
 } from "../../../src/render/graphics/svgelementfactory/wobbly/helpers";
-import * as geotypes from "../../../src/render/graphics/svgelementfactory/geotypes";
+import type { ICurveSection } from "../../../src/render/graphics/svgelementfactory/geotypes";
 
 describe("#geometry", () => {
   describe("#getLineLength", () => {
@@ -60,7 +60,7 @@ describe("#geometry", () => {
 
   describe("#getBetweenPoints", () => {
     describe("a diagonal", () => {
-      let lBetweenPoints = [] as geotypes.ICurveSection[];
+      let lBetweenPoints = [] as ICurveSection[];
 
       beforeAll(() => {
         lBetweenPoints = getBetweenPoints(
@@ -114,7 +114,7 @@ describe("#geometry", () => {
     });
 
     describe("a vertical line", () => {
-      let lBetweenPoints = [] as geotypes.ICurveSection[];
+      let lBetweenPoints = [] as ICurveSection[];
 
       beforeAll(() => {
         lBetweenPoints = getBetweenPoints(
@@ -162,7 +162,7 @@ describe("#geometry", () => {
     });
 
     describe("a horizontal line", () => {
-      let lBetweenPoints = [] as geotypes.ICurveSection[];
+      let lBetweenPoints = [] as ICurveSection[];
 
       beforeAll(() => {
         lBetweenPoints = getBetweenPoints(

@@ -32,7 +32,7 @@ module.exports = {
       severity: "error",
       from: {
         path: "^test",
-        pathNot: "^test/dist-index\\.spec\\.js",
+        pathNot: "^test/dist-index[.]spec[.]js",
       },
       to: {
         path: "dist",
@@ -45,7 +45,7 @@ module.exports = {
       severity: "error",
       from: {},
       to: {
-        path: "\\.spec\\.[js|ts]$",
+        path: "[.]spec[.][js|ts]$",
       },
     },
     {
@@ -83,11 +83,11 @@ module.exports = {
       name: "no-unreachable-from-api",
       comment: "All sources should be reachable from the API entry point",
       from: {
-        path: "^src/index\\.ts$|^src/index-lazy\\.ts$",
+        path: "^src/index[.]ts$|^src/index-lazy[.]ts$",
       },
       to: {
         path: "^src/",
-        pathNot: "\\.d\\.ts$|/mscgenjs-ast\\.schema\\.json$",
+        pathNot: "[.]d[.]ts$|/mscgenjs-ast[.]schema[.]json$",
         reachable: false,
       },
     },
@@ -96,11 +96,53 @@ module.exports = {
       comment: "All sources should be reachable from at least one test",
       severity: "error",
       from: {
-        path: "^test/^[\\.]+/\\.spec\\.ts$",
+        path: "^test/^[.]+/[.]spec[.]ts$",
       },
       to: {
         path: "^src/",
         reachable: false,
+      },
+    },
+    {
+      name: "only-type-only-in-types",
+      comment:
+        "This module in the types/ folder depends on something that is not type-only. That's not allowed.",
+      severity: "error",
+      from: {
+        path: "[.]d[.]m?ts$",
+      },
+      to: {
+        dependencyTypesNot: [
+          "type-only",
+          "type-import",
+          "triple-slash-type-reference",
+        ],
+      },
+    },
+    {
+      name: "only-type-only-to-dts",
+      comment:
+        "This module depends on a .d.ts file via an import that is not 'type-only'. See https://www.typescriptlang.org/docs/handbook/modules/reference.html#type-only-imports-and-exports",
+      severity: "error",
+      from: {},
+      to: {
+        path: "[.]d[.][cm]?ts$",
+
+        dependencyTypesNot: [
+          "type-only",
+          "type-import",
+          "triple-slash-type-reference",
+        ],
+      },
+    },
+    {
+      name: "no-tsconfig-basedir-use",
+      comment:
+        "This module depends om something directly via a 'tsconfig.json' 'baseUrl' property. This is discouraged, unless you're still doing AMD modules - see https://www.typescriptlang.org/tsconfig#baseUrl",
+      severity: "error",
+      from: {},
+      to: {
+        dependencyTypes: ["aliased-tsconfig-base-url"],
       },
     },
   ],
@@ -111,14 +153,32 @@ module.exports = {
     tsPreCompilationDeps: "specify",
     prefix: "https://github.com/mscgenjs/mscgenjs-core/blob/master/",
     progress: { type: "cli-feedback" },
+    cache: {
+      strategy: "metadata",
+      compress: true,
+    },
     reporterOptions: {
       dot: {
         collapsePattern: "^node_modules/[^/]+",
+        filters: {
+          includeOnly: {
+            path: "^src",
+          },
+        },
         theme: {
           graph: {
             splines: "ortho",
           },
           modules: [
+            {
+              criteria: { source: "[.]d[.]ts$" },
+              attributes: {
+                shape: "note",
+                fontcolor: "white",
+                fillcolor: "#00aaaa77",
+                color: "#00aaaaff",
+              },
+            },
             {
               criteria: { source: "^src/main" },
               attributes: { fillcolor: "#ccccff" },
@@ -132,15 +192,36 @@ module.exports = {
               attributes: { fillcolor: "#ffccff" },
             },
             {
-              criteria: { source: "parser\\.js$" },
+              criteria: { source: "parser[.]js$" },
               attributes: { style: "filled" },
             },
             {
-              criteria: { source: "\\.json$" },
+              criteria: { source: "[.]json$" },
               attributes: { shape: "cylinder" },
             },
           ],
           dependencies: [
+            {
+              criteria: { "rules[0].severity": "error" },
+              attributes: { fontcolor: "red", color: "red" },
+            },
+            {
+              criteria: { "rules[0].severity": "warn" },
+              attributes: {
+                fontcolor: "orange",
+                color: "orange",
+              },
+            },
+            {
+              criteria: { "rules[0].severity": "info" },
+              attributes: { fontcolor: "blue", color: "blue" },
+            },
+            {
+              criteria: { resolved: "[.]d[.]ts$" },
+              attributes: {
+                color: "#00aaaa77",
+              },
+            },
             {
               criteria: { resolved: "^src/main" },
               attributes: { color: "#0000ff77" },

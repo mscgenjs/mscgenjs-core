@@ -1,6 +1,6 @@
 import memoize from "lodash/memoize";
 import * as idmanager from "./idmanager";
-import * as geotypes from "./svgelementfactory/geotypes";
+import type { IBBox } from "./svgelementfactory/geotypes";
 import * as svgelementfactory from "./svgelementfactory/index";
 
 /**
@@ -19,7 +19,7 @@ function _createBBoxerSVG(pId): SVGSVGElement {
 }
 
 /* istanbul ignore next */
-function getNativeBBox(pElement: SVGGElement): geotypes.IBBox {
+function getNativeBBox(pElement: SVGGElement): IBBox {
   /* getNativeBBoxWithCache */
   let lSvg = gDocument.getElementById(gSvgBBoxerId);
   lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
@@ -40,7 +40,7 @@ function getNativeBBox(pElement: SVGGElement): geotypes.IBBox {
  * if height or width has a wacky value:
  */
 /* istanbul ignore next */
-function sanitizeBBox(pBBox: geotypes.IBBox): geotypes.IBBox {
+function sanitizeBBox(pBBox: IBBox): IBBox {
   const INSANELYBIG = 100000;
 
   if (
@@ -70,7 +70,7 @@ function sanitizeBBox(pBBox: geotypes.IBBox): geotypes.IBBox {
  * the function cannot determine the bounding box  be determined, returns 15,15,2,2
  * as "reasonable default"
  */
-export function getBBox(pElement: SVGGElement): geotypes.IBBox {
+export function getBBox(pElement: SVGGElement): IBBox {
   /* istanbul ignore if */
   if (typeof pElement.getBBox === "function") {
     return sanitizeBBox(getNativeBBox(pElement));

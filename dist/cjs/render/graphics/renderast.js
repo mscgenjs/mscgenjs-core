@@ -825,7 +825,7 @@ exports.clean = clean;
  * renders the given abstract syntax tree pAST as svg
  * in the element with id pParentELementId in the window pWindow
  *
- * @param {mscgenjsast.ISequenceChart} pAST - the abstract syntax tree
+ * @param {ISequenceChart} pAST - the abstract syntax tree
  * @param {Window} pWindow - the browser window to put the svg in
  * @param {string} pParentElementId - the id of the parent element in which
  * to put the __svg_output element

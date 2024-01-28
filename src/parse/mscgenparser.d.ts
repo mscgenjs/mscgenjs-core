@@ -1,3 +1,3 @@
-import * as mscgenjsast from "./mscgenjsast";
+import type { ISequenceChart } from "./mscgenjsast";
 
-export function parse(pInput: string): mscgenjsast.ISequenceChart;
+export function parse(pInput: string): ISequenceChart;

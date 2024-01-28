@@ -1,5 +1,10 @@
-import * as mscgen from "../../types/mscgen";
-import * as mscgenparser from "../parse/mscgenparser" ;
+import type {
+  InputType,
+  IParser,
+  OutputType,
+  IRenderer,
+} from "../../types/mscgen";
+import * as mscgenparser from "../parse/mscgenparser";
 import * as msgennyparser from "../parse/msgennyparser";
 import * as xuparser from "../parse/xuparser";
 import * as renderast from "../render/graphics/renderast";
@@ -9,36 +14,35 @@ import * as ast2mscgen from "../render/text/ast2mscgen";
 import * as ast2msgenny from "../render/text/ast2msgenny";
 import * as ast2xu from "../render/text/ast2xu";
 
-const DEFAULT_PARSER        = mscgenparser;
+const DEFAULT_PARSER = mscgenparser;
 const DEFAULT_TEXT_RENDERER = ast2mscgen;
 
 const gLang2Parser = Object.freeze({
-    mscgen  : mscgenparser,
-    xu      : xuparser,
-    msgenny : msgennyparser,
+  mscgen: mscgenparser,
+  xu: xuparser,
+  msgenny: msgennyparser,
 }) as any;
 
 const gLang2TextRenderer = Object.freeze({
-    mscgen  : ast2mscgen,
-    msgenny : ast2msgenny,
-    xu      : ast2xu,
-    dot     : ast2dot,
-    doxygen : ast2doxygen,
+  mscgen: ast2mscgen,
+  msgenny: ast2msgenny,
+  xu: ast2xu,
+  dot: ast2dot,
+  doxygen: ast2doxygen,
 });
 
-export const getParser = (pLanguage: mscgen.InputType): mscgen.IParser => {
-    if (["ast", "json"].includes(pLanguage)) {
-        return JSON;
-    }
+export const getParser = (pLanguage: InputType): IParser => {
+  if (["ast", "json"].includes(pLanguage)) {
+    return JSON;
+  }
 
-    return gLang2Parser[pLanguage] || DEFAULT_PARSER as mscgen.IParser;
+  return gLang2Parser[pLanguage] || (DEFAULT_PARSER as IParser);
 };
 
-export const getGraphicsRenderer = (): any =>
-    renderast;
+export const getGraphicsRenderer = (): any => renderast;
 
-export const getTextRenderer = (pLanguage: mscgen.OutputType): mscgen.IRenderer =>
-    gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
+export const getTextRenderer = (pLanguage: OutputType): IRenderer =>
+  gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
 /*
  This file is part of mscgen_js.
 

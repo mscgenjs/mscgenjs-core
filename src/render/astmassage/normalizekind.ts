@@ -1,4 +1,7 @@
-import * as mscgenjsast from "../../parse/mscgenjsast";
+import type {
+  ArcKindType,
+  ArcKindNormalizedType,
+} from "../../parse/mscgenjsast";
 
 /**
  * Defines several mappings of arckinds to agregations
@@ -8,15 +11,16 @@ import * as mscgenjsast from "../../parse/mscgenjsast";
  */
 
 const KIND2NORMALIZEDKIND = Object.freeze({
-    "<-" : "->",
-    "<=" : "=>",
-    "<<=" : "=>>",
-    "<<" : ">>",
-    "<:" : ":>",
-    "x-" : "-x",
+  "<-": "->",
+  "<=": "=>",
+  "<<=": "=>>",
+  "<<": ">>",
+  "<:": ":>",
+  "x-": "-x",
 });
 
-export default (pKey: mscgenjsast.ArcKindType): mscgenjsast.ArcKindNormalizedType => KIND2NORMALIZEDKIND[pKey] || pKey;
+export default (pKey: ArcKindType): ArcKindNormalizedType =>
+  KIND2NORMALIZEDKIND[pKey] || pKey;
 /*
  This file is part of mscgen_js.
 

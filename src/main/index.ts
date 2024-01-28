@@ -1,17 +1,25 @@
-import * as mscgen from "../../types/mscgen";
+import type {
+  InputType,
+  IParser,
+  IRenderOptions,
+  IRenderer,
+  IAllowedValues,
+  OutputType,
+  ITranslateOptions,
+} from "../../types/mscgen";
 
 import allowedValues from "./allowedvalues";
 import normalizeOptions from "./normalizeoptions";
 const $version = require("../version.json");
 
-function isProbablyAnASTAlready(pScript: string, pInputType: mscgen.InputType) {
+function isProbablyAnASTAlready(pScript: string, pInputType: InputType) {
   return pInputType === "json" && typeof pScript === "object";
 }
 
 function getAST(
   pScript: string,
-  pInputType: mscgen.InputType,
-  pGetParser: (pInputType: mscgen.InputType) => mscgen.IParser
+  pInputType: InputType,
+  pGetParser: (pInputType: InputType) => IParser
 ) {
   if (isProbablyAnASTAlready(pScript, pInputType)) {
     return pScript;
@@ -37,9 +45,9 @@ function runCallBack(
 
 export function renderMsc(
   pScript: string,
-  pOptions: mscgen.IRenderOptions,
+  pOptions: IRenderOptions,
   pCallBack: (pError: Error | null, pResult?: string | null) => void,
-  pGetParser: (pInputType: mscgen.InputType) => mscgen.IParser,
+  pGetParser: (pInputType: InputType) => IParser,
   pGetGraphicsRenderer: () => any
 ) {
   const lOptions = normalizeOptions(pOptions, pScript);
@@ -69,9 +77,9 @@ export function renderMsc(
 
 export function translateMsc(
   pScript: string,
-  pOptions: mscgen.ITranslateOptions,
-  pGetParser: (pInputType: mscgen.InputType) => mscgen.IParser,
-  pGetTextRenderer: (pOutputType: mscgen.OutputType) => mscgen.IRenderer
+  pOptions: ITranslateOptions,
+  pGetParser: (pInputType: InputType) => IParser,
+  pGetTextRenderer: (pOutputType: OutputType) => IRenderer
 ) {
   const lOptions = Object.assign(
     {
@@ -98,7 +106,7 @@ export function translateMsc(
 
 export const version = $version.version;
 
-export function getAllowedValues(): mscgen.IAllowedValues {
+export function getAllowedValues(): IAllowedValues {
   return allowedValues;
 }
 /*

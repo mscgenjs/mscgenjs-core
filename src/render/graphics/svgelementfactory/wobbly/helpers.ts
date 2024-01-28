@@ -1,23 +1,28 @@
-import * as geotypes from "../geotypes";
+import type { ICurveSection, IPoint, ILine } from "../geotypes";
 import round from "../round";
 import * as svgprimitives from "../svgprimitives";
 import * as variationhelpers from "../variationhelpers";
 
 const SEGMENT_LENGTH = 70; // 70
-const WOBBLE_FACTOR  = 3; // 1.4?
+const WOBBLE_FACTOR = 3; // 1.4?
 
-export function points2CurveString(pCurveSections: geotypes.ICurveSection[]): string {
-    return pCurveSections.map((pCurveSection: geotypes.ICurveSection) =>
-        `${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` +
-        `${svgprimitives.point2String(pCurveSection as geotypes.IPoint)}`).join(" ");
+export function points2CurveString(pCurveSections: ICurveSection[]): string {
+  return pCurveSections
+    .map(
+      (pCurveSection: ICurveSection) =>
+        `${svgprimitives.pathPoint2String(
+          "S",
+          pCurveSection.controlX,
+          pCurveSection.controlY
+        )} ` + `${svgprimitives.point2String(pCurveSection as IPoint)}`
+    )
+    .join(" ");
 }
 
-export function line2CurveString(pLine: geotypes.ILine): string {
-    return points2CurveString(
-        getBetweenPoints(
-            pLine, SEGMENT_LENGTH, WOBBLE_FACTOR,
-        ),
-    );
+export function line2CurveString(pLine: ILine): string {
+  return points2CurveString(
+    getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR)
+  );
 }
 
 /**
@@ -27,11 +32,11 @@ export function line2CurveString(pLine: geotypes.ILine): string {
  * @return {number}       The length
  */
 // internal exposed for unit testing
-export function getLineLength(pLine: geotypes.ILine): number {
-    const lA = Math.abs(pLine.xTo - pLine.xFrom);
-    const lB = Math.abs(pLine.yTo - pLine.yFrom);
+export function getLineLength(pLine: ILine): number {
+  const lA = Math.abs(pLine.xTo - pLine.xFrom);
+  const lB = Math.abs(pLine.yTo - pLine.yFrom);
 
-    return Math.sqrt((lA * lA) + (lB * lB));
+  return Math.sqrt(lA * lA + lB * lB);
 }
 
 /**
@@ -44,9 +49,9 @@ export function getLineLength(pLine: geotypes.ILine): number {
  * @return {number}           a natural number
  */
 // internal exposed for unit testing
-export function getNumberOfSegments(pLine: geotypes.ILine, pInterval: number): number {
-    const lLineLength = getLineLength(pLine);
-    return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
+export function getNumberOfSegments(pLine: ILine, pInterval: number): number {
+  const lLineLength = getLineLength(pLine);
+  return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
 }
 /**
  * Returns a random (real) number between -pNumber and +pNumber (inclusive)
@@ -55,14 +60,14 @@ export function getNumberOfSegments(pLine: geotypes.ILine, pInterval: number): n
  * @return {number}
  */
 function getRandomDeviation(pNumber: number): number {
-    return Math.round(Math.random() * 2 * pNumber) - pNumber;
+  return Math.round(Math.random() * 2 * pNumber) - pNumber;
 }
 
-function normalizeInterval(pInterval: number, pLine: geotypes.ILine): number {
-    if (pInterval <= 0) {
-        throw new Error("pInterval must be > 0");
-    }
-    return Math.min(getLineLength(pLine), pInterval);
+function normalizeInterval(pInterval: number, pLine: ILine): number {
+  if (pInterval <= 0) {
+    throw new Error("pInterval must be > 0");
+  }
+  return Math.min(getLineLength(pLine), pInterval);
 }
 
 const PRECISION = 2;
@@ -82,41 +87,53 @@ const PRECISION = 2;
  * @return {array}
  */
 export function getBetweenPoints(
-    pLine: geotypes.ILine,
-    pInterval: number,
-    pWobble: number,
-): geotypes.ICurveSection[] {
+  pLine: ILine,
+  pInterval: number,
+  pWobble: number
+): ICurveSection[] {
+  pInterval = normalizeInterval(pInterval, pLine);
 
-    pInterval = normalizeInterval(pInterval, pLine);
+  const lRetval: ICurveSection[] = [];
+  const lNoSegments = getNumberOfSegments(pLine, pInterval);
+  const lDir = variationhelpers.getDirection(pLine);
+  const lIntervalX =
+    lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
+  const lIntervalY =
+    lDir.signY *
+    (Math.abs(lDir.dy) === Infinity
+      ? pInterval
+      : Math.sqrt(
+          (Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) /
+            (1 + Math.pow(lDir.dy, 2))
+        ));
+  let lCurveSection: ICurveSection;
 
-    const lRetval: geotypes.ICurveSection[] = [];
-    const lNoSegments   = getNumberOfSegments(pLine, pInterval);
-    const lDir          = variationhelpers.getDirection(pLine);
-    const lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
-    const lIntervalY = lDir.signY * (Math.abs(lDir.dy) === Infinity
-        ? pInterval
-        : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) / (1 + Math.pow(lDir.dy, 2))));
-    let lCurveSection: geotypes.ICurveSection;
-
-    for (let i = 1; i <= lNoSegments; i++) {
-        lCurveSection = {
-            controlX : round(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
-            controlY : round(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
-            x        : round(pLine.xFrom + i * lIntervalX, PRECISION),
-            y        : round(pLine.yFrom + i * lIntervalY, PRECISION),
-        };
-        if (pInterval >
-            getLineLength({
-                xFrom: lCurveSection.x,
-                yFrom: lCurveSection.y,
-                xTo: pLine.xTo,
-                yTo: pLine.yTo,
-            })
-        ) {
-            lCurveSection.x = pLine.xTo;
-            lCurveSection.y = pLine.yTo;
-        }
-        lRetval.push(lCurveSection);
+  for (let i = 1; i <= lNoSegments; i++) {
+    lCurveSection = {
+      controlX: round(
+        pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble),
+        PRECISION
+      ),
+      controlY: round(
+        pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble),
+        PRECISION
+      ),
+      x: round(pLine.xFrom + i * lIntervalX, PRECISION),
+      y: round(pLine.yFrom + i * lIntervalY, PRECISION),
+    };
+    if (
+      pInterval >
+      getLineLength({
+        xFrom: lCurveSection.x,
+        yFrom: lCurveSection.y,
+        xTo: pLine.xTo,
+        yTo: pLine.yTo,
+      })
+    ) {
+      lCurveSection.x = pLine.xTo;
+      lCurveSection.y = pLine.yTo;
     }
-    return lRetval;
+    lRetval.push(lCurveSection);
+  }
+  return lRetval;
 }

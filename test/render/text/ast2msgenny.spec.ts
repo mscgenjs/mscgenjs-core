@@ -1,4 +1,4 @@
-import { ISequenceChart } from "../../../src/parse/mscgenjsast";
+import type { ISequenceChart } from "../../../src/parse/mscgenjsast";
 import * as renderer from "../../../src/render/text/ast2msgenny";
 const fix = require("../../astfixtures.json");
 
