@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.applyScheme = exports.uncolor = exports.colorize = void 0;
 var aggregatekind_1 = __importDefault(require("./aggregatekind"));
 var asttransform_1 = __importDefault(require("./asttransform"));
@@ -14,7 +14,7 @@ function getArcColorCombis(pColorScheme, pKind) {
         return lArcCombi;
     }
     else {
-        return pColorScheme.aggregateArcColors[(0, aggregatekind_1["default"])(pKind)];
+        return pColorScheme.aggregateArcColors[(0, aggregatekind_1.default)(pKind)];
     }
 }
 function colorizeArc(pColorScheme) {
@@ -61,7 +61,7 @@ function colorizeEntity(pColorScheme) {
 }
 function colorize(pAST, pColorScheme, pForce) {
     gColorCombiCount = 0;
-    return (0, asttransform_1["default"])(pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
+    return (0, asttransform_1.default)(pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
 }
 exports.colorize = colorize;
 function uncolorThing(pThing) {
@@ -73,13 +73,13 @@ function uncolorThing(pThing) {
     delete pThing.arctextbgcolor;
 }
 function uncolor(pAST) {
-    return (0, asttransform_1["default"])(pAST, [uncolorThing], [uncolorThing]);
+    return (0, asttransform_1.default)(pAST, [uncolorThing], [uncolorThing]);
 }
 exports.uncolor = uncolor;
 var applyScheme = function (pAST, pColorSchemeName, pForced) {
-    return colorize(pAST, colorizeschemes_1["default"][pColorSchemeName]
-        ? colorizeschemes_1["default"][pColorSchemeName]
-        : colorizeschemes_1["default"].auto, pForced);
+    return colorize(pAST, colorizeschemes_1.default[pColorSchemeName]
+        ? colorizeschemes_1.default[pColorSchemeName]
+        : colorizeschemes_1.default.auto, pForced);
 };
 exports.applyScheme = applyScheme;
 /*

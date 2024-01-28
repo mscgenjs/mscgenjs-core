@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Wraps text on the first space found before pMaxlength,
  * or exactly pMaxLength when no space was found.
@@ -8,7 +8,7 @@ exports.__esModule = true;
  * @param {int} pMaxLength
  * @return {Array of string}
  */
-exports["default"] = (function (pText, pMaxLength) {
+exports.default = (function (pText, pMaxLength) {
     var lCharCount = 0;
     var lRetval = [];
     var lStart = 0;

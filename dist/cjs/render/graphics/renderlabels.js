@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.splitLabel = exports.createLabel = void 0;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var wrap_1 = __importDefault(require("../textutensils/wrap"));
@@ -53,7 +53,7 @@ function colorLink(pElement, pUrl, pTextColor) {
     return colorText(pElement, (pUrl && !pTextColor) ? "blue" : pTextColor);
 }
 function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
-    var lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), { "class": "label-text-background" });
+    var lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), { class: "label-text-background" });
     if (pTextbgcolor) {
         lRect.setAttribute("style", "fill:".concat(pTextbgcolor, "; stroke:").concat(pTextbgcolor, ";"));
     }
@@ -62,14 +62,14 @@ function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
 function renderLabelText(pLine, pPosition, pCoords, pClass, pArc) {
     var lAttributes = pPosition === 0
         ? {
-            "class": pClass,
+            class: pClass,
             url: pArc.url,
             id: pArc.id,
-            idurl: pArc.idurl
+            idurl: pArc.idurl,
         }
         : {
-            "class": pClass,
-            url: pArc.url
+            class: pClass,
+            url: pArc.url,
         };
     return svgelementfactory.createText(pLine, pCoords, lAttributes);
 }
@@ -88,7 +88,7 @@ function createLabelLine(pLine, pMiddle, pStartY, pArc, pLineNumber, pOptions) {
         lClass += "anchor-start ";
     }
     if (pOptions.alignAround) {
-        lY = pStartY + ((pLineNumber + 1 / 4) * (svgutensils.calculateTextHeight() + constants_1["default"].LINE_WIDTH));
+        lY = pStartY + ((pLineNumber + 1 / 4) * (svgutensils.calculateTextHeight() + constants_1.default.LINE_WIDTH));
     }
     return colorLink(colorText(renderLabelText(pLine, pLineNumber, { x: pMiddle, y: lY }, lClass, pArc), pArc.textcolor), pArc.url, pArc.textcolor);
 }
@@ -106,7 +106,7 @@ function insertEmptyLines(pLines, pOptions) {
 function determineLabelTop(pLines, pDims, pOptions) {
     if (pOptions.alignAround) {
         return pDims.y -
-            (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants_1["default"].LINE_WIDTH + 1);
+            (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + constants_1.default.LINE_WIDTH + 1);
     }
     else {
         return pDims.y - (pLines.length - 1) / 2 * (svgutensils.calculateTextHeight() + 1);
@@ -127,7 +127,7 @@ function createLabel(pArc, pDims, pOptions, pId) {
     pOptions = pOptions || {};
     if (pArc.label) {
         var lMiddle_1 = pDims.x + (pDims.width / 2);
-        var lLines = insertEmptyLines(splitLabel(pArc.label, pArc.kind, pDims.width, constants_1["default"].FONT_SIZE, pOptions), pOptions);
+        var lLines = insertEmptyLines(splitLabel(pArc.label, pArc.kind, pDims.width, constants_1.default.FONT_SIZE, pOptions), pOptions);
         var lLabelTop_1 = determineLabelTop(lLines, pDims, pOptions);
         lLines
             .forEach(function (pLine, pLineNumber) {
@@ -173,13 +173,13 @@ function _determineMaxTextWidthInChars(pWidth, pFontSize) {
     return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 5.6);
 }
 function isWrappableBox(pKind, pWordWrapBoxes) {
-    return "box" === (0, aggregatekind_1["default"])(pKind) && pWordWrapBoxes;
+    return "box" === (0, aggregatekind_1.default)(pKind) && pWordWrapBoxes;
 }
 function isWrappableEntity(pKind, pWordWrapEntites) {
     return "entity" === pKind && pWordWrapEntites;
 }
 function isWrappableArc(pKind, pWordWrapArcs) {
-    return "box" !== (0, aggregatekind_1["default"])(pKind) && "entity" !== pKind && pWordWrapArcs;
+    return "box" !== (0, aggregatekind_1.default)(pKind) && "entity" !== pKind && pWordWrapArcs;
 }
 function labelIsWrappable(pKind /*mscgenjsast.ArcKindType*/, pOptions) {
     return isWrappableBox(pKind, pOptions.wordwrapboxes) ||
@@ -202,7 +202,7 @@ function labelIsWrappable(pKind /*mscgenjsast.ArcKindType*/, pOptions) {
  */
 function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
     if (labelIsWrappable(pKind, pOptions)) {
-        return (0, wrap_1["default"])(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
+        return (0, wrap_1.default)(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));
     }
     else {
         return pLabel.split("\\n");

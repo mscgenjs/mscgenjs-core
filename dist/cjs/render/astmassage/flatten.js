@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.flatten = exports.normalize = exports.overrideColors = exports.swapRTLArc = exports.nameAsLabel = void 0;
 /**
  * Defines some functions to simplify a given abstract syntax tree.
@@ -65,8 +65,8 @@ function emptyStringForNoLabel(pArc) {
  * If the arc is facing forwards or is symetrical, it is left alone.
  */
 function swapRTLArc(pArc) {
-    if ((0, normalizekind_1["default"])(pArc.kind) !== pArc.kind) {
-        pArc.kind = (0, normalizekind_1["default"])(pArc.kind);
+    if ((0, normalizekind_1.default)(pArc.kind) !== pArc.kind) {
+        pArc.kind = (0, normalizekind_1.default)(pArc.kind);
         var lTmp = pArc.from;
         pArc.from = pArc.to;
         pArc.to = lTmp;
@@ -109,11 +109,11 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
     var lUnWoundSubArcs = [];
     pArcRow.forEach(function (pArc) {
         pArc.isVirtual = false;
-        if ("inline_expression" === (0, aggregatekind_1["default"])(pArc.kind)) {
+        if ("inline_expression" === (0, aggregatekind_1.default)(pArc.kind)) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;
             if (!!pArc.arcs) {
-                var lInlineExpression_1 = (0, cloneDeep_1["default"])(pArc);
+                var lInlineExpression_1 = (0, cloneDeep_1.default)(pArc);
                 lInlineExpression_1.numberofrows = calcNumberOfRows(lInlineExpression_1);
                 delete lInlineExpression_1.arcs;
                 lFlatArcRow.push(lInlineExpression_1);
@@ -137,12 +137,12 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
                     to: pArc.to,
                     // label: "",
                     // depth: pDepth,
-                    isVirtual: true
+                    isVirtual: true,
                 },
             ]);
         }
         else {
-            if (pFrom && pTo && "empty" === (0, aggregatekind_1["default"])(pArc.kind)) {
+            if (pFrom && pTo && "empty" === (0, aggregatekind_1.default)(pArc.kind)) {
                 pArc.from = pFrom;
                 pArc.to = pTo;
                 pArc.depth = pDepth;
@@ -168,10 +168,10 @@ function unwind(pArcRows) {
 function normalize(pAST) {
     gMaxDepth = 0;
     return {
-        options: (0, normalizeoptions_1["default"])(pAST.options),
-        entities: (0, cloneDeep_1["default"])(pAST.entities),
+        options: (0, normalizeoptions_1.default)(pAST.options),
+        entities: (0, cloneDeep_1.default)(pAST.entities),
         arcs: unwind(pAST.arcs),
-        depth: gMaxDepth + 1
+        depth: gMaxDepth + 1,
     };
 }
 exports.normalize = normalize;
@@ -186,7 +186,7 @@ exports.normalize = normalize;
  *    - distributes arc*color from the entities to the affected arcs
  */
 function flatten(pAST) {
-    return normalize((0, asttransform_1["default"])(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
+    return normalize((0, asttransform_1.default)(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
 }
 exports.flatten = flatten;
 /*

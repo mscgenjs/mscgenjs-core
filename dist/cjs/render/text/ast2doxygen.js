@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.render = void 0;
 var ast2mscgen_1 = require("./ast2mscgen");
 var DoxygenAdaptor = /** @class */ (function (_super) {
@@ -29,27 +29,27 @@ var DoxygenAdaptor = /** @class */ (function (_super) {
         _super.prototype.init.call(this, {
             program: {
                 opener: "".concat(LINE_PREFIX, "\\msc").concat(EOL),
-                closer: "".concat(LINE_PREFIX, "\\endmsc")
+                closer: "".concat(LINE_PREFIX, "\\endmsc"),
             },
             option: {
                 opener: LINE_PREFIX + INDENT,
                 separator: ",".concat(EOL).concat(LINE_PREFIX).concat(INDENT),
-                closer: ";".concat(EOL).concat(LINE_PREFIX).concat(EOL)
+                closer: ";".concat(EOL).concat(LINE_PREFIX).concat(EOL),
             },
             entity: {
                 opener: LINE_PREFIX + INDENT,
                 separator: ",".concat(EOL).concat(LINE_PREFIX).concat(INDENT),
-                closer: ";".concat(EOL).concat(LINE_PREFIX).concat(EOL)
+                closer: ";".concat(EOL).concat(LINE_PREFIX).concat(EOL),
             },
             arcline: {
                 opener: LINE_PREFIX + INDENT,
                 separator: ",".concat(EOL).concat(LINE_PREFIX).concat(INDENT),
-                closer: ";".concat(EOL)
+                closer: ";".concat(EOL),
             },
             inline: {
                 opener: ";".concat(EOL),
-                closer: "".concat(LINE_PREFIX, "#")
-            }
+                closer: "".concat(LINE_PREFIX, "#"),
+            },
         });
     };
     DoxygenAdaptor.prototype.renderComments = function () {

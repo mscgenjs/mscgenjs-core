@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-exports["default"] = {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
     minimal: {
         entityColors: [
             {},
@@ -8,169 +8,169 @@ exports["default"] = {
         arcColors: {
             "note": {
                 linecolor: "black",
-                textbgcolor: "#FFFFCC"
+                textbgcolor: "#FFFFCC",
             },
             "---": {
                 linecolor: "grey",
-                textbgcolor: "white"
+                textbgcolor: "white",
             },
             ">>": {
-                linecolor: "#555"
+                linecolor: "#555",
             },
             "<<": {
-                linecolor: "#555"
+                linecolor: "#555",
             },
             "-x": {
-                linecolor: "#500"
+                linecolor: "#500",
             },
             "x-": {
-                linecolor: "#500"
-            }
+                linecolor: "#500",
+            },
         },
         aggregateArcColors: {
             inline_expression: {
-                linecolor: "grey"
+                linecolor: "grey",
             },
             box: {
                 linecolor: "black",
-                textbgcolor: "white"
-            }
-        }
+                textbgcolor: "white",
+            },
+        },
     },
     rosy: {
         entityColors: [
             {
                 linecolor: "maroon",
-                textbgcolor: "#FFFFCC"
+                textbgcolor: "#FFFFCC",
             },
         ],
         arcColors: {
             "note": {
                 linecolor: "maroon",
-                textbgcolor: "#FFFFCC"
+                textbgcolor: "#FFFFCC",
             },
             "---": {
                 linecolor: "grey",
-                textbgcolor: "white"
-            }
+                textbgcolor: "white",
+            },
         },
         aggregateArcColors: {
             inline_expression: {
                 linecolor: "maroon",
-                textcolor: "maroon"
+                textcolor: "maroon",
             },
             box: {
                 linecolor: "maroon",
-                textbgcolor: "#FFFFCC"
-            }
-        }
+                textbgcolor: "#FFFFCC",
+            },
+        },
     },
     bluey: {
         entityColors: [
             {
                 linecolor: "#00A1DE",
                 textbgcolor: "#00A1DE",
-                textcolor: "white"
+                textcolor: "white",
             },
         ],
         arcColors: {
             "note": {
                 linecolor: "white",
                 textbgcolor: "#E77B2F",
-                textcolor: "white"
+                textcolor: "white",
             },
             "---": {
                 linecolor: "#00A1DE",
                 textcolor: "#005B82",
-                textbgcolor: "white"
-            }
+                textbgcolor: "white",
+            },
         },
         aggregateArcColors: {
             inline_expression: {
                 linecolor: "#00A1DE",
-                textcolor: "#005B82"
+                textcolor: "#005B82",
             },
             box: {
                 linecolor: "#00A1DE",
                 textbgcolor: "white",
-                textcolor: "#005B82"
+                textcolor: "#005B82",
             },
             emptyarc: {
                 textcolor: "#005B82",
-                linecolor: "#005B82"
+                linecolor: "#005B82",
             },
             directional: {
                 textcolor: "#005B82",
-                linecolor: "#005B82"
+                linecolor: "#005B82",
             },
             bidirectional: {
                 textcolor: "#005B82",
-                linecolor: "#005B82"
+                linecolor: "#005B82",
             },
             nondirectional: {
                 textcolor: "#005B82",
-                linecolor: "#005B82"
-            }
-        }
+                linecolor: "#005B82",
+            },
+        },
     },
     auto: {
         entityColors: [
             {
                 linecolor: "#008800",
-                textbgcolor: "#CCFFCC"
+                textbgcolor: "#CCFFCC",
             },
             {
                 linecolor: "#FF0000",
-                textbgcolor: "#FFCCCC"
+                textbgcolor: "#FFCCCC",
             },
             {
                 linecolor: "#0000FF",
-                textbgcolor: "#CCCCFF"
+                textbgcolor: "#CCCCFF",
             },
             {
                 linecolor: "#FF00FF",
-                textbgcolor: "#FFCCFF"
+                textbgcolor: "#FFCCFF",
             },
             {
                 linecolor: "black",
-                textbgcolor: "#DDDDDD"
+                textbgcolor: "#DDDDDD",
             },
             {
                 linecolor: "orange",
-                textbgcolor: "#FFFFCC"
+                textbgcolor: "#FFFFCC",
             },
             {
                 linecolor: "#117700",
-                textbgcolor: "#00FF00"
+                textbgcolor: "#00FF00",
             },
             {
                 linecolor: "purple",
-                textbgcolor: "violet"
+                textbgcolor: "violet",
             },
             {
                 linecolor: "grey",
-                textbgcolor: "white"
+                textbgcolor: "white",
             },
         ],
         arcColors: {
             "note": {
                 linecolor: "black",
-                textbgcolor: "#FFFFCC"
+                textbgcolor: "#FFFFCC",
             },
             "---": {
                 linecolor: "grey",
-                textbgcolor: "white"
-            }
+                textbgcolor: "white",
+            },
         },
         aggregateArcColors: {
             inline_expression: {
                 linecolor: "grey",
-                textbgcolor: "white"
+                textbgcolor: "white",
             },
             box: {
                 linecolor: "black",
-                textbgcolor: "white"
-            }
-        }
-    }
+                textbgcolor: "white",
+            },
+        },
+    },
 };

@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = void 0;
 var mscgenparser = __importStar(require("../parse/mscgenparser"));
 var msgennyparser = __importStar(require("../parse/msgennyparser"));
@@ -38,14 +38,14 @@ var DEFAULT_TEXT_RENDERER = ast2mscgen;
 var gLang2Parser = Object.freeze({
     mscgen: mscgenparser,
     xu: xuparser,
-    msgenny: msgennyparser
+    msgenny: msgennyparser,
 });
 var gLang2TextRenderer = Object.freeze({
     mscgen: ast2mscgen,
     msgenny: ast2msgenny,
     xu: ast2xu,
     dot: ast2dot,
-    doxygen: ast2doxygen
+    doxygen: ast2doxygen,
 });
 var getParser = function (pLanguage) {
     if (["ast", "json"].includes(pLanguage)) {

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.set = exports.getByRealRowNumber = exports.clear = exports.getLast = exports.get = void 0;
 /**
  * Functions to help determine the correct height and
@@ -23,7 +23,7 @@ function get(pRowNumber) {
         return {
             y: (gDefaultEntityHeight + (1.5 * gDefaultArcRowHeight)) + pRowNumber * gDefaultArcRowHeight,
             height: gDefaultArcRowHeight,
-            realRowNumber: gRowInfoArray.length - 1
+            realRowNumber: gRowInfoArray.length - 1,
         };
     }
 }
@@ -71,7 +71,7 @@ function set(pRowNumber, pHeight, pRealRowNumber) {
     gRowInfoArray[pRowNumber] = {
         y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
         height: pHeight,
-        realRowNumber: pRealRowNumber
+        realRowNumber: pRealRowNumber,
     };
 }
 exports.set = set;

@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.createDoubleLine = exports.createEdgeRemark = exports.createRBox = exports.createABox = exports.createRect = exports.createNote = exports.createSingleLine = void 0;
 var curvestringfactory_1 = require("./curvestringfactory");
 var helpers_1 = require("./helpers");
@@ -45,9 +45,9 @@ function createSingleLine(pLine, pOptions) {
         //
         // Adding a little stubble at the start of the line solves
         // all that.
-        svgprimitives.pathPoint2String("L", (0, round_1["default"])(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
+        svgprimitives.pathPoint2String("L", (0, round_1.default)(pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))), 2), pLine.yFrom + lDir.signY * (Math.abs(lDir.dy) === Infinity
             ? 1
-            : (0, round_1["default"])(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
+            : (0, round_1.default)(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
         (0, helpers_1.line2CurveString)(pLine), pOptions);
 }
 exports.createSingleLine = createSingleLine;
@@ -101,7 +101,7 @@ function createEdgeRemark(pBBox, pOptions) {
 }
 exports.createEdgeRemark = createEdgeRemark;
 function createDoubleLine(pLine, pOptions) {
-    return svgprimitives.createPath((0, curvestringfactory_1.doubleLine2CurveString)(pLine, pOptions), { "class": pOptions["class"] });
+    return svgprimitives.createPath((0, curvestringfactory_1.doubleLine2CurveString)(pLine, pOptions), { class: pOptions.class });
 }
 exports.createDoubleLine = createDoubleLine;
 /*

@@ -5,15 +5,15 @@ exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simp
 b,
 c;
 
-b -> a : \\"{paral\\",
-b =>> c : \\"lel}\\";
+b -> a : "{paral",
+b =>> c : "lel}";
 "
 `;
 
 exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should ignore all attributes, except label and name 1`] = `
-"a : \\"Label for A\\";
+"a : "Label for A";
 
-a <<=>> a : \\"Label for a <<=>> a\\";
+a <<=>> a : "Label for a <<=>> a";
 "
 `;
 
@@ -40,11 +40,11 @@ a -> b;
 `;
 
 exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should render options when they're in the syntax tree 1`] = `
-"hscale=\\"1.2\\",
-width=\\"800\\",
-arcgradient=\\"17\\",
+"hscale="1.2",
+width="800",
+arcgradient="17",
 wordwraparcs=true,
-watermark=\\"not in mscgen, available in xù and msgenny\\";
+watermark="not in mscgen, available in xù and msgenny";
 
 a;
 
@@ -52,28 +52,28 @@ a;
 `;
 
 exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should wrap entity names with a space in quotes 1`] = `
-"\\"space space\\";
+""space space";
 
 "
 `;
 
 exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should wrap labels with a , in quotes 1`] = `
-"a : \\"comma,\\";
+"a : "comma,";
 
 "
 `;
 
 exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should wrap labels with a ; in quotes 1`] = `
-"a : \\"semi; colon\\";
+"a : "semi; colon";
 
 "
 `;
 
 exports[`render/text/ast2msgenny #renderAST() - mscgen classic compatible - simple syntax trees should, given a simple syntax tree, render a msgenny script 1`] = `
 "a,
-\\"b space\\";
+"b space";
 
-a => \\"b space\\" : \\"a simple script\\";
+a => "b space" : "a simple script";
 "
 `;
 
@@ -102,14 +102,14 @@ b,
 c;
 
 a => b;
-a loop c : \\"label for loop\\" {
-  b alt c : \\"label for alt\\" {
-    b -> c : \\"-> within alt\\";
-    c >> b : \\">> within alt\\";
+a loop c : "label for loop" {
+  b alt c : "label for alt" {
+    b -> c : "-> within alt";
+    c >> b : ">> within alt";
   };
-  b >> a : \\">> within loop\\";
+  b >> a : ">> within loop";
 };
-a =>> a : \\"happy-the-peppy - outside\\";
+a =>> a : "happy-the-peppy - outside";
 ...;
 "
 `;

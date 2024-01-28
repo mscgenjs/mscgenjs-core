@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var allowedvalues_1 = __importDefault(require("./allowedvalues"));
 function normalizeValueFromValidValues(pValue, pValidValues, pDefault) {
     var lRetval = pDefault;
@@ -12,18 +12,18 @@ function normalizeValueFromValidValues(pValue, pValidValues, pDefault) {
     return lRetval;
 }
 function normalizeVerticalAlignment(pVerticalAlignment) {
-    return normalizeValueFromValidValues(pVerticalAlignment, allowedvalues_1["default"].regularArcTextVerticalAlignment, "middle");
+    return normalizeValueFromValidValues(pVerticalAlignment, allowedvalues_1.default.regularArcTextVerticalAlignment, "middle");
 }
 function normalizeInputType(pInputType) {
-    return normalizeValueFromValidValues(pInputType, allowedvalues_1["default"].inputType, "mscgen");
+    return normalizeValueFromValidValues(pInputType, allowedvalues_1.default.inputType, "mscgen");
 }
 function normalizeAdditionalTemplate(pAdditionalTemplate) {
-    return normalizeValueFromValidValues(pAdditionalTemplate, allowedvalues_1["default"].namedStyle, "basic");
+    return normalizeValueFromValidValues(pAdditionalTemplate, allowedvalues_1.default.namedStyle, "basic");
 }
 function booleanize(pValue, pDefault) {
     return typeof pValue === "boolean" ? pValue : pDefault;
 }
-exports["default"] = (function (pOptions, pScript) {
+exports.default = (function (pOptions, pScript) {
     var lIncludeSource = booleanize(pOptions.includeSource, true);
     return {
         inputType: normalizeInputType(pOptions.inputType),
@@ -34,7 +34,7 @@ exports["default"] = (function (pOptions, pScript) {
         styleAdditions: pOptions.styleAdditions || null,
         additionalTemplate: normalizeAdditionalTemplate(pOptions.additionalTemplate),
         mirrorEntitiesOnBottom: booleanize(pOptions.mirrorEntitiesOnBottom, false),
-        regularArcTextVerticalAlignment: normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment)
+        regularArcTextVerticalAlignment: normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment),
     };
 });
 /*

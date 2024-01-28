@@ -1,7 +1,7 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var cssTemplates = require("../render/graphics/csstemplates.json");
-exports["default"] = Object.freeze({
+exports.default = Object.freeze({
     inputType: [
         { name: "mscgen", experimental: false },
         { name: "msgenny", experimental: false },
@@ -27,8 +27,8 @@ exports["default"] = Object.freeze({
         name: pStyle.name,
         description: pStyle.description,
         experimental: pStyle.experimental,
-        deprecated: pStyle.deprecated
-    }); })
+        deprecated: pStyle.deprecated,
+    }); }),
 });
 /*
  This file is part of mscgen_js.

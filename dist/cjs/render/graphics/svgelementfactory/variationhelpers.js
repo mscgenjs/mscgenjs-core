@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDirection = exports.determineEndCorrection = exports.determineStartCorrection = void 0;
 function determineStartCorrection(pLine, pClass, pLineWidth) {
     var lRetval = 0;
@@ -36,7 +36,7 @@ function getDirection(pLine) {
     return {
         signX: lSignX,
         signY: pLine.yTo > pLine.yFrom ? 1 : -1,
-        dy: lSignX * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom)
+        dy: lSignX * (pLine.yTo - pLine.yFrom) / (pLine.xTo - pLine.xFrom),
     };
 }
 exports.getDirection = getDirection;

@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.webkitNamespaceBugWorkaround = exports.calculateTextHeight = exports.init = exports.removeRenderedSVGFromElement = exports.getBBox = void 0;
 var memoize_1 = __importDefault(require("lodash/memoize"));
 var idmanager = __importStar(require("./idmanager"));
@@ -68,7 +68,7 @@ function sanitizeBBox(pBBox) {
             height: 0,
             width: 0,
             x: 0,
-            y: 0
+            y: 0,
         };
     }
     else {
@@ -97,7 +97,7 @@ function getBBox(pElement) {
             height: 15,
             width: 15,
             x: 2,
-            y: 2
+            y: 2,
         };
     }
 }
@@ -112,7 +112,7 @@ function _calculateTextHeight() {
      */
     return getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
         x: 0,
-        y: 0
+        y: 0,
     })).height;
 }
 function removeRenderedSVGFromElement(pElementId) {
@@ -136,7 +136,7 @@ exports.init = init;
 /**
  * Returns the height in pixels necessary for rendering characters
  */
-exports.calculateTextHeight = (0, memoize_1["default"])(_calculateTextHeight);
+exports.calculateTextHeight = (0, memoize_1.default)(_calculateTextHeight);
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
 // namespace prefixes in front of xlink and all hrefs respectively.

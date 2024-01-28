@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.render = void 0;
 var ast2xu_1 = require("./ast2xu");
 var MsGennyAdaptor = /** @class */ (function (_super) {
@@ -28,32 +28,32 @@ var MsGennyAdaptor = /** @class */ (function (_super) {
             supportedArcAttributes: ["label"],
             program: {
                 opener: "",
-                closer: ""
+                closer: "",
             },
             option: {
                 opener: "",
                 separator: ",".concat(this.eol),
-                closer: ";".concat(this.eol).concat(this.eol)
+                closer: ";".concat(this.eol).concat(this.eol),
             },
             entity: {
                 opener: "",
                 separator: ",".concat(this.eol),
-                closer: ";".concat(this.eol).concat(this.eol)
+                closer: ";".concat(this.eol).concat(this.eol),
             },
             arcline: {
                 opener: "",
                 separator: ",".concat(this.eol),
-                closer: ";".concat(this.eol)
+                closer: ";".concat(this.eol),
             },
             inline: {
                 opener: " {".concat(this.eol),
-                closer: "}"
+                closer: "}",
             },
             attribute: {
                 opener: "",
                 separator: "",
-                closer: ""
-            }
+                closer: "",
+            },
         });
     };
     MsGennyAdaptor.prototype.renderEntityName = function (pString) {

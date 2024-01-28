@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.render = exports.XuAdaptor = void 0;
 var parserHelpers = __importStar(require("../../parse/parserHelpers"));
 var escape = __importStar(require("../textutensils/escape"));
@@ -140,32 +140,32 @@ var XuAdaptor = /** @class */ (function () {
             ],
             program: {
                 opener: "msc".concat(this.space, "{").concat(this.eol),
-                closer: "}"
+                closer: "}",
             },
             option: {
                 opener: this.indent,
                 separator: ",".concat(this.eol).concat(this.indent),
-                closer: ";".concat(this.eol).concat(this.eol)
+                closer: ";".concat(this.eol).concat(this.eol),
             },
             entity: {
                 opener: this.indent,
                 separator: ",".concat(this.eol).concat(this.indent),
-                closer: ";".concat(this.eol).concat(this.eol)
+                closer: ";".concat(this.eol).concat(this.eol),
             },
             attribute: {
                 opener: "".concat(this.space, "["),
                 separator: ",".concat(this.space),
-                closer: "]"
+                closer: "]",
             },
             arcline: {
                 opener: this.indent,
                 separator: ",".concat(this.eol).concat(this.indent),
-                closer: ";".concat(this.eol)
+                closer: ";".concat(this.eol),
             },
             inline: {
                 opener: "".concat(this.space, "{").concat(this.eol),
-                closer: "".concat(this.indent, "}")
-            }
+                closer: "".concat(this.indent, "}"),
+            },
         };
     };
     XuAdaptor.prototype.extractSupportedOptions = function (pOptions, pSupportedOptions) {
@@ -173,7 +173,7 @@ var XuAdaptor = /** @class */ (function () {
             .filter(function (pSupportedOption) { return typeof pOptions[pSupportedOption] !== "undefined"; })
             .map(function (pSupportedOption) { return ({
             name: pSupportedOption,
-            value: pOptions[pSupportedOption]
+            value: pOptions[pSupportedOption],
         }); });
     };
     XuAdaptor.prototype.isQuotable = function (pString) {

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Rounds pNumber to pPrecision numbers after the decimal separator
  *
@@ -14,7 +14,7 @@ exports.__esModule = true;
  *                              Defaults to 0
  * @return number               The rounded number
  */
-exports["default"] = (function (pNumber, pPrecision) {
+exports.default = (function (pNumber, pPrecision) {
     return pPrecision
         ? Math.round(pNumber * Math.pow(10, pPrecision)) / Math.pow(10, pPrecision)
         : Math.round(pNumber);

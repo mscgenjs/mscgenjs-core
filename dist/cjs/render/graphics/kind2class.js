@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAggregateClass = exports.getClass = void 0;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var KIND2CLASS = Object.freeze({
@@ -29,14 +29,14 @@ var KIND2CLASS = Object.freeze({
     "--": "signal",
     "==": "method",
     "..": "return",
-    "::": "emphasised"
+    "::": "emphasised",
 });
 function getClass(pKey) {
     return KIND2CLASS[pKey] || pKey;
 }
 exports.getClass = getClass;
 function getAggregateClass(pKey) {
-    return (0, aggregatekind_1["default"])(pKey) || pKey;
+    return (0, aggregatekind_1.default)(pKey) || pKey;
 }
 exports.getAggregateClass = getAggregateClass;
 /*

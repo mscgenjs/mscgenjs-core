@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllowedValues = exports.version = exports.translateMsc = exports.renderMsc = void 0;
 var allowedvalues_1 = __importDefault(require("./allowedvalues"));
 var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
@@ -30,14 +30,14 @@ function runCallBack(pCallBack, pError, pResult) {
     }
 }
 function renderMsc(pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRenderer) {
-    var lOptions = (0, normalizeoptions_1["default"])(pOptions, pScript);
+    var lOptions = (0, normalizeoptions_1.default)(pOptions, pScript);
     try {
         runCallBack(pCallBack, null, pGetGraphicsRenderer().render(getAST(pScript, lOptions.inputType, pGetParser), lOptions.window, lOptions.elementId, {
             source: lOptions.source,
             styleAdditions: lOptions.styleAdditions,
             additionalTemplate: lOptions.additionalTemplate,
             mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
-            regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment
+            regularArcTextVerticalAlignment: lOptions.regularArcTextVerticalAlignment,
         }));
     }
     catch (pException) {
@@ -48,7 +48,7 @@ exports.renderMsc = renderMsc;
 function translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
     var lOptions = Object.assign({
         inputType: "mscgen",
-        outputType: "json"
+        outputType: "json",
     }, pOptions);
     if (lOptions.outputType === "ast") {
         return pGetParser(lOptions.inputType).parse(pScript);
@@ -61,7 +61,7 @@ function translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
 exports.translateMsc = translateMsc;
 exports.version = $version.version;
 function getAllowedValues() {
-    return allowedvalues_1["default"];
+    return allowedvalues_1.default;
 }
 exports.getAllowedValues = getAllowedValues;
 /*

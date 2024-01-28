@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.render = exports.explodeBroadcasts = void 0;
 var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
@@ -38,7 +38,7 @@ var MAX_TEXT_WIDTH = 40;
 var gCounter = 0;
 /* Attribute handling */
 function renderString(pString) {
-    var lStringAry = (0, wrap_1["default"])(pString.replace(/"/g, '\\"'), MAX_TEXT_WIDTH);
+    var lStringAry = (0, wrap_1.default)(pString.replace(/"/g, '\\"'), MAX_TEXT_WIDTH);
     var lString = lStringAry
         .slice(0, -1)
         .reduce(function (pPrev, pLine) { return "".concat(pPrev + pLine, "\n"); }, "");
@@ -136,7 +136,7 @@ function renderRegularArc(pArc, pAggregatedKind, pCounter) {
 }
 function renderSingleArc(pArc, pCounter, pIndent) {
     var lRetVal = "";
-    var lAggregatedKind = (0, aggregatekind_1["default"])(pArc.kind);
+    var lAggregatedKind = (0, aggregatekind_1.default)(pArc.kind);
     if (lAggregatedKind === "box") {
         lRetVal += renderBoxArc(pArc, pCounter, pIndent);
     }
@@ -171,7 +171,7 @@ function explodeBroadcastArc(pEntities, pArc) {
         .filter(function (pEntity) { return pArc.from !== pEntity.name; })
         .map(function (pEntity) {
         pArc.to = pEntity.name;
-        return (0, cloneDeep_1["default"])(pArc);
+        return (0, cloneDeep_1.default)(pArc);
     });
 }
 /**
@@ -180,7 +180,7 @@ function explodeBroadcastArc(pEntities, pArc) {
  * - pre-calculates colors from regular colors and arc*-colors
  */
 function flattenMe(pAST) {
-    return explodeBroadcasts((0, asttransform_1["default"])(pAST, [flatten.nameAsLabel], [flatten.swapRTLArc, flatten.overrideColors]));
+    return explodeBroadcasts((0, asttransform_1.default)(pAST, [flatten.nameAsLabel], [flatten.swapRTLArc, flatten.overrideColors]));
 }
 /**
  * expands "broadcast" arcs to its individual counterparts
@@ -200,7 +200,7 @@ function explodeBroadcasts(pAST) {
                 /* save a clone of the broadcast arc attributes
                  * and remove the original bc arc
                  */
-                var lOriginalBroadcastArc = (0, cloneDeep_1["default"])(pArc);
+                var lOriginalBroadcastArc = (0, cloneDeep_1.default)(pArc);
                 delete pAST.arcs[pArcRowIndex][pArcIndex];
                 var lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                 pArcRow[pArcIndex] = lExplodedArcsAry.shift();
@@ -212,7 +212,7 @@ function explodeBroadcasts(pAST) {
 }
 exports.explodeBroadcasts = explodeBroadcasts;
 function render(pAST) {
-    var lAST = flattenMe((0, cloneDeep_1["default"])(pAST));
+    var lAST = flattenMe((0, cloneDeep_1.default)(pAST));
     var lRetVal = "/* Sequence chart represented as a directed graph\n" +
         " * in the graphviz dot language (http://graphviz.org/)\n" +
         " *\n" +

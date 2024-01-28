@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStyle = exports.getShape = exports.getArrow = void 0;
 /**
  * Defines several mappings of arckinds to agregations
@@ -10,13 +10,13 @@ var KIND2ARROW = Object.freeze({
     "<->": "rvee",
     "=>": "normal",
     "<=>": "normal",
-    "-x": "oinvonormal"
+    "-x": "oinvonormal",
 });
 var KIND2SHAPE = Object.freeze({
     box: "box",
     abox: "hexagon",
     rbox: "box",
-    note: "note"
+    note: "note",
 });
 var KIND2STYLE = Object.freeze({
     ">>": "dashed",
@@ -25,7 +25,7 @@ var KIND2STYLE = Object.freeze({
     ":>": "bold",
     "<:>": "bold",
     "::": "bold",
-    "rbox": "rounded"
+    "rbox": "rounded",
 });
 function getArrow(pKey) { return KIND2ARROW[pKey]; }
 exports.getArrow = getArrow;

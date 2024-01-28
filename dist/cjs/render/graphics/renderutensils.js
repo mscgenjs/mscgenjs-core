@@ -2,11 +2,11 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.determineArcXTo = exports.determineDepthCorrection = exports.scaleCanvasToWidth = void 0;
 var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 function scaleCanvasToWidth(pWidth, pCanvas) {
-    var lCanvas = (0, cloneDeep_1["default"])(pCanvas);
+    var lCanvas = (0, cloneDeep_1.default)(pCanvas);
     lCanvas.scale = pWidth / lCanvas.width;
     lCanvas.width *= lCanvas.scale;
     lCanvas.height *= lCanvas.scale;

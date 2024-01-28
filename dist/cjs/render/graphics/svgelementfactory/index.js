@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMarkerPolygon = exports.createMarkerPath = exports.createGroup = exports.createUTurn = exports.createLine = exports.createDiagonalText = exports.createText = exports.createEdgeRemark = exports.createNote = exports.createABox = exports.createRBox = exports.createRect = exports.createTSpan = exports.createDefs = exports.createDesc = exports.createTitle = exports.updateSVG = exports.createSVG = exports.init = void 0;
 var straight = __importStar(require("./straight"));
 var svgprimitives = __importStar(require("./svgprimitives"));
@@ -49,7 +49,7 @@ function init(pDocument, pOptions) {
     svgprimitives.init(pDocument);
     gOptions = Object.assign({
         LINE_WIDTH: 2,
-        FONT_SIZE: 12
+        FONT_SIZE: 12,
     }, pOptions);
 }
 exports.init = init;
@@ -125,11 +125,11 @@ exports.createNote = createNote;
  */
 function createEdgeRemark(pBBox, pOptions) {
     return gRenderMagic.createEdgeRemark(pBBox, {
-        "class": pOptions["class"],
+        class: pOptions.class,
         color: pOptions.color,
         bgColor: pOptions.bgColor,
         foldSize: pOptions.foldSize,
-        lineWidth: gOptions.LINE_WIDTH
+        lineWidth: gOptions.LINE_WIDTH,
     });
 }
 exports.createEdgeRemark = createEdgeRemark;

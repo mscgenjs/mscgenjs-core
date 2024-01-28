@@ -17,7 +17,7 @@ var __extends = (this && this.__extends) || (function () {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.render = exports.MscGenAdaptor = void 0;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var ast2xu_1 = require("./ast2xu");
@@ -57,12 +57,12 @@ var MscGenAdaptor = /** @class */ (function (_super) {
             ],
             inline: {
                 opener: ";".concat(this.eol),
-                closer: "#"
-            }
+                closer: "#",
+            },
         }, pConfig));
     };
     MscGenAdaptor.prototype.renderKind = function (pKind) {
-        if ("inline_expression" === (0, aggregatekind_1["default"])(pKind)) {
+        if ("inline_expression" === (0, aggregatekind_1.default)(pKind)) {
             return "--";
         }
         return pKind;

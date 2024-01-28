@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBetweenPoints = exports.getNumberOfSegments = exports.getLineLength = exports.line2CurveString = exports.points2CurveString = void 0;
 var round_1 = __importDefault(require("../round"));
 var svgprimitives = __importStar(require("../svgprimitives"));
@@ -114,17 +114,17 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     var lCurveSection;
     for (var i = 1; i <= lNoSegments; i++) {
         lCurveSection = {
-            controlX: (0, round_1["default"])(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
-            controlY: (0, round_1["default"])(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
-            x: (0, round_1["default"])(pLine.xFrom + i * lIntervalX, PRECISION),
-            y: (0, round_1["default"])(pLine.yFrom + i * lIntervalY, PRECISION)
+            controlX: (0, round_1.default)(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
+            controlY: (0, round_1.default)(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
+            x: (0, round_1.default)(pLine.xFrom + i * lIntervalX, PRECISION),
+            y: (0, round_1.default)(pLine.yFrom + i * lIntervalY, PRECISION),
         };
         if (pInterval >
             getLineLength({
                 xFrom: lCurveSection.x,
                 yFrom: lCurveSection.y,
                 xTo: pLine.xTo,
-                yTo: pLine.yTo
+                yTo: pLine.yTo,
             })) {
             lCurveSection.x = pLine.xTo;
             lCurveSection.y = pLine.yTo;

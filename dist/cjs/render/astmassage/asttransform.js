@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 function transformEntities(pEntities, pFunctionAry) {
     pEntities.forEach(function (pEntity) {
         pFunctionAry.forEach(function (pFunction) {
@@ -37,7 +37,7 @@ function transformArcRows(pEntities, pArcRows, pFunctionAry) {
  * an arc row and entities as input return the modified arc row
  * @return {ast} - the modified syntax tree
  */
-exports["default"] = (function (pAST, pEntityTransforms, pArcRowTransforms) {
+exports.default = (function (pAST, pEntityTransforms, pArcRowTransforms) {
     transformEntities(pAST.entities, pEntityTransforms);
     if (pAST.arcs) {
         transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);

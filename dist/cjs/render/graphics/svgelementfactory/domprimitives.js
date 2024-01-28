@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.init = exports.createTextNode = exports.createElement = exports.setAttributesNS = exports.setAttributes = exports.setAttributeNS = exports.setAttribute = exports.XLINKNS = exports.SVGNS = void 0;
 exports.SVGNS = "http://www.w3.org/2000/svg";
 exports.XLINKNS = "http://www.w3.org/1999/xlink";

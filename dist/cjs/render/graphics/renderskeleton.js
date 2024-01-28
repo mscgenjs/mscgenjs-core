@@ -44,7 +44,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.bootstrap = exports.init = void 0;
 var svgelementfactory = __importStar(require("./svgelementfactory/index"));
 var constants_1 = __importDefault(require("./constants"));
@@ -95,8 +95,8 @@ function setupBody(pElementId) {
  */
 function init(pWindow) {
     svgelementfactory.init(pWindow.document, {
-        LINE_WIDTH: constants_1["default"].LINE_WIDTH,
-        FONT_SIZE: constants_1["default"].FONT_SIZE
+        LINE_WIDTH: constants_1.default.LINE_WIDTH,
+        FONT_SIZE: constants_1.default.FONT_SIZE,
     });
     return pWindow.document;
 }
@@ -153,8 +153,8 @@ function composeStyleSheetTemplate(pNamedStyle, pStyleAdditions) {
 function setupStyleElement(pOptions, pSvgElementId) {
     var lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
     return (composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions))
-        .replace(/<%=fontSize%>/g, constants_1["default"].FONT_SIZE)
-        .replace(/<%=lineWidth%>/g, constants_1["default"].LINE_WIDTH)
+        .replace(/<%=fontSize%>/g, constants_1.default.FONT_SIZE)
+        .replace(/<%=lineWidth%>/g, constants_1.default.LINE_WIDTH)
         .replace(/<%=id%>/g, pSvgElementId);
 }
 /*

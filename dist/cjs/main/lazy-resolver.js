@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = void 0;
 var memoize_1 = __importDefault(require("lodash/memoize"));
 var DEFAULT_PARSER = "../parse/mscgenparser";
@@ -10,25 +10,25 @@ var DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 var gLang2Parser = Object.freeze({
     mscgen: "../parse/mscgenparser",
     xu: "../parse/xuparser",
-    msgenny: "../parse/msgennyparser"
+    msgenny: "../parse/msgennyparser",
 });
 var gLang2TextRenderer = Object.freeze({
     mscgen: "../render/text/ast2mscgen",
     msgenny: "../render/text/ast2msgenny",
     xu: "../render/text/ast2xu",
     dot: "../render/text/ast2dot",
-    doxygen: "../render/text/ast2doxygen"
+    doxygen: "../render/text/ast2doxygen",
 });
-exports.getParser = (0, memoize_1["default"])(function (pLanguage) {
+exports.getParser = (0, memoize_1.default)(function (pLanguage) {
     if (["ast", "json"].indexOf(pLanguage) > -1) {
         return JSON;
     }
     return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
 });
-exports.getGraphicsRenderer = (0, memoize_1["default"])(function () {
+exports.getGraphicsRenderer = (0, memoize_1.default)(function () {
     return require("../render/graphics/renderast");
 });
-exports.getTextRenderer = (0, memoize_1["default"])(function (pLanguage) {
+exports.getTextRenderer = (0, memoize_1.default)(function (pLanguage) {
     return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER);
 });
 /*

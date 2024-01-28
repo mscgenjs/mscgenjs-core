@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 function rad2deg(pDegrees) {
     return (pDegrees * 360) / (2 * Math.PI);
 }
@@ -10,7 +10,7 @@ function rad2deg(pDegrees) {
  * @param {object} pBBox - the bounding box (only width and height used)
  * @returns {number} - the angle in degrees
  */
-exports["default"] = (function (pBBox) {
+exports.default = (function (pBBox) {
     return (0 - rad2deg(Math.atan(pBBox.height / pBBox.width)));
 });
 /*

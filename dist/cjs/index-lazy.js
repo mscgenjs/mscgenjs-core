@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var main = __importStar(require("./main"));
 var resolver = __importStar(require("./main/lazy-resolver"));
 /**
@@ -61,7 +61,7 @@ module.exports = {
     /**
      * See the function of the same name in @index.js
      */
-    getTextRenderer: resolver.getTextRenderer
+    getTextRenderer: resolver.getTextRenderer,
 };
 /*
 This file is part of mscgen_js.

@@ -7,7 +7,7 @@
  * in refactoring the parser code a bit.
  *
  */
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMetaInfo = exports.checkForUndeclaredEntities = exports.EntityNotDefinedError = exports.isMscGenKeyword = exports.entityExists = exports.flattenBoolean = exports.nameValue2Option = void 0;
 function nameValue2Option(pName, pValue) {
     var lOption = {};
@@ -125,7 +125,7 @@ function getMetaInfo(pOptions, pArcLines) {
     return {
         extendedOptions: lHasExtendedOptions,
         extendedArcTypes: lHasExtendedArcTypes,
-        extendedFeatures: lHasExtendedOptions || lHasExtendedArcTypes
+        extendedFeatures: lHasExtendedOptions || lHasExtendedArcTypes,
     };
 }
 exports.getMetaInfo = getMetaInfo;

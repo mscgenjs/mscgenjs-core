@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Defines several mappings of arckinds to agregations
  *
@@ -12,9 +12,9 @@ var KIND2NORMALIZEDKIND = Object.freeze({
     "<<=": "=>>",
     "<<": ">>",
     "<:": ":>",
-    "x-": "-x"
+    "x-": "-x",
 });
-exports["default"] = (function (pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; });
+exports.default = (function (pKey) { return KIND2NORMALIZEDKIND[pKey] || pKey; });
 /*
  This file is part of mscgen_js.
 

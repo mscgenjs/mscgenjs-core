@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMarkerDefs = exports.getAttributes = void 0;
 var flatten_1 = __importDefault(require("lodash/flatten"));
 var normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
@@ -12,28 +12,28 @@ var KINDS = {
             { name: "style", value: "stroke:{{color}}" },
             {
                 name: "marker-end",
-                value: "url(#{{id}}{{signal-marker-end}}-{{color}})"
+                value: "url(#{{id}}{{signal-marker-end}}-{{color}})",
             },
         ],
         marker: {
-            name: "signal"
-        }
+            name: "signal",
+        },
     },
     "<->": {
         attributes: [
             { name: "style", value: "stroke:{{color}}" },
             {
                 name: "marker-end",
-                value: "url(#{{id}}{{signal-marker-end}}-{{color}})"
+                value: "url(#{{id}}{{signal-marker-end}}-{{color}})",
             },
             {
                 name: "marker-start",
-                value: "url(#{{id}}{{signal-marker-start}}-{{color}})"
+                value: "url(#{{id}}{{signal-marker-start}}-{{color}})",
             },
         ],
         marker: {
-            name: "signal"
-        }
+            name: "signal",
+        },
     },
     "=>>": {
         attributes: [
@@ -42,8 +42,8 @@ var KINDS = {
         ],
         marker: {
             name: "callback",
-            end: ""
-        }
+            end: "",
+        },
     },
     "<<=>>": {
         attributes: [
@@ -54,8 +54,8 @@ var KINDS = {
         marker: {
             name: "callback",
             end: "",
-            start: "-l"
-        }
+            start: "-l",
+        },
     },
     ">>": {
         attributes: [
@@ -64,8 +64,8 @@ var KINDS = {
         ],
         marker: {
             name: "callback",
-            end: ""
-        }
+            end: "",
+        },
     },
     "<<>>": {
         attributes: [
@@ -76,20 +76,20 @@ var KINDS = {
         marker: {
             name: "callback",
             end: "",
-            start: "-l"
-        }
+            start: "-l",
+        },
     },
     "..": {
-        attributes: [{ name: "style", value: "stroke:{{color}}" }]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "--": {
-        attributes: [{ name: "style", value: "stroke:{{color}}" }]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "==": {
-        attributes: [{ name: "style", value: "stroke:{{color}}" }]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "::": {
-        attributes: [{ name: "style", value: "stroke:{{color}}" }]
+        attributes: [{ name: "style", value: "stroke:{{color}}" }],
     },
     "=>": {
         attributes: [
@@ -98,8 +98,8 @@ var KINDS = {
         ],
         marker: {
             name: "method",
-            end: ""
-        }
+            end: "",
+        },
     },
     "<=>": {
         attributes: [
@@ -110,8 +110,8 @@ var KINDS = {
         marker: {
             name: "method",
             end: "",
-            start: "-l"
-        }
+            start: "-l",
+        },
     },
     ":>": {
         attributes: [
@@ -120,8 +120,8 @@ var KINDS = {
         ],
         marker: {
             name: "method",
-            end: ""
-        }
+            end: "",
+        },
     },
     "<:>": {
         attributes: [
@@ -132,8 +132,8 @@ var KINDS = {
         marker: {
             name: "method",
             end: "",
-            start: "-l"
-        }
+            start: "-l",
+        },
     },
     "-x": {
         attributes: [
@@ -142,9 +142,9 @@ var KINDS = {
         ],
         marker: {
             name: "lost",
-            end: ""
-        }
-    }
+            end: "",
+        },
+    },
 };
 var MARKERPATHS = {
     signal: {
@@ -153,23 +153,23 @@ var MARKERPATHS = {
             { name: "-u", path: "M9,3 l-8,-2" },
             { name: "-l", path: "M9,3 l 8, 2" },
             { name: "-lu", path: "M9,3 l 8,-2" },
-        ]
+        ],
     },
     method: {
         variants: [
             { name: "", path: "1,1  9,3  1,5" },
             { name: "-l", path: "17,1 9,3 17,5" },
-        ]
+        ],
     },
     callback: {
         variants: [
             { name: "", path: "M 1,1 l 8,2 l-8,2" },
             { name: "-l", path: "M17,1 l-8,2 l 8,2" },
-        ]
+        ],
     },
     lost: {
-        variants: [{ name: "", path: "M7,0 l5,6 M7,6 l5,-6" }]
-    }
+        variants: [{ name: "", path: "M7,0 l5,6 M7,6 l5,-6" }],
+    },
 };
 function getSignalend(pKind, pFrom, pTo) {
     if (pFrom && pTo && ["<->", "->"].includes(pKind)) {
@@ -194,14 +194,14 @@ function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
                 .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
                 .replace(/\{\{signal-marker-start\}\}/g, getSignalstart(pKind, pFrom, pTo))
                 .replace(/\{\{id\}\}/g, pId)
-                .replace(/\{\{color\}\}/g, pLineColor || "black")
+                .replace(/\{\{color\}\}/g, pLineColor || "black"),
         }); });
     }
     return lRetval;
 }
 exports.getAttributes = getAttributes;
 function makeKindColorCombi(pKind, pColor) {
-    return (KINDS[(0, normalizekind_1["default"])(pKind)].marker.name +
+    return (KINDS[(0, normalizekind_1.default)(pKind)].marker.name +
         (Boolean(pColor) ? " " + pColor : " black"));
 }
 function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
@@ -215,8 +215,8 @@ function extractKindColorCombisFromArc(pKindColorCombis, pArc) {
         pArc.arcs.forEach(_extractKindColorCombis);
     }
     if (!!pArc.kind &&
-        !!KINDS[(0, normalizekind_1["default"])(pArc.kind)] &&
-        !!KINDS[(0, normalizekind_1["default"])(pArc.kind)].marker &&
+        !!KINDS[(0, normalizekind_1.default)(pArc.kind)] &&
+        !!KINDS[(0, normalizekind_1.default)(pArc.kind)].marker &&
         !pKindColorCombis.includes(makeKindColorCombi(pArc.kind, pArc.linecolor))) {
         pKindColorCombis.push(makeKindColorCombi(pArc.kind, pArc.linecolor));
     }
@@ -243,12 +243,12 @@ function extractKindColorCombis(pAST) {
         .map(toColorCombiObject);
 }
 function getMarkerDefs(pId, pAST) {
-    return (0, flatten_1["default"])(extractKindColorCombis(pAST).map(function (pCombi) {
+    return (0, flatten_1.default)(extractKindColorCombis(pAST).map(function (pCombi) {
         return MARKERPATHS[pCombi.kind].variants.map(function (pVariant) { return ({
             name: "".concat(pId + pCombi.kind + pVariant.name, "-").concat(pCombi.color),
             path: pVariant.path,
             color: pCombi.color,
-            type: pCombi.kind
+            type: pCombi.kind,
         }); });
     }));
 }

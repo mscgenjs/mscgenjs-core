@@ -22,14 +22,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRect = exports.createSingleLine = exports.createEdgeRemark = exports.createABox = exports.createRBox = exports.createNote = exports.createDoubleLine = void 0;
 var svgprimitives = __importStar(require("../svgprimitives"));
 var variationhelpers = __importStar(require("../variationhelpers"));
 function createDoubleLine(pLine, pOptions) {
     var lLineWidth = pOptions.lineWidth || 1;
     var lSpace = lLineWidth;
-    var lClass = pOptions ? pOptions["class"] : "";
+    var lClass = pOptions ? pOptions.class : "";
     var lDir = variationhelpers.getDirection(pLine);
     var lEndCorr = variationhelpers.determineEndCorrection(pLine, lClass, lLineWidth);
     var lStartCorr = variationhelpers.determineStartCorrection(pLine, lClass, lLineWidth);
@@ -95,7 +95,7 @@ function createRBox(pBBox, pOptions) {
     var RBOX_CORNER_RADIUS = 6; // px
     var lOptions = Object.assign({
         rx: RBOX_CORNER_RADIUS,
-        ry: RBOX_CORNER_RADIUS
+        ry: RBOX_CORNER_RADIUS,
     }, pOptions);
     return svgprimitives.createRect(pBBox, lOptions);
 }
@@ -135,9 +135,9 @@ exports.createABox = createABox;
 function createEdgeRemark(pBBox, pOptions) {
     var lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
     var lOptions = Object.assign({
-        "class": null,
+        class: null,
         color: null,
-        bgColor: null
+        bgColor: null,
     }, pOptions);
     return svgprimitives.createPath(
     // start:

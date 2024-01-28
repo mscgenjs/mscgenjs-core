@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = exports.getAllowedValues = exports.version = exports.translateMsc = exports.renderMsc = void 0;
 var main = __importStar(require("./main/index"));
 var resolver = __importStar(require("./main/static-resolver"));
