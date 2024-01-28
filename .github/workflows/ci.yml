@@ -19,9 +19,8 @@ jobs:
       fail-fast: true
       matrix:
         node-version:
-          - 14.x
-          - 16.x
           - 18.x
+          - 21.x
         platform:
           - ubuntu-latest
 
