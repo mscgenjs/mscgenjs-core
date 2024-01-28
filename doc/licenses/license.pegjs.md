@@ -2,7 +2,7 @@
 
 [source](https://github.com/peggyjs/peggy/blob/master/LICENSE)
 
-Copyright (c) 2010-2021 The Peggy AUTHORS
+Copyright (c) 2010-2024 The Peggy AUTHORS
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
