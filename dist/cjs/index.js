@@ -23,7 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = exports.getAllowedValues = exports.version = exports.translateMsc = exports.renderMsc = void 0;
+exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = exports.getAllowedValues = exports.version = void 0;
+exports.renderMsc = renderMsc;
+exports.translateMsc = translateMsc;
 var main = __importStar(require("./main/index"));
 var resolver = __importStar(require("./main/static-resolver"));
 /**
@@ -58,7 +60,6 @@ var resolver = __importStar(require("./main/static-resolver"));
 function renderMsc(pScript, pOptions, pCallBack) {
     main.renderMsc(pScript, pOptions || {}, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
 }
-exports.renderMsc = renderMsc;
 /**
  * Translates the input script to an outputscript.
  *
@@ -77,7 +78,6 @@ exports.renderMsc = renderMsc;
 function translateMsc(pScript, pOptions) {
     return main.translateMsc(pScript, pOptions || {}, resolver.getParser, resolver.getTextRenderer);
 }
-exports.translateMsc = translateMsc;
 /**
  * The current (semver compliant) version number string of
  * mscgenjs

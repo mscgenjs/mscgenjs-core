@@ -26,7 +26,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.render = exports.explodeBroadcasts = void 0;
+exports.explodeBroadcasts = explodeBroadcasts;
+exports.render = render;
 var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var asttransform_1 = __importDefault(require("../astmassage/asttransform"));
@@ -210,7 +211,6 @@ function explodeBroadcasts(pAST) {
     }
     return pAST;
 }
-exports.explodeBroadcasts = explodeBroadcasts;
 function render(pAST) {
     var lAST = flattenMe((0, cloneDeep_1.default)(pAST));
     var lRetVal = "/* Sequence chart represented as a directed graph\n" +
@@ -235,7 +235,6 @@ function render(pAST) {
     }
     return (lRetVal += "}");
 }
-exports.render = render;
 /*
  This file is part of mscgen_js.
 

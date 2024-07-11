@@ -26,7 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.webkitNamespaceBugWorkaround = exports.calculateTextHeight = exports.init = exports.removeRenderedSVGFromElement = exports.getBBox = void 0;
+exports.webkitNamespaceBugWorkaround = exports.calculateTextHeight = exports.init = void 0;
+exports.getBBox = getBBox;
+exports.removeRenderedSVGFromElement = removeRenderedSVGFromElement;
 var memoize_1 = __importDefault(require("lodash/memoize"));
 var idmanager = __importStar(require("./idmanager"));
 var svgelementfactory = __importStar(require("./svgelementfactory/index"));
@@ -101,7 +103,6 @@ function getBBox(pElement) {
         };
     }
 }
-exports.getBBox = getBBox;
 function _calculateTextHeight() {
     /* Uses a string with some characters that tend to stick out
      * above/ below the current line and an 'astral codepoint' to
@@ -128,7 +129,6 @@ function removeRenderedSVGFromElement(pElementId) {
         }
     }
 }
-exports.removeRenderedSVGFromElement = removeRenderedSVGFromElement;
 var init = function (pDocument) {
     gDocument = pDocument;
 };

@@ -1,5 +1,5 @@
 export default {
-    LINE_WIDTH: 2,
+    LINE_WIDTH: 2, // px
     FONT_SIZE: 12, // px
 };
 /*

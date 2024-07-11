@@ -23,7 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRect = exports.createSingleLine = exports.createEdgeRemark = exports.createABox = exports.createRBox = exports.createNote = exports.createDoubleLine = void 0;
+exports.createRect = exports.createSingleLine = void 0;
+exports.createDoubleLine = createDoubleLine;
+exports.createNote = createNote;
+exports.createRBox = createRBox;
+exports.createABox = createABox;
+exports.createEdgeRemark = createEdgeRemark;
 var svgprimitives = __importStar(require("../svgprimitives"));
 var variationhelpers = __importStar(require("../variationhelpers"));
 function createDoubleLine(pLine, pOptions) {
@@ -50,7 +55,6 @@ function createDoubleLine(pLine, pOptions) {
         // right stubble
         lStubble, pOptions);
 }
-exports.createDoubleLine = createDoubleLine;
 /**
  * Creates a note of pWidth x pHeight, with the top left corner
  * at coordinates (pX, pY). pFoldSize controls the size of the
@@ -82,7 +86,6 @@ function createNote(pBBox, pOptions) {
         svgprimitives.pathPoint2String("l", 0, -pBBox.height) +
         "z", pOptions);
 }
-exports.createNote = createNote;
 /**
  * Creates rect with 6px rounded corners of width x height, with the top
  * left corner at coordinates (x, y)
@@ -99,7 +102,6 @@ function createRBox(pBBox, pOptions) {
     }, pOptions);
     return svgprimitives.createRect(pBBox, lOptions);
 }
-exports.createRBox = createRBox;
 /**
  * Creates an angled box of width x height, with the top left corner
  * at coordinates (x, y)
@@ -121,7 +123,6 @@ function createABox(pBBox, pOptions) {
         svgprimitives.pathPoint2String("l", -(pBBox.width - 2 * lSlopeOffset), 0) +
         "z", pOptions);
 }
-exports.createABox = createABox;
 /**
  * Creates an edge remark (for use in inline expressions) of width x height,
  * with the top left corner at coordinates (x, y). pFoldSize controls the size of the
@@ -151,7 +152,6 @@ function createEdgeRemark(pBBox, pOptions) {
         // bottom line:
         svgprimitives.pathPoint2String("l", -(pBBox.width - lFoldSize), 0), lOptions);
 }
-exports.createEdgeRemark = createEdgeRemark;
 exports.createSingleLine = svgprimitives.createSingleLine;
 exports.createRect = svgprimitives.createRect;
 /*

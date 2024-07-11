@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMarkerDefs = exports.getAttributes = void 0;
+exports.getAttributes = getAttributes;
+exports.getMarkerDefs = getMarkerDefs;
 var normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
 var KINDS = {
     "->": {
@@ -198,7 +199,6 @@ function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
     }
     return lRetval;
 }
-exports.getAttributes = getAttributes;
 function makeKindColorCombi(pKind, pColor) {
     return (KINDS[(0, normalizekind_1.default)(pKind)].marker.name +
         (Boolean(pColor) ? " " + pColor : " black"));
@@ -251,7 +251,6 @@ function getMarkerDefs(pId, pAST) {
         }); });
     }).flat(Infinity);
 }
-exports.getMarkerDefs = getMarkerDefs;
 /*
  This file is part of mscgen_js.
 

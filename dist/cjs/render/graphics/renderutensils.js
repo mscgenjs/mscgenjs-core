@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.determineArcXTo = exports.determineDepthCorrection = exports.scaleCanvasToWidth = void 0;
+exports.scaleCanvasToWidth = scaleCanvasToWidth;
+exports.determineDepthCorrection = determineDepthCorrection;
+exports.determineArcXTo = determineArcXTo;
 var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 function scaleCanvasToWidth(pWidth, pCanvas) {
     var lCanvas = (0, cloneDeep_1.default)(pCanvas);
@@ -16,11 +18,9 @@ function scaleCanvasToWidth(pWidth, pCanvas) {
     lCanvas.y = 0 - lCanvas.verticaltransform;
     return lCanvas;
 }
-exports.scaleCanvasToWidth = scaleCanvasToWidth;
 function determineDepthCorrection(pDepth, pLineWidth) {
     return pDepth ? 2 * ((pDepth + 1) * 2 * pLineWidth) : 0;
 }
-exports.determineDepthCorrection = determineDepthCorrection;
 function determineArcXTo(pKind, pFrom, pTo) {
     if ("-x" === pKind) {
         return pFrom + (pTo - pFrom) * (3 / 4);
@@ -29,7 +29,6 @@ function determineArcXTo(pKind, pFrom, pTo) {
         return pTo;
     }
 }
-exports.determineArcXTo = determineArcXTo;
 /*
  This file is part of mscgen_js.
 

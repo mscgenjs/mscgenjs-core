@@ -26,7 +26,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateSVG = exports.init = exports.createSVG = exports.createDefs = exports.createDesc = exports.createDiagonalText = exports.createTitle = exports.createMarkerPolygon = exports.createMarkerPath = exports.createGroup = exports.createUTurn = exports.createRect = exports.createSingleLine = exports.createPath = exports.createText = exports.createTSpan = exports.pathPoint2String = exports.point2String = void 0;
+exports.updateSVG = exports.init = void 0;
+exports.point2String = point2String;
+exports.pathPoint2String = pathPoint2String;
+exports.createTSpan = createTSpan;
+exports.createText = createText;
+exports.createPath = createPath;
+exports.createSingleLine = createSingleLine;
+exports.createRect = createRect;
+exports.createUTurn = createUTurn;
+exports.createGroup = createGroup;
+exports.createMarkerPath = createMarkerPath;
+exports.createMarkerPolygon = createMarkerPolygon;
+exports.createTitle = createTitle;
+exports.createDiagonalText = createDiagonalText;
+exports.createDesc = createDesc;
+exports.createDefs = createDefs;
+exports.createSVG = createSVG;
 var domprimitives = __importStar(require("./domprimitives"));
 var getdiagonalangle_1 = __importDefault(require("./getdiagonalangle"));
 var round_1 = __importDefault(require("./round"));
@@ -34,11 +50,9 @@ var PRECISION = 2;
 function point2String(pPoint) {
     return "".concat((0, round_1.default)(pPoint.x, PRECISION).toString(), ",").concat((0, round_1.default)(pPoint.y, PRECISION).toString(), " ");
 }
-exports.point2String = point2String;
 function pathPoint2String(pType, pX, pY) {
     return pType + point2String({ x: pX, y: pY });
 }
-exports.pathPoint2String = pathPoint2String;
 function createMarker(pId, pClass, pOrient, pViewBox) {
     /* so, why not start at refX=0, refY=0? It would simplify reasoning
      * about marker paths significantly...
@@ -90,7 +104,6 @@ function createTSpan(pLabel, pURL) {
         return lTSpanLabel;
     }
 }
-exports.createTSpan = createTSpan;
 function createText(pLabel, pCoords, pOptions) {
     var lOptions = Object.assign({
         class: null,
@@ -111,7 +124,6 @@ function createText(pLabel, pCoords, pOptions) {
     }
     return lText;
 }
-exports.createText = createText;
 /**
  * Creates an svg path element given the path pD, with pClass applied
  * (if provided)
@@ -133,7 +145,6 @@ function createPath(pD, pOptions) {
         style: lOptions.style,
     }), lOptions.color, lOptions.bgColor);
 }
-exports.createPath = createPath;
 function colorBox(pElement, pColor, pBgColor) {
     var lStyleString = "";
     if (pBgColor) {
@@ -153,7 +164,6 @@ function createSingleLine(pLine, pOptions) {
         class: pOptions ? pOptions.class : null,
     });
 }
-exports.createSingleLine = createSingleLine;
 /**
  * Creates an svg rectangle of width x height, with the top left
  * corner at coordinates (x, y). pRX and pRY define the amount of
@@ -186,7 +196,6 @@ function createRect(pBBox, pOptions) {
         class: lOptions.class,
     }), lOptions.color, lOptions.bgColor);
 }
-exports.createRect = createRect;
 /**
  * Creates a u-turn, departing on pPoint.x, pPoint.y and
  * ending on pPoint.x, pEndY with a width of pWidth
@@ -216,7 +225,6 @@ function createUTurn(pBBox, pEndY, pOptions) {
         // curve end-pont:
         point2String({ x: lEndX, y: pEndY }), { class: lOptions.class });
 }
-exports.createUTurn = createUTurn;
 /**
  * Creates an svg group, identifiable with id pId
  * @param {string} pId
@@ -228,7 +236,6 @@ function createGroup(pId, pClass) {
         class: pClass,
     });
 }
-exports.createGroup = createGroup;
 /**
  * Create an arrow marker consisting of a path as specified in pD
  *
@@ -249,7 +256,6 @@ function createMarkerPath(pId, pD, pColor) {
     }));
     return lMarker;
 }
-exports.createMarkerPath = createMarkerPath;
 /**
  * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
  *
@@ -267,14 +273,12 @@ function createMarkerPolygon(pId, pPoints, pColor) {
     }));
     return lMarker;
 }
-exports.createMarkerPolygon = createMarkerPolygon;
 function createTitle(pText) {
     var lTitle = domprimitives.createElement("title");
     var lText = domprimitives.createTextNode(pText);
     lTitle.appendChild(lText);
     return lTitle;
 }
-exports.createTitle = createTitle;
 /**
  * Creates a text node with the given pText fitting diagonally (bottom-left
  *  - top right) in canvas pCanvas
@@ -289,7 +293,6 @@ function createDiagonalText(pText, pDimension, pClass) {
             "".concat((0, round_1.default)(pDimension.height / 2, PRECISION).toString(), ")"),
     });
 }
-exports.createDiagonalText = createDiagonalText;
 /**
  * Creates a desc element with id pId
  *
@@ -299,7 +302,6 @@ exports.createDiagonalText = createDiagonalText;
 function createDesc() {
     return domprimitives.createElement("desc");
 }
-exports.createDesc = createDesc;
 /**
  * Creates an empty 'defs' element
  *
@@ -308,7 +310,6 @@ exports.createDesc = createDesc;
 function createDefs() {
     return domprimitives.createElement("defs");
 }
-exports.createDefs = createDefs;
 /**
  * Creates a basic SVG with id pId, and size 0x0
  * @param {string} pId
@@ -325,7 +326,6 @@ function createSVG(pId, pClass) {
         height: "0",
     });
 }
-exports.createSVG = createSVG;
 exports.init = domprimitives.init;
 exports.updateSVG = domprimitives.setAttributes;
 /*

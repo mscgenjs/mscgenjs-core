@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyScheme = exports.uncolor = exports.colorize = void 0;
+exports.applyScheme = void 0;
+exports.colorize = colorize;
+exports.uncolor = uncolor;
 var aggregatekind_1 = __importDefault(require("./aggregatekind"));
 var asttransform_1 = __importDefault(require("./asttransform"));
 var colorizeschemes_1 = __importDefault(require("./colorizeschemes"));
@@ -69,7 +71,6 @@ function colorize(pAST, pColorScheme, pForce) {
     gColorCombiCount = 0;
     return (0, asttransform_1.default)(pForce ? uncolor(pAST) : pAST, [colorizeEntity(pColorScheme)], [colorizeArc(pColorScheme)]);
 }
-exports.colorize = colorize;
 function uncolorThing(pThing) {
     delete pThing.linecolor;
     delete pThing.textcolor;
@@ -81,7 +82,6 @@ function uncolorThing(pThing) {
 function uncolor(pAST) {
     return (0, asttransform_1.default)(pAST, [uncolorThing], [uncolorThing]);
 }
-exports.uncolor = uncolor;
 var applyScheme = function (pAST, pColorSchemeName, pForced) {
     return colorize(pAST, colorizeschemes_1.default[pColorSchemeName]
         ? colorizeschemes_1.default[pColorSchemeName]

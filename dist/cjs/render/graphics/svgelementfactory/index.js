@@ -23,7 +23,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createMarkerPolygon = exports.createMarkerPath = exports.createGroup = exports.createUTurn = exports.createLine = exports.createDiagonalText = exports.createText = exports.createEdgeRemark = exports.createNote = exports.createABox = exports.createRBox = exports.createRect = exports.createTSpan = exports.createDefs = exports.createDesc = exports.createTitle = exports.updateSVG = exports.createSVG = exports.init = void 0;
+exports.createMarkerPolygon = exports.createMarkerPath = exports.createGroup = exports.createUTurn = exports.createDiagonalText = exports.createText = exports.createNote = exports.createABox = exports.createRBox = exports.createRect = exports.createTSpan = exports.createDefs = exports.createDesc = exports.createTitle = exports.updateSVG = void 0;
+exports.init = init;
+exports.createSVG = createSVG;
+exports.createEdgeRemark = createEdgeRemark;
+exports.createLine = createLine;
 var straight = __importStar(require("./straight"));
 var svgprimitives = __importStar(require("./svgprimitives"));
 var wobbly = __importStar(require("./wobbly"));
@@ -52,7 +56,6 @@ function init(pDocument, pOptions) {
         FONT_SIZE: 12,
     }, pOptions);
 }
-exports.init = init;
 /**
  * Creates a basic SVG with id pId, and size 0x0
  */
@@ -60,7 +63,6 @@ function createSVG(pId, pClass, pRenderMagic) {
     gRenderMagic = determineRenderMagic(pRenderMagic);
     return svgprimitives.createSVG(pId, pClass);
 }
-exports.createSVG = createSVG;
 exports.updateSVG = svgprimitives.updateSVG;
 exports.createTitle = svgprimitives.createTitle;
 /**
@@ -126,7 +128,6 @@ function createEdgeRemark(pBBox, pOptions) {
         lineWidth: gOptions.LINE_WIDTH,
     });
 }
-exports.createEdgeRemark = createEdgeRemark;
 /**
  * Creates a text node with the appropriate tspan & a elements on
  * position pCoords.
@@ -151,7 +152,6 @@ function createLine(pLine, pOptions) {
         return gRenderMagic.createSingleLine(pLine, pOptions);
     }
 }
-exports.createLine = createLine;
 /**
  * Creates a u-turn, departing on pStartX, pStarty and
  * ending on pStartX, pEndY with a width of pWidth

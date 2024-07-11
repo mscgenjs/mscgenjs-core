@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDirection = exports.determineEndCorrection = exports.determineStartCorrection = void 0;
+exports.determineStartCorrection = determineStartCorrection;
+exports.determineEndCorrection = determineEndCorrection;
+exports.getDirection = getDirection;
 function determineStartCorrection(pLine, pClass, pLineWidth) {
     var lRetval = 0;
     if (!pClass.includes("nodi") && pClass.includes("bidi")) {
@@ -13,7 +15,6 @@ function determineStartCorrection(pLine, pClass, pLineWidth) {
     }
     return lRetval;
 }
-exports.determineStartCorrection = determineStartCorrection;
 function determineEndCorrection(pLine, pClass, pLineWidth) {
     var lRetval = 0;
     if (!pClass.includes("nodi")) {
@@ -21,7 +22,6 @@ function determineEndCorrection(pLine, pClass, pLineWidth) {
     }
     return lRetval;
 }
-exports.determineEndCorrection = determineEndCorrection;
 /**
  * returns the angle (in radials) of the line
  *
@@ -39,7 +39,6 @@ function getDirection(pLine) {
         dy: (lSignX * (pLine.yTo - pLine.yFrom)) / (pLine.xTo - pLine.xFrom),
     };
 }
-exports.getDirection = getDirection;
 /*
  This file is part of mscgen_js.
 

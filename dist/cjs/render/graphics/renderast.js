@@ -26,7 +26,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.render = exports.clean = void 0;
+exports.clean = void 0;
+exports.render = render;
 var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var flatten_1 = require("../astmassage/flatten");
@@ -846,7 +847,6 @@ function render(pAST, pWindow, pParentElementId, pRenderOptions) {
     renderASTPost(lFlattenedAST);
     return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
 }
-exports.render = render;
 /*
  This file is part of mscgen_js.
 

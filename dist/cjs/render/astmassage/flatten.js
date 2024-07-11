@@ -26,7 +26,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.flatten = exports.normalize = exports.overrideColors = exports.swapRTLArc = exports.nameAsLabel = void 0;
+exports.nameAsLabel = nameAsLabel;
+exports.swapRTLArc = swapRTLArc;
+exports.overrideColors = overrideColors;
+exports.normalize = normalize;
+exports.flatten = flatten;
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  */
@@ -45,7 +49,6 @@ function nameAsLabel(pEntity) {
         pEntity.label = pEntity.name;
     }
 }
-exports.nameAsLabel = nameAsLabel;
 function unescapeLabels(pArcOrEntity) {
     if (!!pArcOrEntity.label) {
         pArcOrEntity.label = escape.unescapeString(pArcOrEntity.label);
@@ -72,7 +75,6 @@ function swapRTLArc(pArc) {
         pArc.to = lTmp;
     }
 }
-exports.swapRTLArc = swapRTLArc;
 function overrideColorsFromThing(pArc, pThing) {
     if (!pArc.linecolor && pThing.arclinecolor) {
         pArc.linecolor = pThing.arclinecolor;
@@ -97,7 +99,6 @@ function overrideColors(pArc, pEntities) {
         }
     }
 }
-exports.overrideColors = overrideColors;
 function calcNumberOfRows(pInlineExpression) {
     return pInlineExpression.arcs.reduce(function (pSum, pArc) {
         return pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0);
@@ -174,7 +175,6 @@ function normalize(pAST) {
         depth: gMaxDepth + 1,
     };
 }
-exports.normalize = normalize;
 /**
  * Simplifies an AST:
  *    - entities without a label get one (the name of the label)
@@ -188,7 +188,6 @@ exports.normalize = normalize;
 function flatten(pAST) {
     return normalize((0, asttransform_1.default)(pAST, [nameAsLabel, unescapeLabels], [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]));
 }
-exports.flatten = flatten;
 /*
  This file is part of mscgen_js.
 

@@ -23,7 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.edgeRemark2CurveString = exports.doubleLine2CurveString = exports.rbox2CurveString = exports.abox2CurveString = exports.renderNoteCornerString = exports.renderNotePathString = void 0;
+exports.renderNotePathString = renderNotePathString;
+exports.renderNoteCornerString = renderNoteCornerString;
+exports.abox2CurveString = abox2CurveString;
+exports.rbox2CurveString = rbox2CurveString;
+exports.doubleLine2CurveString = doubleLine2CurveString;
+exports.edgeRemark2CurveString = edgeRemark2CurveString;
 var svgprimitives = __importStar(require("../svgprimitives"));
 var variationhelpers = __importStar(require("../variationhelpers"));
 var helpers_1 = require("./helpers");
@@ -71,7 +76,6 @@ function renderNotePathString(pBBox, pFoldSize) {
         svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y) +
         "z");
 }
-exports.renderNotePathString = renderNotePathString;
 function renderNoteCornerString(pBBox, pFoldSize) {
     return (svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width - pFoldSize, pBBox.y) +
         // down
@@ -91,7 +95,6 @@ function renderNoteCornerString(pBBox, pFoldSize) {
         }) +
         svgprimitives.pathPoint2String("L", pBBox.x + pBBox.width, pBBox.y + pFoldSize));
 }
-exports.renderNoteCornerString = renderNoteCornerString;
 function abox2CurveString(pBBox, pSlopeOffset) {
     return (svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pBBox.height / 2) +
         (0, helpers_1.line2CurveString)({
@@ -141,7 +144,6 @@ function abox2CurveString(pBBox, pSlopeOffset) {
         }) +
         "z");
 }
-exports.abox2CurveString = abox2CurveString;
 function rbox2CurveString(pBBox, pRBoxCornerRadius) {
     return (svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pRBoxCornerRadius) +
         (0, helpers_1.points2CurveString)([
@@ -209,7 +211,6 @@ function rbox2CurveString(pBBox, pRBoxCornerRadius) {
         }) +
         "z");
 }
-exports.rbox2CurveString = rbox2CurveString;
 function doubleLine2CurveString(pLine, pOptions) {
     var lLineWidth = pOptions.lineWidth || 1;
     var lSpace = lLineWidth;
@@ -240,7 +241,6 @@ function doubleLine2CurveString(pLine, pOptions) {
         // right stubble
         svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy));
 }
-exports.doubleLine2CurveString = doubleLine2CurveString;
 function edgeRemark2CurveString(pBBox, pFoldSize) {
     return (svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
         // down:
@@ -268,4 +268,3 @@ function edgeRemark2CurveString(pBBox, pFoldSize) {
         }) +
         svgprimitives.pathPoint2String("L", pBBox.x - 1, pBBox.y + pBBox.height));
 }
-exports.edgeRemark2CurveString = edgeRemark2CurveString;

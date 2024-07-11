@@ -33,9 +33,9 @@
     "ts-jest": "29.2.2",
     "ts-loader": "9.5.1",
     "tslint": "6.1.3",
-    "typescript": "^4.9.5",
+    "typescript": "^5.5.3",
     "upem": "9.0.4",
-    "webpack": "5.92.1",
+    "webpack": "5.93.0",
     "webpack-cli": "5.1.4"
   },
   "upem": {
@@ -49,11 +49,6 @@
         "package": "jsdom",
         "policy": "wanted",
         "because": "really breaking changes (for us)"
-      },
-      {
-        "package": "typescript",
-        "policy": "wanted",
-        "because": "@typescript-eslint/parser doesn't support typescript 5 yet"
       }
     ]
   },

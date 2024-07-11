@@ -26,7 +26,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createDoubleLine = exports.createEdgeRemark = exports.createRBox = exports.createABox = exports.createRect = exports.createNote = exports.createSingleLine = void 0;
+exports.createSingleLine = createSingleLine;
+exports.createNote = createNote;
+exports.createRect = createRect;
+exports.createABox = createABox;
+exports.createRBox = createRBox;
+exports.createEdgeRemark = createEdgeRemark;
+exports.createDoubleLine = createDoubleLine;
 var curvestringfactory_1 = require("./curvestringfactory");
 var helpers_1 = require("./helpers");
 var round_1 = __importDefault(require("../round"));
@@ -52,7 +58,6 @@ function createSingleLine(pLine, pOptions) {
                     : (0, round_1.default)(Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))), 2))) +
         (0, helpers_1.line2CurveString)(pLine), pOptions);
 }
-exports.createSingleLine = createSingleLine;
 function createNote(pBBox, pOptions) {
     var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     var lFoldSize = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
@@ -62,20 +67,16 @@ function createNote(pBBox, pOptions) {
     lGroup.appendChild(svgprimitives.createPath((0, curvestringfactory_1.renderNoteCornerString)(pBBox, lFoldSize), pOptions));
     return lGroup;
 }
-exports.createNote = createNote;
 function createRect(pBBox, pOptions) {
     return svgprimitives.createPath((0, curvestringfactory_1.rbox2CurveString)(pBBox, 0), pOptions);
 }
-exports.createRect = createRect;
 function createABox(pBBox, pOptions) {
     var lSlopeOffset = 3;
     return svgprimitives.createPath((0, curvestringfactory_1.abox2CurveString)(pBBox, lSlopeOffset), pOptions);
 }
-exports.createABox = createABox;
 function createRBox(pBBox, pOptions) {
     return svgprimitives.createPath((0, curvestringfactory_1.rbox2CurveString)(pBBox, 6), pOptions);
 }
-exports.createRBox = createRBox;
 function createEdgeRemark(pBBox, pOptions) {
     var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
     var lGroup = svgprimitives.createGroup();
@@ -101,13 +102,11 @@ function createEdgeRemark(pBBox, pOptions) {
     lGroup.appendChild(lLine);
     return lGroup;
 }
-exports.createEdgeRemark = createEdgeRemark;
 function createDoubleLine(pLine, pOptions) {
     return svgprimitives.createPath((0, curvestringfactory_1.doubleLine2CurveString)(pLine, pOptions), {
         class: pOptions.class,
     });
 }
-exports.createDoubleLine = createDoubleLine;
 /*
  This file is part of mscgen_js.
 

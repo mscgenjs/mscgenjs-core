@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStyle = exports.getShape = exports.getArrow = void 0;
+exports.getArrow = getArrow;
+exports.getShape = getShape;
+exports.getStyle = getStyle;
 /**
  * Defines several mappings of arckinds to agregations
  *
@@ -28,11 +30,8 @@ var KIND2STYLE = Object.freeze({
     "rbox": "rounded",
 });
 function getArrow(pKey) { return KIND2ARROW[pKey]; }
-exports.getArrow = getArrow;
 function getShape(pKey) { return KIND2SHAPE[pKey]; }
-exports.getShape = getShape;
 function getStyle(pKey) { return KIND2STYLE[pKey]; }
-exports.getStyle = getStyle;
 /* The 'generic object injection sink' is to a frozen object,
    attempts to modify it will be moot => we can safely use the []
    notation

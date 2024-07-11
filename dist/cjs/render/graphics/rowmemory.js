@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.set = exports.getByRealRowNumber = exports.clear = exports.getLast = exports.get = void 0;
+exports.get = get;
+exports.getLast = getLast;
+exports.clear = clear;
+exports.getByRealRowNumber = getByRealRowNumber;
+exports.set = set;
 /**
  * Functions to help determine the correct height and
  * y position of rows befor rendering them.
@@ -27,11 +31,9 @@ function get(pRowNumber) {
         };
     }
 }
-exports.get = get;
 function getLast() {
     return get(gRowInfoArray.length - 1);
 }
-exports.getLast = getLast;
 /**
  * clear() - resets the helper array to an empty one
  */
@@ -40,7 +42,6 @@ function clear(pEntityHeight, pArcRowHeight) {
     gDefaultEntityHeight = pEntityHeight;
     gDefaultArcRowHeight = pArcRowHeight;
 }
-exports.clear = clear;
 /**
  *  the row info for a given pRealRowNumber.
  *
@@ -57,7 +58,6 @@ function getByRealRowNumber(pRealRowNumber) {
     }
     return lRetval;
 }
-exports.getByRealRowNumber = getByRealRowNumber;
 /**
  * set() - stores the pHeight for the given pRowNumber, and sets
  *         the y coordinate of the row
@@ -74,7 +74,6 @@ function set(pRowNumber, pHeight, pRealRowNumber) {
         realRowNumber: pRealRowNumber,
     };
 }
-exports.set = set;
 /*
  This file is part of mscgen_js.
 

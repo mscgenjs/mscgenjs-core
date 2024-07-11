@@ -26,7 +26,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.splitLabel = exports.createLabel = void 0;
+exports.createLabel = createLabel;
+exports.splitLabel = splitLabel;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var wrap_1 = __importDefault(require("../textutensils/wrap"));
 var constants_1 = __importDefault(require("./constants"));
@@ -147,7 +148,6 @@ function createLabel(pArc, pDims, pOptions, pId) {
     }
     return lGroup;
 }
-exports.createLabel = createLabel;
 /**
  * Determine the number characters that fit within pWidth amount
  * of pixels.
@@ -212,4 +212,3 @@ function splitLabel(pLabel, pKind, pWidth, pFontSize, pOptions) {
         return pLabel.split("\\n");
     }
 }
-exports.splitLabel = splitLabel;

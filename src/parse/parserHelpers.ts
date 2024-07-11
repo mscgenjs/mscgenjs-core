@@ -1,6 +1,6 @@
 /*
  * Helper functions for the parsers. These used to be in the parsers
- * themselves, often duplicated. 
+ * themselves, often duplicated.
  */
 
 export function nameValue2Option(pName, pValue) {

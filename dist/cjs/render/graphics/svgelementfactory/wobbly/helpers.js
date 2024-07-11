@@ -26,7 +26,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBetweenPoints = exports.getNumberOfSegments = exports.getLineLength = exports.line2CurveString = exports.points2CurveString = void 0;
+exports.points2CurveString = points2CurveString;
+exports.line2CurveString = line2CurveString;
+exports.getLineLength = getLineLength;
+exports.getNumberOfSegments = getNumberOfSegments;
+exports.getBetweenPoints = getBetweenPoints;
 var round_1 = __importDefault(require("../round"));
 var svgprimitives = __importStar(require("../svgprimitives"));
 var variationhelpers = __importStar(require("../variationhelpers"));
@@ -39,11 +43,9 @@ function points2CurveString(pCurveSections) {
     })
         .join(" ");
 }
-exports.points2CurveString = points2CurveString;
 function line2CurveString(pLine) {
     return points2CurveString(getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR));
 }
-exports.line2CurveString = line2CurveString;
 /**
  * Calculates the length of the given line
  * @param  {object} pLine an object with xFrom, yFrom and xTo and yTo
@@ -56,7 +58,6 @@ function getLineLength(pLine) {
     var lB = Math.abs(pLine.yTo - pLine.yFrom);
     return Math.sqrt(lA * lA + lB * lB);
 }
-exports.getLineLength = getLineLength;
 /**
  * Calculates the number of times a segment of pInterval length
  * can fit into pLine
@@ -71,7 +72,6 @@ function getNumberOfSegments(pLine, pInterval) {
     var lLineLength = getLineLength(pLine);
     return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
 }
-exports.getNumberOfSegments = getNumberOfSegments;
 /**
  * Returns a random (real) number between -pNumber and +pNumber (inclusive)
  *
@@ -136,4 +136,3 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
     }
     return lRetval;
 }
-exports.getBetweenPoints = getBetweenPoints;

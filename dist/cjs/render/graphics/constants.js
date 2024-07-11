@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
-    LINE_WIDTH: 2,
+    LINE_WIDTH: 2, // px
     FONT_SIZE: 12, // px
 };
 /*

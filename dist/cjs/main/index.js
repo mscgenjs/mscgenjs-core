@@ -3,7 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllowedValues = exports.version = exports.translateMsc = exports.renderMsc = void 0;
+exports.version = void 0;
+exports.renderMsc = renderMsc;
+exports.translateMsc = translateMsc;
+exports.getAllowedValues = getAllowedValues;
 var allowedvalues_1 = __importDefault(require("./allowedvalues"));
 var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
 var $version = require("../version.json");
@@ -44,7 +47,6 @@ function renderMsc(pScript, pOptions, pCallBack, pGetParser, pGetGraphicsRendere
         runCallBack(pCallBack, pException);
     }
 }
-exports.renderMsc = renderMsc;
 function translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
     var lOptions = Object.assign({
         inputType: "mscgen",
@@ -58,12 +60,10 @@ function translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
     }
     return pGetTextRenderer(lOptions.outputType).render(getAST(pScript, lOptions.inputType, pGetParser));
 }
-exports.translateMsc = translateMsc;
 exports.version = $version.version;
 function getAllowedValues() {
     return allowedvalues_1.default;
 }
-exports.getAllowedValues = getAllowedValues;
 /*
  This file is part of mscgen_js.
 

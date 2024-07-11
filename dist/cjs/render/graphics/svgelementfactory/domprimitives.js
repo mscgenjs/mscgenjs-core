@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.init = exports.createTextNode = exports.createElement = exports.setAttributesNS = exports.setAttributes = exports.setAttributeNS = exports.setAttribute = exports.XLINKNS = exports.SVGNS = void 0;
+exports.XLINKNS = exports.SVGNS = void 0;
+exports.setAttribute = setAttribute;
+exports.setAttributeNS = setAttributeNS;
+exports.setAttributes = setAttributes;
+exports.setAttributesNS = setAttributesNS;
+exports.createElement = createElement;
+exports.createTextNode = createTextNode;
+exports.init = init;
 exports.SVGNS = "http://www.w3.org/2000/svg";
 exports.XLINKNS = "http://www.w3.org/1999/xlink";
 var gDocument = {};
@@ -19,14 +26,12 @@ function setAttribute(pElement, pKey, pValue) {
     }
     return pElement;
 }
-exports.setAttribute = setAttribute;
 function setAttributeNS(pElement, pNS, pKey, pValue) {
     if (Boolean(pValue)) {
         pElement.setAttributeNS(pNS, pKey, pValue);
     }
     return pElement;
 }
-exports.setAttributeNS = setAttributeNS;
 /**
  * Takes an element, adds the passed attributes to it if they have
  * a value and returns it.
@@ -41,7 +46,6 @@ function setAttributes(pElement, pAttributes) {
     });
     return pElement;
 }
-exports.setAttributes = setAttributes;
 /**
  * Takes an element, adds the passed attributes to it if they have
  * a value and returns it.
@@ -57,7 +61,6 @@ function setAttributesNS(pElement, pNS, pAttributes) {
     });
     return pElement;
 }
-exports.setAttributesNS = setAttributesNS;
 /**
  * creates the element of type pElementType in the SVG namespace,
  * adds the passed pAttributes to it (see setAttributes)
@@ -70,7 +73,6 @@ exports.setAttributesNS = setAttributesNS;
 function createElement(pElementType, pAttributes) {
     return setAttributes(gDocument.createElementNS(exports.SVGNS, pElementType), pAttributes);
 }
-exports.createElement = createElement;
 /**
  * creates a textNode, initialized with the pText passed
  *
@@ -80,7 +82,6 @@ exports.createElement = createElement;
 function createTextNode(pText) {
     return gDocument.createTextNode(pText);
 }
-exports.createTextNode = createTextNode;
 /**
  * Function to set the document to use. Introduced to enable use of the
  * rendering utilities under node.js (using the jsdom module)
@@ -90,7 +91,6 @@ exports.createTextNode = createTextNode;
 function init(pDocument) {
     gDocument = pDocument;
 }
-exports.init = init;
 /*
  This file is part of mscgen_js.
 

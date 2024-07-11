@@ -4,23 +4,26 @@
  * themselves, often duplicated.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMetaInfo = exports.checkForUndeclaredEntities = exports.EntityNotDefinedError = exports.isMscGenKeyword = exports.entityExists = exports.flattenBoolean = exports.nameValue2Option = void 0;
+exports.EntityNotDefinedError = void 0;
+exports.nameValue2Option = nameValue2Option;
+exports.flattenBoolean = flattenBoolean;
+exports.entityExists = entityExists;
+exports.isMscGenKeyword = isMscGenKeyword;
+exports.checkForUndeclaredEntities = checkForUndeclaredEntities;
+exports.getMetaInfo = getMetaInfo;
 function nameValue2Option(pName, pValue) {
     var lOption = {};
     lOption[pName.toLowerCase()] = pValue;
     return lOption;
 }
-exports.nameValue2Option = nameValue2Option;
 function flattenBoolean(pBoolean) {
     return ["true", "on", "1"].includes(pBoolean.toLowerCase());
 }
-exports.flattenBoolean = flattenBoolean;
 function entityExists(pEntities, pName) {
     return (pName === undefined ||
         pName === "*" ||
         pEntities.some(function (pEntity) { return pEntity.name === pName; }));
 }
-exports.entityExists = entityExists;
 function isMscGenKeyword(pString) {
     return [
         "box",
@@ -52,7 +55,6 @@ function isMscGenKeyword(pString) {
         "arcskip",
     ].includes(pString);
 }
-exports.isMscGenKeyword = isMscGenKeyword;
 function buildEntityNotDefinedMessage(pEntityName, pArc) {
     return "Entity '".concat(pEntityName, "' in arc '").concat(pArc.from, " ").concat(pArc.kind, " ").concat(pArc.to, "' is not defined.");
 }
@@ -80,7 +82,6 @@ function checkForUndeclaredEntities(pEntities, pArcLines) {
         });
     });
 }
-exports.checkForUndeclaredEntities = checkForUndeclaredEntities;
 function hasExtendedOptions(pOptions) {
     if (pOptions) {
         return (pOptions.hasOwnProperty("watermark") ||
@@ -124,7 +125,6 @@ function getMetaInfo(pOptions, pArcLines) {
         extendedFeatures: lHasExtendedOptions || lHasExtendedArcTypes,
     };
 }
-exports.getMetaInfo = getMetaInfo;
 /*
  This file is part of mscgen_js.
 
