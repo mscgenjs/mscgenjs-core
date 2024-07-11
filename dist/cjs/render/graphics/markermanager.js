@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMarkerDefs = exports.getAttributes = void 0;
-var flatten_1 = __importDefault(require("lodash/flatten"));
 var normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
 var KINDS = {
     "->": {
@@ -243,14 +242,14 @@ function extractKindColorCombis(pAST) {
         .map(toColorCombiObject);
 }
 function getMarkerDefs(pId, pAST) {
-    return (0, flatten_1.default)(extractKindColorCombis(pAST).map(function (pCombi) {
+    return extractKindColorCombis(pAST).map(function (pCombi) {
         return MARKERPATHS[pCombi.kind].variants.map(function (pVariant) { return ({
             name: "".concat(pId + pCombi.kind + pVariant.name, "-").concat(pCombi.color),
             path: pVariant.path,
             color: pCombi.color,
             type: pCombi.kind,
         }); });
-    }));
+    }).flat(Infinity);
 }
 exports.getMarkerDefs = getMarkerDefs;
 /*

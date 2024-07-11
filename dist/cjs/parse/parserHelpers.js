@@ -1,11 +1,7 @@
 "use strict";
 /*
  * Helper functions for the parsers. These used to be in the parsers
- * themselves, often duplicated. This module is a mixed bag thing now
- * with generic things (=> replace with lodash?) and specific things
- * (split into different modules?) mixed - and is only a first step
- * in refactoring the parser code a bit.
- *
+ * themselves, often duplicated.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMetaInfo = exports.checkForUndeclaredEntities = exports.EntityNotDefinedError = exports.isMscGenKeyword = exports.entityExists = exports.flattenBoolean = exports.nameValue2Option = void 0;

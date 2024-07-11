@@ -1,10 +1,6 @@
 /*
  * Helper functions for the parsers. These used to be in the parsers
- * themselves, often duplicated. This module is a mixed bag thing now
- * with generic things (=> replace with lodash?) and specific things
- * (split into different modules?) mixed - and is only a first step
- * in refactoring the parser code a bit.
- *
+ * themselves, often duplicated.
  */
 export function nameValue2Option(pName, pValue) {
     const lOption = {};

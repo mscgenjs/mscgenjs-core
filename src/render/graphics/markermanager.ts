@@ -1,4 +1,3 @@
-import flatten from "lodash/flatten";
 import { IFlatSequenceChart } from "../astmassage/flatten";
 import normalizekind from "../astmassage/normalizekind";
 
@@ -255,16 +254,14 @@ function extractKindColorCombis(pAST: IFlatSequenceChart) {
 }
 
 export function getMarkerDefs(pId: string, pAST: IFlatSequenceChart) {
-  return flatten(
-    extractKindColorCombis(pAST).map((pCombi) =>
+  return extractKindColorCombis(pAST).map((pCombi) =>
       MARKERPATHS[pCombi.kind].variants.map((pVariant) => ({
         name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
         path: pVariant.path,
         color: pCombi.color,
         type: pCombi.kind,
       }))
-    )
-  );
+    ).flat(Infinity);
 }
 /*
  This file is part of mscgen_js.

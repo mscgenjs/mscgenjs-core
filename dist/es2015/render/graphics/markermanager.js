@@ -1,4 +1,3 @@
-import flatten from "lodash/flatten";
 import normalizekind from "../astmassage/normalizekind";
 const KINDS = {
     "->": {
@@ -236,12 +235,12 @@ function extractKindColorCombis(pAST) {
         .map(toColorCombiObject);
 }
 export function getMarkerDefs(pId, pAST) {
-    return flatten(extractKindColorCombis(pAST).map((pCombi) => MARKERPATHS[pCombi.kind].variants.map((pVariant) => ({
+    return extractKindColorCombis(pAST).map((pCombi) => MARKERPATHS[pCombi.kind].variants.map((pVariant) => ({
         name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
         path: pVariant.path,
         color: pCombi.color,
         type: pCombi.kind,
-    }))));
+    }))).flat(Infinity);
 }
 /*
  This file is part of mscgen_js.
