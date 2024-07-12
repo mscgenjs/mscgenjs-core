@@ -35,7 +35,7 @@ module.exports = {
         pathNot: "^test/dist-index[.]spec[.]js",
       },
       to: {
-        path: "dist",
+        path: "^dist",
       },
     },
     {
