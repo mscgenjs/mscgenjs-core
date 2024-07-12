@@ -3,7 +3,6 @@
  */
 import asttransform from "./asttransform";
 
-import cloneDeep from "lodash/cloneDeep";
 import type {
   ArcKindNormalizedType,
   IOptionsNormalized,
@@ -145,7 +144,7 @@ function unwindArcRow(
       pArc.depth = pDepth;
       pArc.isVirtual = true;
       if (!!pArc.arcs) {
-        const lInlineExpression = cloneDeep(pArc);
+        const lInlineExpression = structuredClone(pArc);
         lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
         delete lInlineExpression.arcs;
         lFlatArcRow.push(lInlineExpression);
@@ -211,7 +210,8 @@ export function normalize(pAST: ISequenceChart): IFlatSequenceChart {
   gMaxDepth = 0;
   return {
     options: normalizeoptions(pAST.options),
-    entities: cloneDeep(pAST.entities),
+    // @ts-expect-error whatever
+    entities: structuredClone(pAST.entities),
     arcs: unwind(pAST.arcs),
     depth: gMaxDepth + 1,
   };

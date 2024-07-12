@@ -1,4 +1,5 @@
-const cloneDeep = require("lodash/cloneDeep");
+import { describe, it } from "node:test";
+import  { deepEqual} from "node:assert/strict";
 const colorize = require("../../../src/render/astmassage/colorize");
 const fix = require("../../astfixtures.json");
 
@@ -618,57 +619,55 @@ const customMscTestOutput = {
 
 describe("render/text/colorize", () => {
   describe("#colorize", () => {
-    test("should return the input on uncolor(colorize)", () => {
-      expect(
-        colorize.uncolor(colorize.applyScheme(cloneDeep(fix.astAltWithinLoop)))
-      ).toEqual(fix.astAltWithinLoop);
+    it("should return the input on uncolor(colorize)", () => {
+      deepEqual(
+        colorize.uncolor(colorize.applyScheme(structuredClone(fix.astAltWithinLoop)))
+      ,fix.astAltWithinLoop);
     });
-    test("should, leave already textcolored entities alone", () => {
-      expect(colorize.applyScheme(cloneDeep(textColoredEntity))).toEqual(
-        textColoredEntity
-      );
+    it("should, leave already textcolored entities alone", () => {
+      deepEqual(colorize.applyScheme(structuredClone(textColoredEntity)), textColoredEntity );
     });
-    test("should, leave already textcolored entities alone", () => {
-      expect(
-        colorize.applyScheme(cloneDeep(textColoredEntity), "auto")
-      ).toEqual(textColoredEntity);
+    it("should, leave already textcolored entities alone", () => {
+      deepEqual(
+        colorize.applyScheme(structuredClone(textColoredEntity), "auto")
+      ,textColoredEntity);
     });
-    test("should, leave already arctextcolored entities alone", () => {
-      expect(colorize.applyScheme(arcTextColoredEntity)).toEqual(
+    it("should, leave already arctextcolored entities alone", () => {
+      deepEqual(colorize.applyScheme(arcTextColoredEntity),
         arcTextColoredEntity
       );
     });
-    test("should, leave regular arcs departing from already textcolored entities alone", () => {
-      expect(colorize.applyScheme(textColoredEntityWithArc)).toEqual(
+    it("should, leave regular arcs departing from already textcolored entities alone", () => {
+      deepEqual(colorize.applyScheme(textColoredEntityWithArc),
         textColoredEntityWithArc
       );
     });
-    test("should color box arcs departing from colored entities", () => {
-      expect(colorize.applyScheme(cloneDeep(boxes))).toEqual(coloredBoxes);
+    it("should color box arcs departing from colored entities", () => {
+      deepEqual(colorize.applyScheme(structuredClone(boxes)),coloredBoxes);
     });
-    test("should not respect any colors when force is applied", () => {
-      expect(colorize.applyScheme(cloneDeep(boxes), "auto", true)).toEqual(
+    it("should not respect any colors when force is applied", () => {
+      deepEqual(colorize.applyScheme(structuredClone(boxes), "auto", true),
         coloredBoxesForced
       );
     });
-    test("should not respect any colors when force is applied", () => {
-      const lRosedBoxes = colorize.applyScheme(cloneDeep(boxes), "rosy");
-      expect(colorize.applyScheme(lRosedBoxes, "auto", true)).toEqual(
+    it("should not respect any colors when force is applied", () => {
+      const lRosedBoxes = colorize.applyScheme(structuredClone(boxes), "rosy");
+      deepEqual(colorize.applyScheme(lRosedBoxes, "auto", true),
         coloredBoxesForced
       );
     });
-    test("should color box arcs departing from non-colored entities", () => {
-      expect(colorize.applyScheme(boxesWithNonColoredEntity)).toEqual(
+    it("should color box arcs departing from non-colored entities", () => {
+      deepEqual(colorize.applyScheme(boxesWithNonColoredEntity),
         coloredBoxesWithNonColoredEntity
       );
     });
-    test("should not color box arcs already having some color", () => {
-      expect(colorize.applyScheme(alreadyColoredBoxes)).toEqual(
+    it("should not color box arcs already having some color", () => {
+      deepEqual(colorize.applyScheme(alreadyColoredBoxes),
         alreadyColoredBoxes
       );
     });
-    test("should use custom entity color scheme and arc specifics when passed these", () => {
-      expect(colorize.colorize(customMscTestInput, customScheme)).toEqual(
+    it("should use custom entity color scheme and arc specifics when passed these", () => {
+      deepEqual(colorize.colorize(customMscTestInput, customScheme),
         customMscTestOutput
       );
     });

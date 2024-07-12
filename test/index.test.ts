@@ -1,7 +1,15 @@
+import { describe, it } from "node:test";
+import { deepEqual } from "node:assert/strict";
 import { JSDOM } from "jsdom";
 import chai from "chai";
+import { notDeepEqual, throws } from "node:assert";
 const version = require("../package.json").version;
 const fix = require("./astfixtures.json");
+
+const { window } = new JSDOM("");
+
+// @ts-expect-error whatever
+global.window = window;
 
 const chaiExpect = chai.expect;
 
@@ -26,61 +34,55 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 [require("../src"), require("../src/index-lazy")].forEach((mscgenjs) => {
   describe("index", () => {
     describe("#translateMsc()", () => {
-      test("no params translates mscgen to json", () => {
-        expect(JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN))).toEqual(
-          fix.astSimple
-        );
+      it("no params translates mscgen to json", () => {
+        deepEqual(JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN)), fix.astSimple);
       });
 
-      test("explicit mscgen & json params translates mscgen to json too", () => {
-        expect(
+      it("explicit mscgen & json params translates mscgen to json too", () => {
+        deepEqual(
           JSON.parse(
             mscgenjs.translateMsc(SIMPLE_MSCGEN, {
               inputType: "mscgen",
               outputType: "json",
             })
-          )
-        ).toEqual(fix.astSimple);
+          ), fix.astSimple);
       });
 
-      test("ast translates mscgen to an AST object", () => {
-        expect(
+      it("ast translates mscgen to an AST object", () => {
+        deepEqual(
           mscgenjs.translateMsc(SIMPLE_MSCGEN, {
             inputType: "mscgen",
             outputType: "ast",
-          })
-        ).toEqual(fix.astSimple);
+          }), fix.astSimple);
       });
 
-      test("invalid mscgen throws an error", () => {
-        expect(() =>
+      it("invalid mscgen throws an error", () => {
+        throws(() =>
           mscgenjs.translateMsc(SIMPLE_XU, {
             inputType: "mscgen",
             outputType: "msgenny",
           })
-        ).toThrow();
+        );
       });
 
-      test("downgrading xu -> mscgen works", () => {
-        expect(
+      it("downgrading xu -> mscgen works", () => {
+        deepEqual(
           mscgenjs.translateMsc(JSON.stringify(fix.astOneAlt, null, ""), {
             inputType: "json",
             outputType: "mscgen",
-          })
-        ).toBe(gExpectedMscGenOutput);
+          }), gExpectedMscGenOutput);
       });
 
-      test("translating a raw javascript object works", () => {
-        expect(
+      it("translating a raw javascript object works", () => {
+        deepEqual(
           mscgenjs.translateMsc(fix.astOneAlt, {
             inputType: "json",
             outputType: "mscgen",
-          })
-        ).toBe(gExpectedMscGenOutput);
+          }), gExpectedMscGenOutput);
       });
 
-      test("returns a version number equal to the one in package.json", () => {
-        expect(mscgenjs.version).toBe(version);
+      it("returns a version number equal to the one in package.json", () => {
+        deepEqual(mscgenjs.version, version);
       });
     });
 
@@ -89,26 +91,27 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
         "<html><body><span id='__svg'></span></body></html>"
       ).window;
 
-      test("should given given a simple MscGen program, render an svg", () => {
+      it("should given given a simple MscGen program, render an svg", () => {
         mscgenjs.renderMsc(
           SIMPLE_MSCGEN,
           { window: lWindow },
           (pError, pResult) => {
-            expect(pError).toBeNull();
+            deepEqual(pError, null);
             chaiExpect(pResult).xml.to.be.valid();
           }
         );
       });
 
-      test("should given given an invalid MscGen program, throw an error", () => {
+      it("should given given an invalid MscGen program, throw an error", () => {
         mscgenjs.renderMsc(SIMPLE_XU, null, (pError, pResult) => {
-          expect(pError).not.toBeNull();
-          expect(pError).toBeInstanceOf(Error);
-          expect(pResult).toBeNull();
+          notDeepEqual(pError, null);
+          deepEqual(pError instanceof Error, true);
+          
+          deepEqual(pResult, null);
         });
       });
 
-      test("should given given a simple AST, render an svg", () => {
+      it("should given given a simple AST, render an svg", () => {
         mscgenjs.renderMsc(
           JSON.stringify(fix.astOneAlt, null, ""),
           {
@@ -117,7 +120,7 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
             includeSource: false,
           },
           (pError, pResult) => {
-            expect(pError).toBeNull();
+            deepEqual(pError, null);
             chaiExpect(pResult).xml.to.be.valid();
           }
         );
@@ -125,22 +128,20 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
     });
 
     describe("#getAllowedValues()", () => {
-      test("returns possible input types", () => {
-        expect(mscgenjs.getAllowedValues()).toHaveProperty("inputType");
+      it("returns possible input types", () => {
+        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "inputType"), true);
       });
 
-      test("returns possible output types", () => {
-        expect(mscgenjs.getAllowedValues()).toHaveProperty("outputType");
+      it("returns possible output types", () => {
+        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "outputType"), true);
       });
 
-      test("returns possible regularArcTextVerticalAlignment types", () => {
-        expect(mscgenjs.getAllowedValues()).toHaveProperty(
-          "regularArcTextVerticalAlignment"
-        );
+      it("returns possible regularArcTextVerticalAlignment types", () => {
+        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "regularArcTextVerticalAlignment"), true);
       });
 
-      test("returns possible namedStyles", () => {
-        expect(mscgenjs.getAllowedValues()).toHaveProperty("namedStyle");
+      it("returns possible namedStyles", () => {
+        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "namedStyle"), true);
       });
     });
   });

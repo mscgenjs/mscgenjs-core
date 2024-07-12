@@ -227,7 +227,6 @@ license:
 
 - We generated its parsers with [peggy][peggy.license].
 - mscgen_js automated tests use [jest](https://facebook.github.io/jest),
-  [jest-json-schema](https://github.com/americanexpress/jest-json-schema),
   [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
 
 It uses [tslint][22] and [dependency-cruiser][23] to maintain some

@@ -1,12 +1,14 @@
+import { describe, it } from "node:test";
+import  { deepEqual} from "node:assert/strict";
 import normalizeoptions from "../../../src/render/astmassage/normalizeoptions";
 
 describe("render/astmassage/normalizeoptions", () => {
-    test(
+    it(
         "normalize no options to the default values for wordwrap* stuff",
         () => {
-            expect(
+            deepEqual(
                 normalizeoptions(),
-            ).toEqual({
+            {
                 wordwraparcs: false,
                 wordwrapentities: true,
                 wordwrapboxes: true,
@@ -14,12 +16,12 @@ describe("render/astmassage/normalizeoptions", () => {
         },
     );
 
-    test(
+    it(
         "normalize empty options to the default values for wordwrap* stuff",
         () => {
-            expect(
+            deepEqual(
                 normalizeoptions({}),
-            ).toEqual({
+            {
                 wordwraparcs: false,
                 wordwrapentities: true,
                 wordwrapboxes: true,
@@ -27,15 +29,15 @@ describe("render/astmassage/normalizeoptions", () => {
         },
     );
 
-    test(
+    it(
         "normalize options to the default values for wordwrap* stuff - leave the rest alone",
         () => {
-            expect(
+            deepEqual(
                 normalizeoptions({
                     hscale: 3.14,
                     watermark: "shark wheels",
                 }),
-            ).toEqual({
+            {
                 hscale: 3.14,
                 watermark: "shark wheels",
                 wordwraparcs: false,
@@ -45,14 +47,14 @@ describe("render/astmassage/normalizeoptions", () => {
         },
     );
 
-    test(
+    it(
         "only take the default values for wordrap* things if they weren't in the source",
         () => {
-            expect(
+            deepEqual(
                 normalizeoptions({
                     wordwrapentities: false,
                 }),
-            ).toEqual({
+            {
                 wordwraparcs: false,
                 wordwrapentities: false,
                 wordwrapboxes: true,

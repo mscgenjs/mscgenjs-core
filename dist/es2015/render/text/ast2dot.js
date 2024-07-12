@@ -1,4 +1,3 @@
-import cloneDeep from "lodash/cloneDeep";
 import aggregatekind from "../astmassage/aggregatekind";
 import asttransform from "../astmassage/asttransform";
 import * as flatten from "../astmassage/flatten";
@@ -138,7 +137,7 @@ function explodeBroadcastArc(pEntities, pArc) {
         .filter((pEntity) => pArc.from !== pEntity.name)
         .map((pEntity) => {
         pArc.to = pEntity.name;
-        return cloneDeep(pArc);
+        return structuredClone(pArc);
     });
 }
 /**
@@ -167,7 +166,7 @@ export function explodeBroadcasts(pAST) {
                 /* save a clone of the broadcast arc attributes
                  * and remove the original bc arc
                  */
-                const lOriginalBroadcastArc = cloneDeep(pArc);
+                const lOriginalBroadcastArc = structuredClone(pArc);
                 delete pAST.arcs[pArcRowIndex][pArcIndex];
                 const lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                 pArcRow[pArcIndex] = lExplodedArcsAry.shift();
@@ -178,7 +177,7 @@ export function explodeBroadcasts(pAST) {
     return pAST;
 }
 export function render(pAST) {
-    const lAST = flattenMe(cloneDeep(pAST));
+    const lAST = flattenMe(structuredClone(pAST));
     let lRetVal = "/* Sequence chart represented as a directed graph\n" +
         " * in the graphviz dot language (http://graphviz.org/)\n" +
         " *\n" +

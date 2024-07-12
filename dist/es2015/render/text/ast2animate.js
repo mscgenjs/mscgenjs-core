@@ -1,4 +1,3 @@
-import cloneDeep from "lodash/cloneDeep";
 const EMPTY_ARC = [{ kind: "|||" }];
 const EMPTY_AST = {
     entities: [],
@@ -45,18 +44,18 @@ export class FrameFactory {
      */
     init(pAST, pPreCalculate) {
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
-        this.AST = cloneDeep(pAST);
+        this.AST = structuredClone(pAST);
         this.len = this._calculateLength(pAST);
         this.noRows = this._calcNumberOfRows(pAST);
         this.position = 0;
         if (this.AST.arcs) {
-            this.arcs = cloneDeep(this.AST.arcs);
+            this.arcs = structuredClone(this.AST.arcs);
             this.AST.arcs = [];
         }
         this.frames = [];
         if (this.preCalculate) {
             for (let i = 0; i < this.len; i++) {
-                this.frames.push(cloneDeep(this._calculateFrame(i)));
+                this.frames.push(structuredClone(this._calculateFrame(i)));
             }
         }
     }

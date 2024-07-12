@@ -1,3 +1,5 @@
+import { describe, it, before } from "node:test";
+import { deepEqual } from "node:assert/strict";
 import {
   getLineLength,
   getNumberOfSegments,
@@ -7,54 +9,54 @@ import type { ICurveSection } from "../../../src/render/graphics/svgelementfacto
 
 describe("#geometry", () => {
   describe("#getLineLength", () => {
-    test("returns 10 for (10,0), (10,10)", () => {
-      expect(getLineLength({ xFrom: 10, yFrom: 0, xTo: 10, yTo: 10 })).toBe(10);
+    it("returns 10 for (10,0), (10,10)", () => {
+      deepEqual(getLineLength({ xFrom: 10, yFrom: 0, xTo: 10, yTo: 10 }), 10);
     });
-    test("returns 10 for (0,10), (10,10)", () => {
-      expect(getLineLength({ xFrom: 0, yFrom: 10, xTo: 10, yTo: 10 })).toBe(10);
+    it("returns 10 for (0,10), (10,10)", () => {
+      deepEqual(getLineLength({ xFrom: 0, yFrom: 10, xTo: 10, yTo: 10 }), 10);
     });
-    test("returns ~14.1 for (10,0), (0,10)", () => {
-      expect(getLineLength({ xFrom: 10, yFrom: 0, xTo: 0, yTo: 10 })).toBe(
+    it("returns ~14.1 for (10,0), (0,10)", () => {
+      deepEqual(getLineLength({ xFrom: 10, yFrom: 0, xTo: 0, yTo: 10 }), 
         14.142135623730951
       );
     });
-    test("returns 0 for (10,0), (0,10)", () => {
-      expect(getLineLength({ xFrom: 10, yFrom: -10, xTo: 10, yTo: -10 })).toBe(
+    it("returns 0 for (10,0), (0,10)", () => {
+      deepEqual(getLineLength({ xFrom: 10, yFrom: -10, xTo: 10, yTo: -10 }), 
         0
       );
     });
   });
 
   describe("#getNumberOfSegments", () => {
-    test("returns 1 to fit segments of 10 long into ((10,0), (0,10))", () => {
-      expect(
+    it("returns 1 to fit segments of 10 long into ((10,0), (0,10))", () => {
+      deepEqual(
         getNumberOfSegments({ xFrom: 10, yFrom: 0, xTo: 0, yTo: 10 }, 10)
-      ).toBe(1);
+      , 1);
     });
-    test("returns 14 to fit segments of 1 long into ((10,0), (0,10))", () => {
-      expect(
+    it("returns 14 to fit segments of 1 long into ((10,0), (0,10))", () => {
+      deepEqual(
         getNumberOfSegments({ xFrom: 10, yFrom: 0, xTo: 0, yTo: 10 }, 1)
-      ).toBe(14);
+      , 14);
     });
-    test("returns 14 to fit segments of 1 long into ((10,10), (0,0))", () => {
-      expect(
+    it("returns 14 to fit segments of 1 long into ((10,10), (0,0))", () => {
+      deepEqual(
         getNumberOfSegments({ xFrom: 10, yFrom: 10, xTo: 0, yTo: 0 }, 1)
-      ).toBe(14);
+      , 14);
     });
-    test("returns 0 to fit segments of 15 long into ((10,10), (0,0))", () => {
-      expect(
+    it("returns 0 to fit segments of 15 long into ((10,10), (0,0))", () => {
+      deepEqual(
         getNumberOfSegments({ xFrom: 10, yFrom: 10, xTo: 0, yTo: 0 }, 15)
-      ).toBe(0);
+      , 0);
     });
-    test("returns 5 to fit segments of 2 long into ((10,-10), (10,0))", () => {
-      expect(
+    it("returns 5 to fit segments of 2 long into ((10,-10), (10,0))", () => {
+      deepEqual(
         getNumberOfSegments({ xFrom: 10, yFrom: -10, xTo: 10, yTo: 0 }, 2)
-      ).toBe(5);
+      , 5);
     });
-    test("returns 0 to for a line of 0 length", () => {
-      expect(
+    it("returns 0 to for a line of 0 length", () => {
+      deepEqual(
         getNumberOfSegments({ xFrom: 10, yFrom: -10, xTo: 10, yTo: -10 }, 1)
-      ).toBe(0);
+      , 0);
     });
   });
 
@@ -62,7 +64,7 @@ describe("#geometry", () => {
     describe("a diagonal", () => {
       let lBetweenPoints = [] as ICurveSection[];
 
-      beforeAll(() => {
+      before(() => {
         lBetweenPoints = getBetweenPoints(
           { xFrom: 10, yFrom: 0, xTo: 0, yTo: 10 },
           3,
@@ -70,21 +72,21 @@ describe("#geometry", () => {
         );
       });
 
-      test("returns an array of 4 points", () => {
-        expect(lBetweenPoints.length).toBe(4);
+      it("returns an array of 4 points", () => {
+        deepEqual(lBetweenPoints.length, 4);
       });
 
-      test("returns the endpoint of the line as the last point", () => {
-        expect(
+      it("returns the endpoint of the line as the last point", () => {
+        deepEqual(
           lBetweenPoints.map((pPoint) => ({
             x: pPoint.x,
             y: pPoint.y,
           }))[lBetweenPoints.length - 1]
-        ).toEqual({ x: 0, y: 10 });
+        , { x: 0, y: 10 });
       });
 
-      test("returns points along the line", () => {
-        expect(lBetweenPoints).toEqual([
+      it("returns points along the line", () => {
+        deepEqual(lBetweenPoints, [
           {
             controlX: 8.94,
             controlY: 1.06,
@@ -116,7 +118,7 @@ describe("#geometry", () => {
     describe("a vertical line", () => {
       let lBetweenPoints = [] as ICurveSection[];
 
-      beforeAll(() => {
+      before(() => {
         lBetweenPoints = getBetweenPoints(
           { xFrom: 10, yFrom: 0, xTo: 10, yTo: 10 },
           3,
@@ -124,21 +126,21 @@ describe("#geometry", () => {
         );
       });
 
-      test("returns an array of 3 points", () => {
-        expect(lBetweenPoints.length).toBe(3);
+      it("returns an array of 3 points", () => {
+        deepEqual(lBetweenPoints.length, 3);
       });
 
-      test("returns the endpoint of the line as the last point", () => {
-        expect(
+      it("returns the endpoint of the line as the last point", () => {
+        deepEqual(
           lBetweenPoints.map((pPoint) => ({
             x: pPoint.x,
             y: pPoint.y,
           }))[lBetweenPoints.length - 1]
-        ).toEqual({ x: 10, y: 10 });
+        , { x: 10, y: 10 });
       });
 
-      test("returns points along the line", () => {
-        expect(lBetweenPoints).toEqual([
+      it("returns points along the line", () => {
+        deepEqual(lBetweenPoints, [
           {
             controlX: 10,
             controlY: 1.5,
@@ -164,7 +166,7 @@ describe("#geometry", () => {
     describe("a horizontal line", () => {
       let lBetweenPoints = [] as ICurveSection[];
 
-      beforeAll(() => {
+      before(() => {
         lBetweenPoints = getBetweenPoints(
           { xFrom: 10, yFrom: 20, xTo: 20, yTo: 20 },
           3,
@@ -172,21 +174,21 @@ describe("#geometry", () => {
         );
       });
 
-      test("returns an array of 3 points", () => {
-        expect(lBetweenPoints.length).toBe(3);
+      it("returns an array of 3 points", () => {
+        deepEqual(lBetweenPoints.length, 3);
       });
 
-      test("returns the endpoint of the line as the last point", () => {
-        expect(
+      it("returns the endpoint of the line as the last point", () => {
+        deepEqual(
           lBetweenPoints.map((pPoint) => ({
             x: pPoint.x,
             y: pPoint.y,
           }))[lBetweenPoints.length - 1]
-        ).toEqual({ x: 20, y: 20 });
+        , { x: 20, y: 20 });
       });
 
-      test("returns points along the line", () => {
-        expect(lBetweenPoints).toEqual([
+      it("returns points along the line", () => {
+        deepEqual(lBetweenPoints, [
           {
             controlX: 11.5,
             controlY: 20,
@@ -210,25 +212,25 @@ describe("#geometry", () => {
     });
 
     describe("errors", () => {
-      test("throws an error for intervals of length === 0", () => {
+      it("throws an error for intervals of length === 0", () => {
         try {
           getBetweenPoints({ xFrom: 10, yFrom: 0, xTo: 0, yTo: 10 }, 0, 0);
-          expect("won't come here because it should throw an error").toBe(
+          deepEqual("won't come here because it should throw an error", 
             "did come here nonetheless"
           );
         } catch (e: any) {
-          expect(e.toString()).toBe("Error: pInterval must be > 0");
+          deepEqual(e.toString(), "Error: pInterval must be > 0");
         }
       });
 
-      test("throws an error for intervals of length < 0", () => {
+      it("throws an error for intervals of length < 0", () => {
         try {
           getBetweenPoints({ xFrom: 10, yFrom: 0, xTo: 0, yTo: 10 }, -42, 0);
-          expect("won't come here because it should throw an error").toBe(
+          deepEqual("won't come here because it should throw an error", 
             "did come here nonetheless"
           );
         } catch (e: any) {
-          expect(e.toString()).toBe("Error: pInterval must be > 0");
+          deepEqual(e.toString(), "Error: pInterval must be > 0");
         }
       });
     });

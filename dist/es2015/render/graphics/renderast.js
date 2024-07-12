@@ -1,4 +1,3 @@
-import cloneDeep from "lodash/cloneDeep";
 import aggregatekind from "../astmassage/aggregatekind";
 import { flatten, } from "../astmassage/flatten";
 import constants from "./constants";
@@ -251,7 +250,7 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
             }, Object.assign({
                 alignAround: true,
                 ownBackground: true,
-            }, cloneDeep(pOptions)));
+            }, structuredClone(pOptions)));
             pRowMemory.push({
                 title: pArc.title,
                 layer: gChart.layers.sequence,
@@ -285,7 +284,7 @@ function getArcRowHeight(pArcRow, pEntities, pOptions) {
                 lElement = renderInlineExpressionLabel(pArc, 0);
                 break;
             default: /* ignore arc skips when calculating row heights */
-                const lArc = cloneDeep(pArc);
+                const lArc = structuredClone(pArc);
                 lArc.arcskip = 0;
                 lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
         } // switch
@@ -618,7 +617,7 @@ function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
             alignLeft: true,
             alignAbove: true,
             ownBackground: true,
-        }, cloneDeep(pOptions))));
+        }, structuredClone(pOptions))));
     }
     else {
         const lLine = svgelementfactory.createLine({
@@ -646,7 +645,7 @@ function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
             alignAround: true,
             alignAbove: gChart.regularArcTextVerticalAlignment === "above",
             ownBackground: true,
-        }, cloneDeep(pOptions))));
+        }, structuredClone(pOptions))));
     }
     return lGroup;
 }

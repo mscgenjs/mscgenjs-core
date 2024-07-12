@@ -35,7 +35,6 @@ exports.flatten = flatten;
  * Defines some functions to simplify a given abstract syntax tree.
  */
 var asttransform_1 = __importDefault(require("./asttransform"));
-var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var escape = __importStar(require("../textutensils/escape"));
 var aggregatekind_1 = __importDefault(require("./aggregatekind"));
 var normalizekind_1 = __importDefault(require("./normalizekind"));
@@ -114,7 +113,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;
             if (!!pArc.arcs) {
-                var lInlineExpression_1 = (0, cloneDeep_1.default)(pArc);
+                var lInlineExpression_1 = structuredClone(pArc);
                 lInlineExpression_1.numberofrows = calcNumberOfRows(lInlineExpression_1);
                 delete lInlineExpression_1.arcs;
                 lFlatArcRow.push(lInlineExpression_1);
@@ -170,7 +169,8 @@ function normalize(pAST) {
     gMaxDepth = 0;
     return {
         options: (0, normalizeoptions_1.default)(pAST.options),
-        entities: (0, cloneDeep_1.default)(pAST.entities),
+        // @ts-expect-error whatever
+        entities: structuredClone(pAST.entities),
         arcs: unwind(pAST.arcs),
         depth: gMaxDepth + 1,
     };

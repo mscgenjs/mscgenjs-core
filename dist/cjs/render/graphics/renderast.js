@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.clean = void 0;
 exports.render = render;
-var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var flatten_1 = require("../astmassage/flatten");
 var constants_1 = __importDefault(require("./constants"));
@@ -281,7 +280,7 @@ function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
             }, Object.assign({
                 alignAround: true,
                 ownBackground: true,
-            }, (0, cloneDeep_1.default)(pOptions)));
+            }, structuredClone(pOptions)));
             pRowMemory.push({
                 title: pArc.title,
                 layer: gChart.layers.sequence,
@@ -315,7 +314,7 @@ function getArcRowHeight(pArcRow, pEntities, pOptions) {
                 lElement = renderInlineExpressionLabel(pArc, 0);
                 break;
             default: /* ignore arc skips when calculating row heights */
-                var lArc = (0, cloneDeep_1.default)(pArc);
+                var lArc = structuredClone(pArc);
                 lArc.arcskip = 0;
                 lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
         } // switch
@@ -648,7 +647,7 @@ function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
             alignLeft: true,
             alignAbove: true,
             ownBackground: true,
-        }, (0, cloneDeep_1.default)(pOptions))));
+        }, structuredClone(pOptions))));
     }
     else {
         var lLine_1 = svgelementfactory.createLine({
@@ -676,7 +675,7 @@ function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
             alignAround: true,
             alignAbove: gChart.regularArcTextVerticalAlignment === "above",
             ownBackground: true,
-        }, (0, cloneDeep_1.default)(pOptions))));
+        }, structuredClone(pOptions))));
     }
     return lGroup;
 }

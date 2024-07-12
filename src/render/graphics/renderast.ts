@@ -1,4 +1,3 @@
-import cloneDeep from "lodash/cloneDeep";
 import type {
   INormalizedRenderOptions,
   RegularArcTextVerticalAlignmentType,
@@ -398,7 +397,7 @@ function renderRegularArc(
             alignAround: true,
             ownBackground: true,
           },
-          cloneDeep(pOptions)
+          structuredClone(pOptions)
         )
       );
       pRowMemory.push({
@@ -451,7 +450,7 @@ function getArcRowHeight(
         lElement = renderInlineExpressionLabel(pArc, 0);
         break;
       default: /* ignore arc skips when calculating row heights */
-        const lArc = cloneDeep(pArc);
+        const lArc = structuredClone(pArc);
         lArc.arcskip = 0;
         lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
     } // switch
@@ -977,7 +976,7 @@ function createArc(
             alignAbove: true,
             ownBackground: true,
           },
-          cloneDeep(pOptions)
+          structuredClone(pOptions)
         )
       )
     );
@@ -1018,7 +1017,7 @@ function createArc(
             alignAbove: gChart.regularArcTextVerticalAlignment === "above",
             ownBackground: true,
           },
-          cloneDeep(pOptions)
+          structuredClone(pOptions)
         )
       )
     );
