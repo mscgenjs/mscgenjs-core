@@ -20,7 +20,7 @@ jobs:
       matrix:
         node-version:
           - 18.x
-          - 21.x
+          - 22.x
         platform:
           - ubuntu-latest
 
@@ -49,13 +49,13 @@ jobs:
           node --version
           npm run lint
           npm run depcruise
-        if: matrix.platform == 'ubuntu-latest' && matrix.node-version == '18.x'
-      - name: test coverage
+        if: matrix.platform == 'ubuntu-latest' && matrix.node-version == '22.x'
+      - name: test
         run: |
           node --version
-          npm run test:cover
-      - name: report coverage to code climate (runs on one platform only)
-        if: matrix.node-version == '18.x'
-        uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_COVERAGE_ID }}
+          npm run test:all
+      # - name: report coverage to code climate (runs on one platform only)
+      #   if: matrix.node-version == '18.x'
+      #   uses: paambaati/codeclimate-action@v3.0.0
+      #   env:
+      #     CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_COVERAGE_ID }}
