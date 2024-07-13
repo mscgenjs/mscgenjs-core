@@ -1,7 +1,16 @@
 * text eol=lf
 
+*.jpg binary
+*.png binary
+*.kra binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+
 *.ts linguist-language=TypeScript
 dist/** linguist-generated
 src/parse/mscgenparser.js linguist-generated
 src/parse/msgennyparser.js linguist-generated
 src/parse/xuparser.js linguist-generated
+docs/** linguist-documentation
+doc/** linguist-documentation
