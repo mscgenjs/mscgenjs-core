@@ -1,4 +1,3 @@
-import memoize from "lodash/memoize";
 import * as idmanager from "./idmanager";
 import type { IBBox } from "./svgelementfactory/geotypes";
 import * as svgelementfactory from "./svgelementfactory/index";
@@ -9,6 +8,8 @@ import * as svgelementfactory from "./svgelementfactory/index";
 
 let gDocument: any = {};
 const gSvgBBoxerId = idmanager.get("bboxer");
+
+let gTextHeight = 0;
 
 /* istanbul ignore next */
 function _createBBoxerSVG(pId): SVGSVGElement {
@@ -84,7 +85,14 @@ export function getBBox(pElement: SVGGElement): IBBox {
   }
 }
 
-function _calculateTextHeight(): number {
+
+/**
+ * Returns the height in pixels necessary for rendering characters
+ */
+export function calculateTextHeight(): number {
+  if (gTextHeight !== 0) {
+    return gTextHeight;
+  }
   /* Uses a string with some characters that tend to stick out
    * above/ below the current line and an 'astral codepoint' to
    * determine the text height to use everywhere.
@@ -92,12 +100,13 @@ function _calculateTextHeight(): number {
    * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
    * browsers. The string in readable form: ÁjyÎ9ƒ@💩
    */
-  return getBBox(
+  gTextHeight = getBBox(
     svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
       x: 0,
       y: 0,
     })
   ).height;
+  return gTextHeight
 }
 
 export function removeRenderedSVGFromElement(pElementId: string) {
@@ -116,11 +125,6 @@ export function removeRenderedSVGFromElement(pElementId: string) {
 export const init = (pDocument: Document) => {
   gDocument = pDocument;
 };
-
-/**
- * Returns the height in pixels necessary for rendering characters
- */
-export const calculateTextHeight = memoize(_calculateTextHeight);
 
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
