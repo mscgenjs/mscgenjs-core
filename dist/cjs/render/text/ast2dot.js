@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.explodeBroadcasts = explodeBroadcasts;
 exports.render = render;
-var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var asttransform_1 = __importDefault(require("../astmassage/asttransform"));
 var flatten = __importStar(require("../astmassage/flatten"));
@@ -172,7 +171,7 @@ function explodeBroadcastArc(pEntities, pArc) {
         .filter(function (pEntity) { return pArc.from !== pEntity.name; })
         .map(function (pEntity) {
         pArc.to = pEntity.name;
-        return (0, cloneDeep_1.default)(pArc);
+        return structuredClone(pArc);
     });
 }
 /**
@@ -201,7 +200,7 @@ function explodeBroadcasts(pAST) {
                 /* save a clone of the broadcast arc attributes
                  * and remove the original bc arc
                  */
-                var lOriginalBroadcastArc = (0, cloneDeep_1.default)(pArc);
+                var lOriginalBroadcastArc = structuredClone(pArc);
                 delete pAST.arcs[pArcRowIndex][pArcIndex];
                 var lExplodedArcsAry = explodeBroadcastArc(pAST.entities, lOriginalBroadcastArc);
                 pArcRow[pArcIndex] = lExplodedArcsAry.shift();
@@ -212,7 +211,7 @@ function explodeBroadcasts(pAST) {
     return pAST;
 }
 function render(pAST) {
-    var lAST = flattenMe((0, cloneDeep_1.default)(pAST));
+    var lAST = flattenMe(structuredClone(pAST));
     var lRetVal = "/* Sequence chart represented as a directed graph\n" +
         " * in the graphviz dot language (http://graphviz.org/)\n" +
         " *\n" +

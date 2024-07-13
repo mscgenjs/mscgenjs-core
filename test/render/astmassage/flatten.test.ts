@@ -1,40 +1,42 @@
+import { describe, it } from "node:test";
+import  { deepEqual } from "node:assert/strict";
 import * as flatten from "../../../src/render/astmassage/flatten";
-const fix     = require("../../astfixtures.json");
+const fix = require("../../astfixtures.json");
 
 describe("render/astmassage/flatten", () => {
     describe("normalize", () => {
-        test('should return an "unwound" version of the simple one alt ', () => {
-            expect(
+        it('should return an "unwound" version of the simple one alt ', () => {
+            deepEqual(
                 flatten.normalize(fix.astOneAlt),
-            ).toEqual(fix.astOneAltUnwound);
+                fix.astOneAltUnwound);
         });
-        test(
+        it(
             'should return an "unwound" version of an alt within a loop ',
             () => {
-                expect(
+                deepEqual(
                     flatten.normalize(fix.astAltWithinLoop),
-                ).toEqual(fix.astAltWithinLoopUnWound);
+                fix.astAltWithinLoopUnWound);
             },
         );
-        test("should keep comments within arc spanning arc bounds", () => {
-            expect(
+        it("should keep comments within arc spanning arc bounds", () => {
+            deepEqual(
                 flatten.normalize(fix.astOptWithComment),
-            ).toEqual(fix.astOptWithCommentUnWound);
+                fix.astOptWithCommentUnWound);
         });
-        test(
+        it(
             "should distribute the arc* colors to underlying arcs (one level)",
             () => {
-                expect(
+                deepEqual(
                     flatten.normalize(fix.astInlineWithArcColor),
-                ).toEqual(fix.astInlineWithArcColorUnWound);
+                fix.astInlineWithArcColorUnWound);
             },
         );
-        test(
+        it(
             "should distribute the arc* colors to underlying arcs (one level, but not more)",
             () => {
-                expect(
+                deepEqual(
                     flatten.normalize(fix.astNestedInlinesWithArcColor),
-                ).toEqual(fix.astNestedInlinesWithArcColorUnWound);
+                fix.astNestedInlinesWithArcColorUnWound);
             },
         );
     });

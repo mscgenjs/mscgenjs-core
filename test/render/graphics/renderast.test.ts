@@ -1,7 +1,11 @@
+import { describe, it } from "node:test";
+import { deepEqual } from "node:assert/strict";
 const path = require("path");
 const JSDOM = require("jsdom").JSDOM;
 const renderer = require("../../../src/render/graphics/renderast");
 const tst = require("../../testutensils");
+
+global.window = new JSDOM("<html><body></body></html>").window;
 
 function ast2svg(pASTString, lWindow, pOptions, pRenderOptions?) {
   const lAST = JSON.parse(pASTString);
@@ -36,56 +40,56 @@ describe("render/graphics/renderast", () => {
         ast2svg(pInput, lWindow, pOptions, pRenderOptions)
       );
     }
-    test("should be ok with an empty AST", () => {
+    it("should be ok with an empty AST", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/astempty.svg"),
         path.join(__dirname, "../../fixtures/astempty.json"),
         { includeSource: true }
       );
     });
-    test("should given given a simple syntax tree, render an svg", () => {
+    it("should given given a simple syntax tree, render an svg", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/astsimple.svg"),
         path.join(__dirname, "../../fixtures/astsimple.json"),
         { includeSource: true }
       );
     });
-    test("should given given a simple syntax tree, render an svg - with source omitted from svg", () => {
+    it("should given given a simple syntax tree, render an svg - with source omitted from svg", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/astsimplenosource.svg"),
         path.join(__dirname, "../../fixtures/astsimple.json"),
         false
       );
     });
-    test("should not omit empty lines", () => {
+    it("should not omit empty lines", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/astemptylinesinboxes.svg"),
         path.join(__dirname, "../../fixtures/astemptylinesinboxes.json"),
         { includeSource: true }
       );
     });
-    test("should render colors", () => {
+    it("should render colors", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/rainbow.svg"),
         path.join(__dirname, "../../fixtures/rainbow.json"),
         { includeSource: true }
       );
     });
-    test("should render ids & urls", () => {
+    it("should render ids & urls", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/idsnurls.svg"),
         path.join(__dirname, "../../fixtures/idsnurls.json"),
         { includeSource: true }
       );
     });
-    test("should wrap text in boxes well", () => {
+    it("should wrap text in boxes well", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/test19_multiline_lipsum.svg"),
         path.join(__dirname, "../../fixtures/test19_multiline_lipsum.json"),
         { includeSource: true }
       );
     });
-    test("should render empty inline expressions correctly", () => {
+    it("should render empty inline expressions correctly", () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -98,7 +102,7 @@ describe("render/graphics/renderast", () => {
         { includeSource: true }
       );
     });
-    test('should render "alt" lines in inline expressions correctly', () => {
+    it('should render "alt" lines in inline expressions correctly', () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -111,21 +115,21 @@ describe("render/graphics/renderast", () => {
         { includeSource: true }
       );
     });
-    test("should render all possible arcs", () => {
+    it("should render all possible arcs", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/test01_all_possible_arcs.svg"),
         path.join(__dirname, "../../fixtures/test01_all_possible_arcs.json"),
         { includeSource: true }
       );
     });
-    test("should render with a viewBox instead of a width & height", () => {
+    it("should render with a viewBox instead of a width & height", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/astautoscale.svg"),
         path.join(__dirname, "../../fixtures/astautoscale.json"),
         { includeSource: true }
       );
     });
-    test('should not render "mirrored entities" when not specified (inline expression last)', () => {
+    it('should not render "mirrored entities" when not specified (inline expression last)', () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -138,7 +142,7 @@ describe("render/graphics/renderast", () => {
         { includeSource: false, useNew: true }
       );
     });
-    test('should render "mirrored entities" when specified (inline expression last)', () => {
+    it('should render "mirrored entities" when specified (inline expression last)', () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -152,7 +156,7 @@ describe("render/graphics/renderast", () => {
         { mirrorEntitiesOnBottom: true }
       );
     });
-    test('should not render "mirrored entities" when not specified (regular arc last)', () => {
+    it('should not render "mirrored entities" when not specified (regular arc last)', () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -166,7 +170,7 @@ describe("render/graphics/renderast", () => {
         { mirrorEntitiesOnBottom: false }
       );
     });
-    test('should render "mirrored entities" when  specified (regular arc last)', () => {
+    it('should render "mirrored entities" when  specified (regular arc last)', () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -180,7 +184,7 @@ describe("render/graphics/renderast", () => {
         { mirrorEntitiesOnBottom: true }
       );
     });
-    test("when style additions specified, they are included in the resulting svg", () => {
+    it("when style additions specified, they are included in the resulting svg", () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -194,7 +198,7 @@ describe("render/graphics/renderast", () => {
         { styleAdditions: ".an-added-class {}" }
       );
     });
-    test("when an existing style additions template is specified, that is included in the svg", () => {
+    it("when an existing style additions template is specified, that is included in the svg", () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -208,7 +212,7 @@ describe("render/graphics/renderast", () => {
         { additionalTemplate: "inverted" }
       );
     });
-    test("when an non-existing style additions template is specified, the svg styles are untouched", () => {
+    it("when an non-existing style additions template is specified, the svg styles are untouched", () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -222,7 +226,7 @@ describe("render/graphics/renderast", () => {
         { additionalTemplate: "not an existing template" }
       );
     });
-    test("On arcs, self referencing arcs, broadcast arcs and boxes titles get rendered in a <title> element", () => {
+    it("On arcs, self referencing arcs, broadcast arcs and boxes titles get rendered in a <title> element", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/titletags.svg"),
         path.join(__dirname, "../../fixtures/titletags.json"),
@@ -249,7 +253,7 @@ describe("render/graphics/renderast", () => {
         })
       );
     }
-    test("should be ok with an empty AST", () => {
+    it("should be ok with an empty AST", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/astempty.svg"),
         path.join(__dirname, "../../fixtures/astempty.json"),
@@ -257,7 +261,7 @@ describe("render/graphics/renderast", () => {
         true
       );
     });
-    test("should given a simple syntax tree, render an svg", () => {
+    it("should given a simple syntax tree, render an svg", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/astsimple.svg"),
         path.join(__dirname, "../../fixtures/astsimple.json"),
@@ -265,7 +269,7 @@ describe("render/graphics/renderast", () => {
         true
       );
     });
-    test("should not bump boxes into inline expressions they're running in parallel with", () => {
+    it("should not bump boxes into inline expressions they're running in parallel with", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/bumpingboxes.svg"),
         path.join(__dirname, "../../fixtures/bumpingboxes.json"),
@@ -273,7 +277,7 @@ describe("render/graphics/renderast", () => {
         true
       );
     });
-    test("should render stuff running in parallel with inline expressions", () => {
+    it("should render stuff running in parallel with inline expressions", () => {
       processAndCompare(
         path.join(
           __dirname,
@@ -287,7 +291,7 @@ describe("render/graphics/renderast", () => {
         true
       );
     });
-    test("should wrap entity text when wordwrapentities is unspecified", () => {
+    it("should wrap entity text when wordwrapentities is unspecified", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/wordwrapentitiesunspecified.svg"),
         path.join(__dirname, "../../fixtures/wordwrapentitiesunspecified.json"),
@@ -295,7 +299,7 @@ describe("render/graphics/renderast", () => {
         true
       );
     });
-    test("when wordwrapentities === false should only wrap at explicit line ends", () => {
+    it("when wordwrapentities === false should only wrap at explicit line ends", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/wordwrapentitiesfalse.svg"),
         path.join(__dirname, "../../fixtures/wordwrapentitiesfalse.json"),
@@ -303,7 +307,7 @@ describe("render/graphics/renderast", () => {
         true
       );
     });
-    test("when wordwrapboxes === true should wrap things in boxes", () => {
+    it("when wordwrapboxes === true should wrap things in boxes", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/wordwrapboxestrue.svg"),
         path.join(__dirname, "../../fixtures/wordwrapboxestrue.json"),
@@ -311,7 +315,7 @@ describe("render/graphics/renderast", () => {
         true
       );
     });
-    test("when wordwrapboxes === false should only wrap at explicit line ends", () => {
+    it("when wordwrapboxes === false should only wrap at explicit line ends", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/wordwrapboxesfalse.svg"),
         path.join(__dirname, "../../fixtures/wordwrapboxesfalse.json"),
@@ -339,7 +343,7 @@ describe("render/graphics/renderast", () => {
         })
       );
     }
-    test("one row arcskip, with a row height <= normal row height", () => {
+    it("one row arcskip, with a row height <= normal row height", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip01.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip01.json"),
@@ -348,7 +352,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("two row arcskips, with row heights <= normal row height", () => {
+    it("two row arcskips, with row heights <= normal row height", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip02.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip02.json"),
@@ -357,7 +361,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("one row arcskips, with row height > normal row height; caused by current arc", () => {
+    it("one row arcskips, with row height > normal row height; caused by current arc", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip03.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip03.json"),
@@ -366,7 +370,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("one row arcskips, with row height > normal row height; caused by another arc in the same row", () => {
+    it("one row arcskips, with row height > normal row height; caused by another arc in the same row", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip04.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip04.json"),
@@ -375,7 +379,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("two row arcskips, with the row after it having a height > normal", () => {
+    it("two row arcskips, with the row after it having a height > normal", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip05.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip05.json"),
@@ -384,7 +388,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("two row arcskips, with the row it should point to having a height > normal", () => {
+    it("two row arcskips, with the row it should point to having a height > normal", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip06.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip06.json"),
@@ -393,7 +397,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("1/2 row arcskip, with a row height <= normal row height", () => {
+    it("1/2 row arcskip, with a row height <= normal row height", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip07.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip07.json"),
@@ -402,7 +406,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("1.5 row arcskip, with a row height <= normal row height", () => {
+    it("1.5 row arcskip, with a row height <= normal row height", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip08.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip08.json"),
@@ -411,7 +415,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("42 row arcskip - beyond the end of the chart", () => {
+    it("42 row arcskip - beyond the end of the chart", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip09.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip09.json"),
@@ -420,7 +424,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("one row arcskip, with a row height <= normal row height within an inline expression", () => {
+    it("one row arcskip, with a row height <= normal row height within an inline expression", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip11.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip11.json"),
@@ -429,7 +433,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("one row arcskip accross an inline expression, with a row height <= normal row height", () => {
+    it("one row arcskip accross an inline expression, with a row height <= normal row height", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip12.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip12.json"),
@@ -438,7 +442,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("one row arcskip accross two nested inline expression, with a row height <= normal row height", () => {
+    it("one row arcskip accross two nested inline expression, with a row height <= normal row height", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip13.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip13.json"),
@@ -447,7 +451,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("if there's a regular arc and an inline expression on the same row - count it as a real and not a virtual row", () => {
+    it("if there's a regular arc and an inline expression on the same row - count it as a real and not a virtual row", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip14.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip14.json"),
@@ -456,7 +460,7 @@ describe("render/graphics/renderast", () => {
       );
     });
 
-    test("if there's an inline expression and a regular arc on the same row - count it as a real and not a virtual row", () => {
+    it("if there's an inline expression and a regular arc on the same row - count it as a real and not a virtual row", () => {
       processAndCompare(
         path.join(__dirname, "../../fixtures/arcskip/arcskip15.svg"),
         path.join(__dirname, "../../fixtures/arcskip/arcskip15.json"),

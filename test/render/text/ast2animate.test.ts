@@ -1,3 +1,5 @@
+import { describe, it } from "node:test";
+import { deepEqual } from "node:assert/strict";
 import fs from "fs";
 import path from "path";
 import {FrameFactory} from "../../../src/render/text/ast2animate";
@@ -139,31 +141,31 @@ describe("render/text/ast2ani", () => {
     /*
 */
     describe("#getLength()", () => {
-        test("should return a length of 1 for astEmpty", () => {
+        it("should return a length of 1 for astEmpty", () => {
             const ani = new FrameFactory();
             ani.init(fix.astEmpty);
-            expect(ani.getPosition()).toBe(0);
-            expect(ani.getLength()).toBe(1);
+            deepEqual(ani.getPosition(), 0);
+            deepEqual(ani.getLength(), 1);
         });
-        test("should return a length of 2 for astSimple", () => {
+        it("should return a length of 2 for astSimple", () => {
             const ani = new FrameFactory();
             ani.init(fix.astSimple);
-            expect(ani.getLength()).toBe(2);
+            deepEqual(ani.getLength(), 2);
         });
-        test("should return a length of 15 for astCheatSheet", () => {
+        it("should return a length of 15 for astCheatSheet", () => {
             const ani = new FrameFactory();
             ani.init(fix.astCheatSheet);
-            expect(ani.getPosition()).toBe(0);
-            expect(ani.getLength()).toBe(15);
+            deepEqual(ani.getPosition(), 0);
+            deepEqual(ani.getLength(), 15);
         });
     });
 
     describe("#getFrame(0)", () => {
-        test("should return astEmpty for astEmpty", () => {
+        it("should return astEmpty for astEmpty", () => {
             const ani = new FrameFactory(fix.astEmpty);
-            expect(ani.getFrame(0)).toEqual(fix.astEmpty);
+            deepEqual(ani.getFrame(0), fix.astEmpty);
         });
-        test("should return entities for astSimple", () => {
+        it("should return entities for astSimple", () => {
             const ani = new FrameFactory(fix.astSimple);
             const astSimpleEntitiesOnly = {
                 meta: {
@@ -178,39 +180,39 @@ describe("render/text/ast2ani", () => {
                 }],
                 arcs : [[{kind: "|||"}]],
             };
-            expect(ani.getFrame(0)).toEqual(astSimpleEntitiesOnly);
+            deepEqual(ani.getFrame(0), astSimpleEntitiesOnly);
         });
 
-        test("should return entities for astCheatSheet", () => {
+        it("should return entities for astCheatSheet", () => {
             const ani = new FrameFactory(fix.astCheatSheet);
-            expect(ani.getFrame(0)).toEqual(astCheatSheet0);
+            deepEqual(ani.getFrame(0), astCheatSheet0);
         });
 
-        test("should return entities for astCheatSheet for length < 0", () => {
+        it("should return entities for astCheatSheet for length < 0", () => {
             const ani = new FrameFactory(fix.astCheatSheet);
-            expect(ani.getFrame(-481)).toEqual(astCheatSheet0);
+            deepEqual(ani.getFrame(-481), astCheatSheet0);
         });
 
     });
 
     describe("#getFrame(getLength())", () => {
-        test("should return astEmpty for astEmpty", () => {
+        it("should return astEmpty for astEmpty", () => {
             const ani = new FrameFactory(fix.astEmpty);
-            expect(ani.getFrame(ani.getLength())).toEqual(fix.astEmpty);
+            deepEqual(ani.getFrame(ani.getLength()), fix.astEmpty);
         });
-        test("should return astSimple for astSimple", () => {
+        it("should return astSimple for astSimple", () => {
             const ani = new FrameFactory(fix.astSimple);
-            expect(ani.getFrame(ani.getLength())).toEqual(fix.astSimple);
+            deepEqual(ani.getFrame(ani.getLength()), fix.astSimple);
         });
-        test("should return astCheatSheet for astCheatSheet", () => {
+        it("should return astCheatSheet for astCheatSheet", () => {
             const ani = new FrameFactory(fix.astCheatSheet);
-            expect(ani.getFrame(ani.getLength())).toEqual(fix.astCheatSheet);
+            deepEqual(ani.getFrame(ani.getLength()), fix.astCheatSheet);
         });
-        test(
+        it(
             "should return astCheatSheet for astCheatSheet and length === somethingbig",
             () => {
                 const ani = new FrameFactory(fix.astCheatSheet, true);
-                expect(ani.getFrame(481)).toEqual(fix.astCheatSheet);
+                deepEqual(ani.getFrame(481), fix.astCheatSheet);
             },
         );
     });
@@ -219,68 +221,68 @@ describe("render/text/ast2ani", () => {
 
         const ani = new FrameFactory(fix.astCheatSheet, true);
 
-        test(
+        it(
             "should return entities and first arc from astCheatSheet for astCheatSheet",
             () => {
-                expect(ani.getFrame(1)).toEqual(astCheatSheet1);
+                deepEqual(ani.getFrame(1), astCheatSheet1);
             },
         );
 
-        test(
+        it(
             "should return entities and first three arcs from astCheatSheet for astCheatSheet",
             () => {
-                expect(ani.getFrame(3)).toEqual(astCheatSheet3);
+                deepEqual(ani.getFrame(3), astCheatSheet3);
             },
         );
 
-        test(
+        it(
             "should return entities and first two arcs from astCheatSheet for astCheatSheet",
             () => {
-                expect(ani.getFrame(2)).toEqual(astCheatSheet2);
+                deepEqual(ani.getFrame(2), astCheatSheet2);
             },
         );
     });
 
     describe("#home, #end, #inc, #dec, #getPosition, #getCurrentFrame #getPercentage", () => {
         const ani = new FrameFactory(fix.astCheatSheet, false);
-        test(
+        it(
             "getCurrentFrame should return astCheatSheet after call to end()",
             () => {
                 ani.end();
-                expect(ani.getPosition()).toBe(15);
-                expect(ani.getPercentage()).toBe(100);
-                expect(ani.getCurrentFrame()).toEqual(fix.astCheatSheet);
+                deepEqual(ani.getPosition(), 15);
+                deepEqual(ani.getPercentage(), 100);
+                deepEqual(ani.getCurrentFrame(), fix.astCheatSheet);
             },
         );
-        test(
+        it(
             "getCurrentFrame should return astCheatSheet1 after end() and 14 calls to dec()",
             () => {
                 ani.end();
                 ani.dec(14);
-                expect(ani.getPosition()).toBe(1);
-                expect(ani.getPercentage()).toBe(100 / 15);
-                expect(ani.getCurrentFrame()).toEqual(astCheatSheet1);
+                deepEqual(ani.getPosition(), 1);
+                deepEqual(ani.getPercentage(), 100 / 15);
+                deepEqual(ani.getCurrentFrame(), astCheatSheet1);
             },
         );
-        test(
+        it(
             "getCurrentFrame should return astCheatSheet2 after call to home() and two calls to inc()",
             () => {
                 ani.home();
                 ani.inc(2);
-                expect(ani.getPosition()).toBe(2);
-                expect(ani.getPercentage()).toBe(200 / 15);
-                expect(ani.getCurrentFrame()).toEqual(astCheatSheet2);
+                deepEqual(ani.getPosition(), 2);
+                deepEqual(ani.getPercentage(), 200 / 15);
+                deepEqual(ani.getCurrentFrame(), astCheatSheet2);
             },
         );
-        test(
+        it(
             "getCurrentFrame should return entities only after call to home()",
             () => {
                 ani.home();
                 ani.inc();
                 ani.dec();
-                expect(ani.getPosition()).toBe(0);
-                expect(ani.getPercentage()).toBe(0);
-                expect(ani.getCurrentFrame()).toEqual(astCheatSheet0);
+                deepEqual(ani.getPosition(), 0);
+                deepEqual(ani.getPercentage(), 0);
+                deepEqual(ani.getCurrentFrame(), astCheatSheet0);
             },
         );
     });
@@ -294,26 +296,26 @@ describe("render/text/ast2ani", () => {
 
         const ani = new FrameFactory(lAST, false);
 
-        test(
+        it(
             "getLength for inline expressions takes expression length into account",
             () => {
-                expect(ani.getLength()).toBe(10);
+                deepEqual(ani.getLength(), 10);
             },
         );
 
-        test("getNoRows takes inline expressions length into account", () => {
-            expect(ani.getNoRows()).toBe(9);
+        it("getNoRows takes inline expressions length into account", () => {
+            deepEqual(ani.getNoRows(), 9);
         });
 
-        test("produces the right frames - 0", () => {
+        it("produces the right frames - 0", () => {
             tst.assertequalToFileJSON(path.join(__dirname, "../../fixtures/xuframe00.json"), ani.getFrame(0));
         });
 
-        test("produces the right frames - 1", () => {
+        it("produces the right frames - 1", () => {
             tst.assertequalToFileJSON(path.join(__dirname, "../../fixtures/xuframe01.json"), ani.getFrame(1));
         });
 
-        test("produces the right frames - 2", () => {
+        it("produces the right frames - 2", () => {
             tst.assertequalToFileJSON(path.join(__dirname, "../../fixtures/xuframe02.json"), ani.getFrame(2));
         });
 

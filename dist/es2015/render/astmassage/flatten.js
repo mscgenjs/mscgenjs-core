@@ -2,7 +2,6 @@
  * Defines some functions to simplify a given abstract syntax tree.
  */
 import asttransform from "./asttransform";
-import cloneDeep from "lodash/cloneDeep";
 import * as escape from "../textutensils/escape";
 import aggregatekind from "./aggregatekind";
 import normalizekind from "./normalizekind";
@@ -78,7 +77,7 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
             pArc.depth = pDepth;
             pArc.isVirtual = true;
             if (!!pArc.arcs) {
-                const lInlineExpression = cloneDeep(pArc);
+                const lInlineExpression = structuredClone(pArc);
                 lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
                 delete lInlineExpression.arcs;
                 lFlatArcRow.push(lInlineExpression);
@@ -132,7 +131,8 @@ export function normalize(pAST) {
     gMaxDepth = 0;
     return {
         options: normalizeoptions(pAST.options),
-        entities: cloneDeep(pAST.entities),
+        // @ts-expect-error whatever
+        entities: structuredClone(pAST.entities),
         arcs: unwind(pAST.arcs),
         depth: gMaxDepth + 1,
     };

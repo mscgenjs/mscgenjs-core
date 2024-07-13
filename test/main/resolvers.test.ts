@@ -1,3 +1,5 @@
+import { describe, it } from "node:test";
+import  { deepEqual } from "node:assert/strict";
 import * as tst from "../testutensils.js";
 import * as fs from "fs";
 import * as path from "path";
@@ -28,32 +30,31 @@ const gExpectedMscGenOutput = `msc {\n\
         'xu { watermark="this is only valid in xu"; a,b; a->b;}',
         pParser
       );
-      expect(
+      deepEqual(
         pParser.parse(
           'msc { a,"b space"; a => "b space" [label="a simple script"];}'
-        )
-      ).toEqual(fix.astSimple);
+        ), fix.astSimple);
     }
 
     function isMscGenTextRenderer(pRenderer) {
-      expect(pRenderer.render(fix.astOneAlt)).toBe(gExpectedMscGenOutput);
+      deepEqual(pRenderer.render(fix.astOneAlt), gExpectedMscGenOutput);
     }
 
     describe("#getParser()", () => {
-      test("Returns the mscgen parser when not provided with arguments", () => {
+      it("Returns the mscgen parser when not provided with arguments", () => {
         isMscGenParser(mscgenjs.getParser());
       });
-      test("Returns the MscGen parser when not provided with a valid argument", () => {
+      it("Returns the MscGen parser when not provided with a valid argument", () => {
         isMscGenParser(mscgenjs.getParser("c++"));
       });
     });
 
     describe("#getTextRenderer()", () => {
-      test("Returns the ast2mscgen renderer when not provided with arguments", () => {
+      it("Returns the ast2mscgen renderer when not provided with arguments", () => {
         isMscGenTextRenderer(mscgenjs.getTextRenderer());
       });
 
-      test("Returns the ast2mscgen renderer when not with a valid argument", () => {
+      it("Returns the ast2mscgen renderer when not with a valid argument", () => {
         isMscGenTextRenderer(mscgenjs.getTextRenderer("some weird xmi format"));
       });
     });

@@ -1,7 +1,5 @@
-import cloneDeep from "lodash/cloneDeep";
-
 export function scaleCanvasToWidth(pWidth, pCanvas) {
-  const lCanvas = cloneDeep(pCanvas);
+  const lCanvas = structuredClone(pCanvas);
 
   lCanvas.scale = pWidth / lCanvas.width;
   lCanvas.width *= lCanvas.scale;

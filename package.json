@@ -17,22 +17,20 @@
     "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@types/jest": "29.5.12",
     "@types/node": "20.14.10",
     "@typescript-eslint/parser": "7.16.0",
+    "ajv": "8.17.1",
+    "c8": "10.1.2",
     "chai": "^4.4.1",
     "chai-xml": "0.4.1",
     "clean-pkg-json": "1.2.0",
     "dependency-cruiser": "16.3.6",
-    "jest": "29.7.0",
-    "jest-environment-jsdom": "29.7.0",
-    "jest-json-schema": "6.1.0",
-    "jsdom": "^16.6.0",
+    "jsdom": "^24.1.0",
     "npm-run-all": "4.1.5",
     "peggy": "4.0.3",
-    "ts-jest": "29.2.2",
     "ts-loader": "9.5.1",
     "tslint": "6.1.3",
+    "tsx": "4.16.2",
     "typescript": "^5.5.3",
     "upem": "9.0.4",
     "webpack": "5.93.0",
@@ -43,12 +41,7 @@
       {
         "package": "chai",
         "policy": "wanted",
-        "because": "chai >=5 are ESM only, and jest and typescript don't play nice with ESM"
-      },
-      {
-        "package": "jsdom",
-        "policy": "wanted",
-        "because": "really breaking changes (for us)"
+        "because": "chai >=5 are ESM only, and typescript doesn't play nice with ESM jet on here"
       }
     ]
   },
@@ -83,7 +76,7 @@
     "build:es2015:copy:version": "cp src/version.json dist/es2015/.",
     "check": "npm-run-all depcruise lint test:all",
     "check:ci": "npm-run-all depcruise lint test:all:ci",
-    "check:full": "npm-run-all --parallel depcruise lint test:cover",
+    "check:full": "npm-run-all --parallel depcruise lint test:all",
     "depcruise": "depcruise src test",
     "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
     "depcruise:graph:html": "depcruise src test --output-type dot | dot -T svg | tee docs/dependencygraph.svg | depcruise-wrap-stream-in-html > docs/dependencygraph.html",
@@ -104,9 +97,9 @@
     "scm:push:bitbucket-mirror:tags": "git push --tags bitbucket-mirror",
     "scm:stage": "git add .",
     "version": "npm-run-all build depcruise:graph scm:stage",
-    "test": "jest --onlyChanged --collectCoverage false",
-    "test:all": "jest --collectCoverage false",
-    "test:cover": "jest",
+    "test": "tsx --disable-warning=DEP0040 --test-reporter ./tools/dot-with-summary.reporter.mjs --test test/*.test.ts test/**/*.test.ts test/**/**/*.test.ts",
+    "test:node18": "tsx --test-reporter ./tools/dot-with-summary.reporter.mjs --test test/*.test.ts test/**/*.test.ts test/**/**/*.test.ts",
+    "test:cover": "c8 npm test",
     "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",
     "upem-outdated": "npm outdated --json --long | upem --dry-run",
     "upem:update": "npm outdated --json --long | upem | pbcopy && pbpaste",
@@ -126,64 +119,6 @@
     "xu",
     "msgenny"
   ],
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "preset": "ts-jest",
-    "testRegex": "test.*[.]spec[.](ts|js)$",
-    "testEnvironment": "jsdom",
-    "testEnvironmentOptions": {
-      "url": "http://localhost"
-    },
-    "collectCoverage": true,
-    "coverageReporters": [
-      "text-summary",
-      "html",
-      "lcov"
-    ],
-    "rootDir": ".",
-    "collectCoverageFrom": [
-      "<rootDir>/src/index.ts",
-      "<rootDir>/src/main/**/*.ts",
-      "<rootDir>/<rootDir>/src/index-lazy.ts",
-      "<rootDir>/src/parse/**/*.ts",
-      "<rootDir>/src/render/**/*.ts"
-    ],
-    "coveragePathIgnorePatterns": [
-      ".+[.]d[.]ts$",
-      "src/render/graphics/styling",
-      "src/render/graphics/svgelementfactory/wobbly",
-      "src/parse/.+parser[.]js"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 100,
-        "branches": 93.8,
-        "functions": 100,
-        "lines": 100
-      },
-      "src/main": {
-        "statements": 100,
-        "branches": 100,
-        "functions": 100,
-        "lines": 100
-      },
-      "src/render": {
-        "statements": 100,
-        "branches": 92,
-        "functions": 100,
-        "lines": 100
-      },
-      "src/parse": {
-        "statements": 100,
-        "branches": 100,
-        "functions": 100,
-        "lines": 100
-      }
-    }
-  },
   "engines": {
     "node": "^18||>=20"
   },

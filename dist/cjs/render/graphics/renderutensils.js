@@ -1,14 +1,10 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scaleCanvasToWidth = scaleCanvasToWidth;
 exports.determineDepthCorrection = determineDepthCorrection;
 exports.determineArcXTo = determineArcXTo;
-var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 function scaleCanvasToWidth(pWidth, pCanvas) {
-    var lCanvas = (0, cloneDeep_1.default)(pCanvas);
+    var lCanvas = structuredClone(pCanvas);
     lCanvas.scale = pWidth / lCanvas.width;
     lCanvas.width *= lCanvas.scale;
     lCanvas.height *= lCanvas.scale;

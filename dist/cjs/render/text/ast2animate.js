@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FrameFactory = void 0;
-var cloneDeep_1 = __importDefault(require("lodash/cloneDeep"));
 var EMPTY_ARC = [{ kind: "|||" }];
 var EMPTY_AST = {
     entities: [],
@@ -51,18 +47,18 @@ var FrameFactory = /** @class */ (function () {
      */
     FrameFactory.prototype.init = function (pAST, pPreCalculate) {
         this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
-        this.AST = (0, cloneDeep_1.default)(pAST);
+        this.AST = structuredClone(pAST);
         this.len = this._calculateLength(pAST);
         this.noRows = this._calcNumberOfRows(pAST);
         this.position = 0;
         if (this.AST.arcs) {
-            this.arcs = (0, cloneDeep_1.default)(this.AST.arcs);
+            this.arcs = structuredClone(this.AST.arcs);
             this.AST.arcs = [];
         }
         this.frames = [];
         if (this.preCalculate) {
             for (var i = 0; i < this.len; i++) {
-                this.frames.push((0, cloneDeep_1.default)(this._calculateFrame(i)));
+                this.frames.push(structuredClone(this._calculateFrame(i)));
             }
         }
     };

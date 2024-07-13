@@ -1,11 +1,18 @@
+import { describe, it } from "node:test";
+import  { deepEqual } from "node:assert/strict";
 const normalizeOptions = require("../../src/main/normalizeoptions").default;
+import { JSDOM } from "jsdom";
+const { window } = new JSDOM("");
+
+// @ts-expect-error whatever
+global.window = window;
 
 describe("normalizeOptions", () => {
 
-    test("Boundary - empty object as first parameter", () => {
-        expect(
+    it("Boundary - empty object as first parameter", () => {
+        deepEqual(
             normalizeOptions({}),
-        ).toEqual({
+        {
             inputType              : "mscgen",
             elementId              : "__svg",
             window,
@@ -18,10 +25,10 @@ describe("normalizeOptions", () => {
         });
     });
 
-    test('Boundary - only "includeSource" is false', () => {
-        expect(
+    it('Boundary - only "includeSource" is false', () => {
+        deepEqual(
             normalizeOptions({includeSource: false}),
-        ).toEqual({
+        {
             inputType              : "mscgen",
             elementId              : "__svg",
             window,

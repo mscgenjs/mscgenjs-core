@@ -1,6 +1,7 @@
 const fs     = require('fs');
 const crypto = require('crypto');
 const chai   = require("chai");
+const { deepEqual } = require('node:assert/strict');
 
 const chaiExpect = chai.expect;
 chai.use(require("chai-xml"));
@@ -14,9 +15,8 @@ module.exports = (function() {
     }
 
     function assertequalToFileJSON(pExpectedFileName, pFound) {
-        expect(
-            pFound
-        ).toEqual(
+        deepEqual(
+            pFound,
             JSON.parse(
                 fs.readFileSync(pExpectedFileName, {"encoding": "utf8"})
             )
@@ -64,11 +64,10 @@ module.exports = (function() {
         },
 
         assertequalProcessing(pExpectedFileName, pInputFileName, pProcessingFn){
-            expect(
+            deepEqual(
                 hashit(
                     fs.readFileSync(pExpectedFileName, {"encoding" : "utf8"})
-                )
-            ).toBe(
+                ),
                 hashit(
                     pProcessingFn(
                         fs.readFileSync(pInputFileName, {"encoding" : "utf8"})
@@ -86,9 +85,9 @@ module.exports = (function() {
                 if (pParser.parse(pProgram)) {
                     lStillRan = true;
                 }
-                expect(lStillRan).toBe(false);
+                deepEqual(lStillRan, false);
             } catch (e) {
-                expect(e.name).toBe(pErrorType);
+                deepEqual(e.name, pErrorType);
             }
         }
     };
