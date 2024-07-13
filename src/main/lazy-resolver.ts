@@ -1,38 +1,48 @@
-import memoize from "lodash/memoize";
-import type { InputType } from "../../types/mscgen";
+import type { InputType, OutputType } from "../../types/mscgen";
 
 const DEFAULT_PARSER = "../parse/mscgenparser";
 const DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
 
-const gLang2Parser = Object.freeze({
-  mscgen: "../parse/mscgenparser",
-  xu: "../parse/xuparser",
-  msgenny: "../parse/msgennyparser",
-}) as any;
+const gLang2Parser: Map<InputType, string> = new Map([
+  ["mscgen", "../parse/mscgenparser"],
+  ["xu", "../parse/xuparser"],
+  ["msgenny", "../parse/msgennyparser"],
+]);
 
-const gLang2TextRenderer = Object.freeze({
-  mscgen: "../render/text/ast2mscgen",
-  msgenny: "../render/text/ast2msgenny",
-  xu: "../render/text/ast2xu",
-  dot: "../render/text/ast2dot",
-  doxygen: "../render/text/ast2doxygen",
-}) as any;
+const gLang2TextRenderer: Map<OutputType, string> = new Map([
+  ["mscgen", "../render/text/ast2mscgen"],
+  ["msgenny", "../render/text/ast2msgenny"],
+  ["xu", "../render/text/ast2xu"],
+  ["dot", "../render/text/ast2dot"],
+  ["doxygen", "../render/text/ast2doxygen"],
+]);
 
-export const getParser = memoize((pLanguage: InputType) => {
+const parserMap = new Map();
+export function getParser (pLanguage: InputType) {
   if (["ast", "json"].indexOf(pLanguage) > -1) {
     return JSON;
   }
+  if (!parserMap.has(pLanguage)) {
+    parserMap.set(pLanguage, require(gLang2Parser.get(pLanguage) || DEFAULT_PARSER));
+  }
+  return parserMap.get(pLanguage);
+};
 
-  return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
-});
+let graphicsRenderer = null;
+export function getGraphicsRenderer () {
+  if (!graphicsRenderer) {
+    graphicsRenderer = require("../render/graphics/renderast");
+  }
+  return graphicsRenderer;
+}
 
-export const getGraphicsRenderer = memoize(() =>
-  require("../render/graphics/renderast")
-);
-
-export const getTextRenderer = memoize((pLanguage: InputType) =>
-  require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER)
-);
+const textRendererMap = new Map();
+export function getTextRenderer (pLanguage: OutputType) {
+  if(!textRendererMap.has(pLanguage)) {
+    textRendererMap.set(pLanguage, require(gLang2TextRenderer.get(pLanguage) || DEFAULT_TEXT_RENDERER));
+  }
+  return textRendererMap.get(pLanguage);
+};
 /*
  This file is part of mscgen_js.
 

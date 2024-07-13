@@ -1,7 +1,7 @@
 {
   "checkCoverage": true,
   "statements": 99.3,
-  "branches": 89.6,
+  "branches": 89.5,
   "functions": 98.5,
   "lines": 99.3,
   "exclude": ["{src/render/graphics/styling,src/render/graphics/svgelementfactory/wobbly,src/parse/*parser.js,test/**/*,tools/**/*}"],

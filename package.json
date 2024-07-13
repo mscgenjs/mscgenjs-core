@@ -13,9 +13,6 @@
     "package.json",
     "README.md"
   ],
-  "dependencies": {
-    "lodash": "4.17.21"
-  },
   "devDependencies": {
     "@types/node": "20.14.10",
     "@typescript-eslint/parser": "7.16.0",
@@ -41,7 +38,7 @@
       {
         "package": "chai",
         "policy": "wanted",
-        "because": "chai >=5 are ESM only, and typescript doesn't play nice with ESM jet on here"
+        "because": "chai >=5 are ESM only, and typescript doesn't play nice with ESM yet on here"
       }
     ]
   },

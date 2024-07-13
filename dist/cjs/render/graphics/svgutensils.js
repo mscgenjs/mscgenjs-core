@@ -22,14 +22,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.webkitNamespaceBugWorkaround = exports.calculateTextHeight = exports.init = void 0;
+exports.webkitNamespaceBugWorkaround = exports.init = void 0;
 exports.getBBox = getBBox;
+exports.calculateTextHeight = calculateTextHeight;
 exports.removeRenderedSVGFromElement = removeRenderedSVGFromElement;
-var memoize_1 = __importDefault(require("lodash/memoize"));
 var idmanager = __importStar(require("./idmanager"));
 var svgelementfactory = __importStar(require("./svgelementfactory/index"));
 /**
@@ -37,6 +34,7 @@ var svgelementfactory = __importStar(require("./svgelementfactory/index"));
  */
 var gDocument = {};
 var gSvgBBoxerId = idmanager.get("bboxer");
+var gTextHeight = 0;
 /* istanbul ignore next */
 function _createBBoxerSVG(pId) {
     var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
@@ -103,7 +101,13 @@ function getBBox(pElement) {
         };
     }
 }
-function _calculateTextHeight() {
+/**
+ * Returns the height in pixels necessary for rendering characters
+ */
+function calculateTextHeight() {
+    if (gTextHeight !== 0) {
+        return gTextHeight;
+    }
     /* Uses a string with some characters that tend to stick out
      * above/ below the current line and an 'astral codepoint' to
      * determine the text height to use everywhere.
@@ -111,10 +115,11 @@ function _calculateTextHeight() {
      * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
      * browsers. The string in readable form: ÁjyÎ9ƒ@💩
      */
-    return getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
+    gTextHeight = getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
         x: 0,
         y: 0,
     })).height;
+    return gTextHeight;
 }
 function removeRenderedSVGFromElement(pElementId) {
     idmanager.setPrefix(pElementId);
@@ -133,10 +138,6 @@ var init = function (pDocument) {
     gDocument = pDocument;
 };
 exports.init = init;
-/**
- * Returns the height in pixels necessary for rendering characters
- */
-exports.calculateTextHeight = (0, memoize_1.default)(_calculateTextHeight);
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
 // namespace prefixes in front of xlink and all hrefs respectively.
