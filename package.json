@@ -15,7 +15,6 @@
   ],
   "devDependencies": {
     "@types/node": "20.14.10",
-    "@typescript-eslint/parser": "7.16.0",
     "ajv": "8.17.1",
     "c8": "10.1.2",
     "chai": "^4.4.1",
@@ -73,7 +72,7 @@
     "build:es2015:copy:version": "cp src/version.json dist/es2015/.",
     "check": "npm-run-all depcruise lint test:all",
     "check:ci": "npm-run-all depcruise lint test:all:ci",
-    "check:full": "npm-run-all --parallel depcruise lint test:all",
+    "check:full": "npm-run-all --parallel depcruise lint test:cover",
     "depcruise": "depcruise src test",
     "depcruise:graph": "npm-run-all --parallel depcruise:graph:*",
     "depcruise:graph:html": "depcruise src test --output-type dot | dot -T svg | tee docs/dependencygraph.svg | depcruise-wrap-stream-in-html > docs/dependencygraph.html",
