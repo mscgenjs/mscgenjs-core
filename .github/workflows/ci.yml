@@ -51,9 +51,18 @@ jobs:
           npm run depcruise
         if: matrix.platform == 'ubuntu-latest' && matrix.node-version == '22.x'
       - name: test
+        if: matrix.node-version == '22.x'
         run: |
           node --version
           npm run test:cover
+      - name: test
+        # node 18 doesn't throw a warning when using the native 'punycode' module
+        # it _does_ throw an error when you want to ignore that warning, though.
+        # punycode is b.t.w. pulled in transitively by jsdom
+        if: matrix.node-version == '18.x'
+        run: |
+          node --version
+          npm run test:node18
       - name: report coverage to code climate (runs on one platform only)
         if: matrix.node-version == '22.x'
         uses: paambaati/codeclimate-action@v3.0.0

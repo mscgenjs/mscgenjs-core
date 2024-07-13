@@ -98,6 +98,7 @@
     "scm:stage": "git add .",
     "version": "npm-run-all build depcruise:graph scm:stage",
     "test": "tsx --disable-warning=DEP0040 --test-reporter ./tools/dot-with-summary.reporter.mjs --test test/*.test.ts test/**/*.test.ts test/**/**/*.test.ts",
+    "test:node18": "tsx --test-reporter ./tools/dot-with-summary.reporter.mjs --test test/*.test.ts test/**/*.test.ts test/**/**/*.test.ts",
     "test:cover": "c8 npm test",
     "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",
     "upem-outdated": "npm outdated --json --long | upem --dry-run",
