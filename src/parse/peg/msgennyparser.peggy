@@ -47,7 +47,7 @@
                 // if the arc kind is arcspanning recurse into its arcs
                 if (pArc.arcs){
                     pEntityNamesToIgnore[pArc.to] = true;
-                    _assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
+                    Object.assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
                     delete pEntityNamesToIgnore[pArc.to];
                 }
                 if (entityNeedsExtracting (pEntities, pArc.to, pEntityNamesToIgnore)) {
@@ -63,13 +63,13 @@ program
     =  pre:_ declarations:declarationlist _
     {
         declarations.entities = extractUndeclaredEntities(declarations.entities || [], declarations.arcs);
-        declarations = _assign (
-            {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)},
-            declarations
-        );
+        declarations = {
+            meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs),
+            ...declarations
+        };
 
         if (pre.length > 0) {
-            declarations = _assign({precomment: pre}, declarations);
+            declarations = {precomment: pre, ...declarations};
         }
         return declarations;
     }
@@ -97,7 +97,9 @@ optionlist
                (o:option ";" {return o}))
     {
         // make the option array into an options object
-        return options[0].concat(options[1]).reduce(_assign, {});
+        return options[0]
+            .concat(options[1])
+            .reduce((pAll, pCurrent) => Object.assign(pAll, pCurrent), {});
     }
 
 option

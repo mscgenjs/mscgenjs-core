@@ -3,11 +3,11 @@
 // https://peggyjs.org/
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {
-    define(["lodash/assign", "./parserHelpers"], factory);
+    define(["./parserHelpers"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory(require("lodash/assign"), require("./parserHelpers"));
+    module.exports = factory(require("./parserHelpers"));
   }
-})(this, function(_assign, parserHelpers) {
+})(this, function(parserHelpers) {
   "use strict";
 
 function peg$subclass(child, parent) {
@@ -407,10 +407,10 @@ function peg$parse(input, options) {
         declarations.entities = declarations.entities || [];
         parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-        declarations = _assign ({meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
+        declarations = {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs), ...declarations};
 
         if (pre.length > 0) {
-            declarations = _assign({precomment: pre}, declarations);
+            declarations = {precomment: pre, ...declarations};
         }
 
         return declarations;
@@ -432,7 +432,9 @@ function peg$parse(input, options) {
   var peg$f3 = function(o) {return o};
   var peg$f4 = function(options) {
         // make the option array into an options object
-        return options[0].concat(options[1]).reduce(_assign, {})
+        return options[0]
+            .concat(options[1])
+            .reduce((pAll, pCurrent) => Object.assign(pAll, pCurrent), {});
     };
   var peg$f5 = function(name, value) {
             return parserHelpers.nameValue2Option(name, value);
@@ -459,14 +461,14 @@ function peg$parse(input, options) {
     };
   var peg$f14 = function(name, a) {return a};
   var peg$f15 = function(name, attrList) {
-            return _assign ({name:name}, attrList);
+            return {name:name, ...attrList};
         };
   var peg$f16 = function(name, a) {return a};
   var peg$f17 = function(name, attrList) {
           if (parserHelpers.isMscGenKeyword(name)){
             error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
           }
-          return _assign ({name:name}, attrList);
+          return {name:name, ...attrList};
         };
   var peg$f18 = function(a) {return a};
   var peg$f19 = function(a) {return a};
@@ -479,7 +481,7 @@ function peg$parse(input, options) {
   var peg$f24 = function(a) {return a};
   var peg$f25 = function(a, al) {return al};
   var peg$f26 = function(a, al) {
-      return _assign (a, al);
+      return {...a, ...al};
     };
   var peg$f27 = function(kind) {return {kind:kind}};
   var peg$f28 = function(kind) {return {kind:kind}};
@@ -489,15 +491,7 @@ function peg$parse(input, options) {
   var peg$f32 = function(from, kind) {return {kind:kind, from: from, to:"*"}};
   var peg$f33 = function(from, kind, to, al) {return al};
   var peg$f34 = function(from, kind, to, al, arclist) {
-            return _assign (
-                {
-                    kind     : kind,
-                    from     : from,
-                    to       : to,
-                    arcs     : arclist
-                },
-                al
-            );
+            return {kind: kind, from: from, to: to, arcs: arclist, ...al};
         };
   var peg$f35 = function(kind) {return kind.toLowerCase()};
   var peg$f36 = function(kind) {
@@ -507,7 +501,9 @@ function peg$parse(input, options) {
   var peg$f38 = function(a) {return a};
   var peg$f39 = function(attributes) {
         // transform the array of attributes into an object
-        return attributes[0].concat(attributes[1]).reduce(_assign, {});
+        return attributes[0]
+            .concat(attributes[1])
+            .reduce((pAll, pCurrent) => Object.assign(pAll, pCurrent), {});
     };
   var peg$f40 = function(name) {
         return { activation: name.toLowerCase() === "activate"}
