@@ -99,7 +99,7 @@
     "scm:push:bitbucket-mirror:tags": "git push --tags bitbucket-mirror",
     "scm:stage": "git add .",
     "version": "npm-run-all build depcruise:graph scm:stage",
-    "test": "npx tsx --test-reporter dot  --test test/*.test.ts test/**/*.test.ts test/**/**/*.test.ts",
+    "test": "npx tsx --disable-warning=DEP0040 --test-reporter ./tools/dot-with-summary.reporter.mjs --test test/*.test.ts test/**/*.test.ts test/**/**/*.test.ts",
     "test:all": "jest --collectCoverage false && npm test",
     "test:cover": "jest",
     "update-dependencies": "npm-run-all upem:update upem:install build lint:fix check:full",

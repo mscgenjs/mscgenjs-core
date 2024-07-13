@@ -1,7 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`render/text/ast2mscgen #renderAST() - file based tests should render all arcs 1`] = `
-"# test01: all possible arcs
+exports[`allArcs`] = `# test01: all possible arcs
 /*
  * should create the smallest AST of the three
  */
@@ -130,15 +129,13 @@ msc {
   * <: c [label="* <: c"];
   b <:> * [label="b <:> *"];
   ||| [label="options used: hscale=\\"0.6\\", arcgradient=\\"18\\""];
-}"
-`;
+}`;
 
-exports[`render/text/ast2mscgen #renderAST() - minification should render a "minified" mscgen script 1`] = `"msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true;a;}"`;
+exports[`astOptionsMinified`] = `msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true;a;}`;
 
-exports[`render/text/ast2mscgen #renderAST() - minification should render a "minified" mscgen script 2`] = `"msc{a,b;a note b;a box a,b rbox b;b abox a;}"`;
+exports[`astBoxesMinified`] = `msc{a,b;a note b;a box a,b rbox b;b abox a;}`;
 
-exports[`render/text/ast2mscgen #renderAST() - simple syntax tree correctly renders multiple options 1`] = `
-"msc {
+exports[`astOptionsMscgen`] = `msc {
   hscale="1.2",
   width="800",
   arcgradient="17",
@@ -146,22 +143,18 @@ exports[`render/text/ast2mscgen #renderAST() - simple syntax tree correctly rend
 
   a;
 
-}"
-`;
+}`;
 
-exports[`render/text/ast2mscgen #renderAST() - simple syntax tree correctly renders parallel calls 1`] = `
-"msc {
+exports[`astSimpleParallel`] = `msc {
   a,
   b,
   c;
 
   b -> a [label="{paral"],
   b =>> c [label="lel}"];
-}"
-`;
+}`;
 
-exports[`render/text/ast2mscgen #renderAST() - simple syntax tree should preserve attributes 1`] = `
-"msc {
+exports[`astAttributes`] = `msc {
   Alice [linecolor="#008800", textcolor="black", textbgcolor="#CCFFCC", arclinecolor="#008800", arctextcolor="#008800"],
   Bob [linecolor="#FF0000", textcolor="black", textbgcolor="#FFCCCC", arclinecolor="#FF0000", arctextcolor="#FF0000"],
   pocket [linecolor="#0000FF", textcolor="black", textbgcolor="#CCCCFF", arclinecolor="#0000FF", arctextcolor="#0000FF"];
@@ -170,11 +163,9 @@ exports[`render/text/ast2mscgen #renderAST() - simple syntax tree should preserv
   Bob => pocket [label="fetch (nose flute)", textcolor="yellow", textbgcolor="green", arcskip="0.5"];
   Bob >> Alice [label="PHEEE!", textcolor="green", textbgcolor="yellow", arcskip="0.3"];
   Alice => Alice [label="hihihi", linecolor="#654321"];
-}"
-`;
+}`;
 
-exports[`render/text/ast2mscgen #renderAST() - simple syntax tree should preserve the comments at the start of the ast 1`] = `
-"# pre comment
+exports[`astWithPreComment`] = `# pre comment
 /* pre
  * multiline
  * comment
@@ -184,42 +175,27 @@ msc {
   b;
 
   a -> b;
-}"
-`;
+}`;
 
-exports[`render/text/ast2mscgen #renderAST() - simple syntax tree should, given a simple syntax tree, render a "minified" mscgen script 1`] = `"msc{a,"b space";a => "b space"[label="a simple script"];}"`;
+exports[`astSimpleMinified`] = `msc{a,"b space";a => "b space"[label="a simple script"];}`;
 
-exports[`render/text/ast2mscgen #renderAST() - simple syntax tree should, given a simple syntax tree, render a mscgen script 1`] = `
-"msc {
+exports[`astSimple`] = `msc {
   a,
   "b space";
 
   a => "b space" [label="a simple script"];
-}"
-`;
+}`;
 
-exports[`render/text/ast2mscgen #renderAST() - simple syntax tree should, given a simple syntax tree, render a mscgen script 2`] = `
-"msc {
-  a,
-  "b space";
+exports[`auto`] = `msc{}`;
 
-  a => "b space" [label="a simple script"];
-}"
-`;
+exports[`entityWithMscGenKeywordAsName`] = `msc{"note";}`;
 
-exports[`render/text/ast2mscgen #renderAST() - xu compatible Does not render width when that equals 'auto' 1`] = `"msc{}"`;
-
-exports[`render/text/ast2mscgen #renderAST() - xu compatible Puts entities with mscgen keyword for a name in quotes 1`] = `"msc{"note";}"`;
-
-exports[`render/text/ast2mscgen #renderAST() - xu compatible When presented with an unsupported option, renders the script by simply omitting it 1`] = `
-"msc {
+exports[`astWithAWatermark`] = `msc {
   a;
 
-}"
-`;
+}`;
 
-exports[`render/text/ast2mscgen #renderAST() - xu compatible alt only - render correct script 1`] = `
-"msc {
+exports[`astOneAlt`] = `msc {
   a,
   b,
   c;
@@ -229,5 +205,5 @@ exports[`render/text/ast2mscgen #renderAST() - xu compatible alt only - render c
     b => c;
     c >> b;
 #;
-}"
-`;
+}`;
+module.exports = exports;
