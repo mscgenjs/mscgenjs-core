@@ -1,7 +1,7 @@
 /*
  *
  * tsconfig for the benefit of tslint'ing other stuff than src
- * also ts-jest is using this config
+ * also ts-jest was using this config
  *
  * the 'real' tsconfig (that inherits from this one) resides in src
  *

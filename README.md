@@ -226,7 +226,7 @@ We built mscgen_js on various libraries, each of which have their own
 license:
 
 - We generated its parsers with [peggy][peggy.license].
-- mscgen_js automated tests use [jest](https://facebook.github.io/jest),
+- mscgen_js automated tests use [node:test](https://nodejs.org/api/test.html),
   [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
 
 It uses [tslint][22] and [dependency-cruiser][23] to maintain some
