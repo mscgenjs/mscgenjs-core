@@ -63,8 +63,8 @@ jobs:
         run: |
           node --version
           npm run test:node18
-      - name: report coverage to code climate (runs on one platform only)
-        if: matrix.node-version == '22.x'
-        uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_COVERAGE_ID }}
+      # - name: report coverage to code climate (runs on one platform only)
+      #   if: matrix.node-version == '22.x'
+      #   uses: paambaati/codeclimate-action@v3.0.0
+      #   env:
+      #     CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_COVERAGE_ID }}
