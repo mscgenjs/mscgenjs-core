@@ -20,10 +20,10 @@ program
         declarations.entities = declarations.entities || [];
         parserHelpers.checkForUndeclaredEntities(declarations.entities, declarations.arcs);
 
-        declarations = _assign ({meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)}, declarations);
+        declarations = {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs), ...declarations};
 
         if (pre.length > 0) {
-            declarations = _assign({precomment: pre}, declarations);
+            declarations = {precomment: pre, ...declarations};
         }
 
         return declarations;
@@ -56,7 +56,9 @@ optionlist
               (o:option ";" {return o}))
     {
         // make the option array into an options object
-        return options[0].concat(options[1]).reduce(_assign, {})
+        return options[0]
+            .concat(options[1])
+            .reduce((pAll, pCurrent) => Object.assign(pAll, pCurrent), {});
     }
 
 option "option"
@@ -94,14 +96,14 @@ entitylist
 entity "entity"
     =  _ name:string _ attrList:("[" a:attributelist  "]" {return a})? _
         {
-            return _assign ({name:name}, attrList);
+            return {name:name, ...attrList};
         }
     /  _ name:quotelessidentifier _ attrList:("[" a:attributelist  "]" {return a})? _
         {
           if (parserHelpers.isMscGenKeyword(name)){
             error("MscGen keywords aren't allowed as entity names (embed them in quotes if you need them)");
           }
-          return _assign ({name:name}, attrList);
+          return {name:name, ...attrList};
         }
 
 arclist
@@ -122,7 +124,7 @@ regulararc
     / (a:commentarc {return a}))
     al:("[" al:attributelist "]" {return al})?
     {
-      return _assign (a, al);
+      return {...a, ...al};
     }
 
 singlearc
@@ -144,15 +146,7 @@ dualarc
 spanarc
     = (_ from:identifier _ kind:spanarctoken _ to:identifier _ al:("[" al:attributelist "]" {return al})? _ "{" _ arclist:arclist? _ "}" _
         {
-            return _assign (
-                {
-                    kind     : kind,
-                    from     : from,
-                    to       : to,
-                    arcs     : arclist
-                },
-                al
-            );
+            return {kind: kind, from: from, to: to, arcs: arclist, ...al};
         }
     )
 
@@ -225,7 +219,9 @@ attributelist
     = attributes:((a:attribute "," {return a})* (a:attribute {return a}))
     {
         // transform the array of attributes into an object
-        return attributes[0].concat(attributes[1]).reduce(_assign, {});
+        return attributes[0]
+            .concat(attributes[1])
+            .reduce((pAll, pCurrent) => Object.assign(pAll, pCurrent), {});
     }
 
 attribute 

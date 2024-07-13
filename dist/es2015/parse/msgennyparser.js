@@ -3,11 +3,11 @@
 // https://peggyjs.org/
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {
-    define(["lodash/assign", "./parserHelpers"], factory);
+    define(["./parserHelpers"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory(require("lodash/assign"), require("./parserHelpers"));
+    module.exports = factory(require("./parserHelpers"));
   }
-})(this, function(_assign, parserHelpers) {
+})(this, function(parserHelpers) {
   "use strict";
 
 function peg$subclass(child, parent) {
@@ -356,13 +356,13 @@ function peg$parse(input, options) {
 
   var peg$f0 = function(pre, declarations) {
         declarations.entities = extractUndeclaredEntities(declarations.entities || [], declarations.arcs);
-        declarations = _assign (
-            {meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs)},
-            declarations
-        );
+        declarations = {
+            meta: parserHelpers.getMetaInfo(declarations.options, declarations.arcs),
+            ...declarations
+        };
 
         if (pre.length > 0) {
-            declarations = _assign({precomment: pre}, declarations);
+            declarations = {precomment: pre, ...declarations};
         }
         return declarations;
     };
@@ -383,7 +383,9 @@ function peg$parse(input, options) {
   var peg$f3 = function(o) {return o};
   var peg$f4 = function(options) {
         // make the option array into an options object
-        return options[0].concat(options[1]).reduce(_assign, {});
+        return options[0]
+            .concat(options[1])
+            .reduce((pAll, pCurrent) => Object.assign(pAll, pCurrent), {});
     };
   var peg$f5 = function(name, value) {
             return parserHelpers.nameValue2Option(name, value);
@@ -3041,7 +3043,7 @@ function peg$parse(input, options) {
                 // if the arc kind is arcspanning recurse into its arcs
                 if (pArc.arcs){
                     pEntityNamesToIgnore[pArc.to] = true;
-                    _assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
+                    Object.assign (pEntities, extractUndeclaredEntities (pEntities, pArc.arcs, pEntityNamesToIgnore));
                     delete pEntityNamesToIgnore[pArc.to];
                 }
                 if (entityNeedsExtracting (pEntities, pArc.to, pEntityNamesToIgnore)) {

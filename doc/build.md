@@ -12,7 +12,7 @@ either by running a `make depend` or manually in `dependencies.mk` (for things
 js-makedepend cannot detect like conditional module loading).
 
 ## Cleaning
-- ```make clean``` removes all generated sources (parser, lodash)
+- ```make clean``` removes all generated sources
 
 ## Quality checks
 - ```make test``` or `npm run test`

@@ -1,7 +1,6 @@
 {
   "format": "umd",
   "dependencies": {
-    "_assign": "lodash/assign",
     "parserHelpers": "./parserHelpers"
   }
 }
