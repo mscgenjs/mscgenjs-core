@@ -6,12 +6,12 @@ const DEFAULT_INTER_ENTITY_SPACING = 160; // px
 const DEFAULT_ENTITY_WIDTH = 100; // px
 const DEFAULT_ENTITY_HEIGHT = 34; // px
 export class Thing {
+	interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
+	height = DEFAULT_ENTITY_HEIGHT;
+	width = DEFAULT_ENTITY_WIDTH;
+	entityXHWM = 0;
+	entity2x = {};
 	constructor(pHScale) {
-		this.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
-		this.height = DEFAULT_ENTITY_HEIGHT;
-		this.width = DEFAULT_ENTITY_WIDTH;
-		this.entityXHWM = 0;
-		this.entity2x = {};
 		if (pHScale) {
 			this.interEntitySpacing = pHScale * DEFAULT_INTER_ENTITY_SPACING;
 			this.width = pHScale * DEFAULT_ENTITY_WIDTH;

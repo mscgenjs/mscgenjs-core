@@ -76,8 +76,8 @@ define(function (require) {
 
 ```javascript
 // es2015 modules
-// if you're using webpack or rollup, it'll default to the es2015
-// modules distributed in dist/es2015
+// if you're using webpack or rollup, it'll default to the es'ish
+// modules distributed in dist/es
 import { renderMsc } from "mscgenjs";
 ```
 

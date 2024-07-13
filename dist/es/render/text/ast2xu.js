@@ -1,11 +1,11 @@
 import * as parserHelpers from "../../parse/parserHelpers";
 import * as escape from "../textutensils/escape";
 export class XuAdaptor {
+	indent = "  ";
+	space = " ";
+	eol = "\n";
+	config = {};
 	constructor(pMinimal = false) {
-		this.indent = "  ";
-		this.space = " ";
-		this.eol = "\n";
-		this.config = {};
 		if (true === pMinimal) {
 			this.indent = "";
 			this.space = "";

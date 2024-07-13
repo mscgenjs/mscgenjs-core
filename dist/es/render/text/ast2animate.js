@@ -8,6 +8,13 @@ const EMPTY_AST = {
 	},
 };
 export class FrameFactory {
+	AST;
+	arcs;
+	len;
+	noRows;
+	position;
+	frames;
+	preCalculate;
 	constructor(pAST, pPreCalculate) {
 		this.AST = EMPTY_AST;
 		this.arcs = [[]];

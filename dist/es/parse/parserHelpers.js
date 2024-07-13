@@ -52,6 +52,8 @@ function buildEntityNotDefinedMessage(pEntityName, pArc) {
 	return `Entity '${pEntityName}' in arc '${pArc.from} ${pArc.kind} ${pArc.to}' is not defined.`;
 }
 export class EntityNotDefinedError {
+	name;
+	message;
 	constructor(pEntityName, pArc) {
 		// super();
 		this.name = "EntityNotDefinedError";
