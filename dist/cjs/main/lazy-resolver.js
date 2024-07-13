@@ -1,36 +1,48 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTextRenderer = exports.getGraphicsRenderer = exports.getParser = void 0;
-var memoize_1 = __importDefault(require("lodash/memoize"));
+exports.getParser = getParser;
+exports.getGraphicsRenderer = getGraphicsRenderer;
+exports.getTextRenderer = getTextRenderer;
 var DEFAULT_PARSER = "../parse/mscgenparser";
 var DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
-var gLang2Parser = Object.freeze({
-    mscgen: "../parse/mscgenparser",
-    xu: "../parse/xuparser",
-    msgenny: "../parse/msgennyparser",
-});
-var gLang2TextRenderer = Object.freeze({
-    mscgen: "../render/text/ast2mscgen",
-    msgenny: "../render/text/ast2msgenny",
-    xu: "../render/text/ast2xu",
-    dot: "../render/text/ast2dot",
-    doxygen: "../render/text/ast2doxygen",
-});
-exports.getParser = (0, memoize_1.default)(function (pLanguage) {
+var gLang2Parser = new Map([
+    ["mscgen", "../parse/mscgenparser"],
+    ["xu", "../parse/xuparser"],
+    ["msgenny", "../parse/msgennyparser"],
+]);
+var gLang2TextRenderer = new Map([
+    ["mscgen", "../render/text/ast2mscgen"],
+    ["msgenny", "../render/text/ast2msgenny"],
+    ["xu", "../render/text/ast2xu"],
+    ["dot", "../render/text/ast2dot"],
+    ["doxygen", "../render/text/ast2doxygen"],
+]);
+var parserMap = new Map();
+function getParser(pLanguage) {
     if (["ast", "json"].indexOf(pLanguage) > -1) {
         return JSON;
     }
-    return require(gLang2Parser[pLanguage] || DEFAULT_PARSER);
-});
-exports.getGraphicsRenderer = (0, memoize_1.default)(function () {
-    return require("../render/graphics/renderast");
-});
-exports.getTextRenderer = (0, memoize_1.default)(function (pLanguage) {
-    return require(gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER);
-});
+    if (!parserMap.has(pLanguage)) {
+        parserMap.set(pLanguage, require(gLang2Parser.get(pLanguage) || DEFAULT_PARSER));
+    }
+    return parserMap.get(pLanguage);
+}
+;
+var graphicsRenderer = null;
+function getGraphicsRenderer() {
+    if (!graphicsRenderer) {
+        graphicsRenderer = require("../render/graphics/renderast");
+    }
+    return graphicsRenderer;
+}
+var textRendererMap = new Map();
+function getTextRenderer(pLanguage) {
+    if (!textRendererMap.has(pLanguage)) {
+        textRendererMap.set(pLanguage, require(gLang2TextRenderer.get(pLanguage) || DEFAULT_TEXT_RENDERER));
+    }
+    return textRendererMap.get(pLanguage);
+}
+;
 /*
  This file is part of mscgen_js.
 
