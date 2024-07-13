@@ -34,14 +34,14 @@ import * as resolver from "./main/static-resolver";
 export function renderMsc(
   pScript: string,
   pOptions: IRenderOptions,
-  pCallBack: (pError: Error | null, pResult?: string | null) => void
+  pCallBack: (pError: Error | null, pResult?: string | null) => void,
 ): void {
   main.renderMsc(
     pScript,
     pOptions || {},
     pCallBack,
     resolver.getParser,
-    resolver.getGraphicsRenderer
+    resolver.getGraphicsRenderer,
   );
 }
 
@@ -62,13 +62,13 @@ export function renderMsc(
  */
 export function translateMsc(
   pScript: string,
-  pOptions?: ITranslateOptions
+  pOptions?: ITranslateOptions,
 ): string {
   return main.translateMsc(
     pScript,
     pOptions || {},
     resolver.getParser,
-    resolver.getTextRenderer
+    resolver.getTextRenderer,
   );
 }
 

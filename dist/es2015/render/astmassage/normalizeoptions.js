@@ -1,8 +1,12 @@
-export default (pOptions) => Object.assign({
-    wordwraparcs: false,
-    wordwrapentities: true,
-    wordwrapboxes: true,
-}, pOptions || {});
+export default (pOptions) =>
+	Object.assign(
+		{
+			wordwraparcs: false,
+			wordwrapentities: true,
+			wordwrapboxes: true,
+		},
+		pOptions || {},
+	);
 /*
  This file is part of mscgen_js.
 

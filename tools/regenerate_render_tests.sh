@@ -1,10 +1,10 @@
 #!/bin/sh
-AST2SVG=./utl/ast2svg_source
-AST2SVG_NOSOURCE=./utl/ast2svg_nosource
-AST2SVG_MIRROR=./utl/ast2svg_nosource_mirrored_entities
-AST2SVG_STYLIO=./utl/ast2svg_nosource_style_addition
-AST2SVG_STYLION=./utl/ast2svg_nosource_style_addition_named
-AST2SVG_WOBBLY=./utl/ast2svg_wobbly
+AST2SVG=./tools/ast2svg_source
+AST2SVG_NOSOURCE=./tools/ast2svg_nosource
+AST2SVG_MIRROR=./tools/ast2svg_nosource_mirrored_entities
+AST2SVG_STYLIO=./tools/ast2svg_nosource_style_addition
+AST2SVG_STYLION=./tools/ast2svg_nosource_style_addition_named
+AST2SVG_WOBBLY=./tools/ast2svg_wobbly
 FIXTURE_DIR=./test/fixtures
 $AST2SVG < $FIXTURE_DIR/test01_all_possible_arcs.json > $FIXTURE_DIR/test01_all_possible_arcs.svg
 $AST2SVG < $FIXTURE_DIR/astsimple.json > $FIXTURE_DIR/astsimple.svg

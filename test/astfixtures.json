@@ -1789,14 +1789,14 @@
     "entities": []
   },
   "unicodeentityname": {
-      "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
-      },
-      "entities": [
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
+    },
+    "entities": [
       {
-          "name": "序"
+        "name": "序"
       }
     ]
   },
@@ -1814,103 +1814,103 @@
   },
   "emptyinlineexpression": {
     "meta": {
-            "extendedOptions": false,
-            "extendedArcTypes": true,
-            "extendedFeatures": true
+      "extendedOptions": false,
+      "extendedArcTypes": true,
+      "extendedFeatures": true
     },
     "entities": [
       {
-            "name": "a"
+        "name": "a"
       },
       {
-            "name": "b"
+        "name": "b"
       }
     ],
     "arcs": [
-        [
-            {
-                "kind": "opt",
-                "from": "a",
-                "to": "b",
-                "arcs": null
-            }
-        ]
+      [
+        {
+          "kind": "opt",
+          "from": "a",
+          "to": "b",
+          "arcs": null
+        }
       ]
+    ]
+  },
+  "astTitleOnArc": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
     },
-    "astTitleOnArc": {
-       "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
-        },
-        "entities": [
-          {
-            "name": "a"
-          },
-          {
-            "name": "b"
-          }
-        ],
-        "arcs": [
-          [
-            {
-              "kind": "=>",
-              "from": "a",
-              "to": "b",
-              "label": "the label",
-              "title": "The title meister strikes again"
-            }
-          ]
-        ]
+    "entities": [
+      {
+        "name": "a"
+      },
+      {
+        "name": "b"
+      }
+    ],
+    "arcs": [
+      [
+        {
+          "kind": "=>",
+          "from": "a",
+          "to": "b",
+          "label": "the label",
+          "title": "The title meister strikes again"
+        }
+      ]
+    ]
+  },
+  "astActivate": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
     },
-    "astActivate": {
-       "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
-        },
-        "entities": [
-          {
-            "name": "a"
-          },
-          {
-            "name": "b"
-          }
-        ],
-        "arcs": [
-          [
-            {
-              "kind": "=>",
-              "from": "a",
-              "to": "b",
-              "activation": true
-            }
-          ]
-        ]
+    "entities": [
+      {
+        "name": "a"
+      },
+      {
+        "name": "b"
+      }
+    ],
+    "arcs": [
+      [
+        {
+          "kind": "=>",
+          "from": "a",
+          "to": "b",
+          "activation": true
+        }
+      ]
+    ]
+  },
+  "astDeActivate": {
+    "meta": {
+      "extendedOptions": false,
+      "extendedArcTypes": false,
+      "extendedFeatures": false
     },
-    "astDeActivate": {
-       "meta": {
-          "extendedOptions": false,
-          "extendedArcTypes": false,
-          "extendedFeatures": false
-        },
-        "entities": [
-          {
-            "name": "a"
-          },
-          {
-            "name": "b"
-          }
-        ],
-        "arcs": [
-          [
-            {
-              "kind": "=>",
-              "from": "a",
-              "to": "b",
-              "activation": false
-            }
-          ]
-        ]
-    }
+    "entities": [
+      {
+        "name": "a"
+      },
+      {
+        "name": "b"
+      }
+    ],
+    "arcs": [
+      [
+        {
+          "kind": "=>",
+          "from": "a",
+          "to": "b",
+          "activation": false
+        }
+      ]
+    ]
+  }
 }

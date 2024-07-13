@@ -13,15 +13,15 @@ export function points2CurveString(pCurveSections: ICurveSection[]): string {
         `${svgprimitives.pathPoint2String(
           "S",
           pCurveSection.controlX,
-          pCurveSection.controlY
-        )} ` + `${svgprimitives.point2String(pCurveSection as IPoint)}`
+          pCurveSection.controlY,
+        )} ` + `${svgprimitives.point2String(pCurveSection as IPoint)}`,
     )
     .join(" ");
 }
 
 export function line2CurveString(pLine: ILine): string {
   return points2CurveString(
-    getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR)
+    getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR),
   );
 }
 
@@ -89,7 +89,7 @@ const PRECISION = 2;
 export function getBetweenPoints(
   pLine: ILine,
   pInterval: number,
-  pWobble: number
+  pWobble: number,
 ): ICurveSection[] {
   pInterval = normalizeInterval(pInterval, pLine);
 
@@ -104,7 +104,7 @@ export function getBetweenPoints(
       ? pInterval
       : Math.sqrt(
           (Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) /
-            (1 + Math.pow(lDir.dy, 2))
+            (1 + Math.pow(lDir.dy, 2)),
         ));
   let lCurveSection: ICurveSection;
 
@@ -112,11 +112,11 @@ export function getBetweenPoints(
     lCurveSection = {
       controlX: round(
         pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble),
-        PRECISION
+        PRECISION,
       ),
       controlY: round(
         pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble),
-        PRECISION
+        PRECISION,
       ),
       x: round(pLine.xFrom + i * lIntervalX, PRECISION),
       y: round(pLine.yFrom + i * lIntervalY, PRECISION),

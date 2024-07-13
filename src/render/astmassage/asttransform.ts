@@ -4,12 +4,12 @@ type EntityTransformFunctionType = (pEntity: IEntity) => void;
 type ArcTransformFunctionType = (
   pArc: IArc,
   pEntities?: IEntity[],
-  pArcRow?: IArc[]
+  pArcRow?: IArc[],
 ) => void;
 
 function transformEntities(
   pEntities: IEntity[],
-  pFunctionAry: EntityTransformFunctionType[]
+  pFunctionAry: EntityTransformFunctionType[],
 ) {
   pEntities.forEach((pEntity) => {
     pFunctionAry.forEach((pFunction) => {
@@ -22,7 +22,7 @@ function transformArc(
   pEntities: IEntity[],
   pArcRow: IArc[],
   pArc: IArc,
-  pFunctionAry: ArcTransformFunctionType[]
+  pFunctionAry: ArcTransformFunctionType[],
 ) {
   pFunctionAry.forEach((pFunction) => {
     pFunction(pArc, pEntities, pArcRow);
@@ -32,7 +32,7 @@ function transformArc(
 function transformArcRow(
   pEntities: IEntity[],
   pArcRow: IArc[],
-  pFunctionAry: ArcTransformFunctionType[]
+  pFunctionAry: ArcTransformFunctionType[],
 ) {
   pArcRow.forEach((pArc) => {
     transformArc(pEntities, pArcRow, pArc, pFunctionAry);
@@ -45,7 +45,7 @@ function transformArcRow(
 function transformArcRows(
   pEntities: IEntity[],
   pArcRows: IArc[][],
-  pFunctionAry: ArcTransformFunctionType[]
+  pFunctionAry: ArcTransformFunctionType[],
 ) {
   pArcRows.forEach((pArcRow) => {
     transformArcRow(pEntities, pArcRow, pFunctionAry);
@@ -67,7 +67,7 @@ function transformArcRows(
 export default (
   pAST: ISequenceChart,
   pEntityTransforms: EntityTransformFunctionType[],
-  pArcRowTransforms: ArcTransformFunctionType[]
+  pArcRowTransforms: ArcTransformFunctionType[],
 ): any => {
   transformEntities(pAST.entities, pEntityTransforms);
   if (pAST.arcs) {

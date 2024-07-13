@@ -1,5 +1,5 @@
 function rad2deg(pDegrees) {
-    return (pDegrees * 360) / (2 * Math.PI);
+  return (pDegrees * 360) / (2 * Math.PI);
 }
 
 /**
@@ -10,7 +10,7 @@ function rad2deg(pDegrees) {
  * @returns {number} - the angle in degrees
  */
 export default (pBBox) => {
-    return (0 - rad2deg(Math.atan(pBBox.height / pBBox.width)));
+  return 0 - rad2deg(Math.atan(pBBox.height / pBBox.width));
 };
 
 /*

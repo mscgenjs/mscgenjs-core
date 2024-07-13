@@ -7,7 +7,7 @@ export default (pOptions?: IOptions): IOptionsNormalized =>
       wordwrapentities: true,
       wordwrapboxes: true,
     },
-    pOptions || {}
+    pOptions || {},
   );
 /*
  This file is part of mscgen_js.

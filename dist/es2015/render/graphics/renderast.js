@@ -1,5 +1,5 @@
 import aggregatekind from "../astmassage/aggregatekind";
-import { flatten, } from "../astmassage/flatten";
+import { flatten } from "../astmassage/flatten";
 import constants from "./constants";
 import { Thing } from "./entities";
 import * as idmanager from "./idmanager";
@@ -21,79 +21,87 @@ const DEFAULT_ARC_GRADIENT = 0; // chart only
 //#region global variables
 /* sensible default - get overwritten in bootstrap */
 const gChart = Object.seal({
-    arcRowHeight: DEFAULT_ARCROW_HEIGHT,
-    arcGradient: DEFAULT_ARC_GRADIENT,
-    arcEndX: 0,
-    wordWrapArcs: false,
-    mirrorEntitiesOnBottom: false,
-    regularArcTextVerticalAlignment: "middle",
-    maxDepth: 0,
-    document: {},
-    layers: {
-        lifeline: {},
-        sequence: {},
-        notes: {},
-        inline: {},
-        watermark: {},
-    },
+	arcRowHeight: DEFAULT_ARCROW_HEIGHT,
+	arcGradient: DEFAULT_ARC_GRADIENT,
+	arcEndX: 0,
+	wordWrapArcs: false,
+	mirrorEntitiesOnBottom: false,
+	regularArcTextVerticalAlignment: "middle",
+	maxDepth: 0,
+	document: {},
+	layers: {
+		lifeline: {},
+		sequence: {},
+		notes: {},
+		inline: {},
+		watermark: {},
+	},
 });
 let gInlineExpressionMemory = [];
 //#endregion
 function getParentElement(pWindow, pParentElementId) {
-    return (pWindow.document.getElementById(pParentElementId) || pWindow.document.body);
+	return (
+		pWindow.document.getElementById(pParentElementId) || pWindow.document.body
+	);
 }
 //#region render level 0 & 1
 function renderASTPre(pAST, pWindow, pParentElement, pOptions) {
-    gChart.document = renderskeleton.bootstrap(pWindow, pParentElement, idmanager.get(), markermanager.getMarkerDefs(idmanager.get(), pAST), pOptions);
-    gChart.mirrorEntitiesOnBottom = pOptions.mirrorEntitiesOnBottom;
-    gChart.regularArcTextVerticalAlignment =
-        pOptions.regularArcTextVerticalAlignment;
-    svgutensils.init(gChart.document);
-    gChart.layers = createLayerShortcuts(gChart.document);
-    gChart.maxDepth = pAST.depth;
-    preProcessOptions(gChart, pAST.options);
+	gChart.document = renderskeleton.bootstrap(
+		pWindow,
+		pParentElement,
+		idmanager.get(),
+		markermanager.getMarkerDefs(idmanager.get(), pAST),
+		pOptions,
+	);
+	gChart.mirrorEntitiesOnBottom = pOptions.mirrorEntitiesOnBottom;
+	gChart.regularArcTextVerticalAlignment =
+		pOptions.regularArcTextVerticalAlignment;
+	svgutensils.init(gChart.document);
+	gChart.layers = createLayerShortcuts(gChart.document);
+	gChart.maxDepth = pAST.depth;
+	preProcessOptions(gChart, pAST.options);
 }
 function renderASTMain(pAST) {
-    renderEntities(pAST.entities, 0, pAST.options);
-    rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
-    renderArcRows(pAST.arcs, pAST.entities, pAST.options);
-    if (gChart.mirrorEntitiesOnBottom) {
-        renderEntitiesOnBottom(pAST.entities, pAST.options);
-    }
+	renderEntities(pAST.entities, 0, pAST.options);
+	rowmemory.clear(entities.getDims().height, gChart.arcRowHeight);
+	renderArcRows(pAST.arcs, pAST.entities, pAST.options);
+	if (gChart.mirrorEntitiesOnBottom) {
+		renderEntitiesOnBottom(pAST.entities, pAST.options);
+	}
 }
 function renderASTPost(pAST) {
-    let lCanvas = calculateCanvasDimensions(pAST);
-    /* canvg ignores the background-color on svg level and makes the background
-     * transparent in stead. To work around this insert a white rectangle the size
-     * of the canvas in the background layer.
-     *
-     * We do this _before_ scaling is applied to the svg
-     */
-    renderBackground(lCanvas);
-    lCanvas = postProcessOptions(pAST.options, lCanvas);
-    renderSvgElement(lCanvas);
+	let lCanvas = calculateCanvasDimensions(pAST);
+	/* canvg ignores the background-color on svg level and makes the background
+	 * transparent in stead. To work around this insert a white rectangle the size
+	 * of the canvas in the background layer.
+	 *
+	 * We do this _before_ scaling is applied to the svg
+	 */
+	renderBackground(lCanvas);
+	lCanvas = postProcessOptions(pAST.options, lCanvas);
+	renderSvgElement(lCanvas);
 }
 //#endregion
 function createLayerShortcuts(pDocument) {
-    return {
-        lifeline: pDocument.getElementById(idmanager.get("_lifelines")),
-        sequence: pDocument.getElementById(idmanager.get("_sequence")),
-        notes: pDocument.getElementById(idmanager.get("_notes")),
-        inline: pDocument.getElementById(idmanager.get("_arcspans")),
-        watermark: pDocument.getElementById(idmanager.get("_watermark")),
-    };
+	return {
+		lifeline: pDocument.getElementById(idmanager.get("_lifelines")),
+		sequence: pDocument.getElementById(idmanager.get("_sequence")),
+		notes: pDocument.getElementById(idmanager.get("_notes")),
+		inline: pDocument.getElementById(idmanager.get("_arcspans")),
+		watermark: pDocument.getElementById(idmanager.get("_watermark")),
+	};
 }
 function preProcessOptionsArcs(pChart, pOptions) {
-    pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
-    pChart.arcGradient = DEFAULT_ARC_GRADIENT;
-    pChart.wordWrapArcs = false;
-    if (pOptions.arcgradient) {
-        pChart.arcRowHeight =
-            parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
-        pChart.arcGradient =
-            parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
-    }
-    pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
+	pChart.arcRowHeight = DEFAULT_ARCROW_HEIGHT;
+	pChart.arcGradient = DEFAULT_ARC_GRADIENT;
+	pChart.wordWrapArcs = false;
+	if (pOptions.arcgradient) {
+		pChart.arcRowHeight =
+			parseInt(pOptions.arcgradient, 10) + DEFAULT_ARCROW_HEIGHT;
+		pChart.arcGradient =
+			parseInt(pOptions.arcgradient, 10) + DEFAULT_ARC_GRADIENT;
+	}
+	pChart.wordWrapArcs = Boolean(pOptions.wordwraparcs);
 }
 /**
  * preProcessOptions() -
@@ -110,85 +118,105 @@ function preProcessOptionsArcs(pChart, pOptions) {
  * @param <object> - pOptions - the option part of the AST
  */
 function preProcessOptions(pChart, pOptions) {
-    entities = new Thing(pOptions && pOptions.hscale);
-    preProcessOptionsArcs(pChart, pOptions);
+	entities = new Thing(pOptions && pOptions.hscale);
+	preProcessOptionsArcs(pChart, pOptions);
 }
 function calculateCanvasDimensions(pAST) {
-    const lDepthCorrection = renderutensils.determineDepthCorrection(pAST.depth, constants.LINE_WIDTH);
-    const lRowInfo = rowmemory.getLast();
-    const lCanvas = {
-        width: pAST.entities.length * entities.getDims().interEntitySpacing +
-            lDepthCorrection,
-        height: Boolean(gChart.mirrorEntitiesOnBottom)
-            ? 2 * entities.getDims().height +
-                lRowInfo.y +
-                lRowInfo.height +
-                2 * PAD_VERTICAL
-            : lRowInfo.y + lRowInfo.height / 2 + 2 * PAD_VERTICAL,
-        horizontaltransform: (entities.getDims().interEntitySpacing +
-            lDepthCorrection -
-            entities.getDims().width) /
-            2,
-        autoscale: !!pAST.options && !!pAST.options.width && pAST.options.width === "auto",
-        verticaltransform: PAD_VERTICAL,
-        scale: 1,
-    };
-    lCanvas.x = 0 - lCanvas.horizontaltransform;
-    lCanvas.y = 0 - lCanvas.verticaltransform;
-    return lCanvas;
+	const lDepthCorrection = renderutensils.determineDepthCorrection(
+		pAST.depth,
+		constants.LINE_WIDTH,
+	);
+	const lRowInfo = rowmemory.getLast();
+	const lCanvas = {
+		width:
+			pAST.entities.length * entities.getDims().interEntitySpacing +
+			lDepthCorrection,
+		height: Boolean(gChart.mirrorEntitiesOnBottom)
+			? 2 * entities.getDims().height +
+				lRowInfo.y +
+				lRowInfo.height +
+				2 * PAD_VERTICAL
+			: lRowInfo.y + lRowInfo.height / 2 + 2 * PAD_VERTICAL,
+		horizontaltransform:
+			(entities.getDims().interEntitySpacing +
+				lDepthCorrection -
+				entities.getDims().width) /
+			2,
+		autoscale:
+			!!pAST.options && !!pAST.options.width && pAST.options.width === "auto",
+		verticaltransform: PAD_VERTICAL,
+		scale: 1,
+	};
+	lCanvas.x = 0 - lCanvas.horizontaltransform;
+	lCanvas.y = 0 - lCanvas.verticaltransform;
+	return lCanvas;
 }
 function renderBackground(pCanvas) {
-    const lBackground = gChart.document.getElementById(idmanager.get("_background"));
-    if (lBackground) {
-        lBackground.appendChild(svgelementfactory.createRect(pCanvas, { class: "bglayer" }));
-    }
+	const lBackground = gChart.document.getElementById(
+		idmanager.get("_background"),
+	);
+	if (lBackground) {
+		lBackground.appendChild(
+			svgelementfactory.createRect(pCanvas, { class: "bglayer" }),
+		);
+	}
 }
 function renderWatermark(pWatermark, pCanvas) {
-    gChart.layers.watermark.appendChild(svgelementfactory.createDiagonalText(pWatermark, pCanvas, "watermark"));
+	gChart.layers.watermark.appendChild(
+		svgelementfactory.createDiagonalText(pWatermark, pCanvas, "watermark"),
+	);
 }
 function postProcessOptions(pOptions, pCanvas) {
-    if (pOptions.watermark) {
-        renderWatermark(pOptions.watermark, pCanvas);
-    }
-    if (pOptions.width && pOptions.width !== "auto") {
-        pCanvas = renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
-    }
-    return pCanvas;
+	if (pOptions.watermark) {
+		renderWatermark(pOptions.watermark, pCanvas);
+	}
+	if (pOptions.width && pOptions.width !== "auto") {
+		pCanvas = renderutensils.scaleCanvasToWidth(pOptions.width, pCanvas);
+	}
+	return pCanvas;
 }
 function renderSvgElement(pCanvas) {
-    const lSvgElement = gChart.document.getElementById(idmanager.get());
-    const lBody = gChart.document.getElementById(idmanager.get("_body"));
-    if (lBody && lSvgElement) {
-        lBody.setAttribute("transform", `translate(${pCanvas.horizontaltransform},${pCanvas.verticaltransform}) ` +
-            `scale(${pCanvas.scale},${pCanvas.scale})`);
-        if (!!pCanvas.autoscale && pCanvas.autoscale === true) {
-            svgelementfactory.updateSVG(lSvgElement, {
-                width: "100%",
-                height: "100%",
-                viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
-            });
-        }
-        else {
-            svgelementfactory.updateSVG(lSvgElement, {
-                width: pCanvas.width.toString(),
-                height: pCanvas.height.toString(),
-                viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
-            });
-        }
-    }
+	const lSvgElement = gChart.document.getElementById(idmanager.get());
+	const lBody = gChart.document.getElementById(idmanager.get("_body"));
+	if (lBody && lSvgElement) {
+		lBody.setAttribute(
+			"transform",
+			`translate(${pCanvas.horizontaltransform},${pCanvas.verticaltransform}) ` +
+				`scale(${pCanvas.scale},${pCanvas.scale})`,
+		);
+		if (!!pCanvas.autoscale && pCanvas.autoscale === true) {
+			svgelementfactory.updateSVG(lSvgElement, {
+				width: "100%",
+				height: "100%",
+				viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
+			});
+		} else {
+			svgelementfactory.updateSVG(lSvgElement, {
+				width: pCanvas.width.toString(),
+				height: pCanvas.height.toString(),
+				viewBox: `0 0 ${pCanvas.width.toString()} ${pCanvas.height.toString()}`,
+			});
+		}
+	}
 }
 //#region entities
 function renderEntitiesOnBottom(pEntities, pOptions) {
-    const lLifeLineSpacerY = rowmemory.getLast().y +
-        (rowmemory.getLast().height + gChart.arcRowHeight) / 2;
-    /*
+	const lLifeLineSpacerY =
+		rowmemory.getLast().y +
+		(rowmemory.getLast().height + gChart.arcRowHeight) / 2;
+	/*
           insert a life line between the last arc and the entities so there's
           some visual breathing room
           */
-    createLifeLines(pEntities, "arcrow", gChart.arcRowHeight, lLifeLineSpacerY).forEach((pLifeLine) => {
-        gChart.layers.lifeline.appendChild(pLifeLine);
-    });
-    /*
+	createLifeLines(
+		pEntities,
+		"arcrow",
+		gChart.arcRowHeight,
+		lLifeLineSpacerY,
+	).forEach((pLifeLine) => {
+		gChart.layers.lifeline.appendChild(pLifeLine);
+	});
+	/*
           We used to have a simple 'use' element here that refered to the
           entities on top. It's cheaper and faster, however in Firefox
           56.0b6 (developer edition) they rendered with the wrong font
@@ -199,7 +227,11 @@ function renderEntitiesOnBottom(pEntities, pOptions) {
           `use` s that seem to be hard to implement well for svg render engine
           builders (ref the links in uses that didn't work in some browsers).
           */
-    renderEntities(pEntities, lLifeLineSpacerY + gChart.arcRowHeight / 2, pOptions);
+	renderEntities(
+		pEntities,
+		lLifeLineSpacerY + gChart.arcRowHeight / 2,
+		pOptions,
+	);
 }
 /**
  * renderEntities() - renders the given pEntities (subtree of the AST) into
@@ -211,152 +243,207 @@ function renderEntitiesOnBottom(pEntities, pOptions) {
  *
  */
 function renderEntities(pEntities, pEntityYPos, pOptions) {
-    gChart.layers.sequence.appendChild(entities.renderEntities(pEntities, pEntityYPos, pOptions));
-    gChart.arcEndX =
-        entities.getDims().entityXHWM -
-            entities.getDims().interEntitySpacing +
-            entities.getDims().width;
+	gChart.layers.sequence.appendChild(
+		entities.renderEntities(pEntities, pEntityYPos, pOptions),
+	);
+	gChart.arcEndX =
+		entities.getDims().entityXHWM -
+		entities.getDims().interEntitySpacing +
+		entities.getDims().width;
 }
 //#endregion
 function renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
-    let xTo = 0;
-    const lLabel = pArc.label;
-    const xFrom = entities.getX(pArc.from);
-    pArc.label = "";
-    pEntities.forEach((pEntity) => {
-        let lElement = {};
-        if (pEntity.name !== pArc.from) {
-            xTo = entities.getX(pEntity.name);
-            lElement = createArc(pArc, xFrom, xTo, pRowNumber, pOptions);
-            pRowMemory.push({
-                layer: gChart.layers.sequence,
-                element: lElement,
-            });
-        }
-    });
-    pArc.label = lLabel;
+	let xTo = 0;
+	const lLabel = pArc.label;
+	const xFrom = entities.getX(pArc.from);
+	pArc.label = "";
+	pEntities.forEach((pEntity) => {
+		let lElement = {};
+		if (pEntity.name !== pArc.from) {
+			xTo = entities.getX(pEntity.name);
+			lElement = createArc(pArc, xFrom, xTo, pRowNumber, pOptions);
+			pRowMemory.push({
+				layer: gChart.layers.sequence,
+				element: lElement,
+			});
+		}
+	});
+	pArc.label = lLabel;
 }
 function renderRegularArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions) {
-    let lElement = svgelementfactory.createGroup();
-    if (pArc.from && pArc.to) {
-        if (pArc.to === "*") {
-            // it's a broadcast arc
-            renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions);
-            /* creates a label on the current line, smack in the middle */
-            lElement = renderlabels.createLabel(pArc, {
-                x: 0,
-                y: rowmemory.get(pRowNumber).y,
-                width: gChart.arcEndX,
-            }, Object.assign({
-                alignAround: true,
-                ownBackground: true,
-            }, structuredClone(pOptions)));
-            pRowMemory.push({
-                title: pArc.title,
-                layer: gChart.layers.sequence,
-                element: lElement,
-            });
-        }
-        else {
-            // it's a regular arc
-            lElement = createArc(pArc, entities.getX(pArc.from), entities.getX(pArc.to), pRowNumber, pOptions);
-            pRowMemory.push({
-                title: pArc.title,
-                layer: gChart.layers.sequence,
-                element: lElement,
-            });
-        } // / lTo or pArc.from === "*"
-    } // if both a from and a to
-    return lElement;
+	let lElement = svgelementfactory.createGroup();
+	if (pArc.from && pArc.to) {
+		if (pArc.to === "*") {
+			// it's a broadcast arc
+			renderBroadcastArc(pArc, pEntities, pRowMemory, pRowNumber, pOptions);
+			/* creates a label on the current line, smack in the middle */
+			lElement = renderlabels.createLabel(
+				pArc,
+				{
+					x: 0,
+					y: rowmemory.get(pRowNumber).y,
+					width: gChart.arcEndX,
+				},
+				Object.assign(
+					{
+						alignAround: true,
+						ownBackground: true,
+					},
+					structuredClone(pOptions),
+				),
+			);
+			pRowMemory.push({
+				title: pArc.title,
+				layer: gChart.layers.sequence,
+				element: lElement,
+			});
+		} else {
+			// it's a regular arc
+			lElement = createArc(
+				pArc,
+				entities.getX(pArc.from),
+				entities.getX(pArc.to),
+				pRowNumber,
+				pOptions,
+			);
+			pRowMemory.push({
+				title: pArc.title,
+				layer: gChart.layers.sequence,
+				element: lElement,
+			});
+		} // / lTo or pArc.from === "*"
+	} // if both a from and a to
+	return lElement;
 }
 function getArcRowHeight(pArcRow, pEntities, pOptions) {
-    let lRetval = 0;
-    pArcRow.forEach((pArc) => {
-        let lElement;
-        switch (aggregatekind(pArc.kind)) {
-            case "empty":
-                lElement = renderEmptyArc(pArc, 0);
-                break;
-            case "box":
-                lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, 0, pOptions);
-                break;
-            case "inline_expression":
-                lElement = renderInlineExpressionLabel(pArc, 0);
-                break;
-            default: /* ignore arc skips when calculating row heights */
-                const lArc = structuredClone(pArc);
-                lArc.arcskip = 0;
-                lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
-        } // switch
-        lRetval = Math.max(lRetval, svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH);
-    }); // for all arcs in a row
-    return lRetval;
+	let lRetval = 0;
+	pArcRow.forEach((pArc) => {
+		let lElement;
+		switch (aggregatekind(pArc.kind)) {
+			case "empty":
+				lElement = renderEmptyArc(pArc, 0);
+				break;
+			case "box":
+				lElement = createBox(
+					entities.getOAndD(pArc.from, pArc.to),
+					pArc,
+					0,
+					pOptions,
+				);
+				break;
+			case "inline_expression":
+				lElement = renderInlineExpressionLabel(pArc, 0);
+				break;
+			default: /* ignore arc skips when calculating row heights */
+				const lArc = structuredClone(pArc);
+				lArc.arcskip = 0;
+				lElement = renderRegularArc(lArc, pEntities, [], 0, pOptions); // TODO is 0 a good row number for this?
+		} // switch
+		lRetval = Math.max(
+			lRetval,
+			svgutensils.getBBox(lElement).height + 2 * constants.LINE_WIDTH,
+		);
+	}); // for all arcs in a row
+	return lRetval;
 }
 function renderArcRow(pArcRow, pRowNumber, pEntities, pOptions) {
-    let lArcRowClass = "arcrow";
-    const lRowMemory = [];
-    pArcRow.forEach((pArc) => {
-        let lElement = {};
-        switch (aggregatekind(pArc.kind)) {
-            case "empty":
-                lElement = renderEmptyArc(pArc, rowmemory.get(pRowNumber).y);
-                if ("..." === pArc.kind) {
-                    lArcRowClass = "arcrowomit";
-                }
-                lRowMemory.push({
-                    layer: gChart.layers.sequence,
-                    element: lElement,
-                });
-                break;
-            case "box":
-                lElement = createBox(entities.getOAndD(pArc.from, pArc.to), pArc, rowmemory.get(pRowNumber).y, pOptions);
-                lRowMemory.push({
-                    title: pArc.title,
-                    layer: gChart.layers.notes,
-                    element: lElement,
-                });
-                break;
-            case "inline_expression":
-                lElement = renderInlineExpressionLabel(pArc, rowmemory.get(pRowNumber).y);
-                lRowMemory.push({
-                    layer: gChart.layers.notes,
-                    element: lElement,
-                });
-                gInlineExpressionMemory.push({
-                    arc: pArc,
-                    rownum: pRowNumber,
-                });
-                break;
-            default:
-                lElement = renderRegularArc(pArc, pEntities, lRowMemory, pRowNumber, pOptions);
-        } // switch
-    }); // for all arcs in a row
-    /*
-     *  only here we can determine the height of the row and the y position
-     */
-    createLifeLines(pEntities, lArcRowClass, rowmemory.get(pRowNumber).height, rowmemory.get(pRowNumber).y).forEach((pLifeLine) => {
-        gChart.layers.lifeline.appendChild(pLifeLine);
-    });
-    lRowMemory.forEach((pRowMemoryLine) => {
-        if (pRowMemoryLine.element) {
-            if (pRowMemoryLine.title) {
-                pRowMemoryLine.element.appendChild(svgelementfactory.createTitle(pRowMemoryLine.title));
-            }
-            pRowMemoryLine.layer.appendChild(pRowMemoryLine.element);
-        }
-    });
+	let lArcRowClass = "arcrow";
+	const lRowMemory = [];
+	pArcRow.forEach((pArc) => {
+		let lElement = {};
+		switch (aggregatekind(pArc.kind)) {
+			case "empty":
+				lElement = renderEmptyArc(pArc, rowmemory.get(pRowNumber).y);
+				if ("..." === pArc.kind) {
+					lArcRowClass = "arcrowomit";
+				}
+				lRowMemory.push({
+					layer: gChart.layers.sequence,
+					element: lElement,
+				});
+				break;
+			case "box":
+				lElement = createBox(
+					entities.getOAndD(pArc.from, pArc.to),
+					pArc,
+					rowmemory.get(pRowNumber).y,
+					pOptions,
+				);
+				lRowMemory.push({
+					title: pArc.title,
+					layer: gChart.layers.notes,
+					element: lElement,
+				});
+				break;
+			case "inline_expression":
+				lElement = renderInlineExpressionLabel(
+					pArc,
+					rowmemory.get(pRowNumber).y,
+				);
+				lRowMemory.push({
+					layer: gChart.layers.notes,
+					element: lElement,
+				});
+				gInlineExpressionMemory.push({
+					arc: pArc,
+					rownum: pRowNumber,
+				});
+				break;
+			default:
+				lElement = renderRegularArc(
+					pArc,
+					pEntities,
+					lRowMemory,
+					pRowNumber,
+					pOptions,
+				);
+		} // switch
+	}); // for all arcs in a row
+	/*
+	 *  only here we can determine the height of the row and the y position
+	 */
+	createLifeLines(
+		pEntities,
+		lArcRowClass,
+		rowmemory.get(pRowNumber).height,
+		rowmemory.get(pRowNumber).y,
+	).forEach((pLifeLine) => {
+		gChart.layers.lifeline.appendChild(pLifeLine);
+	});
+	lRowMemory.forEach((pRowMemoryLine) => {
+		if (pRowMemoryLine.element) {
+			if (pRowMemoryLine.title) {
+				pRowMemoryLine.element.appendChild(
+					svgelementfactory.createTitle(pRowMemoryLine.title),
+				);
+			}
+			pRowMemoryLine.layer.appendChild(pRowMemoryLine.element);
+		}
+	});
 }
 function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
-    let lRealRowNumber = 0;
-    pArcRows.forEach((pArcRow, pRowNumber) => {
-        if (pArcRow.every((pArc) => pArc.isVirtual)) {
-            rowmemory.set(pRowNumber, Math.max(rowmemory.get(pRowNumber).height, getArcRowHeight(pArcRow, pEntities, pOptions)));
-        }
-        else {
-            rowmemory.set(pRowNumber, Math.max(rowmemory.get(pRowNumber).height, getArcRowHeight(pArcRow, pEntities, pOptions)), lRealRowNumber);
-            lRealRowNumber++;
-        }
-    });
+	let lRealRowNumber = 0;
+	pArcRows.forEach((pArcRow, pRowNumber) => {
+		if (pArcRow.every((pArc) => pArc.isVirtual)) {
+			rowmemory.set(
+				pRowNumber,
+				Math.max(
+					rowmemory.get(pRowNumber).height,
+					getArcRowHeight(pArcRow, pEntities, pOptions),
+				),
+			);
+		} else {
+			rowmemory.set(
+				pRowNumber,
+				Math.max(
+					rowmemory.get(pRowNumber).height,
+					getArcRowHeight(pArcRow, pEntities, pOptions),
+				),
+				lRealRowNumber,
+			);
+			lRealRowNumber++;
+		}
+	});
 }
 /** renderArcRows() - renders the arcrows from an AST
  *
@@ -364,16 +451,21 @@ function precalculateArcRowHeights(pArcRows, pEntities, pOptions) {
  * @param <object> - pEntities - the entities to consider
  */
 function renderArcRows(pArcRows, pEntities, pOptions) {
-    gInlineExpressionMemory = [];
-    /* put some space between the entities and the arcs */
-    createLifeLines(pEntities, "arcrow", gChart.arcRowHeight, rowmemory.get(-1).y).forEach((pLifeLine) => {
-        gChart.layers.lifeline.appendChild(pLifeLine);
-    });
-    precalculateArcRowHeights(pArcRows, pEntities, pOptions);
-    pArcRows.forEach((pArcRow, pCounter) => {
-        renderArcRow(pArcRow, pCounter, pEntities, pOptions);
-    });
-    renderInlineExpressions(gInlineExpressionMemory);
+	gInlineExpressionMemory = [];
+	/* put some space between the entities and the arcs */
+	createLifeLines(
+		pEntities,
+		"arcrow",
+		gChart.arcRowHeight,
+		rowmemory.get(-1).y,
+	).forEach((pLifeLine) => {
+		gChart.layers.lifeline.appendChild(pLifeLine);
+	});
+	precalculateArcRowHeights(pArcRows, pEntities, pOptions);
+	pArcRows.forEach((pArcRow, pCounter) => {
+		renderArcRow(pArcRow, pCounter, pEntities, pOptions);
+	});
+	renderInlineExpressions(gInlineExpressionMemory);
 }
 /**
  * renderInlineExpressionLabel() - renders the label of an inline expression
@@ -383,271 +475,349 @@ function renderArcRows(pArcRows, pEntities, pOptions) {
  * @param <number pY - where to start
  */
 function renderInlineExpressionLabel(pArc, pY) {
-    const lOnD = entities.getOAndD(pArc.from, pArc.to);
-    const FOLD_SIZE = 7;
-    const lLabelContentAlreadyDetermined = pY > 0;
-    const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
-    const lMaxWidth = lOnD.to -
-        lOnD.from +
-        (entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH) -
-        FOLD_SIZE -
-        constants.LINE_WIDTH;
-    const lStart = lOnD.from -
-        (entities.getDims().interEntitySpacing -
-            3 * constants.LINE_WIDTH -
-            lMaxDepthCorrection) /
-            2 -
-        (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
-    const lGroup = svgelementfactory.createGroup();
-    if (!lLabelContentAlreadyDetermined) {
-        pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
-    }
-    const lTextGroup = renderlabels.createLabel(pArc, {
-        x: lStart + constants.LINE_WIDTH - lMaxWidth / 2,
-        y: pY + gChart.arcRowHeight / 4,
-        width: lMaxWidth,
-    }, {
-        alignLeft: true,
-        ownBackground: false,
-        wordwraparcs: gChart.wordWrapArcs,
-    });
-    const lBBox = svgutensils.getBBox(lTextGroup);
-    const lHeight = Math.max(lBBox.height + 2 * constants.LINE_WIDTH, gChart.arcRowHeight / 2 - 2 * constants.LINE_WIDTH);
-    const lWidth = Math.min(lBBox.width + 2 * constants.LINE_WIDTH, lMaxWidth);
-    const lBox = svgelementfactory.createEdgeRemark({
-        width: lWidth - constants.LINE_WIDTH + FOLD_SIZE,
-        height: lHeight,
-        x: lStart,
-        y: pY,
-    }, {
-        class: "box inline_expression_label",
-        color: pArc.linecolor,
-        bgColor: pArc.textbgcolor,
-        foldSize: FOLD_SIZE,
-    });
-    lGroup.appendChild(lBox);
-    lGroup.appendChild(lTextGroup);
-    return lGroup;
+	const lOnD = entities.getOAndD(pArc.from, pArc.to);
+	const FOLD_SIZE = 7;
+	const lLabelContentAlreadyDetermined = pY > 0;
+	const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
+	const lMaxWidth =
+		lOnD.to -
+		lOnD.from +
+		(entities.getDims().interEntitySpacing - 2 * constants.LINE_WIDTH) -
+		FOLD_SIZE -
+		constants.LINE_WIDTH;
+	const lStart =
+		lOnD.from -
+		(entities.getDims().interEntitySpacing -
+			3 * constants.LINE_WIDTH -
+			lMaxDepthCorrection) /
+			2 -
+		(gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
+	const lGroup = svgelementfactory.createGroup();
+	if (!lLabelContentAlreadyDetermined) {
+		pArc.label = pArc.kind + (pArc.label ? ": " + pArc.label : "");
+	}
+	const lTextGroup = renderlabels.createLabel(
+		pArc,
+		{
+			x: lStart + constants.LINE_WIDTH - lMaxWidth / 2,
+			y: pY + gChart.arcRowHeight / 4,
+			width: lMaxWidth,
+		},
+		{
+			alignLeft: true,
+			ownBackground: false,
+			wordwraparcs: gChart.wordWrapArcs,
+		},
+	);
+	const lBBox = svgutensils.getBBox(lTextGroup);
+	const lHeight = Math.max(
+		lBBox.height + 2 * constants.LINE_WIDTH,
+		gChart.arcRowHeight / 2 - 2 * constants.LINE_WIDTH,
+	);
+	const lWidth = Math.min(lBBox.width + 2 * constants.LINE_WIDTH, lMaxWidth);
+	const lBox = svgelementfactory.createEdgeRemark(
+		{
+			width: lWidth - constants.LINE_WIDTH + FOLD_SIZE,
+			height: lHeight,
+			x: lStart,
+			y: pY,
+		},
+		{
+			class: "box inline_expression_label",
+			color: pArc.linecolor,
+			bgColor: pArc.textbgcolor,
+			foldSize: FOLD_SIZE,
+		},
+	);
+	lGroup.appendChild(lBox);
+	lGroup.appendChild(lTextGroup);
+	return lGroup;
 }
 function createInlineExpressionBox(pOAndD, pArc, pHeight, pY) {
-    /* begin: same as createBox */
-    const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
-    const lWidth = pOAndD.to -
-        pOAndD.from +
-        entities.getDims().interEntitySpacing -
-        2 * constants.LINE_WIDTH -
-        lMaxDepthCorrection; // px
-    const lStart = pOAndD.from -
-        (entities.getDims().interEntitySpacing -
-            2 * constants.LINE_WIDTH -
-            lMaxDepthCorrection) /
-            2;
-    /* end: same as createBox */
-    const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
-    return svgelementfactory.createRect({
-        width: lWidth + lArcDepthCorrection * 2,
-        height: pHeight
-            ? pHeight
-            : gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
-        x: lStart - lArcDepthCorrection,
-        y: pY,
-    }, {
-        class: `box inline_expression ${pArc.kind}`,
-        color: pArc.linecolor,
-        bgColor: pArc.textbgcolor,
-    });
+	/* begin: same as createBox */
+	const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
+	const lWidth =
+		pOAndD.to -
+		pOAndD.from +
+		entities.getDims().interEntitySpacing -
+		2 * constants.LINE_WIDTH -
+		lMaxDepthCorrection; // px
+	const lStart =
+		pOAndD.from -
+		(entities.getDims().interEntitySpacing -
+			2 * constants.LINE_WIDTH -
+			lMaxDepthCorrection) /
+			2;
+	/* end: same as createBox */
+	const lArcDepthCorrection =
+		(gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
+	return svgelementfactory.createRect(
+		{
+			width: lWidth + lArcDepthCorrection * 2,
+			height: pHeight
+				? pHeight
+				: gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
+			x: lStart - lArcDepthCorrection,
+			y: pY,
+		},
+		{
+			class: `box inline_expression ${pArc.kind}`,
+			color: pArc.linecolor,
+			bgColor: pArc.textbgcolor,
+		},
+	);
 }
 function renderInlineExpressions(pInlineExpressions) {
-    pInlineExpressions.forEach((pInlineExpression) => {
-        gChart.layers.inline.appendChild(renderInlineExpression(pInlineExpression, rowmemory.get(pInlineExpression.rownum).y));
-    });
+	pInlineExpressions.forEach((pInlineExpression) => {
+		gChart.layers.inline.appendChild(
+			renderInlineExpression(
+				pInlineExpression,
+				rowmemory.get(pInlineExpression.rownum).y,
+			),
+		);
+	});
 }
 function renderInlineExpression(pArcMem, pY) {
-    const lFromY = rowmemory.get(pArcMem.rownum).y;
-    const lToY = rowmemory.get(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
-    const lHeight = lToY - lFromY;
-    pArcMem.arc.label = "";
-    return createInlineExpressionBox(entities.getOAndD(pArcMem.arc.from, pArcMem.arc.to), pArcMem.arc, lHeight, pY);
+	const lFromY = rowmemory.get(pArcMem.rownum).y;
+	const lToY = rowmemory.get(pArcMem.rownum + pArcMem.arc.numberofrows + 1).y;
+	const lHeight = lToY - lFromY;
+	pArcMem.arc.label = "";
+	return createInlineExpressionBox(
+		entities.getOAndD(pArcMem.arc.from, pArcMem.arc.to),
+		pArcMem.arc,
+		lHeight,
+		pY,
+	);
 }
 function createLifeLines(pEntities, pClass, pHeight, pY) {
-    /* istanbul ignore if */
-    if (pHeight < gChart.arcRowHeight) {
-        pHeight = gChart.arcRowHeight;
-    }
-    return pEntities.map((pEntity) => {
-        const lLine = svgelementfactory.createLine({
-            xFrom: entities.getX(pEntity.name),
-            yFrom: 0 - pHeight / 2 + (pY ? pY : 0),
-            xTo: entities.getX(pEntity.name),
-            yTo: pHeight / 2 + (pY ? pY : 0),
-        }, {
-            class: pClass,
-        });
-        if (pEntity.linecolor) {
-            lLine.setAttribute("style", `stroke:${pEntity.linecolor};`);
-        }
-        return lLine;
-    });
+	/* istanbul ignore if */
+	if (pHeight < gChart.arcRowHeight) {
+		pHeight = gChart.arcRowHeight;
+	}
+	return pEntities.map((pEntity) => {
+		const lLine = svgelementfactory.createLine(
+			{
+				xFrom: entities.getX(pEntity.name),
+				yFrom: 0 - pHeight / 2 + (pY ? pY : 0),
+				xTo: entities.getX(pEntity.name),
+				yTo: pHeight / 2 + (pY ? pY : 0),
+			},
+			{
+				class: pClass,
+			},
+		);
+		if (pEntity.linecolor) {
+			lLine.setAttribute("style", `stroke:${pEntity.linecolor};`);
+		}
+		return lLine;
+	});
 }
 function createSelfRefArc(pKind, pX, pYTo, pDouble, pY, pLineColor) {
-    // globals: (gChart ->) arcRowHeight, (entities ->) interEntitySpacing
-    const lHeight = 2 * (gChart.arcRowHeight / 5);
-    const lWidth = entities.getDims().interEntitySpacing / 2;
-    let lRetval = {};
-    const lClass = `arc ${kind2class.getAggregateClass(pKind)} ${kind2class.getClass(pKind)}`;
-    if (pDouble) {
-        lRetval = svgelementfactory.createGroup();
-        const lInnerTurn = svgelementfactory.createUTurn({
-            x: pX,
-            y: pY,
-            width: lWidth - 2 * constants.LINE_WIDTH,
-            height: lHeight,
-        }, pY + pYTo + lHeight - 2 * constants.LINE_WIDTH, // pY
-        {
-            class: lClass,
-            dontHitHome: pKind !== "::",
-            lineWidth: constants.LINE_WIDTH,
-        });
-        /* we need a middle turn to attach the arrow to */
-        const lMiddleTurn = svgelementfactory.createUTurn({
-            x: pX,
-            y: pY,
-            width: lWidth,
-            height: lHeight,
-        }, pY + pYTo + lHeight - constants.LINE_WIDTH, { lineWidth: constants.LINE_WIDTH });
-        const lOuterTurn = svgelementfactory.createUTurn({
-            x: pX,
-            y: pY,
-            width: lWidth,
-            height: lHeight,
-        }, pY + pYTo + lHeight, {
-            class: lClass,
-            dontHitHome: pKind !== "::",
-            lineWidth: constants.LINE_WIDTH,
-        });
-        if (!!pLineColor) {
-            lInnerTurn.setAttribute("style", `stroke:${pLineColor}`);
-        }
-        markermanager
-            .getAttributes(idmanager.get(), pKind, pLineColor, pX, pX)
-            .forEach((pAttribute) => {
-            lMiddleTurn.setAttribute(pAttribute.name, pAttribute.value);
-        });
-        lMiddleTurn.setAttribute("style", "stroke:transparent;");
-        if (Boolean(pLineColor)) {
-            lOuterTurn.setAttribute("style", `stroke:${pLineColor}`);
-        }
-        lRetval.appendChild(lInnerTurn);
-        lRetval.appendChild(lOuterTurn);
-        lRetval.appendChild(lMiddleTurn);
-        lRetval.setAttribute("class", lClass);
-    }
-    else {
-        lRetval = svgelementfactory.createUTurn({
-            x: pX,
-            y: pY,
-            width: lWidth,
-            height: lHeight,
-        }, pY + pYTo + lHeight, {
-            class: lClass,
-            dontHitHome: pKind === "-x",
-            lineWidth: constants.LINE_WIDTH,
-        });
-        markermanager
-            .getAttributes(idmanager.get(), pKind, pLineColor, pX, pX)
-            .forEach((pAttribute) => {
-            lRetval.setAttribute(pAttribute.name, pAttribute.value);
-        });
-    }
-    return lRetval;
+	// globals: (gChart ->) arcRowHeight, (entities ->) interEntitySpacing
+	const lHeight = 2 * (gChart.arcRowHeight / 5);
+	const lWidth = entities.getDims().interEntitySpacing / 2;
+	let lRetval = {};
+	const lClass = `arc ${kind2class.getAggregateClass(pKind)} ${kind2class.getClass(pKind)}`;
+	if (pDouble) {
+		lRetval = svgelementfactory.createGroup();
+		const lInnerTurn = svgelementfactory.createUTurn(
+			{
+				x: pX,
+				y: pY,
+				width: lWidth - 2 * constants.LINE_WIDTH,
+				height: lHeight,
+			},
+			pY + pYTo + lHeight - 2 * constants.LINE_WIDTH, // pY
+			{
+				class: lClass,
+				dontHitHome: pKind !== "::",
+				lineWidth: constants.LINE_WIDTH,
+			},
+		);
+		/* we need a middle turn to attach the arrow to */
+		const lMiddleTurn = svgelementfactory.createUTurn(
+			{
+				x: pX,
+				y: pY,
+				width: lWidth,
+				height: lHeight,
+			},
+			pY + pYTo + lHeight - constants.LINE_WIDTH,
+			{ lineWidth: constants.LINE_WIDTH },
+		);
+		const lOuterTurn = svgelementfactory.createUTurn(
+			{
+				x: pX,
+				y: pY,
+				width: lWidth,
+				height: lHeight,
+			},
+			pY + pYTo + lHeight,
+			{
+				class: lClass,
+				dontHitHome: pKind !== "::",
+				lineWidth: constants.LINE_WIDTH,
+			},
+		);
+		if (!!pLineColor) {
+			lInnerTurn.setAttribute("style", `stroke:${pLineColor}`);
+		}
+		markermanager
+			.getAttributes(idmanager.get(), pKind, pLineColor, pX, pX)
+			.forEach((pAttribute) => {
+				lMiddleTurn.setAttribute(pAttribute.name, pAttribute.value);
+			});
+		lMiddleTurn.setAttribute("style", "stroke:transparent;");
+		if (Boolean(pLineColor)) {
+			lOuterTurn.setAttribute("style", `stroke:${pLineColor}`);
+		}
+		lRetval.appendChild(lInnerTurn);
+		lRetval.appendChild(lOuterTurn);
+		lRetval.appendChild(lMiddleTurn);
+		lRetval.setAttribute("class", lClass);
+	} else {
+		lRetval = svgelementfactory.createUTurn(
+			{
+				x: pX,
+				y: pY,
+				width: lWidth,
+				height: lHeight,
+			},
+			pY + pYTo + lHeight,
+			{
+				class: lClass,
+				dontHitHome: pKind === "-x",
+				lineWidth: constants.LINE_WIDTH,
+			},
+		);
+		markermanager
+			.getAttributes(idmanager.get(), pKind, pLineColor, pX, pX)
+			.forEach((pAttribute) => {
+				lRetval.setAttribute(pAttribute.name, pAttribute.value);
+			});
+	}
+	return lRetval;
 }
 function renderEmptyArc(pArc, pY) {
-    if (pArc.kind === "---") {
-        return createComment(pArc, entities.getOAndD(pArc.from, pArc.to), pY);
-    }
-    else {
-        /* "..." / "|||" */
-        return createLifeLinesText(pArc, entities.getOAndD(pArc.from, pArc.to), pY);
-    }
+	if (pArc.kind === "---") {
+		return createComment(pArc, entities.getOAndD(pArc.from, pArc.to), pY);
+	} else {
+		/* "..." / "|||" */
+		return createLifeLinesText(pArc, entities.getOAndD(pArc.from, pArc.to), pY);
+	}
 }
 function determineYToAbsolute(pRowNumber, pArcGradient, pArcSkip) {
-    let lRetval = rowmemory.get(pRowNumber).y + pArcGradient;
-    if (!!pArcSkip) {
-        const lWholeArcSkip = Math.floor(pArcSkip);
-        const lRestArcSkip = pArcSkip - lWholeArcSkip;
-        const lCurrentRealRowNumber = rowmemory.get(pRowNumber).realRowNumber;
-        lRetval =
-            rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y +
-                lRestArcSkip *
-                    (rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip + 1)
-                        .y -
-                        rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip)
-                            .y);
-    }
-    return lRetval;
+	let lRetval = rowmemory.get(pRowNumber).y + pArcGradient;
+	if (!!pArcSkip) {
+		const lWholeArcSkip = Math.floor(pArcSkip);
+		const lRestArcSkip = pArcSkip - lWholeArcSkip;
+		const lCurrentRealRowNumber = rowmemory.get(pRowNumber).realRowNumber;
+		lRetval =
+			rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip).y +
+			lRestArcSkip *
+				(rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip + 1)
+					.y -
+					rowmemory.getByRealRowNumber(lCurrentRealRowNumber + lWholeArcSkip)
+						.y);
+	}
+	return lRetval;
 }
 function determineDirectionClass(pArcKind) {
-    if (pArcKind === "<:>") {
-        return "bidi ";
-    }
-    else if (pArcKind === "::") {
-        return "nodi ";
-    }
-    return "";
+	if (pArcKind === "<:>") {
+		return "bidi ";
+	} else if (pArcKind === "::") {
+		return "nodi ";
+	}
+	return "";
 }
 function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
-    const lGroup = svgelementfactory.createGroup();
-    let lClass = "arc ";
-    lClass += determineDirectionClass(pArc.kind);
-    lClass += `${kind2class.getAggregateClass(pArc.kind)} ${kind2class.getClass(pArc.kind)}`;
-    const lDoubleLine = [":>", "::", "<:>"].includes(pArc.kind);
-    const lYToAbsolute = determineYToAbsolute(pRowNumber, gChart.arcGradient, pArc.arcskip);
-    pXTo = renderutensils.determineArcXTo(pArc.kind, pXFrom, pXTo);
-    if (pXFrom === pXTo) {
-        lGroup.appendChild(createSelfRefArc(pArc.kind, pXFrom, lYToAbsolute - rowmemory.get(pRowNumber).y - gChart.arcGradient, lDoubleLine, rowmemory.get(pRowNumber).y, pArc.linecolor));
-        /* creates a label left aligned, a little above the arc*/
-        const lTextWidth = (2 * entities.getDims().interEntitySpacing) / 3;
-        lGroup.appendChild(renderlabels.createLabel(pArc, {
-            x: pXFrom + 1.5 * constants.LINE_WIDTH - lTextWidth / 2,
-            y: rowmemory.get(pRowNumber).y -
-                gChart.arcRowHeight / 5 -
-                constants.LINE_WIDTH / 2,
-            width: lTextWidth,
-        }, Object.assign({
-            alignLeft: true,
-            alignAbove: true,
-            ownBackground: true,
-        }, structuredClone(pOptions))));
-    }
-    else {
-        const lLine = svgelementfactory.createLine({
-            xFrom: pXFrom,
-            yFrom: rowmemory.get(pRowNumber).y,
-            xTo: pXTo,
-            yTo: lYToAbsolute,
-        }, {
-            class: lClass,
-            doubleLine: lDoubleLine,
-        });
-        markermanager
-            .getAttributes(idmanager.get(), pArc.kind, pArc.linecolor, pXFrom, pXTo)
-            .forEach((pAttribute) => {
-            lLine.setAttribute(pAttribute.name, pAttribute.value);
-        });
-        lGroup.appendChild(lLine);
-        /* create a label centered on the arc */
-        lGroup.appendChild(renderlabels.createLabel(pArc, {
-            x: pXFrom,
-            y: rowmemory.get(pRowNumber).y +
-                (lYToAbsolute - rowmemory.get(pRowNumber).y) / 2,
-            width: pXTo - pXFrom,
-        }, Object.assign({
-            alignAround: true,
-            alignAbove: gChart.regularArcTextVerticalAlignment === "above",
-            ownBackground: true,
-        }, structuredClone(pOptions))));
-    }
-    return lGroup;
+	const lGroup = svgelementfactory.createGroup();
+	let lClass = "arc ";
+	lClass += determineDirectionClass(pArc.kind);
+	lClass += `${kind2class.getAggregateClass(pArc.kind)} ${kind2class.getClass(pArc.kind)}`;
+	const lDoubleLine = [":>", "::", "<:>"].includes(pArc.kind);
+	const lYToAbsolute = determineYToAbsolute(
+		pRowNumber,
+		gChart.arcGradient,
+		pArc.arcskip,
+	);
+	pXTo = renderutensils.determineArcXTo(pArc.kind, pXFrom, pXTo);
+	if (pXFrom === pXTo) {
+		lGroup.appendChild(
+			createSelfRefArc(
+				pArc.kind,
+				pXFrom,
+				lYToAbsolute - rowmemory.get(pRowNumber).y - gChart.arcGradient,
+				lDoubleLine,
+				rowmemory.get(pRowNumber).y,
+				pArc.linecolor,
+			),
+		);
+		/* creates a label left aligned, a little above the arc*/
+		const lTextWidth = (2 * entities.getDims().interEntitySpacing) / 3;
+		lGroup.appendChild(
+			renderlabels.createLabel(
+				pArc,
+				{
+					x: pXFrom + 1.5 * constants.LINE_WIDTH - lTextWidth / 2,
+					y:
+						rowmemory.get(pRowNumber).y -
+						gChart.arcRowHeight / 5 -
+						constants.LINE_WIDTH / 2,
+					width: lTextWidth,
+				},
+				Object.assign(
+					{
+						alignLeft: true,
+						alignAbove: true,
+						ownBackground: true,
+					},
+					structuredClone(pOptions),
+				),
+			),
+		);
+	} else {
+		const lLine = svgelementfactory.createLine(
+			{
+				xFrom: pXFrom,
+				yFrom: rowmemory.get(pRowNumber).y,
+				xTo: pXTo,
+				yTo: lYToAbsolute,
+			},
+			{
+				class: lClass,
+				doubleLine: lDoubleLine,
+			},
+		);
+		markermanager
+			.getAttributes(idmanager.get(), pArc.kind, pArc.linecolor, pXFrom, pXTo)
+			.forEach((pAttribute) => {
+				lLine.setAttribute(pAttribute.name, pAttribute.value);
+			});
+		lGroup.appendChild(lLine);
+		/* create a label centered on the arc */
+		lGroup.appendChild(
+			renderlabels.createLabel(
+				pArc,
+				{
+					x: pXFrom,
+					y:
+						rowmemory.get(pRowNumber).y +
+						(lYToAbsolute - rowmemory.get(pRowNumber).y) / 2,
+					width: pXTo - pXFrom,
+				},
+				Object.assign(
+					{
+						alignAround: true,
+						alignAbove: gChart.regularArcTextVerticalAlignment === "above",
+						ownBackground: true,
+					},
+					structuredClone(pOptions),
+				),
+			),
+		);
+	}
+	return lGroup;
 }
 /**
  * createLifeLinesText() - creates centered text for the current (most
@@ -659,13 +829,17 @@ function createArc(pArc, pXFrom, pXTo, pRowNumber, pOptions) {
  * @param <object> - pArc - the arc to render
  */
 function createLifeLinesText(pArc, pOAndD, pY) {
-    let lArcStart = 0;
-    let lArcEnd = gChart.arcEndX;
-    if (pArc.from && pArc.to) {
-        lArcStart = pOAndD.from;
-        lArcEnd = pOAndD.to - pOAndD.from;
-    }
-    return renderlabels.createLabel(pArc, { x: lArcStart, y: pY, width: lArcEnd }, { ownBackground: true, wordwraparcs: gChart.wordWrapArcs });
+	let lArcStart = 0;
+	let lArcEnd = gChart.arcEndX;
+	if (pArc.from && pArc.to) {
+		lArcStart = pOAndD.from;
+		lArcEnd = pOAndD.to - pOAndD.from;
+	}
+	return renderlabels.createLabel(
+		pArc,
+		{ x: lArcStart, y: pY, width: lArcEnd },
+		{ ownBackground: true, wordwraparcs: gChart.wordWrapArcs },
+	);
 }
 /**
  * createComment() - creates an element representing a comment ('---')
@@ -674,37 +848,41 @@ function createLifeLinesText(pArc, pOAndD, pY) {
  * @param <object> - pArc - the (comment) arc to render
  */
 function createComment(pArc, pOAndD, pY) {
-    let lStartX = 0;
-    let lEndX = gChart.arcEndX;
-    let lClass = "comment";
-    const lGroup = svgelementfactory.createGroup();
-    if (pArc.from && pArc.to) {
-        const lMaxDepthCorrection = gChart.maxDepth * 1 * constants.LINE_WIDTH;
-        const lArcDepthCorrection = (gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
-        lStartX =
-            pOAndD.from -
-                (entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2 -
-                (lArcDepthCorrection - lMaxDepthCorrection);
-        lEndX =
-            pOAndD.to +
-                (entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2 +
-                (lArcDepthCorrection - lMaxDepthCorrection);
-        lClass = "inline_expression_divider";
-    }
-    const lLine = svgelementfactory.createLine({
-        xFrom: lStartX,
-        yFrom: pY,
-        xTo: lEndX,
-        yTo: pY,
-    }, {
-        class: lClass,
-    });
-    lGroup.appendChild(lLine);
-    lGroup.appendChild(createLifeLinesText(pArc, pOAndD, pY));
-    if (pArc.linecolor) {
-        lLine.setAttribute("style", `stroke:${pArc.linecolor};`);
-    }
-    return lGroup;
+	let lStartX = 0;
+	let lEndX = gChart.arcEndX;
+	let lClass = "comment";
+	const lGroup = svgelementfactory.createGroup();
+	if (pArc.from && pArc.to) {
+		const lMaxDepthCorrection = gChart.maxDepth * 1 * constants.LINE_WIDTH;
+		const lArcDepthCorrection =
+			(gChart.maxDepth - pArc.depth) * 2 * constants.LINE_WIDTH;
+		lStartX =
+			pOAndD.from -
+			(entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2 -
+			(lArcDepthCorrection - lMaxDepthCorrection);
+		lEndX =
+			pOAndD.to +
+			(entities.getDims().interEntitySpacing + 2 * constants.LINE_WIDTH) / 2 +
+			(lArcDepthCorrection - lMaxDepthCorrection);
+		lClass = "inline_expression_divider";
+	}
+	const lLine = svgelementfactory.createLine(
+		{
+			xFrom: lStartX,
+			yFrom: pY,
+			xTo: lEndX,
+			yTo: pY,
+		},
+		{
+			class: lClass,
+		},
+	);
+	lGroup.appendChild(lLine);
+	lGroup.appendChild(createLifeLinesText(pArc, pOAndD, pY));
+	if (pArc.linecolor) {
+		lLine.setAttribute("style", `stroke:${pArc.linecolor};`);
+	}
+	return lGroup;
 }
 /**
  * creates an element representing a box (box, abox, rbox, note)
@@ -718,64 +896,73 @@ function createComment(pArc, pOAndD, pY) {
  * to get smaller than the default arc row height
  */
 function createBox(pOAndD, pArc, pY, pOptions) {
-    /* begin: same as createInlineExpressionBox */
-    const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
-    const lWidth = pOAndD.to -
-        pOAndD.from +
-        entities.getDims().interEntitySpacing -
-        2 * constants.LINE_WIDTH -
-        lMaxDepthCorrection; // px
-    const lStart = pOAndD.from -
-        (entities.getDims().interEntitySpacing -
-            2 * constants.LINE_WIDTH -
-            lMaxDepthCorrection) /
-            2;
-    /* end: same as createInlineExpressionBox */
-    const lGroup = svgelementfactory.createGroup();
-    let lBox;
-    const lTextGroup = renderlabels.createLabel(pArc, { x: lStart, y: pY, width: lWidth }, pOptions);
-    const lTextBBox = svgutensils.getBBox(lTextGroup);
-    const lHeight = Math.max(lTextBBox.height + 2 * constants.LINE_WIDTH, gChart.arcRowHeight - 2 * constants.LINE_WIDTH);
-    const lBBox = {
-        width: lWidth,
-        height: lHeight,
-        x: lStart,
-        y: pY - lHeight / 2,
-    };
-    switch (pArc.kind) {
-        case "rbox":
-            lBox = svgelementfactory.createRBox(lBBox, {
-                class: "box rbox",
-                color: pArc.linecolor,
-                bgColor: pArc.textbgcolor,
-            });
-            break;
-        case "abox":
-            lBox = svgelementfactory.createABox(lBBox, {
-                class: "box abox",
-                color: pArc.linecolor,
-                bgColor: pArc.textbgcolor,
-            });
-            break;
-        case "note":
-            lBox = svgelementfactory.createNote(lBBox, {
-                class: "box note",
-                color: pArc.linecolor,
-                bgColor: pArc.textbgcolor,
-                lineWidth: constants.LINE_WIDTH,
-            });
-            break;
-        default: // "box"
-            lBox = svgelementfactory.createRect(lBBox, {
-                class: "box",
-                color: pArc.linecolor,
-                bgColor: pArc.textbgcolor,
-            });
-            break;
-    }
-    lGroup.appendChild(lBox);
-    lGroup.appendChild(lTextGroup);
-    return lGroup;
+	/* begin: same as createInlineExpressionBox */
+	const lMaxDepthCorrection = gChart.maxDepth * 2 * constants.LINE_WIDTH;
+	const lWidth =
+		pOAndD.to -
+		pOAndD.from +
+		entities.getDims().interEntitySpacing -
+		2 * constants.LINE_WIDTH -
+		lMaxDepthCorrection; // px
+	const lStart =
+		pOAndD.from -
+		(entities.getDims().interEntitySpacing -
+			2 * constants.LINE_WIDTH -
+			lMaxDepthCorrection) /
+			2;
+	/* end: same as createInlineExpressionBox */
+	const lGroup = svgelementfactory.createGroup();
+	let lBox;
+	const lTextGroup = renderlabels.createLabel(
+		pArc,
+		{ x: lStart, y: pY, width: lWidth },
+		pOptions,
+	);
+	const lTextBBox = svgutensils.getBBox(lTextGroup);
+	const lHeight = Math.max(
+		lTextBBox.height + 2 * constants.LINE_WIDTH,
+		gChart.arcRowHeight - 2 * constants.LINE_WIDTH,
+	);
+	const lBBox = {
+		width: lWidth,
+		height: lHeight,
+		x: lStart,
+		y: pY - lHeight / 2,
+	};
+	switch (pArc.kind) {
+		case "rbox":
+			lBox = svgelementfactory.createRBox(lBBox, {
+				class: "box rbox",
+				color: pArc.linecolor,
+				bgColor: pArc.textbgcolor,
+			});
+			break;
+		case "abox":
+			lBox = svgelementfactory.createABox(lBBox, {
+				class: "box abox",
+				color: pArc.linecolor,
+				bgColor: pArc.textbgcolor,
+			});
+			break;
+		case "note":
+			lBox = svgelementfactory.createNote(lBBox, {
+				class: "box note",
+				color: pArc.linecolor,
+				bgColor: pArc.textbgcolor,
+				lineWidth: constants.LINE_WIDTH,
+			});
+			break;
+		default: // "box"
+			lBox = svgelementfactory.createRect(lBBox, {
+				class: "box",
+				color: pArc.linecolor,
+				bgColor: pArc.textbgcolor,
+			});
+			break;
+	}
+	lGroup.appendChild(lBox);
+	lGroup.appendChild(lTextGroup);
+	return lGroup;
 }
 /**
  * removes the element with id pParentElementId from the DOM
@@ -786,9 +973,9 @@ function createBox(pOAndD, pArc, pY, pOptions) {
  *
  */
 export const clean = (pParentElementId, pWindow) => {
-    gChart.document = renderskeleton.init(pWindow);
-    svgutensils.init(gChart.document);
-    svgutensils.removeRenderedSVGFromElement(pParentElementId);
+	gChart.document = renderskeleton.init(pWindow);
+	svgutensils.init(gChart.document);
+	svgutensils.removeRenderedSVGFromElement(pParentElementId);
 };
 /**
  * renders the given abstract syntax tree pAST as svg
@@ -807,13 +994,13 @@ export const clean = (pParentElementId, pWindow) => {
  *   on the bottom of the chart
  */
 export function render(pAST, pWindow, pParentElementId, pRenderOptions) {
-    const lFlattenedAST = Object.freeze(flatten(pAST));
-    const lParentElement = getParentElement(pWindow, pParentElementId);
-    idmanager.setPrefix(pParentElementId);
-    renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});
-    renderASTMain(lFlattenedAST);
-    renderASTPost(lFlattenedAST);
-    return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
+	const lFlattenedAST = Object.freeze(flatten(pAST));
+	const lParentElement = getParentElement(pWindow, pParentElementId);
+	idmanager.setPrefix(pParentElementId);
+	renderASTPre(lFlattenedAST, pWindow, lParentElement, pRenderOptions || {});
+	renderASTMain(lFlattenedAST);
+	renderASTPost(lFlattenedAST);
+	return svgutensils.webkitNamespaceBugWorkaround(lParentElement.innerHTML);
 }
 /*
  This file is part of mscgen_js.

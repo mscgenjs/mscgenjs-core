@@ -3,81 +3,83 @@ import getDiagonalAngle from "./getdiagonalangle";
 import round from "./round";
 const PRECISION = 2;
 export function point2String(pPoint) {
-    return `${round(pPoint.x, PRECISION).toString()},${round(pPoint.y, PRECISION).toString()} `;
+	return `${round(pPoint.x, PRECISION).toString()},${round(pPoint.y, PRECISION).toString()} `;
 }
 export function pathPoint2String(pType, pX, pY) {
-    return pType + point2String({ x: pX, y: pY });
+	return pType + point2String({ x: pX, y: pY });
 }
 function createMarker(pId, pClass, pOrient, pViewBox) {
-    /* so, why not start at refX=0, refY=0? It would simplify reasoning
-     * about marker paths significantly...
-     *
-     * TL;DR: canvg doesn't seem to handle this very well.
-     * - Don't know yet why.
-     * - Suspicion: with (0,0) the marker paths we use would end up having
-     *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
-     *   signal)
-     */
-    return domprimitives.createElement("marker", {
-        orient: pOrient,
-        id: pId,
-        class: pClass,
-        viewBox: Boolean(pViewBox) ? pViewBox : "0 0 10 10",
-        refX: "9",
-        refY: "3",
-        markerUnits: "strokeWidth",
-        markerWidth: "10",
-        markerHeight: "10",
-    });
-    /* for scaling to the lineWidth of the line the marker is attached to,
-     * userSpaceOnUse looks like a good plan, but it is not only the
-     * paths that don't scale, it's also the linewidth (which makes sense).
-     * We'll have to roll our own path transformation algorithm if we want
-     * to change only the linewidth and not the rest
-     */
+	/* so, why not start at refX=0, refY=0? It would simplify reasoning
+	 * about marker paths significantly...
+	 *
+	 * TL;DR: canvg doesn't seem to handle this very well.
+	 * - Don't know yet why.
+	 * - Suspicion: with (0,0) the marker paths we use would end up having
+	 *   negative coordinates (e.g. "M 0 0 L -8 2" for a left to right
+	 *   signal)
+	 */
+	return domprimitives.createElement("marker", {
+		orient: pOrient,
+		id: pId,
+		class: pClass,
+		viewBox: Boolean(pViewBox) ? pViewBox : "0 0 10 10",
+		refX: "9",
+		refY: "3",
+		markerUnits: "strokeWidth",
+		markerWidth: "10",
+		markerHeight: "10",
+	});
+	/* for scaling to the lineWidth of the line the marker is attached to,
+	 * userSpaceOnUse looks like a good plan, but it is not only the
+	 * paths that don't scale, it's also the linewidth (which makes sense).
+	 * We'll have to roll our own path transformation algorithm if we want
+	 * to change only the linewidth and not the rest
+	 */
 }
 function createLink(pURL, pElementToWrap) {
-    const lA = domprimitives.createElement("a");
-    domprimitives.setAttributesNS(lA, domprimitives.XLINKNS, {
-        "xlink:href": pURL,
-        "xlink:title": pURL,
-    });
-    lA.appendChild(pElementToWrap);
-    return lA;
+	const lA = domprimitives.createElement("a");
+	domprimitives.setAttributesNS(lA, domprimitives.XLINKNS, {
+		"xlink:href": pURL,
+		"xlink:title": pURL,
+	});
+	lA.appendChild(pElementToWrap);
+	return lA;
 }
 /* superscript style could also be super or a number (1em) or a % (100%) */
 let lSuperscriptStyle = "vertical-align:text-top;";
 lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
 export function createTSpan(pLabel, pURL) {
-    const lTSpanLabel = domprimitives.createElement("tspan");
-    const lContent = domprimitives.createTextNode(pLabel);
-    lTSpanLabel.appendChild(lContent);
-    if (pURL) {
-        return createLink(pURL, lTSpanLabel);
-    }
-    else {
-        return lTSpanLabel;
-    }
+	const lTSpanLabel = domprimitives.createElement("tspan");
+	const lContent = domprimitives.createTextNode(pLabel);
+	lTSpanLabel.appendChild(lContent);
+	if (pURL) {
+		return createLink(pURL, lTSpanLabel);
+	} else {
+		return lTSpanLabel;
+	}
 }
 export function createText(pLabel, pCoords, pOptions) {
-    const lOptions = Object.assign({
-        class: null,
-        url: null,
-        id: null,
-        idurl: null,
-    }, pOptions);
-    const lText = domprimitives.createElement("text", {
-        x: round(pCoords.x, PRECISION).toString(),
-        y: round(pCoords.y, PRECISION).toString(),
-        class: lOptions.class,
-    });
-    lText.appendChild(createTSpan(pLabel, lOptions.url));
-    if (lOptions.id) {
-        const lTSpanID = createTSpan(` [${lOptions.id}]`, lOptions.idurl);
-        lTSpanID.setAttribute("style", lSuperscriptStyle);
-        lText.appendChild(lTSpanID);
-    }
-    return lText;
+	const lOptions = Object.assign(
+		{
+			class: null,
+			url: null,
+			id: null,
+			idurl: null,
+		},
+		pOptions,
+	);
+	const lText = domprimitives.createElement("text", {
+		x: round(pCoords.x, PRECISION).toString(),
+		y: round(pCoords.y, PRECISION).toString(),
+		class: lOptions.class,
+	});
+	lText.appendChild(createTSpan(pLabel, lOptions.url));
+	if (lOptions.id) {
+		const lTSpanID = createTSpan(` [${lOptions.id}]`, lOptions.idurl);
+		lTSpanID.setAttribute("style", lSuperscriptStyle);
+		lText.appendChild(lTSpanID);
+	}
+	return lText;
 }
 /**
  * Creates an svg path element given the path pD, with pClass applied
@@ -88,36 +90,43 @@ export function createText(pLabel, pCoords, pOptions) {
  * @return {SVGElement}
  */
 export function createPath(pD, pOptions) {
-    const lOptions = Object.assign({
-        class: null,
-        style: null,
-        color: null,
-        bgColor: null,
-    }, pOptions);
-    return colorBox(domprimitives.createElement("path", {
-        d: pD,
-        class: lOptions.class,
-        style: lOptions.style,
-    }), lOptions.color, lOptions.bgColor);
+	const lOptions = Object.assign(
+		{
+			class: null,
+			style: null,
+			color: null,
+			bgColor: null,
+		},
+		pOptions,
+	);
+	return colorBox(
+		domprimitives.createElement("path", {
+			d: pD,
+			class: lOptions.class,
+			style: lOptions.style,
+		}),
+		lOptions.color,
+		lOptions.bgColor,
+	);
 }
 function colorBox(pElement, pColor, pBgColor) {
-    let lStyleString = "";
-    if (pBgColor) {
-        lStyleString += `fill:${pBgColor};`;
-    }
-    if (pColor) {
-        lStyleString += `stroke:${pColor};`;
-    }
-    return domprimitives.setAttribute(pElement, "style", lStyleString);
+	let lStyleString = "";
+	if (pBgColor) {
+		lStyleString += `fill:${pBgColor};`;
+	}
+	if (pColor) {
+		lStyleString += `stroke:${pColor};`;
+	}
+	return domprimitives.setAttribute(pElement, "style", lStyleString);
 }
 export function createSingleLine(pLine, pOptions) {
-    return domprimitives.createElement("line", {
-        x1: round(pLine.xFrom, PRECISION).toString(),
-        y1: round(pLine.yFrom, PRECISION).toString(),
-        x2: round(pLine.xTo, PRECISION).toString(),
-        y2: round(pLine.yTo, PRECISION).toString(),
-        class: pOptions ? pOptions.class : null,
-    });
+	return domprimitives.createElement("line", {
+		x1: round(pLine.xFrom, PRECISION).toString(),
+		y1: round(pLine.yFrom, PRECISION).toString(),
+		x2: round(pLine.xTo, PRECISION).toString(),
+		y2: round(pLine.yTo, PRECISION).toString(),
+		class: pOptions ? pOptions.class : null,
+	});
 }
 /**
  * Creates an svg rectangle of width x height, with the top left
@@ -134,22 +143,29 @@ export function createSingleLine(pLine, pOptions) {
  * @return {SVGElement}
  */
 export function createRect(pBBox, pOptions) {
-    const lOptions = Object.assign({
-        class: null,
-        color: null,
-        bgColor: null,
-        rx: null,
-        ry: null,
-    }, pOptions);
-    return colorBox(domprimitives.createElement("rect", {
-        width: round(pBBox.width, PRECISION),
-        height: round(pBBox.height, PRECISION),
-        x: round(pBBox.x, PRECISION),
-        y: round(pBBox.y, PRECISION),
-        rx: round(lOptions.rx || 0, PRECISION),
-        ry: round(lOptions.ry || 0, PRECISION),
-        class: lOptions.class,
-    }), lOptions.color, lOptions.bgColor);
+	const lOptions = Object.assign(
+		{
+			class: null,
+			color: null,
+			bgColor: null,
+			rx: null,
+			ry: null,
+		},
+		pOptions,
+	);
+	return colorBox(
+		domprimitives.createElement("rect", {
+			width: round(pBBox.width, PRECISION),
+			height: round(pBBox.height, PRECISION),
+			x: round(pBBox.x, PRECISION),
+			y: round(pBBox.y, PRECISION),
+			rx: round(lOptions.rx || 0, PRECISION),
+			ry: round(lOptions.ry || 0, PRECISION),
+			class: lOptions.class,
+		}),
+		lOptions.color,
+		lOptions.bgColor,
+	);
 }
 /**
  * Creates a u-turn, departing on pPoint.x, pPoint.y and
@@ -162,23 +178,32 @@ export function createRect(pBBox, pOptions) {
  * @return {SVGElement}
  */
 export function createUTurn(pBBox, pEndY, pOptions) {
-    const lOptions = Object.assign({
-        class: null,
-        dontHitHome: false,
-        lineWidth: 1,
-    }, pOptions);
-    const lEndX = lOptions.dontHitHome
-        ? pBBox.x + 7.5 * (lOptions.lineWidth || 1)
-        : pBBox.x;
-    return createPath(
-    // point to start from:
-    pathPoint2String("M", pBBox.x, pBBox.y - pBBox.height / 2) +
-        // curve first to:
-        pathPoint2String("C", pBBox.x + pBBox.width, pBBox.y - (7.5 * (lOptions.lineWidth || 1)) / 2) +
-        // curve back from.:
-        point2String({ x: pBBox.x + pBBox.width, y: pEndY + 0 }) +
-        // curve end-pont:
-        point2String({ x: lEndX, y: pEndY }), { class: lOptions.class });
+	const lOptions = Object.assign(
+		{
+			class: null,
+			dontHitHome: false,
+			lineWidth: 1,
+		},
+		pOptions,
+	);
+	const lEndX = lOptions.dontHitHome
+		? pBBox.x + 7.5 * (lOptions.lineWidth || 1)
+		: pBBox.x;
+	return createPath(
+		// point to start from:
+		pathPoint2String("M", pBBox.x, pBBox.y - pBBox.height / 2) +
+			// curve first to:
+			pathPoint2String(
+				"C",
+				pBBox.x + pBBox.width,
+				pBBox.y - (7.5 * (lOptions.lineWidth || 1)) / 2,
+			) +
+			// curve back from.:
+			point2String({ x: pBBox.x + pBBox.width, y: pEndY + 0 }) +
+			// curve end-pont:
+			point2String({ x: lEndX, y: pEndY }),
+		{ class: lOptions.class },
+	);
 }
 /**
  * Creates an svg group, identifiable with id pId
@@ -186,10 +211,10 @@ export function createUTurn(pBBox, pEndY, pOptions) {
  * @return {SVGElement}
  */
 export function createGroup(pId, pClass) {
-    return domprimitives.createElement("g", {
-        id: pId,
-        class: pClass,
-    });
+	return domprimitives.createElement("g", {
+		id: pId,
+		class: pClass,
+	});
 }
 /**
  * Create an arrow marker consisting of a path as specified in pD
@@ -198,18 +223,20 @@ export function createGroup(pId, pClass) {
  * @param {string} pD - a string containing the path
  */
 export function createMarkerPath(pId, pD, pColor) {
-    const lMarker = createMarker(pId, "arrow-marker", "auto");
-    /* stroke-dasharray: 'none' should work to override any dashes (like in
-     * return messages (a >> b;)) and making sure the marker end gets
-     * lines
-     * This, however, does not work in webkit, hence the curious
-     * value for the stroke-dasharray
-     */
-    lMarker.appendChild(createPath(pD, {
-        class: "arrow-style",
-        style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",
-    }));
-    return lMarker;
+	const lMarker = createMarker(pId, "arrow-marker", "auto");
+	/* stroke-dasharray: 'none' should work to override any dashes (like in
+	 * return messages (a >> b;)) and making sure the marker end gets
+	 * lines
+	 * This, however, does not work in webkit, hence the curious
+	 * value for the stroke-dasharray
+	 */
+	lMarker.appendChild(
+		createPath(pD, {
+			class: "arrow-style",
+			style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",
+		}),
+	);
+	return lMarker;
 }
 /**
  * Create a (filled) arrow marker consisting of a polygon as specified in pPoints
@@ -219,20 +246,22 @@ export function createMarkerPath(pId, pD, pColor) {
  * @return {SVGElement}
  */
 export function createMarkerPolygon(pId, pPoints, pColor) {
-    const lMarker = createMarker(pId, "arrow-marker", "auto");
-    lMarker.appendChild(domprimitives.createElement("polygon", {
-        points: pPoints,
-        class: "arrow-style",
-        stroke: pColor || "black",
-        fill: pColor || "black",
-    }));
-    return lMarker;
+	const lMarker = createMarker(pId, "arrow-marker", "auto");
+	lMarker.appendChild(
+		domprimitives.createElement("polygon", {
+			points: pPoints,
+			class: "arrow-style",
+			stroke: pColor || "black",
+			fill: pColor || "black",
+		}),
+	);
+	return lMarker;
 }
 export function createTitle(pText) {
-    const lTitle = domprimitives.createElement("title");
-    const lText = domprimitives.createTextNode(pText);
-    lTitle.appendChild(lText);
-    return lTitle;
+	const lTitle = domprimitives.createElement("title");
+	const lText = domprimitives.createTextNode(pText);
+	lTitle.appendChild(lText);
+	return lTitle;
 }
 /**
  * Creates a text node with the given pText fitting diagonally (bottom-left
@@ -242,11 +271,19 @@ export function createTitle(pText) {
  * @param {object} pDimension (an object with at least a .width and a .height)
  */
 export function createDiagonalText(pText, pDimension, pClass) {
-    return domprimitives.setAttributes(createText(pText, { x: pDimension.width / 2, y: pDimension.height / 2 }, { class: pClass }), {
-        transform: `rotate(${round(getDiagonalAngle(pDimension), PRECISION).toString()} ` +
-            `${round(pDimension.width / 2, PRECISION).toString()} ` +
-            `${round(pDimension.height / 2, PRECISION).toString()})`,
-    });
+	return domprimitives.setAttributes(
+		createText(
+			pText,
+			{ x: pDimension.width / 2, y: pDimension.height / 2 },
+			{ class: pClass },
+		),
+		{
+			transform:
+				`rotate(${round(getDiagonalAngle(pDimension), PRECISION).toString()} ` +
+				`${round(pDimension.width / 2, PRECISION).toString()} ` +
+				`${round(pDimension.height / 2, PRECISION).toString()})`,
+		},
+	);
 }
 /**
  * Creates a desc element with id pId
@@ -255,7 +292,7 @@ export function createDiagonalText(pText, pDimension, pClass) {
  * @returns {Element}
  */
 export function createDesc() {
-    return domprimitives.createElement("desc");
+	return domprimitives.createElement("desc");
 }
 /**
  * Creates an empty 'defs' element
@@ -263,7 +300,7 @@ export function createDesc() {
  * @returns {Element}
  */
 export function createDefs() {
-    return domprimitives.createElement("defs");
+	return domprimitives.createElement("defs");
 }
 /**
  * Creates a basic SVG with id pId, and size 0x0
@@ -271,15 +308,15 @@ export function createDefs() {
  * @return {Element} an SVG element
  */
 export function createSVG(pId, pClass) {
-    return domprimitives.createElement("svg", {
-        version: "1.1",
-        id: pId,
-        class: pClass,
-        xmlns: domprimitives.SVGNS,
-        "xmlns:xlink": domprimitives.XLINKNS,
-        width: "0",
-        height: "0",
-    });
+	return domprimitives.createElement("svg", {
+		version: "1.1",
+		id: pId,
+		class: pClass,
+		xmlns: domprimitives.SVGNS,
+		"xmlns:xlink": domprimitives.XLINKNS,
+		width: "0",
+		height: "0",
+	});
 }
 export const init = domprimitives.init;
 export const updateSVG = domprimitives.setAttributes;

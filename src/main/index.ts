@@ -19,7 +19,7 @@ function isProbablyAnASTAlready(pScript: string, pInputType: InputType) {
 function getAST(
   pScript: string,
   pInputType: InputType,
-  pGetParser: (pInputType: InputType) => IParser
+  pGetParser: (pInputType: InputType) => IParser,
 ) {
   if (isProbablyAnASTAlready(pScript, pInputType)) {
     return pScript;
@@ -31,7 +31,7 @@ function getAST(
 function runCallBack(
   pCallBack: (pError: Error | null, pResult?: string | null) => void,
   pError: Error | null,
-  pResult?: string | null
+  pResult?: string | null,
 ) {
   /* istanbul ignore else */
   if (Boolean(pCallBack)) {
@@ -48,7 +48,7 @@ export function renderMsc(
   pOptions: IRenderOptions,
   pCallBack: (pError: Error | null, pResult?: string | null) => void,
   pGetParser: (pInputType: InputType) => IParser,
-  pGetGraphicsRenderer: () => any
+  pGetGraphicsRenderer: () => any,
 ) {
   const lOptions = normalizeOptions(pOptions, pScript);
 
@@ -67,8 +67,8 @@ export function renderMsc(
           mirrorEntitiesOnBottom: lOptions.mirrorEntitiesOnBottom,
           regularArcTextVerticalAlignment:
             lOptions.regularArcTextVerticalAlignment,
-        }
-      )
+        },
+      ),
     );
   } catch (pException: any) {
     runCallBack(pCallBack, pException);
@@ -79,14 +79,14 @@ export function translateMsc(
   pScript: string,
   pOptions: ITranslateOptions,
   pGetParser: (pInputType: InputType) => IParser,
-  pGetTextRenderer: (pOutputType: OutputType) => IRenderer
+  pGetTextRenderer: (pOutputType: OutputType) => IRenderer,
 ) {
   const lOptions = Object.assign(
     {
       inputType: "mscgen",
       outputType: "json",
     },
-    pOptions
+    pOptions,
   );
 
   if (lOptions.outputType === "ast") {
@@ -96,11 +96,11 @@ export function translateMsc(
     return JSON.stringify(
       pGetParser(lOptions.inputType).parse(pScript),
       null,
-      "  "
+      "  ",
     );
   }
   return pGetTextRenderer(lOptions.outputType).render(
-    getAST(pScript, lOptions.inputType, pGetParser)
+    getAST(pScript, lOptions.inputType, pGetParser),
   );
 }
 

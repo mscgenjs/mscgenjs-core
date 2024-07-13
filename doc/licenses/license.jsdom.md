@@ -1,4 +1,4 @@
-# jsdom license 
+# jsdom license
 
 [source](https://github.com/tmpvar/jsdom/blob/master/LICENSE.txt)
 

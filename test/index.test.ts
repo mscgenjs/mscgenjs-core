@@ -35,7 +35,10 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
   describe("index", () => {
     describe("#translateMsc()", () => {
       it("no params translates mscgen to json", () => {
-        deepEqual(JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN)), fix.astSimple);
+        deepEqual(
+          JSON.parse(mscgenjs.translateMsc(SIMPLE_MSCGEN)),
+          fix.astSimple,
+        );
       });
 
       it("explicit mscgen & json params translates mscgen to json too", () => {
@@ -44,8 +47,10 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
             mscgenjs.translateMsc(SIMPLE_MSCGEN, {
               inputType: "mscgen",
               outputType: "json",
-            })
-          ), fix.astSimple);
+            }),
+          ),
+          fix.astSimple,
+        );
       });
 
       it("ast translates mscgen to an AST object", () => {
@@ -53,7 +58,9 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
           mscgenjs.translateMsc(SIMPLE_MSCGEN, {
             inputType: "mscgen",
             outputType: "ast",
-          }), fix.astSimple);
+          }),
+          fix.astSimple,
+        );
       });
 
       it("invalid mscgen throws an error", () => {
@@ -61,7 +68,7 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
           mscgenjs.translateMsc(SIMPLE_XU, {
             inputType: "mscgen",
             outputType: "msgenny",
-          })
+          }),
         );
       });
 
@@ -70,7 +77,9 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
           mscgenjs.translateMsc(JSON.stringify(fix.astOneAlt, null, ""), {
             inputType: "json",
             outputType: "mscgen",
-          }), gExpectedMscGenOutput);
+          }),
+          gExpectedMscGenOutput,
+        );
       });
 
       it("translating a raw javascript object works", () => {
@@ -78,7 +87,9 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
           mscgenjs.translateMsc(fix.astOneAlt, {
             inputType: "json",
             outputType: "mscgen",
-          }), gExpectedMscGenOutput);
+          }),
+          gExpectedMscGenOutput,
+        );
       });
 
       it("returns a version number equal to the one in package.json", () => {
@@ -88,7 +99,7 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
     describe("#renderMsc()", () => {
       const lWindow = new JSDOM(
-        "<html><body><span id='__svg'></span></body></html>"
+        "<html><body><span id='__svg'></span></body></html>",
       ).window;
 
       it("should given given a simple MscGen program, render an svg", () => {
@@ -98,7 +109,7 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
           (pError, pResult) => {
             deepEqual(pError, null);
             chaiExpect(pResult).xml.to.be.valid();
-          }
+          },
         );
       });
 
@@ -106,7 +117,7 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
         mscgenjs.renderMsc(SIMPLE_XU, null, (pError, pResult) => {
           notDeepEqual(pError, null);
           deepEqual(pError instanceof Error, true);
-          
+
           deepEqual(pResult, null);
         });
       });
@@ -122,26 +133,41 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
           (pError, pResult) => {
             deepEqual(pError, null);
             chaiExpect(pResult).xml.to.be.valid();
-          }
+          },
         );
       });
     });
 
     describe("#getAllowedValues()", () => {
       it("returns possible input types", () => {
-        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "inputType"), true);
+        deepEqual(
+          Object.hasOwn(mscgenjs.getAllowedValues(), "inputType"),
+          true,
+        );
       });
 
       it("returns possible output types", () => {
-        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "outputType"), true);
+        deepEqual(
+          Object.hasOwn(mscgenjs.getAllowedValues(), "outputType"),
+          true,
+        );
       });
 
       it("returns possible regularArcTextVerticalAlignment types", () => {
-        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "regularArcTextVerticalAlignment"), true);
+        deepEqual(
+          Object.hasOwn(
+            mscgenjs.getAllowedValues(),
+            "regularArcTextVerticalAlignment",
+          ),
+          true,
+        );
       });
 
       it("returns possible namedStyles", () => {
-        deepEqual(Object.hasOwn(mscgenjs.getAllowedValues(), "namedStyle"), true);
+        deepEqual(
+          Object.hasOwn(mscgenjs.getAllowedValues(), "namedStyle"),
+          true,
+        );
       });
     });
   });

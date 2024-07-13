@@ -20,7 +20,7 @@ import * as svgutensils from "./svgutensils";
  */
 function colorText(
   pElement: SVGTextElement,
-  pTextColor?: string
+  pTextColor?: string,
 ): SVGTextElement {
   if (pTextColor) {
     pElement.setAttribute("style", `fill:${pTextColor};`);
@@ -34,23 +34,23 @@ function colorText(
 function colorLink(
   pElement: SVGTextElement,
   pUrl?: string,
-  pTextColor?: string
+  pTextColor?: string,
 ): SVGTextElement {
   return colorText(pElement, pUrl && !pTextColor ? "blue" : pTextColor);
 }
 
 function renderArcLabelLineBackground(
   lLabelElement: SVGGElement,
-  pTextbgcolor
+  pTextbgcolor,
 ): SVGElement {
   const lRect = svgelementfactory.createRect(
     svgutensils.getBBox(lLabelElement),
-    { class: "label-text-background" }
+    { class: "label-text-background" },
   );
   if (pTextbgcolor) {
     lRect.setAttribute(
       "style",
-      `fill:${pTextbgcolor}; stroke:${pTextbgcolor};`
+      `fill:${pTextbgcolor}; stroke:${pTextbgcolor};`,
     );
   }
   return lRect;
@@ -61,7 +61,7 @@ function renderLabelText(
   pPosition: number,
   pCoords: IPoint,
   pClass: string,
-  pArc: IArc
+  pArc: IArc,
 ): SVGTextElement {
   const lAttributes =
     pPosition === 0
@@ -95,7 +95,7 @@ function createLabelLine(
   pStartY: number,
   pArc: IArc,
   pLineNumber: number,
-  pOptions
+  pOptions,
 ): SVGTextElement {
   let lY = pStartY + (pLineNumber + 1 / 4) * svgutensils.calculateTextHeight();
   let lClass = determineClasses(pArc.kind, "-text ");
@@ -113,10 +113,10 @@ function createLabelLine(
   return colorLink(
     colorText(
       renderLabelText(pLine, pLineNumber, { x: pMiddle, y: lY }, lClass, pArc),
-      pArc.textcolor
+      pArc.textcolor,
     ),
     pArc.url,
-    pArc.textcolor
+    pArc.textcolor,
   );
 }
 
@@ -161,7 +161,7 @@ export function createLabel(
   pArc: IArc,
   pDims,
   pOptions,
-  pId?: string
+  pId?: string,
 ): SVGGElement {
   const lGroup = svgelementfactory.createGroup(pId);
   pOptions = pOptions || {};
@@ -174,9 +174,9 @@ export function createLabel(
         pArc.kind,
         pDims.width,
         constants.FONT_SIZE,
-        pOptions
+        pOptions,
       ),
-      pOptions
+      pOptions,
     );
 
     let lLabelTop = determineLabelTop(lLines, pDims, pOptions);
@@ -189,11 +189,11 @@ export function createLabel(
           lLabelTop,
           pArc,
           pLineNumber,
-          pOptions
+          pOptions,
         );
         if (pOptions.ownBackground) {
           lGroup.appendChild(
-            renderArcLabelLineBackground(lText, pArc.textbgcolor)
+            renderArcLabelLineBackground(lText, pArc.textbgcolor),
           );
         }
         lGroup.appendChild(lText);
@@ -248,7 +248,7 @@ function isWrappableArc(pKind: any, pWordWrapArcs: boolean): boolean {
 
 function labelIsWrappable(
   pKind: any /*ArcKindType*/,
-  pOptions: IOptionsNormalized
+  pOptions: IOptionsNormalized,
 ): boolean {
   return (
     isWrappableBox(pKind, pOptions.wordwrapboxes) ||
@@ -276,7 +276,7 @@ export function splitLabel(
   pKind,
   pWidth,
   pFontSize,
-  pOptions: IOptionsNormalized
+  pOptions: IOptionsNormalized,
 ) {
   if (labelIsWrappable(pKind, pOptions)) {
     return wrap(pLabel, _determineMaxTextWidthInChars(pWidth, pFontSize));

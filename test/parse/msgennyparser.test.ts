@@ -122,7 +122,6 @@ const gUnicodeEntityInArcFixture = {
   ],
 };
 
-
 describe("parse/msgennyparser", () => {
   describe("#parse()", () => {
     it("should render a simple AST, with two entities auto declared", () => {
@@ -152,7 +151,7 @@ describe("parse/msgennyparser", () => {
     });
     it("should produce lowercase for upper/ mixed case options", () => {
       const lAST = parser.parse(
-        'HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;'
+        'HSCAle=1.2, widtH=800, ARCGRADIENT="17",woRDwrAParcS="oN", watermark="not in mscgen, available in xù and msgenny";a;',
       );
       ajv.validate(mscgenjsASTSchema, lAST);
       deepEqual(lAST, fix.astOptions);
@@ -180,42 +179,30 @@ describe("parse/msgennyparser", () => {
     it("should generate arcs to all other arcs with both bare and quoted *", () => {
       deepEqual(
         parser.parse(
-          "arcgradient=18; ω; ɑ -> * : ɑ -> *; * <- β : * <- β; ɣ <-> * : ɣ <-> *;"
-        ), fix.astAsteriskBoth);
+          "arcgradient=18; ω; ɑ -> * : ɑ -> *; * <- β : * <- β; ɣ <-> * : ɣ <-> *;",
+        ),
+        fix.astAsteriskBoth,
+      );
       deepEqual(
         parser.parse(
-          'arcgradient=18; ω; ɑ -> "*" : ɑ -> *; "*" <- β : * <- β; ɣ <-> "*" : ɣ <-> *;'
-        ),fix.astAsteriskBoth);
+          'arcgradient=18; ω; ɑ -> "*" : ɑ -> *; "*" <- β : * <- β; ɣ <-> "*" : ɣ <-> *;',
+        ),
+        fix.astAsteriskBoth,
+      );
     });
     it('should produce wordwraparcs="true" for true, "true", on, "on", 1 and "1"', () => {
-      deepEqual(parser.parse("wordwraparcs=true;"),
-        fix.astWorwraparcstrue
-      );
-      deepEqual(parser.parse('wordwraparcs="true";'),
-        fix.astWorwraparcstrue
-      );
-      deepEqual(parser.parse("wordwraparcs=on;"),fix.astWorwraparcstrue);
-      deepEqual(parser.parse('wordwraparcs="on";'),
-        fix.astWorwraparcstrue
-      );
-      deepEqual(parser.parse("wordwraparcs=1;"),fix.astWorwraparcstrue);
-      deepEqual(parser.parse('wordwraparcs="1";'),fix.astWorwraparcstrue);
-      deepEqual(parser.parse("wordwraparcs=false;"),
-        fix.astWorwraparcsfalse
-      );
-      deepEqual(parser.parse('wordwraparcs="false";'),
-        fix.astWorwraparcsfalse
-      );
-      deepEqual(parser.parse("wordwraparcs=off;"),
-        fix.astWorwraparcsfalse
-      );
-      deepEqual(parser.parse('wordwraparcs="off";'),
-        fix.astWorwraparcsfalse
-      );
-      deepEqual(parser.parse("wordwraparcs=0;"),fix.astWorwraparcsfalse);
-      deepEqual(parser.parse('wordwraparcs="0";'),
-        fix.astWorwraparcsfalse
-      );
+      deepEqual(parser.parse("wordwraparcs=true;"), fix.astWorwraparcstrue);
+      deepEqual(parser.parse('wordwraparcs="true";'), fix.astWorwraparcstrue);
+      deepEqual(parser.parse("wordwraparcs=on;"), fix.astWorwraparcstrue);
+      deepEqual(parser.parse('wordwraparcs="on";'), fix.astWorwraparcstrue);
+      deepEqual(parser.parse("wordwraparcs=1;"), fix.astWorwraparcstrue);
+      deepEqual(parser.parse('wordwraparcs="1";'), fix.astWorwraparcstrue);
+      deepEqual(parser.parse("wordwraparcs=false;"), fix.astWorwraparcsfalse);
+      deepEqual(parser.parse('wordwraparcs="false";'), fix.astWorwraparcsfalse);
+      deepEqual(parser.parse("wordwraparcs=off;"), fix.astWorwraparcsfalse);
+      deepEqual(parser.parse('wordwraparcs="off";'), fix.astWorwraparcsfalse);
+      deepEqual(parser.parse("wordwraparcs=0;"), fix.astWorwraparcsfalse);
+      deepEqual(parser.parse('wordwraparcs="0";'), fix.astWorwraparcsfalse);
     });
     it("should throw a SyntaxError on an invalid program", () => {
       tst.assertSyntaxError("a", parser);
@@ -243,23 +230,22 @@ describe("parse/msgennyparser", () => {
       tst.assertSyntaxError("a,b,c; * <-> a;", parser);
     });
     it("unicode is cool. Also for unquoted entity names", () => {
-      deepEqual(parser.parse("序;"),gUnicodeEntityFixture);
+      deepEqual(parser.parse("序;"), gUnicodeEntityFixture);
     });
     it("unicode is also cool for quoted entity names", () => {
-      deepEqual(parser.parse('"序";'),gUnicodeEntityFixture);
+      deepEqual(parser.parse('"序";'), gUnicodeEntityFixture);
     });
     it("unicode is cool. Also for unquoted entity names in arcs", () => {
-      deepEqual(parser.parse('"序" -> 序;🏭 =>> 👳 : 👷+🔧;'),
-        gUnicodeEntityInArcFixture
+      deepEqual(
+        parser.parse('"序" -> 序;🏭 =>> 👳 : 👷+🔧;'),
+        gUnicodeEntityInArcFixture,
       );
     });
     it("should throw a SyntaxError on an invalid arc type", () => {
       tst.assertSyntaxError("a, b; a xx b;", parser);
     });
     it("should allow empty inline expressions", () => {
-      deepEqual(parser.parse("a, b; a opt b{};"),
-        fix.emptyinlineexpression
-      );
+      deepEqual(parser.parse("a, b; a opt b{};"), fix.emptyinlineexpression);
     });
     it("should throw a SyntaxError on _that's not an inline expression_ arc type", () => {
       tst.assertSyntaxError("a, b; a => b{|||;};", parser);
@@ -284,7 +270,7 @@ describe("parse/msgennyparser", () => {
     });
     it("should parse all types of arcs supported by mscgen", () => {
       const lAST = parser.parse(
-        "a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);"
+        "a -> b : a -> b  (signal);a => b : a => b  (method);b >> a : b >> a  (return value);a =>> b : a =>> b (callback);a -x b : a -x b  (lost);a :> b : a :> b  (emphasis);a .. b : a .. b  (dotted);a note a : a note a,b box b : b box b;a rbox a : a rbox a,b abox b : b abox b;||| : ||| (empty row);... : ... (omitted row);--- : --- (comment);",
       );
       deepEqual(lAST, fix.astCheatSheet);
     });
@@ -297,7 +283,7 @@ describe("parse/msgennyparser", () => {
     it("should throw a SyntaxError when passing a non-number like string to hscale", () => {
       tst.assertSyntaxError(
         'wordwraparcs=true, hscale="general string"; a;',
-        parser
+        parser,
       );
     });
     it("should throw a SyntaxError when passing a number to something expecting booleans", () => {
@@ -319,7 +305,7 @@ describe("parse/msgennyparser", () => {
     });
     it("should render an AST, with alts, loops and labels (labels in front)", () => {
       const lAST = parser.parse(
-        'a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;'
+        'a => b; a loop c: "label for loop" { b alt c: "label for alt" { b -> c: -> within alt; c >> b: >> within alt; }; b >> a: >> within loop;}; a =>> a: happy-the-peppy - outside;...;',
       );
       ajv.validate(mscgenjsASTSchema, lAST);
       deepEqual(lAST, fix.astAltWithinLoop);
@@ -331,20 +317,20 @@ describe("parse/msgennyparser", () => {
     });
     it("automatically declares entities in the right order", () => {
       const lAST = parser.parse(
-        "# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};"
+        "# A,a, c, d, b, B;\nA loop B {  a alt b { c -> d; c => B; };};",
       );
       ajv.validate(mscgenjsASTSchema, lAST);
       deepEqual(lAST, gCorrectOrderFixture);
     });
     it('should accept "auto" as a valid width', () => {
       const lAST = parser.parse(
-        "arcgradient= 20, width= auTo ; a,b,c,d,e,f; c =>> *: Hello everyone;"
+        "arcgradient= 20, width= auTo ; a,b,c,d,e,f; c =>> *: Hello everyone;",
       ) as any;
       deepEqual(lAST.options.width, "auto");
     });
     it('should accept "AUTO" as a valid width', () => {
       const lAST = parser.parse(
-        'arcgradient= 20, width="AUTO"; a,b,c,d,e,f; c =>> *: Hello everyone;'
+        'arcgradient= 20, width="AUTO"; a,b,c,d,e,f; c =>> *: Hello everyone;',
       ) as any;
       deepEqual(lAST.options.width, "auto");
     });
@@ -390,18 +376,18 @@ describe("parse/msgennyparser", () => {
       const lTextFromFile = fs.readFileSync(
         path.join(
           __dirname,
-          "../fixtures/test01_all_possible_arcs_msgenny.msgenny"
+          "../fixtures/test01_all_possible_arcs_msgenny.msgenny",
         ),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = parser.parse(lTextFromFile.toString());
       ajv.validate(mscgenjsASTSchema, lAST);
       tst.assertequalToFileJSON(
         path.join(
           __dirname,
-          "../fixtures/test01_all_possible_arcs_msgenny.json"
+          "../fixtures/test01_all_possible_arcs_msgenny.json",
         ),
-        lAST
+        lAST,
       );
     });
   });

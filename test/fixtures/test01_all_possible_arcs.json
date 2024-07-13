@@ -1,8 +1,5 @@
 {
-  "precomment": [
-    "# test01: all possible arcs",
-    "\n"
-  ],
+  "precomment": ["# test01: all possible arcs", "\n"],
   "meta": {
     "extendedOptions": true,
     "extendedArcTypes": true,

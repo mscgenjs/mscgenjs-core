@@ -1,8 +1,5 @@
 {
-  "precomment": [
-    "# entities on bottom; regular arc last",
-    "\n"
-  ],
+  "precomment": ["# entities on bottom; regular arc last", "\n"],
   "meta": {
     "extendedOptions": true,
     "extendedArcTypes": false,

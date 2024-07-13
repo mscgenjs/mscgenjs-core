@@ -52,7 +52,7 @@ export class Thing {
   public renderEntities(
     pEntities: any[],
     pEntityYPos: number,
-    pOptions: IOptionsNormalized
+    pOptions: IOptionsNormalized,
   ) {
     const lEntityGroup = svgelementfactory.createGroup();
 
@@ -62,7 +62,7 @@ export class Thing {
 
     pEntities.forEach((pEntity) => {
       lEntityGroup.appendChild(
-        this.renderEntity(pEntity, this.entityXHWM, pEntityYPos, pOptions)
+        this.renderEntity(pEntity, this.entityXHWM, pEntityYPos, pOptions),
       );
       this.setX(pEntity, this.entityXHWM);
       this.entityXHWM += this.interEntitySpacing;
@@ -78,21 +78,21 @@ export class Thing {
   private getNoEntityLines(
     pLabel,
     pFontSize,
-    pChartOptions: IOptionsNormalized
+    pChartOptions: IOptionsNormalized,
   ) {
     return renderlabels.splitLabel(
       pLabel,
       "entity",
       this.width,
       pFontSize,
-      pChartOptions
+      pChartOptions,
     ).length;
   }
 
   private sizeEntityBoxToLabel(pLabel, pBBox: IBBox) {
     const lLabelWidth = Math.min(
       svgutensils.getBBox(pLabel).width + 4 * constants.LINE_WIDTH,
-      this.interEntitySpacing / 3 + pBBox.width
+      this.interEntitySpacing / 3 + pBBox.width,
     );
     /* istanbul ignore if */
     if (lLabelWidth >= pBBox.width) {
@@ -106,7 +106,7 @@ export class Thing {
     pEntity,
     pX: number,
     pY: number,
-    pOptions: IOptionsNormalized
+    pOptions: IOptionsNormalized,
   ): SVGGElement {
     const lGroup = svgelementfactory.createGroup();
     const lBBox: IBBox = {
@@ -120,10 +120,10 @@ export class Thing {
         {
           kind: "entity",
         },
-        pEntity
+        pEntity,
       ),
       Object.assign({}, lBBox, { y: lBBox.y + lBBox.height / 2 }),
-      pOptions
+      pOptions,
     );
 
     lGroup.appendChild(
@@ -131,7 +131,7 @@ export class Thing {
         class: "entity",
         color: pEntity.linecolor,
         bgColor: pEntity.textbgcolor,
-      })
+      }),
     );
     lGroup.appendChild(lLabel);
     return lGroup;
@@ -144,7 +144,7 @@ export class Thing {
       const lNoEntityLines = this.getNoEntityLines(
         pEntity.label,
         constants.FONT_SIZE,
-        pOptions
+        pOptions,
       );
       if (lNoEntityLines > lHWM) {
         lHWM = lNoEntityLines;
@@ -156,7 +156,7 @@ export class Thing {
       return Math.max(
         this.height,
         svgutensils.getBBox(this.renderEntity(lHighestEntity, 0, 0, pOptions))
-          .height
+          .height,
       );
     }
     return this.height;

@@ -1,6 +1,6 @@
 {
-    "experimental": false,
-    "deprecated": false,
-    "description": "Basic",
-    "renderMagic": "straight"
+  "experimental": false,
+  "deprecated": false,
+  "description": "Basic",
+  "renderMagic": "straight"
 }

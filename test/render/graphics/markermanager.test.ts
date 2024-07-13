@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import { deepEqual } from "node:assert/strict";
-import {readFileSync} from "node:fs";
+import { readFileSync } from "node:fs";
 import * as path from "node:path";
 import * as mark from "../../../src/render/graphics/markermanager";
 
@@ -84,7 +84,7 @@ describe("render/graphics/markermanager", () => {
     it("should return the colors in arcs in inline expressions", () => {
       const lTextFromFile = readFileSync(
         path.join(__dirname, "../../fixtures/simpleXuSample.json"),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = JSON.parse(lTextFromFile.toString());
       deepEqual(mark.getMarkerDefs("481", lAST), gMarkerDefs);

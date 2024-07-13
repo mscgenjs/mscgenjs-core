@@ -1,27 +1,48 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __createBinding =
+	(this && this.__createBinding) ||
+	(Object.create
+		? function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				var desc = Object.getOwnPropertyDescriptor(m, k);
+				if (
+					!desc ||
+					("get" in desc ? !m.__esModule : desc.writable || desc.configurable)
+				) {
+					desc = {
+						enumerable: true,
+						get: function () {
+							return m[k];
+						},
+					};
+				}
+				Object.defineProperty(o, k2, desc);
+			}
+		: function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				o[k2] = m[k];
+			});
+var __setModuleDefault =
+	(this && this.__setModuleDefault) ||
+	(Object.create
+		? function (o, v) {
+				Object.defineProperty(o, "default", { enumerable: true, value: v });
+			}
+		: function (o, v) {
+				o["default"] = v;
+			});
+var __importStar =
+	(this && this.__importStar) ||
+	function (mod) {
+		if (mod && mod.__esModule) return mod;
+		var result = {};
+		if (mod != null)
+			for (var k in mod)
+				if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+					__createBinding(result, mod, k);
+		__setModuleDefault(result, mod);
+		return result;
+	};
 Object.defineProperty(exports, "__esModule", { value: true });
 var main = __importStar(require("./main"));
 var resolver = __importStar(require("./main/lazy-resolver"));
@@ -30,38 +51,49 @@ var resolver = __importStar(require("./main/lazy-resolver"));
  * functions only load dependencies at the moment they need them.
  */
 module.exports = {
-    /**
-     * See the function of the same name in @index.js.
-     */
-    renderMsc: function (pScript, pOptions, pCallBack) {
-        main.renderMsc(pScript, pOptions || {}, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
-    },
-    /**
-     * See the function of the same name in @index.js.
-     */
-    translateMsc: function (pScript, pOptions) {
-        return main.translateMsc(pScript, pOptions || {}, resolver.getParser, resolver.getTextRenderer);
-    },
-    /**
-     * See the variable of the same name in @index.js.
-     */
-    version: main.version,
-    /**
-     * See the variable of the same name in @index.js.
-     */
-    getAllowedValues: main.getAllowedValues,
-    /**
-     * See the function of the same name in @index.js
-     */
-    getParser: resolver.getParser,
-    /**
-     * See the function of the same name in @index.js
-     */
-    getGraphicsRenderer: resolver.getGraphicsRenderer,
-    /**
-     * See the function of the same name in @index.js
-     */
-    getTextRenderer: resolver.getTextRenderer,
+	/**
+	 * See the function of the same name in @index.js.
+	 */
+	renderMsc: function (pScript, pOptions, pCallBack) {
+		main.renderMsc(
+			pScript,
+			pOptions || {},
+			pCallBack,
+			resolver.getParser,
+			resolver.getGraphicsRenderer,
+		);
+	},
+	/**
+	 * See the function of the same name in @index.js.
+	 */
+	translateMsc: function (pScript, pOptions) {
+		return main.translateMsc(
+			pScript,
+			pOptions || {},
+			resolver.getParser,
+			resolver.getTextRenderer,
+		);
+	},
+	/**
+	 * See the variable of the same name in @index.js.
+	 */
+	version: main.version,
+	/**
+	 * See the variable of the same name in @index.js.
+	 */
+	getAllowedValues: main.getAllowedValues,
+	/**
+	 * See the function of the same name in @index.js
+	 */
+	getParser: resolver.getParser,
+	/**
+	 * See the function of the same name in @index.js
+	 */
+	getGraphicsRenderer: resolver.getGraphicsRenderer,
+	/**
+	 * See the function of the same name in @index.js
+	 */
+	getTextRenderer: resolver.getTextRenderer,
 };
 /*
 This file is part of mscgen_js.

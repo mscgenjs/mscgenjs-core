@@ -1,5 +1,5 @@
 import { describe, it } from "node:test";
-// using deepEqual instead of deepStrictEqual because with deepStrictEqual the 
+// using deepEqual instead of deepStrictEqual because with deepStrictEqual the
 // explodeBroadCasts test fails for unclear reasons (the objects are the same
 // for all _practical_ purposes)
 import { deepEqual } from "node:assert";
@@ -39,9 +39,9 @@ describe("render/text/ast2dot", () => {
       const lASTString = fs.readFileSync(
         path.join(
           __dirname,
-          "../../fixtures/test01_all_possible_arcs_mscgen.json"
+          "../../fixtures/test01_all_possible_arcs_mscgen.json",
         ),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = JSON.parse(lASTString);
       // expect(render(lAST)).toMatchSnapshot();
@@ -51,23 +51,24 @@ describe("render/text/ast2dot", () => {
 
   describe("explodeBroadcasts", () => {
     it("leave asts without broadcasts alone", () => {
-      deepEqual(explodeBroadcasts(fix.astAltWithinLoop), 
-        fix.astAltWithinLoop
-      );
+      deepEqual(explodeBroadcasts(fix.astAltWithinLoop), fix.astAltWithinLoop);
     });
     it("explode b->* to parallel calls to all other entities", () => {
-      deepEqual(explodeBroadcasts(fix.astSimpleBroadcast), 
-        fix.astSimpleBroadcastExploded
+      deepEqual(
+        explodeBroadcasts(fix.astSimpleBroadcast),
+        fix.astSimpleBroadcastExploded,
       );
     });
     it("explode a little more complex broadcast ast to parallel calls to all other entities", () => {
-      deepEqual(explodeBroadcasts(fix.astComplexerBroadcast), 
-        fix.astComplexerBroadcastExploded
+      deepEqual(
+        explodeBroadcasts(fix.astComplexerBroadcast),
+        fix.astComplexerBroadcastExploded,
       );
     });
     it("correctly explode a broadcast that has other arcs in the same arc row", () => {
-      deepEqual(explodeBroadcasts(fix.astSameArcRowBroadcast), 
-        fix.astSameArcRowBroadcastExploded
+      deepEqual(
+        explodeBroadcasts(fix.astSameArcRowBroadcast),
+        fix.astSameArcRowBroadcastExploded,
       );
     });
   });

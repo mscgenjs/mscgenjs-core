@@ -1,7 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`astAttributes`] = 
-` * \\msc
+exports[`astAttributes`] = ` * \\msc
  *   Alice [linecolor="#008800", textcolor="black", textbgcolor="#CCFFCC", arclinecolor="#008800", arctextcolor="#008800"],
  *   Bob [linecolor="#FF0000", textcolor="black", textbgcolor="#FFCCCC", arclinecolor="#FF0000", arctextcolor="#FF0000"],
  *   pocket [linecolor="#0000FF", textcolor="black", textbgcolor="#CCCCFF", arclinecolor="#0000FF", arctextcolor="#0000FF"];
@@ -12,16 +11,14 @@ exports[`astAttributes`] =
  *   Alice => Alice [label="hihihi", linecolor="#654321"];
  * \\endmsc`;
 
-exports[`astWithPreComment`] =
-` * \\msc
+exports[`astWithPreComment`] = ` * \\msc
  *   a,
  *   b;
  * 
  *   a -> b;
  * \\endmsc`;
 
-exports[`astSimple`] =
-` * \\msc
+exports[`astSimple`] = ` * \\msc
  *   a,
  *   "b space";
  * 
@@ -41,14 +38,12 @@ exports[`fixedwidth`] = ` * \\msc
  * 
  * \\endmsc`;
 
-exports[`astWithAWatermark`] = 
-` * \\msc
+exports[`astWithAWatermark`] = ` * \\msc
  *   a;
  * 
  * \\endmsc`;
 
-exports[`astOneAlt`] = 
-` * \\msc
+exports[`astOneAlt`] = ` * \\msc
  *   a,
  *   b,
  *   c;
@@ -60,8 +55,7 @@ exports[`astOneAlt`] =
  * #;
  * \\endmsc`;
 
-exports[`astAltWithinLoop`] = 
-` * \\msc
+exports[`astAltWithinLoop`] = ` * \\msc
  *   a,
  *   b,
  *   c;

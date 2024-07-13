@@ -73,14 +73,14 @@ function colorizeEntity(pColorScheme: IColorScheme) {
 export function colorize(
   pAST: ISequenceChart,
   pColorScheme: IColorScheme,
-  pForce: boolean
+  pForce: boolean,
 ): ISequenceChart {
   gColorCombiCount = 0;
 
   return asttransform(
     pForce ? uncolor(pAST) : pAST,
     [colorizeEntity(pColorScheme)],
-    [colorizeArc(pColorScheme)]
+    [colorizeArc(pColorScheme)],
   );
 }
 
@@ -100,14 +100,14 @@ export function uncolor(pAST: ISequenceChart): ISequenceChart {
 export const applyScheme = (
   pAST: ISequenceChart,
   pColorSchemeName: string,
-  pForced: boolean
+  pForced: boolean,
 ) =>
   colorize(
     pAST,
     colorizeschemes[pColorSchemeName]
       ? colorizeschemes[pColorSchemeName]
       : colorizeschemes.auto,
-    pForced
+    pForced,
   );
 
 /*

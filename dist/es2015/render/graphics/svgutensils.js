@@ -8,19 +8,19 @@ const gSvgBBoxerId = idmanager.get("bboxer");
 let gTextHeight = 0;
 /* istanbul ignore next */
 function _createBBoxerSVG(pId) {
-    const lSvg = svgelementfactory.createSVG(pId, idmanager.get());
-    gDocument.body.appendChild(lSvg);
-    return lSvg;
+	const lSvg = svgelementfactory.createSVG(pId, idmanager.get());
+	gDocument.body.appendChild(lSvg);
+	return lSvg;
 }
 /* istanbul ignore next */
 function getNativeBBox(pElement) {
-    /* getNativeBBoxWithCache */
-    let lSvg = gDocument.getElementById(gSvgBBoxerId);
-    lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
-    lSvg.appendChild(pElement);
-    const lRetval = pElement.getBBox();
-    lSvg.removeChild(pElement);
-    return lRetval;
+	/* getNativeBBoxWithCache */
+	let lSvg = gDocument.getElementById(gSvgBBoxerId);
+	lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
+	lSvg.appendChild(pElement);
+	const lRetval = pElement.getBBox();
+	lSvg.removeChild(pElement);
+	return lRetval;
 }
 /*
  * workaround for Opera browser quirk: if the dimensions
@@ -32,19 +32,20 @@ function getNativeBBox(pElement) {
  */
 /* istanbul ignore next */
 function sanitizeBBox(pBBox) {
-    const INSANELYBIG = 100000;
-    if (Math.abs(pBBox.height) > INSANELYBIG ||
-        Math.abs(pBBox.width) > INSANELYBIG) {
-        return {
-            height: 0,
-            width: 0,
-            x: 0,
-            y: 0,
-        };
-    }
-    else {
-        return pBBox;
-    }
+	const INSANELYBIG = 100000;
+	if (
+		Math.abs(pBBox.height) > INSANELYBIG ||
+		Math.abs(pBBox.width) > INSANELYBIG
+	) {
+		return {
+			height: 0,
+			width: 0,
+			x: 0,
+			y: 0,
+		};
+	} else {
+		return pBBox;
+	}
 }
 /**
  * Returns the bounding box of the passed element.
@@ -59,54 +60,54 @@ function sanitizeBBox(pBBox) {
  * as "reasonable default"
  */
 export function getBBox(pElement) {
-    /* istanbul ignore if */
-    if (typeof pElement.getBBox === "function") {
-        return sanitizeBBox(getNativeBBox(pElement));
-    }
-    else {
-        return {
-            height: 15,
-            width: 15,
-            x: 2,
-            y: 2,
-        };
-    }
+	/* istanbul ignore if */
+	if (typeof pElement.getBBox === "function") {
+		return sanitizeBBox(getNativeBBox(pElement));
+	} else {
+		return {
+			height: 15,
+			width: 15,
+			x: 2,
+			y: 2,
+		};
+	}
 }
 /**
  * Returns the height in pixels necessary for rendering characters
  */
 export function calculateTextHeight() {
-    if (gTextHeight !== 0) {
-        return gTextHeight;
-    }
-    /* Uses a string with some characters that tend to stick out
-     * above/ below the current line and an 'astral codepoint' to
-     * determine the text height to use everywhere.
-     *
-     * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
-     * browsers. The string in readable form: ÁjyÎ9ƒ@💩
-     */
-    gTextHeight = getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
-        x: 0,
-        y: 0,
-    })).height;
-    return gTextHeight;
+	if (gTextHeight !== 0) {
+		return gTextHeight;
+	}
+	/* Uses a string with some characters that tend to stick out
+	 * above/ below the current line and an 'astral codepoint' to
+	 * determine the text height to use everywhere.
+	 *
+	 * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
+	 * browsers. The string in readable form: ÁjyÎ9ƒ@💩
+	 */
+	gTextHeight = getBBox(
+		svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
+			x: 0,
+			y: 0,
+		}),
+	).height;
+	return gTextHeight;
 }
 export function removeRenderedSVGFromElement(pElementId) {
-    idmanager.setPrefix(pElementId);
-    const lChildElement = gDocument.getElementById(idmanager.get());
-    if (Boolean(lChildElement)) {
-        const lParentElement = gDocument.getElementById(pElementId);
-        if (lParentElement) {
-            lParentElement.removeChild(lChildElement);
-        }
-        else {
-            gDocument.body.removeChild(lChildElement);
-        }
-    }
+	idmanager.setPrefix(pElementId);
+	const lChildElement = gDocument.getElementById(idmanager.get());
+	if (Boolean(lChildElement)) {
+		const lParentElement = gDocument.getElementById(pElementId);
+		if (lParentElement) {
+			lParentElement.removeChild(lChildElement);
+		} else {
+			gDocument.body.removeChild(lChildElement);
+		}
+	}
 }
 export const init = (pDocument) => {
-    gDocument = pDocument;
+	gDocument = pDocument;
 };
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
 // distibuted with MacOSX 10.8.4) omits the xmlns: and xlink:
@@ -114,9 +115,9 @@ export const init = (pDocument) => {
 // this function does a crude global replace to circumvent the
 // resulting problems. Problem happens for xhtml too
 export const webkitNamespaceBugWorkaround = (pText) => {
-    return pText
-        .replace(/ xlink=/g, " xmlns:xlink=")
-        .replace(/ href=/g, " xlink:href=");
+	return pText
+		.replace(/ xlink=/g, " xmlns:xlink=")
+		.replace(/ href=/g, " xlink:href=");
 };
 /*
  This file is part of mscgen_js.

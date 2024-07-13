@@ -10,7 +10,7 @@ import allowedValues from "./allowedvalues";
 function normalizeValueFromValidValues(
   pValue: string,
   pValidValues: IValueDetails[],
-  pDefault: string
+  pDefault: string,
 ): string {
   let lRetval = pDefault;
 
@@ -22,12 +22,12 @@ function normalizeValueFromValidValues(
 }
 
 function normalizeVerticalAlignment(
-  pVerticalAlignment: string
+  pVerticalAlignment: string,
 ): RegularArcTextVerticalAlignmentType {
   return normalizeValueFromValidValues(
     pVerticalAlignment,
     allowedValues.regularArcTextVerticalAlignment,
-    "middle"
+    "middle",
   ) as RegularArcTextVerticalAlignmentType;
 }
 
@@ -35,7 +35,7 @@ function normalizeInputType(pInputType: string): InputType {
   return normalizeValueFromValidValues(
     pInputType,
     allowedValues.inputType,
-    "mscgen"
+    "mscgen",
   ) as InputType;
 }
 
@@ -43,7 +43,7 @@ function normalizeAdditionalTemplate(pAdditionalTemplate: string): string {
   return normalizeValueFromValidValues(
     pAdditionalTemplate,
     allowedValues.namedStyle,
-    "basic"
+    "basic",
   );
 }
 
@@ -53,7 +53,7 @@ function booleanize(pValue: any, pDefault: boolean) {
 
 export default (
   pOptions: IRenderOptions,
-  pScript: string
+  pScript: string,
 ): INormalizedRenderOptions => {
   const lIncludeSource = booleanize(pOptions.includeSource, true);
 
@@ -65,11 +65,11 @@ export default (
     source: lIncludeSource ? pScript : null,
     styleAdditions: pOptions.styleAdditions || null,
     additionalTemplate: normalizeAdditionalTemplate(
-      pOptions.additionalTemplate as string
+      pOptions.additionalTemplate as string,
     ),
     mirrorEntitiesOnBottom: booleanize(pOptions.mirrorEntitiesOnBottom, false),
     regularArcTextVerticalAlignment: normalizeVerticalAlignment(
-      pOptions.regularArcTextVerticalAlignment as string
+      pOptions.regularArcTextVerticalAlignment as string,
     ),
   };
 };

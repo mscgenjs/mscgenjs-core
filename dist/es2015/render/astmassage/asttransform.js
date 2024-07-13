@@ -1,27 +1,27 @@
 function transformEntities(pEntities, pFunctionAry) {
-    pEntities.forEach((pEntity) => {
-        pFunctionAry.forEach((pFunction) => {
-            pFunction(pEntity);
-        });
-    });
+	pEntities.forEach((pEntity) => {
+		pFunctionAry.forEach((pFunction) => {
+			pFunction(pEntity);
+		});
+	});
 }
 function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
-    pFunctionAry.forEach((pFunction) => {
-        pFunction(pArc, pEntities, pArcRow);
-    });
+	pFunctionAry.forEach((pFunction) => {
+		pFunction(pArc, pEntities, pArcRow);
+	});
 }
 function transformArcRow(pEntities, pArcRow, pFunctionAry) {
-    pArcRow.forEach((pArc) => {
-        transformArc(pEntities, pArcRow, pArc, pFunctionAry);
-        if (pArc.arcs) {
-            transformArcRows(pEntities, pArc.arcs, pFunctionAry);
-        }
-    });
+	pArcRow.forEach((pArc) => {
+		transformArc(pEntities, pArcRow, pArc, pFunctionAry);
+		if (pArc.arcs) {
+			transformArcRows(pEntities, pArc.arcs, pFunctionAry);
+		}
+	});
 }
 function transformArcRows(pEntities, pArcRows, pFunctionAry) {
-    pArcRows.forEach((pArcRow) => {
-        transformArcRow(pEntities, pArcRow, pFunctionAry);
-    });
+	pArcRows.forEach((pArcRow) => {
+		transformArcRow(pEntities, pArcRow, pFunctionAry);
+	});
 }
 /**
  * Generic function for performing manipulations on abstract syntax trees. It takes a
@@ -36,11 +36,11 @@ function transformArcRows(pEntities, pArcRows, pFunctionAry) {
  * @return {ast} - the modified syntax tree
  */
 export default (pAST, pEntityTransforms, pArcRowTransforms) => {
-    transformEntities(pAST.entities, pEntityTransforms);
-    if (pAST.arcs) {
-        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
-    }
-    return pAST;
+	transformEntities(pAST.entities, pEntityTransforms);
+	if (pAST.arcs) {
+		transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
+	}
+	return pAST;
 };
 /*
  This file is part of mscgen_js.

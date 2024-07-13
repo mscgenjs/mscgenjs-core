@@ -8,7 +8,7 @@ const PRECISION = 2;
 export function point2String(pPoint: IPoint): string {
   return `${round(pPoint.x, PRECISION).toString()},${round(
     pPoint.y,
-    PRECISION
+    PRECISION,
   ).toString()} `;
 }
 
@@ -20,7 +20,7 @@ function createMarker(
   pId: string,
   pClass: string,
   pOrient: string,
-  pViewBox?: string
+  pViewBox?: string,
 ): SVGMarkerElement {
   /* so, why not start at refX=0, refY=0? It would simplify reasoning
    * about marker paths significantly...
@@ -66,7 +66,7 @@ lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
 
 export function createTSpan(
   pLabel: string,
-  pURL?: string
+  pURL?: string,
 ): SVGTSpanElement | SVGAElement {
   const lTSpanLabel = domprimitives.createElement("tspan");
   const lContent = domprimitives.createTextNode(pLabel);
@@ -87,7 +87,7 @@ interface ICreateTextOptions {
 export function createText(
   pLabel: string,
   pCoords: IPoint,
-  pOptions?: ICreateTextOptions
+  pOptions?: ICreateTextOptions,
 ): SVGTextElement {
   const lOptions: ICreateTextOptions = Object.assign(
     {
@@ -96,7 +96,7 @@ export function createText(
       id: null,
       idurl: null,
     },
-    pOptions
+    pOptions,
   );
   const lText = domprimitives.createElement("text", {
     x: round(pCoords.x, PRECISION).toString(),
@@ -130,7 +130,7 @@ interface ICreatePathOptions {
  */
 export function createPath(
   pD: string,
-  pOptions: ICreatePathOptions
+  pOptions: ICreatePathOptions,
 ): SVGPathElement {
   const lOptions: ICreatePathOptions = Object.assign(
     {
@@ -139,7 +139,7 @@ export function createPath(
       color: null,
       bgColor: null,
     },
-    pOptions
+    pOptions,
   );
   return colorBox(
     domprimitives.createElement("path", {
@@ -148,14 +148,14 @@ export function createPath(
       style: lOptions.style,
     }),
     lOptions.color,
-    lOptions.bgColor
+    lOptions.bgColor,
   ) as SVGPathElement;
 }
 
 function colorBox(
   pElement: SVGElement,
   pColor?: string,
-  pBgColor?: string
+  pBgColor?: string,
 ): SVGElement {
   let lStyleString = "";
   if (pBgColor) {
@@ -167,7 +167,7 @@ function colorBox(
   return domprimitives.setAttribute(
     pElement,
     "style",
-    lStyleString
+    lStyleString,
   ) as SVGElement;
 }
 
@@ -176,7 +176,7 @@ interface ICreateSinlgeLineOptions {
 }
 export function createSingleLine(
   pLine: ILine,
-  pOptions: ICreateSinlgeLineOptions
+  pOptions: ICreateSinlgeLineOptions,
 ): SVGLineElement {
   return domprimitives.createElement("line", {
     x1: round(pLine.xFrom, PRECISION).toString(),
@@ -210,7 +210,7 @@ interface ICreateRectOptions {
  */
 export function createRect(
   pBBox: IBBox,
-  pOptions: ICreateRectOptions
+  pOptions: ICreateRectOptions,
 ): SVGRectElement {
   const lOptions: ICreateRectOptions = Object.assign(
     {
@@ -220,7 +220,7 @@ export function createRect(
       rx: null,
       ry: null,
     },
-    pOptions
+    pOptions,
   );
   return colorBox(
     domprimitives.createElement("rect", {
@@ -233,7 +233,7 @@ export function createRect(
       class: lOptions.class,
     }),
     lOptions.color,
-    lOptions.bgColor
+    lOptions.bgColor,
   ) as SVGRectElement;
 }
 
@@ -255,7 +255,7 @@ interface ICreateUTurnOptions {
 export function createUTurn(
   pBBox: IBBox,
   pEndY: number,
-  pOptions: ICreateUTurnOptions
+  pOptions: ICreateUTurnOptions,
 ): SVGPathElement {
   const lOptions: ICreateUTurnOptions = Object.assign(
     {
@@ -263,7 +263,7 @@ export function createUTurn(
       dontHitHome: false,
       lineWidth: 1,
     },
-    pOptions
+    pOptions,
   );
   const lEndX = lOptions.dontHitHome
     ? pBBox.x + 7.5 * (lOptions.lineWidth || 1)
@@ -276,13 +276,13 @@ export function createUTurn(
       pathPoint2String(
         "C",
         pBBox.x + pBBox.width,
-        pBBox.y - (7.5 * (lOptions.lineWidth || 1)) / 2
+        pBBox.y - (7.5 * (lOptions.lineWidth || 1)) / 2,
       ) +
       // curve back from.:
       point2String({ x: pBBox.x + pBBox.width, y: pEndY + 0 }) +
       // curve end-pont:
       point2String({ x: lEndX, y: pEndY }),
-    { class: lOptions.class }
+    { class: lOptions.class },
   );
 }
 
@@ -307,7 +307,7 @@ export function createGroup(pId?: string, pClass?: string): SVGGElement {
 export function createMarkerPath(
   pId: string,
   pD: string,
-  pColor: string
+  pColor: string,
 ): SVGMarkerElement {
   const lMarker = createMarker(pId, "arrow-marker", "auto");
   /* stroke-dasharray: 'none' should work to override any dashes (like in
@@ -320,7 +320,7 @@ export function createMarkerPath(
     createPath(pD, {
       class: "arrow-style",
       style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",
-    })
+    }),
   );
   return lMarker;
 }
@@ -335,7 +335,7 @@ export function createMarkerPath(
 export function createMarkerPolygon(
   pId: string,
   pPoints: string,
-  pColor: string
+  pColor: string,
 ): SVGMarkerElement {
   const lMarker = createMarker(pId, "arrow-marker", "auto");
   lMarker.appendChild(
@@ -344,7 +344,7 @@ export function createMarkerPolygon(
       class: "arrow-style",
       stroke: pColor || "black",
       fill: pColor || "black",
-    }) as SVGPolygonElement
+    }) as SVGPolygonElement,
   );
   return lMarker;
 }
@@ -365,20 +365,20 @@ export function createTitle(pText: string): SVGTitleElement {
 export function createDiagonalText(
   pText: string,
   pDimension: IDimension,
-  pClass: string
+  pClass: string,
 ): SVGElement {
   return domprimitives.setAttributes(
     createText(
       pText,
       { x: pDimension.width / 2, y: pDimension.height / 2 },
-      { class: pClass }
+      { class: pClass },
     ),
     {
       transform:
         `rotate(${round(getDiagonalAngle(pDimension), PRECISION).toString()} ` +
         `${round(pDimension.width / 2, PRECISION).toString()} ` +
         `${round(pDimension.height / 2, PRECISION).toString()})`,
-    }
+    },
   ) as SVGElement;
 }
 

@@ -5,12 +5,12 @@
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 const KIND2NORMALIZEDKIND = Object.freeze({
-    "<-": "->",
-    "<=": "=>",
-    "<<=": "=>>",
-    "<<": ">>",
-    "<:": ":>",
-    "x-": "-x",
+	"<-": "->",
+	"<=": "=>",
+	"<<=": "=>>",
+	"<<": ">>",
+	"<:": ":>",
+	"x-": "-x",
 });
 export default (pKey) => KIND2NORMALIZEDKIND[pKey] || pKey;
 /*

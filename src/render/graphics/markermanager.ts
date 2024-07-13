@@ -194,7 +194,7 @@ export function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
         .replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
         .replace(
           /\{\{signal-marker-start\}\}/g,
-          getSignalstart(pKind, pFrom, pTo)
+          getSignalstart(pKind, pFrom, pTo),
         )
         .replace(/\{\{id\}\}/g, pId)
         .replace(/\{\{color\}\}/g, pLineColor || "black"),
@@ -254,14 +254,16 @@ function extractKindColorCombis(pAST: IFlatSequenceChart) {
 }
 
 export function getMarkerDefs(pId: string, pAST: IFlatSequenceChart) {
-  return extractKindColorCombis(pAST).map((pCombi) =>
+  return extractKindColorCombis(pAST)
+    .map((pCombi) =>
       MARKERPATHS[pCombi.kind].variants.map((pVariant) => ({
         name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
         path: pVariant.path,
         color: pCombi.color,
         type: pCombi.kind,
-      }))
-    ).flat(Infinity);
+      })),
+    )
+    .flat(Infinity);
 }
 /*
  This file is part of mscgen_js.

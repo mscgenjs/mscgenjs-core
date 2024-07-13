@@ -5,10 +5,10 @@ exports.get = get;
 var INNERELEMENTPREFIX = "mscgenjs";
 var gInnerElementId = INNERELEMENTPREFIX;
 function setPrefix(pPrefix) {
-    gInnerElementId = INNERELEMENTPREFIX + pPrefix;
+	gInnerElementId = INNERELEMENTPREFIX + pPrefix;
 }
 function get(pElementIdentifierString) {
-    return gInnerElementId + (pElementIdentifierString || "");
+	return gInnerElementId + (pElementIdentifierString || "");
 }
 /*
  This file is part of mscgen_js.

@@ -4,23 +4,22 @@ exports.determineStartCorrection = determineStartCorrection;
 exports.determineEndCorrection = determineEndCorrection;
 exports.getDirection = getDirection;
 function determineStartCorrection(pLine, pClass, pLineWidth) {
-    var lRetval = 0;
-    if (!pClass.includes("nodi") && pClass.includes("bidi")) {
-        if (pLine.xTo > pLine.xFrom) {
-            lRetval = 7.5 * pLineWidth;
-        }
-        else {
-            lRetval = -7.5 * pLineWidth;
-        }
-    }
-    return lRetval;
+	var lRetval = 0;
+	if (!pClass.includes("nodi") && pClass.includes("bidi")) {
+		if (pLine.xTo > pLine.xFrom) {
+			lRetval = 7.5 * pLineWidth;
+		} else {
+			lRetval = -7.5 * pLineWidth;
+		}
+	}
+	return lRetval;
 }
 function determineEndCorrection(pLine, pClass, pLineWidth) {
-    var lRetval = 0;
-    if (!pClass.includes("nodi")) {
-        lRetval = pLine.xTo > pLine.xFrom ? -7.5 * pLineWidth : 7.5 * pLineWidth;
-    }
-    return lRetval;
+	var lRetval = 0;
+	if (!pClass.includes("nodi")) {
+		lRetval = pLine.xTo > pLine.xFrom ? -7.5 * pLineWidth : 7.5 * pLineWidth;
+	}
+	return lRetval;
 }
 /**
  * returns the angle (in radials) of the line
@@ -32,12 +31,12 @@ function determineEndCorrection(pLine, pClass, pLineWidth) {
  *                      dy: the angle (in radials)
  */
 function getDirection(pLine) {
-    var lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
-    return {
-        signX: lSignX,
-        signY: pLine.yTo > pLine.yFrom ? 1 : -1,
-        dy: (lSignX * (pLine.yTo - pLine.yFrom)) / (pLine.xTo - pLine.xFrom),
-    };
+	var lSignX = pLine.xTo > pLine.xFrom ? 1 : -1;
+	return {
+		signX: lSignX,
+		signY: pLine.yTo > pLine.yFrom ? 1 : -1,
+		dy: (lSignX * (pLine.yTo - pLine.yFrom)) / (pLine.xTo - pLine.xFrom),
+	};
 }
 /*
  This file is part of mscgen_js.

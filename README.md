@@ -120,7 +120,7 @@ mscgenjs.renderMsc(
   {
     elementId: "yourOtherCoolId",
   },
-  handleRenderMscResult
+  handleRenderMscResult,
 );
 
 function handleRenderMscResult(pError, pSuccess) {
@@ -167,7 +167,7 @@ try {
     {
       inputType: "msgenny", // defaults to mscgen - other accepted formats: msgenny, xu, json
       outputType: "mscgen", // defaults to json - other accepted formats: mscgen, msgenny, xu, dot, doxygen, ast
-    }
+    },
   );
   console.log(lResult);
 } catch (pError) {

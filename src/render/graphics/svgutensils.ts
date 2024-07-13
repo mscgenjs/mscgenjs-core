@@ -85,7 +85,6 @@ export function getBBox(pElement: SVGGElement): IBBox {
   }
 }
 
-
 /**
  * Returns the height in pixels necessary for rendering characters
  */
@@ -104,9 +103,9 @@ export function calculateTextHeight(): number {
     svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
       x: 0,
       y: 0,
-    })
+    }),
   ).height;
-  return gTextHeight
+  return gTextHeight;
 }
 
 export function removeRenderedSVGFromElement(pElementId: string) {

@@ -1,115 +1,106 @@
-export type InputType =
-    "mscgen"  |
-    "msgenny" |
-    "xu"      |
-    "json"
-;
+export type InputType = "mscgen" | "msgenny" | "xu" | "json";
 
-export type RegularArcTextVerticalAlignmentType =
-    "above"  |
-    "middle" |
-    "below"
-;
+export type RegularArcTextVerticalAlignmentType = "above" | "middle" | "below";
 
 interface IRenderOptions {
-    /**
-     * the id of the DOM element to render in. Defaults to
-     * "__svg". renderMsc assumes this element to exist.
-     */
-    elementId?: string;
+  /**
+   * the id of the DOM element to render in. Defaults to
+   * "__svg". renderMsc assumes this element to exist.
+   */
+  elementId?: string;
 
-    /**
-     * language to parse - default "mscgen"
-     */
-    inputType?: InputType;
+  /**
+   * language to parse - default "mscgen"
+   */
+  inputType?: InputType;
 
-    /**
-     * draws entities on both top and bottom of
-     * the chart when true. Defaults to false.
-     */
-    mirrorEntitiesOnBottom?: boolean;
+  /**
+   * draws entities on both top and bottom of
+   * the chart when true. Defaults to false.
+   */
+  mirrorEntitiesOnBottom?: boolean;
 
-    /**
-     * identifier of an additional template. Get the
-     * allowed values from allowedValues.namedStyle
-     */
-    additionalTemplate?: string;
+  /**
+   * identifier of an additional template. Get the
+   * allowed values from allowedValues.namedStyle
+   */
+  additionalTemplate?: string;
 
-    /**
-     * whether the generated svg should include the script
-     * in a desc element or not. Defaults to false
-     */
-    includeSource?: boolean;
+  /**
+   * whether the generated svg should include the script
+   * in a desc element or not. Defaults to false
+   */
+  includeSource?: boolean;
 
-    /**
-     * the vertical alignment type to use
-     * defaults to "middle"
-     */
-    regularArcTextVerticalAlignment?: RegularArcTextVerticalAlignmentType;
+  /**
+   * the vertical alignment type to use
+   * defaults to "middle"
+   */
+  regularArcTextVerticalAlignment?: RegularArcTextVerticalAlignmentType;
 
-    /**
-     * a string with (css) style additions
-     */
-    styleAdditions?: string | null,
+  /**
+   * a string with (css) style additions
+   */
+  styleAdditions?: string | null;
 
-    /**
-     * the window object to use for rendering - takes the browser window by default
-     */
-    window?: any
+  /**
+   * the window object to use for rendering - takes the browser window by default
+   */
+  window?: any;
 }
 
 interface INormalizedRenderOptions {
-    /**
-     * the id of the DOM element to render in. Defaults to
-     * "__svg". renderMsc assumes this element to exist.
-     */
-    elementId: string;
+  /**
+   * the id of the DOM element to render in. Defaults to
+   * "__svg". renderMsc assumes this element to exist.
+   */
+  elementId: string;
 
-    /**
-     * language to parse - default "mscgen"
-     */
-    inputType: InputType;
+  /**
+   * language to parse - default "mscgen"
+   */
+  inputType: InputType;
 
-    /**
-     * draws entities on both top and bottom of
-     * the chart when true. Defaults to false.
-     */
-    mirrorEntitiesOnBottom: boolean;
+  /**
+   * draws entities on both top and bottom of
+   * the chart when true. Defaults to false.
+   */
+  mirrorEntitiesOnBottom: boolean;
 
-    /**
-     * identifier of an additional template. Get the
-     * allowed values from allowedValues.namedStyle
-     */
-    additionalTemplate: string;
+  /**
+   * identifier of an additional template. Get the
+   * allowed values from allowedValues.namedStyle
+   */
+  additionalTemplate: string;
 
-    /**
-     * whether the generated svg should include the script
-     * in a desc element or not. Defaults to false
-     */
-    includeSource: boolean;
+  /**
+   * whether the generated svg should include the script
+   * in a desc element or not. Defaults to false
+   */
+  includeSource: boolean;
 
-    /**
-     * the vertical alignment type to use
-     * defaults to "middle"
-     */
-    regularArcTextVerticalAlignment: RegularArcTextVerticalAlignmentType;
+  /**
+   * the vertical alignment type to use
+   * defaults to "middle"
+   */
+  regularArcTextVerticalAlignment: RegularArcTextVerticalAlignmentType;
 
-    /**
-     * a string with (css) style additions
-     */
-    styleAdditions: string | null,
+  /**
+   * a string with (css) style additions
+   */
+  styleAdditions: string | null;
 
-    /**
-     * the window object to use for rendering - takes the browser window by default
-     */
-    window: any,
+  /**
+   * the window object to use for rendering - takes the browser window by default
+   */
+  window: any;
 
-    /**
-     * source code to attach to any output that wants it. 
-     * Derived attribute; automatically assigned from the includeSource
-     * boolean during 'normalization' in main
-     */
-    source: string | null
+  /**
+   * source code to attach to any output that wants it.
+   * Derived attribute; automatically assigned from the includeSource
+   * boolean during 'normalization' in main
+   */
+  source: string | null;
 }
 /**
  * parses the given script and renders it in the DOM element with
@@ -130,31 +121,30 @@ interface INormalizedRenderOptions {
  *
  */
 export function renderMsc(
-    pScript: string,
-    pOptions?: IRenderOptions,
-    pCallBack?: (pError: Error, pSuccess: string) => void,
+  pScript: string,
+  pOptions?: IRenderOptions,
+  pCallBack?: (pError: Error, pSuccess: string) => void,
 ): void;
 
 export type OutputType =
-    "mscgen"  |
-    "msgenny" |
-    "xu"      |
-    "json"    |
-    "ast"     |
-    "dot"     |
-    "doxygen"
-;
+  | "mscgen"
+  | "msgenny"
+  | "xu"
+  | "json"
+  | "ast"
+  | "dot"
+  | "doxygen";
 
 interface ITranslateOptions {
-    /**
-     * the language of pScript defaults to "mscgen".
-     */
-    inputType?: InputType;
+  /**
+   * the language of pScript defaults to "mscgen".
+   */
+  inputType?: InputType;
 
-    /**
-     * defaults to "json".
-     */
-    outputType?: OutputType;
+  /**
+   * defaults to "json".
+   */
+  outputType?: OutputType;
 }
 /**
  * Translates the input script to an outputscript.
@@ -175,8 +165,8 @@ interface ITranslateOptions {
  *                allowedValues.outputType
  */
 export function translateMsc(
-    pScript: string,
-    pOptions?: ITranslateOptions,
+  pScript: string,
+  pOptions?: ITranslateOptions,
 ): string;
 
 /**
@@ -188,38 +178,37 @@ export function translateMsc(
 export const version: string;
 
 export interface IValueDetails {
+  /**
+   * The value
+   */
+  name: string;
 
-    /**
-     * The value
-     */
-    name: string;
+  /**
+   * if true the value reflects an experimental feature
+   * it's probably stable, but might change behavior or
+   * disappear in a next release (patch, minor or major)
+   * (defaults to false)
+   */
+  experimental: boolean;
 
-    /**
-     * if true the value reflects an experimental feature
-     * it's probably stable, but might change behavior or
-     * disappear in a next release (patch, minor or major)
-     * (defaults to false)
-     */
-    experimental: boolean;
+  /**
+   * A description of the value you can use to describe
+   * it to end users
+   */
+  description?: string;
 
-    /**
-     * A description of the value you can use to describe
-     * it to end users
-     */
-    description?: string;
-
-    /**
-     * true if the value is going to disappear in the next
-     * major release
-     */
-    deprecated?: boolean;
+  /**
+   * true if the value is going to disappear in the next
+   * major release
+   */
+  deprecated?: boolean;
 }
 
 export interface IAllowedValues {
-    inputType: IValueDetails[];
-    outputType: IValueDetails[];
-    namedStyle: IValueDetails[];
-    regularArcTextVerticalAlignment: IValueDetails[];
+  inputType: IValueDetails[];
+  outputType: IValueDetails[];
+  namedStyle: IValueDetails[];
+  regularArcTextVerticalAlignment: IValueDetails[];
 }
 /**
  * An object with arrays of allowed values for parameters in the
@@ -231,27 +220,27 @@ export interface IAllowedValues {
 export function getAllowedValues(): IAllowedValues;
 
 interface IParser {
-    /**
-     * A parser that takes a sequence chart description and
-     * outputs an abstract syntax tree.
-     *
-     * @param {string} pSource - the source code to parse
-     * @throws {Error} - a parse error
-     * @return {any} - an abstract syntax tree
-     */
-    parse: (pSource: string) => any;
+  /**
+   * A parser that takes a sequence chart description and
+   * outputs an abstract syntax tree.
+   *
+   * @param {string} pSource - the source code to parse
+   * @throws {Error} - a parse error
+   * @return {any} - an abstract syntax tree
+   */
+  parse: (pSource: string) => any;
 }
 
 interface IRenderer {
-    /**
-     * A parser that takes a sequence chart description and
-     * outputs an abstract syntax tree.
-     *
-     * @param {string} pSource - the source code to parse
-     * @throws {Error} - a parse error
-     * @return {any} - an abstract syntax tree
-     */
-    render: (pSomething: any) => any;
+  /**
+   * A parser that takes a sequence chart description and
+   * outputs an abstract syntax tree.
+   *
+   * @param {string} pSource - the source code to parse
+   * @throws {Error} - a parse error
+   * @return {any} - an abstract syntax tree
+   */
+  render: (pSomething: any) => any;
 }
 /**
  * returns a parser module for the given language. The module exposes

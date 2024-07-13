@@ -30,7 +30,13 @@ import * as resolver from "./main/static-resolver";
  *             in a desc element or not. Defaults to false
  */
 export function renderMsc(pScript, pOptions, pCallBack) {
-    main.renderMsc(pScript, pOptions || {}, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
+	main.renderMsc(
+		pScript,
+		pOptions || {},
+		pCallBack,
+		resolver.getParser,
+		resolver.getGraphicsRenderer,
+	);
 }
 /**
  * Translates the input script to an outputscript.
@@ -48,7 +54,12 @@ export function renderMsc(pScript, pOptions, pCallBack) {
  *                allowedValues.outputType
  */
 export function translateMsc(pScript, pOptions) {
-    return main.translateMsc(pScript, pOptions || {}, resolver.getParser, resolver.getTextRenderer);
+	return main.translateMsc(
+		pScript,
+		pOptions || {},
+		resolver.getParser,
+		resolver.getTextRenderer,
+	);
 }
 /**
  * The current (semver compliant) version number string of

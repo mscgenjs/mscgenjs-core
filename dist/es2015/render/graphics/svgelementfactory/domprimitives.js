@@ -11,16 +11,16 @@ let gDocument = {};
  * @return {element}
  */
 export function setAttribute(pElement, pKey, pValue) {
-    if (Boolean(pValue)) {
-        pElement.setAttribute(pKey, pValue);
-    }
-    return pElement;
+	if (Boolean(pValue)) {
+		pElement.setAttribute(pKey, pValue);
+	}
+	return pElement;
 }
 export function setAttributeNS(pElement, pNS, pKey, pValue) {
-    if (Boolean(pValue)) {
-        pElement.setAttributeNS(pNS, pKey, pValue);
-    }
-    return pElement;
+	if (Boolean(pValue)) {
+		pElement.setAttributeNS(pNS, pKey, pValue);
+	}
+	return pElement;
 }
 /**
  * Takes an element, adds the passed attributes to it if they have
@@ -31,10 +31,10 @@ export function setAttributeNS(pElement, pNS, pKey, pValue) {
  * @return {element}
  */
 export function setAttributes(pElement, pAttributes) {
-    Object.keys(pAttributes || {}).forEach((pKey) => {
-        setAttribute(pElement, pKey, pAttributes[pKey]);
-    });
-    return pElement;
+	Object.keys(pAttributes || {}).forEach((pKey) => {
+		setAttribute(pElement, pKey, pAttributes[pKey]);
+	});
+	return pElement;
 }
 /**
  * Takes an element, adds the passed attributes to it if they have
@@ -46,10 +46,10 @@ export function setAttributes(pElement, pAttributes) {
  * @return {element}
  */
 export function setAttributesNS(pElement, pNS, pAttributes) {
-    Object.keys(pAttributes || {}).forEach((pKey) => {
-        setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
-    });
-    return pElement;
+	Object.keys(pAttributes || {}).forEach((pKey) => {
+		setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
+	});
+	return pElement;
 }
 /**
  * creates the element of type pElementType in the SVG namespace,
@@ -61,7 +61,10 @@ export function setAttributesNS(pElement, pNS, pAttributes) {
  * @return {element}
  */
 export function createElement(pElementType, pAttributes) {
-    return setAttributes(gDocument.createElementNS(SVGNS, pElementType), pAttributes);
+	return setAttributes(
+		gDocument.createElementNS(SVGNS, pElementType),
+		pAttributes,
+	);
 }
 /**
  * creates a textNode, initialized with the pText passed
@@ -70,7 +73,7 @@ export function createElement(pElementType, pAttributes) {
  * @return {textNode}
  */
 export function createTextNode(pText) {
-    return gDocument.createTextNode(pText);
+	return gDocument.createTextNode(pText);
 }
 /**
  * Function to set the document to use. Introduced to enable use of the
@@ -79,7 +82,7 @@ export function createTextNode(pText) {
  * @param {document} pDocument
  */
 export function init(pDocument) {
-    gDocument = pDocument;
+	gDocument = pDocument;
 }
 /*
  This file is part of mscgen_js.

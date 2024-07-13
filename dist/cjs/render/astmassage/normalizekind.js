@@ -7,16 +7,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
 var KIND2NORMALIZEDKIND = Object.freeze({
-    "<-": "->",
-    "<=": "=>",
-    "<<=": "=>>",
-    "<<": ">>",
-    "<:": ":>",
-    "x-": "-x",
+	"<-": "->",
+	"<=": "=>",
+	"<<=": "=>>",
+	"<<": ">>",
+	"<:": ":>",
+	"x-": "-x",
 });
-exports.default = (function (pKey) {
-    return KIND2NORMALIZEDKIND[pKey] || pKey;
-});
+exports.default = function (pKey) {
+	return KIND2NORMALIZEDKIND[pKey] || pKey;
+};
 /*
  This file is part of mscgen_js.
 

@@ -1,6 +1,6 @@
 ### Dependency graph
 
-Click on the image for a slightly more interactive version that (a.o.) navigates you 
+Click on the image for a slightly more interactive version that (a.o.) navigates you
 to a source file when you click on it. The graph omits any external dependencies to
 remain concise.
 

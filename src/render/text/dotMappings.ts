@@ -3,31 +3,37 @@
  *
  */
 const KIND2ARROW = Object.freeze({
-    "->" : "rvee",
-    "<->" : "rvee",
-    "=>" : "normal",
-    "<=>" : "normal",
-    "-x" : "oinvonormal",
+  "->": "rvee",
+  "<->": "rvee",
+  "=>": "normal",
+  "<=>": "normal",
+  "-x": "oinvonormal",
 });
 const KIND2SHAPE = Object.freeze({
-    box : "box",
-    abox : "hexagon",
-    rbox : "box",
-    note : "note",
+  box: "box",
+  abox: "hexagon",
+  rbox: "box",
+  note: "note",
 });
 const KIND2STYLE = Object.freeze({
-    ">>" : "dashed",
-    "<<>>" : "dashed",
-    ".." : "dashed",
-    ":>" : "bold",
-    "<:>" : "bold",
-    "::" : "bold",
-    "rbox" : "rounded",
+  ">>": "dashed",
+  "<<>>": "dashed",
+  "..": "dashed",
+  ":>": "bold",
+  "<:>": "bold",
+  "::": "bold",
+  rbox: "rounded",
 });
 
-export function getArrow(pKey) { return KIND2ARROW[pKey]; }
-export function getShape(pKey) { return KIND2SHAPE[pKey]; }
-export function getStyle(pKey) { return KIND2STYLE[pKey]; }
+export function getArrow(pKey) {
+  return KIND2ARROW[pKey];
+}
+export function getShape(pKey) {
+  return KIND2SHAPE[pKey];
+}
+export function getStyle(pKey) {
+  return KIND2STYLE[pKey];
+}
 
 /* The 'generic object injection sink' is to a frozen object,
    attempts to modify it will be moot => we can safely use the []

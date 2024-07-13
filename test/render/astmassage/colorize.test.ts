@@ -1,5 +1,5 @@
 import { describe, it } from "node:test";
-import  { deepEqual} from "node:assert/strict";
+import { deepEqual } from "node:assert/strict";
 const colorize = require("../../../src/render/astmassage/colorize");
 const fix = require("../../astfixtures.json");
 
@@ -621,54 +621,65 @@ describe("render/text/colorize", () => {
   describe("#colorize", () => {
     it("should return the input on uncolor(colorize)", () => {
       deepEqual(
-        colorize.uncolor(colorize.applyScheme(structuredClone(fix.astAltWithinLoop)))
-      ,fix.astAltWithinLoop);
-    });
-    it("should, leave already textcolored entities alone", () => {
-      deepEqual(colorize.applyScheme(structuredClone(textColoredEntity)), textColoredEntity );
+        colorize.uncolor(
+          colorize.applyScheme(structuredClone(fix.astAltWithinLoop)),
+        ),
+        fix.astAltWithinLoop,
+      );
     });
     it("should, leave already textcolored entities alone", () => {
       deepEqual(
-        colorize.applyScheme(structuredClone(textColoredEntity), "auto")
-      ,textColoredEntity);
+        colorize.applyScheme(structuredClone(textColoredEntity)),
+        textColoredEntity,
+      );
+    });
+    it("should, leave already textcolored entities alone", () => {
+      deepEqual(
+        colorize.applyScheme(structuredClone(textColoredEntity), "auto"),
+        textColoredEntity,
+      );
     });
     it("should, leave already arctextcolored entities alone", () => {
-      deepEqual(colorize.applyScheme(arcTextColoredEntity),
-        arcTextColoredEntity
+      deepEqual(
+        colorize.applyScheme(arcTextColoredEntity),
+        arcTextColoredEntity,
       );
     });
     it("should, leave regular arcs departing from already textcolored entities alone", () => {
-      deepEqual(colorize.applyScheme(textColoredEntityWithArc),
-        textColoredEntityWithArc
+      deepEqual(
+        colorize.applyScheme(textColoredEntityWithArc),
+        textColoredEntityWithArc,
       );
     });
     it("should color box arcs departing from colored entities", () => {
-      deepEqual(colorize.applyScheme(structuredClone(boxes)),coloredBoxes);
+      deepEqual(colorize.applyScheme(structuredClone(boxes)), coloredBoxes);
     });
     it("should not respect any colors when force is applied", () => {
-      deepEqual(colorize.applyScheme(structuredClone(boxes), "auto", true),
-        coloredBoxesForced
+      deepEqual(
+        colorize.applyScheme(structuredClone(boxes), "auto", true),
+        coloredBoxesForced,
       );
     });
     it("should not respect any colors when force is applied", () => {
       const lRosedBoxes = colorize.applyScheme(structuredClone(boxes), "rosy");
-      deepEqual(colorize.applyScheme(lRosedBoxes, "auto", true),
-        coloredBoxesForced
+      deepEqual(
+        colorize.applyScheme(lRosedBoxes, "auto", true),
+        coloredBoxesForced,
       );
     });
     it("should color box arcs departing from non-colored entities", () => {
-      deepEqual(colorize.applyScheme(boxesWithNonColoredEntity),
-        coloredBoxesWithNonColoredEntity
+      deepEqual(
+        colorize.applyScheme(boxesWithNonColoredEntity),
+        coloredBoxesWithNonColoredEntity,
       );
     });
     it("should not color box arcs already having some color", () => {
-      deepEqual(colorize.applyScheme(alreadyColoredBoxes),
-        alreadyColoredBoxes
-      );
+      deepEqual(colorize.applyScheme(alreadyColoredBoxes), alreadyColoredBoxes);
     });
     it("should use custom entity color scheme and arc specifics when passed these", () => {
-      deepEqual(colorize.colorize(customMscTestInput, customScheme),
-        customMscTestOutput
+      deepEqual(
+        colorize.colorize(customMscTestInput, customScheme),
+        customMscTestOutput,
       );
     });
   });

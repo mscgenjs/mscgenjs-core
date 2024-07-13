@@ -12,4 +12,5 @@
 [Diagram]-0..*>[Entity]
 [Diagram]-0..*>[Option]
 ```
+
 (edit [here](http://www.yuml.me/edit/e7b17d46))

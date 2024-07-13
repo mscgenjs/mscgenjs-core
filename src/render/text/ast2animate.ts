@@ -223,7 +223,7 @@ export class FrameFactory {
       lRetval = pThing.arcs.reduce(
         (
           pSum,
-          pArcRow
+          pArcRow,
           /*
            * inner itself counts for two arcs (one extra for
            * drawing the bottom), but for one frame)
@@ -233,7 +233,7 @@ export class FrameFactory {
           (Boolean(pArcRow[0].arcs)
             ? this._calculateLength(pArcRow[0])
             : pArcRow.length),
-        lRetval
+        lRetval,
       );
     }
     return lRetval;
@@ -251,7 +251,7 @@ export class FrameFactory {
           (Boolean(pArcRow[0].arcs)
             ? this._calcNumberOfRows(pArcRow[0]) + 2
             : 1),
-        lRetval
+        lRetval,
       );
     }
     return lRetval;

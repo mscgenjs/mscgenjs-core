@@ -12,7 +12,6 @@ import * as xuPairs from "./xuPairs.js";
 
 const ajv = new Ajv();
 
-
 describe("parse/xuparser", () => {
   describe("#parse()", () => {
     it("should correctly parse naked reals", () => {
@@ -58,37 +57,37 @@ describe("parse/xuparser", () => {
     it("should parse all possible arcs", () => {
       const lTextFromFile = fs.readFileSync(
         path.join(__dirname, "../fixtures/test01_all_possible_arcs.xu"),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = parser.parse(lTextFromFile.toString());
       ajv.validate(mscgenjsASTSchema, lAST);
       tst.assertequalToFileJSON(
         path.join(__dirname, "../fixtures/test01_all_possible_arcs.json"),
-        lAST
+        lAST,
       );
     });
     it("should parse stuff with colors", () => {
       const lTextFromFile = fs.readFileSync(
         path.join(__dirname, "../fixtures/rainbow.mscin"),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = parser.parse(lTextFromFile.toString());
       ajv.validate(mscgenjsASTSchema, lAST);
       tst.assertequalToFileJSON(
         path.join(__dirname, "../fixtures/rainbow.json"),
-        lAST
+        lAST,
       );
     });
     it("strings, ids and urls", () => {
       const lTextFromFile = fs.readFileSync(
         path.join(__dirname, "../fixtures/test10_stringsandurls.mscin"),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = parser.parse(lTextFromFile.toString());
       ajv.validate(mscgenjsASTSchema, lAST);
       tst.assertequalToFileJSON(
         path.join(__dirname, "../fixtures/test10_stringsandurls.json"),
-        lAST
+        lAST,
       );
     });
   });
@@ -113,19 +112,19 @@ describe("parse/xuparser", () => {
     });
     it("should accept watermark as an option", () => {
       const lAST = parser.parse(
-        'xu{arcgradient= 20, watermark="Goûter le filigraine" ; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}'
+        'xu{arcgradient= 20, watermark="Goûter le filigraine" ; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}',
       ) as any;
       deepEqual(lAST.options.watermark, "Goûter le filigraine");
     });
     it("should accept AUTO as a valid width", () => {
       const lAST = parser.parse(
-        'xu{ arcgradient=20, width=AUTO; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}'
+        'xu{ arcgradient=20, width=AUTO; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}',
       ) as any;
       deepEqual(lAST.options.width, "auto");
     });
     it('should accept "AUTO" as a valid width', () => {
       const lAST = parser.parse(
-        'xu{ arcgradient=20, width="AUTO"; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}'
+        'xu{ arcgradient=20, width="AUTO"; a,b,c,d,e,f; c =>> * [label="Hello everyone"];}',
       ) as any;
       deepEqual(lAST.options.width, "auto");
     });

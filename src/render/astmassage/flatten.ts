@@ -113,7 +113,7 @@ function overrideColorsFromThing(pArc: IArc, pThing: IArc | IEntity) {
 export function overrideColors(pArc: IArc, pEntities: IEntity[] = []) {
   if (pArc && pArc.from) {
     const lMatchingEntity = pEntities.find(
-      (pEntity) => pEntity.name === pArc.from
+      (pEntity) => pEntity.name === pArc.from,
     );
     if (!!lMatchingEntity) {
       overrideColorsFromThing(pArc, lMatchingEntity);
@@ -124,7 +124,7 @@ function calcNumberOfRows(pInlineExpression): number {
   return pInlineExpression.arcs.reduce(
     (pSum, pArc) =>
       pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0),
-    pInlineExpression.arcs.length
+    pInlineExpression.arcs.length,
   );
 }
 
@@ -132,7 +132,7 @@ function unwindArcRow(
   pArcRow: IArc[] | any,
   pDepth: number,
   pFrom?: string,
-  pTo?: string
+  pTo?: string,
 ): any {
   const lRetval: any[] = [];
   const lFlatArcRow: IFlatArc[] = [];
@@ -155,8 +155,8 @@ function unwindArcRow(
               pSubArcRow,
               pDepth + 1,
               lInlineExpression.from,
-              lInlineExpression.to
-            )
+              lInlineExpression.to,
+            ),
           );
           pSubArcRow.forEach((pSubArc) => {
             overrideColorsFromThing(pSubArc, lInlineExpression);
@@ -196,7 +196,7 @@ function unwind(pArcRows?: IArc[][]): IFlatArc[][] {
     return pArcRows.reduce(
       (pAll: IFlatArc[][], pArcRow: IArc[]) =>
         pAll.concat(unwindArcRow(pArcRow, 0)),
-      []
+      [],
     );
   }
   return [];
@@ -232,8 +232,8 @@ export function flatten(pAST: ISequenceChart): IFlatSequenceChart {
     asttransform(
       pAST,
       [nameAsLabel, unescapeLabels],
-      [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel]
-    )
+      [swapRTLArc, overrideColors, unescapeLabels, emptyStringForNoLabel],
+    ),
   );
 }
 /*

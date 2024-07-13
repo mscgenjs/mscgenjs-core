@@ -5,7 +5,7 @@
  * @return {string}
  */
 export function unescapeString(pString: string): string {
-    return pString.replace(/\\"/g, '"');
+  return pString.replace(/\\"/g, '"');
 }
 
 /**
@@ -15,7 +15,7 @@ export function unescapeString(pString: string): string {
  * @return {string}
  */
 export function escapeString(pString: string): string {
-    return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
+  return pString.replace(/\\"/g, '"').replace(/"/g, '\\"');
 }
 /*
  This file is part of mscgen_js.

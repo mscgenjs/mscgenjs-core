@@ -26,47 +26,57 @@ const csstemplates = require("./csstemplates.json");
 let gDocument: any = {};
 
 function setupMarkers(pDefs, pMarkerDefs) {
-    pMarkerDefs.forEach((pMarker) => {
-        if (pMarker.type === "method") {
-            pDefs.appendChild(svgelementfactory.createMarkerPolygon(pMarker.name, pMarker.path, pMarker.color));
-        } else {
-            pDefs.appendChild(svgelementfactory.createMarkerPath(pMarker.name, pMarker.path, pMarker.color));
-        }
-    });
-    return pDefs;
+  pMarkerDefs.forEach((pMarker) => {
+    if (pMarker.type === "method") {
+      pDefs.appendChild(
+        svgelementfactory.createMarkerPolygon(
+          pMarker.name,
+          pMarker.path,
+          pMarker.color,
+        ),
+      );
+    } else {
+      pDefs.appendChild(
+        svgelementfactory.createMarkerPath(
+          pMarker.name,
+          pMarker.path,
+          pMarker.color,
+        ),
+      );
+    }
+  });
+  return pDefs;
 }
 
 function setupStyle(pOptions, pSvgElementId) {
-    const lStyle = gDocument.createElement("style");
-    lStyle.setAttribute("type", "text/css");
-    lStyle.appendChild(
-        gDocument.createTextNode(
-            setupStyleElement(pOptions, pSvgElementId),
-        ),
-    );
-    return lStyle;
+  const lStyle = gDocument.createElement("style");
+  lStyle.setAttribute("type", "text/css");
+  lStyle.appendChild(
+    gDocument.createTextNode(setupStyleElement(pOptions, pSvgElementId)),
+  );
+  return lStyle;
 }
 
 function setupDefs(pElementId, pMarkerDefs, pOptions) {
-    /*
-        * definitions - which will include style and markers
-        */
-    let lDefs = svgelementfactory.createDefs();
-    lDefs.appendChild(setupStyle(pOptions, pElementId));
-    lDefs = setupMarkers(lDefs, pMarkerDefs);
-    return lDefs;
+  /*
+   * definitions - which will include style and markers
+   */
+  let lDefs = svgelementfactory.createDefs();
+  lDefs.appendChild(setupStyle(pOptions, pElementId));
+  lDefs = setupMarkers(lDefs, pMarkerDefs);
+  return lDefs;
 }
 
 function setupBody(pElementId: string): SVGGElement {
-    const lBody = svgelementfactory.createGroup(`${pElementId}_body`);
+  const lBody = svgelementfactory.createGroup(`${pElementId}_body`);
 
-    lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_background`));
-    lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_arcspans`));
-    lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_lifelines`));
-    lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_sequence`));
-    lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_notes`));
-    lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_watermark`));
-    return lBody;
+  lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_background`));
+  lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_arcspans`));
+  lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_lifelines`));
+  lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_sequence`));
+  lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_notes`));
+  lBody.appendChild(svgelementfactory.createGroup(`${pElementId}_watermark`));
+  return lBody;
 }
 
 /**
@@ -77,15 +87,11 @@ function setupBody(pElementId: string): SVGGElement {
  * @return {document}
  */
 export function init(pWindow: Window): Document {
-    svgelementfactory.init(
-        pWindow.document,
-        {
-            LINE_WIDTH: constants.LINE_WIDTH,
-            FONT_SIZE: constants.FONT_SIZE,
-        },
-
-    );
-    return pWindow.document;
+  svgelementfactory.init(pWindow.document, {
+    LINE_WIDTH: constants.LINE_WIDTH,
+    FONT_SIZE: constants.FONT_SIZE,
+  });
+  return pWindow.document;
 }
 
 /**
@@ -103,60 +109,72 @@ export function init(pWindow: Window): Document {
  *        additionalTemplate - string identifying a named style
  *
  */
-export function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
+export function bootstrap(
+  pWindow,
+  pParentElement,
+  pSvgElementId,
+  pMarkerDefs,
+  pOptions,
+) {
+  gDocument = init(pWindow);
 
-    gDocument = init(pWindow);
+  const lSkeletonSvg = svgelementfactory.createSVG(
+    pSvgElementId,
+    pSvgElementId,
+    distillRenderMagic(pOptions),
+  );
+  if (Boolean(pOptions.source)) {
+    lSkeletonSvg.appendChild(setupDesc(pWindow, pOptions.source));
+  }
+  lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
+  lSkeletonSvg.appendChild(setupBody(pSvgElementId));
+  pParentElement.appendChild(lSkeletonSvg);
 
-    const lSkeletonSvg = svgelementfactory.createSVG(pSvgElementId, pSvgElementId, distillRenderMagic(pOptions));
-    if (Boolean(pOptions.source)) {
-        lSkeletonSvg.appendChild(setupDesc(pWindow, pOptions.source));
-    }
-    lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
-    lSkeletonSvg.appendChild(setupBody(pSvgElementId));
-    pParentElement.appendChild(lSkeletonSvg);
-
-    return gDocument;
+  return gDocument;
 }
 
 function setupDesc(pWindow, pSource) {
-    const lDesc = svgelementfactory.createDesc();
-    lDesc.appendChild(pWindow.document.createTextNode(
-        `\n\n# Generated by mscgen_js - https://sverweij.github.io/mscgen_js\n${pSource}`,
-    ));
-    return lDesc;
+  const lDesc = svgelementfactory.createDesc();
+  lDesc.appendChild(
+    pWindow.document.createTextNode(
+      `\n\n# Generated by mscgen_js - https://sverweij.github.io/mscgen_js\n${pSource}`,
+    ),
+  );
+  return lDesc;
 }
 
 function findNamedStyle(pAdditionalTemplate) {
-    return csstemplates.namedStyles.find(
-        (tpl) => tpl.name === pAdditionalTemplate,
-    );
+  return csstemplates.namedStyles.find(
+    (tpl) => tpl.name === pAdditionalTemplate,
+  );
 }
 
 function distillRenderMagic(pOptions) {
-    let lRetval = "";
-    const lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
+  let lRetval = "";
+  const lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
 
-    if (Boolean(lNamedStyle)) {
-        lRetval = lNamedStyle.renderMagic;
-    }
+  if (Boolean(lNamedStyle)) {
+    lRetval = lNamedStyle.renderMagic;
+  }
 
-    return lRetval;
+  return lRetval;
 }
 
 function composeStyleSheetTemplate(pNamedStyle, pStyleAdditions) {
-    return (pNamedStyle.cssBefore || "") +
-        csstemplates.baseTemplate +
-        (pNamedStyle.cssAfter || "") +
-        (pStyleAdditions || "");
+  return (
+    (pNamedStyle.cssBefore || "") +
+    csstemplates.baseTemplate +
+    (pNamedStyle.cssAfter || "") +
+    (pStyleAdditions || "")
+  );
 }
 
 function setupStyleElement(pOptions, pSvgElementId) {
-    const lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
-    return (composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions))
-        .replace(/<%=fontSize%>/g, constants.FONT_SIZE)
-        .replace(/<%=lineWidth%>/g, constants.LINE_WIDTH)
-        .replace(/<%=id%>/g, pSvgElementId);
-
+  const lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
+  return composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions)
+    .replace(/<%=fontSize%>/g, constants.FONT_SIZE)
+    .replace(/<%=lineWidth%>/g, constants.LINE_WIDTH)
+    .replace(/<%=id%>/g, pSvgElementId);
 }
 /*
  This file is part of mscgen_js.

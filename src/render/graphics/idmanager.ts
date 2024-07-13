@@ -3,10 +3,10 @@ const INNERELEMENTPREFIX = "mscgenjs";
 let gInnerElementId = INNERELEMENTPREFIX;
 
 export function setPrefix(pPrefix: string): void {
-    gInnerElementId = INNERELEMENTPREFIX + pPrefix;
+  gInnerElementId = INNERELEMENTPREFIX + pPrefix;
 }
 export function get(pElementIdentifierString?: string): string {
-    return gInnerElementId + (pElementIdentifierString || "");
+  return gInnerElementId + (pElementIdentifierString || "");
 }
 /*
  This file is part of mscgen_js.

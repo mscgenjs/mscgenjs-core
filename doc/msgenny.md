@@ -9,9 +9,9 @@ MscGen's more fancy features in favor of low effort labeling
 and automatic entity declarations. This enables you to set up a sequence chart _very_
 fast. See below for a complete comparison chart.
 
-To have our cake and eat it too we made the mscgen_js [online interpreter][4] translate between
+To have our cake and eat it too we made the mscgen*js [online interpreter][4] translate between
 the two with the flick of a switch. The interpreter also contains a complete [tutorial][5]
-on _MsGenny_.
+on \_MsGenny*.
 
 ## Example
 

@@ -1,42 +1,44 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __importDefault =
+	(this && this.__importDefault) ||
+	function (mod) {
+		return mod && mod.__esModule ? mod : { default: mod };
+	};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getClass = getClass;
 exports.getAggregateClass = getAggregateClass;
 var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
 var KIND2CLASS = Object.freeze({
-    "|||": "empty-row",
-    "...": "omitted-row",
-    "---": "comment-row",
-    "->": "signal",
-    "=>": "method",
-    "=>>": "callback",
-    ">>": "return",
-    ":>": "emphasised",
-    "-x": "lost",
-    "<-": "signal",
-    "<=": "method",
-    "<<=": "callback",
-    "<<": "return",
-    "<:": "emphasised",
-    "x-": "lost",
-    "<->": "signal",
-    "<=>": "method",
-    "<<=>>": "callback",
-    "<<>>": "return",
-    "<:>": "emphasised",
-    "--": "signal",
-    "==": "method",
-    "..": "return",
-    "::": "emphasised",
+	"|||": "empty-row",
+	"...": "omitted-row",
+	"---": "comment-row",
+	"->": "signal",
+	"=>": "method",
+	"=>>": "callback",
+	">>": "return",
+	":>": "emphasised",
+	"-x": "lost",
+	"<-": "signal",
+	"<=": "method",
+	"<<=": "callback",
+	"<<": "return",
+	"<:": "emphasised",
+	"x-": "lost",
+	"<->": "signal",
+	"<=>": "method",
+	"<<=>>": "callback",
+	"<<>>": "return",
+	"<:>": "emphasised",
+	"--": "signal",
+	"==": "method",
+	"..": "return",
+	"::": "emphasised",
 });
 function getClass(pKey) {
-    return KIND2CLASS[pKey] || pKey;
+	return KIND2CLASS[pKey] || pKey;
 }
 function getAggregateClass(pKey) {
-    return (0, aggregatekind_1.default)(pKey) || pKey;
+	return (0, aggregatekind_1.default)(pKey) || pKey;
 }
 /*
  This file is part of mscgen_js.

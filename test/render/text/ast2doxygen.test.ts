@@ -11,7 +11,10 @@ describe("render/text/ast2doxygen", () => {
     });
 
     it("should preserve the comments at the start of the ast", () => {
-      equal(renderer.render(fix.astWithPreComment), snapshots.astWithPreComment);
+      equal(
+        renderer.render(fix.astWithPreComment),
+        snapshots.astWithPreComment,
+      );
     });
 
     it("should preserve attributes", () => {
@@ -27,7 +30,10 @@ describe("render/text/ast2doxygen", () => {
       equal(renderer.render(fix.astAltWithinLoop), snapshots.astAltWithinLoop);
     });
     it("When presented with an unsupported option, renders the script by simply omitting it", () => {
-      equal(renderer.render(fix.astWithAWatermark), snapshots.astWithAWatermark);
+      equal(
+        renderer.render(fix.astWithAWatermark),
+        snapshots.astWithAWatermark,
+      );
     });
     it("Does not render width when that equals 'auto'", () => {
       equal(renderer.render(fix.auto), snapshots.auto);
@@ -36,7 +42,10 @@ describe("render/text/ast2doxygen", () => {
       equal(renderer.render(fix.fixedwidth), snapshots.fixedwidth);
     });
     it("Puts entities with mscgen keyword for a name in quotes", () => {
-      equal(renderer.render(fix.entityWithMscGenKeywordAsName), snapshots.entityWithMscGenKeywordAsName);
+      equal(
+        renderer.render(fix.entityWithMscGenKeywordAsName),
+        snapshots.entityWithMscGenKeywordAsName,
+      );
     });
   });
 });

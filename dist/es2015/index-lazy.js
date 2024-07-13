@@ -5,38 +5,49 @@ import * as resolver from "./main/lazy-resolver";
  * functions only load dependencies at the moment they need them.
  */
 module.exports = {
-    /**
-     * See the function of the same name in @index.js.
-     */
-    renderMsc(pScript, pOptions, pCallBack) {
-        main.renderMsc(pScript, pOptions || {}, pCallBack, resolver.getParser, resolver.getGraphicsRenderer);
-    },
-    /**
-     * See the function of the same name in @index.js.
-     */
-    translateMsc(pScript, pOptions) {
-        return main.translateMsc(pScript, pOptions || {}, resolver.getParser, resolver.getTextRenderer);
-    },
-    /**
-     * See the variable of the same name in @index.js.
-     */
-    version: main.version,
-    /**
-     * See the variable of the same name in @index.js.
-     */
-    getAllowedValues: main.getAllowedValues,
-    /**
-     * See the function of the same name in @index.js
-     */
-    getParser: resolver.getParser,
-    /**
-     * See the function of the same name in @index.js
-     */
-    getGraphicsRenderer: resolver.getGraphicsRenderer,
-    /**
-     * See the function of the same name in @index.js
-     */
-    getTextRenderer: resolver.getTextRenderer,
+	/**
+	 * See the function of the same name in @index.js.
+	 */
+	renderMsc(pScript, pOptions, pCallBack) {
+		main.renderMsc(
+			pScript,
+			pOptions || {},
+			pCallBack,
+			resolver.getParser,
+			resolver.getGraphicsRenderer,
+		);
+	},
+	/**
+	 * See the function of the same name in @index.js.
+	 */
+	translateMsc(pScript, pOptions) {
+		return main.translateMsc(
+			pScript,
+			pOptions || {},
+			resolver.getParser,
+			resolver.getTextRenderer,
+		);
+	},
+	/**
+	 * See the variable of the same name in @index.js.
+	 */
+	version: main.version,
+	/**
+	 * See the variable of the same name in @index.js.
+	 */
+	getAllowedValues: main.getAllowedValues,
+	/**
+	 * See the function of the same name in @index.js
+	 */
+	getParser: resolver.getParser,
+	/**
+	 * See the function of the same name in @index.js
+	 */
+	getGraphicsRenderer: resolver.getGraphicsRenderer,
+	/**
+	 * See the function of the same name in @index.js
+	 */
+	getTextRenderer: resolver.getTextRenderer,
 };
 /*
 This file is part of mscgen_js.

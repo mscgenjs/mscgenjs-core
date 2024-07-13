@@ -7,39 +7,39 @@
  * @return {Array of string}
  */
 export default (pText: string, pMaxLength: number): string[] => {
-    let lCharCount = 0;
-    const lRetval = [] as string[];
-    let lStart = 0;
-    let lNewStart = 0;
-    let lEnd = 0;
+  let lCharCount = 0;
+  const lRetval = [] as string[];
+  let lStart = 0;
+  let lNewStart = 0;
+  let lEnd = 0;
 
-    let i = 0;
-    const lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
+  let i = 0;
+  const lText = pText.replace(/[\t\n]+/g, " ").replace(/\\n/g, "\n");
 
-    while (i <= lText.length) {
-        if (i >= (lText.length)) {
-            lRetval.push(lText.substring(lStart, i));
-        } else if (lText[i] === "\n") {
-            lCharCount = 0;
-            lEnd = i;
-            lRetval.push(lText.substring(lStart, lEnd));
-            lStart = lEnd + 1;
-        } else if ((lCharCount++ >= pMaxLength)) {
-            lEnd = lText.substring(0, i).lastIndexOf(" ");
-            if (lEnd === -1 || lEnd < lStart) {
-                lCharCount = 1;
-                lEnd = i;
-                lNewStart = i;
-            } else {
-                lCharCount = 0;
-                lNewStart = lEnd + 1;
-            }
-            lRetval.push(lText.substring(lStart, lEnd));
-            lStart = lNewStart;
-        }
-        i++;
+  while (i <= lText.length) {
+    if (i >= lText.length) {
+      lRetval.push(lText.substring(lStart, i));
+    } else if (lText[i] === "\n") {
+      lCharCount = 0;
+      lEnd = i;
+      lRetval.push(lText.substring(lStart, lEnd));
+      lStart = lEnd + 1;
+    } else if (lCharCount++ >= pMaxLength) {
+      lEnd = lText.substring(0, i).lastIndexOf(" ");
+      if (lEnd === -1 || lEnd < lStart) {
+        lCharCount = 1;
+        lEnd = i;
+        lNewStart = i;
+      } else {
+        lCharCount = 0;
+        lNewStart = lEnd + 1;
+      }
+      lRetval.push(lText.substring(lStart, lEnd));
+      lStart = lNewStart;
     }
-    return lRetval;
+    i++;
+  }
+  return lRetval;
 };
 /*
  This file is part of mscgen_js.

@@ -39,8 +39,8 @@ export class MscGenAdaptor extends XuAdaptor {
             closer: "#",
           },
         },
-        pConfig
-      )
+        pConfig,
+      ),
     );
   }
 

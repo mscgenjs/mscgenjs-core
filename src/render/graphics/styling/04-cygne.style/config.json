@@ -1,6 +1,6 @@
 {
-    "experimental": true,
-    "deprecated": true,
-    "description": "Cygne (best with msgenny)",
-    "renderMagic": "straight"
+  "experimental": true,
+  "deprecated": true,
+  "description": "Cygne (best with msgenny)",
+  "renderMagic": "straight"
 }

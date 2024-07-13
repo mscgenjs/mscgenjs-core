@@ -31,7 +31,7 @@ export function init(pDocument: Document, pOptions) {
       LINE_WIDTH: 2,
       FONT_SIZE: 12,
     },
-    pOptions
+    pOptions,
   );
 }
 
@@ -41,7 +41,7 @@ export function init(pDocument: Document, pOptions) {
 export function createSVG(
   pId: string,
   pClass: string,
-  pRenderMagic?: any
+  pRenderMagic?: any,
 ): SVGSVGElement {
   gRenderMagic = determineRenderMagic(pRenderMagic);
   return svgprimitives.createSVG(pId, pClass);
@@ -82,7 +82,7 @@ export const createTSpan = svgprimitives.createTSpan;
  */
 export const createRect = (
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGRectElement | SVGPathElement => gRenderMagic.createRect(pBBox, pOptions);
 
 /**
@@ -91,7 +91,7 @@ export const createRect = (
  */
 export const createRBox = (
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGRectElement | SVGPathElement => gRenderMagic.createRBox(pBBox, pOptions);
 
 /**
@@ -100,7 +100,7 @@ export const createRBox = (
  */
 export const createABox = (
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGPathElement => gRenderMagic.createABox(pBBox, pOptions);
 
 /**
@@ -143,7 +143,7 @@ export const createDiagonalText = svgprimitives.createDiagonalText;
  */
 export function createLine(
   pLine: ILine,
-  pOptions
+  pOptions,
 ): SVGPathElement | SVGLineElement {
   if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
     if (!pOptions.lineWidth) {

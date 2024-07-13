@@ -1,11 +1,11 @@
 import { describe, it } from "node:test";
-import  { deepEqual } from "node:assert/strict";
+import { deepEqual } from "node:assert/strict";
 import * as tst from "../testutensils.js";
 import * as fs from "fs";
 import * as path from "path";
 
 const fix = JSON.parse(
-  fs.readFileSync(path.join(`${__dirname}`, "..", "astfixtures.json"), "utf-8")
+  fs.readFileSync(path.join(`${__dirname}`, "..", "astfixtures.json"), "utf-8"),
 );
 
 const gExpectedMscGenOutput = `msc {\n\
@@ -28,12 +28,14 @@ const gExpectedMscGenOutput = `msc {\n\
     function isMscGenParser(pParser) {
       tst.assertSyntaxError(
         'xu { watermark="this is only valid in xu"; a,b; a->b;}',
-        pParser
+        pParser,
       );
       deepEqual(
         pParser.parse(
-          'msc { a,"b space"; a => "b space" [label="a simple script"];}'
-        ), fix.astSimple);
+          'msc { a,"b space"; a => "b space" [label="a simple script"];}',
+        ),
+        fix.astSimple,
+      );
     }
 
     function isMscGenTextRenderer(pRenderer) {

@@ -1,11 +1,11 @@
-const $package = require('../package.json');
+const $package = require("../package.json");
 
 process.stdout.write(
-    JSON.stringify(
-        {
-            version: $package.version
-        },
-        null,
-        2
-    )
+  JSON.stringify(
+    {
+      version: $package.version,
+    },
+    null,
+    2,
+  ),
 );

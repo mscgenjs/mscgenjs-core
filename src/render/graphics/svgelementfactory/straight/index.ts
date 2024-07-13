@@ -12,12 +12,12 @@ export function createDoubleLine(pLine: ILine, pOptions: IOptions) {
   const lEndCorr = variationhelpers.determineEndCorrection(
     pLine,
     lClass,
-    lLineWidth
+    lLineWidth,
   );
   const lStartCorr = variationhelpers.determineStartCorrection(
     pLine,
     lClass,
-    lLineWidth
+    lLineWidth,
   );
 
   const lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
@@ -29,32 +29,32 @@ export function createDoubleLine(pLine: ILine, pOptions: IOptions) {
     svgprimitives.pathPoint2String(
       "M",
       pLine.xFrom,
-      pLine.yFrom - 7.5 * lLineWidth * lDir.dy
+      pLine.yFrom - 7.5 * lLineWidth * lDir.dy,
     ) +
       // left stubble:
       lStubble +
       svgprimitives.pathPoint2String(
         "M",
         pLine.xFrom + lStartCorr,
-        pLine.yFrom - lSpace
+        pLine.yFrom - lSpace,
       ) +
       // upper line:
       lLine +
       svgprimitives.pathPoint2String(
         "M",
         pLine.xFrom + lStartCorr,
-        pLine.yFrom + lSpace
+        pLine.yFrom + lSpace,
       ) +
       // lower line
       lLine +
       svgprimitives.pathPoint2String(
         "M",
         pLine.xTo - lDir.signX,
-        pLine.yTo + 7.5 * lLineWidth * lDir.dy
+        pLine.yTo + 7.5 * lLineWidth * lDir.dy,
       ) +
       // right stubble
       lStubble,
-    pOptions
+    pOptions,
   );
 }
 
@@ -91,7 +91,7 @@ export function createNote(pBBox: IBBox, pOptions: IOptions): SVGPathElement {
       svgprimitives.pathPoint2String("l", -pBBox.width, 0) +
       svgprimitives.pathPoint2String("l", 0, -pBBox.height) +
       "z",
-    pOptions
+    pOptions,
   );
 }
 
@@ -105,7 +105,7 @@ export function createNote(pBBox: IBBox, pOptions: IOptions): SVGPathElement {
  */
 export function createRBox(
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGRectElement {
   const RBOX_CORNER_RADIUS = 6; // px
   const lOptions = Object.assign(
@@ -113,7 +113,7 @@ export function createRBox(
       rx: RBOX_CORNER_RADIUS,
       ry: RBOX_CORNER_RADIUS,
     },
-    pOptions
+    pOptions,
   );
 
   return svgprimitives.createRect(pBBox, lOptions);
@@ -129,7 +129,7 @@ export function createRBox(
  */
 export function createABox(
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGPathElement {
   const lSlopeOffset = 3;
   return svgprimitives.createPath(
@@ -144,10 +144,10 @@ export function createABox(
       svgprimitives.pathPoint2String(
         "l",
         -(pBBox.width - 2 * lSlopeOffset),
-        0
+        0,
       ) +
       "z",
-    pOptions
+    pOptions,
   );
 }
 
@@ -169,7 +169,7 @@ export function createEdgeRemark(pBBox: IBBox, pOptions): SVGPathElement {
       color: null,
       bgColor: null,
     },
-    pOptions
+    pOptions,
   );
 
   return svgprimitives.createPath(
@@ -183,7 +183,7 @@ export function createEdgeRemark(pBBox: IBBox, pOptions): SVGPathElement {
       svgprimitives.pathPoint2String("l", -lFoldSize, lFoldSize) +
       // bottom line:
       svgprimitives.pathPoint2String("l", -(pBBox.width - lFoldSize), 0),
-    lOptions
+    lOptions,
   );
 }
 

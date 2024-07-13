@@ -13,27 +13,29 @@ let gDefaultArcRowHeight = 0;
  * @param <int> pRowNumber
  */
 export function get(pRowNumber) {
-    if (gRowInfoArray[pRowNumber]) {
-        return gRowInfoArray[pRowNumber];
-    }
-    else {
-        return {
-            y: (gDefaultEntityHeight + (1.5 * gDefaultArcRowHeight)) + pRowNumber * gDefaultArcRowHeight,
-            height: gDefaultArcRowHeight,
-            realRowNumber: gRowInfoArray.length - 1,
-        };
-    }
+	if (gRowInfoArray[pRowNumber]) {
+		return gRowInfoArray[pRowNumber];
+	} else {
+		return {
+			y:
+				gDefaultEntityHeight +
+				1.5 * gDefaultArcRowHeight +
+				pRowNumber * gDefaultArcRowHeight,
+			height: gDefaultArcRowHeight,
+			realRowNumber: gRowInfoArray.length - 1,
+		};
+	}
 }
 export function getLast() {
-    return get(gRowInfoArray.length - 1);
+	return get(gRowInfoArray.length - 1);
 }
 /**
  * clear() - resets the helper array to an empty one
  */
 export function clear(pEntityHeight, pArcRowHeight) {
-    gRowInfoArray = [];
-    gDefaultEntityHeight = pEntityHeight;
-    gDefaultArcRowHeight = pArcRowHeight;
+	gRowInfoArray = [];
+	gDefaultEntityHeight = pEntityHeight;
+	gDefaultArcRowHeight = pArcRowHeight;
 }
 /**
  *  the row info for a given pRealRowNumber.
@@ -44,12 +46,14 @@ export function clear(pEntityHeight, pArcRowHeight) {
  * @param <int> pRealRowNumber
  */
 export function getByRealRowNumber(pRealRowNumber) {
-    let lRetval = gRowInfoArray.find((pRowInfo) => pRowInfo.realRowNumber === pRealRowNumber);
-    if (typeof lRetval === "undefined") {
-        // most likely asking for something below the bottom of the chart => return the bottom
-        lRetval = getLast();
-    }
-    return lRetval;
+	let lRetval = gRowInfoArray.find(
+		(pRowInfo) => pRowInfo.realRowNumber === pRealRowNumber,
+	);
+	if (typeof lRetval === "undefined") {
+		// most likely asking for something below the bottom of the chart => return the bottom
+		lRetval = getLast();
+	}
+	return lRetval;
 }
 /**
  * set() - stores the pHeight for the given pRowNumber, and sets
@@ -59,12 +63,12 @@ export function getByRealRowNumber(pRealRowNumber) {
  * @param <int> pHeight
  */
 export function set(pRowNumber, pHeight, pRealRowNumber = -1) {
-    const lPreviousRowInfo = get(pRowNumber - 1);
-    gRowInfoArray[pRowNumber] = {
-        y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
-        height: pHeight,
-        realRowNumber: pRealRowNumber,
-    };
+	const lPreviousRowInfo = get(pRowNumber - 1);
+	gRowInfoArray[pRowNumber] = {
+		y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
+		height: pHeight,
+		realRowNumber: pRealRowNumber,
+	};
 }
 /*
  This file is part of mscgen_js.

@@ -470,4 +470,4 @@ graph {
   "a" -- "a" [label="(7) happy-the-peppy - outside"]
 }`;
 
-module.exports = exports
+module.exports = exports;

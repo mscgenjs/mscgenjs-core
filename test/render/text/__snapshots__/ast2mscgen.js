@@ -131,7 +131,8 @@ msc {
   ||| [label="options used: hscale=\\"0.6\\", arcgradient=\\"18\\""];
 }`;
 
-exports[`astOptionsMinified`] = `msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true;a;}`;
+exports[`astOptionsMinified`] =
+  `msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true;a;}`;
 
 exports[`astBoxesMinified`] = `msc{a,b;a note b;a box a,b rbox b;b abox a;}`;
 
@@ -177,7 +178,8 @@ msc {
   a -> b;
 }`;
 
-exports[`astSimpleMinified`] = `msc{a,"b space";a => "b space"[label="a simple script"];}`;
+exports[`astSimpleMinified`] =
+  `msc{a,"b space";a => "b space"[label="a simple script"];}`;
 
 exports[`astSimple`] = `msc {
   a,

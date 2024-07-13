@@ -10,25 +10,26 @@ import * as ast2xu from "../render/text/ast2xu";
 const DEFAULT_PARSER = mscgenparser;
 const DEFAULT_TEXT_RENDERER = ast2mscgen;
 const gLang2Parser = Object.freeze({
-    mscgen: mscgenparser,
-    xu: xuparser,
-    msgenny: msgennyparser,
+	mscgen: mscgenparser,
+	xu: xuparser,
+	msgenny: msgennyparser,
 });
 const gLang2TextRenderer = Object.freeze({
-    mscgen: ast2mscgen,
-    msgenny: ast2msgenny,
-    xu: ast2xu,
-    dot: ast2dot,
-    doxygen: ast2doxygen,
+	mscgen: ast2mscgen,
+	msgenny: ast2msgenny,
+	xu: ast2xu,
+	dot: ast2dot,
+	doxygen: ast2doxygen,
 });
 export const getParser = (pLanguage) => {
-    if (["ast", "json"].includes(pLanguage)) {
-        return JSON;
-    }
-    return gLang2Parser[pLanguage] || DEFAULT_PARSER;
+	if (["ast", "json"].includes(pLanguage)) {
+		return JSON;
+	}
+	return gLang2Parser[pLanguage] || DEFAULT_PARSER;
 };
 export const getGraphicsRenderer = () => renderast;
-export const getTextRenderer = (pLanguage) => gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
+export const getTextRenderer = (pLanguage) =>
+	gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
 /*
  This file is part of mscgen_js.
 

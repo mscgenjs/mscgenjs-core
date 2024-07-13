@@ -4,12 +4,18 @@ import * as variationhelpers from "../variationhelpers";
 const SEGMENT_LENGTH = 70; // 70
 const WOBBLE_FACTOR = 3; // 1.4?
 export function points2CurveString(pCurveSections) {
-    return pCurveSections
-        .map((pCurveSection) => `${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` + `${svgprimitives.point2String(pCurveSection)}`)
-        .join(" ");
+	return pCurveSections
+		.map(
+			(pCurveSection) =>
+				`${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` +
+				`${svgprimitives.point2String(pCurveSection)}`,
+		)
+		.join(" ");
 }
 export function line2CurveString(pLine) {
-    return points2CurveString(getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR));
+	return points2CurveString(
+		getBetweenPoints(pLine, SEGMENT_LENGTH, WOBBLE_FACTOR),
+	);
 }
 /**
  * Calculates the length of the given line
@@ -19,9 +25,9 @@ export function line2CurveString(pLine) {
  */
 // internal exposed for unit testing
 export function getLineLength(pLine) {
-    const lA = Math.abs(pLine.xTo - pLine.xFrom);
-    const lB = Math.abs(pLine.yTo - pLine.yFrom);
-    return Math.sqrt(lA * lA + lB * lB);
+	const lA = Math.abs(pLine.xTo - pLine.xFrom);
+	const lB = Math.abs(pLine.yTo - pLine.yFrom);
+	return Math.sqrt(lA * lA + lB * lB);
 }
 /**
  * Calculates the number of times a segment of pInterval length
@@ -34,8 +40,8 @@ export function getLineLength(pLine) {
  */
 // internal exposed for unit testing
 export function getNumberOfSegments(pLine, pInterval) {
-    const lLineLength = getLineLength(pLine);
-    return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
+	const lLineLength = getLineLength(pLine);
+	return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
 }
 /**
  * Returns a random (real) number between -pNumber and +pNumber (inclusive)
@@ -44,13 +50,13 @@ export function getNumberOfSegments(pLine, pInterval) {
  * @return {number}
  */
 function getRandomDeviation(pNumber) {
-    return Math.round(Math.random() * 2 * pNumber) - pNumber;
+	return Math.round(Math.random() * 2 * pNumber) - pNumber;
 }
 function normalizeInterval(pInterval, pLine) {
-    if (pInterval <= 0) {
-        throw new Error("pInterval must be > 0");
-    }
-    return Math.min(getLineLength(pLine), pInterval);
+	if (pInterval <= 0) {
+		throw new Error("pInterval must be > 0");
+	}
+	return Math.min(getLineLength(pLine), pInterval);
 }
 const PRECISION = 2;
 /**
@@ -69,35 +75,47 @@ const PRECISION = 2;
  * @return {array}
  */
 export function getBetweenPoints(pLine, pInterval, pWobble) {
-    pInterval = normalizeInterval(pInterval, pLine);
-    const lRetval = [];
-    const lNoSegments = getNumberOfSegments(pLine, pInterval);
-    const lDir = variationhelpers.getDirection(pLine);
-    const lIntervalX = lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
-    const lIntervalY = lDir.signY *
-        (Math.abs(lDir.dy) === Infinity
-            ? pInterval
-            : Math.sqrt((Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) /
-                (1 + Math.pow(lDir.dy, 2))));
-    let lCurveSection;
-    for (let i = 1; i <= lNoSegments; i++) {
-        lCurveSection = {
-            controlX: round(pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble), PRECISION),
-            controlY: round(pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble), PRECISION),
-            x: round(pLine.xFrom + i * lIntervalX, PRECISION),
-            y: round(pLine.yFrom + i * lIntervalY, PRECISION),
-        };
-        if (pInterval >
-            getLineLength({
-                xFrom: lCurveSection.x,
-                yFrom: lCurveSection.y,
-                xTo: pLine.xTo,
-                yTo: pLine.yTo,
-            })) {
-            lCurveSection.x = pLine.xTo;
-            lCurveSection.y = pLine.yTo;
-        }
-        lRetval.push(lCurveSection);
-    }
-    return lRetval;
+	pInterval = normalizeInterval(pInterval, pLine);
+	const lRetval = [];
+	const lNoSegments = getNumberOfSegments(pLine, pInterval);
+	const lDir = variationhelpers.getDirection(pLine);
+	const lIntervalX =
+		lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
+	const lIntervalY =
+		lDir.signY *
+		(Math.abs(lDir.dy) === Infinity
+			? pInterval
+			: Math.sqrt(
+					(Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) /
+						(1 + Math.pow(lDir.dy, 2)),
+				));
+	let lCurveSection;
+	for (let i = 1; i <= lNoSegments; i++) {
+		lCurveSection = {
+			controlX: round(
+				pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble),
+				PRECISION,
+			),
+			controlY: round(
+				pLine.yFrom + (i - 0.5) * lIntervalY + getRandomDeviation(pWobble),
+				PRECISION,
+			),
+			x: round(pLine.xFrom + i * lIntervalX, PRECISION),
+			y: round(pLine.yFrom + i * lIntervalY, PRECISION),
+		};
+		if (
+			pInterval >
+			getLineLength({
+				xFrom: lCurveSection.x,
+				yFrom: lCurveSection.y,
+				xTo: pLine.xTo,
+				yTo: pLine.yTo,
+			})
+		) {
+			lCurveSection.x = pLine.xTo;
+			lCurveSection.y = pLine.yTo;
+		}
+		lRetval.push(lCurveSection);
+	}
+	return lRetval;
 }

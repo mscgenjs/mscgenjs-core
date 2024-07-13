@@ -1,6 +1,6 @@
 {
-    "experimental": false,
-    "deprecated": false,
-    "description": "Lazy",
-    "renderMagic": "straight"
+  "experimental": false,
+  "deprecated": false,
+  "description": "Lazy",
+  "renderMagic": "straight"
 }

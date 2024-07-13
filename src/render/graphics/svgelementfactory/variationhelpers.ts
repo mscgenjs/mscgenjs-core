@@ -3,7 +3,7 @@ import type { ILine, IDirection } from "./geotypes";
 export function determineStartCorrection(
   pLine: ILine,
   pClass: string,
-  pLineWidth: number
+  pLineWidth: number,
 ): number {
   let lRetval = 0;
   if (!pClass.includes("nodi") && pClass.includes("bidi")) {
@@ -19,7 +19,7 @@ export function determineStartCorrection(
 export function determineEndCorrection(
   pLine: ILine,
   pClass: string,
-  pLineWidth: number
+  pLineWidth: number,
 ): number {
   let lRetval = 0;
   if (!pClass.includes("nodi")) {

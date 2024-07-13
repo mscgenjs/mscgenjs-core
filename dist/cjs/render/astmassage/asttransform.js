@@ -1,29 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function transformEntities(pEntities, pFunctionAry) {
-    pEntities.forEach(function (pEntity) {
-        pFunctionAry.forEach(function (pFunction) {
-            pFunction(pEntity);
-        });
-    });
+	pEntities.forEach(function (pEntity) {
+		pFunctionAry.forEach(function (pFunction) {
+			pFunction(pEntity);
+		});
+	});
 }
 function transformArc(pEntities, pArcRow, pArc, pFunctionAry) {
-    pFunctionAry.forEach(function (pFunction) {
-        pFunction(pArc, pEntities, pArcRow);
-    });
+	pFunctionAry.forEach(function (pFunction) {
+		pFunction(pArc, pEntities, pArcRow);
+	});
 }
 function transformArcRow(pEntities, pArcRow, pFunctionAry) {
-    pArcRow.forEach(function (pArc) {
-        transformArc(pEntities, pArcRow, pArc, pFunctionAry);
-        if (pArc.arcs) {
-            transformArcRows(pEntities, pArc.arcs, pFunctionAry);
-        }
-    });
+	pArcRow.forEach(function (pArc) {
+		transformArc(pEntities, pArcRow, pArc, pFunctionAry);
+		if (pArc.arcs) {
+			transformArcRows(pEntities, pArc.arcs, pFunctionAry);
+		}
+	});
 }
 function transformArcRows(pEntities, pArcRows, pFunctionAry) {
-    pArcRows.forEach(function (pArcRow) {
-        transformArcRow(pEntities, pArcRow, pFunctionAry);
-    });
+	pArcRows.forEach(function (pArcRow) {
+		transformArcRow(pEntities, pArcRow, pFunctionAry);
+	});
 }
 /**
  * Generic function for performing manipulations on abstract syntax trees. It takes a
@@ -37,13 +37,13 @@ function transformArcRows(pEntities, pArcRows, pFunctionAry) {
  * an arc row and entities as input return the modified arc row
  * @return {ast} - the modified syntax tree
  */
-exports.default = (function (pAST, pEntityTransforms, pArcRowTransforms) {
-    transformEntities(pAST.entities, pEntityTransforms);
-    if (pAST.arcs) {
-        transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
-    }
-    return pAST;
-});
+exports.default = function (pAST, pEntityTransforms, pArcRowTransforms) {
+	transformEntities(pAST.entities, pEntityTransforms);
+	if (pAST.arcs) {
+		transformArcRows(pAST.entities, pAST.arcs, pArcRowTransforms);
+	}
+	return pAST;
+};
 /*
  This file is part of mscgen_js.
 

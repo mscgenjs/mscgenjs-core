@@ -1,29 +1,65 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __createBinding =
+	(this && this.__createBinding) ||
+	(Object.create
+		? function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				var desc = Object.getOwnPropertyDescriptor(m, k);
+				if (
+					!desc ||
+					("get" in desc ? !m.__esModule : desc.writable || desc.configurable)
+				) {
+					desc = {
+						enumerable: true,
+						get: function () {
+							return m[k];
+						},
+					};
+				}
+				Object.defineProperty(o, k2, desc);
+			}
+		: function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				o[k2] = m[k];
+			});
+var __setModuleDefault =
+	(this && this.__setModuleDefault) ||
+	(Object.create
+		? function (o, v) {
+				Object.defineProperty(o, "default", { enumerable: true, value: v });
+			}
+		: function (o, v) {
+				o["default"] = v;
+			});
+var __importStar =
+	(this && this.__importStar) ||
+	function (mod) {
+		if (mod && mod.__esModule) return mod;
+		var result = {};
+		if (mod != null)
+			for (var k in mod)
+				if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+					__createBinding(result, mod, k);
+		__setModuleDefault(result, mod);
+		return result;
+	};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createMarkerPolygon = exports.createMarkerPath = exports.createGroup = exports.createUTurn = exports.createDiagonalText = exports.createText = exports.createNote = exports.createABox = exports.createRBox = exports.createRect = exports.createTSpan = exports.createDefs = exports.createDesc = exports.createTitle = exports.updateSVG = void 0;
+exports.createMarkerPolygon =
+	exports.createMarkerPath =
+	exports.createGroup =
+	exports.createUTurn =
+	exports.createDiagonalText =
+	exports.createText =
+	exports.createNote =
+	exports.createABox =
+	exports.createRBox =
+	exports.createRect =
+	exports.createTSpan =
+	exports.createDefs =
+	exports.createDesc =
+	exports.createTitle =
+	exports.updateSVG =
+		void 0;
 exports.init = init;
 exports.createSVG = createSVG;
 exports.createEdgeRemark = createEdgeRemark;
@@ -34,14 +70,14 @@ var wobbly = __importStar(require("./wobbly"));
 var gRenderMagic = straight;
 var gOptions = {};
 function determineRenderMagic(pRenderMagic) {
-    if (!Boolean(pRenderMagic)) {
-        return gRenderMagic;
-    }
-    /* istanbul ignore if */
-    if ("wobbly" === pRenderMagic) {
-        return wobbly;
-    }
-    return straight;
+	if (!Boolean(pRenderMagic)) {
+		return gRenderMagic;
+	}
+	/* istanbul ignore if */
+	if ("wobbly" === pRenderMagic) {
+		return wobbly;
+	}
+	return straight;
 }
 /**
  * Function to set the document to use. Introduced to enable use of the
@@ -50,18 +86,21 @@ function determineRenderMagic(pRenderMagic) {
  * @param {document} pDocument
  */
 function init(pDocument, pOptions) {
-    svgprimitives.init(pDocument);
-    gOptions = Object.assign({
-        LINE_WIDTH: 2,
-        FONT_SIZE: 12,
-    }, pOptions);
+	svgprimitives.init(pDocument);
+	gOptions = Object.assign(
+		{
+			LINE_WIDTH: 2,
+			FONT_SIZE: 12,
+		},
+		pOptions,
+	);
 }
 /**
  * Creates a basic SVG with id pId, and size 0x0
  */
 function createSVG(pId, pClass, pRenderMagic) {
-    gRenderMagic = determineRenderMagic(pRenderMagic);
-    return svgprimitives.createSVG(pId, pClass);
+	gRenderMagic = determineRenderMagic(pRenderMagic);
+	return svgprimitives.createSVG(pId, pClass);
 }
 exports.updateSVG = svgprimitives.updateSVG;
 exports.createTitle = svgprimitives.createTitle;
@@ -91,19 +130,25 @@ exports.createTSpan = svgprimitives.createTSpan;
  *
  * Unit: pixels
  */
-var createRect = function (pBBox, pOptions) { return gRenderMagic.createRect(pBBox, pOptions); };
+var createRect = function (pBBox, pOptions) {
+	return gRenderMagic.createRect(pBBox, pOptions);
+};
 exports.createRect = createRect;
 /**
  * Creates rect with 6px rounded corners of width x height, with the top
  * left corner at coordinates (x, y)
  */
-var createRBox = function (pBBox, pOptions) { return gRenderMagic.createRBox(pBBox, pOptions); };
+var createRBox = function (pBBox, pOptions) {
+	return gRenderMagic.createRBox(pBBox, pOptions);
+};
 exports.createRBox = createRBox;
 /**
  * Creates an angled box of width x height, with the top left corner
  * at coordinates (x, y)
  */
-var createABox = function (pBBox, pOptions) { return gRenderMagic.createABox(pBBox, pOptions); };
+var createABox = function (pBBox, pOptions) {
+	return gRenderMagic.createABox(pBBox, pOptions);
+};
 exports.createABox = createABox;
 /**
  * Creates a note of pWidth x pHeight, with the top left corner
@@ -111,7 +156,7 @@ exports.createABox = createABox;
  * fold in the top right corner.
  */
 var createNote = function (pBBox, pOptions) {
-    return gRenderMagic.createNote(pBBox, pOptions);
+	return gRenderMagic.createNote(pBBox, pOptions);
 };
 exports.createNote = createNote;
 /**
@@ -120,13 +165,13 @@ exports.createNote = createNote;
  * fold bottom right corner.
  */
 function createEdgeRemark(pBBox, pOptions) {
-    return gRenderMagic.createEdgeRemark(pBBox, {
-        class: pOptions.class,
-        color: pOptions.color,
-        bgColor: pOptions.bgColor,
-        foldSize: pOptions.foldSize,
-        lineWidth: gOptions.LINE_WIDTH,
-    });
+	return gRenderMagic.createEdgeRemark(pBBox, {
+		class: pOptions.class,
+		color: pOptions.color,
+		bgColor: pOptions.bgColor,
+		foldSize: pOptions.foldSize,
+		lineWidth: gOptions.LINE_WIDTH,
+	});
 }
 /**
  * Creates a text node with the appropriate tspan & a elements on
@@ -142,15 +187,14 @@ exports.createDiagonalText = svgprimitives.createDiagonalText;
  * Creates a line between to coordinates
  */
 function createLine(pLine, pOptions) {
-    if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
-        if (!pOptions.lineWidth) {
-            pOptions.lineWidth = gOptions.LINE_WIDTH;
-        }
-        return gRenderMagic.createDoubleLine(pLine, pOptions);
-    }
-    else {
-        return gRenderMagic.createSingleLine(pLine, pOptions);
-    }
+	if (Boolean(pOptions) && Boolean(pOptions.doubleLine)) {
+		if (!pOptions.lineWidth) {
+			pOptions.lineWidth = gOptions.LINE_WIDTH;
+		}
+		return gRenderMagic.createDoubleLine(pLine, pOptions);
+	} else {
+		return gRenderMagic.createSingleLine(pLine, pOptions);
+	}
 }
 /**
  * Creates a u-turn, departing on pStartX, pStarty and

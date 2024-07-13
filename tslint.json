@@ -1,27 +1,25 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "rules": {
-        "cyclomatic-complexity": [true, 7],
-        "object-literal-sort-keys": false,
-        "max-file-line-count": {
-            "severity": "warning",
-            "options": [1270] // ideally, 250
-        },
-        "no-var-requires": false
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "cyclomatic-complexity": [true, 7],
+    "object-literal-sort-keys": false,
+    "max-file-line-count": {
+      "severity": "warning",
+      "options": [1270] // ideally, 250
     },
-    "rulesDirectory": [],
-    "linterOptions": {
-        "exclude": [
-            "*.json",
-            "dist/**",
-            "node_modules",
-            "src/render/graphics/csstemplates.ts",
-            "test/**",
-            "types/tmp**"
-        ]
-    }
+    "no-var-requires": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": [
+      "*.json",
+      "dist/**",
+      "node_modules",
+      "src/render/graphics/csstemplates.ts",
+      "test/**",
+      "types/tmp**"
+    ]
+  }
 }

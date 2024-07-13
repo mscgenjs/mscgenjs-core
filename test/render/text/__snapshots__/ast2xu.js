@@ -164,7 +164,8 @@ msc {
   ||| [label="options used: hscale=\\"0.6\\", arcgradient=\\"18\\""];
 }`;
 
-exports[`astOptionsMinified`] = `msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true,watermark="not in mscgen, available in xù and msgenny";a;}`;
+exports[`astOptionsMinified`] =
+  `msc{hscale="1.2",width="800",arcgradient="17",wordwraparcs=true,watermark="not in mscgen, available in xù and msgenny";a;}`;
 
 exports[`astBoxesMinified`] = `msc{a,b;a note b;a box a,b rbox b;b abox a;}`;
 
@@ -210,7 +211,8 @@ msc {
   a -> b;
 }`;
 
-exports[`astSimpleMinified`] = `msc{a,"b space";a => "b space"[label="a simple script"];}`;
+exports[`astSimpleMinified`] =
+  `msc{a,"b space";a => "b space"[label="a simple script"];}`;
 
 exports[`astSimple`] = `msc {
   a,
@@ -225,7 +227,8 @@ exports[`astDeActivate`] = `msc{a,b;a => b[activation=false];}`;
 
 exports[`astActivate`] = `msc{a,b;a => b[activation=true];}`;
 
-exports[`astTitleOnArc`] = `msc{a,b;a => b[label="the label",title="The title meister strikes again"];}`;
+exports[`astTitleOnArc`] =
+  `msc{a,b;a => b[label="the label",title="The title meister strikes again"];}`;
 
 exports[`astOneAlt`] = `msc {
   a,

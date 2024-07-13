@@ -65,7 +65,7 @@ export class XuAdaptor {
   protected renderComments(pArray: string[]): string {
     return pArray.reduce(
       (pPrevComment, pCurComment) => pPrevComment + pCurComment,
-      ""
+      "",
     );
   }
 
@@ -167,11 +167,11 @@ export class XuAdaptor {
 
   private extractSupportedOptions(
     pOptions: any,
-    pSupportedOptions: string[]
+    pSupportedOptions: string[],
   ): any {
     return pSupportedOptions
       .filter(
-        (pSupportedOption) => typeof pOptions[pSupportedOption] !== "undefined"
+        (pSupportedOption) => typeof pOptions[pSupportedOption] !== "undefined",
       )
       .map((pSupportedOption) => ({
         name: pSupportedOption,
@@ -193,7 +193,7 @@ export class XuAdaptor {
   private renderOptions(pOptions: IOptions): string {
     const lOptions = this.extractSupportedOptions(
       pOptions,
-      this.config.supportedOptions
+      this.config.supportedOptions,
     ).filter(this.optionIsValid);
     let lRetVal = "";
     if (lOptions.length > 0) {
@@ -203,7 +203,7 @@ export class XuAdaptor {
           pPrevOption +
           this.renderOption(pCurOption) +
           this.config.option.separator,
-        this.config.option.opener
+        this.config.option.opener,
       );
       lRetVal += this.renderOption(lLastOption) + this.config.option.closer;
     }
@@ -225,7 +225,7 @@ export class XuAdaptor {
         .reduce(
           (pPrev, pEntity) =>
             pPrev + this.renderEntity(pEntity) + this.config.entity.separator,
-          this.config.entity.opener
+          this.config.entity.opener,
         );
       lRetVal +=
         this.renderEntity(pEntities[pEntities.length - 1]) +
@@ -236,12 +236,12 @@ export class XuAdaptor {
 
   private renderAttributes(
     pArcOrEntity: IEntity | IArc,
-    pSupportedAttributes: string[]
+    pSupportedAttributes: string[],
   ): string {
     let lRetVal = "";
     const lAttributes = this.extractSupportedOptions(
       pArcOrEntity,
-      pSupportedAttributes
+      pSupportedAttributes,
     );
     if (lAttributes.length > 0) {
       const lLastAtribute = lAttributes.pop();
@@ -250,7 +250,7 @@ export class XuAdaptor {
           pPreviousAttribute +
           this.renderAttribute(pCurrentAttribute) +
           this.config.attribute.separator,
-        this.config.attribute.opener
+        this.config.attribute.opener,
       );
       lRetVal +=
         this.renderAttribute(lLastAtribute) + this.config.attribute.closer;
@@ -291,7 +291,7 @@ export class XuAdaptor {
             pIndent +
             this.renderArc(pArc, pIndent) +
             this.config.arcline.separator,
-          this.config.arcline.opener
+          this.config.arcline.opener,
         );
       lRetVal +=
         pIndent +
@@ -304,7 +304,7 @@ export class XuAdaptor {
   private renderArcLines(pArcLines: IArc[][], pIndent: string): string {
     return pArcLines.reduce(
       (pPrev, pArcLine) => pPrev + this.renderArcLine(pArcLine, pIndent),
-      ""
+      "",
     );
   }
 }

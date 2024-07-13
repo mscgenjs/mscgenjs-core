@@ -3,10 +3,10 @@ image: node:latest
 
 cache:
   paths:
-  - node_modules/
+    - node_modules/
 
 test_async:
   script:
-   - npm install
-   - npm run build
-   - npm run check:full
+    - npm install
+    - npm run build
+    - npm run check:full

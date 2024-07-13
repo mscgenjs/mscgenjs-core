@@ -15,7 +15,7 @@ let gDocument: any = {};
 export function setAttribute(
   pElement: Element,
   pKey: string,
-  pValue?: any
+  pValue?: any,
 ): Element {
   if (Boolean(pValue)) {
     pElement.setAttribute(pKey, pValue);
@@ -27,7 +27,7 @@ export function setAttributeNS(
   pElement: Element,
   pNS: string,
   pKey: string,
-  pValue?: any
+  pValue?: any,
 ): Element {
   if (Boolean(pValue)) {
     pElement.setAttributeNS(pNS, pKey, pValue);
@@ -77,11 +77,11 @@ export function setAttributesNS(pElement: Element, pNS, pAttributes) {
  */
 export function createElement(
   pElementType: string,
-  pAttributes?: any
+  pAttributes?: any,
 ): SVGElement {
   return setAttributes(
     gDocument.createElementNS(SVGNS, pElementType),
-    pAttributes
+    pAttributes,
   ) as SVGElement;
 }
 

@@ -38,7 +38,7 @@ function translateAttributes(pThing: IEntity | IArc): string[] {
   return ["label", "color", "fontcolor", "fillcolor"]
     .filter((pSupportedAttr) => Boolean(pThing[pSupportedAttr]))
     .map((pSupportedAttr) =>
-      renderAttribute(pThing[pSupportedAttr], pSupportedAttr)
+      renderAttribute(pThing[pSupportedAttr], pSupportedAttr),
     );
 }
 
@@ -69,7 +69,7 @@ function renderEntity(pEntity: IEntity): string {
 function renderEntities(pEntities: IEntity[]): string {
   return pEntities.reduce(
     (pPrev, pEntity) => `${pPrev + INDENT + renderEntity(pEntity)};\n`,
-    ""
+    "",
   );
 }
 
@@ -97,7 +97,7 @@ function renderBoxArc(pArc: any, pCounter: number, pIndent: string): string {
   pushAttribute(lAttrs, "none", "dir");
 
   lRetVal += `${lBoxName} -- {${renderEntityName(pArc.from)},${renderEntityName(
-    pArc.to
+    pArc.to,
   )}}`;
   lRetVal += renderAttributeBlock(lAttrs);
 
@@ -107,7 +107,7 @@ function renderBoxArc(pArc: any, pCounter: number, pIndent: string): string {
 function renderRegularArc(
   pArc: any,
   pAggregatedKind: ArcKindAggregatedType,
-  pCounter: number
+  pCounter: number,
 ): string {
   let lRetVal = "";
   pArc.label = counterizeLabel(pCounter, pArc.label);
@@ -142,7 +142,7 @@ function renderRegularArc(
 function renderSingleArc(
   pArc: IArc,
   pCounter: number,
-  pIndent: string
+  pIndent: string,
 ): string {
   let lRetVal = "";
   const lAggregatedKind = aggregatekind(pArc.kind);
@@ -180,9 +180,9 @@ function renderArcLines(pArcLines: IArc[][], pIndent: string): string {
       pPrevArcLine +
       pNextArcLine.reduce(
         (pPrevArc, pNextArc) => pPrevArc + renderArc(pNextArc, pIndent),
-        ""
+        "",
       ),
-    ""
+    "",
   );
 }
 
@@ -205,8 +205,8 @@ function flattenMe(pAST: ISequenceChart): ISequenceChart {
     asttransform(
       pAST,
       [flatten.nameAsLabel],
-      [flatten.swapRTLArc, flatten.overrideColors]
-    )
+      [flatten.swapRTLArc, flatten.overrideColors],
+    ),
   );
 }
 
@@ -233,7 +233,7 @@ export function explodeBroadcasts(pAST): ISequenceChart {
           delete pAST.arcs[pArcRowIndex][pArcIndex];
           const lExplodedArcsAry = explodeBroadcastArc(
             pAST.entities,
-            lOriginalBroadcastArc
+            lOriginalBroadcastArc,
           );
 
           pArcRow[pArcIndex] = lExplodedArcsAry.shift();

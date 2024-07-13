@@ -18,32 +18,55 @@
  * @exports renderskeleton
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding =
+	(this && this.__createBinding) ||
+	(Object.create
+		? function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				var desc = Object.getOwnPropertyDescriptor(m, k);
+				if (
+					!desc ||
+					("get" in desc ? !m.__esModule : desc.writable || desc.configurable)
+				) {
+					desc = {
+						enumerable: true,
+						get: function () {
+							return m[k];
+						},
+					};
+				}
+				Object.defineProperty(o, k2, desc);
+			}
+		: function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				o[k2] = m[k];
+			});
+var __setModuleDefault =
+	(this && this.__setModuleDefault) ||
+	(Object.create
+		? function (o, v) {
+				Object.defineProperty(o, "default", { enumerable: true, value: v });
+			}
+		: function (o, v) {
+				o["default"] = v;
+			});
+var __importStar =
+	(this && this.__importStar) ||
+	function (mod) {
+		if (mod && mod.__esModule) return mod;
+		var result = {};
+		if (mod != null)
+			for (var k in mod)
+				if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+					__createBinding(result, mod, k);
+		__setModuleDefault(result, mod);
+		return result;
+	};
+var __importDefault =
+	(this && this.__importDefault) ||
+	function (mod) {
+		return mod && mod.__esModule ? mod : { default: mod };
+	};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.init = init;
 exports.bootstrap = bootstrap;
@@ -52,40 +75,65 @@ var constants_1 = __importDefault(require("./constants"));
 var csstemplates = require("./csstemplates.json");
 var gDocument = {};
 function setupMarkers(pDefs, pMarkerDefs) {
-    pMarkerDefs.forEach(function (pMarker) {
-        if (pMarker.type === "method") {
-            pDefs.appendChild(svgelementfactory.createMarkerPolygon(pMarker.name, pMarker.path, pMarker.color));
-        }
-        else {
-            pDefs.appendChild(svgelementfactory.createMarkerPath(pMarker.name, pMarker.path, pMarker.color));
-        }
-    });
-    return pDefs;
+	pMarkerDefs.forEach(function (pMarker) {
+		if (pMarker.type === "method") {
+			pDefs.appendChild(
+				svgelementfactory.createMarkerPolygon(
+					pMarker.name,
+					pMarker.path,
+					pMarker.color,
+				),
+			);
+		} else {
+			pDefs.appendChild(
+				svgelementfactory.createMarkerPath(
+					pMarker.name,
+					pMarker.path,
+					pMarker.color,
+				),
+			);
+		}
+	});
+	return pDefs;
 }
 function setupStyle(pOptions, pSvgElementId) {
-    var lStyle = gDocument.createElement("style");
-    lStyle.setAttribute("type", "text/css");
-    lStyle.appendChild(gDocument.createTextNode(setupStyleElement(pOptions, pSvgElementId)));
-    return lStyle;
+	var lStyle = gDocument.createElement("style");
+	lStyle.setAttribute("type", "text/css");
+	lStyle.appendChild(
+		gDocument.createTextNode(setupStyleElement(pOptions, pSvgElementId)),
+	);
+	return lStyle;
 }
 function setupDefs(pElementId, pMarkerDefs, pOptions) {
-    /*
-        * definitions - which will include style and markers
-        */
-    var lDefs = svgelementfactory.createDefs();
-    lDefs.appendChild(setupStyle(pOptions, pElementId));
-    lDefs = setupMarkers(lDefs, pMarkerDefs);
-    return lDefs;
+	/*
+	 * definitions - which will include style and markers
+	 */
+	var lDefs = svgelementfactory.createDefs();
+	lDefs.appendChild(setupStyle(pOptions, pElementId));
+	lDefs = setupMarkers(lDefs, pMarkerDefs);
+	return lDefs;
 }
 function setupBody(pElementId) {
-    var lBody = svgelementfactory.createGroup("".concat(pElementId, "_body"));
-    lBody.appendChild(svgelementfactory.createGroup("".concat(pElementId, "_background")));
-    lBody.appendChild(svgelementfactory.createGroup("".concat(pElementId, "_arcspans")));
-    lBody.appendChild(svgelementfactory.createGroup("".concat(pElementId, "_lifelines")));
-    lBody.appendChild(svgelementfactory.createGroup("".concat(pElementId, "_sequence")));
-    lBody.appendChild(svgelementfactory.createGroup("".concat(pElementId, "_notes")));
-    lBody.appendChild(svgelementfactory.createGroup("".concat(pElementId, "_watermark")));
-    return lBody;
+	var lBody = svgelementfactory.createGroup("".concat(pElementId, "_body"));
+	lBody.appendChild(
+		svgelementfactory.createGroup("".concat(pElementId, "_background")),
+	);
+	lBody.appendChild(
+		svgelementfactory.createGroup("".concat(pElementId, "_arcspans")),
+	);
+	lBody.appendChild(
+		svgelementfactory.createGroup("".concat(pElementId, "_lifelines")),
+	);
+	lBody.appendChild(
+		svgelementfactory.createGroup("".concat(pElementId, "_sequence")),
+	);
+	lBody.appendChild(
+		svgelementfactory.createGroup("".concat(pElementId, "_notes")),
+	);
+	lBody.appendChild(
+		svgelementfactory.createGroup("".concat(pElementId, "_watermark")),
+	);
+	return lBody;
 }
 /**
  * Initializes the document to the document associated with the
@@ -95,11 +143,11 @@ function setupBody(pElementId) {
  * @return {document}
  */
 function init(pWindow) {
-    svgelementfactory.init(pWindow.document, {
-        LINE_WIDTH: constants_1.default.LINE_WIDTH,
-        FONT_SIZE: constants_1.default.FONT_SIZE,
-    });
-    return pWindow.document;
+	svgelementfactory.init(pWindow.document, {
+		LINE_WIDTH: constants_1.default.LINE_WIDTH,
+		FONT_SIZE: constants_1.default.FONT_SIZE,
+	});
+	return pWindow.document;
 }
 /**
  * Sets up a skeleton svg document with id pSvgElementId in the dom element
@@ -116,45 +164,65 @@ function init(pWindow) {
  *        additionalTemplate - string identifying a named style
  *
  */
-function bootstrap(pWindow, pParentElement, pSvgElementId, pMarkerDefs, pOptions) {
-    gDocument = init(pWindow);
-    var lSkeletonSvg = svgelementfactory.createSVG(pSvgElementId, pSvgElementId, distillRenderMagic(pOptions));
-    if (Boolean(pOptions.source)) {
-        lSkeletonSvg.appendChild(setupDesc(pWindow, pOptions.source));
-    }
-    lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
-    lSkeletonSvg.appendChild(setupBody(pSvgElementId));
-    pParentElement.appendChild(lSkeletonSvg);
-    return gDocument;
+function bootstrap(
+	pWindow,
+	pParentElement,
+	pSvgElementId,
+	pMarkerDefs,
+	pOptions,
+) {
+	gDocument = init(pWindow);
+	var lSkeletonSvg = svgelementfactory.createSVG(
+		pSvgElementId,
+		pSvgElementId,
+		distillRenderMagic(pOptions),
+	);
+	if (Boolean(pOptions.source)) {
+		lSkeletonSvg.appendChild(setupDesc(pWindow, pOptions.source));
+	}
+	lSkeletonSvg.appendChild(setupDefs(pSvgElementId, pMarkerDefs, pOptions));
+	lSkeletonSvg.appendChild(setupBody(pSvgElementId));
+	pParentElement.appendChild(lSkeletonSvg);
+	return gDocument;
 }
 function setupDesc(pWindow, pSource) {
-    var lDesc = svgelementfactory.createDesc();
-    lDesc.appendChild(pWindow.document.createTextNode("\n\n# Generated by mscgen_js - https://sverweij.github.io/mscgen_js\n".concat(pSource)));
-    return lDesc;
+	var lDesc = svgelementfactory.createDesc();
+	lDesc.appendChild(
+		pWindow.document.createTextNode(
+			"\n\n# Generated by mscgen_js - https://sverweij.github.io/mscgen_js\n".concat(
+				pSource,
+			),
+		),
+	);
+	return lDesc;
 }
 function findNamedStyle(pAdditionalTemplate) {
-    return csstemplates.namedStyles.find(function (tpl) { return tpl.name === pAdditionalTemplate; });
+	return csstemplates.namedStyles.find(function (tpl) {
+		return tpl.name === pAdditionalTemplate;
+	});
 }
 function distillRenderMagic(pOptions) {
-    var lRetval = "";
-    var lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
-    if (Boolean(lNamedStyle)) {
-        lRetval = lNamedStyle.renderMagic;
-    }
-    return lRetval;
+	var lRetval = "";
+	var lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
+	if (Boolean(lNamedStyle)) {
+		lRetval = lNamedStyle.renderMagic;
+	}
+	return lRetval;
 }
 function composeStyleSheetTemplate(pNamedStyle, pStyleAdditions) {
-    return (pNamedStyle.cssBefore || "") +
-        csstemplates.baseTemplate +
-        (pNamedStyle.cssAfter || "") +
-        (pStyleAdditions || "");
+	return (
+		(pNamedStyle.cssBefore || "") +
+		csstemplates.baseTemplate +
+		(pNamedStyle.cssAfter || "") +
+		(pStyleAdditions || "")
+	);
 }
 function setupStyleElement(pOptions, pSvgElementId) {
-    var lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
-    return (composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions))
-        .replace(/<%=fontSize%>/g, constants_1.default.FONT_SIZE)
-        .replace(/<%=lineWidth%>/g, constants_1.default.LINE_WIDTH)
-        .replace(/<%=id%>/g, pSvgElementId);
+	var lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
+	return composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions)
+		.replace(/<%=fontSize%>/g, constants_1.default.FONT_SIZE)
+		.replace(/<%=lineWidth%>/g, constants_1.default.LINE_WIDTH)
+		.replace(/<%=id%>/g, pSvgElementId);
 }
 /*
  This file is part of mscgen_js.

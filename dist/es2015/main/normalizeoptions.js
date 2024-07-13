@@ -1,36 +1,52 @@
 import allowedValues from "./allowedvalues";
 function normalizeValueFromValidValues(pValue, pValidValues, pDefault) {
-    let lRetval = pDefault;
-    if (pValidValues.some((pValidValue) => pValidValue.name === pValue)) {
-        lRetval = pValue;
-    }
-    return lRetval;
+	let lRetval = pDefault;
+	if (pValidValues.some((pValidValue) => pValidValue.name === pValue)) {
+		lRetval = pValue;
+	}
+	return lRetval;
 }
 function normalizeVerticalAlignment(pVerticalAlignment) {
-    return normalizeValueFromValidValues(pVerticalAlignment, allowedValues.regularArcTextVerticalAlignment, "middle");
+	return normalizeValueFromValidValues(
+		pVerticalAlignment,
+		allowedValues.regularArcTextVerticalAlignment,
+		"middle",
+	);
 }
 function normalizeInputType(pInputType) {
-    return normalizeValueFromValidValues(pInputType, allowedValues.inputType, "mscgen");
+	return normalizeValueFromValidValues(
+		pInputType,
+		allowedValues.inputType,
+		"mscgen",
+	);
 }
 function normalizeAdditionalTemplate(pAdditionalTemplate) {
-    return normalizeValueFromValidValues(pAdditionalTemplate, allowedValues.namedStyle, "basic");
+	return normalizeValueFromValidValues(
+		pAdditionalTemplate,
+		allowedValues.namedStyle,
+		"basic",
+	);
 }
 function booleanize(pValue, pDefault) {
-    return typeof pValue === "boolean" ? pValue : pDefault;
+	return typeof pValue === "boolean" ? pValue : pDefault;
 }
 export default (pOptions, pScript) => {
-    const lIncludeSource = booleanize(pOptions.includeSource, true);
-    return {
-        inputType: normalizeInputType(pOptions.inputType),
-        elementId: pOptions.elementId || "__svg",
-        window: pOptions.window || window,
-        includeSource: lIncludeSource,
-        source: lIncludeSource ? pScript : null,
-        styleAdditions: pOptions.styleAdditions || null,
-        additionalTemplate: normalizeAdditionalTemplate(pOptions.additionalTemplate),
-        mirrorEntitiesOnBottom: booleanize(pOptions.mirrorEntitiesOnBottom, false),
-        regularArcTextVerticalAlignment: normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment),
-    };
+	const lIncludeSource = booleanize(pOptions.includeSource, true);
+	return {
+		inputType: normalizeInputType(pOptions.inputType),
+		elementId: pOptions.elementId || "__svg",
+		window: pOptions.window || window,
+		includeSource: lIncludeSource,
+		source: lIncludeSource ? pScript : null,
+		styleAdditions: pOptions.styleAdditions || null,
+		additionalTemplate: normalizeAdditionalTemplate(
+			pOptions.additionalTemplate,
+		),
+		mirrorEntitiesOnBottom: booleanize(pOptions.mirrorEntitiesOnBottom, false),
+		regularArcTextVerticalAlignment: normalizeVerticalAlignment(
+			pOptions.regularArcTextVerticalAlignment,
+		),
+	};
 };
 /*
  This file is part of mscgen_js.

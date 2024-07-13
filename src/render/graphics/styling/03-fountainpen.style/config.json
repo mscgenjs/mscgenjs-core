@@ -1,6 +1,6 @@
 {
-    "experimental": true,
-    "deprecated": false,
-    "description": "Fountain pen",
-    "renderMagic": "wobbly"
+  "experimental": true,
+  "deprecated": false,
+  "description": "Fountain pen",
+  "renderMagic": "wobbly"
 }

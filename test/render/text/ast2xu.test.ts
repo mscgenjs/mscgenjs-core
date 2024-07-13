@@ -10,11 +10,11 @@ const snapshots = require("./__snapshots__/ast2xu");
 describe(`render/text/ast2xu`, () => {
   describe(`#renderAST() - simple syntax tree`, () => {
     it(`should, given a simple syntax tree, render a mscgen script`, () => {
-      equal(renderer.render(fix.astSimple), snapshots.astSimple); 
+      equal(renderer.render(fix.astSimple), snapshots.astSimple);
     });
 
     it(`should, given a simple syntax tree, render a mscgen script, minified explicitly set to false`, () => {
-      equal(renderer.render(fix.astSimple), snapshots.astSimple); 
+      equal(renderer.render(fix.astSimple), snapshots.astSimple);
     });
 
     it(`should, given a simple syntax tree, render a "minified" mscgen script`, () => {
@@ -22,7 +22,10 @@ describe(`render/text/ast2xu`, () => {
     });
 
     it("should preserve the comments at the start of the ast", () => {
-      equal(renderer.render(fix.astWithPreComment), snapshots.astWithPreComment);
+      equal(
+        renderer.render(fix.astWithPreComment),
+        snapshots.astWithPreComment,
+      );
     });
 
     it("should preserve attributes", () => {
@@ -34,13 +37,19 @@ describe(`render/text/ast2xu`, () => {
     });
 
     it("correctly renders parallel calls", () => {
-      equal(renderer.render(fix.astSimpleParallel), snapshots.astSimpleParallel);
+      equal(
+        renderer.render(fix.astSimpleParallel),
+        snapshots.astSimpleParallel,
+      );
     });
   });
 
   describe(`#renderAST() - minification`, () => {
     it(`should render a "minified" mscgen script`, () => {
-      equal(renderer.render(fix.astOptions, true), snapshots.astOptionsMinified);
+      equal(
+        renderer.render(fix.astOptions, true),
+        snapshots.astOptionsMinified,
+      );
     });
 
     it(`should render a "minified" mscgen script`, () => {
@@ -81,16 +90,22 @@ describe(`render/text/ast2xu`, () => {
           ],
         ],
       } as unknown;
-      equal(renderer.render(<ISequenceChart>lFixture), snapshots.astEmptyInlineExpression);
+      equal(
+        renderer.render(<ISequenceChart>lFixture),
+        snapshots.astEmptyInlineExpression,
+      );
     });
     it("Puts entities with mscgen keyword for a name in quotes", () => {
-      equal(renderer.render(fix.entityWithMscGenKeywordAsName, true), snapshots.astEntityWithMscGenKeywordAsName);
+      equal(
+        renderer.render(fix.entityWithMscGenKeywordAsName, true),
+        snapshots.astEntityWithMscGenKeywordAsName,
+      );
     });
     it("Re-renders title attributes", () => {
       equal(renderer.render(fix.astTitleOnArc, true), snapshots.astTitleOnArc);
     });
     it("Re-renders the activation attribute (on)", () => {
-      equal(renderer.render(fix.astActivate, true), snapshots.astActivate); 
+      equal(renderer.render(fix.astActivate, true), snapshots.astActivate);
     });
     it("Re-renders the activation attribute (off)", () => {
       equal(renderer.render(fix.astDeActivate, true), snapshots.astDeActivate);
@@ -103,7 +118,7 @@ describe(`render/text/ast2xu`, () => {
         path.join(__dirname, "../../fixtures/test01_all_possible_arcs.json"),
         {
           encoding: "utf8",
-        }
+        },
       );
       const lAST = JSON.parse(lASTString);
       equal(renderer.render(lAST), snapshots.astAllPossibleArcs);

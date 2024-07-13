@@ -16,7 +16,7 @@ defaults:
 jobs:
   check:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         node-version:
           - 18.x

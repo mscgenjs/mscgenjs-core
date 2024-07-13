@@ -1,42 +1,64 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __importDefault =
+	(this && this.__importDefault) ||
+	function (mod) {
+		return mod && mod.__esModule ? mod : { default: mod };
+	};
 Object.defineProperty(exports, "__esModule", { value: true });
 var allowedvalues_1 = __importDefault(require("./allowedvalues"));
 function normalizeValueFromValidValues(pValue, pValidValues, pDefault) {
-    var lRetval = pDefault;
-    if (pValidValues.some(function (pValidValue) { return pValidValue.name === pValue; })) {
-        lRetval = pValue;
-    }
-    return lRetval;
+	var lRetval = pDefault;
+	if (
+		pValidValues.some(function (pValidValue) {
+			return pValidValue.name === pValue;
+		})
+	) {
+		lRetval = pValue;
+	}
+	return lRetval;
 }
 function normalizeVerticalAlignment(pVerticalAlignment) {
-    return normalizeValueFromValidValues(pVerticalAlignment, allowedvalues_1.default.regularArcTextVerticalAlignment, "middle");
+	return normalizeValueFromValidValues(
+		pVerticalAlignment,
+		allowedvalues_1.default.regularArcTextVerticalAlignment,
+		"middle",
+	);
 }
 function normalizeInputType(pInputType) {
-    return normalizeValueFromValidValues(pInputType, allowedvalues_1.default.inputType, "mscgen");
+	return normalizeValueFromValidValues(
+		pInputType,
+		allowedvalues_1.default.inputType,
+		"mscgen",
+	);
 }
 function normalizeAdditionalTemplate(pAdditionalTemplate) {
-    return normalizeValueFromValidValues(pAdditionalTemplate, allowedvalues_1.default.namedStyle, "basic");
+	return normalizeValueFromValidValues(
+		pAdditionalTemplate,
+		allowedvalues_1.default.namedStyle,
+		"basic",
+	);
 }
 function booleanize(pValue, pDefault) {
-    return typeof pValue === "boolean" ? pValue : pDefault;
+	return typeof pValue === "boolean" ? pValue : pDefault;
 }
-exports.default = (function (pOptions, pScript) {
-    var lIncludeSource = booleanize(pOptions.includeSource, true);
-    return {
-        inputType: normalizeInputType(pOptions.inputType),
-        elementId: pOptions.elementId || "__svg",
-        window: pOptions.window || window,
-        includeSource: lIncludeSource,
-        source: lIncludeSource ? pScript : null,
-        styleAdditions: pOptions.styleAdditions || null,
-        additionalTemplate: normalizeAdditionalTemplate(pOptions.additionalTemplate),
-        mirrorEntitiesOnBottom: booleanize(pOptions.mirrorEntitiesOnBottom, false),
-        regularArcTextVerticalAlignment: normalizeVerticalAlignment(pOptions.regularArcTextVerticalAlignment),
-    };
-});
+exports.default = function (pOptions, pScript) {
+	var lIncludeSource = booleanize(pOptions.includeSource, true);
+	return {
+		inputType: normalizeInputType(pOptions.inputType),
+		elementId: pOptions.elementId || "__svg",
+		window: pOptions.window || window,
+		includeSource: lIncludeSource,
+		source: lIncludeSource ? pScript : null,
+		styleAdditions: pOptions.styleAdditions || null,
+		additionalTemplate: normalizeAdditionalTemplate(
+			pOptions.additionalTemplate,
+		),
+		mirrorEntitiesOnBottom: booleanize(pOptions.mirrorEntitiesOnBottom, false),
+		regularArcTextVerticalAlignment: normalizeVerticalAlignment(
+			pOptions.regularArcTextVerticalAlignment,
+		),
+	};
+};
 /*
  This file is part of mscgen_js.
 

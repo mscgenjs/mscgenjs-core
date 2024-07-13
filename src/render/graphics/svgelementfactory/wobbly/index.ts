@@ -16,7 +16,7 @@ import * as variationhelpers from "../variationhelpers";
 
 export function createSingleLine(
   pLine: ILine,
-  pOptions: { class?: string } = {}
+  pOptions: { class?: string } = {},
 ): SVGPathElement {
   const lDir = variationhelpers.getDirection(pLine);
 
@@ -35,7 +35,7 @@ export function createSingleLine(
         "L",
         round(
           pLine.xFrom + lDir.signX * Math.sqrt(1 / (1 + Math.pow(lDir.dy, 2))),
-          2
+          2,
         ),
         pLine.yFrom +
           lDir.signY *
@@ -43,11 +43,11 @@ export function createSingleLine(
               ? 1
               : round(
                   Math.sqrt(Math.pow(lDir.dy, 2) / (1 + Math.pow(lDir.dy, 2))),
-                  2
-                ))
+                  2,
+                )),
       ) +
       line2CurveString(pLine),
-    pOptions
+    pOptions,
   );
 }
 
@@ -57,43 +57,46 @@ export function createNote(pBBox: IBBox, pOptions: IOptions): SVGGElement {
   const lGroup = svgprimitives.createGroup();
 
   lGroup.appendChild(
-    svgprimitives.createPath(renderNotePathString(pBBox, lFoldSize), pOptions)
+    svgprimitives.createPath(renderNotePathString(pBBox, lFoldSize), pOptions),
   );
   pOptions.bgColor = "transparent";
   lGroup.appendChild(
-    svgprimitives.createPath(renderNoteCornerString(pBBox, lFoldSize), pOptions)
+    svgprimitives.createPath(
+      renderNoteCornerString(pBBox, lFoldSize),
+      pOptions,
+    ),
   );
   return lGroup;
 }
 
 export function createRect(
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGPathElement {
   return svgprimitives.createPath(rbox2CurveString(pBBox, 0), pOptions);
 }
 
 export function createABox(
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGPathElement {
   const lSlopeOffset = 3;
   return svgprimitives.createPath(
     abox2CurveString(pBBox, lSlopeOffset),
-    pOptions
+    pOptions,
   );
 }
 
 export function createRBox(
   pBBox: IBBox,
-  pOptions: IBoxOptions
+  pOptions: IBoxOptions,
 ): SVGPathElement {
   return svgprimitives.createPath(rbox2CurveString(pBBox, 6), pOptions);
 }
 
 export function createEdgeRemark(
   pBBox: IBBox,
-  pOptions: IOptions
+  pOptions: IOptions,
 ): SVGGElement {
   const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
   const lGroup = svgprimitives.createGroup();
@@ -108,24 +111,24 @@ export function createEdgeRemark(
       svgprimitives.pathPoint2String(
         "L",
         pBBox.x + pBBox.width,
-        pBBox.y + lLineWidth / 2
+        pBBox.y + lLineWidth / 2,
       ) +
       // down:
       svgprimitives.pathPoint2String(
         "L",
         pBBox.x + pBBox.width,
-        pBBox.y + pBBox.height - lFoldSize
+        pBBox.y + pBBox.height - lFoldSize,
       ) +
       // fold:
       svgprimitives.pathPoint2String(
         "L",
         pBBox.x + pBBox.width - lFoldSize,
-        pBBox.y + pBBox.height
+        pBBox.y + pBBox.height,
       ) +
       // bottom line:
       svgprimitives.pathPoint2String("L", pBBox.x, pBBox.y + pBBox.height) +
       "z",
-    pOptions
+    pOptions,
   );
 
   pOptions.bgColor = "transparent";
@@ -133,7 +136,7 @@ export function createEdgeRemark(
   const lLine = svgprimitives.createPath(
     // start:
     edgeRemark2CurveString(pBBox, lFoldSize),
-    pOptions
+    pOptions,
   );
   lGroup.appendChild(lBackground);
   lGroup.appendChild(lLine);
@@ -142,7 +145,7 @@ export function createEdgeRemark(
 
 export function createDoubleLine(
   pLine: ILine,
-  pOptions: IOptions
+  pOptions: IOptions,
 ): SVGPathElement {
   return svgprimitives.createPath(doubleLine2CurveString(pLine, pOptions), {
     class: pOptions.class,

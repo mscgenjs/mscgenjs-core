@@ -2,33 +2,35 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var cssTemplates = require("../render/graphics/csstemplates.json");
 exports.default = Object.freeze({
-    inputType: [
-        { name: "mscgen", experimental: false },
-        { name: "msgenny", experimental: false },
-        { name: "xu", experimental: false },
-        { name: "json", experimental: false },
-        { name: "ast", experimental: false },
-    ],
-    outputType: [
-        { name: "mscgen", experimental: false },
-        { name: "msgenny", experimental: false },
-        { name: "xu", experimental: false },
-        { name: "json", experimental: false },
-        { name: "ast", experimental: false },
-        { name: "dot", experimental: false },
-        { name: "doxygen", experimental: false },
-    ],
-    regularArcTextVerticalAlignment: [
-        { name: "above", experimental: true },
-        { name: "middle", experimental: false },
-        { name: "below", experimental: true },
-    ],
-    namedStyle: cssTemplates.namedStyles.map(function (pStyle) { return ({
-        name: pStyle.name,
-        description: pStyle.description,
-        experimental: pStyle.experimental,
-        deprecated: pStyle.deprecated,
-    }); }),
+	inputType: [
+		{ name: "mscgen", experimental: false },
+		{ name: "msgenny", experimental: false },
+		{ name: "xu", experimental: false },
+		{ name: "json", experimental: false },
+		{ name: "ast", experimental: false },
+	],
+	outputType: [
+		{ name: "mscgen", experimental: false },
+		{ name: "msgenny", experimental: false },
+		{ name: "xu", experimental: false },
+		{ name: "json", experimental: false },
+		{ name: "ast", experimental: false },
+		{ name: "dot", experimental: false },
+		{ name: "doxygen", experimental: false },
+	],
+	regularArcTextVerticalAlignment: [
+		{ name: "above", experimental: true },
+		{ name: "middle", experimental: false },
+		{ name: "below", experimental: true },
+	],
+	namedStyle: cssTemplates.namedStyles.map(function (pStyle) {
+		return {
+			name: pStyle.name,
+			description: pStyle.description,
+			experimental: pStyle.experimental,
+			deprecated: pStyle.deprecated,
+		};
+	}),
 });
 /*
  This file is part of mscgen_js.

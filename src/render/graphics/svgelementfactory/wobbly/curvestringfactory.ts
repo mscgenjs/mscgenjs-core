@@ -16,7 +16,7 @@ export function renderNotePathString(pBBox: IBBox, pFoldSize: number): string {
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width - pFoldSize,
-      pBBox.y
+      pBBox.y,
     ) +
     // fold:
     line2CurveString({
@@ -28,7 +28,7 @@ export function renderNotePathString(pBBox: IBBox, pFoldSize: number): string {
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width,
-      pBBox.y + pFoldSize
+      pBBox.y + pFoldSize,
     ) +
     // down:
     line2CurveString({
@@ -40,7 +40,7 @@ export function renderNotePathString(pBBox: IBBox, pFoldSize: number): string {
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width,
-      pBBox.y + pBBox.height
+      pBBox.y + pBBox.height,
     ) +
     // bottom line:
     line2CurveString({
@@ -64,13 +64,13 @@ export function renderNotePathString(pBBox: IBBox, pFoldSize: number): string {
 
 export function renderNoteCornerString(
   pBBox: IBBox,
-  pFoldSize: number
+  pFoldSize: number,
 ): string {
   return (
     svgprimitives.pathPoint2String(
       "M",
       pBBox.x + pBBox.width - pFoldSize,
-      pBBox.y
+      pBBox.y,
     ) +
     // down
     line2CurveString({
@@ -82,7 +82,7 @@ export function renderNoteCornerString(
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width - pFoldSize,
-      pBBox.y + pFoldSize
+      pBBox.y + pFoldSize,
     ) +
     // right
     line2CurveString({
@@ -94,7 +94,7 @@ export function renderNoteCornerString(
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width,
-      pBBox.y + pFoldSize
+      pBBox.y + pFoldSize,
     )
   );
 }
@@ -119,7 +119,7 @@ export function abox2CurveString(pBBox: IBBox, pSlopeOffset: number): string {
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width - pSlopeOffset,
-      pBBox.y
+      pBBox.y,
     ) +
     // right wedge
     line2CurveString({
@@ -131,7 +131,7 @@ export function abox2CurveString(pBBox: IBBox, pSlopeOffset: number): string {
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width,
-      pBBox.y + pBBox.height / 2
+      pBBox.y + pBBox.height / 2,
     ) +
     line2CurveString({
       xFrom: pBBox.x + pBBox.width,
@@ -142,7 +142,7 @@ export function abox2CurveString(pBBox: IBBox, pSlopeOffset: number): string {
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width - pSlopeOffset,
-      pBBox.y + pBBox.height
+      pBBox.y + pBBox.height,
     ) +
     // bottom line:
     line2CurveString({
@@ -154,7 +154,7 @@ export function abox2CurveString(pBBox: IBBox, pSlopeOffset: number): string {
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pSlopeOffset,
-      pBBox.y + pBBox.height
+      pBBox.y + pBBox.height,
     ) +
     // home:
     line2CurveString({
@@ -169,7 +169,7 @@ export function abox2CurveString(pBBox: IBBox, pSlopeOffset: number): string {
 
 export function rbox2CurveString(
   pBBox: IBBox,
-  pRBoxCornerRadius: number
+  pRBoxCornerRadius: number,
 ): string {
   return (
     svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pRBoxCornerRadius) +
@@ -191,7 +191,7 @@ export function rbox2CurveString(
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width - pRBoxCornerRadius,
-      pBBox.y
+      pBBox.y,
     ) +
     points2CurveString([
       {
@@ -211,7 +211,7 @@ export function rbox2CurveString(
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width,
-      pBBox.y + pBBox.height - pRBoxCornerRadius
+      pBBox.y + pBBox.height - pRBoxCornerRadius,
     ) +
     points2CurveString([
       {
@@ -231,7 +231,7 @@ export function rbox2CurveString(
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pRBoxCornerRadius,
-      pBBox.y + pBBox.height
+      pBBox.y + pBBox.height,
     ) +
     points2CurveString([
       {
@@ -261,26 +261,26 @@ export function doubleLine2CurveString(pLine: ILine, pOptions): string {
   const lEndCorr = variationhelpers.determineEndCorrection(
     pLine,
     lClass,
-    lLineWidth
+    lLineWidth,
   );
   const lStartCorr = variationhelpers.determineStartCorrection(
     pLine,
     lClass,
-    lLineWidth
+    lLineWidth,
   );
 
   return (
     svgprimitives.pathPoint2String(
       "M",
       pLine.xFrom,
-      pLine.yFrom - 7.5 * lLineWidth * lDir.dy
+      pLine.yFrom - 7.5 * lLineWidth * lDir.dy,
     ) +
     // left stubble:
     svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy) +
     svgprimitives.pathPoint2String(
       "M",
       pLine.xFrom + lStartCorr,
-      pLine.yFrom - lSpace
+      pLine.yFrom - lSpace,
     ) +
     // upper line:
     line2CurveString({
@@ -292,7 +292,7 @@ export function doubleLine2CurveString(pLine: ILine, pOptions): string {
     svgprimitives.pathPoint2String(
       "M",
       pLine.xFrom + lStartCorr,
-      pLine.yFrom + lSpace
+      pLine.yFrom + lSpace,
     ) +
     // lower line
     line2CurveString({
@@ -304,7 +304,7 @@ export function doubleLine2CurveString(pLine: ILine, pOptions): string {
     svgprimitives.pathPoint2String(
       "M",
       pLine.xTo - lDir.signX,
-      pLine.yTo + 7.5 * lLineWidth * lDir.dy
+      pLine.yTo + 7.5 * lLineWidth * lDir.dy,
     ) +
     // right stubble
     svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy)
@@ -313,7 +313,7 @@ export function doubleLine2CurveString(pLine: ILine, pOptions): string {
 
 export function edgeRemark2CurveString(
   pBBox: IBBox,
-  pFoldSize: number
+  pFoldSize: number,
 ): string {
   return (
     svgprimitives.pathPoint2String("M", pBBox.x + pBBox.width, pBBox.y) +
@@ -327,7 +327,7 @@ export function edgeRemark2CurveString(
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width,
-      pBBox.y + pBBox.height - pFoldSize
+      pBBox.y + pBBox.height - pFoldSize,
     ) +
     // fold:
     line2CurveString({
@@ -339,7 +339,7 @@ export function edgeRemark2CurveString(
     svgprimitives.pathPoint2String(
       "L",
       pBBox.x + pBBox.width - pFoldSize,
-      pBBox.y + pBBox.height
+      pBBox.y + pBBox.height,
     ) +
     // bottom line:
     line2CurveString({

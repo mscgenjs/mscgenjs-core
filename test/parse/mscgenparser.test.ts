@@ -11,7 +11,6 @@ const pairs = require("./mscgenPairs");
 
 const ajv = new Ajv();
 
-
 describe("parse/mscgenparser", () => {
   describe("#parse() - happy day values", () => {
     it("should correctly parse naked reals", () => {
@@ -55,18 +54,18 @@ describe("parse/mscgenparser", () => {
       const lTextFromFile = fs.readFileSync(
         path.join(
           __dirname,
-          "../fixtures/test01_all_possible_arcs_mscgen.mscin"
+          "../fixtures/test01_all_possible_arcs_mscgen.mscin",
         ),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = parser.parse(lTextFromFile.toString());
       ajv.validate(mscgenjsASTSchema, lAST);
       tst.assertequalToFileJSON(
         path.join(
           __dirname,
-          "../fixtures/test01_all_possible_arcs_mscgen.json"
+          "../fixtures/test01_all_possible_arcs_mscgen.json",
         ),
-        lAST
+        lAST,
       );
     });
     it("should parse stuff with colors", () => {
@@ -74,25 +73,25 @@ describe("parse/mscgenparser", () => {
         path.join(__dirname, "../fixtures/rainbow.mscin"),
         {
           encoding: "utf8",
-        }
+        },
       );
       const lAST = parser.parse(lTextFromFile.toString());
       ajv.validate(mscgenjsASTSchema, lAST);
       tst.assertequalToFileJSON(
         path.join(__dirname, "../fixtures/rainbow.json"),
-        lAST
+        lAST,
       );
     });
     it("strings, ids and urls", () => {
       const lTextFromFile = fs.readFileSync(
         path.join(__dirname, "../fixtures/test10_stringsandurls.mscin"),
-        { encoding: "utf8" }
+        { encoding: "utf8" },
       );
       const lAST = parser.parse(lTextFromFile.toString());
       ajv.validate(mscgenjsASTSchema, lAST);
       tst.assertequalToFileJSON(
         path.join(__dirname, "../fixtures/test10_stringsandurls.json"),
-        lAST
+        lAST,
       );
     });
   });

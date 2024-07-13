@@ -5,7 +5,7 @@
  * @return {string}
  */
 export function unescapeString(pString) {
-    return pString.replace(/\\"/g, '"');
+	return pString.replace(/\\"/g, '"');
 }
 /**
  * takes pString and replaces all double quotes with
@@ -14,7 +14,7 @@ export function unescapeString(pString) {
  * @return {string}
  */
 export function escapeString(pString) {
-    return pString.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
+	return pString.replace(/\\"/g, '"').replace(/"/g, '\\"');
 }
 /*
  This file is part of mscgen_js.

@@ -13,7 +13,7 @@
  * @return number               The rounded number
  */
 export default (pNumber: number, pPrecision?: number): number => {
-    return pPrecision
+  return pPrecision
     ? Math.round(pNumber * Math.pow(10, pPrecision)) / Math.pow(10, pPrecision)
     : Math.round(pNumber);
 };

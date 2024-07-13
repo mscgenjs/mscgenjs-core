@@ -116,8 +116,8 @@ function hasExtendedArcTypes(pArcLines) {
         "loop",
         "ref",
         "exc",
-      ].includes(pArc.kind)
-    )
+      ].includes(pArc.kind),
+    ),
   );
 }
 

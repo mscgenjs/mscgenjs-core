@@ -82,11 +82,17 @@ describe("render/text/ast2msgenny", () => {
     });
 
     it("should preserve the comments at the start of the ast", () => {
-      equal(renderer.render(fix.astWithPreComment), snapshots.astWithPreComment);
+      equal(
+        renderer.render(fix.astWithPreComment),
+        snapshots.astWithPreComment,
+      );
     });
 
     it("should correctly render parallel calls", () => {
-      equal(renderer.render(fix.astSimpleParallel), snapshots.astSimpleParallel);
+      equal(
+        renderer.render(fix.astSimpleParallel),
+        snapshots.astSimpleParallel,
+      );
     });
   });
 
@@ -123,10 +129,16 @@ describe("render/text/ast2msgenny", () => {
           ],
         ],
       } as unknown;
-      equal(renderer.render(<ISequenceChart>lFixture), snapshots.astEmptyInlineExpression);
+      equal(
+        renderer.render(<ISequenceChart>lFixture),
+        snapshots.astEmptyInlineExpression,
+      );
     });
     it("Does not put entities with mscgen keyword for a name in quotes", () => {
-      equal(renderer.render(fix.entityWithMscGenKeywordAsName), snapshots.entityWithMscGenKeywordAsName);
+      equal(
+        renderer.render(fix.entityWithMscGenKeywordAsName),
+        snapshots.entityWithMscGenKeywordAsName,
+      );
     });
   });
 });

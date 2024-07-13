@@ -1,8 +1,5 @@
 {
-  "precomment": [
-    "# bottom entity rendition: inline expression as last",
-    "\n"
-  ],
+  "precomment": ["# bottom entity rendition: inline expression as last", "\n"],
   "meta": {
     "extendedOptions": true,
     "extendedArcTypes": true,

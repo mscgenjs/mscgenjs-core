@@ -1,27 +1,48 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __createBinding =
+	(this && this.__createBinding) ||
+	(Object.create
+		? function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				var desc = Object.getOwnPropertyDescriptor(m, k);
+				if (
+					!desc ||
+					("get" in desc ? !m.__esModule : desc.writable || desc.configurable)
+				) {
+					desc = {
+						enumerable: true,
+						get: function () {
+							return m[k];
+						},
+					};
+				}
+				Object.defineProperty(o, k2, desc);
+			}
+		: function (o, m, k, k2) {
+				if (k2 === undefined) k2 = k;
+				o[k2] = m[k];
+			});
+var __setModuleDefault =
+	(this && this.__setModuleDefault) ||
+	(Object.create
+		? function (o, v) {
+				Object.defineProperty(o, "default", { enumerable: true, value: v });
+			}
+		: function (o, v) {
+				o["default"] = v;
+			});
+var __importStar =
+	(this && this.__importStar) ||
+	function (mod) {
+		if (mod && mod.__esModule) return mod;
+		var result = {};
+		if (mod != null)
+			for (var k in mod)
+				if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+					__createBinding(result, mod, k);
+		__setModuleDefault(result, mod);
+		return result;
+	};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.webkitNamespaceBugWorkaround = exports.init = void 0;
 exports.getBBox = getBBox;
@@ -37,19 +58,19 @@ var gSvgBBoxerId = idmanager.get("bboxer");
 var gTextHeight = 0;
 /* istanbul ignore next */
 function _createBBoxerSVG(pId) {
-    var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
-    gDocument.body.appendChild(lSvg);
-    return lSvg;
+	var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
+	gDocument.body.appendChild(lSvg);
+	return lSvg;
 }
 /* istanbul ignore next */
 function getNativeBBox(pElement) {
-    /* getNativeBBoxWithCache */
-    var lSvg = gDocument.getElementById(gSvgBBoxerId);
-    lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
-    lSvg.appendChild(pElement);
-    var lRetval = pElement.getBBox();
-    lSvg.removeChild(pElement);
-    return lRetval;
+	/* getNativeBBoxWithCache */
+	var lSvg = gDocument.getElementById(gSvgBBoxerId);
+	lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
+	lSvg.appendChild(pElement);
+	var lRetval = pElement.getBBox();
+	lSvg.removeChild(pElement);
+	return lRetval;
 }
 /*
  * workaround for Opera browser quirk: if the dimensions
@@ -61,19 +82,20 @@ function getNativeBBox(pElement) {
  */
 /* istanbul ignore next */
 function sanitizeBBox(pBBox) {
-    var INSANELYBIG = 100000;
-    if (Math.abs(pBBox.height) > INSANELYBIG ||
-        Math.abs(pBBox.width) > INSANELYBIG) {
-        return {
-            height: 0,
-            width: 0,
-            x: 0,
-            y: 0,
-        };
-    }
-    else {
-        return pBBox;
-    }
+	var INSANELYBIG = 100000;
+	if (
+		Math.abs(pBBox.height) > INSANELYBIG ||
+		Math.abs(pBBox.width) > INSANELYBIG
+	) {
+		return {
+			height: 0,
+			width: 0,
+			x: 0,
+			y: 0,
+		};
+	} else {
+		return pBBox;
+	}
 }
 /**
  * Returns the bounding box of the passed element.
@@ -88,54 +110,54 @@ function sanitizeBBox(pBBox) {
  * as "reasonable default"
  */
 function getBBox(pElement) {
-    /* istanbul ignore if */
-    if (typeof pElement.getBBox === "function") {
-        return sanitizeBBox(getNativeBBox(pElement));
-    }
-    else {
-        return {
-            height: 15,
-            width: 15,
-            x: 2,
-            y: 2,
-        };
-    }
+	/* istanbul ignore if */
+	if (typeof pElement.getBBox === "function") {
+		return sanitizeBBox(getNativeBBox(pElement));
+	} else {
+		return {
+			height: 15,
+			width: 15,
+			x: 2,
+			y: 2,
+		};
+	}
 }
 /**
  * Returns the height in pixels necessary for rendering characters
  */
 function calculateTextHeight() {
-    if (gTextHeight !== 0) {
-        return gTextHeight;
-    }
-    /* Uses a string with some characters that tend to stick out
-     * above/ below the current line and an 'astral codepoint' to
-     * determine the text height to use everywhere.
-     *
-     * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
-     * browsers. The string in readable form: ÁjyÎ9ƒ@💩
-     */
-    gTextHeight = getBBox(svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
-        x: 0,
-        y: 0,
-    })).height;
-    return gTextHeight;
+	if (gTextHeight !== 0) {
+		return gTextHeight;
+	}
+	/* Uses a string with some characters that tend to stick out
+	 * above/ below the current line and an 'astral codepoint' to
+	 * determine the text height to use everywhere.
+	 *
+	 * The astral \uD83D\uDCA9 codepoint mainly makes a difference in gecko based
+	 * browsers. The string in readable form: ÁjyÎ9ƒ@💩
+	 */
+	gTextHeight = getBBox(
+		svgelementfactory.createText("\u00C1jy\u00CE9\u0192@\uD83D\uDCA9", {
+			x: 0,
+			y: 0,
+		}),
+	).height;
+	return gTextHeight;
 }
 function removeRenderedSVGFromElement(pElementId) {
-    idmanager.setPrefix(pElementId);
-    var lChildElement = gDocument.getElementById(idmanager.get());
-    if (Boolean(lChildElement)) {
-        var lParentElement = gDocument.getElementById(pElementId);
-        if (lParentElement) {
-            lParentElement.removeChild(lChildElement);
-        }
-        else {
-            gDocument.body.removeChild(lChildElement);
-        }
-    }
+	idmanager.setPrefix(pElementId);
+	var lChildElement = gDocument.getElementById(idmanager.get());
+	if (Boolean(lChildElement)) {
+		var lParentElement = gDocument.getElementById(pElementId);
+		if (lParentElement) {
+			lParentElement.removeChild(lChildElement);
+		} else {
+			gDocument.body.removeChild(lChildElement);
+		}
+	}
 }
 var init = function (pDocument) {
-    gDocument = pDocument;
+	gDocument = pDocument;
 };
 exports.init = init;
 // webkit (at least in Safari Version 6.0.5 (8536.30.1) which is
@@ -144,9 +166,9 @@ exports.init = init;
 // this function does a crude global replace to circumvent the
 // resulting problems. Problem happens for xhtml too
 var webkitNamespaceBugWorkaround = function (pText) {
-    return pText
-        .replace(/ xlink=/g, " xmlns:xlink=")
-        .replace(/ href=/g, " xlink:href=");
+	return pText
+		.replace(/ xlink=/g, " xmlns:xlink=")
+		.replace(/ href=/g, " xlink:href=");
 };
 exports.webkitNamespaceBugWorkaround = webkitNamespaceBugWorkaround;
 /*

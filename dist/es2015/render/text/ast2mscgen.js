@@ -1,57 +1,62 @@
 import aggregatekind from "../astmassage/aggregatekind";
 import { XuAdaptor } from "./ast2xu";
 export class MscGenAdaptor extends XuAdaptor {
-    init(pConfig) {
-        super.init(Object.assign({
-            supportedOptions: ["hscale", "width", "arcgradient", "wordwraparcs"],
-            supportedEntityAttributes: [
-                "label",
-                "idurl",
-                "id",
-                "url",
-                "linecolor",
-                "textcolor",
-                "textbgcolor",
-                "arclinecolor",
-                "arctextcolor",
-                "arctextbgcolor",
-                "arcskip",
-            ],
-            supportedArcAttributes: [
-                "label",
-                "idurl",
-                "id",
-                "url",
-                "linecolor",
-                "textcolor",
-                "textbgcolor",
-                "arclinecolor",
-                "arctextcolor",
-                "arctextbgcolor",
-                "arcskip",
-            ],
-            inline: {
-                opener: `;${this.eol}`,
-                closer: "#",
-            },
-        }, pConfig));
-    }
-    renderKind(pKind) {
-        if ("inline_expression" === aggregatekind(pKind)) {
-            return "--";
-        }
-        return pKind;
-    }
-    optionIsValid(pOption) {
-        if (Boolean(pOption.value) && typeof pOption.value === "string") {
-            return pOption.value.toLowerCase() !== "auto";
-        }
-        return true;
-    }
+	init(pConfig) {
+		super.init(
+			Object.assign(
+				{
+					supportedOptions: ["hscale", "width", "arcgradient", "wordwraparcs"],
+					supportedEntityAttributes: [
+						"label",
+						"idurl",
+						"id",
+						"url",
+						"linecolor",
+						"textcolor",
+						"textbgcolor",
+						"arclinecolor",
+						"arctextcolor",
+						"arctextbgcolor",
+						"arcskip",
+					],
+					supportedArcAttributes: [
+						"label",
+						"idurl",
+						"id",
+						"url",
+						"linecolor",
+						"textcolor",
+						"textbgcolor",
+						"arclinecolor",
+						"arctextcolor",
+						"arctextbgcolor",
+						"arcskip",
+					],
+					inline: {
+						opener: `;${this.eol}`,
+						closer: "#",
+					},
+				},
+				pConfig,
+			),
+		);
+	}
+	renderKind(pKind) {
+		if ("inline_expression" === aggregatekind(pKind)) {
+			return "--";
+		}
+		return pKind;
+	}
+	optionIsValid(pOption) {
+		if (Boolean(pOption.value) && typeof pOption.value === "string") {
+			return pOption.value.toLowerCase() !== "auto";
+		}
+		return true;
+	}
 }
 export const render = (pAST, pMinimal = false) => {
-    const lAdaptor = new MscGenAdaptor(pMinimal);
-    return lAdaptor.render(pAST);
+	const lAdaptor = new MscGenAdaptor(pMinimal);
+	return lAdaptor.render(pAST);
 };
 /*
  This file is part of mscgen_js.

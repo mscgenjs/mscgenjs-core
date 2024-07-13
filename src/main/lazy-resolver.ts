@@ -18,18 +18,21 @@ const gLang2TextRenderer: Map<OutputType, string> = new Map([
 ]);
 
 const parserMap = new Map();
-export function getParser (pLanguage: InputType) {
+export function getParser(pLanguage: InputType) {
   if (["ast", "json"].indexOf(pLanguage) > -1) {
     return JSON;
   }
   if (!parserMap.has(pLanguage)) {
-    parserMap.set(pLanguage, require(gLang2Parser.get(pLanguage) || DEFAULT_PARSER));
+    parserMap.set(
+      pLanguage,
+      require(gLang2Parser.get(pLanguage) || DEFAULT_PARSER),
+    );
   }
   return parserMap.get(pLanguage);
-};
+}
 
 let graphicsRenderer = null;
-export function getGraphicsRenderer () {
+export function getGraphicsRenderer() {
   if (!graphicsRenderer) {
     graphicsRenderer = require("../render/graphics/renderast");
   }
@@ -37,12 +40,15 @@ export function getGraphicsRenderer () {
 }
 
 const textRendererMap = new Map();
-export function getTextRenderer (pLanguage: OutputType) {
-  if(!textRendererMap.has(pLanguage)) {
-    textRendererMap.set(pLanguage, require(gLang2TextRenderer.get(pLanguage) || DEFAULT_TEXT_RENDERER));
+export function getTextRenderer(pLanguage: OutputType) {
+  if (!textRendererMap.has(pLanguage)) {
+    textRendererMap.set(
+      pLanguage,
+      require(gLang2TextRenderer.get(pLanguage) || DEFAULT_TEXT_RENDERER),
+    );
   }
   return textRendererMap.get(pLanguage);
-};
+}
 /*
  This file is part of mscgen_js.
 
