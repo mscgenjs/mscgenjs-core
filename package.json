@@ -17,10 +17,9 @@
     "@types/node": "20.14.10",
     "ajv": "8.17.1",
     "c8": "10.1.2",
-    "chai": "^4.4.1",
-    "chai-xml": "0.4.1",
     "clean-pkg-json": "1.2.0",
     "dependency-cruiser": "16.3.6",
+    "fast-xml-parser": "4.5.0",
     "jsdom": "^24.1.0",
     "npm-run-all": "4.1.5",
     "peggy": "4.0.3",
@@ -32,15 +31,6 @@
     "upem": "9.0.4",
     "webpack": "5.93.0",
     "webpack-cli": "5.1.4"
-  },
-  "upem": {
-    "policies": [
-      {
-        "package": "chai",
-        "policy": "wanted",
-        "because": "chai >=5 are ESM only, and typescript doesn't play nice with ESM yet on here"
-      }
-    ]
   },
   "scripts": {
     "build": "npm-run-all build:clean build:prereq --parallel build:es build:cjs build:bundle",

@@ -1,19 +1,17 @@
-import { describe, it } from "node:test";
+import { beforeEach, describe, it } from "node:test";
 import { deepEqual } from "node:assert/strict";
 import { JSDOM } from "jsdom";
-import chai from "chai";
 import { notDeepEqual, throws } from "node:assert";
+import fastxml from "fast-xml-parser";
+
+const gXMLParser = new fastxml.XMLParser();
+
 const version = require("../package.json").version;
 const fix = require("./astfixtures.json");
 
 const { window } = new JSDOM("");
 
-// @ts-expect-error whatever
 global.window = window;
-
-const chaiExpect = chai.expect;
-
-chai.use(require("chai-xml"));
 
 const gExpectedMscGenOutput = `msc {\n\
   a,\n\
@@ -31,8 +29,12 @@ const SIMPLE_MSCGEN =
   'msc { a,"b space"; a => "b space" [label="a simple script"];}';
 const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
 
-[require("../src"), require("../src/index-lazy")].forEach((mscgenjs) => {
+[require("../src"), , require("../src/index-lazy")].forEach((mscgenjs) => {
   describe("index", () => {
+    beforeEach(() => {
+      const { window } = new JSDOM("");
+      global.window = window;
+    });
     describe("#translateMsc()", () => {
       it("no params translates mscgen to json", () => {
         deepEqual(
@@ -98,17 +100,16 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
     });
 
     describe("#renderMsc()", () => {
-      const lWindow = new JSDOM(
-        "<html><body><span id='__svg'></span></body></html>",
-      ).window;
-
       it("should given given a simple MscGen program, render an svg", () => {
+        const lWindow = new JSDOM(
+          "<html><body><span id='__svg'></span></body></html>",
+        ).window;
         mscgenjs.renderMsc(
           SIMPLE_MSCGEN,
           { window: lWindow },
           (pError, pResult) => {
             deepEqual(pError, null);
-            chaiExpect(pResult).xml.to.be.valid();
+            gXMLParser.parse(pResult, true);
           },
         );
       });
@@ -123,6 +124,9 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
       });
 
       it("should given given a simple AST, render an svg", () => {
+        const lWindow = new JSDOM(
+          "<html><body><span id='__svg'></span></body></html>",
+        ).window;
         mscgenjs.renderMsc(
           JSON.stringify(fix.astOneAlt, null, ""),
           {
@@ -132,7 +136,7 @@ const SIMPLE_XU = 'xu { watermark="this is only valid in xu"; a,b; a->b;}';
           },
           (pError, pResult) => {
             deepEqual(pError, null);
-            chaiExpect(pResult).xml.to.be.valid();
+            gXMLParser.parse(pResult, true);
           },
         );
       });

@@ -1,10 +1,9 @@
 const fs = require("fs");
 const crypto = require("crypto");
-const chai = require("chai");
 const { deepEqual } = require("node:assert/strict");
+import fastxml from "fast-xml-parser";
 
-const chaiExpect = chai.expect;
-chai.use(require("chai-xml"));
+const gXMLParser = new fastxml.XMLParser();
 
 module.exports = (function () {
   const gHashToUse = ["ripemd160", "md5", "sha1"].filter(
@@ -46,8 +45,9 @@ module.exports = (function () {
         encoding: "utf8",
       });
 
-      chaiExpect(lFound).xml.to.be.valid();
-      chaiExpect(lFound).xml.to.deep.equal(lExpected);
+      const lFoundParsed = gXMLParser.parse(lFound, true);
+      const lExpectedParsed = gXMLParser.parse(lExpected, true);
+      deepEqual(lFoundParsed, lExpectedParsed);
     },
 
     assertequalProcessingXML(pExpectedFileName, pInputFileName, pProcessingFn) {
@@ -55,10 +55,12 @@ module.exports = (function () {
         fs.readFileSync(pInputFileName, { encoding: "utf8" }),
       );
 
-      chaiExpect(lProcessedInput).xml.to.be.valid();
-      chaiExpect(lProcessedInput).xml.to.deep.equal(
+      const lFoundParsed = gXMLParser.parse(lProcessedInput, true);
+      const lExpectedParsed = gXMLParser.parse(
         fs.readFileSync(pExpectedFileName, { encoding: "utf8" }),
+        true,
       );
+      deepEqual(lFoundParsed, lExpectedParsed);
     },
 
     assertequalProcessing(pExpectedFileName, pInputFileName, pProcessingFn) {
