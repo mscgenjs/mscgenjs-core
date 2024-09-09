@@ -229,10 +229,6 @@ license:
 - mscgen_js automated tests use [node:test](https://nodejs.org/api/test.html),
   [chai][39], [chai-xml][40] and [jsdom][jsdom.license].
 
-It uses [tslint][22] and [dependency-cruiser][23] to maintain some
-modicum of verifiable code quality. You can see the build history in
-[GitHub actions][gh.actions].
-
 ## Thanks
 
 - [Mike McTernan][mscgen.author] for creating the wonderful
@@ -247,9 +243,6 @@ modicum of verifiable code quality. You can see the build history in
 
 ## Build status
 
-[![linting & test coverage](https://github.com/mscgenjs/mscgenjs-core/workflows/linting%20&%20test%20coverage%20-%20linux/badge.svg)][gh.actions]
-[![coverage report](https://gitlab.com/sverweij/mscgenjs-core/badges/master/coverage.svg)](https://gitlab.com/sverweij/mscgenjs-core/commits/master)
-[![npm stable version](https://img.shields.io/npm/v/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![total downloads on npm](https://img.shields.io/npm/dt/mscgenjs.svg)](https://npmjs.com/package/mscgenjs)
 [![GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE.md)
 
@@ -258,7 +251,6 @@ modicum of verifiable code quality. You can see the build history in
 [jsdom.author]: http://tmpvar.com/
 [jsdom.license]: doc/licenses/license.jsdom.md
 [license.gpl-3.0]: http://www.gnu.org/licenses/gpl.html
-[gh.actions]: https://github.com/mscgenjs/mscgenjs-core/actions?query=workflow%3A%22linting+%26+test+coverage+-+linux%22
 [mscgen]: http://www.mcternan.me.uk/mscgen
 [mscgen.author]: http://www.mcternan.me.uk/mscgen
 [mscgen.license]: http://code.google.com/p/mscgen/source/browse/trunk/COPYING
@@ -288,7 +280,6 @@ modicum of verifiable code quality. You can see the build history in
 [peggy.license]: doc/licenses/license.peggy.md
 [phantomjs]: https://www.npmjs.com/package/phantomjs
 [requirejs.license]: doc/licenses/license.requirejs.md
-[22]: https://palantir.github.io/tslint/
 [23]: https://github.com/sverweij/dependency-cruiser
 [39]: https://github.com/chaijs/chai
 [40]: https://github.com/krampstudio/chai-xml

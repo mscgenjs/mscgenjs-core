@@ -44,10 +44,9 @@ jobs:
           node --version
           npm install
           npm run build
-      - name: lint & forbidden dependency check (runs on one platform only)
+      - name: forbidden dependency check (runs on one platform only)
         run: |
           node --version
-          npm run lint
           npm run depcruise
         if: matrix.platform == 'ubuntu-latest' && matrix.node-version == '22.x'
       - name: test

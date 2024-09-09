@@ -31,7 +31,6 @@ js-makedepend cannot detect like conditional module loading).
 
 - `make check` combination target, performs
 
-  - linting
   - dependency-cruise
   - test (including coverage)
 

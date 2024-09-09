@@ -60,8 +60,6 @@ describe("parserHelpers.entityExists", () => {
 
   it("returns true if the name of the entity is not defined", () => {
     deepEqual(parserHelpers.entityExists(lEntitiesFixture), true);
-    /* tslint no-undefined:0 */
-    /* we want to it this explicitly - hence the exception for allowing undefined here */
     deepEqual(parserHelpers.entityExists(lEntitiesFixture, undefined), true);
   });
 });
