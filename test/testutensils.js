@@ -1,9 +1,9 @@
 const fs = require("fs");
 const crypto = require("crypto");
 const { deepEqual } = require("node:assert/strict");
-import fastxml from "fast-xml-parser";
+import { XMLParser } from "fast-xml-parser";
 
-const gXMLParser = new fastxml.XMLParser();
+const gXMLParser = new XMLParser();
 
 module.exports = (function () {
   const gHashToUse = ["ripemd160", "md5", "sha1"].filter(

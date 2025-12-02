@@ -2,9 +2,9 @@ import { beforeEach, describe, it } from "node:test";
 import { deepEqual } from "node:assert/strict";
 import { JSDOM } from "jsdom";
 import { notDeepEqual, throws } from "node:assert";
-import fastxml from "fast-xml-parser";
+import { XMLParser } from "fast-xml-parser";
 
-const gXMLParser = new fastxml.XMLParser();
+const gXMLParser = new XMLParser();
 
 const version = require("../package.json").version;
 const fix = require("./astfixtures.json");
