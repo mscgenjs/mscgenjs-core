@@ -68,13 +68,12 @@ var svgelementfactory = __importStar(require("./svgelementfactory/index"));
 var gDocument = {};
 var gSvgBBoxerId = idmanager.get("bboxer");
 var gTextHeight = 0;
-/* istanbul ignore next */
+/* c8 ignore start */
 function _createBBoxerSVG(pId) {
 	var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
 	gDocument.body.appendChild(lSvg);
 	return lSvg;
 }
-/* istanbul ignore next */
 function getNativeBBox(pElement) {
 	/* getNativeBBoxWithCache */
 	var lSvg = gDocument.getElementById(gSvgBBoxerId);
@@ -92,7 +91,6 @@ function getNativeBBox(pElement) {
  * To counter this, manually set the return value to 0x0
  * if height or width has a wacky value:
  */
-/* istanbul ignore next */
 function sanitizeBBox(pBBox) {
 	var INSANELYBIG = 100000;
 	if (
@@ -109,6 +107,7 @@ function sanitizeBBox(pBBox) {
 		return pBBox;
 	}
 }
+/* c8 ignore stop */
 /**
  * Returns the bounding box of the passed element.
  *
@@ -122,10 +121,11 @@ function sanitizeBBox(pBBox) {
  * as "reasonable default"
  */
 function getBBox(pElement) {
-	/* istanbul ignore if */
+	/* c8 ignore start */
 	if (typeof pElement.getBBox === "function") {
 		return sanitizeBBox(getNativeBBox(pElement));
 	} else {
+		/* c8 ignore stop */
 		return {
 			height: 15,
 			width: 15,

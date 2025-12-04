@@ -21,7 +21,7 @@
 import * as svgelementfactory from "./svgelementfactory/index";
 
 import constants from "./constants";
-const csstemplates = require("./csstemplates.json");
+import csstemplates from "./csstemplates";
 
 let gDocument: any = {};
 
@@ -153,7 +153,7 @@ function distillRenderMagic(pOptions) {
   let lRetval = "";
   const lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
 
-  if (Boolean(lNamedStyle)) {
+  if (lNamedStyle) {
     lRetval = lNamedStyle.renderMagic;
   }
 
@@ -172,8 +172,8 @@ function composeStyleSheetTemplate(pNamedStyle, pStyleAdditions) {
 function setupStyleElement(pOptions, pSvgElementId) {
   const lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
   return composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions)
-    .replace(/<%=fontSize%>/g, constants.FONT_SIZE)
-    .replace(/<%=lineWidth%>/g, constants.LINE_WIDTH)
+    .replace(/<%=fontSize%>/g, constants.FONT_SIZE.toString(10))
+    .replace(/<%=lineWidth%>/g, constants.LINE_WIDTH.toString(10))
     .replace(/<%=id%>/g, pSvgElementId);
 }
 /*

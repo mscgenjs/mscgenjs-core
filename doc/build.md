@@ -20,17 +20,14 @@ js-makedepend cannot detect like conditional module loading).
 ## Quality checks
 
 - `make test` or `npm run test`
-
   - runs the unit/ regression tests
   - (some checks are still run manually with a well trained pair of eyeballs ...)
 
 - `make cover` or `npm run cover`
-
   - generates a report that specifies the test coverage
   - note that it runs the `test` target to determine the coverage
 
 - `make check` combination target, performs
-
   - dependency-cruise
   - test (including coverage)
 

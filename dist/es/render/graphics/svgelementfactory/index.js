@@ -7,10 +7,11 @@ function determineRenderMagic(pRenderMagic) {
 	if (!Boolean(pRenderMagic)) {
 		return gRenderMagic;
 	}
-	/* istanbul ignore if */
+	/* c8 ignore start */
 	if ("wobbly" === pRenderMagic) {
 		return wobbly;
 	}
+	/* c8 ignore stop */
 	return straight;
 }
 /**

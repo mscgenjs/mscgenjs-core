@@ -136,11 +136,12 @@ var Thing = /** @class */ (function () {
 			svgutensils.getBBox(pLabel).width + 4 * constants_1.default.LINE_WIDTH,
 			this.interEntitySpacing / 3 + pBBox.width,
 		);
-		/* istanbul ignore if */
+		/* c8 ignore start */
 		if (lLabelWidth >= pBBox.width) {
 			pBBox.x -= (lLabelWidth - pBBox.width) / 2;
 			pBBox.width = lLabelWidth;
 		}
+		/* c8 ignore stop */
 		return pBBox;
 	};
 	Thing.prototype.renderEntity = function (pEntity, pX, pY, pOptions) {

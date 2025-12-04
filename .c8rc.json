@@ -5,7 +5,7 @@
   "functions": 98.5,
   "lines": 99.3,
   "exclude": [
-    "{src/render/graphics/styling,src/render/graphics/svgelementfactory/wobbly,src/parse/*parser.js,test/**/*,tools/**/*}"
+    "{src/render/graphics/styling,src/render/graphics/svgelementfactory/wobbly,src/parse/*parser.js,test/**/*,tools/**/*,src/render/graphics/csstemplates.ts}"
   ],
   "reporter": ["text-summary", "html", "json-summary"]
 }

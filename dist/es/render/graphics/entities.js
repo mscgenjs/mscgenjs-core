@@ -66,11 +66,12 @@ export class Thing {
 			svgutensils.getBBox(pLabel).width + 4 * constants.LINE_WIDTH,
 			this.interEntitySpacing / 3 + pBBox.width,
 		);
-		/* istanbul ignore if */
+		/* c8 ignore start */
 		if (lLabelWidth >= pBBox.width) {
 			pBBox.x -= (lLabelWidth - pBBox.width) / 2;
 			pBBox.width = lLabelWidth;
 		}
+		/* c8 ignore stop */
 		return pBBox;
 	}
 	renderEntity(pEntity, pX, pY, pOptions) {

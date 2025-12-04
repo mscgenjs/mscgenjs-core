@@ -1,6 +1,13 @@
 "use strict";
+var __importDefault =
+	(this && this.__importDefault) ||
+	function (mod) {
+		return mod && mod.__esModule ? mod : { default: mod };
+	};
 Object.defineProperty(exports, "__esModule", { value: true });
-var cssTemplates = require("../render/graphics/csstemplates.json");
+var csstemplates_1 = __importDefault(
+	require("../render/graphics/csstemplates"),
+);
 exports.default = Object.freeze({
 	inputType: [
 		{ name: "mscgen", experimental: false },
@@ -23,7 +30,7 @@ exports.default = Object.freeze({
 		{ name: "middle", experimental: false },
 		{ name: "below", experimental: true },
 	],
-	namedStyle: cssTemplates.namedStyles.map(function (pStyle) {
+	namedStyle: csstemplates_1.default.namedStyles.map(function (pStyle) {
 		return {
 			name: pStyle.name,
 			description: pStyle.description,

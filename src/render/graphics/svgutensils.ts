@@ -11,7 +11,7 @@ const gSvgBBoxerId = idmanager.get("bboxer");
 
 let gTextHeight = 0;
 
-/* istanbul ignore next */
+/* c8 ignore start */
 function _createBBoxerSVG(pId): SVGSVGElement {
   const lSvg = svgelementfactory.createSVG(pId, idmanager.get());
   gDocument.body.appendChild(lSvg);
@@ -19,7 +19,6 @@ function _createBBoxerSVG(pId): SVGSVGElement {
   return lSvg;
 }
 
-/* istanbul ignore next */
 function getNativeBBox(pElement: SVGGElement): IBBox {
   /* getNativeBBoxWithCache */
   let lSvg = gDocument.getElementById(gSvgBBoxerId);
@@ -40,7 +39,6 @@ function getNativeBBox(pElement: SVGGElement): IBBox {
  * To counter this, manually set the return value to 0x0
  * if height or width has a wacky value:
  */
-/* istanbul ignore next */
 function sanitizeBBox(pBBox: IBBox): IBBox {
   const INSANELYBIG = 100000;
 
@@ -58,6 +56,7 @@ function sanitizeBBox(pBBox: IBBox): IBBox {
     return pBBox;
   }
 }
+/* c8 ignore stop */
 
 /**
  * Returns the bounding box of the passed element.
@@ -72,10 +71,11 @@ function sanitizeBBox(pBBox: IBBox): IBBox {
  * as "reasonable default"
  */
 export function getBBox(pElement: SVGGElement): IBBox {
-  /* istanbul ignore if */
+  /* c8 ignore start */
   if (typeof pElement.getBBox === "function") {
     return sanitizeBBox(getNativeBBox(pElement));
   } else {
+  /* c8 ignore stop */
     return {
       height: 15,
       width: 15,

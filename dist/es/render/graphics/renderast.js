@@ -590,10 +590,11 @@ function renderInlineExpression(pArcMem, pY) {
 	);
 }
 function createLifeLines(pEntities, pClass, pHeight, pY) {
-	/* istanbul ignore if */
+	/* c8 ignore start */
 	if (pHeight < gChart.arcRowHeight) {
 		pHeight = gChart.arcRowHeight;
 	}
+	/* c8 ignore stop */
 	return pEntities.map((pEntity) => {
 		const lLine = svgelementfactory.createLine(
 			{

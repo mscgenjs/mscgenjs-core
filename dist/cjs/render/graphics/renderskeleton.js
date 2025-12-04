@@ -84,7 +84,7 @@ exports.init = init;
 exports.bootstrap = bootstrap;
 var svgelementfactory = __importStar(require("./svgelementfactory/index"));
 var constants_1 = __importDefault(require("./constants"));
-var csstemplates = require("./csstemplates.json");
+var csstemplates_1 = __importDefault(require("./csstemplates"));
 var gDocument = {};
 function setupMarkers(pDefs, pMarkerDefs) {
 	pMarkerDefs.forEach(function (pMarker) {
@@ -209,14 +209,14 @@ function setupDesc(pWindow, pSource) {
 	return lDesc;
 }
 function findNamedStyle(pAdditionalTemplate) {
-	return csstemplates.namedStyles.find(function (tpl) {
+	return csstemplates_1.default.namedStyles.find(function (tpl) {
 		return tpl.name === pAdditionalTemplate;
 	});
 }
 function distillRenderMagic(pOptions) {
 	var lRetval = "";
 	var lNamedStyle = findNamedStyle(pOptions.additionalTemplate);
-	if (Boolean(lNamedStyle)) {
+	if (lNamedStyle) {
 		lRetval = lNamedStyle.renderMagic;
 	}
 	return lRetval;
@@ -224,7 +224,7 @@ function distillRenderMagic(pOptions) {
 function composeStyleSheetTemplate(pNamedStyle, pStyleAdditions) {
 	return (
 		(pNamedStyle.cssBefore || "") +
-		csstemplates.baseTemplate +
+		csstemplates_1.default.baseTemplate +
 		(pNamedStyle.cssAfter || "") +
 		(pStyleAdditions || "")
 	);
@@ -232,8 +232,8 @@ function composeStyleSheetTemplate(pNamedStyle, pStyleAdditions) {
 function setupStyleElement(pOptions, pSvgElementId) {
 	var lNamedStyle = findNamedStyle(pOptions.additionalTemplate) || {};
 	return composeStyleSheetTemplate(lNamedStyle, pOptions.styleAdditions)
-		.replace(/<%=fontSize%>/g, constants_1.default.FONT_SIZE)
-		.replace(/<%=lineWidth%>/g, constants_1.default.LINE_WIDTH)
+		.replace(/<%=fontSize%>/g, constants_1.default.FONT_SIZE.toString(10))
+		.replace(/<%=lineWidth%>/g, constants_1.default.LINE_WIDTH.toString(10))
 		.replace(/<%=id%>/g, pSvgElementId);
 }
 /*

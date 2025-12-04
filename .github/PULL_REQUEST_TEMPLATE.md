@@ -43,7 +43,6 @@
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 
 - [ ] :book:
-
   - My change doesn't require a documentation update, or ...
   - it _does_ and I have updated it
 

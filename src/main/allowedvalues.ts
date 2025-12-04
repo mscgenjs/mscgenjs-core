@@ -1,4 +1,4 @@
-const cssTemplates = require("../render/graphics/csstemplates.json");
+import cssTemplates from "../render/graphics/csstemplates";
 
 export default Object.freeze({
   inputType: [

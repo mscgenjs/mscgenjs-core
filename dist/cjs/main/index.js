@@ -23,13 +23,14 @@ function getAST(pScript, pInputType, pGetParser) {
 	}
 }
 function runCallBack(pCallBack, pError, pResult) {
-	/* istanbul ignore else */
 	if (Boolean(pCallBack)) {
 		if (Boolean(pError)) {
 			pCallBack(pError, null);
+			/* c8 ignore start */
 		} else {
 			pCallBack(null, pResult);
 		}
+		/* c8 ignore stop */
 	}
 }
 function renderMsc(
