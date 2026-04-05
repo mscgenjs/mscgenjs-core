@@ -56,8 +56,8 @@ var __importStar =
 		};
 	})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var main = __importStar(require("./main"));
-var resolver = __importStar(require("./main/lazy-resolver"));
+const main = __importStar(require("./main"));
+const resolver = __importStar(require("./main/lazy-resolver"));
 /**
  * Exactly the same interface as @index.js - the only difference is that the
  * functions only load dependencies at the moment they need them.
@@ -66,7 +66,7 @@ module.exports = {
 	/**
 	 * See the function of the same name in @index.js.
 	 */
-	renderMsc: function (pScript, pOptions, pCallBack) {
+	renderMsc(pScript, pOptions, pCallBack) {
 		main.renderMsc(
 			pScript,
 			pOptions || {},
@@ -78,7 +78,7 @@ module.exports = {
 	/**
 	 * See the function of the same name in @index.js.
 	 */
-	translateMsc: function (pScript, pOptions) {
+	translateMsc(pScript, pOptions) {
 		return main.translateMsc(
 			pScript,
 			pOptions || {},

@@ -36,7 +36,7 @@ function runCallBack(
   if (Boolean(pCallBack)) {
     if (Boolean(pError)) {
       pCallBack(pError, null);
-    /* c8 ignore start */
+      /* c8 ignore start */
     } else {
       pCallBack(null, pResult);
     }

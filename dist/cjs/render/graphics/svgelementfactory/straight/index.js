@@ -62,27 +62,27 @@ exports.createNote = createNote;
 exports.createRBox = createRBox;
 exports.createABox = createABox;
 exports.createEdgeRemark = createEdgeRemark;
-var svgprimitives = __importStar(require("../svgprimitives"));
-var variationhelpers = __importStar(require("../variationhelpers"));
+const svgprimitives = __importStar(require("../svgprimitives"));
+const variationhelpers = __importStar(require("../variationhelpers"));
 function createDoubleLine(pLine, pOptions) {
-	var lLineWidth = pOptions.lineWidth || 1;
-	var lSpace = lLineWidth;
-	var lClass = pOptions ? pOptions.class : "";
-	var lDir = variationhelpers.getDirection(pLine);
-	var lEndCorr = variationhelpers.determineEndCorrection(
+	const lLineWidth = pOptions.lineWidth || 1;
+	const lSpace = lLineWidth;
+	const lClass = pOptions ? pOptions.class : "";
+	const lDir = variationhelpers.getDirection(pLine);
+	const lEndCorr = variationhelpers.determineEndCorrection(
 		pLine,
 		lClass,
 		lLineWidth,
 	);
-	var lStartCorr = variationhelpers.determineStartCorrection(
+	const lStartCorr = variationhelpers.determineStartCorrection(
 		pLine,
 		lClass,
 		lLineWidth,
 	);
-	var lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
-	var lLenY = (pLine.yTo - pLine.yFrom).toString();
-	var lStubble = svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy);
-	var lLine = svgprimitives.pathPoint2String("l", lLenX, lLenY);
+	const lLenX = (pLine.xTo - pLine.xFrom + lEndCorr - lStartCorr).toString();
+	const lLenY = (pLine.yTo - pLine.yFrom).toString();
+	const lStubble = svgprimitives.pathPoint2String("l", lDir.signX, lDir.dy);
+	const lLine = svgprimitives.pathPoint2String("l", lLenX, lLenY);
 	return svgprimitives.createPath(
 		svgprimitives.pathPoint2String(
 			"M",
@@ -126,9 +126,9 @@ function createDoubleLine(pLine, pOptions) {
  * @return {SVGElement}
  */
 function createNote(pBBox, pOptions) {
-	var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
-	var lFoldSizeN = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
-	var lFoldSize = lFoldSizeN.toString(10);
+	const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
+	const lFoldSizeN = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
+	const lFoldSize = lFoldSizeN.toString(10);
 	return svgprimitives.createPath(
 		svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
 			// top line:
@@ -158,8 +158,8 @@ function createNote(pBBox, pOptions) {
  * @return {SVGElement}
  */
 function createRBox(pBBox, pOptions) {
-	var RBOX_CORNER_RADIUS = 6; // px
-	var lOptions = Object.assign(
+	const RBOX_CORNER_RADIUS = 6; // px
+	const lOptions = Object.assign(
 		{
 			rx: RBOX_CORNER_RADIUS,
 			ry: RBOX_CORNER_RADIUS,
@@ -177,7 +177,7 @@ function createRBox(pBBox, pOptions) {
  * @return {SVGElement}
  */
 function createABox(pBBox, pOptions) {
-	var lSlopeOffset = 3;
+	const lSlopeOffset = 3;
 	return svgprimitives.createPath(
 		svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + pBBox.height / 2) +
 			svgprimitives.pathPoint2String("l", lSlopeOffset, -(pBBox.height / 2)) +
@@ -207,8 +207,8 @@ function createABox(pBBox, pOptions) {
  * @return {SVGElement}
  */
 function createEdgeRemark(pBBox, pOptions) {
-	var lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
-	var lOptions = Object.assign(
+	const lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
+	const lOptions = Object.assign(
 		{
 			class: null,
 			color: null,

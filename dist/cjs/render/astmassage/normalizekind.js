@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @exports node/arcmappings
  * @author {@link https://github.com/sverweij | Sander Verweij}
  */
-var KIND2NORMALIZEDKIND = Object.freeze({
+const KIND2NORMALIZEDKIND = Object.freeze({
 	"<-": "->",
 	"<=": "=>",
 	"<<=": "=>>",
@@ -14,9 +14,7 @@ var KIND2NORMALIZEDKIND = Object.freeze({
 	"<:": ":>",
 	"x-": "-x",
 });
-exports.default = function (pKey) {
-	return KIND2NORMALIZEDKIND[pKey] || pKey;
-};
+exports.default = (pKey) => KIND2NORMALIZEDKIND[pKey] || pKey;
 /*
  This file is part of mscgen_js.
 

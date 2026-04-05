@@ -5,14 +5,10 @@ var __importDefault =
 		return mod && mod.__esModule ? mod : { default: mod };
 	};
 Object.defineProperty(exports, "__esModule", { value: true });
-var allowedvalues_1 = __importDefault(require("./allowedvalues"));
+const allowedvalues_1 = __importDefault(require("./allowedvalues"));
 function normalizeValueFromValidValues(pValue, pValidValues, pDefault) {
-	var lRetval = pDefault;
-	if (
-		pValidValues.some(function (pValidValue) {
-			return pValidValue.name === pValue;
-		})
-	) {
+	let lRetval = pDefault;
+	if (pValidValues.some((pValidValue) => pValidValue.name === pValue)) {
 		lRetval = pValue;
 	}
 	return lRetval;
@@ -41,8 +37,8 @@ function normalizeAdditionalTemplate(pAdditionalTemplate) {
 function booleanize(pValue, pDefault) {
 	return typeof pValue === "boolean" ? pValue : pDefault;
 }
-exports.default = function (pOptions, pScript) {
-	var lIncludeSource = booleanize(pOptions.includeSource, true);
+exports.default = (pOptions, pScript) => {
+	const lIncludeSource = booleanize(pOptions.includeSource, true);
 	return {
 		inputType: normalizeInputType(pOptions.inputType),
 		elementId: pOptions.elementId || "__svg",

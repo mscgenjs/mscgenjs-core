@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = function (pOptions) {
-	return Object.assign(
+exports.default = (pOptions) =>
+	Object.assign(
 		{
 			wordwraparcs: false,
 			wordwrapentities: true,
@@ -9,7 +9,6 @@ exports.default = function (pOptions) {
 		},
 		pOptions || {},
 	);
-};
 /*
  This file is part of mscgen_js.
 

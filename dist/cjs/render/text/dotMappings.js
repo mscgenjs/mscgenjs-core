@@ -7,20 +7,20 @@ exports.getStyle = getStyle;
  * Defines several mappings of arckinds to agregations
  *
  */
-var KIND2ARROW = Object.freeze({
+const KIND2ARROW = Object.freeze({
 	"->": "rvee",
 	"<->": "rvee",
 	"=>": "normal",
 	"<=>": "normal",
 	"-x": "oinvonormal",
 });
-var KIND2SHAPE = Object.freeze({
+const KIND2SHAPE = Object.freeze({
 	box: "box",
 	abox: "hexagon",
 	rbox: "box",
 	note: "note",
 });
-var KIND2STYLE = Object.freeze({
+const KIND2STYLE = Object.freeze({
 	">>": "dashed",
 	"<<>>": "dashed",
 	"..": "dashed",

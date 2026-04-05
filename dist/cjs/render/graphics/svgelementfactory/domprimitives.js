@@ -10,7 +10,7 @@ exports.createTextNode = createTextNode;
 exports.init = init;
 exports.SVGNS = "http://www.w3.org/2000/svg";
 exports.XLINKNS = "http://www.w3.org/1999/xlink";
-var gDocument = {};
+let gDocument = {};
 /**
  * Takes an element, adds the passed attribute and value to it
  * if the value is truthy and returns the element again
@@ -41,7 +41,7 @@ function setAttributeNS(pElement, pNS, pKey, pValue) {
  * @return {element}
  */
 function setAttributes(pElement, pAttributes) {
-	Object.keys(pAttributes || {}).forEach(function (pKey) {
+	Object.keys(pAttributes || {}).forEach((pKey) => {
 		setAttribute(pElement, pKey, pAttributes[pKey]);
 	});
 	return pElement;
@@ -56,7 +56,7 @@ function setAttributes(pElement, pAttributes) {
  * @return {element}
  */
 function setAttributesNS(pElement, pNS, pAttributes) {
-	Object.keys(pAttributes || {}).forEach(function (pKey) {
+	Object.keys(pAttributes || {}).forEach((pKey) => {
 		setAttributeNS(pElement, pNS, pKey, pAttributes[pKey]);
 	});
 	return pElement;

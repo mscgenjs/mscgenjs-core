@@ -66,25 +66,18 @@ exports.line2CurveString = line2CurveString;
 exports.getLineLength = getLineLength;
 exports.getNumberOfSegments = getNumberOfSegments;
 exports.getBetweenPoints = getBetweenPoints;
-var round_1 = __importDefault(require("../round"));
-var svgprimitives = __importStar(require("../svgprimitives"));
-var variationhelpers = __importStar(require("../variationhelpers"));
-var SEGMENT_LENGTH = 70; // 70
-var WOBBLE_FACTOR = 3; // 1.4?
+const round_1 = __importDefault(require("../round"));
+const svgprimitives = __importStar(require("../svgprimitives"));
+const variationhelpers = __importStar(require("../variationhelpers"));
+const SEGMENT_LENGTH = 70; // 70
+const WOBBLE_FACTOR = 3; // 1.4?
 function points2CurveString(pCurveSections) {
 	return pCurveSections
-		.map(function (pCurveSection) {
-			return (
-				"".concat(
-					svgprimitives.pathPoint2String(
-						"S",
-						pCurveSection.controlX,
-						pCurveSection.controlY,
-					),
-					" ",
-				) + "".concat(svgprimitives.point2String(pCurveSection))
-			);
-		})
+		.map(
+			(pCurveSection) =>
+				`${svgprimitives.pathPoint2String("S", pCurveSection.controlX, pCurveSection.controlY)} ` +
+				`${svgprimitives.point2String(pCurveSection)}`,
+		)
 		.join(" ");
 }
 function line2CurveString(pLine) {
@@ -100,8 +93,8 @@ function line2CurveString(pLine) {
  */
 // internal exposed for unit testing
 function getLineLength(pLine) {
-	var lA = Math.abs(pLine.xTo - pLine.xFrom);
-	var lB = Math.abs(pLine.yTo - pLine.yFrom);
+	const lA = Math.abs(pLine.xTo - pLine.xFrom);
+	const lB = Math.abs(pLine.yTo - pLine.yFrom);
 	return Math.sqrt(lA * lA + lB * lB);
 }
 /**
@@ -115,7 +108,7 @@ function getLineLength(pLine) {
  */
 // internal exposed for unit testing
 function getNumberOfSegments(pLine, pInterval) {
-	var lLineLength = getLineLength(pLine);
+	const lLineLength = getLineLength(pLine);
 	return lLineLength > 0 ? Math.floor(lLineLength / pInterval) : 0;
 }
 /**
@@ -133,7 +126,7 @@ function normalizeInterval(pInterval, pLine) {
 	}
 	return Math.min(getLineLength(pLine), pInterval);
 }
-var PRECISION = 2;
+const PRECISION = 2;
 /**
  * returns an array of curvepoints (x,y, controlX, controlY) along pLine,
  * at pInterval length intervals. The pWobble parameter influences the
@@ -151,12 +144,12 @@ var PRECISION = 2;
  */
 function getBetweenPoints(pLine, pInterval, pWobble) {
 	pInterval = normalizeInterval(pInterval, pLine);
-	var lRetval = [];
-	var lNoSegments = getNumberOfSegments(pLine, pInterval);
-	var lDir = variationhelpers.getDirection(pLine);
-	var lIntervalX =
+	const lRetval = [];
+	const lNoSegments = getNumberOfSegments(pLine, pInterval);
+	const lDir = variationhelpers.getDirection(pLine);
+	const lIntervalX =
 		lDir.signX * Math.sqrt(Math.pow(pInterval, 2) / (1 + Math.pow(lDir.dy, 2)));
-	var lIntervalY =
+	const lIntervalY =
 		lDir.signY *
 		(Math.abs(lDir.dy) === Infinity
 			? pInterval
@@ -164,8 +157,8 @@ function getBetweenPoints(pLine, pInterval, pWobble) {
 					(Math.pow(lDir.dy, 2) * Math.pow(pInterval, 2)) /
 						(1 + Math.pow(lDir.dy, 2)),
 				));
-	var lCurveSection;
-	for (var i = 1; i <= lNoSegments; i++) {
+	let lCurveSection;
+	for (let i = 1; i <= lNoSegments; i++) {
 		lCurveSection = {
 			controlX: (0, round_1.default)(
 				pLine.xFrom + (i - 0.5) * lIntervalX + getRandomDeviation(pWobble),

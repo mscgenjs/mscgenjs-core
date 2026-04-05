@@ -60,43 +60,40 @@ exports.getTextRenderer =
 	exports.getGraphicsRenderer =
 	exports.getParser =
 		void 0;
-var mscgenparser = __importStar(require("../parse/mscgenparser"));
-var msgennyparser = __importStar(require("../parse/msgennyparser"));
-var xuparser = __importStar(require("../parse/xuparser"));
-var renderast = __importStar(require("../render/graphics/renderast"));
-var ast2dot = __importStar(require("../render/text/ast2dot"));
-var ast2doxygen = __importStar(require("../render/text/ast2doxygen"));
-var ast2mscgen = __importStar(require("../render/text/ast2mscgen"));
-var ast2msgenny = __importStar(require("../render/text/ast2msgenny"));
-var ast2xu = __importStar(require("../render/text/ast2xu"));
-var DEFAULT_PARSER = mscgenparser;
-var DEFAULT_TEXT_RENDERER = ast2mscgen;
-var gLang2Parser = Object.freeze({
+const mscgenparser = __importStar(require("../parse/mscgenparser"));
+const msgennyparser = __importStar(require("../parse/msgennyparser"));
+const xuparser = __importStar(require("../parse/xuparser"));
+const renderast = __importStar(require("../render/graphics/renderast"));
+const ast2dot = __importStar(require("../render/text/ast2dot"));
+const ast2doxygen = __importStar(require("../render/text/ast2doxygen"));
+const ast2mscgen = __importStar(require("../render/text/ast2mscgen"));
+const ast2msgenny = __importStar(require("../render/text/ast2msgenny"));
+const ast2xu = __importStar(require("../render/text/ast2xu"));
+const DEFAULT_PARSER = mscgenparser;
+const DEFAULT_TEXT_RENDERER = ast2mscgen;
+const gLang2Parser = Object.freeze({
 	mscgen: mscgenparser,
 	xu: xuparser,
 	msgenny: msgennyparser,
 });
-var gLang2TextRenderer = Object.freeze({
+const gLang2TextRenderer = Object.freeze({
 	mscgen: ast2mscgen,
 	msgenny: ast2msgenny,
 	xu: ast2xu,
 	dot: ast2dot,
 	doxygen: ast2doxygen,
 });
-var getParser = function (pLanguage) {
+const getParser = (pLanguage) => {
 	if (["ast", "json"].includes(pLanguage)) {
 		return JSON;
 	}
 	return gLang2Parser[pLanguage] || DEFAULT_PARSER;
 };
 exports.getParser = getParser;
-var getGraphicsRenderer = function () {
-	return renderast;
-};
+const getGraphicsRenderer = () => renderast;
 exports.getGraphicsRenderer = getGraphicsRenderer;
-var getTextRenderer = function (pLanguage) {
-	return gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
-};
+const getTextRenderer = (pLanguage) =>
+	gLang2TextRenderer[pLanguage] || DEFAULT_TEXT_RENDERER;
 exports.getTextRenderer = getTextRenderer;
 /*
  This file is part of mscgen_js.

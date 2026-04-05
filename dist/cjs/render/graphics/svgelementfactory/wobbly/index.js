@@ -68,16 +68,13 @@ exports.createABox = createABox;
 exports.createRBox = createRBox;
 exports.createEdgeRemark = createEdgeRemark;
 exports.createDoubleLine = createDoubleLine;
-var curvestringfactory_1 = require("./curvestringfactory");
-var helpers_1 = require("./helpers");
-var round_1 = __importDefault(require("../round"));
-var svgprimitives = __importStar(require("../svgprimitives"));
-var variationhelpers = __importStar(require("../variationhelpers"));
-function createSingleLine(pLine, pOptions) {
-	if (pOptions === void 0) {
-		pOptions = {};
-	}
-	var lDir = variationhelpers.getDirection(pLine);
+const curvestringfactory_1 = require("./curvestringfactory");
+const helpers_1 = require("./helpers");
+const round_1 = __importDefault(require("../round"));
+const svgprimitives = __importStar(require("../svgprimitives"));
+const variationhelpers = __importStar(require("../variationhelpers"));
+function createSingleLine(pLine, pOptions = {}) {
+	const lDir = variationhelpers.getDirection(pLine);
 	return svgprimitives.createPath(
 		svgprimitives.pathPoint2String("M", pLine.xFrom, pLine.yFrom) +
 			// Workaround; gecko and webkit treat markers slapped on the
@@ -109,9 +106,9 @@ function createSingleLine(pLine, pOptions) {
 	);
 }
 function createNote(pBBox, pOptions) {
-	var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
-	var lFoldSize = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
-	var lGroup = svgprimitives.createGroup();
+	const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
+	const lFoldSize = Math.max(9, Math.min(4.5 * lLineWidth, pBBox.height / 2));
+	const lGroup = svgprimitives.createGroup();
 	lGroup.appendChild(
 		svgprimitives.createPath(
 			(0, curvestringfactory_1.renderNotePathString)(pBBox, lFoldSize),
@@ -134,7 +131,7 @@ function createRect(pBBox, pOptions) {
 	);
 }
 function createABox(pBBox, pOptions) {
-	var lSlopeOffset = 3;
+	const lSlopeOffset = 3;
 	return svgprimitives.createPath(
 		(0, curvestringfactory_1.abox2CurveString)(pBBox, lSlopeOffset),
 		pOptions,
@@ -147,12 +144,12 @@ function createRBox(pBBox, pOptions) {
 	);
 }
 function createEdgeRemark(pBBox, pOptions) {
-	var lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
-	var lGroup = svgprimitives.createGroup();
-	var lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
-	var lLineColor = pOptions && pOptions.color ? pOptions.color : "black";
+	const lLineWidth = pOptions ? pOptions.lineWidth || 1 : 1;
+	const lGroup = svgprimitives.createGroup();
+	const lFoldSize = pOptions && pOptions.foldSize ? pOptions.foldSize : 7;
+	const lLineColor = pOptions && pOptions.color ? pOptions.color : "black";
 	pOptions.color = "transparent!important"; /* :blush: */
-	var lBackground = svgprimitives.createPath(
+	const lBackground = svgprimitives.createPath(
 		svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y + lLineWidth / 2) +
 			// top line:
 			svgprimitives.pathPoint2String(
@@ -179,7 +176,7 @@ function createEdgeRemark(pBBox, pOptions) {
 	);
 	pOptions.bgColor = "transparent";
 	pOptions.color = lLineColor;
-	var lLine = svgprimitives.createPath(
+	const lLine = svgprimitives.createPath(
 		// start:
 		(0, curvestringfactory_1.edgeRemark2CurveString)(pBBox, lFoldSize),
 		pOptions,

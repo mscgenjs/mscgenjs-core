@@ -9,9 +9,9 @@ exports.set = set;
  * Functions to help determine the correct height and
  * y position of rows befor rendering them.
  */
-var gRowInfoArray = [];
-var gDefaultEntityHeight = 0;
-var gDefaultArcRowHeight = 0;
+let gRowInfoArray = [];
+let gDefaultEntityHeight = 0;
+let gDefaultArcRowHeight = 0;
 /**
  * get() - returns the row info for a given pRowNumber.
  * If the row info was not set earlier with a setRowinfo call
@@ -53,9 +53,9 @@ function clear(pEntityHeight, pArcRowHeight) {
  * @param <int> pRealRowNumber
  */
 function getByRealRowNumber(pRealRowNumber) {
-	var lRetval = gRowInfoArray.find(function (pRowInfo) {
-		return pRowInfo.realRowNumber === pRealRowNumber;
-	});
+	let lRetval = gRowInfoArray.find(
+		(pRowInfo) => pRowInfo.realRowNumber === pRealRowNumber,
+	);
 	if (typeof lRetval === "undefined") {
 		// most likely asking for something below the bottom of the chart => return the bottom
 		lRetval = getLast();
@@ -69,11 +69,8 @@ function getByRealRowNumber(pRealRowNumber) {
  * @param <int> pRowNumber
  * @param <int> pHeight
  */
-function set(pRowNumber, pHeight, pRealRowNumber) {
-	if (pRealRowNumber === void 0) {
-		pRealRowNumber = -1;
-	}
-	var lPreviousRowInfo = get(pRowNumber - 1);
+function set(pRowNumber, pHeight, pRealRowNumber = -1) {
+	const lPreviousRowInfo = get(pRowNumber - 1);
 	gRowInfoArray[pRowNumber] = {
 		y: lPreviousRowInfo.y + (lPreviousRowInfo.height + pHeight) / 2,
 		height: pHeight,

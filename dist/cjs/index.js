@@ -64,8 +64,8 @@ exports.getTextRenderer =
 		void 0;
 exports.renderMsc = renderMsc;
 exports.translateMsc = translateMsc;
-var main = __importStar(require("./main/index"));
-var resolver = __importStar(require("./main/static-resolver"));
+const main = __importStar(require("./main/index"));
+const resolver = __importStar(require("./main/static-resolver"));
 /**
  * parses the given script and renders it in the DOM element with
  * id pOptions.elementId.

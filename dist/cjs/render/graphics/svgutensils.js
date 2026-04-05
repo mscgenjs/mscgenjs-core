@@ -60,26 +60,26 @@ exports.webkitNamespaceBugWorkaround = exports.init = void 0;
 exports.getBBox = getBBox;
 exports.calculateTextHeight = calculateTextHeight;
 exports.removeRenderedSVGFromElement = removeRenderedSVGFromElement;
-var idmanager = __importStar(require("./idmanager"));
-var svgelementfactory = __importStar(require("./svgelementfactory/index"));
+const idmanager = __importStar(require("./idmanager"));
+const svgelementfactory = __importStar(require("./svgelementfactory/index"));
 /**
  * Some SVG specific calculations & workarounds
  */
-var gDocument = {};
-var gSvgBBoxerId = idmanager.get("bboxer");
-var gTextHeight = 0;
+let gDocument = {};
+const gSvgBBoxerId = idmanager.get("bboxer");
+let gTextHeight = 0;
 /* c8 ignore start */
 function _createBBoxerSVG(pId) {
-	var lSvg = svgelementfactory.createSVG(pId, idmanager.get());
+	const lSvg = svgelementfactory.createSVG(pId, idmanager.get());
 	gDocument.body.appendChild(lSvg);
 	return lSvg;
 }
 function getNativeBBox(pElement) {
 	/* getNativeBBoxWithCache */
-	var lSvg = gDocument.getElementById(gSvgBBoxerId);
+	let lSvg = gDocument.getElementById(gSvgBBoxerId);
 	lSvg = lSvg ? lSvg : _createBBoxerSVG(gSvgBBoxerId);
 	lSvg.appendChild(pElement);
-	var lRetval = pElement.getBBox();
+	const lRetval = pElement.getBBox();
 	lSvg.removeChild(pElement);
 	return lRetval;
 }
@@ -92,7 +92,7 @@ function getNativeBBox(pElement) {
  * if height or width has a wacky value:
  */
 function sanitizeBBox(pBBox) {
-	var INSANELYBIG = 100000;
+	const INSANELYBIG = 100000;
 	if (
 		Math.abs(pBBox.height) > INSANELYBIG ||
 		Math.abs(pBBox.width) > INSANELYBIG
@@ -158,9 +158,9 @@ function calculateTextHeight() {
 }
 function removeRenderedSVGFromElement(pElementId) {
 	idmanager.setPrefix(pElementId);
-	var lChildElement = gDocument.getElementById(idmanager.get());
+	const lChildElement = gDocument.getElementById(idmanager.get());
 	if (Boolean(lChildElement)) {
-		var lParentElement = gDocument.getElementById(pElementId);
+		const lParentElement = gDocument.getElementById(pElementId);
 		if (lParentElement) {
 			lParentElement.removeChild(lChildElement);
 		} else {
@@ -168,7 +168,7 @@ function removeRenderedSVGFromElement(pElementId) {
 		}
 	}
 }
-var init = function (pDocument) {
+const init = (pDocument) => {
 	gDocument = pDocument;
 };
 exports.init = init;
@@ -177,7 +177,7 @@ exports.init = init;
 // namespace prefixes in front of xlink and all hrefs respectively.
 // this function does a crude global replace to circumvent the
 // resulting problems. Problem happens for xhtml too
-var webkitNamespaceBugWorkaround = function (pText) {
+const webkitNamespaceBugWorkaround = (pText) => {
 	return pText
 		.replace(/ xlink=/g, " xmlns:xlink=")
 		.replace(/ href=/g, " xlink:href=");

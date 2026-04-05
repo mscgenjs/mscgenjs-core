@@ -75,7 +75,7 @@ export function getBBox(pElement: SVGGElement): IBBox {
   if (typeof pElement.getBBox === "function") {
     return sanitizeBBox(getNativeBBox(pElement));
   } else {
-  /* c8 ignore stop */
+    /* c8 ignore stop */
     return {
       height: 15,
       width: 15,

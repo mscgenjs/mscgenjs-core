@@ -69,12 +69,12 @@ exports.flatten = flatten;
 /**
  * Defines some functions to simplify a given abstract syntax tree.
  */
-var asttransform_1 = __importDefault(require("./asttransform"));
-var escape = __importStar(require("../textutensils/escape"));
-var aggregatekind_1 = __importDefault(require("./aggregatekind"));
-var normalizekind_1 = __importDefault(require("./normalizekind"));
-var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
-var gMaxDepth = 0;
+const asttransform_1 = __importDefault(require("./asttransform"));
+const escape = __importStar(require("../textutensils/escape"));
+const aggregatekind_1 = __importDefault(require("./aggregatekind"));
+const normalizekind_1 = __importDefault(require("./normalizekind"));
+const normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
+let gMaxDepth = 0;
 /**
  * If the entity has no label, set the label of the entity to its name
  */
@@ -104,7 +104,7 @@ function emptyStringForNoLabel(pArc) {
 function swapRTLArc(pArc) {
 	if ((0, normalizekind_1.default)(pArc.kind) !== pArc.kind) {
 		pArc.kind = (0, normalizekind_1.default)(pArc.kind);
-		var lTmp = pArc.from;
+		const lTmp = pArc.from;
 		pArc.from = pArc.to;
 		pArc.to = lTmp;
 	}
@@ -124,50 +124,48 @@ function overrideColorsFromThing(pArc, pThing) {
  * assumes arc direction to be either LTR, both, or none
  * so arc.from exists.
  */
-function overrideColors(pArc, pEntities) {
-	if (pEntities === void 0) {
-		pEntities = [];
-	}
+function overrideColors(pArc, pEntities = []) {
 	if (pArc && pArc.from) {
-		var lMatchingEntity = pEntities.find(function (pEntity) {
-			return pEntity.name === pArc.from;
-		});
+		const lMatchingEntity = pEntities.find(
+			(pEntity) => pEntity.name === pArc.from,
+		);
 		if (!!lMatchingEntity) {
 			overrideColorsFromThing(pArc, lMatchingEntity);
 		}
 	}
 }
 function calcNumberOfRows(pInlineExpression) {
-	return pInlineExpression.arcs.reduce(function (pSum, pArc) {
-		return pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0);
-	}, pInlineExpression.arcs.length);
+	return pInlineExpression.arcs.reduce(
+		(pSum, pArc) =>
+			pSum + (Boolean(pArc[0].arcs) ? calcNumberOfRows(pArc[0]) + 1 : 0),
+		pInlineExpression.arcs.length,
+	);
 }
 function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
-	var lRetval = [];
-	var lFlatArcRow = [];
-	var lUnWoundSubArcs = [];
-	pArcRow.forEach(function (pArc) {
+	const lRetval = [];
+	const lFlatArcRow = [];
+	let lUnWoundSubArcs = [];
+	pArcRow.forEach((pArc) => {
 		pArc.isVirtual = false;
 		if ("inline_expression" === (0, aggregatekind_1.default)(pArc.kind)) {
 			pArc.depth = pDepth;
 			pArc.isVirtual = true;
 			if (!!pArc.arcs) {
-				var lInlineExpression_1 = structuredClone(pArc);
-				lInlineExpression_1.numberofrows =
-					calcNumberOfRows(lInlineExpression_1);
-				delete lInlineExpression_1.arcs;
-				lFlatArcRow.push(lInlineExpression_1);
-				pArc.arcs.forEach(function (pSubArcRow) {
+				const lInlineExpression = structuredClone(pArc);
+				lInlineExpression.numberofrows = calcNumberOfRows(lInlineExpression);
+				delete lInlineExpression.arcs;
+				lFlatArcRow.push(lInlineExpression);
+				pArc.arcs.forEach((pSubArcRow) => {
 					lUnWoundSubArcs = lUnWoundSubArcs.concat(
 						unwindArcRow(
 							pSubArcRow,
 							pDepth + 1,
-							lInlineExpression_1.from,
-							lInlineExpression_1.to,
+							lInlineExpression.from,
+							lInlineExpression.to,
 						),
 					);
-					pSubArcRow.forEach(function (pSubArc) {
-						overrideColorsFromThing(pSubArc, lInlineExpression_1);
+					pSubArcRow.forEach((pSubArc) => {
+						overrideColorsFromThing(pSubArc, lInlineExpression);
 					});
 				});
 				if (pDepth > gMaxDepth) {
@@ -200,9 +198,10 @@ function unwindArcRow(pArcRow, pDepth, pFrom, pTo) {
 }
 function unwind(pArcRows) {
 	if (pArcRows) {
-		return pArcRows.reduce(function (pAll, pArcRow) {
-			return pAll.concat(unwindArcRow(pArcRow, 0));
-		}, []);
+		return pArcRows.reduce(
+			(pAll, pArcRow) => pAll.concat(unwindArcRow(pArcRow, 0)),
+			[],
+		);
 	}
 	return [];
 }

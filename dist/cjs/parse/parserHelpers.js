@@ -12,7 +12,7 @@ exports.isMscGenKeyword = isMscGenKeyword;
 exports.checkForUndeclaredEntities = checkForUndeclaredEntities;
 exports.getMetaInfo = getMetaInfo;
 function nameValue2Option(pName, pValue) {
-	var lOption = {};
+	const lOption = {};
 	lOption[pName.toLowerCase()] = pValue;
 	return lOption;
 }
@@ -23,9 +23,7 @@ function entityExists(pEntities, pName) {
 	return (
 		pName === undefined ||
 		pName === "*" ||
-		pEntities.some(function (pEntity) {
-			return pEntity.name === pName;
-		})
+		pEntities.some((pEntity) => pEntity.name === pName)
 	);
 }
 function isMscGenKeyword(pString) {
@@ -60,24 +58,19 @@ function isMscGenKeyword(pString) {
 	].includes(pString);
 }
 function buildEntityNotDefinedMessage(pEntityName, pArc) {
-	return "Entity '"
-		.concat(pEntityName, "' in arc '")
-		.concat(pArc.from, " ")
-		.concat(pArc.kind, " ")
-		.concat(pArc.to, "' is not defined.");
+	return `Entity '${pEntityName}' in arc '${pArc.from} ${pArc.kind} ${pArc.to}' is not defined.`;
 }
-var EntityNotDefinedError = /** @class */ (function () {
-	function EntityNotDefinedError(pEntityName, pArc) {
+class EntityNotDefinedError {
+	constructor(pEntityName, pArc) {
 		// super();
 		this.name = "EntityNotDefinedError";
 		this.message = buildEntityNotDefinedMessage(pEntityName, pArc);
 	}
-	return EntityNotDefinedError;
-})();
+}
 exports.EntityNotDefinedError = EntityNotDefinedError;
 function checkForUndeclaredEntities(pEntities, pArcLines) {
-	(pArcLines || []).forEach(function (pArcLine) {
-		pArcLine.forEach(function (pArc) {
+	(pArcLines || []).forEach((pArcLine) => {
+		pArcLine.forEach((pArc) => {
 			if (pArc.from && !entityExists(pEntities, pArc.from)) {
 				throw new EntityNotDefinedError(pArc.from, pArc);
 			}
@@ -103,9 +96,9 @@ function hasExtendedOptions(pOptions) {
 	}
 }
 function hasExtendedArcTypes(pArcLines) {
-	return (pArcLines || []).some(function (pArcLine) {
-		return pArcLine.some(function (pArc) {
-			return [
+	return (pArcLines || []).some((pArcLine) =>
+		pArcLine.some((pArc) =>
+			[
 				"alt",
 				"else",
 				"opt",
@@ -121,13 +114,13 @@ function hasExtendedArcTypes(pArcLines) {
 				"loop",
 				"ref",
 				"exc",
-			].includes(pArc.kind);
-		});
-	});
+			].includes(pArc.kind),
+		),
+	);
 }
 function getMetaInfo(pOptions, pArcLines) {
-	var lHasExtendedOptions = hasExtendedOptions(pOptions);
-	var lHasExtendedArcTypes = hasExtendedArcTypes(pArcLines);
+	const lHasExtendedOptions = hasExtendedOptions(pOptions);
+	const lHasExtendedArcTypes = hasExtendedArcTypes(pArcLines);
 	return {
 		extendedOptions: lHasExtendedOptions,
 		extendedArcTypes: lHasExtendedArcTypes,

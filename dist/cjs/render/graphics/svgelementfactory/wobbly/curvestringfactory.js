@@ -62,9 +62,9 @@ exports.abox2CurveString = abox2CurveString;
 exports.rbox2CurveString = rbox2CurveString;
 exports.doubleLine2CurveString = doubleLine2CurveString;
 exports.edgeRemark2CurveString = edgeRemark2CurveString;
-var svgprimitives = __importStar(require("../svgprimitives"));
-var variationhelpers = __importStar(require("../variationhelpers"));
-var helpers_1 = require("./helpers");
+const svgprimitives = __importStar(require("../svgprimitives"));
+const variationhelpers = __importStar(require("../variationhelpers"));
+const helpers_1 = require("./helpers");
 function renderNotePathString(pBBox, pFoldSize) {
 	return (
 		svgprimitives.pathPoint2String("M", pBBox.x, pBBox.y) +
@@ -305,16 +305,16 @@ function rbox2CurveString(pBBox, pRBoxCornerRadius) {
 	);
 }
 function doubleLine2CurveString(pLine, pOptions) {
-	var lLineWidth = pOptions.lineWidth || 1;
-	var lSpace = lLineWidth;
-	var lClass = pOptions ? pOptions.class : "";
-	var lDir = variationhelpers.getDirection(pLine);
-	var lEndCorr = variationhelpers.determineEndCorrection(
+	const lLineWidth = pOptions.lineWidth || 1;
+	const lSpace = lLineWidth;
+	const lClass = pOptions ? pOptions.class : "";
+	const lDir = variationhelpers.getDirection(pLine);
+	const lEndCorr = variationhelpers.determineEndCorrection(
 		pLine,
 		lClass,
 		lLineWidth,
 	);
-	var lStartCorr = variationhelpers.determineStartCorrection(
+	const lStartCorr = variationhelpers.determineStartCorrection(
 		pLine,
 		lClass,
 		lLineWidth,

@@ -62,15 +62,15 @@ var __importDefault =
 	};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Thing = void 0;
-var constants_1 = __importDefault(require("./constants"));
-var renderlabels = __importStar(require("./renderlabels"));
-var svgelementfactory = __importStar(require("./svgelementfactory/index"));
-var svgutensils = __importStar(require("./svgutensils"));
-var DEFAULT_INTER_ENTITY_SPACING = 160; // px
-var DEFAULT_ENTITY_WIDTH = 100; // px
-var DEFAULT_ENTITY_HEIGHT = 34; // px
-var Thing = /** @class */ (function () {
-	function Thing(pHScale) {
+const constants_1 = __importDefault(require("./constants"));
+const renderlabels = __importStar(require("./renderlabels"));
+const svgelementfactory = __importStar(require("./svgelementfactory/index"));
+const svgutensils = __importStar(require("./svgutensils"));
+const DEFAULT_INTER_ENTITY_SPACING = 160; // px
+const DEFAULT_ENTITY_WIDTH = 100; // px
+const DEFAULT_ENTITY_HEIGHT = 34; // px
+class Thing {
+	constructor(pHScale) {
 		this.interEntitySpacing = DEFAULT_INTER_ENTITY_SPACING;
 		this.height = DEFAULT_ENTITY_HEIGHT;
 		this.width = DEFAULT_ENTITY_WIDTH;
@@ -81,48 +81,43 @@ var Thing = /** @class */ (function () {
 			this.width = pHScale * DEFAULT_ENTITY_WIDTH;
 		}
 	}
-	Thing.prototype.getX = function (pName) {
+	getX(pName) {
 		return this.entity2x[pName];
-	};
-	Thing.prototype.getDims = function () {
+	}
+	getDims() {
 		return {
 			interEntitySpacing: this.interEntitySpacing,
 			height: this.height,
 			width: this.width,
 			entityXHWM: this.entityXHWM,
 		};
-	};
-	Thing.prototype.getOAndD = function (pFrom, pTo) {
+	}
+	getOAndD(pFrom, pTo) {
 		return {
 			from:
 				this.getX(pFrom) < this.getX(pTo) ? this.getX(pFrom) : this.getX(pTo),
 			to: this.getX(pTo) > this.getX(pFrom) ? this.getX(pTo) : this.getX(pFrom),
 		};
-	};
-	Thing.prototype.renderEntities = function (pEntities, pEntityYPos, pOptions) {
-		var _this = this;
-		var lEntityGroup = svgelementfactory.createGroup();
+	}
+	renderEntities(pEntities, pEntityYPos, pOptions) {
+		const lEntityGroup = svgelementfactory.createGroup();
 		this.entityXHWM = 0;
 		this.height =
 			this.getMaxEntityHeight(pEntities, pOptions) +
 			constants_1.default.LINE_WIDTH * 2;
-		pEntities.forEach(function (pEntity) {
+		pEntities.forEach((pEntity) => {
 			lEntityGroup.appendChild(
-				_this.renderEntity(pEntity, _this.entityXHWM, pEntityYPos, pOptions),
+				this.renderEntity(pEntity, this.entityXHWM, pEntityYPos, pOptions),
 			);
-			_this.setX(pEntity, _this.entityXHWM);
-			_this.entityXHWM += _this.interEntitySpacing;
+			this.setX(pEntity, this.entityXHWM);
+			this.entityXHWM += this.interEntitySpacing;
 		});
 		return lEntityGroup;
-	};
-	Thing.prototype.setX = function (pEntity, pX) {
+	}
+	setX(pEntity, pX) {
 		this.entity2x[pEntity.name] = pX + this.width / 2;
-	};
-	Thing.prototype.getNoEntityLines = function (
-		pLabel,
-		pFontSize,
-		pChartOptions,
-	) {
+	}
+	getNoEntityLines(pLabel, pFontSize, pChartOptions) {
 		return renderlabels.splitLabel(
 			pLabel,
 			"entity",
@@ -130,9 +125,9 @@ var Thing = /** @class */ (function () {
 			pFontSize,
 			pChartOptions,
 		).length;
-	};
-	Thing.prototype.sizeEntityBoxToLabel = function (pLabel, pBBox) {
-		var lLabelWidth = Math.min(
+	}
+	sizeEntityBoxToLabel(pLabel, pBBox) {
+		const lLabelWidth = Math.min(
 			svgutensils.getBBox(pLabel).width + 4 * constants_1.default.LINE_WIDTH,
 			this.interEntitySpacing / 3 + pBBox.width,
 		);
@@ -143,16 +138,16 @@ var Thing = /** @class */ (function () {
 		}
 		/* c8 ignore stop */
 		return pBBox;
-	};
-	Thing.prototype.renderEntity = function (pEntity, pX, pY, pOptions) {
-		var lGroup = svgelementfactory.createGroup();
-		var lBBox = {
+	}
+	renderEntity(pEntity, pX, pY, pOptions) {
+		const lGroup = svgelementfactory.createGroup();
+		const lBBox = {
 			x: pX || 0,
 			y: pY || 0,
 			width: this.width,
 			height: this.height,
 		};
-		var lLabel = renderlabels.createLabel(
+		const lLabel = renderlabels.createLabel(
 			Object.assign(
 				{
 					kind: "entity",
@@ -171,13 +166,12 @@ var Thing = /** @class */ (function () {
 		);
 		lGroup.appendChild(lLabel);
 		return lGroup;
-	};
-	Thing.prototype.getMaxEntityHeight = function (pEntities, pOptions) {
-		var _this = this;
-		var lHighestEntity = pEntities[0];
-		var lHWM = 2;
-		pEntities.forEach(function (pEntity) {
-			var lNoEntityLines = _this.getNoEntityLines(
+	}
+	getMaxEntityHeight(pEntities, pOptions) {
+		let lHighestEntity = pEntities[0];
+		let lHWM = 2;
+		pEntities.forEach((pEntity) => {
+			const lNoEntityLines = this.getNoEntityLines(
 				pEntity.label,
 				constants_1.default.FONT_SIZE,
 				pOptions,
@@ -195,9 +189,8 @@ var Thing = /** @class */ (function () {
 			);
 		}
 		return this.height;
-	};
-	return Thing;
-})();
+	}
+}
 exports.Thing = Thing;
 /*
  This file is part of mscgen_js.

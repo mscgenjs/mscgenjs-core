@@ -63,28 +63,28 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.explodeBroadcasts = explodeBroadcasts;
 exports.render = render;
-var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
-var asttransform_1 = __importDefault(require("../astmassage/asttransform"));
-var flatten = __importStar(require("../astmassage/flatten"));
-var wrap_1 = __importDefault(require("../textutensils/wrap"));
-var dotMappings = __importStar(require("./dotMappings"));
-var INDENT = "  ";
-var MAX_TEXT_WIDTH = 40;
-var gCounter = 0;
+const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+const asttransform_1 = __importDefault(require("../astmassage/asttransform"));
+const flatten = __importStar(require("../astmassage/flatten"));
+const wrap_1 = __importDefault(require("../textutensils/wrap"));
+const dotMappings = __importStar(require("./dotMappings"));
+const INDENT = "  ";
+const MAX_TEXT_WIDTH = 40;
+let gCounter = 0;
 /* Attribute handling */
 function renderString(pString) {
-	var lStringAry = (0, wrap_1.default)(
+	const lStringAry = (0, wrap_1.default)(
 		pString.replace(/"/g, '\\"'),
 		MAX_TEXT_WIDTH,
 	);
-	var lString = lStringAry.slice(0, -1).reduce(function (pPrev, pLine) {
-		return "".concat(pPrev + pLine, "\n");
-	}, "");
+	let lString = lStringAry
+		.slice(0, -1)
+		.reduce((pPrev, pLine) => `${pPrev + pLine}\n`, "");
 	lString += lStringAry.slice(-1);
 	return lString;
 }
 function renderAttribute(pAttr, pString) {
-	return "".concat(pString, '="').concat(renderString(pAttr), '"');
+	return `${pString}="${renderString(pAttr)}"`;
 }
 function pushAttribute(pArray, pAttr, pString) {
 	if (Boolean(pAttr)) {
@@ -93,27 +93,25 @@ function pushAttribute(pArray, pAttr, pString) {
 }
 function translateAttributes(pThing) {
 	return ["label", "color", "fontcolor", "fillcolor"]
-		.filter(function (pSupportedAttr) {
-			return Boolean(pThing[pSupportedAttr]);
-		})
-		.map(function (pSupportedAttr) {
-			return renderAttribute(pThing[pSupportedAttr], pSupportedAttr);
-		});
+		.filter((pSupportedAttr) => Boolean(pThing[pSupportedAttr]))
+		.map((pSupportedAttr) =>
+			renderAttribute(pThing[pSupportedAttr], pSupportedAttr),
+		);
 }
 function renderAttributeBlock(pAttrs) {
-	var lRetVal = "";
+	let lRetVal = "";
 	// no need to check whether there's > 0 attribute passed here:
 	// - entities have a mandatory 'name' attribute,
 	// - arcs have a mandatory 'kind' attribute
-	lRetVal = pAttrs.slice(0, -1).reduce(function (pPrev, pAttr) {
-		return "".concat(pPrev + pAttr, ", ");
-	}, " [");
-	lRetVal += "".concat(pAttrs.slice(-1), "]");
+	lRetVal = pAttrs
+		.slice(0, -1)
+		.reduce((pPrev, pAttr) => `${pPrev + pAttr}, `, " [");
+	lRetVal += `${pAttrs.slice(-1)}]`;
 	return lRetVal;
 }
 /* Entity handling */
 function renderEntityName(pString) {
-	return '"'.concat(pString, '"');
+	return `"${pString}"`;
 }
 function renderEntity(pEntity) {
 	return (
@@ -122,43 +120,38 @@ function renderEntity(pEntity) {
 	);
 }
 function renderEntities(pEntities) {
-	return pEntities.reduce(function (pPrev, pEntity) {
-		return "".concat(pPrev + INDENT + renderEntity(pEntity), ";\n");
-	}, "");
+	return pEntities.reduce(
+		(pPrev, pEntity) => `${pPrev + INDENT + renderEntity(pEntity)};\n`,
+		"",
+	);
 }
 /* ArcLine handling */
 function counterizeLabel(pCounter, pLabel) {
 	if (pLabel) {
-		return "(".concat(pCounter, ") ").concat(pLabel);
+		return `(${pCounter}) ${pLabel}`;
 	} else {
-		return "(".concat(pCounter, ")");
+		return `(${pCounter})`;
 	}
 }
 function renderBoxArc(pArc, pCounter, pIndent) {
-	var lRetVal = "";
-	var lBoxName = "box".concat(pCounter.toString());
+	let lRetVal = "";
+	const lBoxName = `box${pCounter.toString()}`;
 	lRetVal += lBoxName;
-	var lAttrs = translateAttributes(pArc);
+	let lAttrs = translateAttributes(pArc);
 	pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
 	pushAttribute(lAttrs, dotMappings.getShape(pArc.kind), "shape");
-	lRetVal += ""
-		.concat(renderAttributeBlock(lAttrs), "\n")
-		.concat(INDENT)
-		.concat(pIndent);
+	lRetVal += `${renderAttributeBlock(lAttrs)}\n${INDENT}${pIndent}`;
 	lAttrs = [];
 	pushAttribute(lAttrs, "dotted", "style");
 	pushAttribute(lAttrs, "none", "dir");
-	lRetVal += ""
-		.concat(lBoxName, " -- {")
-		.concat(renderEntityName(pArc.from), ",")
-		.concat(renderEntityName(pArc.to), "}");
+	lRetVal += `${lBoxName} -- {${renderEntityName(pArc.from)},${renderEntityName(pArc.to)}}`;
 	lRetVal += renderAttributeBlock(lAttrs);
 	return lRetVal;
 }
 function renderRegularArc(pArc, pAggregatedKind, pCounter) {
-	var lRetVal = "";
+	let lRetVal = "";
 	pArc.label = counterizeLabel(pCounter, pArc.label);
-	var lAttrs = translateAttributes(pArc);
+	const lAttrs = translateAttributes(pArc);
 	pushAttribute(lAttrs, dotMappings.getStyle(pArc.kind), "style");
 	switch (pAggregatedKind) {
 		case "directional":
@@ -176,16 +169,16 @@ function renderRegularArc(pArc, pAggregatedKind, pCounter) {
 			break;
 	}
 	if (!pArc.arcs) {
-		lRetVal += "".concat(renderEntityName(pArc.from), " ");
+		lRetVal += `${renderEntityName(pArc.from)} `;
 		lRetVal += "--";
-		lRetVal += " ".concat(renderEntityName(pArc.to));
+		lRetVal += ` ${renderEntityName(pArc.to)}`;
 		lRetVal += renderAttributeBlock(lAttrs);
 	}
 	return lRetVal;
 }
 function renderSingleArc(pArc, pCounter, pIndent) {
-	var lRetVal = "";
-	var lAggregatedKind = (0, aggregatekind_1.default)(pArc.kind);
+	let lRetVal = "";
+	const lAggregatedKind = (0, aggregatekind_1.default)(pArc.kind);
 	if (lAggregatedKind === "box") {
 		lRetVal += renderBoxArc(pArc, pCounter, pIndent);
 	} else {
@@ -194,45 +187,35 @@ function renderSingleArc(pArc, pCounter, pIndent) {
 	return lRetVal;
 }
 function renderArc(pArc, pIndent) {
-	var lRetVal = "";
+	let lRetVal = "";
 	if (pArc.from && pArc.to) {
-		lRetVal += "".concat(
-			INDENT + pIndent + renderSingleArc(pArc, ++gCounter, pIndent),
-			"\n",
-		);
+		lRetVal += `${INDENT + pIndent + renderSingleArc(pArc, ++gCounter, pIndent)}\n`;
 		if (pArc.arcs) {
-			lRetVal += ""
-				.concat(INDENT + pIndent, "subgraph cluster_")
-				.concat(gCounter.toString(), "{");
+			lRetVal += `${INDENT + pIndent}subgraph cluster_${gCounter.toString()}{`;
 			// not checking for pArc.label because there's at least a counter in it
 			// at this point
-			lRetVal += "\n"
-				.concat(INDENT)
-				.concat(pIndent, ' label="')
-				.concat(pArc.kind, ": ")
-				.concat(pArc.label, '" labeljust="l"\n');
+			lRetVal += `\n${INDENT}${pIndent} label="${pArc.kind}: ${pArc.label}" labeljust="l"\n`;
 			lRetVal += renderArcLines(pArc.arcs, pIndent + INDENT);
-			lRetVal += "".concat(INDENT + pIndent, "}\n");
+			lRetVal += `${INDENT + pIndent}}\n`;
 		}
 	}
 	return lRetVal;
 }
 function renderArcLines(pArcLines, pIndent) {
-	return pArcLines.reduce(function (pPrevArcLine, pNextArcLine) {
-		return (
+	return pArcLines.reduce(
+		(pPrevArcLine, pNextArcLine) =>
 			pPrevArcLine +
-			pNextArcLine.reduce(function (pPrevArc, pNextArc) {
-				return pPrevArc + renderArc(pNextArc, pIndent);
-			}, "")
-		);
-	}, "");
+			pNextArcLine.reduce(
+				(pPrevArc, pNextArc) => pPrevArc + renderArc(pNextArc, pIndent),
+				"",
+			),
+		"",
+	);
 }
 function explodeBroadcastArc(pEntities, pArc) {
 	return pEntities
-		.filter(function (pEntity) {
-			return pArc.from !== pEntity.name;
-		})
-		.map(function (pEntity) {
+		.filter((pEntity) => pArc.from !== pEntity.name)
+		.map((pEntity) => {
 			pArc.to = pEntity.name;
 			return structuredClone(pArc);
 		});
@@ -260,20 +243,18 @@ function flattenMe(pAST) {
  */
 function explodeBroadcasts(pAST) {
 	if (pAST.arcs) {
-		pAST.arcs.forEach(function (pArcRow, pArcRowIndex) {
+		pAST.arcs.forEach((pArcRow, pArcRowIndex) => {
 			pArcRow
 				// this assumes swap has been done already
 				// and "*" is in no 'from'  anymore
-				.filter(function (pArc) {
-					return pArc.to === "*";
-				})
-				.forEach(function (pArc, pArcIndex) {
+				.filter((pArc) => pArc.to === "*")
+				.forEach((pArc, pArcIndex) => {
 					/* save a clone of the broadcast arc attributes
 					 * and remove the original bc arc
 					 */
-					var lOriginalBroadcastArc = structuredClone(pArc);
+					const lOriginalBroadcastArc = structuredClone(pArc);
 					delete pAST.arcs[pArcRowIndex][pArcIndex];
-					var lExplodedArcsAry = explodeBroadcastArc(
+					const lExplodedArcsAry = explodeBroadcastArc(
 						pAST.entities,
 						lOriginalBroadcastArc,
 					);
@@ -285,8 +266,8 @@ function explodeBroadcasts(pAST) {
 	return pAST;
 }
 function render(pAST) {
-	var lAST = flattenMe(structuredClone(pAST));
-	var lRetVal =
+	const lAST = flattenMe(structuredClone(pAST));
+	let lRetVal =
 		"/* Sequence chart represented as a directed graph\n" +
 		" * in the graphviz dot language (http://graphviz.org/)\n" +
 		" *\n" +
@@ -294,21 +275,15 @@ function render(pAST) {
 		" */\n" +
 		"\n" +
 		"graph {\n";
-	lRetVal += "".concat(INDENT, "rankdir=LR\n");
-	lRetVal += "".concat(INDENT, "splines=true\n");
-	lRetVal += "".concat(INDENT, "ordering=out\n");
-	lRetVal += "".concat(INDENT, 'fontname="Helvetica"\n');
-	lRetVal += "".concat(INDENT, 'fontsize="9"\n');
-	lRetVal += "".concat(
-		INDENT,
-		'node [style=filled, fillcolor=white fontname="Helvetica", fontsize="9" ]\n',
-	);
-	lRetVal += "".concat(
-		INDENT,
-		'edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n',
-	);
+	lRetVal += `${INDENT}rankdir=LR\n`;
+	lRetVal += `${INDENT}splines=true\n`;
+	lRetVal += `${INDENT}ordering=out\n`;
+	lRetVal += `${INDENT}fontname="Helvetica"\n`;
+	lRetVal += `${INDENT}fontsize="9"\n`;
+	lRetVal += `${INDENT}node [style=filled, fillcolor=white fontname="Helvetica", fontsize="9" ]\n`;
+	lRetVal += `${INDENT}edge [fontname="Helvetica", fontsize="9", arrowhead=vee, arrowtail=vee, dir=forward]\n`;
 	lRetVal += "\n";
-	lRetVal += "".concat(renderEntities(lAST.entities), "\n");
+	lRetVal += `${renderEntities(lAST.entities)}\n`;
 	if (lAST.arcs) {
 		gCounter = 0;
 		lRetVal += renderArcLines(lAST.arcs, "");

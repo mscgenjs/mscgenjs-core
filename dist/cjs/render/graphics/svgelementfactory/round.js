@@ -14,7 +14,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  *                              Defaults to 0
  * @return number               The rounded number
  */
-exports.default = function (pNumber, pPrecision) {
+exports.default = (pNumber, pPrecision) => {
 	return pPrecision
 		? Math.round(pNumber * Math.pow(10, pPrecision)) / Math.pow(10, pPrecision)
 		: Math.round(pNumber);

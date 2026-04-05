@@ -8,12 +8,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.applyScheme = void 0;
 exports.colorize = colorize;
 exports.uncolor = uncolor;
-var aggregatekind_1 = __importDefault(require("./aggregatekind"));
-var asttransform_1 = __importDefault(require("./asttransform"));
-var colorizeschemes_1 = __importDefault(require("./colorizeschemes"));
-var gColorCombiCount = 0;
+const aggregatekind_1 = __importDefault(require("./aggregatekind"));
+const asttransform_1 = __importDefault(require("./asttransform"));
+const colorizeschemes_1 = __importDefault(require("./colorizeschemes"));
+let gColorCombiCount = 0;
 function getArcColorCombis(pColorScheme, pKind) {
-	var lArcCombi = pColorScheme.arcColors[pKind];
+	const lArcCombi = pColorScheme.arcColors[pKind];
 	if (lArcCombi) {
 		return lArcCombi;
 	} else {
@@ -21,9 +21,9 @@ function getArcColorCombis(pColorScheme, pKind) {
 	}
 }
 function colorizeArc(pColorScheme) {
-	return function (pArc) {
+	return (pArc) => {
 		if (!hasColors(pArc)) {
-			var lColorCombi = getArcColorCombis(pColorScheme, pArc.kind);
+			const lColorCombi = getArcColorCombis(pColorScheme, pArc.kind);
 			if (lColorCombi) {
 				pArc.linecolor = lColorCombi.linecolor;
 				if (lColorCombi.textcolor) {
@@ -35,7 +35,7 @@ function colorizeArc(pColorScheme) {
 	};
 }
 function getNextColorCombi(pColorScheme) {
-	var lColorCombiCount = gColorCombiCount;
+	const lColorCombiCount = gColorCombiCount;
 	if (gColorCombiCount < pColorScheme.entityColors.length - 1) {
 		gColorCombiCount += 1;
 	} else {
@@ -51,14 +51,12 @@ function hasColors(pArcOrEntity) {
 		"arclinecolor",
 		"arctextcolor",
 		"arctextbgcolor",
-	].some(function (pColorAttr) {
-		return Boolean(pArcOrEntity[pColorAttr]);
-	});
+	].some((pColorAttr) => Boolean(pArcOrEntity[pColorAttr]));
 }
 function colorizeEntity(pColorScheme) {
-	return function (pEntity) {
+	return (pEntity) => {
 		if (!hasColors(pEntity)) {
-			var lNextColorCombi = getNextColorCombi(pColorScheme);
+			const lNextColorCombi = getNextColorCombi(pColorScheme);
 			pEntity.linecolor = lNextColorCombi.linecolor;
 			pEntity.textbgcolor = lNextColorCombi.textbgcolor;
 			if (lNextColorCombi.textcolor) {
@@ -88,15 +86,14 @@ function uncolorThing(pThing) {
 function uncolor(pAST) {
 	return (0, asttransform_1.default)(pAST, [uncolorThing], [uncolorThing]);
 }
-var applyScheme = function (pAST, pColorSchemeName, pForced) {
-	return colorize(
+const applyScheme = (pAST, pColorSchemeName, pForced) =>
+	colorize(
 		pAST,
 		colorizeschemes_1.default[pColorSchemeName]
 			? colorizeschemes_1.default[pColorSchemeName]
 			: colorizeschemes_1.default.auto,
 		pForced,
 	);
-};
 exports.applyScheme = applyScheme;
 /*
  This file is part of mscgen_js.

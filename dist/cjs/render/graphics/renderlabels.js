@@ -63,12 +63,12 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createLabel = createLabel;
 exports.splitLabel = splitLabel;
-var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
-var wrap_1 = __importDefault(require("../textutensils/wrap"));
-var constants_1 = __importDefault(require("./constants"));
-var kind2class = __importStar(require("./kind2class"));
-var svgelementfactory = __importStar(require("./svgelementfactory/index"));
-var svgutensils = __importStar(require("./svgutensils"));
+const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+const wrap_1 = __importDefault(require("../textutensils/wrap"));
+const constants_1 = __importDefault(require("./constants"));
+const kind2class = __importStar(require("./kind2class"));
+const svgelementfactory = __importStar(require("./svgelementfactory/index"));
+const svgutensils = __importStar(require("./svgutensils"));
 /**
  * Sets the fill color of the passed pElement to the textcolor of
  * the given pArc
@@ -78,7 +78,7 @@ var svgutensils = __importStar(require("./svgutensils"));
  */
 function colorText(pElement, pTextColor) {
 	if (pTextColor) {
-		pElement.setAttribute("style", "fill:".concat(pTextColor, ";"));
+		pElement.setAttribute("style", `fill:${pTextColor};`);
 	}
 	return pElement;
 }
@@ -89,19 +89,20 @@ function colorLink(pElement, pUrl, pTextColor) {
 	return colorText(pElement, pUrl && !pTextColor ? "blue" : pTextColor);
 }
 function renderArcLabelLineBackground(lLabelElement, pTextbgcolor) {
-	var lRect = svgelementfactory.createRect(svgutensils.getBBox(lLabelElement), {
-		class: "label-text-background",
-	});
+	const lRect = svgelementfactory.createRect(
+		svgutensils.getBBox(lLabelElement),
+		{ class: "label-text-background" },
+	);
 	if (pTextbgcolor) {
 		lRect.setAttribute(
 			"style",
-			"fill:".concat(pTextbgcolor, "; stroke:").concat(pTextbgcolor, ";"),
+			`fill:${pTextbgcolor}; stroke:${pTextbgcolor};`,
 		);
 	}
 	return lRect;
 }
 function renderLabelText(pLine, pPosition, pCoords, pClass, pArc) {
-	var lAttributes =
+	const lAttributes =
 		pPosition === 0
 			? {
 					class: pClass,
@@ -116,16 +117,16 @@ function renderLabelText(pLine, pPosition, pCoords, pClass, pArc) {
 	return svgelementfactory.createText(pLine, pCoords, lAttributes);
 }
 function determineClasses(pArcKind, pPostFix) {
-	var lKind = pArcKind;
-	var lClass = kind2class.getClass(lKind);
-	var lAggregateClass = kind2class.getAggregateClass(lKind);
+	const lKind = pArcKind;
+	const lClass = kind2class.getClass(lKind);
+	const lAggregateClass = kind2class.getAggregateClass(lKind);
 	return lClass === lAggregateClass
 		? lClass + pPostFix
 		: lAggregateClass + pPostFix + lClass + pPostFix;
 }
 function createLabelLine(pLine, pMiddle, pStartY, pArc, pLineNumber, pOptions) {
-	var lY = pStartY + (pLineNumber + 1 / 4) * svgutensils.calculateTextHeight();
-	var lClass = determineClasses(pArc.kind, "-text ");
+	let lY = pStartY + (pLineNumber + 1 / 4) * svgutensils.calculateTextHeight();
+	let lClass = determineClasses(pArc.kind, "-text ");
 	if (pOptions.alignLeft) {
 		lClass += "anchor-start ";
 	}
@@ -146,7 +147,7 @@ function createLabelLine(pLine, pMiddle, pStartY, pArc, pLineNumber, pOptions) {
 }
 function insertEmptyLines(pLines, pOptions) {
 	if (pOptions.alignAbove) {
-		pLines.forEach(function () {
+		pLines.forEach(() => {
 			pLines.push("");
 		});
 	}
@@ -180,11 +181,11 @@ function determineLabelTop(pLines, pDims, pOptions) {
  * @param <object> - pOptions - alignAbove, alignLeft, alignAround, wordWrapArcs, ownBackground, underline
  */
 function createLabel(pArc, pDims, pOptions, pId) {
-	var lGroup = svgelementfactory.createGroup(pId);
+	const lGroup = svgelementfactory.createGroup(pId);
 	pOptions = pOptions || {};
 	if (pArc.label) {
-		var lMiddle_1 = pDims.x + pDims.width / 2;
-		var lLines = insertEmptyLines(
+		const lMiddle = pDims.x + pDims.width / 2;
+		const lLines = insertEmptyLines(
 			splitLabel(
 				pArc.label,
 				pArc.kind,
@@ -194,13 +195,13 @@ function createLabel(pArc, pDims, pOptions, pId) {
 			),
 			pOptions,
 		);
-		var lLabelTop_1 = determineLabelTop(lLines, pDims, pOptions);
-		lLines.forEach(function (pLine, pLineNumber) {
+		let lLabelTop = determineLabelTop(lLines, pDims, pOptions);
+		lLines.forEach((pLine, pLineNumber) => {
 			if (pLine !== "") {
-				var lText = createLabelLine(
+				const lText = createLabelLine(
 					pLine,
-					lMiddle_1,
-					lLabelTop_1,
+					lMiddle,
+					lLabelTop,
 					pArc,
 					pLineNumber,
 					pOptions,
@@ -212,7 +213,7 @@ function createLabel(pArc, pDims, pOptions, pId) {
 				}
 				lGroup.appendChild(lText);
 			}
-			lLabelTop_1++;
+			lLabelTop++;
 		});
 	}
 	return lGroup;
@@ -232,8 +233,8 @@ function createLabel(pArc, pDims, pOptions, pId) {
  * @return {number} - The maxumum number of characters that'll fit
  */
 function _determineMaxTextWidthInChars(pWidth, pFontSize) {
-	var lAbsWidth = Math.abs(pWidth);
-	var REFERENCE_FONT_SIZE = 12; // px
+	const lAbsWidth = Math.abs(pWidth);
+	const REFERENCE_FONT_SIZE = 12; // px
 	if (lAbsWidth <= 160) {
 		return lAbsWidth / ((pFontSize / REFERENCE_FONT_SIZE) * 8);
 	}

@@ -78,14 +78,12 @@ exports.createDiagonalText = createDiagonalText;
 exports.createDesc = createDesc;
 exports.createDefs = createDefs;
 exports.createSVG = createSVG;
-var domprimitives = __importStar(require("./domprimitives"));
-var getdiagonalangle_1 = __importDefault(require("./getdiagonalangle"));
-var round_1 = __importDefault(require("./round"));
-var PRECISION = 2;
+const domprimitives = __importStar(require("./domprimitives"));
+const getdiagonalangle_1 = __importDefault(require("./getdiagonalangle"));
+const round_1 = __importDefault(require("./round"));
+const PRECISION = 2;
 function point2String(pPoint) {
-	return ""
-		.concat((0, round_1.default)(pPoint.x, PRECISION).toString(), ",")
-		.concat((0, round_1.default)(pPoint.y, PRECISION).toString(), " ");
+	return `${(0, round_1.default)(pPoint.x, PRECISION).toString()},${(0, round_1.default)(pPoint.y, PRECISION).toString()} `;
 }
 function pathPoint2String(pType, pX, pY) {
 	return pType + point2String({ x: pX, y: pY });
@@ -119,7 +117,7 @@ function createMarker(pId, pClass, pOrient, pViewBox) {
 	 */
 }
 function createLink(pURL, pElementToWrap) {
-	var lA = domprimitives.createElement("a");
+	const lA = domprimitives.createElement("a");
 	domprimitives.setAttributesNS(lA, domprimitives.XLINKNS, {
 		"xlink:href": pURL,
 		"xlink:title": pURL,
@@ -128,11 +126,11 @@ function createLink(pURL, pElementToWrap) {
 	return lA;
 }
 /* superscript style could also be super or a number (1em) or a % (100%) */
-var lSuperscriptStyle = "vertical-align:text-top;";
+let lSuperscriptStyle = "vertical-align:text-top;";
 lSuperscriptStyle += "font-size:0.7em;text-anchor:start;";
 function createTSpan(pLabel, pURL) {
-	var lTSpanLabel = domprimitives.createElement("tspan");
-	var lContent = domprimitives.createTextNode(pLabel);
+	const lTSpanLabel = domprimitives.createElement("tspan");
+	const lContent = domprimitives.createTextNode(pLabel);
 	lTSpanLabel.appendChild(lContent);
 	if (pURL) {
 		return createLink(pURL, lTSpanLabel);
@@ -141,7 +139,7 @@ function createTSpan(pLabel, pURL) {
 	}
 }
 function createText(pLabel, pCoords, pOptions) {
-	var lOptions = Object.assign(
+	const lOptions = Object.assign(
 		{
 			class: null,
 			url: null,
@@ -150,14 +148,14 @@ function createText(pLabel, pCoords, pOptions) {
 		},
 		pOptions,
 	);
-	var lText = domprimitives.createElement("text", {
+	const lText = domprimitives.createElement("text", {
 		x: (0, round_1.default)(pCoords.x, PRECISION).toString(),
 		y: (0, round_1.default)(pCoords.y, PRECISION).toString(),
 		class: lOptions.class,
 	});
 	lText.appendChild(createTSpan(pLabel, lOptions.url));
 	if (lOptions.id) {
-		var lTSpanID = createTSpan(" [".concat(lOptions.id, "]"), lOptions.idurl);
+		const lTSpanID = createTSpan(` [${lOptions.id}]`, lOptions.idurl);
 		lTSpanID.setAttribute("style", lSuperscriptStyle);
 		lText.appendChild(lTSpanID);
 	}
@@ -172,7 +170,7 @@ function createText(pLabel, pCoords, pOptions) {
  * @return {SVGElement}
  */
 function createPath(pD, pOptions) {
-	var lOptions = Object.assign(
+	const lOptions = Object.assign(
 		{
 			class: null,
 			style: null,
@@ -192,12 +190,12 @@ function createPath(pD, pOptions) {
 	);
 }
 function colorBox(pElement, pColor, pBgColor) {
-	var lStyleString = "";
+	let lStyleString = "";
 	if (pBgColor) {
-		lStyleString += "fill:".concat(pBgColor, ";");
+		lStyleString += `fill:${pBgColor};`;
 	}
 	if (pColor) {
-		lStyleString += "stroke:".concat(pColor, ";");
+		lStyleString += `stroke:${pColor};`;
 	}
 	return domprimitives.setAttribute(pElement, "style", lStyleString);
 }
@@ -225,7 +223,7 @@ function createSingleLine(pLine, pOptions) {
  * @return {SVGElement}
  */
 function createRect(pBBox, pOptions) {
-	var lOptions = Object.assign(
+	const lOptions = Object.assign(
 		{
 			class: null,
 			color: null,
@@ -260,7 +258,7 @@ function createRect(pBBox, pOptions) {
  * @return {SVGElement}
  */
 function createUTurn(pBBox, pEndY, pOptions) {
-	var lOptions = Object.assign(
+	const lOptions = Object.assign(
 		{
 			class: null,
 			dontHitHome: false,
@@ -268,7 +266,7 @@ function createUTurn(pBBox, pEndY, pOptions) {
 		},
 		pOptions,
 	);
-	var lEndX = lOptions.dontHitHome
+	const lEndX = lOptions.dontHitHome
 		? pBBox.x + 7.5 * (lOptions.lineWidth || 1)
 		: pBBox.x;
 	return createPath(
@@ -305,7 +303,7 @@ function createGroup(pId, pClass) {
  * @param {string} pD - a string containing the path
  */
 function createMarkerPath(pId, pD, pColor) {
-	var lMarker = createMarker(pId, "arrow-marker", "auto");
+	const lMarker = createMarker(pId, "arrow-marker", "auto");
 	/* stroke-dasharray: 'none' should work to override any dashes (like in
 	 * return messages (a >> b;)) and making sure the marker end gets
 	 * lines
@@ -315,7 +313,7 @@ function createMarkerPath(pId, pD, pColor) {
 	lMarker.appendChild(
 		createPath(pD, {
 			class: "arrow-style",
-			style: "stroke-dasharray:100,1;stroke:".concat(pColor) || "black",
+			style: `stroke-dasharray:100,1;stroke:${pColor}` || "black",
 		}),
 	);
 	return lMarker;
@@ -328,7 +326,7 @@ function createMarkerPath(pId, pD, pColor) {
  * @return {SVGElement}
  */
 function createMarkerPolygon(pId, pPoints, pColor) {
-	var lMarker = createMarker(pId, "arrow-marker", "auto");
+	const lMarker = createMarker(pId, "arrow-marker", "auto");
 	lMarker.appendChild(
 		domprimitives.createElement("polygon", {
 			points: pPoints,
@@ -340,8 +338,8 @@ function createMarkerPolygon(pId, pPoints, pColor) {
 	return lMarker;
 }
 function createTitle(pText) {
-	var lTitle = domprimitives.createElement("title");
-	var lText = domprimitives.createTextNode(pText);
+	const lTitle = domprimitives.createElement("title");
+	const lText = domprimitives.createTextNode(pText);
 	lTitle.appendChild(lText);
 	return lTitle;
 }
@@ -361,21 +359,9 @@ function createDiagonalText(pText, pDimension, pClass) {
 		),
 		{
 			transform:
-				"rotate(".concat(
-					(0, round_1.default)(
-						(0, getdiagonalangle_1.default)(pDimension),
-						PRECISION,
-					).toString(),
-					" ",
-				) +
-				"".concat(
-					(0, round_1.default)(pDimension.width / 2, PRECISION).toString(),
-					" ",
-				) +
-				"".concat(
-					(0, round_1.default)(pDimension.height / 2, PRECISION).toString(),
-					")",
-				),
+				`rotate(${(0, round_1.default)((0, getdiagonalangle_1.default)(pDimension), PRECISION).toString()} ` +
+				`${(0, round_1.default)(pDimension.width / 2, PRECISION).toString()} ` +
+				`${(0, round_1.default)(pDimension.height / 2, PRECISION).toString()})`,
 		},
 	);
 }

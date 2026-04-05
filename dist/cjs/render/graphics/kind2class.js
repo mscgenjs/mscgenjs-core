@@ -7,8 +7,8 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getClass = getClass;
 exports.getAggregateClass = getAggregateClass;
-var aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
-var KIND2CLASS = Object.freeze({
+const aggregatekind_1 = __importDefault(require("../astmassage/aggregatekind"));
+const KIND2CLASS = Object.freeze({
 	"|||": "empty-row",
 	"...": "omitted-row",
 	"---": "comment-row",

@@ -3,21 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getParser = getParser;
 exports.getGraphicsRenderer = getGraphicsRenderer;
 exports.getTextRenderer = getTextRenderer;
-var DEFAULT_PARSER = "../parse/mscgenparser";
-var DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
-var gLang2Parser = new Map([
+const DEFAULT_PARSER = "../parse/mscgenparser";
+const DEFAULT_TEXT_RENDERER = "../render/text/ast2mscgen";
+const gLang2Parser = new Map([
 	["mscgen", "../parse/mscgenparser"],
 	["xu", "../parse/xuparser"],
 	["msgenny", "../parse/msgennyparser"],
 ]);
-var gLang2TextRenderer = new Map([
+const gLang2TextRenderer = new Map([
 	["mscgen", "../render/text/ast2mscgen"],
 	["msgenny", "../render/text/ast2msgenny"],
 	["xu", "../render/text/ast2xu"],
 	["dot", "../render/text/ast2dot"],
 	["doxygen", "../render/text/ast2doxygen"],
 ]);
-var parserMap = new Map();
+const parserMap = new Map();
 function getParser(pLanguage) {
 	if (["ast", "json"].indexOf(pLanguage) > -1) {
 		return JSON;
@@ -30,14 +30,14 @@ function getParser(pLanguage) {
 	}
 	return parserMap.get(pLanguage);
 }
-var graphicsRenderer = null;
+let graphicsRenderer = null;
 function getGraphicsRenderer() {
 	if (!graphicsRenderer) {
 		graphicsRenderer = require("../render/graphics/renderast");
 	}
 	return graphicsRenderer;
 }
-var textRendererMap = new Map();
+const textRendererMap = new Map();
 function getTextRenderer(pLanguage) {
 	if (!textRendererMap.has(pLanguage)) {
 		textRendererMap.set(

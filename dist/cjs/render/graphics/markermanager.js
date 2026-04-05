@@ -7,8 +7,8 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAttributes = getAttributes;
 exports.getMarkerDefs = getMarkerDefs;
-var normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
-var KINDS = {
+const normalizekind_1 = __importDefault(require("../astmassage/normalizekind"));
+const KINDS = {
 	"->": {
 		attributes: [
 			{ name: "style", value: "stroke:{{color}}" },
@@ -148,7 +148,7 @@ var KINDS = {
 		},
 	},
 };
-var MARKERPATHS = {
+const MARKERPATHS = {
 	signal: {
 		variants: [
 			{ name: "", path: "M9,3 l-8, 2" },
@@ -187,24 +187,19 @@ function getSignalstart(pKind, pFrom, pTo) {
 	}
 }
 function getAttributes(pId, pKind, pLineColor, pFrom, pTo) {
-	var lRetval = [];
+	let lRetval = [];
 	if (KINDS[pKind] && KINDS[pKind].attributes) {
-		lRetval = KINDS[pKind].attributes.map(function (pAttribute) {
-			return {
-				name: pAttribute.name,
-				value: pAttribute.value
-					.replace(
-						/\{\{signal-marker-end\}\}/g,
-						getSignalend(pKind, pFrom, pTo),
-					)
-					.replace(
-						/\{\{signal-marker-start\}\}/g,
-						getSignalstart(pKind, pFrom, pTo),
-					)
-					.replace(/\{\{id\}\}/g, pId)
-					.replace(/\{\{color\}\}/g, pLineColor || "black"),
-			};
-		});
+		lRetval = KINDS[pKind].attributes.map((pAttribute) => ({
+			name: pAttribute.name,
+			value: pAttribute.value
+				.replace(/\{\{signal-marker-end\}\}/g, getSignalend(pKind, pFrom, pTo))
+				.replace(
+					/\{\{signal-marker-start\}\}/g,
+					getSignalstart(pKind, pFrom, pTo),
+				)
+				.replace(/\{\{id\}\}/g, pId)
+				.replace(/\{\{color\}\}/g, pLineColor || "black"),
+		}));
 	}
 	return lRetval;
 }
@@ -256,18 +251,14 @@ function extractKindColorCombis(pAST) {
 }
 function getMarkerDefs(pId, pAST) {
 	return extractKindColorCombis(pAST)
-		.map(function (pCombi) {
-			return MARKERPATHS[pCombi.kind].variants.map(function (pVariant) {
-				return {
-					name: ""
-						.concat(pId + pCombi.kind + pVariant.name, "-")
-						.concat(pCombi.color),
-					path: pVariant.path,
-					color: pCombi.color,
-					type: pCombi.kind,
-				};
-			});
-		})
+		.map((pCombi) =>
+			MARKERPATHS[pCombi.kind].variants.map((pVariant) => ({
+				name: `${pId + pCombi.kind + pVariant.name}-${pCombi.color}`,
+				path: pVariant.path,
+				color: pCombi.color,
+				type: pCombi.kind,
+			})),
+		)
 		.flat(Infinity);
 }
 /*

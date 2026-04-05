@@ -9,9 +9,9 @@ exports.version = void 0;
 exports.renderMsc = renderMsc;
 exports.translateMsc = translateMsc;
 exports.getAllowedValues = getAllowedValues;
-var allowedvalues_1 = __importDefault(require("./allowedvalues"));
-var normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
-var $version = require("../version.json");
+const allowedvalues_1 = __importDefault(require("./allowedvalues"));
+const normalizeoptions_1 = __importDefault(require("./normalizeoptions"));
+const $version = require("../version.json");
 function isProbablyAnASTAlready(pScript, pInputType) {
 	return pInputType === "json" && typeof pScript === "object";
 }
@@ -40,7 +40,7 @@ function renderMsc(
 	pGetParser,
 	pGetGraphicsRenderer,
 ) {
-	var lOptions = (0, normalizeoptions_1.default)(pOptions, pScript);
+	const lOptions = (0, normalizeoptions_1.default)(pOptions, pScript);
 	try {
 		runCallBack(
 			pCallBack,
@@ -64,7 +64,7 @@ function renderMsc(
 	}
 }
 function translateMsc(pScript, pOptions, pGetParser, pGetTextRenderer) {
-	var lOptions = Object.assign(
+	const lOptions = Object.assign(
 		{
 			inputType: "mscgen",
 			outputType: "json",

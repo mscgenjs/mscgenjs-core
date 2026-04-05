@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setPrefix = setPrefix;
 exports.get = get;
-var INNERELEMENTPREFIX = "mscgenjs";
-var gInnerElementId = INNERELEMENTPREFIX;
+const INNERELEMENTPREFIX = "mscgenjs";
+let gInnerElementId = INNERELEMENTPREFIX;
 function setPrefix(pPrefix) {
 	gInnerElementId = INNERELEMENTPREFIX + pPrefix;
 }

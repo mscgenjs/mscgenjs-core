@@ -4,7 +4,7 @@ exports.scaleCanvasToWidth = scaleCanvasToWidth;
 exports.determineDepthCorrection = determineDepthCorrection;
 exports.determineArcXTo = determineArcXTo;
 function scaleCanvasToWidth(pWidth, pCanvas) {
-	var lCanvas = structuredClone(pCanvas);
+	const lCanvas = structuredClone(pCanvas);
 	lCanvas.scale = pWidth / lCanvas.width;
 	lCanvas.width *= lCanvas.scale;
 	lCanvas.height *= lCanvas.scale;

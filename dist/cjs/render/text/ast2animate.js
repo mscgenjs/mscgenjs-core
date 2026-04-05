@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FrameFactory = void 0;
-var EMPTY_ARC = [{ kind: "|||" }];
-var EMPTY_AST = {
+const EMPTY_ARC = [{ kind: "|||" }];
+const EMPTY_AST = {
 	entities: [],
 	meta: {
 		extendedArcTypes: false,
@@ -10,8 +10,8 @@ var EMPTY_AST = {
 		extendedOptions: false,
 	},
 };
-var FrameFactory = /** @class */ (function () {
-	function FrameFactory(pAST, pPreCalculate) {
+class FrameFactory {
+	constructor(pAST, pPreCalculate) {
 		this.AST = EMPTY_AST;
 		this.arcs = [[]];
 		this.len = 0;
@@ -44,7 +44,7 @@ var FrameFactory = /** @class */ (function () {
 	 *                 Paramater might get removed somewhere in the near
 	 *                 future.
 	 */
-	FrameFactory.prototype.init = function (pAST, pPreCalculate) {
+	init(pAST, pPreCalculate) {
 		this.preCalculate = pPreCalculate ? true === pPreCalculate : false;
 		this.AST = structuredClone(pAST);
 		this.len = this._calculateLength(pAST);
@@ -56,108 +56,102 @@ var FrameFactory = /** @class */ (function () {
 		}
 		this.frames = [];
 		if (this.preCalculate) {
-			for (var i = 0; i < this.len; i++) {
+			for (let i = 0; i < this.len; i++) {
 				this.frames.push(structuredClone(this._calculateFrame(i)));
 			}
 		}
-	};
+	}
 	/*
 	 * Set position to the provided frame number
 	 * If pFrameNumber > last frame, sets position to last frame
 	 * If pFrameNumber < first frame, sets position to first frame
 	 */
-	FrameFactory.prototype.setPosition = function (pPosition) {
+	setPosition(pPosition) {
 		this.position = Math.min(this.len, Math.max(0, pPosition));
-	};
+	}
 	/*
 	 * Go to the first frame
 	 */
-	FrameFactory.prototype.home = function () {
+	home() {
 		this.position = 0;
-	};
+	}
 	/*
 	 * Skips pFrames ahead. When pFrames not provided, skips 1 ahead
 	 *
 	 * won't go beyond the last frame
 	 */
-	FrameFactory.prototype.inc = function (pFrames) {
-		if (pFrames === void 0) {
-			pFrames = 1;
-		}
+	inc(pFrames = 1) {
 		this.setPosition(this.position + pFrames);
-	};
+	}
 	/*
 	 * Skips pFrames back. When pFrames not provided, skips 1 back
 	 *
 	 * won't go before the first frame
 	 */
-	FrameFactory.prototype.dec = function (pFrames) {
-		if (pFrames === void 0) {
-			pFrames = 1;
-		}
+	dec(pFrames = 1) {
 		this.setPosition(this.position - pFrames);
-	};
+	}
 	/*
 	 * Go to the last frame
 	 */
-	FrameFactory.prototype.end = function () {
+	end() {
 		this.position = this.len;
-	};
+	}
 	/*
 	 * returns the current frame
 	 */
-	FrameFactory.prototype.getCurrentFrame = function () {
+	getCurrentFrame() {
 		return this.getFrame(this.position);
-	};
+	}
 	/*
 	 * returns frame pFrameNo
 	 * if pFrameNo >= getLength() - returns the last frame (=== original AST)
 	 * if pFrameNo <= 0 - returns the first frame (=== original AST - arcs)
 	 */
-	FrameFactory.prototype.getFrame = function (pFrameNo) {
+	getFrame(pFrameNo) {
 		pFrameNo = Math.max(0, Math.min(pFrameNo, this.len - 1));
 		if (this.preCalculate) {
 			return this.frames[pFrameNo];
 		} else {
 			return this._calculateFrame(pFrameNo);
 		}
-	};
+	}
 	/*
 	 * returns the position of the current frame (number)
 	 */
-	FrameFactory.prototype.getPosition = function () {
+	getPosition() {
 		return this.position;
-	};
+	}
 	/*
 	 * returns the number of "frames" in this AST
 	 */
-	FrameFactory.prototype.getLength = function () {
+	getLength() {
 		return this.len;
-	};
+	}
 	/*
 	 * returns the ratio position/ length in percents.
 	 * 0 <= result <= 100, even when position actually exceeds
 	 * length or is below 0
 	 */
-	FrameFactory.prototype.getPercentage = function () {
+	getPercentage() {
 		return this.len > 0 && this.position > 0
 			? 100 * Math.min(1, this.position / this.len)
 			: 0;
-	};
+	}
 	/*
 	 * returns the number of rows for the current AST
 	 */
-	FrameFactory.prototype.getNoRows = function () {
+	getNoRows() {
 		return this.noRows;
-	};
-	FrameFactory.prototype._drawArcsUntilRow = function (pFrameNo) {
-		var lFrameCount = 0;
-		var lRowNo = 0;
+	}
+	_drawArcsUntilRow(pFrameNo) {
+		let lFrameCount = 0;
+		let lRowNo = 0;
 		if (this.AST.arcs) {
 			while (lFrameCount < pFrameNo) {
 				this.AST.arcs[lRowNo] = [];
 				for (
-					var j = 0;
+					let j = 0;
 					j < this.arcs[lRowNo].length && lFrameCount++ < pFrameNo;
 					j++
 				) {
@@ -167,63 +161,60 @@ var FrameFactory = /** @class */ (function () {
 			}
 		}
 		return lRowNo;
-	};
-	FrameFactory.prototype._fillDownWithEmptyArcs = function (pRowNoFrom) {
+	}
+	_fillDownWithEmptyArcs(pRowNoFrom) {
 		if (this.AST.arcs) {
-			for (var k = pRowNoFrom; k < this.noRows; k++) {
+			for (let k = pRowNoFrom; k < this.noRows; k++) {
 				this.AST.arcs[k] = EMPTY_ARC;
 			}
 		}
-	};
+	}
 	/*
 	 * Returns the AST the subset frame pFrameNo should constitute
 	 */
-	FrameFactory.prototype._calculateFrame = function (pFrameNo) {
+	_calculateFrame(pFrameNo) {
 		pFrameNo = Math.min(pFrameNo, this.len - 1);
 		if (this.len - 1 > 0) {
 			this.AST.arcs = [];
 		}
-		var lRowNo = this._drawArcsUntilRow(pFrameNo);
+		const lRowNo = this._drawArcsUntilRow(pFrameNo);
 		this._fillDownWithEmptyArcs(lRowNo);
 		return this.AST;
-	};
+	}
 	/*
 	 * calculates the number of "frames" in the current AST
 	 * --> does not yet cater for recursive structures
 	 */
-	FrameFactory.prototype._calculateLength = function (pThing) {
-		var _this = this;
-		var lRetval = 1; /* separate frame for entities */
+	_calculateLength(pThing) {
+		let lRetval = 1; /* separate frame for entities */
 		if (pThing.arcs) {
-			lRetval = pThing.arcs.reduce(function (pSum, pArcRow) {
-				return (
+			lRetval = pThing.arcs.reduce(
+				(pSum, pArcRow) =>
 					pSum +
 					(Boolean(pArcRow[0].arcs)
-						? _this._calculateLength(pArcRow[0])
-						: pArcRow.length)
-				);
-			}, lRetval);
+						? this._calculateLength(pArcRow[0])
+						: pArcRow.length),
+				lRetval,
+			);
 		}
 		return lRetval;
-	};
+	}
 	/*
 	 * returns the number of rows for a given AST (/ AST snippet)
 	 */
-	FrameFactory.prototype._calcNumberOfRows = function (pThing) {
-		var _this = this;
-		var lRetval = 0;
+	_calcNumberOfRows(pThing) {
+		let lRetval = 0;
 		if (pThing.arcs) {
-			lRetval = pThing.arcs.reduce(function (pSum, pArcRow) {
-				return (
+			lRetval = pThing.arcs.reduce(
+				(pSum, pArcRow) =>
 					pSum +
 					(Boolean(pArcRow[0].arcs)
-						? _this._calcNumberOfRows(pArcRow[0]) + 2
-						: 1)
-				);
-			}, lRetval);
+						? this._calcNumberOfRows(pArcRow[0]) + 2
+						: 1),
+				lRetval,
+			);
 		}
 		return lRetval;
-	};
-	return FrameFactory;
-})();
+	}
+}
 exports.FrameFactory = FrameFactory;

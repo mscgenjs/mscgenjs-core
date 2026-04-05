@@ -5,7 +5,7 @@ var __importDefault =
 		return mod && mod.__esModule ? mod : { default: mod };
 	};
 Object.defineProperty(exports, "__esModule", { value: true });
-var csstemplates_1 = __importDefault(
+const csstemplates_1 = __importDefault(
 	require("../render/graphics/csstemplates"),
 );
 exports.default = Object.freeze({
@@ -30,14 +30,12 @@ exports.default = Object.freeze({
 		{ name: "middle", experimental: false },
 		{ name: "below", experimental: true },
 	],
-	namedStyle: csstemplates_1.default.namedStyles.map(function (pStyle) {
-		return {
-			name: pStyle.name,
-			description: pStyle.description,
-			experimental: pStyle.experimental,
-			deprecated: pStyle.deprecated,
-		};
-	}),
+	namedStyle: csstemplates_1.default.namedStyles.map((pStyle) => ({
+		name: pStyle.name,
+		description: pStyle.description,
+		experimental: pStyle.experimental,
+		deprecated: pStyle.deprecated,
+	})),
 });
 /*
  This file is part of mscgen_js.

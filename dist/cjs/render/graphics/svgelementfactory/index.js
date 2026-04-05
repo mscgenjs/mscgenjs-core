@@ -76,11 +76,11 @@ exports.init = init;
 exports.createSVG = createSVG;
 exports.createEdgeRemark = createEdgeRemark;
 exports.createLine = createLine;
-var straight = __importStar(require("./straight"));
-var svgprimitives = __importStar(require("./svgprimitives"));
-var wobbly = __importStar(require("./wobbly"));
-var gRenderMagic = straight;
-var gOptions = {};
+const straight = __importStar(require("./straight"));
+const svgprimitives = __importStar(require("./svgprimitives"));
+const wobbly = __importStar(require("./wobbly"));
+let gRenderMagic = straight;
+let gOptions = {};
 function determineRenderMagic(pRenderMagic) {
 	if (!Boolean(pRenderMagic)) {
 		return gRenderMagic;
@@ -143,34 +143,30 @@ exports.createTSpan = svgprimitives.createTSpan;
  *
  * Unit: pixels
  */
-var createRect = function (pBBox, pOptions) {
-	return gRenderMagic.createRect(pBBox, pOptions);
-};
+const createRect = (pBBox, pOptions) =>
+	gRenderMagic.createRect(pBBox, pOptions);
 exports.createRect = createRect;
 /**
  * Creates rect with 6px rounded corners of width x height, with the top
  * left corner at coordinates (x, y)
  */
-var createRBox = function (pBBox, pOptions) {
-	return gRenderMagic.createRBox(pBBox, pOptions);
-};
+const createRBox = (pBBox, pOptions) =>
+	gRenderMagic.createRBox(pBBox, pOptions);
 exports.createRBox = createRBox;
 /**
  * Creates an angled box of width x height, with the top left corner
  * at coordinates (x, y)
  */
-var createABox = function (pBBox, pOptions) {
-	return gRenderMagic.createABox(pBBox, pOptions);
-};
+const createABox = (pBBox, pOptions) =>
+	gRenderMagic.createABox(pBBox, pOptions);
 exports.createABox = createABox;
 /**
  * Creates a note of pWidth x pHeight, with the top left corner
  * at coordinates (pX, pY). pFoldSize controls the size of the
  * fold in the top right corner.
  */
-var createNote = function (pBBox, pOptions) {
-	return gRenderMagic.createNote(pBBox, pOptions);
-};
+const createNote = (pBBox, pOptions) =>
+	gRenderMagic.createNote(pBBox, pOptions);
 exports.createNote = createNote;
 /**
  * Creates an edge remark (for use in inline expressions) of width x height,
