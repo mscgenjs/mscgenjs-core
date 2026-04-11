@@ -5,39 +5,34 @@
 The development build creates all generated sources, but keeps them in the `src` tree.
 
 ```shell
-make prerequisites #  (or 'npm install')
-make dev-build # should create the state the master branch is in.
+npm install
+node --run=build # should create the state the master branch is in.
 ```
-
-When you've added new sources, make sure to include them in the dependencies,
-either by running a `make depend` or manually in `dependencies.mk` (for things
-js-makedepend cannot detect like conditional module loading).
 
 ## Cleaning
 
-- `make clean` removes all generated sources
+- `node --run=build:clean` removes all generated sources
 
 ## Quality checks
 
-- `make test` or `npm run test`
+- `npm test` or `node --run=test`
   - runs the unit/ regression tests
   - (some checks are still run manually with a well trained pair of eyeballs ...)
 
-- `make cover` or `npm run cover`
+- `node --run=test:cover`
   - generates a report that specifies the test coverage
   - note that it runs the `test` target to determine the coverage
 
-- `make check` combination target, performs
+- `node --run=check` combination target, performs
   - dependency-cruise
   - test (including coverage)
 
-- `make fullcheck` combination target:
-  - runs a `make check` and
+- `node --run=check:full` combination target:
+  - runs a `check` and
   - `npm outdated` (to check for outdated node_modules)
 
 ## Prerequisites
 
-- make
 - node and npm
 - bash (or another shell that has cp, mkdir, rm, sed, grep, expr)
 - for the rest: run an `npm install`
